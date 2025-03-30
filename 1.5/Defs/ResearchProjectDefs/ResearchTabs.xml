@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- To add a research tab, make a new ResearchTabDef here and then set the <tab> field of your research project to match it -->
+  
+  <ResearchTabDef>
+    <defName>XMT_HumanResearchTab</defName>
+    <label>Cryptobiology</label>
+    <generalTitle>Research of highly unusual organisms.</generalTitle>
+    <generalDescription>experiment with examples of novel biochemistry to unlock.</generalDescription>
+	<visibleByDefault>false</visibleByDefault>
+  </ResearchTabDef>
+  
+  <ResearchTabDef>
+    <defName>XMT_StarbeastResearchTab</defName>
+    <label>Novel Behaviour</label>
+    <generalTitle></generalTitle>
+    <generalDescription></generalDescription>
+	<visibleByDefault>false</visibleByDefault>
+  </ResearchTabDef>
+
+</Defs>

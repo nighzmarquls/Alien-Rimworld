@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	
+	<!--
+	<Operation Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>/Defs/ThinkTreeDef[defName = "Humanlike"]/thinkRoot/subNodes/li[16]/subNodes/li[5]/subNodes</xpath>
+		<value>
+			<li Class="AlphaGenes.JobGiver_GetMetalicResource" MayRequire="Ludeon.RimWorld.Biotech" />
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>/Defs/ThinkTreeDef[defName = "MainColonistBehaviorCore"]/thinkRoot/subNodes/li/subNodes</xpath>
+		<value>
+			<li Class="AlphaGenes.JobGiver_GetMetalicResource" MayRequire="Ludeon.RimWorld.Biotech" />
+		</value>
+	</Operation>
+	-->
+	
+</Patch>

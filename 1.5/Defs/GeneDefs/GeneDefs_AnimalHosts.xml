@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+	<GeneDef>
+		<defName>XMT_Chemfuel_Metabolism</defName>
+		<geneClass>Xenomorphtype.ChemfuelGene</geneClass>
+		<label>chemfuel saturating metabolism</label>
+		<labelShortAdj>booma</labelShortAdj>
+		<iconPath>UI/GeneIcons/Gene_Boomalope</iconPath>
+		<description>Carriers of this gene have internal organs and enzymes which saturate their tissues with chemfuel.</description>
+		<displayOrderInCategory>68</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>5</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>booma</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+	</GeneDef>
+  
+	<GeneDef>
+	<defName>XMT_Thrumbo_Features</defName>
+		<geneClass>Xenomorphtype.ThrumkinGene</geneClass>
+		<label>a majestic horn</label>
+		<labelShortAdj>thrum</labelShortAdj>
+		<iconPath>UI/GeneIcons/Gene_Thrumbo</iconPath>
+		<description>Carriers of this gene have a sharp horn and dense musculature.</description>
+		<displayOrderInCategory>69</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>5</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>thrum</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<exclusionTags>
+			<li MayRequire="ludeon.rimworld.biotech">Headbone</li>
+		</exclusionTags>
+	</GeneDef>
+	
+	<GeneDef>
+	<defName>XMT_Muffalo_Ruff</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>muffalo wool</label>
+		<labelShortAdj>wooly</labelShortAdj>
+		<iconPath>UI/GeneIcons/Gene_Muffalo</iconPath>
+		<description>Carriers of this gene have a mane of soft blue wool.</description>
+		<displayOrderInCategory>70</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>5</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>muff</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+	</GeneDef>
+	
+	<GeneDef ParentName="GeneSkinColorOverride">
+		<defName>XMT_Muffalo_Color</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>pale blue skin</label>
+		<labelShortAdj>pale blue</labelShortAdj>
+		<description>Carriers of this gene produce a pigment that turns their skin and hair a pale blue color.</description>
+		<selectionWeight>0</selectionWeight>
+		<skinColorOverride>(176, 195, 201)</skinColorOverride>
+		<hairColorOverride>(176, 195, 201)</hairColorOverride>
+		<displayOrderInCategory>88</displayOrderInCategory>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>blue</symbol></li>
+				<li><symbol>ice</symbol></li>
+				<li><symbol>sky</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<displayCategory>Cosmetic_Skin</displayCategory>
+		<iconPath>UI/Icons/Genes/Gene_SkinColorOverride</iconPath>
+		<exclusionTags>
+			<li>SkinColorOverride</li>
+		</exclusionTags>
+		<randomBrightnessFactor>0.18</randomBrightnessFactor>
+	</GeneDef>
+	
+</Defs>

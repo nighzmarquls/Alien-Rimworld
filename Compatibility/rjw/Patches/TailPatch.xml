@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[name="tail"]</xpath>
+		<value>
+			<extendedGraphics>
+				<li>
+					<path>Pawn/SkeletalTail/SkeletalTail</path>
+					<conditions>
+						<Need>
+							<need>Sex</need>
+							<level>0.5</level>
+							<percentage>true</percentage>
+						</Need>
+					</conditions>
+				</li>
+			</extendedGraphics>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[name="tail"]/path</xpath>
+		<value>
+			<path>Pawn/SkeletalTail/SkeletalTailCurl</path>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[name="tail"]</xpath>
+		<value>
+			<extendedGraphics>
+				<li>
+					<path>Pawn/SkeletalTail/RoyalSkeletalTail</path>
+					<conditions>
+						<Need>
+							<need>Sex</need>
+							<level>0.5</level>
+							<percentage>true</percentage>
+						</Need>
+					</conditions>
+				</li>
+			</extendedGraphics>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[name="tail"]/path</xpath>
+		<value>
+			<path>Pawn/SkeletalTail/RoyalSkeletalTailCurl</path>
+		</value>
+	</Operation>
+ </Patch>

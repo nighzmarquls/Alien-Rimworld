@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+    <GeneticRim.ExtractableAnimalsList MayRequire="VanillaExpanded.VGeneticsE">
+		<defName>XMT_Tier1StarbeastGenetics</defName>
+		<tier>1</tier>
+		<itemProduced>XMT_StarbeastBaseGenetic</itemProduced>
+		<extractableAnimals>
+			<li>XMT_StarbeastKind</li>
+			<li>XMT_Larva</li>
+			<li>XMT_Fleshspawn</li>			
+		</extractableAnimals>
+	</GeneticRim.ExtractableAnimalsList>
+	
+	<GeneticRim.ExtractableAnimalsList MayRequire="VanillaExpanded.VGeneticsE">
+		<defName>XMT_Tier2StarbeastGenetics</defName>
+		<tier>2</tier>
+		<itemProduced>XMT_StarbeastAdvancedGenetic</itemProduced>
+		<extractableAnimals>
+			<li>XMT_FetalHorror</li>	
+			<li>XMT_AbominableMaw</li>
+			<li>XMT_Fleshtoad</li>
+			<li>XMT_Smotherer</li>
+			<li>XMT_Howler</li>
+			<li>XMT_Barnacle</li>
+			<li>XMT_Petrolspore</li>
+			<li>XMT_Slumberbeast</li>
+			<li>XMT_Plaguerat</li>
+		</extractableAnimals>
+	</GeneticRim.ExtractableAnimalsList>
+	
+	<GeneticRim.ExtractableAnimalsList MayRequire="VanillaExpanded.VGeneticsE">
+		<defName>XMT_Tier3StarbeastGenetics</defName>
+		<tier>3</tier>
+		<itemProduced>XMT_StarbeastParagonGenetic</itemProduced>
+		<extractableAnimals>
+			<li>XMT_RoyaltyKind</li>
+		</extractableAnimals>
+	</GeneticRim.ExtractableAnimalsList>
+	
+	<ThingDef ParentName="GR_GeneticsBase">
+		<defName>XMT_StarbeastBaseGenetic</defName>
+		<graphicData>
+			<texPath>Things/Item/Genome/GenomeCryptic</texPath>
+		</graphicData>
+		<label>cryptic genome</label>
+		<description>A payload of non-standard genetic material. Can be used at the genomorpher to create a growth cell of a hybrid animal. This tier 1 genome can be used as either a primary or secondary genome.\n\n&lt;color=#E5E54C&gt;Gameplay effect:&lt;/color&gt; cryptic genomes use non-standard genetic chemistry which risks higher chances of failure. \n\n&lt;color=#E5E54C&gt;Extraction:&lt;/color&gt; Can be extracted via the genome extractor table or any genome excavator from:</description>
+		<modExtensions Inherit="false">
+			<li Class="GeneticRim.DefExtension_HybridChanceAlterer">
+				<stability>2</stability>
+				<safety>5</safety>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<ThingDef ParentName="GR_GeneticsBase">
+		<defName>XMT_StarbeastAdvancedGenetic</defName>
+		<graphicData>
+			<texPath>Things/Item/Genome/GenomeCryptic</texPath>
+		</graphicData>
+		<label>derived cryptic genome</label>
+		<description>A payload of non-standard genetic material. This genome has been stabilized through synthethis with other life forms. Can be used at the genomorpher to create a growth cell of a hybrid animal. This tier 2 genome can be used as either a primary or secondary genome.\n\n&lt;color=#E5E54C&gt;Gameplay effect:&lt;/color&gt; cryptic genomes use non-standard genetic chemistry which risks higher chances of failure. \n\n&lt;color=#E5E54C&gt;Extraction:&lt;/color&gt; Can be extracted via the genome extractor table or any genome excavator from:</description>
+		<modExtensions Inherit="false">
+			<li Class="GeneticRim.DefExtension_HybridChanceAlterer">
+				<stability>3</stability>
+				<safety>5</safety>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<ThingDef ParentName="GR_GeneticsBase">
+		<defName>XMT_StarbeastParagonGenetic</defName>
+		<graphicData>
+			<texPath>Things/Item/Genome/GenomeCryptic</texPath>
+		</graphicData>
+		<label>purified cryptic genome</label>
+		<description>A non-newtonian fluid which exhibits genome like information density. Stabilized in a proper housing it can be used at the genomorpher to create a growth cell of a hybrid animal. This tier 3 genome can be used as either a primary or secondary genome.\n\n&lt;color=#E5E54C&gt;Gameplay effect:&lt;/color&gt; cryptic genomes use non-standard genetic chemistry which risks higher chances of failure. \n\n&lt;color=#E5E54C&gt;Extraction:&lt;/color&gt; Can be extracted via the genome extractor table or any genome excavator from:</description>
+		<modExtensions Inherit="false">
+			<li Class="GeneticRim.DefExtension_HybridChanceAlterer">
+				<stability>10</stability>
+				<safety>2</safety>
+			</li>
+		</modExtensions>
+	</ThingDef>
+</Defs>

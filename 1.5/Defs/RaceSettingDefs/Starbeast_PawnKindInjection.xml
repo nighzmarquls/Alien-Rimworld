@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<AlienRace.RaceSettings>
+		<defName>Starbeast_Race_Settings</defName>
+		<pawnKindSettings>
+		</pawnKindSettings>
+		<universalBodyAddons>
+		  <li>
+			<path>Pawn/Conditions/StarbeastCocoon</path>
+			<userCustomizable>false</userCustomizable>
+			<colorChannel>base</colorChannel>
+			<conditions>
+				<Hediff>StarbeastCocoon</Hediff>
+			</conditions>
+			<scaleWithPawnDrawsize>
+				true
+			</scaleWithPawnDrawsize>
+			<offsets>
+			  <south>
+				<layerOffset>-1</layerOffset>
+			  </south>
+			  <north>
+				<layerOffset>1</layerOffset>
+			  </north>
+			  <east>
+				<layerOffset>-1</layerOffset>
+			  </east>
+			</offsets>
+		  </li>
+		  <li>
+			<path>Pawn/Conditions/OvamorphingZero</path>
+			<userCustomizable>false</userCustomizable>
+			<colorChannel>base</colorChannel>
+			<conditions>
+				<Hediff>XMT_Ovamorphing</Hediff>
+			</conditions>
+			<extendedGraphics>
+				<Hediff For="XMT_Ovamorphing">
+					<path>Pawn/Conditions/OvamorphingZero</path>
+					<extendedGraphics>
+						<BodyType For="Hulk">
+							<extendedGraphics>
+								<Severity For="0.75">Pawn/Conditions/OvamorphingThree_Hulk</Severity>
+								<Severity For="0.5">Pawn/Conditions/OvamorphingTwo_Hulk</Severity>
+								<Severity For="0.25">Pawn/Conditions/OvamorphingOne_Hulk</Severity>
+							</extendedGraphics>
+						</BodyType>
+						<BodyType For="Fat">
+							<extendedGraphics>
+								<Severity For="0.75">Pawn/Conditions/OvamorphingThree_Fat</Severity>
+								<Severity For="0.5">Pawn/Conditions/OvamorphingTwo_Fat</Severity>
+								<Severity For="0.25">Pawn/Conditions/OvamorphingOne_Fat</Severity>
+							</extendedGraphics>
+						</BodyType>
+						<Severity For="0.75">Pawn/Conditions/OvamorphingThree</Severity>
+						<Severity For="0.5">Pawn/Conditions/OvamorphingTwo</Severity>
+						<Severity For="0.25">Pawn/Conditions/OvamorphingOne</Severity>
+						
+					</extendedGraphics>
+				</Hediff>
+			</extendedGraphics>
+			<scaleWithPawnDrawsize>
+				true
+			</scaleWithPawnDrawsize>
+			<offsets>
+			  <south>
+				<layerOffset>-0.5</layerOffset>
+			  </south>
+			  <north>
+				<layerOffset>0.5</layerOffset>
+			  </north>
+			  <east>
+				<layerOffset>-0.5</layerOffset>
+			  </east>
+			</offsets>
+		  </li>
+		</universalBodyAddons>
+	</AlienRace.RaceSettings>
+</Defs>

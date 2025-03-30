@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<AbilityCategoryDef>
+		<defName>Xenomorph</defName>
+		<displayOrder>1200</displayOrder>
+	</AbilityCategoryDef>
+	
+	<AbilityDef Name="LongJump">
+		<defName>Starbeast_Leap</defName>
+		<label>leap</label>
+		<description>Leap to strike a target.</description>
+		<iconPath>UI/Abilities/Starbeast_Leap</iconPath>
+		<cooldownTicksRange>300</cooldownTicksRange>
+		<hostile>true</hostile>
+		<aiCanUse>true</aiCanUse>
+		<category>Xenomorph</category>
+		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
+		<verbProperties>
+			<verbClass>Verb_CastAbilityJump</verbClass>
+			<label>jump</label>
+			<violent>false</violent>
+			<forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+			<warmupTime>0.25</warmupTime>
+			<range>10</range>
+			<requireLineOfSight>true</requireLineOfSight>
+			<!--<soundCast>Longjump_Jump</soundCast>CompAbilityPounceProperties
+			<soundLanding>Longjump_Land</soundLanding>-->
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+				<canTargetPawns>true</canTargetPawns>
+				<canTargetBuildings>true</canTargetBuildings>
+			</targetParams>
+		</verbProperties>
+		<jobDef>CastJump</jobDef>
+		<comps>
+		</comps>
+	</AbilityDef>
+	
+	<AbilityDef>
+		<defName>Starbeast_Bloodspray</defName>
+		<label>bloodspray</label>
+		<description>Clenches hard to expell blood at target.</description>
+		<iconPath>UI/Abilities/Starbeast_BloodSpray</iconPath>
+		<hostile>true</hostile>
+		<aiCanUse>true</aiCanUse>
+		<displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+		<category>Xenomorph</category>
+		<cooldownTicksRange>60</cooldownTicksRange>
+		<sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<uiOrder>3</uiOrder>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<label>lay</label>
+			<warmupTime>0.25</warmupTime>
+			<range>3.5</range>    
+			<mouseTargetingText>spray acid at</mouseTargetingText>
+			<targetParams>
+				<canTargetPawns>true</canTargetPawns>
+				<canTargetBuildings>true</canTargetBuildings>
+				<canTargetLocations>true</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class = "Xenomorphtype.CompAbilityBloodSprayProperties">
+			</li>
+		</comps>
+	</AbilityDef>
+	
+	<AbilityDef>
+		<defName>Starbeast_Bloodlet</defName>
+		<label>bloodlet</label>
+		<description>Cuts self to release blood.</description>
+		<iconPath>UI/Abilities/Starbeast_BloodLet</iconPath>
+		<hostile>true</hostile>
+		<aiCanUse>true</aiCanUse>
+		<disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+		<category>Xenomorph</category>
+		<cooldownTicksRange>600</cooldownTicksRange><!-- 10 seconds -->
+		<sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<targetRequired>false</targetRequired>
+		<uiOrder>2</uiOrder>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<warmupTime>1</warmupTime>
+			<range>0</range>    
+			<drawAimPie>false</drawAimPie>    
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class = "Xenomorphtype.CompAbilityBloodLetProperties">
+			</li>
+		</comps>
+	</AbilityDef>
+	
+
+</Defs>

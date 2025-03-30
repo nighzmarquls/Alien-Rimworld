@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<rjw.RacePartDef>
+		<defName>XMT_Breasts</defName>
+		<hediffName>XMT_Breasts</hediffName>
+	</rjw.RacePartDef>
+
+	<rjw.RacePartDef>
+		<defName>XMT_Spur</defName>
+		<hediffName>XMT_Spur</hediffName>
+	</rjw.RacePartDef>
+
+	<rjw.RacePartDef>
+		<defName>XMT_Vagina</defName>
+		<hediffName>XMT_Vagina</hediffName>
+	</rjw.RacePartDef>
+
+	<rjw.RacePartDef>
+		<defName>XMT_Anus</defName>
+		<hediffName>XMT_Anus</hediffName>
+	</rjw.RacePartDef>
+	
+	<rjw.RaceGroupDef>
+		<defName>StarbeastRJWGroup</defName>
+		<raceNames>
+			<li>XMT_Starbeast_AlienRace</li>
+			<li>XMT_Royal_AlienRace</li>
+		</raceNames>
+		
+		<femaleBreasts>
+			<li>XMT_Breasts</li>
+		</femaleBreasts>
+		
+		<femaleGenitals>
+			<li>XMT_Vagina</li>
+		</femaleGenitals>
+		
+		<maleGenitals>
+			<li>XMT_Spur</li>
+		</maleGenitals>
+		
+		<anuses>
+			<li>XMT_Anus</li>
+		</anuses>
+		
+		<tags>
+			<li>Chitin</li>
+			<li>Robot</li>
+		</tags>
+		<hasSingleGender>true</hasSingleGender>
+		<hasSexNeed>true</hasSexNeed>
+		<hasFertility>true</hasFertility>
+		<hasPregnancy>true</hasPregnancy>
+		<oviPregnancy>false</oviPregnancy>
+		<ImplantEggs>false</ImplantEggs>
+		<!-- TODO -->
+		<!--<oviPregnancy>true</oviPregnancy>-->
+	</rjw.RaceGroupDef>
+
+</Defs>

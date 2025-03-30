@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<SizedApparel.BodyDef>
+		<defName>XMT_Royal_AlienRace</defName>
+		<bodies>
+			<li>
+				<bodyType>Female</bodyType>
+					<Addons>
+						<li>
+							<partName>Breasts</partName>
+							<boneName>Breasts</boneName>
+							<defaultHediffName>XMT_Breasts</defaultHediffName>
+							<bodyPartOf>Breasts</bodyPartOf>
+							<colorType>Skin</colorType>
+							<isBreasts>true</isBreasts>
+							<mustHaveBone>false</mustHaveBone>
+							<centeredTexture>false</centeredTexture>
+							<defNameOverride>Human</defNameOverride>
+							<layerOffset>
+								<south>1.2</south>
+								<north>-1</north>
+								<east>1.6</east>
+								<west>1.6</west>
+							</layerOffset>
+						</li>
+						<li>
+							<partName>Nipples</partName>
+							<boneName>Breasts</boneName>
+							<defaultHediffName>XMT_Breasts</defaultHediffName>
+							<bodyPartOf>Breasts</bodyPartOf>
+							<colorType>Nipple</colorType>
+							<isBreasts>true</isBreasts>
+							<mustHaveBone>false</mustHaveBone>
+							<centeredTexture>false</centeredTexture>
+							<defNameOverride>Human</defNameOverride>
+							<layerOffset>
+								<south>1.6</south>
+								<north>-1</north>
+								<east>1.8</east>
+								<west>1.8</west>
+							</layerOffset>
+						</li>
+						<li>
+							<partName>Vagina</partName>
+							<boneName>Vagina</boneName>
+							<defaultHediffName>XMT_Breasts</defaultHediffName>
+							<bodyPartOf>Vagina</bodyPartOf>
+							<colorType>Skin</colorType>
+							<isBreasts>false</isBreasts>
+							<mustHaveBone>true</mustHaveBone>
+							<centeredTexture>true</centeredTexture>
+							<defNameOverride>Human</defNameOverride>
+							<layerOffset>
+								<south>1</south>
+								<north>1.2</north>
+								<east>-1</east>
+								<west>-1</west>
+							</layerOffset>
+						</li>
+						<li>
+							<partName>Anus</partName>
+							<boneName>Anus</boneName>
+							<defaultHediffName>XMT_Breasts</defaultHediffName>
+							<bodyPartOf>Anus</bodyPartOf>
+							<colorType>Skin</colorType>
+							<isBreasts>false</isBreasts>
+							<centeredTexture>true</centeredTexture>
+							<defNameOverride>Human</defNameOverride>
+							<layerOffset>
+								<south>0.8</south>
+								<north>1.6</north>
+								<east>0.8</east>
+								<west>0.8</west>
+							</layerOffset>
+						</li>
+						<li>
+							<partName>Penis</partName>
+							<boneName>Penis</boneName>
+							<defaultHediffName>XMT_Spur</defaultHediffName>
+							<bodyPartOf>Penis</bodyPartOf>
+							<colorType>Skin</colorType>
+							<isBreasts>false</isBreasts>
+							<centeredTexture>true</centeredTexture>
+							<defNameOverride>Human</defNameOverride>
+							<layerOffset>
+								<south>1.8</south>
+								<north>0.4</north>
+								<east>-1.2</east>
+								<west>-1.2</west>
+							</layerOffset>
+						</li>
+						<li>
+							<partName>Balls</partName>
+							<boneName>Balls</boneName>
+							<defaultHediffName>XMT_Spur</defaultHediffName>
+							<bodyPartOf>Balls</bodyPartOf>
+							<customPath>Penis/Balls</customPath>
+							<colorType>Skin</colorType>
+							<isBreasts>false</isBreasts>
+							<centeredTexture>true</centeredTexture>
+							<defNameOverride>Human</defNameOverride>
+							<layerOffset>
+								<south>1.2</south>
+								<north>0.8</north>
+								<east>-1.8</east>
+								<west>-1.8</west>
+							</layerOffset>
+						</li>
+					</Addons>
+			</li>
+		</bodies>
+	</SizedApparel.BodyDef>
+	<SizedApparel.SkeletonDef>
+		<defName>XMT_Royal_AlienRace</defName>
+		<skeletons>
+			<li>
+				<bodyType>Female</bodyType>
+					<Bones>
+						<li>
+							<name>Vagina</name>
+							<south>
+								<InitialPosition>(0, 0, -0.340)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</south>
+							<north>
+								<InitialPosition>(0, 0, -0.346)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</north>
+							<east>
+								<InitialPosition>(0.047, 0, -0.238)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</east>
+						</li>
+						<li>
+							<name>Breasts</name>
+							<south>
+								<InitialPosition>(0, 0.02, 0)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</south>
+							<north>
+								<InitialPosition>(0, -0.01, 0)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</north>
+							<east>
+								<InitialPosition>(0.08, 0.02, -0.02)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</east>
+							<west>
+								<InitialPosition>(-0.08, 0.03, -0.02)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</west>
+						</li>
+						<li>
+							<name>Anus</name>
+							<south>
+								<InitialPosition>(0, 0, -0.290)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</south>
+							<north>
+								<InitialPosition>(0, 0, -0.286)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</north>
+							<east>
+								<InitialPosition>(-0.174, 0, 0.254)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</east>
+						</li>
+						<li>
+							<name>Penis</name>
+							<south>
+								<InitialPosition>(0, 0, -0.320)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</south>
+							<north>
+								<InitialPosition>(0, 0, -0.338)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</north>
+							<east>
+								<InitialPosition>(0.068, 0, -0.240)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</east>
+						</li>
+						<li>
+							<name>Balls</name>
+							<south>
+								<InitialPosition>(0, 0, -0.320)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</south>
+							<north>
+								<InitialPosition>(0, 0, -0.338)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</north>
+							<east>
+								<InitialPosition>(0.068, 0, -0.240)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</east>
+						</li>
+						<li>
+							<name>Belly</name>
+							<south>
+								<InitialPosition>(0, 0, 0)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</south>
+							<north>
+								<InitialPosition>(0, 0, 0)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</north>
+							<east>
+								<InitialPosition>(0, 0, 0)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</east>
+						</li>
+						<li>
+							<name>PubicHair</name>
+							<south>
+								<InitialPosition>(0, 0, -0.301)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</south>
+							<north>
+								<InitialPosition>(0, 0, -0.318)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</north>
+							<east>
+								<InitialPosition>(0.049, 0, -0.186)</InitialPosition>
+								<InitialAngle>0</InitialAngle>
+							</east>
+						</li>
+					</Bones>
+			</li>
+		</skeletons>
+	</SizedApparel.SkeletonDef>
+</Defs>

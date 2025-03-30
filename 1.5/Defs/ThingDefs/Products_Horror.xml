@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<ThingDef ParentName="EggUnfertBase">
+		<defName>XMT_BarnacleEgg</defName>
+		<label>strange egg</label>
+		<description>A strangely fleshy egg. It smells of smoked pork and can be eaten raw, but it's much, much better cooked.</description>
+		<possessionCount>1</possessionCount>
+		<tickerType>Normal</tickerType>
+		<graphicData>
+			<texPath>Things/Item/Resource/Horror_AnimalProducts/BarnacleEgg</texPath>
+			<color>(245,245,245)</color>
+		</graphicData>
+		<stackLimit>9</stackLimit>
+		<ingestible>
+			<preferability>RawTasty</preferability>
+			<joy>0.08</joy>
+			<joyKind>Gluttonous</joyKind>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>XMT_RawJellyHigh</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<statBases>
+			<MarketValue>15.0</MarketValue>
+			<Nutrition>0.5</Nutrition>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Hatcher">
+				<hatcherDaystoHatch>2</hatcherDaystoHatch>
+				<hatcherPawn>XMT_FleshTick</hatcherPawn>
+			</li>
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-270</minSafeTemperature>
+				<maxSafeTemperature>50</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00003</progressPerDegreePerTick>
+			</li>
+		</comps>
+	</ThingDef>
+</Defs>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3200 3200">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #aa6565;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Layer_3" data-name="Layer 3">
+    <g>
+      <rect class="cls-2" y="0" width="3200" height="3200"/>
+      <g>
+        <rect class="cls-1" width="800" height="800"/>
+        <rect class="cls-2" x="100" y="100" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="800" width="800" height="800"/>
+        <rect class="cls-2" x="900" y="100" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="1600" width="800" height="800"/>
+        <rect class="cls-2" x="1700" y="100" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="2400" width="800" height="800"/>
+        <rect class="cls-2" x="2500" y="100" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" y="800" width="800" height="800"/>
+        <rect class="cls-2" x="100" y="900" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="800" y="800" width="800" height="800"/>
+        <rect class="cls-2" x="900" y="900" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="1600" y="800" width="800" height="800"/>
+        <rect class="cls-2" x="1700" y="900" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="2400" y="800" width="800" height="800"/>
+        <rect class="cls-2" x="2500" y="900" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" y="1600" width="800" height="800"/>
+        <rect class="cls-2" x="100" y="1700" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="800" y="1600" width="800" height="800"/>
+        <rect class="cls-2" x="900" y="1700" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="1600" y="1600" width="800" height="800"/>
+        <rect class="cls-2" x="1700" y="1700" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="2400" y="1600" width="800" height="800"/>
+        <rect class="cls-2" x="2500" y="1700" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" y="2400" width="800" height="800"/>
+        <rect class="cls-2" x="100" y="2500" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="800" y="2400" width="800" height="800"/>
+        <rect class="cls-2" x="900" y="2500" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="1600" y="2400" width="800" height="800"/>
+        <rect class="cls-2" x="1700" y="2500" width="600" height="600"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="2400" y="2400" width="800" height="800"/>
+        <rect class="cls-2" x="2500" y="2500" width="600" height="600"/>
+      </g>
+    </g>
+  </g>
+</svg>

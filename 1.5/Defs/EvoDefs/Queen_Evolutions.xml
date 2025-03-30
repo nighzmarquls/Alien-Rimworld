@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!-- first tier -->
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_MaternalCrest</defName>
+		<label>Maternal Crest</label>
+		<evoPointCost>1</evoPointCost>
+		<evolutionHediff>XMT_MaternalCrest</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>An extended crest for greater dominance over the nest.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_DelicateHands</defName>
+		<label>Fine Dexterity Hands</label>
+		<evoPointCost>1</evoPointCost>
+		<evolutionHediff>XMT_DelicateHand</evolutionHediff>
+		<targetBodyPart>XMT_LesserShoulder</targetBodyPart>
+		<description>A secondary pair of dextrous hands for finer manipulation.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_RendingClaws</defName>
+		<label>Rending Claws</label>
+		<evoPointCost>1</evoPointCost>
+		<evolutionHediff>XMT_RendingClaw</evolutionHediff>
+		<targetBodyPart>Shoulder</targetBodyPart>
+		<description>Sharpened claws on the primary pair of hands.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_FertileBelly</defName>
+		<label>Fecundity</label>
+		<evoPointCost>1</evoPointCost>
+		<evolutionHediff>XMT_Fertility</evolutionHediff>
+		<targetBodyPart>Torso</targetBodyPart>
+		<description>All internal organs and abdomen are altered to maximize Egg Production efficiency.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_GeneControl</defName>
+		<label>Gene Expression Control</label>
+		<evoPointCost>1</evoPointCost>
+		<description>Unlocks the metamorphic potential in the hive. Allows the addition or removal of genes within all offspring.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_LarderSerum</defName>
+		<label>Meat Larder Serum</label>
+		<evoPointCost>1</evoPointCost>
+		<description>A potent growth serum which hive daughters can be inject into prey to promote tissue growth above all else.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
+		<defName>Evo_IncreasedSizeX1</defName>
+		<label>Maternal Stature</label>
+		<evolutionHediff>XMT_SizeX1</evolutionHediff>
+		<targetBodyPart>Torso</targetBodyPart>
+		<evoPointCost>1</evoPointCost>
+		<description>Body hypertrophies to increase stature all the better to guide the hive.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<!-- 2nd tier -->
+	
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
+		<defName>Evo_IncreasedSizeX2</defName>
+		<label>Noble Stature</label>
+		<evolutionHediff>XMT_SizeX2</evolutionHediff>
+		<targetBodyPart>Torso</targetBodyPart>
+		<evoPointCost>2</evoPointCost>
+		<description>Further growth increases mass to a truly noble stature.</description>
+		<replaces>
+			<li>Evo_IncreasedSizeX1</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_IncreasedSizeX1</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+		
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_ScythingBlades</defName>
+		<label>Scything Blades</label>
+		<evoPointCost>2</evoPointCost>
+		<evolutionHediff>XMT_ScythingBlade</evolutionHediff>
+		<targetBodyPart>Shoulder</targetBodyPart>
+		<replaces>
+			<li>Evo_RendingClaws</li>
+		</replaces>
+		<description>Massive Blades which replace each of the primary hands entirely.</description>
+		<prerequisites>
+			<li>Evo_RendingClaws</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_GeneStorage</defName>
+		<label>Genetic Storage</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Unlocks the ability to store genes in specially altered Ovamorphs.</description>
+		<prerequisites>
+			<li>Evo_GeneControl</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<!-- 3rd tier -->
+	
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
+		<defName>Evo_IncreasedSizeX3</defName>
+		<label>Royal Stature</label>
+		<evolutionHediff>XMT_SizeX3</evolutionHediff>
+		<targetBodyPart>Torso</targetBodyPart>
+		<evoPointCost>4</evoPointCost>
+		<description>Growth reaches royal size.</description>
+		<replaces>
+			<li>Evo_IncreasedSizeX2</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_IncreasedSizeX2</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_GeneDigestion</defName>
+		<label>Genetic Digestion</label>
+		<evoPointCost>4</evoPointCost>
+		<description>Unlocks the ability to extract genes from fresh corpses.</description>
+		<prerequisites>
+			<li>Evo_GeneStorage</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<!-- 4th tier -->
+	
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
+		<defName>Evo_IncreasedSizeX4</defName>
+		<label>Imperial Stature</label>
+		<evolutionHediff>XMT_SizeX4</evolutionHediff>
+		<targetBodyPart>Torso</targetBodyPart>
+		<evoPointCost>8</evoPointCost>
+		<description>The penultimate expression of form, body grows to an astounding size.</description>
+		<replaces>
+			<li>Evo_IncreasedSizeX3</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_IncreasedSizeX3</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_GeneSelfExpression</defName>
+		<label>Genetic Self Expression</label>
+		<evoPointCost>8</evoPointCost>
+		<description>Unlocks the ability to alter one's own genes.</description>
+		<prerequisites>
+			<li>Evo_GeneDigestion</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+</Defs>

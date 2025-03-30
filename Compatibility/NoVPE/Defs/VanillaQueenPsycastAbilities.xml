@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<AbilityCategoryDef>
+		<defName>Queen</defName>
+		<displayOrder>1300</displayOrder>
+	</AbilityCategoryDef>
+	
+	<AbilityDef Name="HivecastBase" ParentName="PsycastBase" Abstract="True">
+		<abilityClass>Xenomorphtype.XMT_Hivecast</abilityClass>
+	</AbilityDef>
+	
+	<AbilityDef ParentName="HivecastBase">
+		<defName>XMT_Adopt</defName>
+		<label>Adoption</label>
+		<description>Extend a connection via psycast to the target's mind offering a familial bond to the caster.</description>
+		<level>1</level>
+		<iconPath>UI/Abilities/Stun</iconPath>
+		<writeCombatLog>True</writeCombatLog>
+		<hotKey>Misc3</hotKey>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<statBases>
+			  <Ability_EntropyGain>12</Ability_EntropyGain>
+			  <Ability_PsyfocusCost>0.15</Ability_PsyfocusCost>
+		</statBases>
+		<verbProperties>
+			  <warmupTime>0.25</warmupTime>
+			  <range>24.9</range>
+			  <targetParams>
+					<canTargetAnimals>True</canTargetAnimals>
+			  </targetParams>
+		</verbProperties>
+		<comps>
+			  <li Class = "CompProperties_AbilityEffect">
+					<compClass>Xenomorphtype.CompAdoptionEffect</compClass>
+					<psychic>True</psychic>
+					<goodwillImpact>-20</goodwillImpact>
+			  </li>
+			  <li Class="CompProperties_AbilityFleckOnTarget">
+					<fleckDef>PsycastPsychicEffect</fleckDef>
+			  </li>
+		</comps>
+	</AbilityDef>
+	
+	<AbilityDef ParentName="HivecastBase">
+		<defName>XMT_Hivesong</defName>
+		<label>Hive Song</label>
+		<description>All in radius of effect feel the presence of the hive, improving mood and focus for some. Traumatizing, disorienting and disturbing others.</description>
+		<level>2</level>
+		<iconPath>UI/Abilities/Stun</iconPath>
+		<writeCombatLog>True</writeCombatLog>
+		<hotKey>Misc3</hotKey>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<statBases>
+			<Ability_EntropyGain>20</Ability_EntropyGain>
+			<Ability_PsyfocusCost>0.01</Ability_PsyfocusCost>
+			<Ability_Duration>30</Ability_Duration>
+			<Ability_EffectRadius>3.9</Ability_EffectRadius>
+		</statBases>
+		<verbProperties>
+			<warmupTime>1</warmupTime>
+			<range>24.9</range>
+			<targetParams>
+				<canTargetSelf>True</canTargetSelf>
+				<canTargetAnimals>True</canTargetAnimals>
+				<canTargetLocations>True</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			  <li Class="CompProperties_AbilityGiveHediff">
+				<compClass>Xenomorphtype.CompHiveSongEffect</compClass>
+				<psychic>True</psychic>
+				<durationMultiplier>PsychicSensitivity</durationMultiplier>
+				<applicableToMechs>False</applicableToMechs>
+				<goodwillImpact>-30</goodwillImpact>
+			  </li>
+			  <li Class="CompProperties_AbilityFleckOnTarget">
+					<fleckDef>PsycastPsychicEffect</fleckDef>
+			  </li>
+		</comps>
+	</AbilityDef>
+	
+	<!--
+	 <level>2</level>
+    <iconPath>UI/Abilities/BlindingPulse</iconPath>
+    <writeCombatLog>True</writeCombatLog>
+    <hotKey>Misc5</hotKey>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <statBases>
+      <Ability_EntropyGain>20</Ability_EntropyGain>
+      <Ability_PsyfocusCost>0.01</Ability_PsyfocusCost>
+      <Ability_Duration>30</Ability_Duration>
+      <Ability_EffectRadius>3.9</Ability_EffectRadius>
+    </statBases>
+    <verbProperties>
+      <warmupTime>1</warmupTime>
+      <range>24.9</range>
+      <targetParams>
+        <canTargetSelf>True</canTargetSelf>
+        <canTargetAnimals>True</canTargetAnimals>
+        <canTargetLocations>True</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class = "CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>PsychicBlindness</hediffDef>
+        <onlyBrain>True</onlyBrain>
+        <psychic>True</psychic>
+        <goodwillImpact>-15</goodwillImpact>
+        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
+      </li>
+      <li Class="CompProperties_AbilityFleckOnTarget">
+        <fleckDef>PsycastPsychicEffect</fleckDef>
+      </li>
+    </comps>
+	-->
+</Defs>

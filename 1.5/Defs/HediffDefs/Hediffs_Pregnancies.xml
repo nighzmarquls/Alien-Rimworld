@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<HediffDef Name="XMT_AnimalPregnancyBase" Abstract="True">
+		<hediffClass>HediffWithComps</hediffClass>
+		<defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+		<isBad>false</isBad>
+		<initialSeverity>0.001</initialSeverity>
+		<preventsPregnancy>true</preventsPregnancy>
+		<pregnant>true</pregnant>
+		<comps>
+		  <li Class="HediffCompProperties_MessageAfterTicks">
+			<ticks>600</ticks>
+			<message>{0} is pregnant!</message>
+			<messageType>PositiveEvent</messageType>
+		  </li>
+		  <li Class="Xenomorphtype.HediffCompProperties_Mutator">
+					<probability>0.1</probability>
+		  </li>
+		</comps>
+		<stages>
+		  <li>
+			<label>early-stage</label>
+			<vomitMtbDays>2.5</vomitMtbDays>
+		  </li>
+		  <li>
+			<label>middle-stage</label>
+			<minSeverity>0.333</minSeverity>
+			<capMods>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.15</offset>
+			  </li>
+			</capMods>
+		  </li>
+		  <li>
+			<label>late-stage</label>
+			<minSeverity>0.666</minSeverity>
+			<vomitMtbDays>2</vomitMtbDays>
+			<capMods>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.30</offset>
+			  </li>
+			</capMods>
+		  </li>
+		  <li>
+			<label>contractions</label>
+			<minSeverity>0.90</minSeverity>
+			<painOffset>2</painOffset>
+			<capMods>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.9</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.5</offset>
+			  </li>
+			</capMods>
+		  </li>
+		</stages>
+	</HediffDef>
+  
+	<HediffDef>
+		<defName>XMT_HorrorPregnant</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<debugLabelExtra>human</debugLabelExtra>
+		<description>A baby growing inside a woman, preparing to be born. In humans, pregnancy lasts for 18 days and is divided into 3 trimesters. As the pregnancy grows it will reduce the mother's mobility. For some mothers, pregnancy may induce nausea or mood swings that can be hard to deal with.</description>
+		<defaultLabelColor>(0.7, 1.0, 0.7)</defaultLabelColor>
+		<isBad>false</isBad>
+		<initialSeverity>0.001</initialSeverity>
+		<preventsPregnancy>true</preventsPregnancy>
+		<pregnant>false</pregnant>
+		<comps>
+		  <li Class="HediffCompProperties_MessageAfterTicks">
+			<ticks>600</ticks>
+			<letterLabel>{0_labelShort} pregnant</letterLabel>
+			<letterText>{0_labelShort} is pregnant!</letterText>
+			<letterType>HumanPregnancy</letterType>
+		  </li>
+		  <li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+			<babies>
+				<li>
+					<childKind>XMT_Humanoid_Pod</childKind>
+					<gestationFactor>0.5</gestationFactor>
+					<probability>1.0</probability>
+					<essenceMinimum>0.0</essenceMinimum>
+					<essenceMaximum>0.5</essenceMaximum>
+				</li>
+				<li>
+					<childKind>XMT_Starbeast_Pod</childKind>
+					<gestationFactor>0.1</gestationFactor>
+					<probability>1.0</probability>
+					<essenceMinimum>0.0</essenceMinimum>
+				</li>
+			</babies>
+		  </li>
+		  <li Class="Xenomorphtype.HediffCompProperties_Mutator">
+					<probability>0.1</probability>
+		  </li>
+		</comps>
+		<stages>
+		  <li>
+			<label>first trimester</label>
+			<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+		  </li>
+		  <li>
+			<label>second trimester</label>
+			<minSeverity>0.333</minSeverity>
+			<hungerRateFactorOffset>0.3</hungerRateFactorOffset>
+			<capMods>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.05</offset>
+			  </li>
+			</capMods>
+		  </li>
+		  <li>
+			<label>third trimester</label>
+			<minSeverity>0.666</minSeverity>
+			<hungerRateFactorOffset>0.5</hungerRateFactorOffset>
+			<capMods>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.5</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.1</offset>
+			  </li>
+			</capMods>
+		  </li>
+		  <li>
+			<label>contractions</label>
+			<minSeverity>0.90</minSeverity>
+			<painOffset>2</painOffset>
+			<capMods>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.9</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.5</offset>
+			  </li>
+			</capMods>
+		  </li>
+		</stages>
+	</HediffDef>
+
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_ThrumboHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Thrumbo_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_UrsineHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Ursine_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_ReptileHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Reptile_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_FelineHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Feline_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_CanineHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Canine_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_AvianHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Avian_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_BoomaHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Booma_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_RodentHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Rodent_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_EquineHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Equine_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
+</Defs>

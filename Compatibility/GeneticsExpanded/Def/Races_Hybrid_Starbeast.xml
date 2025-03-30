@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<PawnKindDef>
+		<defName>XMT_Starbeast_Pod_Hybrid</defName>
+		<race>XMT_Starbeast_Pod</race>
+		<combatPower>10</combatPower>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Larva_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>XMT_StarbeastBaseGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef>
+		<defName>XMT_Humanoid_Pod_Hybrid</defName>
+		<race>XMT_Humanoid_Pod</race>
+		<combatPower>10</combatPower>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Human_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_HumanoidGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Thrumbo_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Thrumbo_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>2.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_ThrumboGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Reptile_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Reptile_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_ReptileGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Feline_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Feline_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_FelineGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Canine_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Canine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_CanineGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Avian_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Avian_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_AvianGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Booma_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Booma_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Mass_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_BoomalopeGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Ursine_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Ursine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Mass_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_UrsineGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Rodent_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Rodent_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>0.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_RodentGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+</Defs>

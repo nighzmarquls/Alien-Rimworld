@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+	<Xenomorphtype.XMT_GeneSetDef>
+		<defName>XMT_HybridGenes</defName>
+		<genes>
+			<li>XMT_Libido</li>
+			<li>XMT_Metabolism</li>
+			<li>XMT_Immunity_SuperStrong</li>
+			<li>XMT_Beauty_Beautiful</li>
+			<li>XMT_Instability_Major</li>
+			<li>XMT_KillThirst</li>
+			<li>XMT_Fertile</li>
+			<li>XMT_Immunity_Weak</li>
+			<li>XMT_ViolenceDisabled</li>
+		</genes>
+	</Xenomorphtype.XMT_GeneSetDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="LibidoBase">
+		<defName>XMT_Libido</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>high libido</label>
+		<description>Carriers of this gene are more likely to engage in lovin' with their partner.</description>
+		<customEffectDescriptions>
+			<li>Increases the chance of lovin'.</li>
+		</customEffectDescriptions>
+		<iconPath>UI/GeneIcons/XMT_Gene_HighLibido</iconPath>
+		<displayOrderInCategory>10</displayOrderInCategory>
+		<lovinMTBFactor>0.5</lovinMTBFactor>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="GeneImmunityBase">
+		<defName>XMT_Immunity_SuperStrong</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>super immunity</label>
+		<labelShortAdj>super-immune</labelShortAdj>
+		<description>Carriers of this gene gain immunity to diseases considerably faster than normal.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_SuperStrongImmunity</iconPath>
+		<displayOrderInCategory>20</displayOrderInCategory>
+		<marketValueFactor>1.25</marketValueFactor>
+		<statFactors>
+			<ImmunityGainSpeed>2</ImmunityGainSpeed>
+		</statFactors>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>2</biostatCpx>
+		<biostatMet>-2</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>stout</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+	</GeneDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="GeneBeautyBase">
+		<defName>XMT_Beauty_Beautiful</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>very attractive</label>
+		<description>Carriers of this gene have remarkably precise and symmetrical faces. Their features are distinctive and strong without being exaggerated, and their skin is nearly perfect. They are generally seen as beautiful.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_Beautiful</iconPath>
+		<displayOrderInCategory>30</displayOrderInCategory>
+		<statOffsets>
+			<PawnBeauty>2.5</PawnBeauty>
+		</statOffsets>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>2</biostatCpx>
+		<biostatMet>-2</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>charm</symbol></li>
+				<li><symbol>ele</symbol></li>
+				<li><symbol>grace</symbol></li>
+				<li><symbol>neat</symbol></li>
+				<li><symbol>cute</symbol></li>
+				<li><symbol>beauti</symbol></li>
+				<li><symbol>smooth</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+	</GeneDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="CellInstabilityBase">
+		<defName>XMT_Instability_Major</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>major cell instability</label>
+		<description>Carriers of this gene have greatly-reduced stability in their cell-replication machinery. But very aggressive immune systems.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_MajorCellInstability</iconPath>
+		<displayOrderInCategory>135</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-2</biostatMet>
+		<statFactors>
+			<LifespanFactor>0.6</LifespanFactor>
+			<CancerRate>5</CancerRate>
+			<ImmunityGainSpeed>2</ImmunityGainSpeed>
+		</statFactors>
+	</GeneDef>
+
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="FertilityBase">
+		<defName>XMT_Fertile</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>fertile</label>
+		<description>Carriers of this gene have a higher chance of becoming pregnant or impregnating others.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_Fertile</iconPath>
+		<displayOrderInCategory>110</displayOrderInCategory>
+		<statFactors>
+			<Fertility>4</Fertility>
+		</statFactors>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="GeneImmunityBase">
+		<defName>XMT_Immunity_Weak</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>weak immunity</label>
+		<labelShortAdj>susceptible</labelShortAdj>
+		<description>Carriers of this gene gain immunity to diseases more slowly than normal. They may die from infections that others would survive.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_WeakImmunity</iconPath>
+		<displayOrderInCategory>0</displayOrderInCategory>
+		<statFactors>
+			<ImmunityGainSpeed>0.5</ImmunityGainSpeed>
+		</statFactors>
+		<symbolPack>
+			<prefixSymbols>
+				<li>
+					<symbol>sick</symbol>
+					<weight>3</weight>
+				</li>
+				<li><symbol>frail</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+	<GeneDef>
+		<defName>XMT_ViolenceDisabled</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>violence disabled</label>
+		<labelShortAdj>nonviolent</labelShortAdj>
+		<description>Carriers of this gene are emotionally and mentally incapable of engaging in violence. They are overwhelmingly resistant to and horrified by the idea of hurting another.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_ViolenceDisabled</iconPath>
+		<displayCategory>Violence</displayCategory>
+		<displayOrderInCategory>50</displayOrderInCategory> 
+		<disabledWorkTags>
+			<li>Violent</li>
+		</disabledWorkTags>
+		<exclusionTags>
+			<li>MeleeDamage</li>
+			<li>ShootingAccuracy</li>
+			<li>Aggressive</li>
+			<li>KillThirst</li>
+		</exclusionTags>
+		<symbolPack>
+			<prefixSymbols>
+				<li>
+					<symbol>paci</symbol>
+					<weight>2</weight>
+				</li>
+				<li><symbol>calm</symbol></li>
+				<li><symbol>peace</symbol></li>
+				<li><symbol>dove</symbol></li>
+			</prefixSymbols>
+			<suffixSymbols>
+				<li><symbol>dove</symbol></li>
+			</suffixSymbols>
+		</symbolPack>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+	<!-- XMT_UnknownGenes -->
+	
+	<Xenomorphtype.XMT_GeneSetDef>
+		<defName>XMT_UnknownGenes</defName>
+		<genes>
+			<li>XMT_UnknownGene0</li>
+			<li>XMT_UnknownGene1</li>
+			<li>XMT_UnknownGene2</li>
+			<li>XMT_UnknownGene3</li>
+		</genes>
+	</Xenomorphtype.XMT_GeneSetDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_UnknownGene0</defName>
+		<geneClass>Xenomorphtype.UnknownGene</geneClass>
+		<label>unknown</label>
+		<description>The properties of this genetic material are so complex and fluid you have no idea how it will ultimately express in a carrier.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_Unknown</iconPath>
+		<displayOrderInCategory>10</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>3</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_UnknownGene1</defName>
+		<geneClass>Xenomorphtype.UnknownGene</geneClass>
+		<label>unknown</label>
+		<description>The properties of this genetic material are so complex and fluid you have no idea how it will ultimately express in a carrier.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_Unknown</iconPath>
+		<displayOrderInCategory>10</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>3</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_UnknownGene2</defName>
+		<geneClass>Xenomorphtype.UnknownGene</geneClass>
+		<label>unknown</label>
+		<description>The properties of this genetic material are so complex and fluid you have no idea how it will ultimately express in a carrier.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_Unknown</iconPath>
+		<displayOrderInCategory>10</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>3</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_UnknownGene3</defName>
+		<geneClass>Xenomorphtype.UnknownGene</geneClass>
+		<label>unknown</label>
+		<description>The properties of this genetic material are so complex and fluid you have no idea how it will ultimately express in a carrier.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_Unknown</iconPath>
+		<displayOrderInCategory>10</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>3</biostatCpx>
+		<biostatMet>-2</biostatMet>
+	</GeneDef>
+	
+
+</Defs>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class = "PatchOperationConditional">
+				<xpath>/Defs/rjw.HediffDef_SexPart[@Name="XMT_PrivatePartBase"]/comps</xpath>
+				<nomatch Class="PatchOperationAdd">
+				<xpath>/Defs/rjw.HediffDef_SexPart[@Name="XMT_PrivatePartBase"]</xpath>
+					<value>
+						<comps>
+							<li Class = "SizedApparel.SizedApparelBodyPartDetailProperties" />
+						</comps>
+					</value>
+				</nomatch>
+				<match Class="PatchOperationAdd">
+					<xpath>/Defs/rjw.HediffDef_SexPart[@Name="XMT_PrivatePartBase"]/comps</xpath>
+					<value>
+						<li Class = "SizedApparel.SizedApparelBodyPartDetailProperties" />
+					</value>
+				</match>
+			</li>
+			
+			<!-- <li Class = "PatchOperationConditional"> -->
+				<!-- <xpath>/Defs/ThingDef[@Name="rjw_BodyPartBase"]/comps</xpath> -->
+				<!-- <nomatch Class="PatchOperationAdd"> -->
+				<!-- <xpath>/Defs/ThingDef[@Name="rjw_BodyPartBase"]</xpath> -->
+					<!-- <value> -->
+						<!-- <comps> -->
+							<!-- <li Class = "SizedApparel.SizedApparelBodyPartDetailThingProperties" /> -->
+						<!-- </comps> -->
+					<!-- </value> -->
+				<!-- </nomatch> -->
+				<!-- <match Class="PatchOperationAdd"> -->
+					<!-- <xpath>/Defs/ThingDef[@Name="RJW_PrivatePartBase"]/comps</xpath> -->
+					<!-- <value> -->
+						<!-- <li Class = "SizedApparel.SizedApparelBodyPartDetailThingProperties" /> -->
+					<!-- </value> -->
+				<!-- </match> -->
+			<!-- </li> -->
+
+		</operations>
+	</Operation>
+	
+
+
+	<!-- <Operation Class="PatchOperationAdd"> -->
+	<!-- <success>Normal</success> -->
+		<!-- <xpath>/Defs/HediffDef[@Name="RJW_PrivatePartBase"]/comps</xpath> -->
+		<!-- <value> -->
+			<!-- <li Class = "SizedApparel.SizedApparelBodyPartDetailProperties" /> -->
+		<!-- </value>	 -->
+	<!-- </Operation> -->
+
+	<!-- <Operation Class="PatchOperationAdd"> -->
+		<!-- <xpath>/Defs/HediffDef[@Name="NaturalPrivatePartBreast"]/comps[@Class ="SizedApparel.SizedApparelBodyPartDetailProperties"]</xpath> -->
+		<!-- <value> -->
+			<!-- <bodyPartName>Breasts</bodyPartName> -->
+		<!-- </value>	 -->
+	<!-- </Operation> -->
+	
+	<!-- <Operation Class="PatchOperationAdd"> -->
+		<!-- <xpath>/Defs/HediffDef[@Name="NaturalPrivatePartBreast"]/comps</xpath> -->
+		<!-- <value> -->
+			<!-- <bodyPartName>Breasts</bodyPartName> -->
+		<!-- </value>	 -->
+	<!-- </Operation> -->
+	
+ </Patch>

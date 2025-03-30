@@ -1,0 +1,454 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- Starbeast Adult-->
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastHunter00</defName>
+		<title>hunter</title>
+		<titleShort>hunter</titleShort>
+		<description>[PAWN_nameDef] tracked, trapped and killed for the hive.\n[PAWN_nameDef] used tooth and claw to take them down.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastWarrior</li></spawnCategories>
+		<skillGains>
+		  <Melee>4</Melee>
+		  <Animals>2</Animals>
+		</skillGains>
+		<requiredWorkTags>
+		  <li>Violent</li>
+		  <li>Animals</li>
+		</requiredWorkTags>
+	</AlienRace.AlienBackstoryDef>
+  
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastHierophant01</defName>
+		<title>hierophant</title>
+		<titleShort>hierophant</titleShort>
+		<description>[PAWN_nameDef]'s purpose is to return living individuals to the depths of their hive for impregnation, in [PAWN_nameDef]'s case this involved interactions with a small preindustrial civilisation that willingly embraced their Xenomorph masters as cattle, leading too a (relative) weakness and complacency, but enhanced instincts and judicious prey drive.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastWarrior</li></spawnCategories>
+		<skillGains>
+		  <Melee>-2</Melee>
+		  <Social>8</Social>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Social</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<HAR_Xenophobia>-1</HAR_Xenophobia>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+  
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastVulture02</defName>
+		<title>vulture</title>
+		<titleShort>vulture</titleShort>
+		<description>on toxic hell worlds viable hosts are few and far between and quite often heavily armed. [PAWN_nameDef] adopting a slow, methodical, endurance hunting method to drive it's prey too their limits... And beyond.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastWarrior</li></spawnCategories>
+		<skillGains>
+		  <Melee>4</Melee>
+		  <Animals>4</Animals>
+		</skillGains>
+		<requiredWorkTags>
+		  <li>Violent</li>
+		  <li>Animals</li>
+		</requiredWorkTags>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastSadist03</defName>
+		<title>sadist</title>
+		<titleShort>sadist</titleShort>
+		<description>growing in a prey rich and low resistance environment, but denied the chance to evolve due too pressure, hormonal mutation or simple injury [PAWN_nameDef] is uncharacteristically intelligent, vicious and selective.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastWarrior</li></spawnCategories>
+		<skillGains>
+		  <Melee>8</Melee>
+		  <Animals>4</Animals>
+		  <Intellectual>4</Intellectual>
+		</skillGains>
+		<requiredWorkTags>
+		  <li>Violent</li>
+		  <li>Animals</li>
+		</requiredWorkTags>
+		<workDisables>
+			<li>Social</li>
+			<li>Caring</li>
+		</workDisables>
+		<forcedTraits>
+			<Bloodlust>0</Bloodlust>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastProven04</defName>
+		<title>combat proven</title>
+		<titleShort>proven</titleShort>
+		<description>[PAWN_nameDef] has lived through many challenges, often in combat with various species. For this they know what to expect from most they may encounter, giving them an upper hand in most fights. </description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastWarrior</li></spawnCategories>
+		<skillGains>
+			<Melee>10</Melee>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<Nimble>0</Nimble>
+			<Brawler>0</Brawler>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+	
+    <AlienRace.AlienBackstoryDef>
+		<defName>StarbeastDrone05</defName>
+		<title>drone</title>
+		<titleShort>drone</titleShort>
+		<description>[PAWN_nameDef] Served the hive for only tending matters. Never leaving the hive or helping with combat.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>-6</Melee>
+			<Medicine>2</Medicine>
+			<Construction>6</Construction>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Constructing</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<Wimp>0</Wimp>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastScout06</defName>
+		<title>scout</title>
+		<titleShort>scout</titleShort>
+		<description>Always looked for new potential prey or places of interest outside of the hive, [PAWN_nameDef] tried not to engage in any fights and just report what they seen.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>-2</Melee>
+		</skillGains>
+		<forcedTraits>
+			<Wimp>0</Wimp>
+			<SpeedOffset>2</SpeedOffset>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastWeakLink07</defName>
+		<title>weak link</title>
+		<titleShort>weak</titleShort>
+		<description>[PAWN_nameDef] had a hard time doing things on their own, and were generally smaller that other xenos.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+		  <Melee>-2</Melee>
+		</skillGains>
+		<forcedTraits>
+		  <Wimp>0</Wimp>
+		</forcedTraits>
+		<forcedHediffs>
+			<li>Frail</li>
+		</forcedHediffs>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastCaptivator08</defName>
+		<title>captivator</title>
+		<titleShort>captivating</titleShort>
+		<description>[PAWN_nameDef] learned of its relative invincibility early and used its strength to bully and intimidate prey into a concentrated environment to consume at leisure.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+		  <Social>6</Social>
+		  <Animals>10</Animals>
+		</skillGains>
+		<requiredWorkTags>
+		  <li>Violent</li>
+		  <li>Social</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<Beauty>1</Beauty>
+		</forcedTraits>
+		<passions>
+			<Social>2</Social>
+		</passions>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastWarrior09</defName>
+		<title>warrior</title>
+		<titleShort>warrior</titleShort>
+		<description>The endless forces of mechanoids clashing with the hive has created aberrant a hyper aggressive creature.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastWarrior</li></spawnCategories>
+		<skillGains>
+			<Melee>8</Melee>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<Brawler>0</Brawler>
+		</forcedTraits>
+		<passions>
+			<Melee>1</Melee>
+		</passions>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastSentinal10</defName>
+		<title>sentinal</title>
+		<titleShort>sentinal</titleShort>
+		<description>Often roaming the outskirts of the hive, [PAWN_nameDef] would keep watch on the parameter.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>4</Melee>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<SpeedOffset>1</SpeedOffset>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastHiveGuard11</defName>
+		<title>hive guard</title>
+		<titleShort>gaurd</titleShort>
+		<description>Renowned as stronger that most others, they stay close to the hive providing protection.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+		  <Melee>10</Melee>
+		</skillGains>
+		<requiredWorkTags>
+		  <li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<SpeedOffset>-1</SpeedOffset>
+			<Brawler>0</Brawler>
+			<Tough>0</Tough>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastPheropet12</defName>
+		<title>pheromone pet</title>
+		<titleShort>pet</titleShort>
+		<description>[PAWN_nameDef] was a simple drone of a large hive and as such was used too following pheromonal cues to identify those of their hive. A weakness that was capitalised on by a small coterie of survivors who managed to eke out a meager existence inside the vast structure of a Xenomorph hive, [PAWN_nameDef] understood that the fleshy creatures were not fellow drones but without the express influence of their hive had no reason to destroy the interlopers</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastPet</li></spawnCategories>
+		<skillGains>
+			<Social>4</Social>
+			<Animals>4</Animals>
+		</skillGains>
+		<forcedTraits>
+			<HAR_Xenophobia>-1</HAR_Xenophobia>
+		</forcedTraits>
+		<requiredWorkTags>
+			<li>Violent</li>
+			<li>Social</li>
+		</requiredWorkTags>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastTender13</defName>
+		<title>host tender</title>
+		<titleShort>tender</titleShort>
+		<description>following assaults and defensive moves by the hive, [PAWN_nameDef]'s purpose was to cauterize bleeding wounds and tend fallen hosts, instinctively aware of how best to treat contusions and acid burns enough to keep a potential host alive and intact long enough for infestation.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Medicine>6</Medicine>
+			<Animals>4</Animals>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Caring</li>
+			<li>Social</li>
+		</requiredWorkTags>
+		<passions>
+			<Medicine>2</Medicine>
+		</passions>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastMonster14</defName>
+		<title>monster</title>
+		<titleShort>monster</titleShort>
+		<description>Disfigured in a distinctive way and operating independently [PAWN_nameDef] has a cult following of individuals out to claim their head, however this pressure has lead [PAWN_nameDef] to be cunning and pragmatic.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>10</Melee>
+		</skillGains>
+		<passions>
+			<Melee>2</Melee>
+		</passions>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<HAR_Xenophobia>1</HAR_Xenophobia>
+			<SpeedOffset>1</SpeedOffset>
+			<Brawler>0</Brawler>
+			<Tough>0</Tough>
+		</forcedTraits>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastMaid15</defName>
+		<title>maid</title>
+		<titleShort>maid</titleShort>
+		<description>[PAWN_nameDef] was trained to clean, haul and impress guests. How this was accomplished is a baffling mystery but [PAWN_pronoun] seems docile enough.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li><li>XMT_StarbeastPet</li></spawnCategories>
+		<skillGains>
+			<Social>10</Social>
+		</skillGains>
+		<passions>
+			<Social>2</Social>
+		</passions>
+		<requiredWorkTags>
+			<li>Social</li>
+			<li>ManualDumb</li>
+			<li>Cleaning</li>
+		</requiredWorkTags>
+		<workDisables>
+			<li>Violent</li>
+		</workDisables>
+		<forcedTraits>
+			<HAR_Xenophobia>-1</HAR_Xenophobia>
+			<Kind>0</Kind>
+			<Nimble>0</Nimble>
+		</forcedTraits>
+		<forcedItems>
+			<VAE_Apparel_Apron MayRequire="VanillaExpanded.VAPPE">1</VAE_Apparel_Apron>
+			<VBE_AmbrandyLegendary MayRequire="VanillaExpanded.VBrewE">2</VBE_AmbrandyLegendary>
+			<MealLavish>5</MealLavish>
+		</forcedItems>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastPioneer16</defName>
+		<title>pioneer</title>
+		<titleShort>pioneer</titleShort>
+		<description>[PAWN_nameDef] is traveling far from [PAWN_possessive] hive to propagate in a new ecosystem.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>2</Melee>
+		</skillGains>
+		<passions>
+			<Melee>1</Melee>
+		</passions>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<SpeedOffset>1</SpeedOffset>
+		</forcedTraits>
+		<forcedItems>
+			<XMT_Ovamorph>2</XMT_Ovamorph>
+		</forcedItems>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastStowaway17</defName>
+		<title>stowaway</title>
+		<titleShort>stowaway</titleShort>
+		<description>[PAWN_nameDef] was part of a massive infestation on a industrial world, almost completely taking over the planet, unfortunately the humans decided to glass the world from orbit, [PAWN_pronoun] was only able to survive by sneaking onto a ship trying to escape..</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>2</Melee>
+		</skillGains>
+		<passions>
+			<Melee>1</Melee>
+		</passions>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<SpeedOffset>1</SpeedOffset>
+		</forcedTraits>
+		<forcedItems>
+		</forcedItems>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastCurious18</defName>
+		<title>curious Captive</title>
+		<titleShort>curious</titleShort>
+		<description>[PAWN_nameDef] was being studied in a lab, a small reinforced window showed various scientists working with various fawn and flora, learning a thing or two over the years before a containment breach quickly ended such lessons.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Animals>2</Animals>
+			<Plants>2</Plants>
+		</skillGains>
+		<passions>
+			<Animals>1</Animals>
+			<Plants>1</Plants>
+		</passions>
+		<requiredWorkTags>
+		</requiredWorkTags>
+		<forcedTraits>
+		</forcedTraits>
+		<forcedItems>
+		</forcedItems>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastDinner19</defName>
+		<title>dine and Dash</title>
+		<titleShort>dinner</titleShort>
+		<description>A crazed Chef was trying to turn [PAWN_nameDef] into some sort of Delicacy, unfortunately for the this mad chef HE would be on the dinner table tonight, along with the rest of the guests.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Cooking>6</Cooking>
+			<Social>2</Social>
+		</skillGains>
+		<passions>
+			<Cooking>1</Cooking>
+		</passions>
+		<requiredWorkTags>
+			<li>Cooking</li>
+		</requiredWorkTags>
+		<forcedTraits>
+		</forcedTraits>
+		<forcedItems>
+			<Meat_Human>150</Meat_Human>
+		</forcedItems>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastRemnant20</defName>
+		<title>remnant</title>
+		<titleShort>remnant</titleShort>
+		<description>Pawn was part of a small fledgling hive on a toxic world before humans discovered said hive burning it to a crisp, [PAWN_nameDef] and a few others managed to escape, their hive never recovering.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Social>2</Social>
+		</skillGains>
+		<passions>
+			<Animals>1</Animals>
+			<Plants>1</Plants>
+		</passions>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<Neurotic>1</Neurotic>
+		</forcedTraits>
+			
+		<forcedItems>
+		</forcedItems>
+	</AlienRace.AlienBackstoryDef>
+
+</Defs>

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="BasePawn">
+		<defName>XMT_Larva</defName>
+		<label>larva</label>
+		<description>A skittering pale skinend organism with a long flexible tail and eight slender digit like legs.</description>
+		<comps>
+			<li Class="Xenomorphtype.CompLarvalGenesProperties">
+				<larvaHediff>XMT_LarvalEmbrace</larvaHediff>
+				<leapRange>4</leapRange>
+				<hoursTilDeathAfterImplant>1</hoursTilDeathAfterImplant>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="Xenomorphtype.CompStealthProperties">
+				<hideBrightness>0.2</hideBrightness>
+				<minVisibleBrightness>0.0</minVisibleBrightness>
+			</li>
+			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<ImpossibleHediffs>
+					<li>Anesthetic</li>
+					<li MayRequire="ludeon.rimworld.anomaly">DarknessExposure</li>
+					<li MayRequire="ludeon.rimworld.anomaly">Digested</li>
+				</ImpossibleHediffs>
+			</li>
+			<!--<li Class="CompProperties_HoldingPlatformTarget" MayRequire="Ludeon.RimWorld.Anomaly">
+				<baseEscapeIntervalMtbDays>120</baseEscapeIntervalMtbDays>
+				<getsColdContainmentBonus>true</getsColdContainmentBonus>
+			</li>
+			<li Class="CompProperties_AttachPoints">
+				<points>
+					<li>
+						<offset>(-.35, 0, .35)</offset>
+						<type>PlatformRestraint0</type>
+					</li>
+					<li>
+						<offset>(.35, 0, .35)</offset>
+						<type>PlatformRestraint1</type>
+					</li>
+					<li>
+						<offset>(.2, 0, -.71)</offset>
+						<type>PlatformRestraint2</type>
+					</li>
+					<li>
+						<offset>(-.2, 0, -.71)</offset>
+						<type>PlatformRestraint3</type>
+					</li>
+				</points>
+			</li>
+			<li Class="CompProperties_Studiable">
+				<frequencyTicks>120000</frequencyTicks>
+				<knowledgeCategory>Advanced</knowledgeCategory>
+				<anomalyKnowledge>3</anomalyKnowledge>
+				<minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+				<requiresHoldingPlatform>false</requiresHoldingPlatform>
+			</li>-->			
+		</comps>
+		<statBases>
+			<MoveSpeed>10.0</MoveSpeed>
+			<Flammability>0.7</Flammability>
+			<ComfyTemperatureMin>-200</ComfyTemperatureMin>
+			<ComfyTemperatureMax>90</ComfyTemperatureMax>
+			<MarketValue>5000</MarketValue>
+			<ArmorRating_Blunt>0.2</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0</ArmorRating_Sharp>
+			<MeleeDodgeChance>2.0</MeleeDodgeChance>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>5</MeatAmount>
+			<ToxicResistance>1.0</ToxicResistance>
+			<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+			<IncomingDamageFactor>0.25</IncomingDamageFactor>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
+			<Radiation MayRequire="Dubwise.Rimatomics">0</Radiation>
+		</statBases>
+		<uiIconScale>2</uiIconScale>
+		<tools>
+			<li>
+				<label>tail</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>10</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+				<surpriseAttack>
+				  <extraMeleeDamages>
+					<li>
+					  <def>Stun</def>
+					  <amount>50</amount>
+					</li>
+				  </extraMeleeDamages>
+				</surpriseAttack>
+				<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+				<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			</li>
+		</tools>
+		<race>
+		  <thinkTreeMain>Animal</thinkTreeMain>
+		  <thinkTreeConstant>AnimalConstant</thinkTreeConstant>
+		  <hasGenders>false</hasGenders>
+		  <isImmuneToInfections>true</isImmuneToInfections>
+		  <nameGenerator>NamerAnimalGenericFemale</nameGenerator>
+		  <nameGeneratorFemale>NamerAnimalGenericFemale</nameGeneratorFemale>
+		  <trainability>None</trainability>
+
+		  <!--<bloodSmearDef>Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
+		  <canBecomeShambler>false</canBecomeShambler>
+		  <renderTree>Animal</renderTree>
+		  <canBePredatorPrey Inherit="false">false</canBePredatorPrey>
+		  <foodType>None</foodType>
+		  <hediffGiverSets>
+			<li>OrganicStandard</li>
+		  </hediffGiverSets>
+		  <body>LarvaLike</body>
+		  <baseBodySize>0.2</baseBodySize>
+		  <fleshType>StarbeastFlesh</fleshType>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+		  <baseHungerRate>0.10</baseHungerRate>
+		  <baseHealthScale>0.4</baseHealthScale>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <lifeExpectancy>10</lifeExpectancy>
+		  <wildness>0.2</wildness>
+		  <lifeStageAges>
+			<li>
+			  <def>EusocialInsectLarva</def>
+			  <minAge>0</minAge>
+			  <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+			  <soundDeath>Pawn_Megascarab_Death</soundDeath>
+			  <soundCall>Pawn_Megascarab_Call</soundCall>
+			  <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.12)</li>
+			<li>(0.07, 0, -0.05)</li>
+			<li>(0.0, 0, -0.08)</li>
+			<li>(-0.07, 0, -0.05)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef>
+		<defName>XMT_Larva</defName>
+		<label>larva</label>
+		<race>XMT_Larva</race>
+		<combatPower>30</combatPower>
+		<ecoSystemWeight>0.30</ecoSystemWeight>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Larva/Larva</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<!--<li MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.DefExtension_Paragon">
+				<mechToConvertTo>GR_Mechabear</mechToConvertTo>
+			</li>-->
+		</modExtensions>
+	</PawnKindDef>
+
+	<ThingDef ParentName="BasePawn">
+		<defName>XMT_Droplet</defName>
+		<label>droplet</label>
+		<description>a small gelatinous blob of black goo. It oozes slowly.</description>
+		<comps>
+			<li Class="Xenomorphtype.CompStealthProperties">
+				<hideBrightness>0.2</hideBrightness>
+				<minVisibleBrightness>0.0</minVisibleBrightness>
+			</li>
+			<li Class="Xenomorphtype.CompInfectorProperties">
+				<infectionHediff>XMT_Flu</infectionHediff>
+				<infectionRange>1.5</infectionRange>
+			</li>
+			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<ImpossibleHediffs>
+					<li>Anesthetic</li>
+					<li MayRequire="ludeon.rimworld.anomaly">DarknessExposure</li>
+					<li MayRequire="ludeon.rimworld.anomaly">Digested</li>
+				</ImpossibleHediffs>
+			</li>
+		</comps>
+		<statBases>
+			<MoveSpeed>1.0</MoveSpeed>
+			<Flammability>1</Flammability>
+			<ComfyTemperatureMin>-200</ComfyTemperatureMin>
+			<ComfyTemperatureMax>90</ComfyTemperatureMax>
+			<MarketValue>100</MarketValue>
+			<ArmorRating_Blunt>0</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0</ArmorRating_Sharp>
+			<MeleeDodgeChance>0</MeleeDodgeChance>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>0</MeatAmount>
+			<ToxicResistance>1.0</ToxicResistance>
+			<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
+			<Radiation MayRequire="Dubwise.Rimatomics">0</Radiation>
+		</statBases>
+		<uiIconScale>2</uiIconScale>
+		<tools>
+			<li>
+				<label>splash</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>1</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+				<surpriseAttack>
+				  <extraMeleeDamages>
+					<li>
+					  <def>Stun</def>
+					  <amount>10</amount>
+					</li>
+				  </extraMeleeDamages>
+				</surpriseAttack>
+				<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+				<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			</li>
+		</tools>
+		<race>
+		  <thinkTreeMain>Animal</thinkTreeMain>
+		  <thinkTreeConstant>AnimalConstant</thinkTreeConstant>
+		  <hasGenders>false</hasGenders>
+		  <isImmuneToInfections>true</isImmuneToInfections>
+		  <nameGenerator>NamerAnimalGenericFemale</nameGenerator>
+		  <nameGeneratorFemale>NamerAnimalGenericFemale</nameGeneratorFemale>
+		  <trainability>None</trainability>
+		  <fleshType>StarbeastFlesh</fleshType>
+		  <bloodDef>Starbeast_Filth_Goop</bloodDef>
+		  <!--<bloodSmearDef>Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
+		  <canBecomeShambler>false</canBecomeShambler>
+		  <renderTree>Animal</renderTree>
+		  <canBePredatorPrey>false</canBePredatorPrey>
+		  <foodType>None</foodType>
+		  <hediffGiverSets>
+			<li>OrganicStandard</li>
+		  </hediffGiverSets>
+		  <body>LarvaLike</body>
+		  <baseBodySize>0.1</baseBodySize>
+		  <baseHungerRate>0.10</baseHungerRate>
+		  <baseHealthScale>0.1</baseHealthScale>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <lifeExpectancy>10</lifeExpectancy>
+		  <wildness>0.2</wildness>
+		  <lifeStageAges>
+			<li>
+			  <def>EusocialInsectLarva</def>
+			  <minAge>0</minAge>
+			  <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+			  <soundDeath>Pawn_Megascarab_Death</soundDeath>
+			  <soundCall>Pawn_Megascarab_Call</soundCall>
+			  <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.12)</li>
+			<li>(0.07, 0, -0.05)</li>
+			<li>(0.0, 0, -0.08)</li>
+			<li>(-0.07, 0, -0.05)</li>
+		  </headPosPerRotation>
+		</race>
+		<butcherProducts>
+			<Starbeast_Jelly>5</Starbeast_Jelly>
+		</butcherProducts>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef>
+		<defName>XMT_Droplet</defName>
+		<label>droplet</label>
+		<race>XMT_Droplet</race>
+		<combatPower>30</combatPower>
+		<ecoSystemWeight>0.30</ecoSystemWeight>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Droplet/Droplet</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<!--<li MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>XMT_StarbeastBaseGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>-->
+		</modExtensions>
+	</PawnKindDef>
+
+</Defs>

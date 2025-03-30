@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<RecipeDef Abstract="True" Name="Starbeast_Surgery" ParentName="SurgeryFlesh">
+		<effectWorking>Surgery</effectWorking>
+		<soundWorking>Recipe_Surgery</soundWorking>
+		<workSpeedStat>MedicalOperationSpeed</workSpeedStat>
+		<workSkill>Medicine</workSkill>
+		<workSkillLearnFactor>16</workSkillLearnFactor>
+	</RecipeDef>
+
+	<RecipeDef Abstract="True" ParentName="Starbeast_Surgery" Name="Starbeast_RemoveHediff">
+		<label>remove...</label>
+		<description>Removes egg.</description>
+		<workerClass>Recipe_RemoveHediff</workerClass>
+		<jobString>Removing...</jobString>
+		<workAmount>500</workAmount>
+		<workSkillLearnFactor>1</workSkillLearnFactor>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="Starbeast_RemoveHediff">
+		<defName>RemoveStarbeastParasite</defName>
+		<label>remove attached parasite.</label>
+		<description>Attempt to forcefully remove the attached parasite.</description>
+		<jobString>Removing Parasite.</jobString>
+		<surgerySuccessChanceFactor>1.2</surgerySuccessChanceFactor>
+		<successfullyRemovedHediffMessage>{0} has successfully removed the parasite from {1}.</successfullyRemovedHediffMessage>
+		<removesHediff>XMT_LarvalEmbrace</removesHediff>
+	</RecipeDef>
+	
+
+	
+</Defs>

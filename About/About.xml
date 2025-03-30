@@ -1,0 +1,77 @@
+<ModMetaData>
+	<modVersion IgnoreIfNoMatchingField="True">0.042</modVersion>
+	<name>Alien | Rimworld</name>
+	<author>Nighzmarquls</author>
+	<packageId>niz.xenomorphtype</packageId>
+	<supportedVersions>
+		<li>1.5</li>
+	</supportedVersions>
+	<modIconPath IgnoreIfNoMatchingField="True">UI/Icon/ModIcon</modIconPath>
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+		</li>
+		<li>
+			<packageId>Ludeon.RimWorld.Biotech</packageId>
+			<displayName>Rimworld - Biotech</displayName>
+			<steamWorkshopUrl>https://store.steampowered.com/app/1826140/RimWorld__Biotech/</steamWorkshopUrl>
+		</li>
+		<li>
+			<packageId>OskarPotocki.VanillaFactionsExpanded.Core</packageId>
+			<displayName>Vanilla Expanded Framework</displayName>
+			<steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=2023507013</steamWorkshopUrl>
+			<downloadUrl>https://github.com/Vanilla-Expanded/VanillaExpandedFramework</downloadUrl>
+		</li>
+		<li>
+			<packageId>erdelf.HumanoidAlienRaces</packageId>
+			<displayName>Humanoid Alien Races</displayName>
+			<downloadUrl>https://github.com/RimWorld-CCL-Reborn/AlienRaces/releases</downloadUrl>
+			<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=839005762</steamWorkshopUrl>
+		</li>
+	</modDependencies>
+	<incompatibleWith>
+		<li>Nera.SpawnThoseGenes</li>
+		<li>me.samboycoding.betterloading.dev</li>
+	</incompatibleWith>
+	<loadAfter>
+		<li>Ludeon.RimWorld</li>
+		<li>Ludeon.RimWorld.Royalty</li>
+		<li>Ludeon.RimWorld.Ideology</li>
+		<li>Ludeon.RimWorld.Biotech</li>
+		<li>Ludeon.RimWorld.Anomaly</li>
+		<li>brrainz.harmony</li>
+		<li>erdelf.HumanoidAlienRaces</li>
+		<li>OskarPotocki.vanillaracesexpanded.android</li>
+		<li>OskarPotocki.VanillaFactionsExpanded.Core</li>
+		<li>erdelf.HumanoidAlienRaces</li>
+		<li>VanillaExpanded.VAPPE</li>
+		<li>VanillaExpanded.VBrewE</li>
+		<li>Dubwise.DubsBadHygiene</li>
+		<li>momo.updates.WaterIsCold</li>
+		<li>VanillaExpanded.VGeneticsE</li>
+		<li>VanillaExpanded.VPsycastsE</li>
+		<li>VanillaExpanded.VPE.Puppeteer</li>
+		<li>kentington.saveourship2</li>
+		<li>cyanobot.TalkingIsntEverything</li>
+		<li>RedMattis.BetterPrerequisites</li>
+	</loadAfter>
+	<loadBefore>
+		<li>rim.job.world</li>
+	</loadBefore>
+
+	<description>Alphatest version 0.042.
+Adds the monster and related traits, diseases and other features to Rimworld.
+Try to survive as a human colony from the parasitic organism?
+Tame the horror and wield it for your benefit?
+Or play as the so called 'perfect organism' and subsume the Rimworld in your hive.
+For more details join the discord.
+https://discord.gg/YgarzpUhhV
+Design Credit: Ballisticwaffles, King Baddabing, isaias_0395, Stealth and Lavi for design suggestions.
+Technical Credit: Erdelf, Bradson, Elire and Abraxas for Assistance in coding, modding, xml.
+Testing Credit: Ballisticwaffles, BlueExe0511, Elire, grimace, Shadoweater25 and Thekillergreece for dedication in alpha testing.
+Thanks to Stardust for moral support, hopefully they will get a modlist working some day.
+	</description>
+</ModMetaData>

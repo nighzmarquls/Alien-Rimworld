@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/alienRace/generalSettings/abilities</xpath>
+		<value>
+			<li>XMT_Adopt</li>
+			<li>WordOfJoy</li>
+			<li>Beckon</li>
+			<li>Focus</li>
+			<li>Invisibility</li>
+			<li>BerserkPulse</li>
+		</value>
+	</Operation>
+ </Patch>

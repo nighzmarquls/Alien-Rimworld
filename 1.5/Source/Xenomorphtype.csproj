@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{17460138-A266-46E2-8BB1-2CEDDC95B9F8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xenomorphtype</RootNamespace>
+    <AssemblyName>Xenomorphtype</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Assemblies\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>9.0</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AlienRace">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\839005762\1.5\Assemblies\AlienRace.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="PipeSystem">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.5\Assemblies\PipeSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="VFECore">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.5\Assemblies\VFECore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abilities\Comps\CompAbilityBloodLet.cs" />
+    <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
+    <Compile Include="Abilities\Climber\PawnClimber.cs" />
+    <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompAdoptionEffect.cs" />
+    <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompHiveSongEffect.cs" />
+    <Compile Include="Abilities\Psycasting\Vanilla\XMT_Hivecast.cs" />
+    <Compile Include="Abilities\Verbs\Verb_CastAbilityPounce.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyOvamorph.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_BuildXenomorphStructure.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_CocoonTarget.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_Hibernate.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_HideInside.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_MoveBuilding.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ProduceJelly.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_PruneLarder.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_ConsumeGenes.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_Ritual_Metamorphosis.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_StarbeastSeduce.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_StealthHunt.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_LarvaImplant.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_Metamorphosis.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_Sabotage.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_StarbeastSnuggle.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_Trophallaxis.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_ClimbToPosition.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvamorph.cs" />
+    <Compile Include="AI\JobGiver\JobGiver_Metamorphosis.cs" />
+    <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
+    <Compile Include="AI\ThoughtWorker\ThoughtWorker_Obsession.cs" />
+    <Compile Include="AI\ThoughtWorker\ThoughtWorker_PheromoneOpinion.cs" />
+    <Compile Include="AI\ThoughtWorker\ThoughtWorker_TraumatizedBy.cs" />
+    <Compile Include="BioHorror\BioUtility.cs" />
+    <Compile Include="BioHorror\BioHorrorDefs.cs" />
+    <Compile Include="BioHorror\WorkGiver_XMT_HaulToGeneBank.cs" />
+    <Compile Include="BioHorror\XMTResearch.cs" />
+    <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
+    <Compile Include="Building\FillableChrysalis.cs" />
+    <Compile Include="Building\Horrors\Petrolsump.cs" />
+    <Compile Include="Building\Horrors\Slumberer.cs" />
+    <Compile Include="Building\QueenBed.cs" />
+    <Compile Include="Building\Reproduction\GeneOvamorph.cs" />
+    <Compile Include="Building\XMTBase_Building.cs" />
+    <Compile Include="Comps\BuildingComps\Horrors\CompPetrolsump.cs" />
+    <Compile Include="Comps\BuildingComps\Horrors\CompSlumberer.cs" />
+    <Compile Include="Comps\CompHiveGeneHolder.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_BloodDrainer.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_PerPartPromoter.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_RemoveOnCommandByXenomorph.cs" />
+    <Compile Include="Comps\HediffComps\Visual\HediffComp_HeadOffset.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompHostHunter.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompUmbilical.cs" />
+    <Compile Include="Comps\ThingCompHorror\CompDiseaseCarrier.cs" />
+    <Compile Include="Comps\PawnComps\Queen\CompGeneManipulator.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompAwakenedSlumberer.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompHorrifyThing.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_Mutator.cs" />
+    <Compile Include="Comps\HediffComps\HediffComp_Transformation.cs" />
+    <Compile Include="Comps\HediffComps\HediffComp_Obsession.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_PawnAttachement.cs" />
+    <Compile Include="Comps\PawnComps\CompHatchingPod.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompHowler.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompInfector.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompMundivore.cs" />
+    <Compile Include="Comps\PawnComps\Queen\CompQueen.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompScreecher.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompFleshTick.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompSmotherer.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompSpawner.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompSpore.cs" />
+    <Compile Include="Comps\PawnComps\Queen\CompOvamorphLayer.cs" />
+    <Compile Include="DefOfs\RoyalEvolutionDefOf.cs" />
+    <Compile Include="DefOfs\XenoStoryDefOf.cs" />
+    <Compile Include="Game\GameComponent_Xenomorph.cs" />
+    <Compile Include="Harmony\XMTBedPatches.cs" />
+    <Compile Include="Harmony\XMTLordDutyPatches.cs" />
+    <Compile Include="Harmony\XMTMapPatches.cs" />
+    <Compile Include="Harmony\XMTOffsetPatch.cs" />
+    <Compile Include="Harmony\XMTResearchPatches.cs" />
+    <Compile Include="Harmony\XMTToilPatches.cs" />
+    <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
+    <Compile Include="Harmony\XMTWildmanPatch.cs" />
+    <Compile Include="Hediffs\DisplayHediff.cs" />
+    <Compile Include="ModExtensions\AnimalMutateForms.cs" />
+    <Compile Include="Progression\RoyalEvolutionDef.cs" />
+    <Compile Include="Rituals\Behaviors\RitualBehaviorWorker_MatureQueen.cs" />
+    <Compile Include="Rituals\Obligations\RitualObligationTargetWorker_MatureChrysalis.cs" />
+    <Compile Include="Rituals\Obligations\RitualObligationTargetWorker_HiveSpot.cs" />
+    <Compile Include="Rituals\Obligations\RitualObligationTrigger_CanAdvanceQueen.cs" />
+    <Compile Include="Rituals\Obligations\RitualObligationTrigger_CanMatureQueen.cs" />
+    <Compile Include="Rituals\Outcomes\RitualOutcomeEffectWorker_AdvanceQueen.cs" />
+    <Compile Include="Rituals\Outcomes\RitualOutcomeEffectWorker_MatureQueen.cs" />
+    <Compile Include="Rituals\Roles\RitualRoleQueen.cs" />
+    <Compile Include="Rituals\Roles\RitualRoleXenomorph.cs" />
+    <Compile Include="Rituals\StageActions\RitualStageAction_Metamorphosis.cs" />
+    <Compile Include="Rituals\StageActions\RitualStageAction_OpenChrysalis.cs" />
+    <Compile Include="Rituals\Targets\RitualTargetFilter_AdvanceQueen.cs" />
+    <Compile Include="Rituals\Targets\RitualTargetFilter_MatureQueen.cs" />
+    <Compile Include="Settings\XMTSettings.cs" />
+    <Compile Include="Things\MutagenGooFilth.cs" />
+    <Compile Include="Things\XMTGenePack.cs" />
+    <Compile Include="Building\HibernationCocoon.cs" />
+    <Compile Include="Building\Horrors\MeatballLarder.cs" />
+    <Compile Include="Building\NestSpot.cs" />
+    <Compile Include="Building\CocoonBase.cs" />
+    <Compile Include="Building\Reproduction\Ovamorph.cs" />
+    <Compile Include="Building\PassableRoomborder.cs" />
+    <Compile Include="Comps\BuildingComps\CompAtmosphericPylon.cs" />
+    <Compile Include="Comps\BuildingComps\CompChanceSpawnOnDestroy.cs" />
+    <Compile Include="Comps\BuildingComps\CompInfiltrationPoint.cs" />
+    <Compile Include="Comps\BuildingComps\Horrors\CompMeatBall.cs" />
+    <Compile Include="Comps\ThingCompHorror\CompAcidBlood.cs" />
+    <Compile Include="Comps\BuildingComps\CompHatchingEgg.cs" />
+    <Compile Include="Comps\HediffComps\Reproduction\HediffComp_HorrorPregnant.cs" />
+    <Compile Include="Comps\PawnComps\CompJellyMaker.cs" />
+    <Compile Include="Comps\PawnComps\CompMatureMorph.cs" />
+    <Compile Include="Comps\PawnComps\CompPawnInfo.cs" />
+    <Compile Include="Comps\PawnComps\CompPerfectOrganism.cs" />
+    <Compile Include="Comps\BuildingComps\CompReplacerBuilding.cs" />
+    <Compile Include="Comps\BuildingComps\CompSpawnOnDestroy.cs" />
+    <Compile Include="Comps\BuildingComps\CompSpreadTerrain.cs" />
+    <Compile Include="Comps\PawnComps\CompStealth.cs" />
+    <Compile Include="DefOfs\ExternalDefOf.cs" />
+    <Compile Include="DefOfs\HorrorMoodDefOf.cs" />
+    <Compile Include="DefOfs\InternalDefOf.cs" />
+    <Compile Include="Comps\PawnComps\CompLarvalGenes.cs" />
+    <Compile Include="DefOfs\XenoGeneDefOf.cs" />
+    <Compile Include="DefOfs\XenoWorkDefOf.cs" />
+    <Compile Include="Genes\ChemfuelGene.cs" />
+    <Compile Include="Genes\ThrumkinGene.cs" />
+    <Compile Include="Genes\UnknownGene.cs" />
+    <Compile Include="Genes\XenomorphGene.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_BuildingMorphing.cs" />
+    <Compile Include="Comps\HediffComps\HediffComp_Corrosive.cs" />
+    <Compile Include="Comps\HediffComps\Reproduction\HediffComp_MatureToAdult.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_CureOnMaxSeverity.cs" />
+    <Compile Include="Comps\HediffComps\Reproduction\HediffComp_EmbryoPregnancy.cs" />
+    <Compile Include="Comps\HediffComps\Reproduction\HediffComp_LarvalAttachment.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_RemoveOnCarryStatus.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_RemoveOnFactionStatus.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_RemoveOnXenomorph.cs" />
+    <Compile Include="Comps\HediffComps\HediffComp_Spreading.cs" />
+    <Compile Include="Comps\HediffComps\Reproduction\HediffComp_SurgeryInspectableEmbryo.cs" />
+    <Compile Include="Harmony\XMTBuildingPatches.cs" />
+    <Compile Include="Harmony\XMTHealthPatches.cs" />
+    <Compile Include="Harmony\XMTInteractionPatches.cs" />
+    <Compile Include="Harmony\XMTPosturePatches.cs" />
+    <Compile Include="Harmony\XMTThoughtPatch.cs" />
+    <Compile Include="Harmony\XMTUIPatches.cs" />
+    <Compile Include="Map\HiveMapComponent.cs" />
+    <Compile Include="Map\HiveUtility.cs" />
+    <Compile Include="Map\InfiltrationUtility.cs" />
+    <Compile Include="ModExtensions\AnimalHostGenes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Things\AcidBurnFilth.cs" />
+    <Compile Include="Things\StarbeastCorpse.cs" />
+    <Compile Include="UI\Designators\Designator_Abduct.cs" />
+    <Compile Include="UI\Designators\Designator_ScentFoe.cs" />
+    <Compile Include="UI\Designators\Designator_ScentFriend.cs" />
+    <Compile Include="UI\Designators\Designator_Hive_Cancel.cs" />
+    <Compile Include="UI\Gizmos\Command_Evolution.cs" />
+    <Compile Include="UI\Letters\ChoiceLetter_XenoGameEnded.cs" />
+    <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
+    <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
+    <Compile Include="WorldHorror\XenoformingUtility.cs" />
+    <Compile Include="XMT.cs" />
+    <Compile Include="Settings\XMTMod.cs" />
+    <Compile Include="XMTUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Abilities\Psycasting\Paths\" />
+    <Folder Include="AI\Toils\" />
+    <Folder Include="Incidents\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

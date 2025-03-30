@@ -1,0 +1,324 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<rjw.HediffDef_SexPart Name="XMT_PrivatePartBase" Abstract="True">
+		<defaultBodyPartList>
+			<!--
+			<li>Head</li>
+			<li>Genitals</li>
+			<li>Chest</li>
+			<li>Anus</li>
+			-->
+		</defaultBodyPartList>
+		<!-- <everVisible>true</everVisible> -->
+		<isBad>false</isBad>
+		<comps>
+			<li Class="rjw.HediffCompProperties_SexPart" />
+		</comps>
+		<priceImpact>false</priceImpact>
+		<allowMothballIfLowPriorityWorldPawn>true</allowMothballIfLowPriorityWorldPawn>
+	</rjw.HediffDef_SexPart>
+
+	<!-- natural parts (purist love) -->
+	<rjw.HediffDef_SexPart ParentName="XMT_PrivatePartBase" Name="BiotechPrivatePartBase" Abstract="True">
+		<hediffClass>rjw.Hediff_NaturalSexPart</hediffClass>
+		<defaultLabelColor>(0.5, 0.8, 0.5)</defaultLabelColor>
+		<comps>
+			<li Class="rjw.HediffCompProperties_GrowsWithOwner" />
+		</comps>
+		<addedPartProps>
+			<solid>false</solid>
+			<partEfficiency>1.0</partEfficiency>
+		</addedPartProps>
+		<!-- Not currently used by base game-->
+		<organicAddedBodypart>true</organicAddedBodypart>
+	</rjw.HediffDef_SexPart>
+	
+	<!-- biomech Genitals -->
+	<rjw.HediffDef_SexPart ParentName="BiotechPrivatePartBase">
+		<defName>XMT_Spur</defName>
+		<fluid>XMT_Cum</fluid>
+		<label>spur</label>
+		<labelNoun>a spur</labelNoun>
+		<description>A extendable spur slick with resin.</description>
+		<descriptionHyperlinks><ThingDef>Penis</ThingDef></descriptionHyperlinks>
+		<spawnThingOnRemoved>Penis</spawnThingOnRemoved>
+		<produceFluidOnOrgasm>true</produceFluidOnOrgasm>
+		<defaultBodyPart>Genitals</defaultBodyPart>
+		<sizeProfile>DefaultPenisSizes</sizeProfile>
+		<stages>
+			<li>
+				<label>Micro</label>
+				<minSeverity>0.01</minSeverity>
+			</li>
+			<li>
+				<label>Small</label>
+				<minSeverity>0.20</minSeverity>
+			</li>
+			<li>
+				<label>Average</label>
+				<minSeverity>0.40</minSeverity>
+			</li>
+			<li>
+				<label>Large</label>
+				<minSeverity>0.60</minSeverity>
+
+			</li>
+			<li>
+				<label>Huge</label>
+				<minSeverity>0.80</minSeverity>
+
+			</li>
+			<!-- Humanlikes should generally spawn with severity between 0 and 1. The higher sizes are for
+			growth or ultra endowed races. -->
+			<li>
+				<label>Towering</label>
+				<minSeverity>1.01</minSeverity>
+
+			</li>
+		</stages>
+		<genitalFamily>Penis</genitalFamily>
+		<genitalTags>
+			<li>CanPenetrate</li>
+			<li>CanFertilize</li>
+		</genitalTags>
+	</rjw.HediffDef_SexPart>
+	
+	<rjw.HediffDef_SexPart ParentName="BiotechPrivatePartBase">
+		<defName>XMT_Vagina</defName>
+		<fluid>XMT_Cum</fluid>
+		<label>vagina</label>
+		<labelNoun>a vagina</labelNoun>
+		<description>A vagina with three petal like folds which can flex to open, close and grip.</description>
+		<descriptionHyperlinks><ThingDef>Vagina</ThingDef></descriptionHyperlinks>
+		<spawnThingOnRemoved>Vagina</spawnThingOnRemoved>
+		<produceFluidOnOrgasm>true</produceFluidOnOrgasm>
+		<fluidMultiplier>0.5</fluidMultiplier>
+		<defaultBodyPart>Genitals</defaultBodyPart>
+		<sizeProfile>DefaultVaginaSizes</sizeProfile>
+		<stages>
+			<li>
+				<label>Micro</label>
+				<minSeverity>0.01</minSeverity>
+			</li>
+			<li>
+				<label>Tight</label>
+				<minSeverity>0.20</minSeverity>
+			</li>
+			<li>
+				<label>Average</label>
+				<minSeverity>0.40</minSeverity>
+			</li>
+			<li>
+				<label>Accommodating</label>
+				<minSeverity>0.60</minSeverity>
+			</li>
+			<li>
+				<label>Cavernous</label>
+				<minSeverity>0.80</minSeverity>
+			</li>
+			<li>
+				<label>Abyssal</label>
+				<minSeverity>1.01</minSeverity>
+			</li>
+		</stages>
+		<genitalFamily>Vagina</genitalFamily>
+		<genitalTags>
+			<li>CanBePenetrated</li>
+			<li>CanBeFertilized</li>
+		</genitalTags>
+	</rjw.HediffDef_SexPart>
+	
+	<!-- Biotech anuses -->
+	<rjw.HediffDef_SexPart ParentName="BiotechPrivatePartBase">
+		<defName>XMT_Anus</defName>
+		<fluid>XMT_Cum</fluid>
+		<label>vent</label>
+		<labelNoun>an vent</labelNoun>
+		<description>A vent.</description>
+		<produceFluidOnOrgasm>true</produceFluidOnOrgasm>
+		<descriptionHyperlinks><ThingDef>Anus</ThingDef></descriptionHyperlinks>
+		<spawnThingOnRemoved>Anus</spawnThingOnRemoved>
+		<defaultBodyPart>Anus</defaultBodyPart>
+		<sizeProfile>DefaultAnusSizes</sizeProfile>
+		<stages>
+			<li>
+				<label>Micro</label>
+				<minSeverity>0.01</minSeverity>
+			</li>
+			<li>
+				<label>Tight</label>
+				<minSeverity>0.20</minSeverity>
+			</li>
+			<li>
+				<label>Average</label>
+				<minSeverity>0.40</minSeverity>
+			</li>
+			<li>
+				<label>Accommodating</label>
+				<minSeverity>0.60</minSeverity>
+			</li>
+			<li>
+				<label>Cavernous</label>
+				<minSeverity>0.80</minSeverity>
+			</li>
+			<li>
+				<label>Abyssal</label>
+				<minSeverity>1.01</minSeverity>
+			</li>
+		</stages>
+		<genitalFamily>Anus</genitalFamily>
+		<genitalTags Inherit="false">
+			<li>CanBePenetrated</li>
+		</genitalTags>
+	</rjw.HediffDef_SexPart>
+	
+	<!-- Biotech Breasts -->
+	<rjw.HediffDef_SexPart ParentName="BiotechPrivatePartBase">
+		<defName>XMT_Breasts</defName>
+		<fluid>XMT_Cum</fluid>
+		<label>breasts</label>
+		<labelNoun>a pair of breasts</labelNoun>
+		<description>A pair of breasts.</description>
+		<produceFluidOnOrgasm>true</produceFluidOnOrgasm>
+		<descriptionHyperlinks><ThingDef>Breasts</ThingDef></descriptionHyperlinks>
+		<spawnThingOnRemoved>Breasts</spawnThingOnRemoved>
+		<defaultBodyPart>Chest</defaultBodyPart>
+		<sizeProfile>DefaultBreastSizes</sizeProfile>
+		<stages>
+			<li>
+				<!-- Male breast stage-->
+				<label>Nipples</label>
+				<minSeverity>0.01</minSeverity>
+			</li>
+			<li>
+				<label>Tiny</label>
+				<minSeverity>0.02</minSeverity>
+			</li>
+			<li>
+				<label>Small</label>
+				<minSeverity>0.20</minSeverity>
+			</li>
+			<li>
+				<label>Average</label>
+				<minSeverity>0.40</minSeverity>
+			</li>
+			<li>
+				<label>Large</label>
+				<minSeverity>0.60</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.01</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>Huge</label>
+				<minSeverity>0.80</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.02</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.01</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>Enormous</label>
+				<minSeverity>1.00</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.03</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.02</offset>
+					</li>
+				</capMods>
+			</li>
+			<!-- Humanlikes should generally spawn with severity between 0 and 1. The higher sizes are for
+			growth or ultra endowed races. -->
+			<li>
+				<label>Massive</label>
+				<minSeverity>1.2</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.04</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.03</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>Gargantuan</label>
+				<minSeverity>1.4</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.05</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.04</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>Colossal</label>
+				<minSeverity>1.6</minSeverity>
+				<!-- Norma Stitz is obviously not crippled, but she's not winning any races either. -->
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.06</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.05</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>Titanic</label>
+				<minSeverity>1.8</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.07</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.06</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<label>Astronomical</label>
+				<minSeverity>2.0</minSeverity>
+				<capMods>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>-0.08</offset>
+					</li>
+					<li>
+						<capacity>Manipulation</capacity>
+						<offset>-0.07</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+		<genitalFamily>Breasts</genitalFamily>
+		<genitalTags>
+			<li>CanLactate</li>
+			<li>CanBePenetrated</li>
+		</genitalTags>
+	</rjw.HediffDef_SexPart>
+</Defs>

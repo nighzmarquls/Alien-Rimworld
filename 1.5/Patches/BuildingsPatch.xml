@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="ShipChunk"]/comps</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="ShipChunk"]</xpath>
+			<value>
+				<comps />
+			</value>
+		</nomatch>
+	</Operation>
+  
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="ShipChunk"]/comps
+		</xpath>
+		<value>
+			<li Class="Xenomorphtype.CompChanceSpawnOnDestroyProperties">
+				<thingSpawns>
+					<li>
+						<probability>0.25</probability>
+						<spawnThing>XMT_Ovamorph</spawnThing>
+					</li>
+				</thingSpawns>
+			</li>
+		</value>
+	</Operation>
+	
+</Patch>

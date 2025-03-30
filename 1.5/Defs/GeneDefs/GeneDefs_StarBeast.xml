@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_KillThirst</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>kill thirst</label>
+		<labelShortAdj>kill-thirsty</labelShortAdj>
+		<description>Carriers of this gene lust for the feeling of ending another's life. They will become irritated if they go for too long without killing someone in close combat.</description>
+		<displayCategory>Violence</displayCategory>
+		<displayOrderInCategory>60</displayOrderInCategory>
+		<iconPath>UI/GeneIcons/XMT_Gene_Killthirst</iconPath>
+		<causesNeed>KillThirst</causesNeed>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-2</biostatMet>
+		<minAgeActive>0</minAgeActive>
+		<exclusionTags>
+			<li>KillThirst</li>
+		</exclusionTags>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>murder</symbol></li>
+				<li><symbol>death</symbol></li>
+				<li><symbol>kill</symbol></li>
+				<li><symbol>slay</symbol></li>
+				<li><symbol>rage</symbol></li>
+				<li><symbol>hate</symbol></li>
+				<li><symbol>snuff</symbol></li>
+			</prefixSymbols>
+			<suffixSymbols>
+				<li><symbol>vore</symbol></li>
+				<li><symbol>killer</symbol></li>
+				<li><symbol>slayer</symbol></li>
+			</suffixSymbols>
+		</symbolPack>
+	</GeneDef>
+	
+	<GeneDef>
+		<defName>XMT_Metabolism</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>efficient metabolism</label>
+		<labelShortAdj>archite-metabolic</labelShortAdj>
+		<description>Carriers of this gene have an incredibly optimized metabolism.</description>
+		<iconPath>UI/Icons/Genes/Gene_ArchiteMetabolism</iconPath>
+		<displayCategory>Archite</displayCategory>
+		<marketValueFactor>1.5</marketValueFactor>
+		<biostatCpx>6</biostatCpx>
+		<biostatMet>8</biostatMet>
+		<biostatArc>2</biostatArc>
+	</GeneDef>
+
+</Defs>

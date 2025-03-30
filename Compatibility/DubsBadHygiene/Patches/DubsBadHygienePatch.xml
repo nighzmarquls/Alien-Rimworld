@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[
+		defName="sewagePipeStuff" or
+		defName="PitLatrine" or
+		defName="BasinStuff" or
+		defName="KitchenSink" or
+		defName="ToiletStuff" or
+		defName="BathtubStuff" or
+		defName="WaterTowerS" or
+		defName="WaterTowerL" or
+		defName="SewageOutlet" or
+		defName="SewageTreatment" or
+		defName="SewageSepticTank" or
+		defName="WaterTrough" or
+		defName="DBHSwimmingPool" or
+		defName="HotTub"
+		]/comps
+		</xpath>
+		<value>
+			<li Class="Xenomorphtype.CompInfiltrationPointProperties">
+			</li>
+		</value>
+	</Operation>
+	
+	<!--
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[@ParentName="BasedFixture"]/comps</xpath>
+		<value>
+			<li Class="Xenomorphtype.CompInfiltrationPointProperties">
+			</li>
+		</value>
+	</Operation>
+	-->
+	
+</Patch>

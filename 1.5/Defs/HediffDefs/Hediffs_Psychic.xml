@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef MayRequire="Ludeon.RimWorld.Royalty" ParentName = "PsycastHediffBase">
+    <defName>XMT_Hivefocus</defName>
+    <label>psychic focus</label>
+    <description>Psychically-induced mental focus, increasing sight, hearing and movement capacities.</description>
+    <isBad>false</isBad>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Sight</capacity>
+            <postFactor>1.3</postFactor>
+          </li>
+          <li>
+            <capacity>Hearing</capacity>
+            <postFactor>1.3</postFactor>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <postFactor>1.3</postFactor>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

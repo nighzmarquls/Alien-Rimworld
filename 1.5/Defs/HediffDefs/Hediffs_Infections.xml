@@ -1,0 +1,637 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef Name="XenomorphtypeBase" Abstract="True">
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.35, 0.9, 0.9)</defaultLabelColor>
+    <initialSeverity>0.001</initialSeverity>
+    <isInfection>true</isInfection>
+    <removeOnRedressChanceByDaysCurve>
+      <points>
+        <li>(0, 0)</li>
+        <li>(2, 0)</li>
+        <li>(7, 0.5)</li>
+        <li>(20, 1)</li>
+      </points>
+    </removeOnRedressChanceByDaysCurve>
+  </HediffDef>
+  
+  <HediffDef ParentName="InfectionBase">
+    <defName>XMT_Flu</defName>
+    <label>flu</label>
+    <description>An infectious disease possibly the influenza virus.</description>
+    <makesSickThought>true</makesSickThought>
+    <lethalSeverity>1</lethalSeverity>
+    <tendable>true</tendable>
+    <comps>
+      <li Class="HediffCompProperties_TendDuration">
+        <baseTendDurationHours>12</baseTendDurationHours>
+        <severityPerDayTended>-0.0773</severityPerDayTended>
+      </li>
+      <li Class="HediffCompProperties_Immunizable">
+        <severityPerDayNotImmune>0.2488</severityPerDayNotImmune>
+        <immunityPerDaySick>0.2388</immunityPerDaySick>
+        <severityPerDayImmune>-0.4947</severityPerDayImmune>
+        <immunityPerDayNotSick>-0.06</immunityPerDayNotSick>
+      </li>
+	  <li Class="Xenomorphtype.HediffCompProperties_Mutator">
+		<probability>0.1</probability>
+	  </li>
+    </comps>
+    <stages>
+      <li>
+        <label>minor</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.05</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.666</minSeverity>
+        <label>major</label>
+        <vomitMtbDays>1.5</vomitMtbDays>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.1</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+      <li>
+        <minSeverity>0.833</minSeverity>
+        <label>extreme</label>
+        <lifeThreatening>true</lifeThreatening>
+        <vomitMtbDays>0.75</vomitMtbDays>
+        <painOffset>0.05</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Manipulation</capacity>
+            <offset>-0.2</offset>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.2</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Embryo</defName>
+    <label>foreign tissue</label>
+    <description>A foreign growth on the organ.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+      <li>
+	    <label>benign</label>
+        <becomeVisible>false</becomeVisible>
+		<painOffset>0.01</painOffset>
+        <hungerRateFactorOffset>1</hungerRateFactorOffset>
+      </li>
+	  <li>
+		<label>uncomfortable</label>
+		<becomeVisible>false</becomeVisible>
+	    <minSeverity>0.01</minSeverity>
+		<painOffset>0.2</painOffset>
+        <hungerRateFactorOffset>2</hungerRateFactorOffset>
+      </li>
+	  <li>
+	    <label>obstructing</label>
+	    <minSeverity>0.75</minSeverity>
+		<becomeVisible>false</becomeVisible>
+		<painOffset>0.2</painOffset>
+		<capMods>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>-0.1</offset>
+          </li>
+        </capMods>
+        <hungerRateFactorOffset>1</hungerRateFactorOffset>
+      </li>
+	  <li>
+	    <label>convulsions</label>
+	    <becomeVisible>true</becomeVisible>
+	    <minSeverity>0.98</minSeverity>
+		<painOffset>4</painOffset>
+		<lifeThreatening>true</lifeThreatening>
+      </li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_EmbryoPregnancy">
+			<armMaturationRate>0.5</armMaturationRate>
+			<legMaturationRate>0.1</legMaturationRate>
+			<coreMaturationRate>1</coreMaturationRate>
+			<headMaturationRate>1</headMaturationRate>
+			<burstDamage>5</burstDamage>
+		    <severityPerDay>1</severityPerDay>
+		</li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Lardering</defName>
+    <label>swelling</label>
+    <description>Subject's body is swelling grotesquely.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>true</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>true</tendable>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+      <li>
+	    <label>initial</label>
+        <becomeVisible>false</becomeVisible>
+		<painOffset>0.1</painOffset>
+		<hungerRateFactorOffset>0.025</hungerRateFactorOffset>
+      </li>
+	  <li>
+		<label>manifesting</label>
+		<becomeVisible>true</becomeVisible>
+	    <minSeverity>0.25</minSeverity>
+		<painOffset>0.25</painOffset>
+		<hungerRateFactorOffset>1</hungerRateFactorOffset>
+      </li>
+	  <li>
+	    <label>saturating</label>
+		<becomeVisible>true</becomeVisible>
+	    <minSeverity>0.5</minSeverity>
+		<painOffset>0.75</painOffset>
+		<lifeThreatening>true</lifeThreatening>
+		<hungerRateFactorOffset>2</hungerRateFactorOffset>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+	  <li>
+	    <label>completing</label>
+	    <becomeVisible>true</becomeVisible>
+	    <minSeverity>0.75</minSeverity>
+		<painOffset>1</painOffset>
+		<lifeThreatening>true</lifeThreatening>
+		<hungerRateFactorOffset>-0.8</hungerRateFactorOffset>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Manipulation</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">
+			<MorphedBuilding>XMT_MeatballLarder</MorphedBuilding>
+			<SeverityPerDay>0.25</SeverityPerDay>
+			<DeathTriggerSeverity>0.25</DeathTriggerSeverity>
+			<forcedBodyType>Fat</forcedBodyType>
+		</li>
+		<li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>8</baseTendDurationHours>
+			<severityPerDayTended>-0.3</severityPerDayTended>
+		</li>
+    </comps>
+  </HediffDef>
+  
+   <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Ovamorphing</defName>
+    <label>metamorphosis</label>
+    <description>Subject's body is metamorphizing into something else.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>true</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>true</tendable>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+      <li>
+	    <label>initial</label>
+        <becomeVisible>false</becomeVisible>
+		<painOffset>0.1</painOffset>
+      </li>
+	  <li>
+		<label>manifesting</label>
+		<becomeVisible>true</becomeVisible>
+	    <minSeverity>0.25</minSeverity>
+		<painOffset>0.25</painOffset>
+      </li>
+	  <li>
+	    <label>saturating</label>
+		<becomeVisible>true</becomeVisible>
+	    <minSeverity>0.5</minSeverity>
+		<painOffset>0.75</painOffset>
+		<lifeThreatening>true</lifeThreatening>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+	  <li>
+	    <label>completing</label>
+	    <becomeVisible>true</becomeVisible>
+	    <minSeverity>0.75</minSeverity>
+		<painOffset>1</painOffset>
+		<lifeThreatening>true</lifeThreatening>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Manipulation</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">
+			<MorphedBuilding>XMT_Ovamorph</MorphedBuilding>
+			<SeverityPerDay>0.25</SeverityPerDay>
+			<DeathTriggerSeverity>0.75</DeathTriggerSeverity>
+		</li>
+		<li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>8</baseTendDurationHours>
+			<severityPerDayTended>-0.3</severityPerDayTended>
+		</li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_LarvalEmbrace</defName>
+    <label>parasitic attachment</label>
+    <description>A foreign organism has attached itself to the head.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>true</makesSickThought>
+    <makesAlert>true</makesAlert>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+	<tendable>true</tendable>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+		<li>
+        <minSeverity>0.0</minSeverity>
+        <label>strangling</label>
+        <lifeThreatening>true</lifeThreatening>
+		<painOffset>0.7</painOffset>
+        <capMods>
+		  <li>
+            <capacity>Talking</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Eating</capacity>
+            <setMax>0.0</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+             <offset>-0.75</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">0.25</DecompressionResistance>
+		</statOffsets>
+      </li>
+      <li>
+        <minSeverity>0.015</minSeverity>
+        <label>attached</label>
+        <lifeThreatening>true</lifeThreatening>
+        <capMods>
+		  <li>
+            <capacity>Talking</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Eating</capacity>
+            <setMax>0.0</setMax>
+          </li>
+
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <setMax>0.5</setMax>
+          </li>
+        </capMods>
+		<statOffsets>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">0.25</DecompressionResistance>
+		</statOffsets>
+      </li>
+	  <li>
+        <minSeverity>0.75</minSeverity>
+        <label>feeding oxygen</label>
+        <lifeThreatening>true</lifeThreatening>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <offset>1</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">0.25</DecompressionResistance>
+		</statOffsets>
+      </li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_LarvalAttachment">
+			<minimumTendToAvoidInjury>0.5</minimumTendToAvoidInjury>
+			<embryoHediff>XMT_Embryo</embryoHediff>
+			<severityPerDay>1</severityPerDay>
+		</li>
+		<li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>8</baseTendDurationHours>
+			<severityPerDayTended>0</severityPerDayTended>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+	<renderNodeProperties>
+      <li Class="PawnRenderNodeProperties">
+        <workerClass>PawnRenderNodeWorker_HediffEye</workerClass>
+        <texPath>Things/Pawn/Wounds/Larva</texPath>
+        <parentTagDef>Head</parentTagDef>
+        <drawSize>1</drawSize>
+        <drawData>
+          <defaultData>
+            <layer>56</layer>
+          </defaultData>
+          <dataWest>
+            <flip>true</flip>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_SmotheringEmbrace</defName>
+    <label>engulfed</label>
+    <description>A catslug has wrapped itself around the head of the victim.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>true</makesSickThought>
+    <makesAlert>true</makesAlert>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+	<tendable>true</tendable>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+		<li>
+        <minSeverity>0.0</minSeverity>
+        <label>strangling</label>
+        <lifeThreatening>true</lifeThreatening>
+		<painOffset>0.7</painOffset>
+        <capMods>
+		  <li>
+            <capacity>Talking</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Eating</capacity>
+            <setMax>0.0</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+             <offset>-0.75</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">0.25</DecompressionResistance>
+		</statOffsets>
+      </li>
+      <li>
+        <minSeverity>0.025</minSeverity>
+        <label>smothering</label>
+        <lifeThreatening>true</lifeThreatening>
+        <capMods>
+		  <li>
+            <capacity>Talking</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Eating</capacity>
+            <setMax>0.0</setMax>
+          </li>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+		<statOffsets>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">0.25</DecompressionResistance>
+		</statOffsets>
+      </li>
+	  <li>
+        <minSeverity>1.0</minSeverity>
+        <label>asphyxiated</label>
+        <lifeThreatening>true</lifeThreatening>
+        <capMods>
+		  <li>
+            <capacity>Talking</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Eating</capacity>
+            <setMax>0.0</setMax>
+          </li>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+          <li>
+            <capacity>Breathing</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+		<statOffsets>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">0.25</DecompressionResistance>
+		</statOffsets>
+      </li>
+    </stages>
+    <comps>
+		<li Class="HediffCompProperties_MessageAfterTicks">
+			<ticks>600</ticks>
+			<letterLabel>{0_labelShort} smothered</letterLabel>
+			<letterText>{0_labelShort} is being smothered to death!</letterText>
+			<letterType>HumanPregnancy</letterType>
+		</li>
+		<li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>4</severityPerDay>
+        </li>
+	    <li Class="Xenomorphtype.HediffCompProperties_PawnAttachement">
+			<tendQualityToRelease>0.75</tendQualityToRelease>
+		</li>
+		<li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>16</baseTendDurationHours>
+			<severityPerDayTended>0</severityPerDayTended>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+	<renderNodeProperties>
+      <li Class="PawnRenderNodeProperties">
+        <workerClass>PawnRenderNodeWorker_HediffEye</workerClass>
+        <texPath>Things/Pawn/Wounds/Smothered</texPath>
+        <parentTagDef>Head</parentTagDef>
+        <drawSize>0.8</drawSize>
+        <drawData>
+          <defaultData>
+            <layer>56</layer>
+          </defaultData>
+          <dataWest>
+            <flip>true</flip>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_TickInfestation</defName>
+    <label>flesh tick</label>
+    <description>a pale spidery creature has latched on and is draining blood.</description>
+    <makesSickThought>true</makesSickThought>
+    <makesAlert>true</makesAlert>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+	<tendable>true</tendable>
+	<hediffClass>Hediff_Injury</hediffClass>
+    <displayWound>true</displayWound>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+		<li>
+			<minSeverity>0.0</minSeverity>
+			<label>biting</label>
+			<lifeThreatening>false</lifeThreatening>
+			<painOffset>0.01</painOffset>
+		</li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_PawnAttachement">
+			<tendQualityToRelease>0.25</tendQualityToRelease>
+			<attackIfRemoved>false</attackIfRemoved>
+			<tendQualityToKill>0.75</tendQualityToKill>
+		</li>
+		<li Class="Xenomorphtype.HediffCompProperties_BloodDrainer">
+			<bloodLossPerHour>0.02</bloodLossPerHour>
+		</li>
+		<li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>4</baseTendDurationHours>
+			<severityPerDayTended>0</severityPerDayTended>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+		<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+			<probability>0.01</probability>
+		</li>
+		<li Class="HediffCompProperties_Infecter">
+			<infectionChance>0.15</infectionChance>
+		</li>
+    </comps>
+	<injuryProps>
+      <painPerSeverity>0.0</painPerSeverity>
+      <bleedRate>0.0</bleedRate>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Devoured</destroyedLabel>
+    </injuryProps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_UmbiInfestation</defName>
+    <label>parasitic fetus</label>
+    <description>an underdeveloped organism has insinuated its circulatory system into the host, leaving only a head exposed.</description>
+    <makesSickThought>true</makesSickThought>
+    <makesAlert>true</makesAlert>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+	<tendable>true</tendable>
+	<hediffClass>Hediff_Injury</hediffClass>
+    <displayWound>true</displayWound>
+    <initialSeverity>0.001</initialSeverity>
+    <stages>
+		<li>
+			<minSeverity>0.0</minSeverity>
+			<label>meshed</label>
+			<lifeThreatening>false</lifeThreatening>
+			<painOffset>0.1</painOffset>
+			<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+		</li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_PawnAttachement">
+			<tendQualityToRelease>0.8</tendQualityToRelease>
+			<attackIfRemoved>false</attackIfRemoved>
+			<tendQualityToKill>0.8</tendQualityToKill>
+		</li>
+		<li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>4</baseTendDurationHours>
+			<severityPerDayTended>0</severityPerDayTended>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+		<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+			<onlyOneMutation>true</onlyOneMutation>
+			<mutateHourInterval>10</mutateHourInterval>
+			<probability>0.5</probability>
+			<customMutationSet>XMT_UmbilicalSet</customMutationSet>
+		</li>
+    </comps>
+	<injuryProps>
+      <painPerSeverity>0.0</painPerSeverity>
+      <bleedRate>0.0</bleedRate>
+      <canMerge>false</canMerge>
+      <destroyedLabel>Drained</destroyedLabel>
+    </injuryProps>
+
+  </HediffDef>
+
+</Defs>
