@@ -4,7 +4,7 @@
 		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/alienRace/generalSettings/abilities</xpath>
 		<value>
 			<li>XMT_Adopt</li>
-			<!--<li>XMT_Hivesong</li>-->
+			<li>XMT_Hivesong</li>
 			<li>Beckon</li>
 			<li>Focus</li>
 			<li>Invisibility</li>
