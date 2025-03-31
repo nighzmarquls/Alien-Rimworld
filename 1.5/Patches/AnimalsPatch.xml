@@ -76,6 +76,18 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">AptitudeRemarkable_Plants</li>
 				</genes>
 			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
+						<pawnTransformationTarget></pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_RodentHorrorPregnant</horrorPregnancy>
+			</li>
 		</value>
 	</Operation>
 
@@ -113,6 +125,18 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Pain_Reduced</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Unstoppable</li>
 				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
+						<pawnTransformationTarget></pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_EquineHorrorPregnant</horrorPregnancy>
 			</li>
 		</value>
 	</Operation>
@@ -300,6 +324,18 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">ElongatedFingers</li>
 				</genes>
 			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
+						<pawnTransformationTarget></pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_RodentHorrorPregnant</horrorPregnancy>
+			</li>
 		</value>
 	</Operation>
 
@@ -383,7 +419,7 @@
 <!-- Cow Animals -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Cow" or defName="Bison" or defName="Elk" or defName="Yak" or defName="Gazelle" or defName="Caribou"]</xpath>
+		<xpath>Defs/ThingDef[defName="Cow" or defName="Bison" or defName="Yak"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -397,12 +433,48 @@
 <!-- Horse Animals -->
 
 	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="Elk" or defName="Gazelle" or defName="Caribou"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Headbone_MiniHorns</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
+						<pawnTransformationTarget></pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_EquineHorrorPregnant</horrorPregnancy>
+			</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Horse" or defName="Donkey"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
 				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
+						<pawnTransformationTarget></pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_EquineHorrorPregnant</horrorPregnancy>
 			</li>
 		</value>
 	</Operation>
@@ -440,7 +512,18 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
 				</genes>
 			</li>
-
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
+						<pawnTransformationTarget></pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_EquineHorrorPregnant</horrorPregnancy>
+			</li>
 		</value>
 	</Operation>
 	

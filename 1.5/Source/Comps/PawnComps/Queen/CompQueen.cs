@@ -182,7 +182,6 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _totalEvoPoints, "totalEvoPoints", 0);
             Scribe_Values.Look(ref _advancementForPsyLink, "advancementForPsyLink", 0);
             Scribe_Values.Look(ref _totalSpentEvoPoints, "totalSpentEvoPoints", 0);
-            XMTUtility.DeclareQueen(Parent);
         }
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {

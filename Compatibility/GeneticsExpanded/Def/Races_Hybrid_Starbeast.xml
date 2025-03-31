@@ -199,4 +199,24 @@
 			</li>
 		</modExtensions>
 	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Equine_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Equine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_EquineGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
 </Defs>
