@@ -13,7 +13,7 @@ namespace Xenomorphtype
         Pawn caster => parent.pawn;
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
-            if(!XMTUtility.IsXenomorph(parent.pawn))
+            if(!XMTUtility.IsXenomorph(caster))
             {
                 CompPawnInfo info = caster.GetComp<CompPawnInfo>();
                 if (info != null)

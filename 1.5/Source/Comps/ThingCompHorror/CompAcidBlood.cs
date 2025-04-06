@@ -288,7 +288,7 @@ namespace Xenomorphtype
             }
             else
             {
-                FilthMaker.TryMakeFilth(cell, parent.MapHeld, InternalDefOf.Starbeast_Filth_AcidBlood);
+                FilthMaker.TryMakeFilth(cell, parent.MapHeld, Props.acidFilth);
             }
 
         }
@@ -386,7 +386,7 @@ namespace Xenomorphtype
                         }
                         FleckMaker.ThrowSmoke(thing.DrawPos, thing.Map, 5);
                     }
-                    FilthMaker.TryMakeFilth(SplashCell, Parent.MapHeld, InternalDefOf.Starbeast_Filth_AcidBlood);
+                    FilthMaker.TryMakeFilth(SplashCell, Parent.MapHeld, Props.acidFilth);
                     return true;
                 }
             }
@@ -468,6 +468,7 @@ namespace Xenomorphtype
         public float damageToSeverity = 1f;
         public float bloodLossSeverity = 0.05f;
         public HediffDef appliedHediff;
+        public ThingDef  acidFilth = InternalDefOf.Starbeast_Filth_AcidBlood;
         public CompAcidBloodProperties()
         {
             this.compClass = typeof(CompAcidBlood);

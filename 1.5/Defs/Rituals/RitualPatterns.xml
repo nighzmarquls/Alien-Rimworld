@@ -2,29 +2,12 @@
 <Defs>
   <RitualPatternDef>
     <defName>XMT_QueenAscension</defName>
-    <ritualObligationTriggers>
-      <li Class="Xenomorphtype.RitualObligationTrigger_CanMatureQueenProperties">
-        <mustBePlayerIdeo>false</mustBePlayerIdeo>
-      </li>
-    </ritualObligationTriggers>
 	<ritualObligationTargetFilter>XMT_QueenAscension</ritualObligationTargetFilter>
     <ritualTargetFilter>XMT_QueenAscension</ritualTargetFilter>
     <ritualBehavior>XMT_QueenAscension</ritualBehavior>
     <ritualOnlyForIdeoMembers>false</ritualOnlyForIdeoMembers>
     <ritualOutcomeEffect>XMT_QueenAscension</ritualOutcomeEffect>
+	<alwaysStartAnytime>true</alwaysStartAnytime>
   </RitualPatternDef>
   
-  <RitualPatternDef>
-    <defName>XMT_QueenAdvancement</defName>
-    <ritualObligationTriggers>
-      <li Class="Xenomorphtype.RitualObligationTrigger_CanAdvanceQueenProperties">
-        <mustBePlayerIdeo>false</mustBePlayerIdeo>
-      </li>
-    </ritualObligationTriggers>
-	<ritualObligationTargetFilter>XMT_QueenAdvancement</ritualObligationTargetFilter>
-    <ritualTargetFilter>XMT_QueenAdvancement</ritualTargetFilter>
-    <ritualBehavior>XMT_QueenAdvancement</ritualBehavior>
-    <ritualOnlyForIdeoMembers>false</ritualOnlyForIdeoMembers>
-    <ritualOutcomeEffect>XMT_QueenAdvancement</ritualOutcomeEffect>
-  </RitualPatternDef>
 </Defs>

@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,37 +27,48 @@ namespace Xenomorphtype
         {
             float quality = GetQuality(jobRitual, progress);
             Pawn pawn = jobRitual.PawnWithRole("ascendant");
-
-            if(progress >= 1)
+            
+            if (progress >= 1)
             {
-                if (XMTUtility.TransformPawnIntoPawn(pawn, InternalDefOf.XMT_RoyaltyKind, out Pawn queen))
+                Pawn queen;
+                if (XMTUtility.IsQueen(pawn))
+                {
+                    queen = pawn;
+                   
+                }
+                else
+                {
+                    if (!XMTUtility.TransformPawnIntoPawn(pawn, InternalDefOf.XMT_RoyaltyKind, out queen))
+                    {
+                        Log.Error("Failed to Transform into Queen!");
+                        return;
+                    }
+                }
+
+                if (queen != null)
                 {
                     if (ModsConfig.RoyaltyActive)
                     {
                         FleckMaker.Static(queen.Position, queen.Map, FleckDefOf.PsycastAreaEffect, 10f);
                         SoundDefOf.PsycastPsychicPulse.PlayOneShot(new TargetInfo(queen));
                     }
-
                     queen.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
-
                     foreach (Pawn subject in queen.Map.mapPawns.AllHumanlikeSpawned)
                     {
-                        if(subject == queen)
+                        if (subject == queen)
                         {
                             continue;
                         }
                         bool IsXenomorph = XMTUtility.IsXenomorph(subject);
 
-                        if(ModsConfig.IdeologyActive)
+
+
+                        if (IsXenomorph)
                         {
-                            if(IsXenomorph)
+                            if (ModsConfig.IdeologyActive)
                             {
                                 subject.ideo.SetIdeo(queen.ideo.Ideo);
                             }
-                        }
-
-                        if(IsXenomorph)
-                        {
                             if (subject.Faction != queen.Faction)
                             {
                                 subject.SetFaction(queen.Faction);
@@ -65,15 +77,14 @@ namespace Xenomorphtype
                             {
                                 subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, queen);
                             }
-
                             subject.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
                             XMTUtility.GiveMemory(subject, HorrorMoodDefOf.XMT_CommuneWithQueen);
                         }
                     }
-                    string text = queen + " has finished her metamorphosis into a queen!";
+                    string text = queen + " has finished her advancement";
 
                     text = text + "\n\n" + OutcomeQualityBreakdownDesc(quality, progress, jobRitual);
-                    Find.LetterStack.ReceiveLetter("Ascension Complete!", text, LetterDefOf.RitualOutcomePositive, new LookTargets(queen, jobRitual.selectedTarget.Thing));
+                    Find.LetterStack.ReceiveLetter("Advancement Complete!", text, LetterDefOf.RitualOutcomePositive, new LookTargets(queen, jobRitual.selectedTarget.Thing));
                     CompQueen compQueen = queen.GetComp<CompQueen>();
                     if (compQueen != null)
                     {

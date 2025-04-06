@@ -324,4 +324,23 @@
 			</li>
 		</comps>
 	</HediffDef>
+	
+	<HediffDef ParentName="InfectionBase">
+		<defName>XMT_BovineHorrorPregnant</defName>
+		<label>pregnant</label>
+		<labelNoun>pregnancy</labelNoun>
+		<description>This creature is gestating offspring. It will give birth if the pregnancy comes to term. If starved or injured, there may be a miscarriage.</description>
+		<comps>
+			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
+				<babies>
+					<li>
+						<childKind>XMT_Bovine_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>1.0</probability>
+						<essenceMinimum>0.0</essenceMinimum>
+					</li>
+				</babies>
+			</li>
+		</comps>
+	</HediffDef>
 </Defs>

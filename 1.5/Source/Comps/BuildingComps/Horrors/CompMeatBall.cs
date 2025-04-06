@@ -215,9 +215,9 @@ namespace Xenomorphtype
             {
                 //Log.Message(parent + " Reached Hour Check " + interiorTemperature);
                 tickCountUp = 0;
-                NotFedThisHour = true;
                 if ( bodySize < 8f)
                 {
+                    NotFedThisHour = true;
                     IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(parent.Position, parent.def.specialDisplayRadius, true);
                     if (cells.Any())
                     {

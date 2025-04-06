@@ -40,7 +40,8 @@ namespace Xenomorphtype
                             }
                             if (Props.thingSpawned != null)
                             {
-                                GenSpawn.Spawn(Props.thingSpawned, Parent.PositionHeld, Parent.MapHeld);
+                                Thing spawnedThing = GenSpawn.Spawn(Props.thingSpawned, Parent.PositionHeld, Parent.MapHeld);
+                                spawnedThing.stackCount = Props.spawnStackCount;
                             }
                         }
                     }
@@ -66,6 +67,7 @@ namespace Xenomorphtype
         public ThingDef thingSpawned = null;
         public PawnKindDef pawnKindSpawned = null;
         public float spawnIntervalHours = 1;
+        public int   spawnStackCount = 1;
         public float foodCost = 0.25f;
         public CompSpawnerProperties()
         {

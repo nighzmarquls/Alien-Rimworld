@@ -16,17 +16,8 @@ namespace Xenomorphtype
 
         private void HumanAdoptHuman(Pawn subject, Pawn caster)
         {
-            float subjectSensitivity = subject.GetStatValue(StatDefOf.PsychicSensitivity);
-            float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
 
-            float cumulativeSensitvity = (casterSensitivity*subjectSensitivity)/2;
-
-            bool psychicTestPass = false;
-
-            if(Rand.Chance(cumulativeSensitvity))
-            {
-                psychicTestPass = true;
-            }
+            bool psychicTestPass = HivecastUtility.PsychicConnectionTest(subject, caster);
 
             if (psychicTestPass)
             {       
@@ -155,13 +146,10 @@ namespace Xenomorphtype
                             }
                             else
                             {
-                                float queenSensitivity = queen.GetStatValue(StatDefOf.PsychicSensitivity);
-                                float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
+                                
+                                bool failedPsycastCheck = HivecastUtility.PsychicChallengeTest(caster, queen);
 
-                                float difference = queenSensitivity - casterSensitivity;
-                                bool failedPsycastCheck = false;
-
-                                if (difference > casterSensitivity)
+                                if (failedPsycastCheck)
                                 {
                                     failedPsycastCheck = true;
                                     casterInfo.WitnessPsychicHorror(1f);

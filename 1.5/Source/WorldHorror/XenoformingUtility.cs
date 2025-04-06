@@ -15,7 +15,7 @@ namespace Xenomorphtype
 
         public static bool XenoformingMeets(float minXenoforming)
         {
-            return gameComponent.Xenoforming <= minXenoforming;
+            return gameComponent.Xenoforming >= minXenoforming;
         }
         public static void HandleXenoformingImpact(Pawn pawn)
         {
@@ -147,7 +147,7 @@ namespace Xenomorphtype
 
         internal static float ChanceByXenoforming(float chance)
         {
-            return chance + gameComponent.Xenoforming / 100;
+            return chance + (gameComponent.Xenoforming / 100);
         }
     }
 }

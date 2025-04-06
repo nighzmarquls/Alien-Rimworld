@@ -77,7 +77,7 @@ namespace Xenomorphtype
 
         public override AcceptanceReport CanDesignateThing(Thing t)
         {
-            if (t is Pawn pawn && base.Map.designationManager.DesignationOn(pawn, Designation) == null)
+            if (t is Pawn pawn)
             {
                 return true;
             }
@@ -116,13 +116,18 @@ namespace Xenomorphtype
             }
 
             List<Thing> thingList = c.GetThingList(base.Map);
-            for (int i = 0; i < thingList.Count; i++)
+            if (thingList != null)
             {
-                if (CanDesignateThing(thingList[i]).Accepted)
+                for (int i = 0; i < thingList.Count; i++)
                 {
-                    yield return (Pawn)thingList[i];
+                    if (CanDesignateThing(thingList[i]).Accepted)
+                    {
+                        yield return (Pawn)thingList[i];
+                    }
                 }
             }
+
+            yield break;
         }
     }
 }

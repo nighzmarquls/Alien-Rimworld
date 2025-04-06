@@ -122,5 +122,10 @@ namespace Xenomorphtype
             modifiedLoc.y = CurrentAltitude;
             base.DrawAt(modifiedLoc, flip);
         }
+
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+            return base.GetGizmos();
+        }
     }
 }

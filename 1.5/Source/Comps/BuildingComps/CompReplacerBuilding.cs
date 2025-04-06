@@ -26,7 +26,7 @@ namespace Xenomorphtype
                 parent.DeSpawn();
                 if (Props.replacedWith != null)
                 {
-                    Thing spawned = GenSpawn.Spawn(Props.replacedWith, position, map, WipeMode.Vanish);
+                    Thing spawned = GenSpawn.Spawn(Props.replacedWith, position, map, WipeMode.VanishOrMoveAside);
 
                     if (faction != null && spawned != null)
                     {

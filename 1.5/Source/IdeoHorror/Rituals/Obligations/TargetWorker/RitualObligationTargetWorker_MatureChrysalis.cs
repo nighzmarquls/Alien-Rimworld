@@ -25,10 +25,11 @@ namespace Xenomorphtype
         public override IEnumerable<TargetInfo> GetTargets(RitualObligation obligation, Map map)
         {
             IEnumerable<FillableChrysalis> candidates = map.listerBuildings.AllBuildingsColonistOfClass<FillableChrysalis>();
-            foreach(FillableChrysalis candidate in candidates)
+            foreach (FillableChrysalis candidate in candidates)
             {
                 if (candidate.Filled)
                 {
+                    Log.Message("Adding Target for Mature");
                     yield return candidate;
                 }
             }
@@ -36,8 +37,18 @@ namespace Xenomorphtype
 
         protected override RitualTargetUseReport CanUseTargetInternal(TargetInfo target, RitualObligation obligation)
         {
+      
+            if (XMTSettings.LogRituals)
+            {
+                Log.Message(target.Thing + " being checked for mature ritual.");
+            }
             FillableChrysalis targetChrysalis = target.Thing as FillableChrysalis;
             if (targetChrysalis == null)
+            {
+                return false;
+            }
+
+            if (!targetChrysalis.Filled)
             {
                 return false;
             }

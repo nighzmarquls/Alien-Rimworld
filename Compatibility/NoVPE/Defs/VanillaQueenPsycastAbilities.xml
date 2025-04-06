@@ -80,6 +80,44 @@
 		</comps>
 	</AbilityDef>
 	
+	<AbilityDef ParentName="PsycastBase">
+		<defName>XMT_Fascination</defName>
+		<label>fascinate</label>
+		<description>Psychically reach out to the targets to imprint the caster upon them. In the most heavily effected they will approach the caster.</description>
+		<level>3</level>
+		<iconPath>UI/Abilities/Beckon</iconPath>
+		<writeCombatLog>True</writeCombatLog>
+		<hotKey>Misc6</hotKey>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<statBases>
+			<Ability_EntropyGain>20</Ability_EntropyGain>
+			<Ability_PsyfocusCost>0.01</Ability_PsyfocusCost>
+			<Ability_Duration>8</Ability_Duration>
+			<Ability_EffectRadius>3.9</Ability_EffectRadius>
+		</statBases>
+		<verbProperties>
+			<warmupTime>0.25</warmupTime>
+			<range>19.9</range>
+			<targetParams>
+				<canTargetSelf>True</canTargetSelf>
+				<canTargetAnimals>True</canTargetAnimals>
+				<canTargetLocations>True</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class ="CompProperties_AbilityForceJob">
+				<compClass>Xenomorphtype.CompFascinationEffect</compClass>
+				<jobDef>GotoMindControlled</jobDef>
+				<destination>Caster</destination>
+				<durationMultiplier>PsychicSensitivity</durationMultiplier>
+				<psychic>True</psychic>
+			</li>
+			<li Class="CompProperties_AbilityFleckOnTarget">
+				<fleckDef>PsycastPsychicEffect</fleckDef>
+			</li>
+		</comps>
+	</AbilityDef>
+	
 	<!--
 	 <level>2</level>
     <iconPath>UI/Abilities/BlindingPulse</iconPath>

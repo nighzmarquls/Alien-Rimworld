@@ -274,7 +274,7 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
-                if (Parent.needs.mood.CurInstantLevelPercentage < 0.5f || Parent.needs.joy.CurInstantLevelPercentage < 0.25f)
+                if (Parent.needs.mood.CurLevelPercentage < 0.5f || Parent.needs.joy.CurLevelPercentage < 0.25f)
                 {
                     canMischiefTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
                     return true;
@@ -657,6 +657,12 @@ namespace Xenomorphtype
 
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
         {
+            if (dinfo != null)
+            {
+                Thing instigator = dinfo.Value.Instigator;
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Cryptobio_Killed, instigator.Named(HistoryEventArgsNames.Doer), Parent.Named(HistoryEventArgsNames.Victim)),true);
+            }
+
             base.Notify_Killed(prevMap, dinfo);
             XenoformingUtility.HandleMatureMorphDeath(Parent);
         }

@@ -33,7 +33,10 @@ namespace Xenomorphtype
                         if(Rand.Chance(XenoformingUtility.ChanceByXenoforming(XMTSettings.WildMorphHuntChance)))
                         {
                             IntVec3 loc2 = CellFinder.RandomClosewalkCellNear(loc, ___map, 2);
-
+                            if (XMTSettings.LogWorld)
+                            {
+                                Log.Message("spawning feral xenomorph ");
+                            }
                             GenSpawn.Spawn(PawnGenerator.GeneratePawn(InternalDefOf.XMT_FeralStarbeastKind), loc2, ___map);
                             __result = true;
                             return false;

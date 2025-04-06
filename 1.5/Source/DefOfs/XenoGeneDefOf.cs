@@ -13,7 +13,7 @@ namespace Xenomorphtype
     { 
         static XenoGeneDefOf()
         {
-            DefOfHelper.EnsureInitializedInCtor(typeof(InternalDefOf));
+            DefOfHelper.EnsureInitializedInCtor(typeof(XenoGeneDefOf));
         }
 
         // human xen biotech researchdefs

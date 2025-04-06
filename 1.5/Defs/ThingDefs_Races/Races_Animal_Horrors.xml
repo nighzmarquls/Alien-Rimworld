@@ -450,6 +450,7 @@
 					<splashRange>3</splashRange>
 					<cells>3</cells>
 					<damage>5</damage>
+					<acidFilth>Starbeast_Filth_Resin</acidFilth>
 				</li>
 		</comps>
 	</ThingDef>
@@ -1331,6 +1332,112 @@
 				<bodyGraphicData>
 					<texPath>Things/Pawn/Animal/Umbilical/umbilical</texPath>
 					<drawSize>0.5</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_StrangleMoss</defName>
+		<label>greasy wool</label>
+		<description>Soft, light and provides very good insulation, if only it was not so greasy... Wait is it moving?!</description>
+		<statBases>
+			<MoveSpeed>0.1</MoveSpeed>
+			<ComfyTemperatureMin>-55</ComfyTemperatureMin>
+			<ComfyTemperatureMax>45</ComfyTemperatureMax>
+			<FilthRate>16</FilthRate>
+			<MarketValue>270</MarketValue>
+			<LeatherAmount>100</LeatherAmount>
+			<MeatAmount>0</MeatAmount>
+		</statBases>
+		<tools>
+			<li>
+				<label>bite</label>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>1</power>
+				<cooldownTime>1</cooldownTime>
+				<linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+			</li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>ToxicBuildup</appliedHediff>
+				<splashRange>3</splashRange>
+				<cells>3</cells>
+				<damage>1</damage>
+				<acidFilth>Filth_AnimalFilth</acidFilth>
+			</li>
+			<li Class="Xenomorphtype.CompSpawnerProperties">
+				<thingSpawned>XMT_GreaseWool</thingSpawned>
+				<spawnIntervalHours>5</spawnIntervalHours>
+				<spawnStackCount>25</spawnStackCount>
+				<foodCost>0.01</foodCost>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Muffalo</thingHorrifiedByThis>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>true</hasGenders>
+			<body>Snake</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<wildness>1</wildness>
+			<baseBodySize>0.5</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeExpectancy>50</lifeExpectancy>
+			<manhunterOnTameFailChance>0.0</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>0.0</manhunterOnDamageChance>
+			<foodType>OmnivoreAnimal, OvivoreAnimal</foodType>
+			<trainability>None</trainability>
+			<nuzzleMtbHours>1</nuzzleMtbHours>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<leatherDef>XMT_GreaseWool</leatherDef>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+					<soundDeath>Pawn_Megascarab_Death</soundDeath>
+					<soundCall>Pawn_Megascarab_Call</soundCall>
+					<soundAngry>Pawn_Megascarab_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_StrangleMoss</defName>
+		<label>greasy wool</label>
+		<race>XMT_StrangleMoss</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/StrangleMoss/Moss</texPath>
+					<drawSize>1</drawSize>
 					<shadowData>
 						<volume>(0.8, 0.6, 0.6)</volume>
 						<offset>(0,0,-0.3)</offset>

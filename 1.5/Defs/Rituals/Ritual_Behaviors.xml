@@ -8,7 +8,7 @@
     <letterTitle>Metamorphic Ascension</letterTitle>
     <letterText>{ORGANIZER_labelShort} is metamorphizing into a royal caste.</letterText>
     <roles>
-      <li Class="Xenomorphtype.RitualRoleXenomorph">
+      <li Class="Xenomorphtype.RitualRoleQueen">
         <label>ascendant</label>
         <id>ascendant</id>
         <maxCount>1</maxCount>
@@ -36,41 +36,5 @@
       </li>
     </stages>
   </RitualBehaviorDef>
-  
-  <RitualBehaviorDef>
-    <defName>XMT_QueenAdvancement</defName>
-    <workerClass>Xenomorphtype.RitualBehaviorWorker_MatureQueen</workerClass>
-    <durationTicks>5000</durationTicks>
-    <letterTitle>Metamorphic Advancement</letterTitle>
-    <letterText>{ORGANIZER_labelShort} is advancing as a royal caste.</letterText>
-    <roles>
-      <li Class="Xenomorphtype.RitualRoleQueen">
-        <label>queen</label>
-        <id>queen</id>
-        <maxCount>1</maxCount>
-		<required>true</required>
-        <allowChild>false</allowChild>
-      </li>
-    </roles>
-    <stages>
-      <li Class="Xenomorphtype.RitualStageAction_Metamorphosis">
-        <defaultDuty>Spectate</defaultDuty>
-        <spectatorsRequired>false</spectatorsRequired>
-        <endTriggers>
-          <li Class="StageEndTrigger_DurationPercentage">
-            <percentage>1.0</percentage>
-          </li>
-        </endTriggers>
-        <roleBehaviors>
-          <li>
-            <roleId>queen</roleId>
-            <dutyDef>XMT_MetamorphIntoQueen</dutyDef>
-          </li>
-        </roleBehaviors>
-		<interruptedAction Class="Xenomorphtype.RitualStageAction_OpenChrysalis">
-        </interruptedAction>
-      </li>
-    </stages>
-  </RitualBehaviorDef>
-  
+
 </Defs>

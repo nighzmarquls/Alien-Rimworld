@@ -14,20 +14,19 @@ namespace Xenomorphtype
 
             if (XMTUtility.IsXenomorph(pawn) && baseApply)
             {
-                if (XMTSettings.LogRituals)
+                if (XMTUtility.QueenPresent())
                 {
-                    Log.Message(pawn + " is a xenomorph!");
-                }
-                if (XMTUtility.IsQueen(pawn))
-                {
-                    if (XMTSettings.LogRituals)
+                    if (XMTUtility.IsQueen(pawn))
                     {
-                        Log.Message(pawn + " is a queen!");
+                        return true;
                     }
+                    reason = "Not a queen.";
+                    return false;
+                }
+                else
+                {
                     return true;
                 }
-                reason = "Not a queen.";
-                return false;
             }
             else
             {

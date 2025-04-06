@@ -195,6 +195,11 @@ namespace Xenomorphtype
         {
             soundLanding?.PlayOneShot(new TargetInfo(base.Position, base.Map));
             FleckMaker.ThrowDustPuff(DestinationPos + Gen.RandomHorizontalVector(0.5f), base.Map, 2f);
+
+            if(!underground)
+            {
+               RoofCollapserImmediate.DropRoofInCells(base.Position, base.Map);
+            }
         }
 
         public override void Tick()

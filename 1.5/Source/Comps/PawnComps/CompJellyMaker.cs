@@ -1,6 +1,6 @@
 ﻿using RimWorld;
 using System;
-
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -43,20 +43,48 @@ namespace Xenomorphtype
             return false;
         }
 
+        public float GetNutritionFromThing(Thing ingredient, float efficiency = 1f)
+        {
+            float output = ingredient.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * ingredient.stackCount; ;
+            float ingredientMass = ingredient.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency * ingredient.stackCount; ;
+
+            Corpse corpse = ingredient as Corpse;
+            if (corpse != null)
+            {
+                output = 0;
+                if (corpse.GetRotStage() != RotStage.Dessicated)
+                {
+                    IEnumerable<Thing> products = corpse.ButcherProducts(parent as Pawn,efficiency);
+                    foreach (Thing product in products)
+                    {
+                        float nutrition = product.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * product.stackCount; ;
+                        if(nutrition <= 0)
+                        {
+                            output += (product.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency) * product.stackCount;
+                        }
+                        output += nutrition;
+                    }
+                }
+            }
+
+            if(output <= 0)
+            {
+                return ingredientMass;
+            }
+
+            return output;
+        }
+
         public int JellyFromThing(Thing ingredient, float efficiency = 1f)
         {
-            float totalIngredient = ingredient.stackCount;
 
-            float nutrition = ingredient.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency;
-            float ingredientMass = ingredient.GetStatValue(StatDefOf.Mass);
-
-            float nutritionByMass = ingredientMass * XMTSettings.JellyMassEfficiency;
+            float nutrition = GetNutritionFromThing(ingredient, efficiency);
 
             float jellyNutrition = Props.jellyProduct.GetStatValueAbstract(StatDefOf.Nutrition);
 
-            float jellyValue = nutrition > 0 ? nutrition / jellyNutrition : nutritionByMass / jellyNutrition;
+            float jellyValue = nutrition / jellyNutrition;
 
-            return Mathf.CeilToInt(totalIngredient * jellyValue * efficiency * Props.conversionRate);
+            return Mathf.CeilToInt( jellyValue * efficiency * Props.conversionRate);
         }
         public void ConvertToJelly(Thing ingredient, float efficiency = 1f)
         {

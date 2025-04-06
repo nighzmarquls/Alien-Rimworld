@@ -62,6 +62,18 @@
 					<li>XMT_Muffalo_Ruff</li>
 				</genes>
 			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_StrangleMoss</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_StrangleMoss</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_BovineHorrorPregnant</horrorPregnancy>
+			</li>
 		</value>
 	</Operation>
 
@@ -427,6 +439,18 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
 				</genes>
 			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_StrangleMoss</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_StrangleMoss</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_BovineHorrorPregnant</horrorPregnancy>
+			</li>
 		</value>
 	</Operation>
 	
@@ -579,6 +603,18 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Headbone_MiniHorns</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Hands_Pig</li>
 				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_StrangleMoss</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_StrangleMoss</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_BovineHorrorPregnant</horrorPregnancy>
 			</li>
 		</value>
 	</Operation>

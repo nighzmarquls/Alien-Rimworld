@@ -6,18 +6,9 @@
     <workerClass>Xenomorphtype.RitualTargetFilter_MatureQueen</workerClass>
   </RitualTargetFilterDef>
   
-  <RitualTargetFilterDef>
-    <defName>XMT_QueenAdvancement</defName>
-    <workerClass>Xenomorphtype.RitualTargetFilter_AdvanceQueen</workerClass>
-  </RitualTargetFilterDef>
-  
   <RitualObligationTargetFilterDef>
     <defName>XMT_QueenAscension</defName>
     <workerClass>Xenomorphtype.RitualObligationTargetWorker_MatureChrysalis</workerClass>
   </RitualObligationTargetFilterDef>
   
-   <RitualObligationTargetFilterDef>
-    <defName>XMT_QueenAdvancement</defName>
-    <workerClass>Xenomorphtype.RitualObligationTargetWorker_MatureChrysalis</workerClass>
-  </RitualObligationTargetFilterDef>
 </Defs>

@@ -247,7 +247,7 @@
 			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
 			<foodType>OmnivoreHuman</foodType>
 			<wildness>0.9</wildness>
-			<baseHungerRate>0.25</baseHungerRate>
+			<baseHungerRate>0.01</baseHungerRate>
 			<manhunterOnTameFailChance>0.9</manhunterOnTameFailChance>
 			<manhunterOnDamageChance>1</manhunterOnDamageChance>
 			<predator>false</predator>
@@ -679,6 +679,12 @@
 				
 				<whiteBuildingList>
 					<li MayRequire="Ludeon.RimWorld.Ideology">SculptureTerror</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialBasicHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialSorneHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialNuchadusHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialChelisHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialKemianHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialXanidesHive</li>
 					<li>SculptureGrand</li>
 					<li>SculptureLarge</li>
 					<li>SculptureSmall</li>
@@ -687,6 +693,7 @@
 					<li>XMT_GeneOvamorph</li>
 					<li>XMT_MeatballLarder</li>
 					<li>XMT_HibernationCocoon</li>
+					
 				</whiteBuildingList>
 				
 				<!-- Xenomorph Recipes -->
@@ -1628,7 +1635,7 @@
 			</relationSettings>
 			<raceRestriction>
 				<buildingList>
-				  <li>XMT_QueenSleepingSpot</li>
+					<li>XMT_QueenSleepingSpot</li>
 				</buildingList>
 				<blackGeneList>
 					<li MayRequire="Ludeon.RimWorld.Biotech">PsychicAbility_Deaf</li>

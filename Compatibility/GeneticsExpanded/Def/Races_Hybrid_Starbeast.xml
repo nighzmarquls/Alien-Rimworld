@@ -219,4 +219,24 @@
 			</li>
 		</modExtensions>
 	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Bovine_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Bovine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Mass_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_MuffaloGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastBaseGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
 </Defs>

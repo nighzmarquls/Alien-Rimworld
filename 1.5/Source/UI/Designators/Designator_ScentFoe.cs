@@ -79,7 +79,7 @@ namespace Xenomorphtype
 
         public override AcceptanceReport CanDesignateThing(Thing t)
         {
-            if (t is Pawn pawn && base.Map.designationManager.DesignationOn(pawn, Designation) == null)
+            if (t is Pawn pawn)
             {
                 return true;
             }

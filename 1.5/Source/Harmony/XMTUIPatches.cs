@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using VFECore;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
@@ -197,32 +198,32 @@ namespace Xenomorphtype
 
             private static void CellOptions(Pawn pawn, IntVec3 cell, ref List<FloatMenuOption> __result)
             {
-                TargetingParameters HibernateParameters = TargetingParameters.ForCell();
-
-                
-                FloatMenuOption HibernateOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hibernate", delegate
+                if (pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly))
                 {
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHibernate, cell);
-                    pawn.jobs.StartJob(job, JobCondition.InterruptForced);
+                    TargetingParameters HibernateParameters = TargetingParameters.ForCell();
 
-                }, priority: MenuOptionPriority.Default), pawn, cell);
+                    FloatMenuOption HibernateOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hibernate", delegate
+                    {
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHibernate, cell);
+                        pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
-                __result.Add(HibernateOption);
+                    }, priority: MenuOptionPriority.Default), pawn, cell);
 
-                TargetingParameters HideParameters = TargetingParameters.ForCell();
+                    __result.Add(HibernateOption);
 
-                FloatMenuOption HideOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hide Inside", delegate
-                {
-                    
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHideInSpot, cell);
-                    pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-                   
+                    TargetingParameters HideParameters = TargetingParameters.ForCell();
 
-                }, priority: MenuOptionPriority.Default), pawn, cell);
+                    FloatMenuOption HideOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hide Inside", delegate
+                    {
 
-                __result.Add(HideOption);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHideInSpot, cell);
+                        pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
-                TargetingParameters ClimbParameters = TargetingParameters.ForCell();
+
+                    }, priority: MenuOptionPriority.Default), pawn, cell);
+
+                    __result.Add(HideOption);
+                }
 
                 if (!cell.Fogged(pawn.Map))
                 {
@@ -273,7 +274,7 @@ namespace Xenomorphtype
                     ItemOptions(pawn, targetItem, ref __result);
                 }
 
-                if(cell.Standable(pawn.Map) && pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly) && targetBuilding == null && targetPawn == null && targetItem == null)
+                if(cell.Standable(pawn.Map) && targetBuilding == null && targetPawn == null && targetItem == null)
                 { 
                     CellOptions(pawn,cell, ref __result);
                 }

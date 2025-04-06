@@ -774,13 +774,23 @@ namespace Xenomorphtype
             return rooms;
         }
 
-        internal static bool IsCellClimbAccessible(IntVec3 finalGoalCell, Map map)
+        internal static bool IsCellClimbAccessible(IntVec3 finalGoalCell, Map map, out IntVec3 openCell)
         {
+            openCell = IntVec3.Invalid;
             Room room = finalGoalCell.GetRoom(map);
             if (room != null)
             {
-                if(room.OpenRoofCount <= 0)
+                if(room.OpenRoofCount < room.CellCount)
                 {
+                    foreach (IntVec3 cell in room.Cells)
+                    {
+                        if (cell.GetRoof(map) != RoofDefOf.RoofRockThick && cell.Standable(map))
+                        {
+                            openCell = cell;
+                            return true;
+                        }
+                    }
+
                     return false;
                 }
             }

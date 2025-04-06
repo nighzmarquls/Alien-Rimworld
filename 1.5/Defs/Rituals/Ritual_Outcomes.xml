@@ -21,26 +21,5 @@
       </li>
     </comps>
   </RitualOutcomeEffectDef>
-  
-  <RitualOutcomeEffectDef>
-    <defName>XMT_QueenAdvancement</defName>
-    <workerClass>Xenomorphtype.RitualOutcomeEffectWorker_AdvanceQueen</workerClass>
-    <warnOnLowQuality>false</warnOnLowQuality>
-    <givesDevelopmentPoints>false</givesDevelopmentPoints>
-    <comps>
-      <li Class="RitualOutcomeComp_ParticipantCount">
-        <label>participant count</label>
-        <curve>
-          <points>
-            <li>(1, 0.2)</li>
-            <li>(2, 0.4)</li>
-            <li>(4, 0.6)</li>
-            <li>(6, 0.8)</li>
-            <li>(8, 1)</li>
-          </points>
-        </curve>
-      </li>
-    </comps>
-  </RitualOutcomeEffectDef>
-  
+
 </Defs>

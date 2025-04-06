@@ -47,8 +47,8 @@ namespace Xenomorphtype
                 if (InfiltrationUtility.IsCellTrapped(FinalGoalCell, pawn.Map))
                 {
                     NoWallToClimb = false;
-
-                    if (InfiltrationUtility.IsCellClimbAccessible(FinalGoalCell, pawn.Map))
+                    Log.Message(FinalGoalCell + " is trapped for wall climbing check.");
+                    if (InfiltrationUtility.IsCellClimbAccessible(FinalGoalCell, pawn.Map, out IntVec3 accessCell))
                     {
                         IntVec3 cellBefore;
                         PawnPath pathFromWall = pawn.Map.pathFinder.FindPath(FinalGoalCell, pawn.Position, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings));
@@ -57,7 +57,17 @@ namespace Xenomorphtype
                         {
                             List<IntVec3> reversedPath = pathFromWall.NodesReversed;
                             bool FoundBlocker = false;
-                            EndClimbCell = cellBefore;
+                            if (accessCell.IsValid)
+                            {
+                                EndClimbCell = accessCell;
+                            }
+                            else
+                            {
+                                EndClimbCell = cellBefore;
+                            }
+                            Log.Message(pawn + " has found climb end point at " + EndClimbCell);
+                            
+
                             for (int i = reversedPath.Count - 1; i >= 0; i--)
                             {
                                 if (reversedPath[i].Standable(pawn.Map) && FoundBlocker)
@@ -65,11 +75,13 @@ namespace Xenomorphtype
                                     if (pawn.Map.reachability.CanReach(pawn.Position, reversedPath[i], PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassDoors)))
                                     {
                                         StartClimbCell = reversedPath[i];
+
+                                        Log.Message(pawn + " has found climb start point at " + StartClimbCell);
                                         break;
                                     }
                                 }
 
-                                if (reversedPath[i] == EndClimbCell)
+                                if (reversedPath[i] == cellBefore)
                                 {
                                     FoundBlocker = true;
                                 }
@@ -80,17 +92,24 @@ namespace Xenomorphtype
                 }
                 else if (InfiltrationUtility.IsCellTrapped(pawn.Position, pawn.Map))
                 {
-                    //Log.Message(pawn + " is trapped for wall climbing check.");
+                    Log.Message(pawn + " is trapped for wall climbing check.");
                     NoWallToClimb = false;
-                    if (InfiltrationUtility.IsCellClimbAccessible(pawn.Position, pawn.Map))
+                    if (InfiltrationUtility.IsCellClimbAccessible(pawn.Position, pawn.Map, out IntVec3 accessCell))
                     {
                         IntVec3 cellBefore;
                         PawnPath pathToWall = pawn.Map.pathFinder.FindPath(pawn.Position, FinalGoalCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings));
                         Thing firstThing = pathToWall.FirstBlockingBuilding(out cellBefore, pawn);
                         if (firstThing != null)
                         {
-                            //Log.Message(pawn + " has found climb start point at " + cellBefore);
-                            StartClimbCell = cellBefore;
+                            Log.Message(pawn + " has found climb start point at " + cellBefore);
+                            if (accessCell.IsValid)
+                            {
+                                StartClimbCell = accessCell;
+                            }
+                            else
+                            {
+                                StartClimbCell = cellBefore;
+                            }
 
                             List<IntVec3> reversedPath = pathToWall.NodesReversed;
                             bool FoundBlocker = false;
@@ -106,9 +125,9 @@ namespace Xenomorphtype
                                     }
                                 }
 
-                                if (reversedPath[i] == StartClimbCell)
+                                if (reversedPath[i] == cellBefore)
                                 {
-                                    //Log.Message(pawn + " has gotten too the start climb point at " + cellBefore);
+                                    Log.Message(pawn + " has gotten too the start climb point at " + cellBefore);
                                     FoundBlocker = true;
                                 }
                             }
@@ -144,12 +163,16 @@ namespace Xenomorphtype
                 IntVec3 cell = EndClimbCell;
                 Map map = pawn.Map;
                 bool flag = Find.Selector.IsSelected(pawn);
-
+                
                 pawnClimber = Tunneling ? PawnClimber.MakeClimber(InternalDefOf.PawnClimbUnder, pawn, cell,EffecterDefOf.ConstructDirt, SoundDefOf.Pawn_Melee_Punch_Miss, true,StartClimbCell.ToVector3(), null,EndClimbCell)
                 : PawnClimber.MakeClimber(InternalDefOf.PawnClimber, pawn, cell, EffecterDefOf.ConstructDirt, SoundDefOf.Pawn_Melee_Punch_Miss, true, StartClimbCell.ToVector3(), null, EndClimbCell);
                 
                 if (pawnClimber != null)
                 {
+                    if (!Tunneling)
+                    {
+                        RoofCollapserImmediate.DropRoofInCells(StartClimbCell, map);
+                    }
                     pawnClimber.underground = Tunneling;
                     GenSpawn.Spawn(pawnClimber, cell, map);
                     InTransit = true;
@@ -157,6 +180,8 @@ namespace Xenomorphtype
                     {
                         Find.Selector.Select(pawn, playSound: false, forceDesignatorDeselect: false);
                     }
+
+                    
                 }
             };
             toil.tickAction = delegate

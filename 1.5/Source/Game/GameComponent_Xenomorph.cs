@@ -110,7 +110,8 @@ namespace Xenomorphtype
 
         public void HandleMatureMorphDeath(Pawn pawn)
         {
-            _xenoforming -= XenomorphImpact;
+            _xenoforming = Mathf.Max(_xenoforming - XenomorphImpact, 0);
+
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for death of " + pawn + " total: " + _xenoforming);

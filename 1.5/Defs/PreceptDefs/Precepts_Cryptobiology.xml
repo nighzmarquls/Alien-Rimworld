@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Issue -->
+
+  <IssueDef>
+    <defName>XMT_Cryptobio</defName>
+    <label>crypto-biomorphs</label>
+    <iconPath>UI/Issues/CryptoBioMorph</iconPath>
+  </IssueDef>
+
+  <!-- History Event -->
+  <HistoryEventDef>
+    <defName>XMT_Cryptobio_Killed</defName>
+    <label>cryptobiomorph killed</label>
+  </HistoryEventDef>
+  
+  <!-- Precepts -->
+
+  <PreceptDef>
+    <defName>XMT_Biomorph_Abhorrent</defName>
+    <issue>XMT_Cryptobio</issue>
+    <label>abhorrent</label>
+    <description>They cannot be allowed to exist, all examples of Cryptobiomorphic life must be destroyed.</description>
+    <impact>High</impact>
+    <displayOrderInIssue>20</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <conflictingMemes>
+      <!--  <li>Transhumanist</li>-->
+    </conflictingMemes>
+    <associatedMemes>
+		<li>FleshPurity</li>
+		<li>HumanPrimacy</li>
+    </associatedMemes>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Know_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Abhorrent_Social</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <PreceptDef>
+    <defName>XMT_Biomorph_Disapproved</defName>
+    <issue>XMT_Cryptobio</issue>
+    <label>disapproved</label>
+    <description>Maybe some applications could be found for them but the organisms are excessively dangerous.</description>
+    <impact>Medium</impact>
+    <displayOrderInIssue>10</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <conflictingMemes>
+      <!--  -->
+    </conflictingMemes>
+    <associatedMemes>
+		<li>Transhumanist</li>
+		<li>FleshPurity</li>
+		<li>HumanPrimacy</li>
+    </associatedMemes>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Disapproved</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Know_Disapproved</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Disapproved</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Disapproved_Social</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <PreceptDef>
+    <defName>XMT_Biomorph_Study</defName>
+    <issue>XMT_Cryptobio</issue>
+    <label>studied</label>
+    <description>Think of all we can learn from such a magnificent specimens. This unique biochemistry must be studied and utilized, it would be a crime not too.</description>
+    <impact>Medium</impact>
+    <displayOrderInIssue>0</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <conflictingMemes>
+		<li>FleshPurity</li>
+    </conflictingMemes>
+    <associatedMemes>
+		<li>Transhumanist</li>
+		<li>HumanPrimacy</li>
+    </associatedMemes>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Study</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Know_Study</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Study</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Study_Social</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+  
+  <PreceptDef>
+    <defName>XMT_Biomorph_Hunt</defName>
+    <issue>XMT_Cryptobio</issue>
+    <label>hunted</label>
+    <description>These organisms make for the perfect prey. They should be cultivated and then hunted.</description>
+    <impact>High</impact>
+    <displayOrderInIssue>0</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <conflictingMemes>
+      <!--  <li>Transhumanist</li>-->
+    </conflictingMemes>
+    <associatedMemes>
+		<li>FleshPurity</li>
+		<li>HumanPrimacy</li>
+    </associatedMemes>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Hunted</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Know_Hunted</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Hunted</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Hunted_Social</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+  
+  <PreceptDef>
+    <defName>XMT_Biomorph_Worship</defName>
+    <issue>XMT_Cryptobio</issue>
+    <label>venerated</label>
+    <description>These are the perfect organisms, to be venerated, admired and worshiped.</description>
+    <impact>High</impact>
+    <displayOrderInIssue>0</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <conflictingMemes>
+		<li>FleshPurity</li>
+		<li>HumanPrimacy</li>
+    </conflictingMemes>
+    <associatedMemes>
+      
+    </associatedMemes>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Worshiped</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Cryptobio_Killed</eventDef>
+        <thought>XMT_Killed_Biomorph_Know_Worshiped</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Worshiped</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsBiomorph_Worshiped_Social</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <!-- Thoughts: Abhorrent -->
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Abhorrent</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>killed monster</label>
+        <description>I killed it! One less horror in the universe.</description>
+        <baseMoodEffect>30</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Know_Abhorrent</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>killed monster</label>
+        <baseOpinionOffset>10</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Abhorrent</defName>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <nullifyingTraits>
+		<!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>tainted association</label>
+        <description>the beasts have marked me, I am tainted!</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+      <li>
+        <label>shunned biomorph</label>
+        <description>I am hated, but I do not understand why.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+      <li>
+        <label>reviled matriarch</label>
+        <description>I am wrong, a terribly dangerous thing, and yet am I not greater?</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Abhorrent_Social</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>tainted</label>
+        <description>I can taste the stink of the beasts on them!</description>
+        <baseOpinionOffset>-25</baseOpinionOffset>
+      </li>
+      <li>
+        <label>monster</label>
+        <description>It's one of them! It must be destroyed!</description>
+        <baseOpinionOffset>-100</baseOpinionOffset>
+      </li>
+      <li>
+        <label>queen</label>
+        <description>It could lay a thousand eggs, it must be destroyed!</description>
+        <baseOpinionOffset>-300</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Thoughts: Disapproved -->
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Disapproved</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>killed monster</label>
+        <description>I killed it?!</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Know_Disapproved</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>killed monster</label>
+        <baseOpinionOffset>10</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Disapproved</defName>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <nullifyingTraits>
+		<!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>strange smell</label>
+        <description>what is that smell?</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+      <li>
+        <label>feared</label>
+        <description>the prey fears me.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>superiority</label>
+        <description>The prey fears me and my children.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Disapproved_Social</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>smells weird</label>
+        <description>they smell of chemicals and sugar.</description>
+        <baseOpinionOffset>-10</baseOpinionOffset>
+      </li>
+      <li>
+        <label>creepy</label>
+        <description>That thing is so creepy.</description>
+        <baseOpinionOffset>-25</baseOpinionOffset>
+      </li>
+      <li>
+        <label>terrifying</label>
+        <description>That thing is terrifying.</description>
+        <baseOpinionOffset>-50</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Thoughts: Study -->
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Study</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>killed specimen</label>
+        <description>such a pity to kill one.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Know_Study</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>killed a specimen</label>
+        <baseOpinionOffset>0</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Study</defName>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <nullifyingTraits>
+		<!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>pheromone marked</label>
+        <description>fascinating, I believe I've been accepted as part of the hive.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>curiosity</label>
+        <description>how curious, they watch us as we watch them.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>superiority</label>
+        <description>of course they should study me, magnificent as I am.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Study_Social</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>pheromone marked</label>
+        <description>the pheromone marking should keep them safe among the specimens</description>
+        <baseOpinionOffset>5</baseOpinionOffset>
+      </li>
+      <li>
+        <label>fascinating</label>
+        <description>I admire its purity, a perfect organism.</description>
+        <baseOpinionOffset>20</baseOpinionOffset>
+      </li>
+      <li>
+        <label>royal specimen</label>
+        <description>her majesty is a real payoff, an endless supply of specimens for study.</description>
+        <baseOpinionOffset>40</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Thoughts: Hunted -->
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Hunted</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>An honorable hunt!</label>
+        <description>I slayed worthy prey!</description>
+        <baseMoodEffect>50</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Know_Hunted</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>successful hunter!</label>
+        <baseOpinionOffset>25</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Hunted</defName>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <nullifyingTraits>
+		<!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>prey marked</label>
+        <description>the prey offers their own camouflage to obscure me.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>worthy prey</label>
+        <description>when the hunt comes one of us will prove the better.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+      <li>
+        <label>matriarch</label>
+        <description>my children are borne only to die, it is right but it feels wrong.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Hunted_Social</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>prey marked</label>
+        <description>cowards wear the scent of the prey.</description>
+        <baseOpinionOffset>-10</baseOpinionOffset>
+      </li>
+      <li>
+        <label>worthy prey</label>
+        <description>I look forward to hunting it.</description>
+        <baseOpinionOffset>20</baseOpinionOffset>
+      </li>
+      <li>
+        <label>breeder</label>
+        <description>will produce many worthy trophies for the hunt.</description>
+        <baseOpinionOffset>50</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+  <!-- Thoughts: Worshiped -->
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Worshiped</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>killed the divine!</label>
+        <description>I killed it! I've sullied perfection!</description>
+        <baseMoodEffect>-30</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Biomorph_Know_Worshiped</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>killed the divine!</label>
+        <baseOpinionOffset>-50</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Worshiped</defName>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <nullifyingTraits>
+		<!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>marked by divinity</label>
+        <description>I am marked by the divine ones!</description>
+        <baseMoodEffect>25</baseMoodEffect>
+      </li>
+      <li>
+        <label>exalted</label>
+        <description>I am loved, but I do not understand why.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+      <li>
+        <label>worshiped matriarch</label>
+        <description>I am divinity in living flesh! Blessed to spread my children across the universe!</description>
+        <baseMoodEffect>25</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsBiomorph_Worshiped_Social</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>marked</label>
+        <description>They are marked by divinity!</description>
+        <baseOpinionOffset>25</baseOpinionOffset>
+      </li>
+      <li>
+        <label>perfect</label>
+        <description>It's one of them! The living gods!</description>
+        <baseOpinionOffset>100</baseOpinionOffset>
+      </li>
+      <li>
+        <label>goddess</label>
+        <description>bless the goddess and her spawn. Bless the coming and the going of her. May her passage cleanse the world. May she keep the world for her children.</description>
+        <baseOpinionOffset>300</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

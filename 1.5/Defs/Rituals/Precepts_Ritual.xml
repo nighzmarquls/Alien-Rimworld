@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-	<PreceptDef ParentName="SpeechPreceptBase">
+	<PreceptDef>
 		<defName>XMT_QueenAscension</defName>
-		<label>ascension</label>
-		<description>the prospective will metamorphose into a greater caste.</description>
+		<label>maturation</label>
+		<description>the prospective will further their development.</description>
+		<issue>Ritual</issue>
+		<preceptClass>Precept_Ritual</preceptClass>
+		<countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
+		<selectionWeight>1.0</selectionWeight>
+		<useRepeatPenalty>false</useRepeatPenalty>
+		<showRitualFloatMenuOption>false</showRitualFloatMenuOption>
 		<ritualPatternBase>XMT_QueenAscension</ritualPatternBase>
 		<iconPath>UI/Rituals/XMT_Ascension</iconPath>
 		<classic>true</classic>
+		<visible>false</visible>
 		<ignoreNameUniqueness>true</ignoreNameUniqueness>
 		<usesIdeoVisualEffects>false</usesIdeoVisualEffects>
 		<mergeRitualGizmosFromAllIdeos>true</mergeRitualGizmosFromAllIdeos>
 	</PreceptDef>
   
-	<PreceptDef ParentName="SpeechPreceptBase">
-		<defName>XMT_QueenAdvancement</defName>
-		<label>advancement</label>
-		<description>the queen shall absorb more jelly and advance herself further.</description>
-		<ritualPatternBase>XMT_QueenAdvancement</ritualPatternBase>
-		<iconPath>UI/Rituals/XMT_Ascension</iconPath>
-		<classic>true</classic>
-		<ignoreNameUniqueness>true</ignoreNameUniqueness>
-		<usesIdeoVisualEffects>false</usesIdeoVisualEffects>
-		<mergeRitualGizmosFromAllIdeos>true</mergeRitualGizmosFromAllIdeos>
-	</PreceptDef>
 </Defs>
