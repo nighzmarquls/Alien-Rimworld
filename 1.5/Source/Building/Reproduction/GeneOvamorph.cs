@@ -42,6 +42,7 @@ namespace Xenomorphtype
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
             BioUtility.SpawnJellyHorror(PositionHeld, MapHeld, 1);
+
             base.Destroy(mode);
         }
         public override string GetInspectString()

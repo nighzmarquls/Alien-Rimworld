@@ -14,6 +14,23 @@ namespace Xenomorphtype
         [HarmonyPatch(typeof(HediffSet), nameof(HediffSet.AddDirect))]
         public static class Patch_HediffSet_AddDirect
         {
+            [HarmonyPrefix]
+            public static void Prefix(Hediff hediff, HediffSet __instance)
+            {
+                if(hediff is Hediff_MissingPart missingPart)
+                {
+                    IEnumerable<HediffComp_PawnAttachement> attachments = __instance.GetHediffComps<HediffComp_PawnAttachement>();
+                    foreach(HediffComp_PawnAttachement attachment in attachments)
+                    { 
+                        if(attachment.parent.Part != missingPart.Part)
+                        {
+                            continue;
+                        }
+                        attachment.PawnRelease();
+                    }
+                }
+            }
+
             [HarmonyPostfix]
             public static void Postfix(Hediff hediff, DamageInfo? dinfo, DamageWorker.DamageResult damageResult, HediffSet __instance)
             {

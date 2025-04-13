@@ -59,8 +59,14 @@ namespace Xenomorphtype
                         {
 
                             Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastProduceJelly, targetItem);
-                            pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-
+                            if (pawn.jobs.curDriver is JobDriver_ProduceJelly)
+                            {
+                                //pawn.jobs//jobQueue.AddItem(new QueuedJob(job, JobTag.Misc));
+                            }
+                            else
+                            {
+                                pawn.jobs.StartJob(job, JobCondition.InterruptForced);
+                            }
 
                         }, priority: MenuOptionPriority.Default), pawn, targetItem);
 
@@ -144,21 +150,16 @@ namespace Xenomorphtype
 
                 if (targetPawn.Downed && HiveUtility.IsMorphingCandidate(targetPawn))
                 {
-                    if (XMTUtility.NoQueenPresent())
+                    FloatMenuOption OvamorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Ovamorph", delegate
                     {
-                        FloatMenuOption OvamorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Ovamorph", delegate
-                        {
-                            pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.ApplyOvamorphing, targetPawn);
-                            job.count = 1;
-                            pawn.jobs.StartJob(job, JobCondition.InterruptForced);
+                        pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.ApplyOvamorphing, targetPawn);
+                        job.count = 1;
+                        pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
+                    }, priority: MenuOptionPriority.Default), pawn, targetPawn);
 
-                        }, priority: MenuOptionPriority.Default), pawn, targetPawn);
-
-                        __result.Add(OvamorphOption);
-
-                    }
+                    __result.Add(OvamorphOption);
 
                     if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_LarderSerum))
                     {

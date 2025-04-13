@@ -16,7 +16,7 @@ namespace Xenomorphtype
         {
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     headOffset_north = Vector3.zero;
                     headOffset_south = Vector3.zero;
@@ -68,7 +68,7 @@ namespace Xenomorphtype
         {
             get
             {
-                if(ThreatPheromone >=  FriendlyPheromone && ThreatPheromone >= LoverPheromone)
+                if (ThreatPheromone >= FriendlyPheromone && ThreatPheromone >= LoverPheromone)
                 {
                     return PheromoneType.Threat;
                 }
@@ -93,12 +93,12 @@ namespace Xenomorphtype
 
         // Xenomorph Naivety System
         float ovamorphAwareness = 0;
-        float larvaAwareness    = 0;
-        float horrorAwareness   = 0;
-        float acidAwareness     = 0;
-        float psychicAwareness  = 0;
-        float obsession         = 0;
-        float Obsession         => obsession + TraitObsessionModifier();
+        float larvaAwareness = 0;
+        float horrorAwareness = 0;
+        float acidAwareness = 0;
+        float psychicAwareness = 0;
+        float obsession = 0;
+        float Obsession => obsession + TraitObsessionModifier();
 
         public float OvamorphAwareness => ovamorphAwareness + TraitAwarenessModifier();
         public float LarvaAwareness => larvaAwareness + TraitAwarenessModifier();
@@ -113,7 +113,7 @@ namespace Xenomorphtype
             float modifier = 0;
             if (Parent != null)
             {
-                if(Parent?.story?.traits != null)
+                if (Parent?.story?.traits != null)
                 {
                     if (Parent.story.traits.HasTrait(HorrorMoodDefOf.XMT_Survivor))
                     {
@@ -158,7 +158,7 @@ namespace Xenomorphtype
             {
                 return pheromonesPresent || isAware;
             }
-            else if(totalPheromone > 0.1f)
+            else if (totalPheromone > 0.1f)
             {
                 return true;
             }
@@ -192,7 +192,8 @@ namespace Xenomorphtype
             bool IsPlayerXenomorph = XMTUtility.PlayerXenosOnMap(parent.MapHeld);
             string output = "";
             bool hasSmell = false;
-            if (IsPlayerXenomorph) {
+            if (IsPlayerXenomorph)
+            {
                 if (pheromonesPresent)
                 {
                     switch (strongestPheromone)
@@ -214,17 +215,17 @@ namespace Xenomorphtype
             {
                 float severity = totalPheromone;
 
-                if(severity >= 1)
+                if (severity >= 1)
                 {
                     hasSmell = true;
                     output += "drenched in stink";
                 }
-                else if(severity >= 0.75f)
+                else if (severity >= 0.75f)
                 {
                     hasSmell = true;
                     output += "overpowering smell";
                 }
-                else if(severity >= 0.25f)
+                else if (severity >= 0.25f)
                 {
                     hasSmell = true;
                     output += "cloying scent";
@@ -252,15 +253,15 @@ namespace Xenomorphtype
                 {
                     float awareness = TotalHorrorAwareness();
 
-                    if(awareness >= 1)
+                    if (awareness >= 1)
                     {
                         output += "traumatized";
                     }
-                    else if(awareness >= 0.5f)
+                    else if (awareness >= 0.5f)
                     {
                         output += "paranoid";
                     }
-                    else if(awareness >= 0.25f)
+                    else if (awareness >= 0.25f)
                     {
                         output += "anxious";
                     }
@@ -318,15 +319,15 @@ namespace Xenomorphtype
             if (isAware)
             {
                 bool obsessed = IsObsessed();
-                if(OvamorphAwareness > 0)
+                if (OvamorphAwareness > 0)
                 {
                     output += obsessed ? "Is fascinated by the life cycle of Ovamorphs. \n" : "Has witnessed what comes from Ovamorphs. \n";
                 }
-                if(LarvaAwareness > 0)
+                if (LarvaAwareness > 0)
                 {
                     output += obsessed ? "Admires the parasitic lifecycle of the facehugger. \n" : "Knows to be wary of skittering spider like things that leap for your face. \n";
                 }
-                if(HorrorAwareness > 0)
+                if (HorrorAwareness > 0)
                 {
                     output += obsessed ? "Adores the purity of the perfect organism. \n" : "Has seen the brutality and horror in the dark. \n";
                 }
@@ -367,7 +368,7 @@ namespace Xenomorphtype
             if (Parent != null)
             {
                 DisplayHediff display = Parent.health.hediffSet.GetFirstHediff<DisplayHediff>();
-                if(display == null)
+                if (display == null)
                 {
                     return;
                 }
@@ -378,7 +379,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                if(Parent.Faction.IsPlayer)
+                if (Parent.Faction.IsPlayer)
                 {
                     return;
                 }
@@ -389,7 +390,7 @@ namespace Xenomorphtype
 
         public void WitnessPsychicHorror(float strength, float maxAwareness = 1.0f)
         {
-            if(PsychicAwareness >= maxAwareness)
+            if (PsychicAwareness >= maxAwareness)
             {
                 return;
             }
@@ -456,12 +457,12 @@ namespace Xenomorphtype
         }
         public void WitnessOvamorphHorror(float strength, float maxAwareness = 1.0f)
         {
-            if(OvamorphAwareness >= maxAwareness)
+            if (OvamorphAwareness >= maxAwareness)
             {
                 return;
             }
 
-            ovamorphAwareness = Mathf.Min( ovamorphAwareness +strength, maxAwareness);
+            ovamorphAwareness = Mathf.Min(ovamorphAwareness + strength, maxAwareness);
 
             TryApplyDisplayHediff();
 
@@ -475,7 +476,7 @@ namespace Xenomorphtype
             }
 
             larvaAwareness = Mathf.Min(larvaAwareness + strength, maxAwareness);
-            if(OvamorphAwareness > 0)
+            if (OvamorphAwareness > 0)
             {
                 WitnessOvamorphHorror(strength, maxAwareness);
             }
@@ -491,7 +492,7 @@ namespace Xenomorphtype
 
             horrorAwareness = Mathf.Min(horrorAwareness + strength, maxAwareness);
 
-            if(LarvaAwareness > 0)
+            if (LarvaAwareness > 0)
             {
                 WitnessLarvaHorror(strength, maxAwareness);
             }
@@ -500,7 +501,7 @@ namespace Xenomorphtype
 
         public void GainObsession(float strength)
         {
-            if(XMTUtility.IsXenomorph(parent))
+            if (XMTUtility.IsXenomorph(parent))
             {
                 return;
             }
@@ -546,7 +547,7 @@ namespace Xenomorphtype
 
             if (pawn != null)
             {
-                if(pawn.needs != null)
+                if (pawn.needs != null)
                 {
                     Need hygiene = pawn.needs.TryGetNeed(ExternalDefOf.Hygiene);
                     if (hygiene != null)
@@ -559,7 +560,7 @@ namespace Xenomorphtype
 
         public void ApplyThreatPheromone(Pawn victim, float amount = 0.5f, float maxStrength = 1f)
         {
-            
+
             _threatPheromone = Mathf.Min(ThreatPheromone + amount, maxStrength);
 
             ReduceHygiene(amount);
@@ -567,7 +568,7 @@ namespace Xenomorphtype
         }
         public void ApplyFriendlyPheromone(Pawn partner, float amount = 0.25f, float maxStrength = 0.25f)
         {
-  
+
             _friendlyPheromone = Mathf.Min(_friendlyPheromone + amount, maxStrength);
 
             ReduceHygiene(amount);
@@ -576,11 +577,17 @@ namespace Xenomorphtype
 
         public void ApplyLoverPheromone(Pawn partner, float amount = 0.75f, float maxStrength = 0.75f)
         {
-      
-            _loverPheromone = Mathf.Min(LoverPheromone + amount, maxStrength); 
+
+            _loverPheromone = Mathf.Min(LoverPheromone + amount, maxStrength);
 
             ReduceHygiene(amount);
             TryApplyDisplayHediff();
+        }
+
+        public override void Notify_AbandonedAtTile(int tile)
+        {
+            base.Notify_AbandonedAtTile(tile);
+            XenoformingUtility.HandleXenoformingImpact(parent);
         }
     }
 }

@@ -109,7 +109,9 @@ namespace Xenomorphtype
                     child.relations.AddDirectRelation(PawnRelationDefOf.ParentBirth, Pawn);
                 }
 
-                CompLarvalGenes larvalGenes = Pawn.GetComp<CompLarvalGenes>();
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
+                
+                CompLarvalGenes larvalGenes = child.GetComp<CompLarvalGenes>();
 
                 if (larvalGenes != null)
                 {

@@ -39,6 +39,9 @@ namespace Xenomorphtype
         public static BodyPartGroupDef Arms;
         public static BodyPartGroupDef Hands;
         public static BodyPartGroupDef Mouth;
+        public static BodyPartDef InsectHead;
+        public static BodyPartDef SnakeHead;
+        
         public static BodyPartDef Waist;
         public static BodyPartDef Skull;
 

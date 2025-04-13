@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using static HarmonyLib.Code;
 
 
 namespace Xenomorphtype
@@ -149,29 +150,16 @@ namespace Xenomorphtype
             };
             yield return Command_Evolution;
 
-            Command Command_LayOvamorph = new Command_Evolution
+            if (DebugSettings.ShowDevGizmos)
             {
-                defaultLabel = "Choose Traits",
-                defaultDesc = "express different morphological traits.",
-                action = delegate
+                Command_Action command_Action = new Command_Action();
+                command_Action.defaultLabel = "DEV: Gain Advancement Point";
+                command_Action.action = delegate
                 {
-                    Dialogue_Evolution window = new Dialogue_Evolution("Choose Traits", Parent, this);
-                    Find.WindowStack.Add(window);
-                },
-                icon = evolutionTexture
-            };
-
-            Command Command_LayGeneOvamorph = new Command_Evolution
-            {
-                defaultLabel = "Choose Traits",
-                defaultDesc = "express different morphological traits.",
-                action = delegate
-                {
-                    Dialogue_Evolution window = new Dialogue_Evolution("Choose Traits", Parent, this);
-                    Find.WindowStack.Add(window);
-                },
-                icon = evolutionTexture
-            };
+                    RecieveProgress(1);
+                };
+                yield return command_Action;
+            }
         }
         public override void PostExposeData()
         {

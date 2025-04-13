@@ -29,6 +29,10 @@ namespace Xenomorphtype
                 if (Rand.Chance(things[0].probability) && XenoformingUtility.XenoformingMeets(things[0].minXenoforming))
                 {
                     Thing spawnedThing = GenSpawn.Spawn(things[0].spawnThing, parent.Position, previousMap);
+                    if(spawnedThing is Ovamorph spawnedOvamorph)
+                    {
+                        spawnedOvamorph.ForceProgress();
+                    }
                     FilthMaker.TryMakeFilth(parent.Position, previousMap, InternalDefOf.Starbeast_Filth_Resin);
                 }
                 return;
@@ -43,6 +47,10 @@ namespace Xenomorphtype
                     {
                         IntVec3 SpawnPosition = spawnpoints[i];
                         Thing spawnedThing = GenSpawn.Spawn(things[i].spawnThing, SpawnPosition, previousMap);
+                        if (spawnedThing is Ovamorph spawnedOvamorph)
+                        {
+                            spawnedOvamorph.ForceProgress();
+                        }
                         FilthMaker.TryMakeFilth(SpawnPosition, previousMap, InternalDefOf.Starbeast_Filth_Resin);
                     }
                 }

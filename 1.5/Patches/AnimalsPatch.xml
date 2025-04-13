@@ -1,5 +1,97 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
+<!-- Vanilla Insectoids -->
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="Megascarab"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_Hiveglands</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HardenedChitin</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HypothermicHibernation</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_MegascarabInsectoidSkin_Cosmetic</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectPheromones</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_GenelineEvolution</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectMandibles</li>
+					
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Hammerpede</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hammerpede</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_InsectHorrorPregnant</horrorPregnancy>
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="Spelopede"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_SpelopedeHorn</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HardenedChitin</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HypothermicHibernation</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_SpelopedeInsectoidSkin_Cosmetic</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectPheromones</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_GenelineEvolution</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectMandibles</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Hammerpede</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hammerpede</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_InsectHorrorPregnant</horrorPregnancy>
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="Megaspider"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_MegaspiderHorns</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HardenedChitin</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HypothermicHibernation</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_RipperBlades</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_MegaspiderInsectoidSkin_Cosmetic</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectPheromones</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_GenelineEvolution</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectMandibles</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Hammerpede</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hammerpede</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_InsectHorrorPregnant</horrorPregnancy>
+			</li>
+		</value>
+	</Operation>
+
 <!-- Rimworld Specials -->
 	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Boomalope" or defName="Boomrat"]</xpath>
@@ -35,6 +127,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Pain_Reduced</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Strong</li>
 					<li>XMT_Thrumbo_Features</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -116,6 +209,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">AptitudeRemarkable_Intellectual</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Pain_Reduced</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Unstoppable</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
 				</genes>
 			</li>
 		</value>
@@ -136,6 +230,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Aggression_HyperAggressive</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Pain_Reduced</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Unstoppable</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -165,6 +260,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Strong</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
 				</genes>
 			</li>
 		</value>
@@ -181,6 +277,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Strong</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -206,6 +303,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Strong</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Aggression_Aggressive</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -232,6 +330,7 @@
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Quick</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Beauty_Pretty</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -258,6 +357,7 @@
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Quick</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Beauty_Pretty</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -359,6 +459,7 @@
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">ElongatedFingers</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -384,6 +485,7 @@
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Weak</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Delicate</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -411,6 +513,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Quick</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Weak</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Delicate</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -511,6 +614,7 @@
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -534,6 +638,7 @@
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -602,6 +707,7 @@
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Headbone_MiniHorns</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Hands_Pig</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -627,6 +733,7 @@
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Learning_Slow</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -678,6 +785,7 @@
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Libido_High</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">

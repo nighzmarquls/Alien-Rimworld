@@ -45,6 +45,23 @@ namespace Xenomorphtype
 
         }
 
+        public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
+        {
+            base.Notify_Killed(prevMap, dinfo);
+
+            if (UnHatched)
+            {
+                if (dinfo != null)
+                {
+                    Thing instigator = dinfo.Value.Instigator;
+                    if (instigator != null)
+                    {
+                        Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Destroyed, instigator.Named(HistoryEventArgsNames.Doer), parent.Named(HistoryEventArgsNames.Victim)), true);
+                    }
+                }
+            }
+        }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -54,7 +71,11 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref UnHatched, "UnHatched", defaultValue: true);
         }
 
-      
+        public override void Notify_AbandonedAtTile(int tile)
+        {
+            base.Notify_AbandonedAtTile(tile);
+            XenoformingUtility.HandleXenoformingImpact(parent);
+        }
         public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn myPawn)
         {
             if (!UnHatched)
@@ -67,21 +88,32 @@ namespace Xenomorphtype
                 yield break;
             }
 
-            if(myPawn != null && !XMTUtility.IsXenomorph(myPawn))
+            if (myPawn != null && !XMTUtility.IsXenomorph(myPawn))
             {
                 yield break;
             }
-
-            FloatMenuOption ImplantOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hatch", delegate
+            Ovamorph ovamorph = parent as Ovamorph;
+            if (ovamorph != null)
             {
-                Ovamorph ovamorph = parent as Ovamorph;
-                if(ovamorph != null)
+                if (ovamorph.CanFire)
                 {
-                    ovamorph.HatchNow();
-                }
-            }, priority: MenuOptionPriority.Default), myPawn, parent);
+                    bool ready = ovamorph.Ready;
+                    FloatMenuOption HatchOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hatch", delegate
+                    {
+                        if (ready)
+                        {
+                            ovamorph.HatchNow();
+                        }
+                    }, priority: MenuOptionPriority.Default), myPawn, parent);
 
-            yield return ImplantOption;
+                    if (!ready)
+                    {
+                        HatchOption.Disabled = true;
+                        HatchOption.tooltip = "cannot hatch, still gestating.";
+                    }
+                    yield return HatchOption;
+                }
+            }
         }
     }
 

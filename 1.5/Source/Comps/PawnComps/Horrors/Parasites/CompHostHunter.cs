@@ -158,15 +158,16 @@ namespace Xenomorphtype
                 target.jobs.StopAll();
             }
 
-            XMTUtility.GiveMemory(target, Props.thoughtGivenOnAttach);
+            if (Props.thoughtGivenOnAttach != null)
+            {
+                XMTUtility.GiveMemory(target, Props.thoughtGivenOnAttach);
+            }
 
             List<BodyPartRecord> source = GetTargetBodyParts(target);
 
             source.Shuffle();
 
             Hediff hediff = HediffMaker.MakeHediff(Props.parasiteHediff, target, source.First());
-
-            hediff.Severity = 0;
 
             PreattachTarget(target);
 

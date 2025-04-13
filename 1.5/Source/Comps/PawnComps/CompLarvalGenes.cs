@@ -117,18 +117,28 @@ namespace Xenomorphtype
 
             if (target.Faction != null && !target.Faction.IsPlayer)
             {
+                int goodWill = -25;
+
+                if(ModsConfig.IdeologyActive)
+                {
+                    goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation) ? 30 : 0;
+                    goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study) ? 15 : 0;
+                    goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Worship) ? 20 : 0;
+                }
+
                 if (Parent.Faction != null)
                 {
                     //Blame the source of the thing.
-                    //TODO: Ideology check if they venerate xenomorphs.
-                    target.Faction.TryAffectGoodwillWith(Parent.Faction, -25, reason: HistoryEventDefOf.AttackedMember);
+
+                    target.Faction.TryAffectGoodwillWith(Parent.Faction, goodWill, reason: XenoPreceptDefOf.XMT_Parasite_Attached);
                 }
                 else
                 {
                     //Blame the Player
 
-                    target.Faction.TryAffectGoodwillWith(Faction.OfPlayer, -25, reason: HistoryEventDefOf.AttackedMember);
+                    target.Faction.TryAffectGoodwillWith(Faction.OfPlayer, goodWill, reason: XenoPreceptDefOf.XMT_Parasite_Attached);
                 }
+
                 target.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee);
             }
 
@@ -153,11 +163,13 @@ namespace Xenomorphtype
                 target.jobs.StopAll();
             }
 
+            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Attached, target.Named(HistoryEventArgsNames.Doer), parent.Named(HistoryEventArgsNames.Victim)), true);
+
             XMTUtility.GiveMemory(target, HorrorMoodDefOf.ParasiteLatchedMood);
 
             IEnumerable <BodyPartRecord> source = from x in target.health.hediffSet.GetNotMissingParts()
                                                  where
-                                                x.def == BodyPartDefOf.Head
+                                                    XMTUtility.IsPartHead(x)
                                                  select x;
 
             Hediff hediff = HediffMaker.MakeHediff(Props.larvaHediff, target, source.First());
@@ -177,8 +189,6 @@ namespace Xenomorphtype
                 LarvalAttachment.age = pawn.ageTracker.AgeBiologicalYearsFloat;
 
             }
-        
-            hediff.Severity = 0;
 
             target.health.AddHediff(hediff, source.First());
         }

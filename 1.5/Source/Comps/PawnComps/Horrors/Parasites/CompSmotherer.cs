@@ -52,7 +52,7 @@ namespace Xenomorphtype
         {
             return (from x in target.health.hediffSet.GetNotMissingParts()
                    where
-                  x.def == BodyPartDefOf.Head
+                    XMTUtility.IsPartHead(x)
                    select x).ToList();
         }
         public override void PreattachTarget(Pawn target)

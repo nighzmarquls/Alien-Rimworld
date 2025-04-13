@@ -130,6 +130,7 @@
     <Compile Include="Comps\HediffComps\Utility\HediffComp_RemoveOnCommandByXenomorph.cs" />
     <Compile Include="Comps\HediffComps\Visual\HediffComp_HeadOffset.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompHostHunter.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompAggressiveHunter.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompUmbilical.cs" />
     <Compile Include="Comps\ThingCompHorror\CompDiseaseCarrier.cs" />
     <Compile Include="Comps\PawnComps\Queen\CompGeneManipulator.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Game\GameComponent_Xenomorph.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
+    <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
     <Compile Include="Harmony\XMTLordDutyPatches.cs" />
     <Compile Include="Harmony\XMTMapPatches.cs" />
     <Compile Include="Harmony\XMTOffsetPatch.cs" />

@@ -72,6 +72,16 @@ namespace Xenomorphtype
             PawnRelease();
 
         }
+
+        public override void Notify_PawnPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
+        {
+            base.Notify_PawnPostApplyDamage(dinfo, totalDamageDealt);
+        }
+        public override void Notify_SurgicallyReplaced(Pawn surgeon)
+        {
+            base.Notify_SurgicallyReplaced(surgeon);
+            PawnRelease();
+        }
         public override void Notify_SurgicallyRemoved(Pawn surgeon)
         {
             base.Notify_SurgicallyRemoved(surgeon);
@@ -96,7 +106,7 @@ namespace Xenomorphtype
 
 
         }
-        protected void PawnRelease(bool killPawn = false)
+        public void PawnRelease(bool killPawn = false)
         {
             if (removed)
             {
@@ -109,7 +119,7 @@ namespace Xenomorphtype
                 {
                     if (Props.attackIfRemoved)
                     {
-                        released.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, "", forced: true, forceWake: true, false);
+                        released.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, "", forced: true, forceWake: true, false);
                     }
 
                     if (killPawn)

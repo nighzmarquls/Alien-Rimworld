@@ -2,7 +2,7 @@
 using PipeSystem;
 using RimWorld;
 using RimWorld.Planet;
-
+using System;
 using System.Collections.Generic;
 
 using System.Linq;
@@ -766,7 +766,7 @@ namespace Xenomorphtype
 
             IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts()
                                                  where
-                                                x.def == BodyPartDefOf.Head
+                                                    IsPartHead(x)
                                                  select x;
 
             //If you have no head you're not a host.
@@ -1556,6 +1556,13 @@ namespace Xenomorphtype
         internal static bool PawnLikesTarget(Pawn pawn, Pawn target)
         {
             return pawn.relations.OpinionOf(target) > XMTSettings.MinimumOpinionForHiveFriend;
+        }
+
+        internal static bool IsPartHead(BodyPartRecord x)
+        {
+            return x.def == BodyPartDefOf.Head
+            || x.def == ExternalDefOf.InsectHead
+            || x.def == ExternalDefOf.SnakeHead;
         }
     }
 }

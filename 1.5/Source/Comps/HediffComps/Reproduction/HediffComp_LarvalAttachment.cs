@@ -141,10 +141,10 @@ namespace Xenomorphtype
 
             IEnumerable<BodyPartRecord> source = from x in Pawn.health.hediffSet.GetNotMissingParts()
                                                  where
-                                                (x.IsInGroup(BodyPartGroupDefOf.FullHead)
+                                                ( x.IsInGroup(BodyPartGroupDefOf.FullHead)
                                                 || x.IsInGroup(BodyPartGroupDefOf.UpperHead)
                                                 || x.IsInGroup(ExternalDefOf.HeadAttackTool)
-                                                || x.def == BodyPartDefOf.Head)
+                                                || XMTUtility.IsPartHead(x))
                                                 && x.depth == BodyPartDepth.Outside
                                                  select x;
 

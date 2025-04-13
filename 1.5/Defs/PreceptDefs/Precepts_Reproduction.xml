@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- Issue -->
+
+  <IssueDef>
+    <defName>XMT_Reproduction</defName>
+    <label>parasitic reproduction</label>
+    <iconPath>UI/Issues/Ovamorph</iconPath>
+  </IssueDef>
+
+  <!-- History Event -->
+  <HistoryEventDef>
+    <defName>XMT_Larvae_Killed</defName>
+    <label>larvae killed</label>
+  </HistoryEventDef>
+  
+  <HistoryEventDef>
+    <defName>XMT_Ovamorph_Destroyed</defName>
+    <label>ovamorph killed</label>
+  </HistoryEventDef>
+  
+  <HistoryEventDef>
+    <defName>XMT_Parasite_Attached</defName>
+    <label>parasite attached</label>
+  </HistoryEventDef>
+  
+  <HistoryEventDef>
+    <defName>XMT_Parasite_Birth</defName>
+    <label>parasite attached</label>
+  </HistoryEventDef>
+  
+  
+  <!-- Precepts -->
+
+  <PreceptDef>
+    <defName>XMT_Parasite_Abhorrent</defName>
+    <issue>XMT_Reproduction</issue>
+    <label>abhorrent</label>
+    <description>Parasitic Reproduction is a horrific violation!</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>20</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <conflictingMemes>
+      <!--  <li>Transhumanist</li>-->
+    </conflictingMemes>
+    <associatedMemes>
+		<li>FleshPurity</li>
+		<li>HumanPrimacy</li>
+    </associatedMemes>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Larvae_Killed</eventDef>
+        <thought>XMT_Killed_Parasite_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Larvae_Killed</eventDef>
+        <thought>XMT_Killed_Parasite_Know_Abhorrent</thought>
+      </li>
+	  <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <thought>XMT_Killed_Parasite_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <thought>XMT_Killed_Parasite_Know_Abhorrent</thought>
+      </li>
+	  <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Parasite_Attached</eventDef>
+        <thought>XMT_Parasite_Attached_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Parasite_Attached</eventDef>
+        <thought>XMT_Parasite_Attached_Know_Abhorrent</thought>
+      </li>
+	  <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Parasite_Birth</eventDef>
+        <thought>XMT_Birthed_Parasite_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Parasite_Birth</eventDef>
+        <thought>XMT_Birthed_Parasite_Know_Abhorrent</thought>
+      </li>
+	  
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsParasiteBorne_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsParasiteBorne_Abhorrent_Social</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+  
+  <PreceptDef>
+    <defName>XMT_Parasite_Reincarnation</defName>
+    <issue>XMT_Reproduction</issue>
+    <label>reincarnation</label>
+    <description>Parasitic Reproduction allows us to be reborn!</description>
+    <impact>High</impact>
+    <displayOrderInIssue>20</displayOrderInIssue>
+    <displayOrderInImpact>100</displayOrderInImpact>
+    <conflictingMemes>
+		<li>FleshPurity</li>
+		<li>HumanPrimacy</li>
+    </conflictingMemes>
+    <associatedMemes>
+
+    </associatedMemes>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Larvae_Killed</eventDef>
+        <thought>XMT_Killed_Parasite_Reincarnation</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Larvae_Killed</eventDef>
+        <thought>XMT_Killed_Parasite_Know_Reincarnation</thought>
+      </li>
+	  <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <thought>XMT_Killed_Parasite_Reincarnation</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <thought>XMT_Killed_Parasite_Know_Reincarnation</thought>
+      </li>
+	  <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Parasite_Attached</eventDef>
+        <thought>XMT_Parasite_Attached_Reincarnation</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Parasite_Attached</eventDef>
+        <thought>XMT_Parasite_Attached_Know_Reincarnation</thought>
+      </li>
+	  <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>XMT_Parasite_Birth</eventDef>
+        <thought>XMT_Birthed_Parasite_Reincarnation</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>XMT_Parasite_Birth</eventDef>
+        <thought>XMT_Birthed_Parasite_Know_Reincarnation</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsParasiteBorne_Reincarnation</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>XMT_IsParasiteBorne_Reincarnation_Social</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+  
+  <!-- Thoughts: Reincarnation -->
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Parasite_Reincarnation</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>killed a life giver!</label>
+        <description>I killed a life giver!</description>
+        <baseMoodEffect>-50</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Parasite_Know_Reincarnation</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>murdered a life giver!</label>
+        <baseOpinionOffset>-50</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+  
+  <ThoughtDef>
+    <defName>XMT_Parasite_Attached_Reincarnation</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>blessed</label>
+        <description>I have taken the life giver within me and now grow my new self within.</description>
+        <baseMoodEffect>80</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Parasite_Attached_Know_Reincarnation</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>they have been blessed with by the life giver!</label>
+        <baseOpinionOffset>25</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+  
+  <ThoughtDef>
+    <defName>XMT_Birthed_Parasite_Reincarnation</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>empty vessal</label>
+        <description>My soul has passed on, I shoulden't be here!</description>
+        <baseMoodEffect>-100</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Birthed_Parasite_Know_Reincarnation</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>their spirit has been passed on.</label>
+        <baseOpinionOffset>25</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsParasiteBorne_Reincarnation</defName>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <nullifyingTraits>
+		<!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>petitioner</label>
+        <description>I am yet shunned by the life givers</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+      <li>
+        <label>reincarnated</label>
+        <description>I am reborn?</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>life giver</label>
+        <description>the supplicants await their rebirth as my children.</description>
+        <baseMoodEffect>15</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsParasiteBorne_Reincarnation_Social</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>petitioner</label>
+        <description>They yet strive to be reborn</description>
+        <baseOpinionOffset>10</baseOpinionOffset>
+      </li>
+      <li>
+        <label>reborn</label>
+        <description>they have been reborn!</description>
+        <baseOpinionOffset>25</baseOpinionOffset>
+      </li>
+      <li>
+        <label>life giver</label>
+        <description>from her do we gain our new lives!</description>
+        <baseOpinionOffset>100</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Thoughts: Abhorrent -->
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Parasite_Abhorrent</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>killed parasite</label>
+        <description>Got it before it could grow, One less horror in the universe.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Killed_Parasite_Know_Abhorrent</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>killed parasite</label>
+        <baseOpinionOffset>10</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+  
+  <ThoughtDef>
+    <defName>XMT_Parasite_Attached_Abhorrent</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>violated!</label>
+        <description>It could have implanted...</description>
+        <baseMoodEffect>-50</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Parasite_Attached_Know_Abhorrent</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>parasite host!</label>
+        <baseOpinionOffset>-25</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+  
+  <ThoughtDef>
+    <defName>XMT_Birthed_Parasite_Abhorrent</defName>
+    <durationDays>6</durationDays>
+    <stages>
+      <li>
+        <label>birthed monster!</label>
+        <description>No! One of them came from me! I'd rather have died!</description>
+        <baseMoodEffect>-60</baseMoodEffect>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_Birthed_Parasite_Know_Abhorrent</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>20</durationDays>
+    <stackLimit>100</stackLimit>
+    <stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+    <stages>
+      <li>
+        <label>birthed a parasite!</label>
+        <baseOpinionOffset>-25</baseOpinionOffset>
+      </li>
+    </stages>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsParasiteBorne_Abhorrent</defName>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <nullifyingTraits>
+		<!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>disturbing pattern</label>
+        <description>They won't attack me, Oh no!</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+      <li>
+        <label>shunned parasite</label>
+        <description>I am hated, but I do not understand why.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+      <li>
+        <label>reviled matriarch</label>
+        <description>they are my children, and yet it is abhorrent.</description>
+        <baseMoodEffect>-50</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>XMT_IsParasiteBorne_Abhorrent_Social</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
+    <nullifyingTraits>
+      <!--<li>Transhumanist</li>-->
+    </nullifyingTraits>
+    <stages>
+      <li>
+        <label>tainted</label>
+        <description>They never attack them. This is so suspicious!</description>
+        <baseOpinionOffset>-25</baseOpinionOffset>
+      </li>
+      <li>
+        <label>parasite</label>
+        <description>It's one of them! It must be destroyed!</description>
+        <baseOpinionOffset>-100</baseOpinionOffset>
+      </li>
+      <li>
+        <label>matriarch</label>
+        <description>The source of the horrors! It must die!</description>
+        <baseOpinionOffset>-300</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+  
+
+
+</Defs>

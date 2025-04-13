@@ -79,6 +79,9 @@ namespace Xenomorphtype
         public static TerrainDef            HiveFloor;
         public static TerrainDef            BarrenDust;
 
+        //Xenomorph affordance
+        public static TerrainAffordanceDef  Resin;
+
         //Xenomorph joykinds
         public static JoyKindDef            NestTending;
         public static JoyKindDef            HuntingPrey;

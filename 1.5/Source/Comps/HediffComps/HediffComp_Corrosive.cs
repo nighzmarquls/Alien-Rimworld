@@ -23,7 +23,6 @@ namespace Xenomorphtype {
         {
             base.CompPostTick(ref severityAdjustment);
 
-
             if(parent.pawn.IsHashIntervalTick(tickInterval))
             {
                 BodyPartRecord targetPart = parent.Part;
@@ -31,10 +30,14 @@ namespace Xenomorphtype {
                 {
                     if (!targetPart.IsCorePart)
                     {
-                        FleckMaker.ThrowSmoke(parent.pawn.DrawPos, parent.pawn.MapHeld, 1);
+                        if (Props.throwSmoke)
+                        {
+                            FleckMaker.ThrowSmoke(parent.pawn.DrawPos, parent.pawn.MapHeld, 1);
+                        }
                         parent.pawn.TakeDamage(new DamageInfo(Props.damageType, parent.Severity * Props.damageMultiplier, 999, -1, null, targetPart));
                     }
                 }
+
             }
         }
     }
@@ -45,6 +48,7 @@ namespace Xenomorphtype {
         public DamageDef damageType;
         public float damageMultiplier = 0.125f;
         public float damageIntervalHours;
+        public bool throwSmoke = true;
         public HediffCompProperties_Corrosive()
         {
             compClass = typeof(HediffComp_Corrosive);

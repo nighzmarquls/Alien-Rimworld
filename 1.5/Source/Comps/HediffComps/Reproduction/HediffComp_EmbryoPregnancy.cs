@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using Verse;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
 {
@@ -222,6 +223,8 @@ namespace Xenomorphtype
                     }  
                 }
                 child.relations.AddDirectRelation(PawnRelationDefOf.ParentBirth, Pawn);
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, child.Named(HistoryEventArgsNames.Doer), Pawn.Named(HistoryEventArgsNames.Victim)), true);
+
             }
 
             if (genes == null)
@@ -334,6 +337,9 @@ namespace Xenomorphtype
             XMTUtility.TrySpawnPawnFromTarget(child, Pawn);
 
             XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f);
+
+            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
+
 
             if (Pawn.Dead)
             {

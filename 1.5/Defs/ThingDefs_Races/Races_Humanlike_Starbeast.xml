@@ -277,6 +277,10 @@
 						<defName>XMT_KillThirst</defName>
 						<chance>100</chance>
 					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>Body_Standard</defName>
+						<chance>100</chance>
+					</li>
 				</raceGenes>
 				<maleGenderProbability>0.0</maleGenderProbability>
 				<abilities>
@@ -292,6 +296,8 @@
 					<bodyTypes Inherit="False">
 					  <li>Female</li>
 					  <li>Thin</li>
+					  <li>Hulk</li>
+					  <li>Male</li>
 					  <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
 					</bodyTypes>
 					<headBodyPartDef>StarbeastHead</headBodyPartDef>
@@ -624,6 +630,7 @@
 					<li>Skin_Melanin8</li>
 					<li>Skin_Melanin9</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">FacialRidges</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Fat</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Brow_Heavy</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Instability_Major</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Libido</li>
@@ -642,8 +649,8 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Ears</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Nose</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Jaw</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">BodyType</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Addiction</li>	
+					<li MayRequire="vanillaracesexpanded.insector">InsectorEye</li>
 				</blackGeneTags>
 				<blackEndoCategories/>
 				<!-- Apparel Restrictions-->
@@ -1640,6 +1647,9 @@
 				<blackGeneList>
 					<li MayRequire="Ludeon.RimWorld.Biotech">PsychicAbility_Deaf</li>
 				</blackGeneList>
+				<blackGeneTags> 
+					<li MayRequire="Ludeon.RimWorld.Biotech">BodyType</li>
+				</blackGeneTags> 
 				<onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
 				<whiteApparelList Inherit="False">
 				</whiteApparelList>

@@ -7,6 +7,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Noise;
+using static HarmonyLib.Code;
 
 namespace Xenomorphtype
 {
@@ -15,10 +16,19 @@ namespace Xenomorphtype
     {
         public int TimeLaid;
 
+        float gestateProgress = 0f;
+
         private CompHatchingEgg HatchingEgg;
         public bool CanFire => (HatchingEgg == null)? false : HatchingEgg.UnHatched;
 
+        public bool Ready => gestateProgress >= 1f;
+
         List<string> tmpGeneLabelsDesc = new List<string>();
+
+        public void ForceProgress(float progress = 1.0f)
+        {
+            gestateProgress = progress;
+        }
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
@@ -28,10 +38,14 @@ namespace Xenomorphtype
             {
                 HiveUtility.AddOvamorph(this, map);
             }
-            Pawn placer = this.Position.GetFirstPawn(map);
-            if (XMTUtility.IsXenomorph(placer))
+            
+            if(XMTUtility.PlayerXenosOnMap(map))
             {
-                LayEgg(placer);
+                SetFaction(Find.FactionManager.OfPlayer);
+            }
+            else
+            {
+                SetFaction(null);
             }
         }
 
@@ -123,19 +137,26 @@ namespace Xenomorphtype
 
             if (CanFire && Spawned)
             {
-                if (this.IsHashIntervalTick(120))
+                if (gestateProgress >= 1f)
                 {
                     IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(Position, Map, 1.5f, true).OfType<Pawn>()
                         .Where(x => XMTUtility.IsHost(x));
 
-                    foreach(Pawn host in  PossibleHosts)
+                    foreach (Pawn host in PossibleHosts)
                     {
-                        
+
                         if (Rand.Chance(SpringChance(host)))
                         {
                             HatchNow();
                             break;
                         }
+                    }
+                }
+                else
+                {
+                    if (Map.terrainGrid.TerrainAt(Position).affordances.Contains(InternalDefOf.Resin))
+                    {
+                        gestateProgress += 1f / (XMTSettings.LaidEggMaturationTime * 60000f);
                     }
                 }
             }
@@ -182,13 +203,16 @@ namespace Xenomorphtype
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
+
             HatchNow();
+
             base.Destroy(mode);
         }
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref TimeLaid, "timeLaidTick");
+            Scribe_Values.Look(ref gestateProgress, "gestateProgress");
         }
 
         public override string GetInspectString()
@@ -196,6 +220,18 @@ namespace Xenomorphtype
             string description = base.GetInspectString(); ;
             string text = description;
 
+            if (gestateProgress < 1)
+            {
+                if (XMTUtility.PlayerXenosOnMap(Map))
+                {
+                    text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "HatchesIn".Translate() + ": " + "PeriodDays".Translate((XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1")) ;
+                    if (!Map.terrainGrid.TerrainAt(Position).affordances.Contains(InternalDefOf.Resin))
+                    {
+                        text += "\n" + "cannot mature off resin.";
+                    }
+                }
+            }
+            
             
             if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
             {
@@ -236,6 +272,7 @@ namespace Xenomorphtype
                 SetFaction(instigator.Faction);
                 SetParents(instigator, pawn);
             }
+            gestateProgress = 1;
 
             if (pawn.BodySize > 1)
             {
@@ -254,6 +291,7 @@ namespace Xenomorphtype
                             break;
                         }
                         Ovamorph egg = GenSpawn.Spawn(def, cell, Map, WipeMode.VanishOrMoveAside) as Ovamorph;
+                        egg.gestateProgress = 1;
 
                         if (instigator == null)
                         {

@@ -102,12 +102,15 @@ namespace Xenomorphtype
 
                 if (ovamorph != null)
                 {
-                    if (XMTSettings.LogWorld)
+                    if (ovamorph.CanFire)
                     {
-                        Log.Message(thing + " is ovamorph");
+                        if (XMTSettings.LogWorld)
+                        {
+                            Log.Message(thing + " is viable ovamorph");
+                        }
+                        gameComponent.ReleaseOvamorphOnWorld(ovamorph);
+                        return;
                     }
-                    gameComponent.ReleaseOvamorphOnWorld(ovamorph);
-                    return;
                 }
 
                 HibernationCocoon hibernationCocoon = minifiedThing.InnerThing as HibernationCocoon;

@@ -53,15 +53,19 @@ namespace Xenomorphtype
                         SoundDefOf.PsycastPsychicPulse.PlayOneShot(new TargetInfo(queen));
                     }
                     queen.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
-                    foreach (Pawn subject in queen.Map.mapPawns.AllHumanlikeSpawned)
+                    List<Pawn> Humanlikes = queen.Map.mapPawns.AllHumanlikeSpawned.ToList();
+                    foreach (Pawn subject in Humanlikes)
                     {
+                        if(subject == null)
+                        {
+                            continue;
+                        }
                         if (subject == queen)
                         {
                             continue;
                         }
+
                         bool IsXenomorph = XMTUtility.IsXenomorph(subject);
-
-
 
                         if (IsXenomorph)
                         {

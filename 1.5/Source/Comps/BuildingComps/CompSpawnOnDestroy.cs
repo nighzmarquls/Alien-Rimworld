@@ -18,7 +18,11 @@ namespace Xenomorphtype
             base.PostDestroy(mode, previousMap);
 
             IntVec3 SpawnPosition = parent.Position;
-            Thing spawnedBuilding = GenSpawn.Spawn(Props.spawnThing,SpawnPosition,previousMap);
+            Thing spawnedThing = GenSpawn.Spawn(Props.spawnThing, SpawnPosition, previousMap);
+            if (spawnedThing is Ovamorph spawnedOvamorph)
+            {
+                spawnedOvamorph.ForceProgress();
+            }
             FilthMaker.TryMakeFilth(SpawnPosition, previousMap, InternalDefOf.Starbeast_Filth_Resin);
         }
     }

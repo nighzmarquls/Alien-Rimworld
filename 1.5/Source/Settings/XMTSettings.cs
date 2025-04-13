@@ -11,7 +11,6 @@ namespace Xenomorphtype
         public static bool LogJobGiver => instance != null ? instance._logJobGiver : false;
         public static bool LogBiohorror => instance != null ? instance._logBiohorror : false;
         public static bool LogRituals => instance != null ? instance._logRituals : false;
-
         public static bool LogWorld => instance != null ? instance._logWorld : false;
 
         private bool _logJobGiver = false;
@@ -33,11 +32,18 @@ namespace Xenomorphtype
         private int _minimumOpinionForHiveFriend = 80;
 
         public static float WildEmbryoChance => instance != null ? instance._wildEmbryoChance : 0.25f;
-        private float _wildEmbryoChance;
+        private float _wildEmbryoChance = 0.25f;
 
         public static float WildMorphHuntChance => instance != null ? instance._wildMorphHuntChance : 0.25f;
-        private float _wildMorphHuntChance;
+        private float _wildMorphHuntChance = 0.25f;
 
+        public static float LaidEggMaturationTime => instance != null ? instance._laidEggMaturationTime : 1f;
+        private float _laidEggMaturationTime = 1;
+
+        private string TooltipForEggMaturation()
+        {
+            return Mathf.Floor(_laidEggMaturationTime * 24) + " hours";
+        }
 
         private string TooltipForChance(float value)
         {
@@ -92,6 +98,10 @@ namespace Xenomorphtype
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", _minimumOpinionForHiveFriend.ToString());
             listingStandard.Gap(5f);
+            _laidEggMaturationTime = listingStandard.SliderLabeled("Time for Laid Ovamorphs to Incubate", _laidEggMaturationTime, 0, 10f, tooltip: TooltipForEggMaturation());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForEggMaturation());
+            listingStandard.Gap(5f);
 
             listingStandard.End();
             Widgets.EndScrollView();
@@ -109,6 +119,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _wildEmbryoChance, "wildEmbryoChance", 0.25f, false);
             Scribe_Values.Look(ref _wildMorphHuntChance, "wildMorphHuntChance", 0.25f, false);
             Scribe_Values.Look(ref _minimumOpinionForHiveFriend, "minimumOpinionForHiveFriend", 80, false);
+            Scribe_Values.Look(ref _laidEggMaturationTime, "laidEggMaturationTime", 1, false); 
             instance = this;
         }
         
