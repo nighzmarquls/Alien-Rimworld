@@ -126,6 +126,7 @@
 			<power>16</power>
 			<cooldownTime>2</cooldownTime>
 			<linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
 			<surpriseAttack>
 			  <extraMeleeDamages>
 				<li>
@@ -147,6 +148,7 @@
 			<power>16</power>
 			<cooldownTime>2</cooldownTime>
 			<linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
 			<surpriseAttack>
 			  <extraMeleeDamages>
 				<li>
@@ -166,7 +168,7 @@
 			<power>25</power>
 			<cooldownTime>2</cooldownTime>
 			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
-			<chanceFactor>0.07</chanceFactor>
+			<chanceFactor>0.75</chanceFactor>
 			<surpriseAttack>
 			  <extraMeleeDamages>
 				<li>
@@ -187,7 +189,7 @@
 			<power>25</power>
 			<cooldownTime>2</cooldownTime>
 			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
-			<chanceFactor>0.07</chanceFactor>
+			<chanceFactor>0.75</chanceFactor>
 			<surpriseAttack>
 			  <extraMeleeDamages>
 				<li>
@@ -216,7 +218,7 @@
 			</surpriseAttack>
 			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
 			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
-			<chanceFactor>0.2</chanceFactor>
+			<chanceFactor>0.25</chanceFactor>
 		  </li>
 		  <li>
 			<label>tail</label>
@@ -225,8 +227,9 @@
 				<li>Stab</li>
 			</capacities>
 			<power>25</power>
-			<cooldownTime>3</cooldownTime>
+			<cooldownTime>4</cooldownTime>
 			<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+			<chanceFactor>0.12</chanceFactor>
 			<surpriseAttack>
 			  <extraMeleeDamages>
 				<li>

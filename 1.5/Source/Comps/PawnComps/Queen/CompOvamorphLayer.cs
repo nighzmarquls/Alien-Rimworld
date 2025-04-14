@@ -128,6 +128,11 @@ namespace Xenomorphtype
         }
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
+            if (Parent.Faction != Faction.OfPlayer)
+            {
+                yield break;
+            }
+
             if (Parent.Drafted)
             {
                 yield break;

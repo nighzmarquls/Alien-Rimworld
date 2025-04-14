@@ -1006,7 +1006,7 @@ namespace Xenomorphtype
                         IntVec3 clearSite = IntVec3.Invalid;
                         foreach (IntVec3 eggSite in eggSites)
                         {
-                            if (eggSite.GetEdifice(Parent.Map) == null)
+                            if (eggSite.GetEdifice(Parent.Map) == null && !Parent.Map.reservationManager.IsReserved(eggSite))
                             {
                                 clearSite = eggSite;
                                 break;
@@ -1019,9 +1019,12 @@ namespace Xenomorphtype
                             {
                                 Parent.needs.joy.GainJoy(0.12f, InternalDefOf.NestTending);
                             }
-                            Parent.Map.reservationManager.ReleaseAllForTarget(ovamorphCandidate);
+                            
+                            
                             job = JobMaker.MakeJob(XenoWorkDefOf.MoveOvamorph, ovamorphCandidate, clearSite);
                             job.count = 1;
+                            Parent.Map.reservationManager.Reserve(Parent, job, ovamorphCandidate);
+                            Parent.Map.reservationManager.Reserve(Parent, job, clearSite);
                             return true;
                         }
                     }

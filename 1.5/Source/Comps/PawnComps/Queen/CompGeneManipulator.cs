@@ -22,6 +22,11 @@ namespace Xenomorphtype
         Pawn Parent => parent as Pawn;
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
+            if (Parent.Faction != Faction.OfPlayer)
+            {
+                yield break;
+            }
+
             if (Parent.Drafted)
             {
                 yield break;

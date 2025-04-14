@@ -132,10 +132,17 @@ namespace Xenomorphtype
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            if(Parent.Drafted)
+
+            if (Parent.Faction != Faction.OfPlayer)
             {
                 yield break;
             }
+
+            if (Parent.Drafted)
+            {
+                yield break;
+            }
+
 
             Command Command_Evolution = new Command_Evolution
             {

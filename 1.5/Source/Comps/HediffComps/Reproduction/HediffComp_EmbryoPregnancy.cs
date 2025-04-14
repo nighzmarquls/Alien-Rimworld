@@ -223,7 +223,7 @@ namespace Xenomorphtype
                     }  
                 }
                 child.relations.AddDirectRelation(PawnRelationDefOf.ParentBirth, Pawn);
-                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, child.Named(HistoryEventArgsNames.Doer), Pawn.Named(HistoryEventArgsNames.Victim)), true);
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
 
             }
 

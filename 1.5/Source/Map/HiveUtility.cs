@@ -1031,7 +1031,29 @@ namespace Xenomorphtype
             {
                 return null;
             }
-            return localNest.Ovamorphs.RandomElement();
+
+            foreach (Ovamorph ova in localNest.Ovamorphs)
+            {
+                if (ova.Ready)
+                {
+                    IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(ova.Position, map, 1.5f, true).OfType<Pawn>()
+                        .Where(x => XMTUtility.IsHost(x));
+
+                    if(PossibleHosts.Any())
+                    {
+                        continue;
+                    }
+
+                    if(map.reservationManager.IsReserved(ova))
+                    {
+                        continue;
+                    }
+
+                    return ova;
+                }
+            }
+
+            return null;
         }
 
         internal static Pawn GetHost(Map map)
@@ -1043,7 +1065,15 @@ namespace Xenomorphtype
             }
             if (localNest.AvailableHosts.Any())
             {
-                return localNest.AvailableHosts.First();
+                foreach (Pawn hostCandidate in localNest.AvailableHosts)
+                {
+                    if(map.reservationManager.IsReserved(hostCandidate))
+                    {
+                        continue;
+                    }
+
+                    return hostCandidate;
+                }
             }
 
             return null;

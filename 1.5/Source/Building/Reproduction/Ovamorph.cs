@@ -203,9 +203,10 @@ namespace Xenomorphtype
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-
-            HatchNow();
-
+            if (Ready)
+            {
+                HatchNow();
+            }
             base.Destroy(mode);
         }
         public override void ExposeData()
