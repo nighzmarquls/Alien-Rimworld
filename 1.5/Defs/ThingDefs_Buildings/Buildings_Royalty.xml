@@ -17,7 +17,7 @@
 		<uiIconScale>1.0</uiIconScale>
 		<designationCategory>XMT_Hive</designationCategory>
 		<rotatable>false</rotatable>
-		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
 		<altitudeLayer>Building</altitudeLayer>
 		<passability>Standable</passability>
 		<pathCost>30</pathCost>

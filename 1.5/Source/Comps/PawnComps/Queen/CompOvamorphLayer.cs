@@ -228,7 +228,8 @@ namespace Xenomorphtype
                 {
                     Parent.needs.food.CurLevel -= FoodCost;
                 }
-
+                XMTUtility.WitnessOvamorph(loc, map, 0.1f);
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Laid, Parent.Named(HistoryEventArgsNames.Doer)));
                 SoundDefOf.CocoonDestroyed.PlayOneShot(new TargetInfo(loc, map));
                 FilthMaker.TryMakeFilth(loc, map, InternalDefOf.Starbeast_Filth_Resin, count: 25);
                 nextOvamorph = null;

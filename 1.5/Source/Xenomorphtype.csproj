@@ -82,6 +82,7 @@
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompAdoptionEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompFascinationEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompHiveSongEffect.cs" />
+    <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompSirenBroadcastEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\XMT_Hivecast.cs" />
     <Compile Include="Abilities\Verbs\Verb_CastAbilityPounce.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
@@ -153,7 +154,7 @@
     <Compile Include="Comps\PawnComps\Queen\CompOvamorphLayer.cs" />
     <Compile Include="Comps\ThingCompHorror\CompFilthSpreader.cs" />
     <Compile Include="Comps\ThingCompHorror\CompStackMaturing.cs" />
-    <Compile Include="DefOfs\HiveRitualDefOf.cs" />
+    <Compile Include="DefOfs\XenoSocialDefOf.cs" />
     <Compile Include="DefOfs\RoyalEvolutionDefOf.cs" />
     <Compile Include="DefOfs\XenoPreceptDefOf.cs" />
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
@@ -168,8 +169,10 @@
     <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
     <Compile Include="Harmony\XMTWildmanPatch.cs" />
     <Compile Include="Hediffs\DisplayHediff.cs" />
+    <Compile Include="IdeoHorror\Precepts\Comps\PreceptComp_WitnessedAction.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph_Social.cs" />
+    <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_ParasiteEggs.cs" />
     <Compile Include="ModExtensions\AnimalMutateForms.cs" />
     <Compile Include="Progression\RoyalEvolutionDef.cs" />
     <Compile Include="IdeoHorror\Rituals\Behaviors\RitualBehaviorWorker_MatureQueen.cs" />

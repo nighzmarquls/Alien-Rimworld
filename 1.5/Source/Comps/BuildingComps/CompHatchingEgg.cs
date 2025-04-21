@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
 {
@@ -27,7 +28,7 @@ namespace Xenomorphtype
         {
             PawnGenerationRequest request = new PawnGenerationRequest(hatchedPawnKind, parent.Faction);
             request.FixedBiologicalAge = age;
-            var pawn = PawnGenerator.GeneratePawn(request);
+            Pawn pawn = PawnGenerator.GeneratePawn(request);
 
             CompLarvalGenes larvalGenes = pawn.GetComp<CompLarvalGenes>();
 
@@ -40,9 +41,12 @@ namespace Xenomorphtype
                     larvalGenes.genes = genes;
                 }
             }
+            pawn = GenSpawn.Spawn(pawn, position, map) as Pawn;
 
-            GenSpawn.Spawn(pawn, position, map);
-
+            if (pawn != null)
+            {
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Hatched, pawn.Named(HistoryEventArgsNames.Doer)));
+            }
         }
 
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)

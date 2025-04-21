@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ResearchProjectTagDef>
+    <defName>XMT_Hive_Start</defName>
+  </ResearchProjectTagDef>
+  
+  <ResearchProjectDef>
+    <defName>XMT_Starbeast_Construction</defName>
+    <label>Architectural Mimicry</label>
+    <description>The Hive has begun imitating patterns of construction and structures beyond their natural instincts.</description>
+    <techLevel>Neolithic</techLevel>
+    <baseCost>1500</baseCost>
+    <researchViewX>0.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+    <prerequisites>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->mimicry</li>
+
+        <li>subject_story->was the first in a line of temple designers, all sharing the same name</li>
+        <li>subject_story->developed unique techniques for cutting the hardest rock with basic tools</li>
+        <li>subject_story->tiled the entirety of the viceroy's palace on a medieval world</li>
+
+        <li>subject_gerund->stonecutting</li>
+        <li>subject_gerund->cutting stones</li>
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_StarbeastResearchTab</tab>
+  </ResearchProjectDef>
+  
+</Defs>

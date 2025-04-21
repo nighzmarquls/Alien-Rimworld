@@ -34,6 +34,7 @@ namespace Xenomorphtype
                 }
                 else if (subject.Faction != caster.Faction)
                 {
+                    
                     subject.SetFaction(caster.Faction);
                 }
             }

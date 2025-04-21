@@ -100,18 +100,49 @@ namespace Xenomorphtype
         float obsession = 0;
         float Obsession => obsession + TraitObsessionModifier();
 
-        public float OvamorphAwareness => ovamorphAwareness + TraitAwarenessModifier();
-        public float LarvaAwareness => larvaAwareness + TraitAwarenessModifier();
-        public float HorrorAwareness => horrorAwareness + TraitAwarenessModifier();
-        public float AcidAwareness => acidAwareness + TraitAwarenessModifier();
+        public float OvamorphAwareness => ovamorphAwareness + TraitAwarenessModifier() + IdeaReproductionModifier();
+        public float LarvaAwareness => larvaAwareness + TraitAwarenessModifier() + IdeaReproductionModifier();
+        public float HorrorAwareness => horrorAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
+        public float AcidAwareness => acidAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
 
-        public float PsychicAwareness => psychicAwareness; //+ TraitAwarenessModifier();
+        public float PsychicAwareness => psychicAwareness;
 
+
+        public float IdeaReproductionModifier()
+        {
+            float modifier = 0;
+            if (parent is Pawn Parent)
+            {
+                if (ModsConfig.IdeologyActive)
+                {
+                    if (Parent.Ideo is Ideo PawnIdeo)
+                    {
+                        PawnIdeo.HasMaxPreceptsForIssue(XenoPreceptDefOf.XMT_Reproduction);
+                    }
+                }
+            }
+            return modifier;
+        }
+
+        public float IdeoAdultModifier()
+        {
+            float modifier = 0;
+            if (parent is Pawn Parent)
+            {
+                if (ModsConfig.IdeologyActive)
+                {
+                    if(Parent.Ideo is Ideo PawnIdeo)
+                    {
+                        PawnIdeo.HasMaxPreceptsForIssue(XenoPreceptDefOf.XMT_Cryptobio);
+                    }
+                }
+            }
+            return modifier;
+        }
         public float TraitAwarenessModifier()
         {
-            Pawn Parent = parent as Pawn;
             float modifier = 0;
-            if (Parent != null)
+            if (parent is Pawn Parent)
             {
                 if (Parent?.story?.traits != null)
                 {
@@ -126,9 +157,44 @@ namespace Xenomorphtype
 
         public float TraitObsessionModifier()
         {
-            Pawn Parent = parent as Pawn;
             float modifier = 0;
+            if (parent is Pawn Parent)
+            {
+                if (ModsConfig.IdeologyActive)
+                {
+                    if (Parent.Ideo is Ideo PawnIdeo)
+                    {
+                        foreach(Precept precept in PawnIdeo.PreceptsListForReading)
+                        {
+                            if(precept.def == XenoPreceptDefOf.XMT_Biomorph_Worship)
+                            {
+                                modifier += 2;
+                            }
+                            else if(precept.def == XenoPreceptDefOf.XMT_Biomorph_Study)
+                            {
+                                modifier += 1;
+                            }
+                            else if (precept.def == XenoPreceptDefOf.XMT_Biomorph_Abhorrent)
+                            {
+                                modifier -= 2;
+                            }
 
+                            if (precept.def == XenoPreceptDefOf.XMT_Parasite_Reincarnation)
+                            {
+                                modifier += 2;
+                            }
+                            else if (precept.def == XenoPreceptDefOf.XMT_Parasite_Revered)
+                            {
+                                modifier += 1;
+                            }
+                            else if(precept.def == XenoPreceptDefOf.XMT_Parasite_Abhorrent)
+                            {
+                                modifier -= 2;
+                            }
+                        }
+                    }
+                }
+            }
             return modifier;
         }
         public override void PostExposeData()
@@ -511,7 +577,7 @@ namespace Xenomorphtype
 
         public float TotalHorrorAwareness()
         {
-            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier();
+            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() + IdeaReproductionModifier() + IdeoAdultModifier();
         }
 
         public bool IsObsessed()

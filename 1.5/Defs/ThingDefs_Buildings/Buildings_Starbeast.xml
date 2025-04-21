@@ -31,7 +31,7 @@
 		  <drawOffset>(0,0,1.5)</drawOffset>
 		</graphicData>
 		<rotatable>false</rotatable>
-		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
 		<altitudeLayer>MoteOverhead</altitudeLayer>
 		<passability>PassThroughOnly</passability>
 		<constructEffect>ResinBuild</constructEffect>
@@ -62,10 +62,6 @@
 		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
 			<replacedWith>AtmospherePylon</replacedWith>
 		  </li>
-		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
-			<spreadTerrain>HiveFloor</spreadTerrain>
-			<radius>2</radius>
-		  </li>
 		</comps>
 		<designationCategory>XMT_Hive</designationCategory>
 	</ThingDef>
@@ -88,7 +84,7 @@
 		  <drawOffset>(0,0,1.5)</drawOffset>
 		</graphicData>
 		<rotatable>false</rotatable>
-		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
 		<altitudeLayer>MoteOverhead</altitudeLayer>
 		<passability>PassThroughOnly</passability>
 		<constructEffect>ResinBuild</constructEffect>
@@ -98,7 +94,7 @@
 		<pathCost>50</pathCost>
 		<statBases>
 		  <MaxHitPoints>150</MaxHitPoints>
-		  <WorkToBuild>3300</WorkToBuild>
+		  <WorkToBuild>4000</WorkToBuild>
 		  <Flammability>0</Flammability>
 		  <Beauty>0</Beauty>
 		</statBases>
@@ -124,11 +120,108 @@
 		  </li>
 		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
 			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
 			<radius>2</radius>
 		  </li>
 		</comps>
 	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveBridgeBuildable">
+		<defName>HiveBridgeBuildable</defName>
+		<label>resin Bridge</label>
+		<description>Some kind of secreted resin, shaped into organic patterns on the ground. It fills in a foundation of uneven ground.</description>
+		<graphicData>
+		  <texPath>Terrain/FloorBlueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<uiIconPath>Terrain/HiveFloor_MenuIcon</uiIconPath>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<wipesPlants>true</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<blocksAltitudes>
+		  <li>FloorCoverings</li>
+		</blocksAltitudes>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>350</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>Bridgeable</terrainAffordanceNeeded>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Terrain/FloorBlueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith></replacedWith>
+		  </li>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<radius>0</radius>
+		  </li>
+		</comps>
+		<placingDraggableDimensions>2</placingDraggableDimensions>
+		<constructEffect>ResinBuild</constructEffect>
+	</ThingDef>
 
+	<ThingDef ParentName="BuildingBase" Name="HeavyHiveFloorBuildable">
+		<defName>HeavyHiveFloorBuildable</defName>
+		<label>reinforced Resin Floor</label>
+		<description>Some kind of secreted resin, shaped into organic patterns on the ground. It has extremely stable and deep foundations.</description>
+		<graphicData>
+		  <texPath>Terrain/FloorBlueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<uiIconPath>Terrain/HeavyHiveFloor_MenuIcon</uiIconPath>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<wipesPlants>true</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<blocksAltitudes>
+		  <li>FloorCoverings</li>
+		</blocksAltitudes>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>350</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Terrain/FloorBlueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith></replacedWith>
+		  </li>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HeavyHiveFloor</spreadTerrain>
+			<radius>0</radius>
+		  </li>
+		</comps>
+		<placingDraggableDimensions>2</placingDraggableDimensions>
+		<constructEffect>ResinBuild</constructEffect>
+	</ThingDef>
+	
 	<ThingDef ParentName="BuildingBase" Name="HiveFloorBuildable">
 		<defName>HiveFloorBuildable</defName>
 		<label>resin Floor</label>
@@ -154,6 +247,7 @@
 		  <Flammability>0</Flammability>
 		  <Beauty>0</Beauty>
 		</statBases>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
 		<building>
 			<isEdifice>false</isEdifice>
 			<expandHomeArea>true</expandHomeArea>
@@ -295,9 +389,11 @@
 		<comps>
 		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
 			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>1</radius>
 		  </li>
 		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
-			<radius>2</radius>
+			<radius>1</radius>
 		  </li>
 		</comps>
 
@@ -306,7 +402,7 @@
 	<ThingDef ParentName="BuildingBase" Name="HiveWebbingBuildable">
 		<defName>HiveWebbingBuildable</defName>
 		<label>resin Web</label>
-		<description>Some kind of secreted resin, a organic web which obstructs motion.</description>
+		<description>Some kind of secreted resin, a organic web which obstructs motion. (This building acts as a door.)</description>
 		<graphicData>
 		  <texPath>Things/Building/Web</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>

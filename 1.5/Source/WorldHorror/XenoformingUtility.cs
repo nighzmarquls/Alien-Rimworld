@@ -78,10 +78,44 @@ namespace Xenomorphtype
 
             }
         }
+
+        public static void HandleXenoformingImpact(HibernationCocoon hibernationCocoon)
+        {
+            if (hibernationCocoon != null)
+            {
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message(hibernationCocoon + " is a hibernation cocoon");
+                }
+                HandleXenoformingImpact(hibernationCocoon.ContainedThing as Pawn);
+            }
+
+
+        }
+        public static void HandleXenoformingImpact(Ovamorph ovamorph)
+        {
+
+            if (ovamorph != null)
+            {
+                if (ovamorph.CanFire)
+                {
+                    if (XMTSettings.LogWorld)
+                    {
+                        Log.Message(ovamorph + " is viable ovamorph");
+                    }
+                    gameComponent.ReleaseOvamorphOnWorld(ovamorph);
+                    return;
+                }
+            }
+        }
         public static void HandleXenoformingImpact(Thing thing)
         {
             if(thing == null)
             {
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("thing is null");
+                }
                 return;
             }
 
@@ -95,35 +129,38 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(thing + " is minified");
+                    Log.Message(thing + " is a minified thing");
                 }
+                HandleXenoformingImpact(minifiedThing.InnerThing);
+                return;
+            }
 
-                Ovamorph ovamorph = minifiedThing.InnerThing as Ovamorph;
+            Ovamorph ovamorph = thing as Ovamorph;
 
-                if (ovamorph != null)
-                {
-                    if (ovamorph.CanFire)
-                    {
-                        if (XMTSettings.LogWorld)
-                        {
-                            Log.Message(thing + " is viable ovamorph");
-                        }
-                        gameComponent.ReleaseOvamorphOnWorld(ovamorph);
-                        return;
-                    }
-                }
-
-                HibernationCocoon hibernationCocoon = minifiedThing.InnerThing as HibernationCocoon;
-
-                if(hibernationCocoon != null)
+            if (ovamorph != null)
+            {
+                if (ovamorph.CanFire)
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(thing + " is a hibernation cocoon");
+                        Log.Message(thing + " is viable ovamorph");
                     }
-                    HandleXenoformingImpact(hibernationCocoon.ContainedThing as Pawn);
+                    gameComponent.ReleaseOvamorphOnWorld(ovamorph);
+                    return;
                 }
             }
+
+            HibernationCocoon hibernationCocoon = thing as HibernationCocoon;
+
+            if(hibernationCocoon != null)
+            {
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message(thing + " is a hibernation cocoon");
+                }
+                HandleXenoformingImpact(hibernationCocoon.ContainedThing as Pawn);
+            }
+            
             XMTGenePack genePack = thing as XMTGenePack;
 
             if (genePack != null)

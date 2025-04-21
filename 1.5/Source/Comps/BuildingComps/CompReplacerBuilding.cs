@@ -26,12 +26,24 @@ namespace Xenomorphtype
                 parent.DeSpawn();
                 if (Props.replacedWith != null)
                 {
-                    Thing spawned = GenSpawn.Spawn(Props.replacedWith, position, map, WipeMode.VanishOrMoveAside);
-
-                    if (faction != null && spawned != null)
+                    if (Props.replacedStuff != null)
                     {
-                        spawned.SetFaction(faction);
+                        Thing thing = ThingMaker.MakeThing(Props.replacedWith, Props.replacedStuff);
+                        thing.SetFactionDirect(faction);
+                        GenSpawn.Spawn(thing, position, map, parent.Rotation, WipeMode.VanishOrMoveAside);
                     }
+                    else
+                    {
+                        Thing spawned = GenSpawn.Spawn(Props.replacedWith, position, map, WipeMode.VanishOrMoveAside);
+                        if (spawned != null)
+                        {
+                            if (faction != null)
+                            {
+                                spawned.SetFaction(faction);
+                            }
+                        }
+                    }
+                  
                 }
 
             }
@@ -42,6 +54,7 @@ namespace Xenomorphtype
     public class CompReplacerBuildingProperties : CompProperties
     {
         public ThingDef replacedWith = null;
+        public ThingDef replacedStuff = null;
 
         public CompReplacerBuildingProperties()
         {

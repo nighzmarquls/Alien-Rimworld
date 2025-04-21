@@ -430,23 +430,32 @@ namespace Xenomorphtype
 
         private static HediffDef GetHorrorPregnancyForPawn(Pawn target)
         {
+
             HediffDef pregnancy = XenoGeneDefOf.XMT_HorrorPregnant;
-            foreach (DefModExtension modExt in target.def.modExtensions)
+            if (target != null)
             {
-                AnimalMutateForms animalMutateForms = modExt as AnimalMutateForms;
-                if (animalMutateForms != null)
+                foreach (DefModExtension modExt in target.def.modExtensions)
                 {
-                    if(animalMutateForms.horrorPregnancy != null)
+                    AnimalMutateForms animalMutateForms = modExt as AnimalMutateForms;
+                    if (animalMutateForms != null)
                     {
-                        pregnancy = animalMutateForms.horrorPregnancy;
+                        if (animalMutateForms.horrorPregnancy != null)
+                        {
+                            pregnancy = animalMutateForms.horrorPregnancy;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             return pregnancy;
         }
         private static void ApplyHorrorPregnancy(Pawn target)
         {
+            if(target == null)
+            {
+                return;
+            }
+
             target.health.AddHediff(GetHorrorPregnancyForPawn(target));
         }
 

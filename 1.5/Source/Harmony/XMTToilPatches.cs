@@ -14,6 +14,29 @@ namespace Xenomorphtype
 {
     internal class XMTToilPatches
     {
+        [HarmonyPatch(typeof(JobDriver_Deconstruct), "FinishedRemoving")]
+        public static class Patch_JobDriver_Deconstruct_FinishedRemoving
+        {
+
+
+            [HarmonyPrefix]
+            public static void Prefix(JobDriver_Deconstruct __instance)
+            {
+                Pawn actor = __instance.pawn;
+                
+                if (XMTUtility.IsXenomorph(actor))
+                {
+                    if (__instance.job.GetTarget(TargetIndex.A).Thing is Building building)
+                    {
+                        if (!XMTUtility.IsHiveBuilding(building.def))
+                        {
+                            int progress = building.HitPoints / 10;
+                            Find.ResearchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, actor);
+                        }
+                    }
+                }
+            }
+        }
         [HarmonyPatch(typeof(JobDriver_ConstructFinishFrame), "MakeNewToils")]
         public static class Patch_JobDriver_ConstructFinishFrame_MakeNewToils
         {

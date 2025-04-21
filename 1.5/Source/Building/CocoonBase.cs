@@ -47,10 +47,25 @@ namespace Xenomorphtype
                     LastOccupant = occupant;
                     HiveUtility.AddCocooned(occupant, occupant.MapHeld);
                 }
+                else
+                {
+                    if(LastOccupant.Dead || occupant != LastOccupant)
+                    {
+                        Kill();
+                        return;
+                    }
+                }
+
                 occupant.jobs.posture = PawnPosture.LayingInBedFaceUp;
                 if (occupant.IsPrisoner && !ForPrisoners)
                 {
                     ForOwnerType = BedOwnerType.Prisoner;
+                    occupant.jobs.Notify_TuckedIntoBed(this);
+                }
+
+                if (occupant.IsSlave && !ForSlaves)
+                {
+                    ForOwnerType = BedOwnerType.Slave;
                     occupant.jobs.Notify_TuckedIntoBed(this);
                 }
             }

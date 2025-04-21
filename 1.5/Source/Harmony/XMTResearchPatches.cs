@@ -26,6 +26,16 @@ namespace Xenomorphtype
                         return;
                     }
                 }
+
+                if(tab == XenoSocialDefOf.XMT_StarbeastResearchTab && !___tabInfoVisibility[XenoSocialDefOf.XMT_StarbeastResearchTab])
+                {
+                    if(XMTUtility.QueenIsPlayer())
+                    {
+                        ___tabInfoVisibility[XenoSocialDefOf.XMT_StarbeastResearchTab] = true;
+                        __result = true;
+                        return;
+                    }
+                }
             }
         }
     }

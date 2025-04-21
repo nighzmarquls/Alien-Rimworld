@@ -119,7 +119,7 @@ namespace Xenomorphtype
         }
         public void ReleaseOvamorphOnWorld(Ovamorph ovamorph)
         {
-           
+            ovamorph.HatchNow();
             _xenoforming = Mathf.Min(OvamorphSaturationLimit, _xenoforming + (OvamorphImpact*ovamorph.stackCount));
             if (XMTSettings.LogWorld)
             {

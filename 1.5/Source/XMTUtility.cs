@@ -440,12 +440,19 @@ namespace Xenomorphtype
                 Building HitStructure = location.GetEdifice(map);
                 if (HitStructure != null)
                 {
-                    HitStructure.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, HitStructure.HitPoints * 0.1f, 1));
-                    return true;
+                    if(!IsAcidImmune(HitStructure))
+                    {
+                        HitStructure.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, HitStructure.HitPoints * 0.1f, 1));
+                        return true;
+                    }
                 }
 
-                
-                if (map.terrainGrid.TerrainAt(location) != InternalDefOf.HiveFloor && map.terrainGrid.TerrainAt(location) != ExternalDefOf.EmptySpace)
+
+                if (map.terrainGrid.TerrainAt(location) != InternalDefOf.AcidBurned &&
+                    map.terrainGrid.TerrainAt(location) != InternalDefOf.HiveFloor &&
+                    map.terrainGrid.TerrainAt(location) != InternalDefOf.HeavyHiveFloor &&
+                    map.terrainGrid.TerrainAt(location) != InternalDefOf.SmoothHiveFloor &&
+                    map.terrainGrid.TerrainAt(location) != ExternalDefOf.EmptySpace)
                 {
                     if (map.terrainGrid.CanRemoveTopLayerAt(location))
                     {
@@ -466,7 +473,18 @@ namespace Xenomorphtype
                                 }
                             }
                         }
-                        map.terrainGrid.SetTerrain(location, InternalDefOf.AcidBurned);
+                        if (map.terrainGrid.TerrainAt(location) == InternalDefOf.MediumAcidBurned)
+                        {
+                            map.terrainGrid.SetTerrain(location, InternalDefOf.AcidBurned);
+                        }
+                        else if (map.terrainGrid.TerrainAt(location) == InternalDefOf.LightAcidBurned)
+                        {
+                            map.terrainGrid.SetTerrain(location, InternalDefOf.MediumAcidBurned);
+                        }
+                        else
+                        {
+                            map.terrainGrid.SetTerrain(location, InternalDefOf.LightAcidBurned);
+                        }
                     }
 
                     return true;
@@ -1414,6 +1432,16 @@ namespace Xenomorphtype
         public static bool QueenPresent()
         {
             return Queen != null;
+        }
+
+        public static bool QueenIsPlayer()
+        {
+            if(Queen == null)
+            {
+                return false;
+            }
+
+            return Queen.Faction == Faction.OfPlayer;
         }
 
         public static void QueenDied(Pawn p)

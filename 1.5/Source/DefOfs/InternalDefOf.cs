@@ -76,7 +76,12 @@ namespace Xenomorphtype
 
         //Xenomorph terrain
         public static TerrainDef            AcidBurned;
+        public static TerrainDef            LightAcidBurned;
+        public static TerrainDef            MediumAcidBurned;
+
         public static TerrainDef            HiveFloor;
+        public static TerrainDef            HeavyHiveFloor;
+        public static TerrainDef            SmoothHiveFloor;
         public static TerrainDef            BarrenDust;
 
         //Xenomorph affordance

@@ -179,8 +179,18 @@ namespace Xenomorphtype
             float legMaturity = maturity * Props.legMaturationRate;
             float armMaturity = maturity * Props.armMaturationRate;
 
-            Faction     ChildFaction = (mother != null) ? mother.Faction : null;
+            Faction     ChildFaction = (XMTUtility.PlayerXenosOnMap(parent.pawn.MapHeld)) ? Faction.OfPlayer : (mother != null) ? mother.Faction : null ;
 
+            if (ModsConfig.IdeologyActive)
+            {
+                if(Pawn.Ideo is Ideo hostIdeo)
+                {
+                    if (hostIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation))
+                    {
+                        ChildFaction = Pawn.Faction;
+                    }
+                }
+            }
 
             PawnGenerationRequest request = new PawnGenerationRequest(
                 InternalDefOf.XMT_StarbeastKind, faction: ChildFaction, PawnGenerationContext.PlayerStarter,-1,true,false,true,false,false,0,false,true,false,false,false,false,false,false,true,0,0,null,0,null,null,null,null,0,Age,0,Gender.Female,null);

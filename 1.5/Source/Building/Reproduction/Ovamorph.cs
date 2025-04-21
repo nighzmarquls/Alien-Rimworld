@@ -16,7 +16,11 @@ namespace Xenomorphtype
     {
         public int TimeLaid;
 
+        int tempCheckTick = 0;
+
         float gestateProgress = 0f;
+
+        bool accelerated = false;
 
         private CompHatchingEgg HatchingEgg;
         public bool CanFire => (HatchingEgg == null)? false : HatchingEgg.UnHatched;
@@ -37,15 +41,6 @@ namespace Xenomorphtype
             if (HatchingEgg != null && CanFire)
             {
                 HiveUtility.AddOvamorph(this, map);
-            }
-            
-            if(XMTUtility.PlayerXenosOnMap(map))
-            {
-                SetFaction(Find.FactionManager.OfPlayer);
-            }
-            else
-            {
-                SetFaction(null);
             }
         }
 
@@ -121,6 +116,38 @@ namespace Xenomorphtype
             }
         }
 
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+            if(Ready )
+            {
+                if (CanFire && (XMTUtility.PlayerXenosOnMap(Map) || DebugSettings.ShowDevGizmos))
+                {
+                    Command_Action command_Action = new Command_Action();
+                    command_Action.defaultLabel = "Hatch Now";
+                    command_Action.icon = ContentFinder<Texture2D>.Get(base.Graphic.path + "_Empty"); ;
+                    command_Action.action = delegate
+                    {
+                        HatchNow();
+                    };
+                    yield return command_Action;
+                }
+            }
+            else if (DebugSettings.ShowDevGizmos)
+            {
+                Command_Action command_Action = new Command_Action();
+                command_Action.defaultLabel = "DEV: Force Maturity";
+                command_Action.action = delegate
+                {
+                    gestateProgress = 1.0f;
+                };
+                yield return command_Action;
+            }
+
+            foreach(Gizmo gizmo in base.GetGizmos())
+            {
+                yield return gizmo;
+            }
+        }
         public override void Tick()
         {
             base.Tick();
@@ -133,6 +160,12 @@ namespace Xenomorphtype
             {
                 Log.WarningOnce("No HatchingEgg Props Defined",098765678);
                 return;
+            }
+            int ticks = Find.TickManager.TicksGame;
+            if (ticks > tempCheckTick)
+            {
+                tempCheckTick = ticks += 2500;
+                accelerated = Position.GetTemperature(Map) >= 30;
             }
 
             if (CanFire && Spawned)
@@ -154,9 +187,14 @@ namespace Xenomorphtype
                 }
                 else
                 {
+                    
                     if (Map.terrainGrid.TerrainAt(Position).affordances.Contains(InternalDefOf.Resin))
                     {
-                        gestateProgress += 1f / (XMTSettings.LaidEggMaturationTime * 60000f);
+                        gestateProgress += (accelerated? 2f : 1f) / (XMTSettings.LaidEggMaturationTime * 60000f);
+                    }
+                    else
+                    {
+                        gestateProgress += (accelerated ? 0.2f : 0.1f) / (XMTSettings.LaidEggMaturationTime * 60000f);
                     }
                 }
             }
@@ -183,6 +221,12 @@ namespace Xenomorphtype
             }
 
             HatchingEgg.UnHatched = false;
+
+            if (!Spawned)
+            {
+                return;
+            }
+
             if (HatchingEgg.hatchedPawnKind == null)
             {
                 Log.Warning("No Hatched Pawn Defined in Ovamorph");
@@ -212,8 +256,10 @@ namespace Xenomorphtype
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref tempCheckTick, "tempCheckTick");
             Scribe_Values.Look(ref TimeLaid, "timeLaidTick");
             Scribe_Values.Look(ref gestateProgress, "gestateProgress");
+            Scribe_Values.Look(ref accelerated, "accelerated");
         }
 
         public override string GetInspectString()
@@ -221,18 +267,27 @@ namespace Xenomorphtype
             string description = base.GetInspectString(); ;
             string text = description;
 
-            if (gestateProgress < 1)
+            if (XMTUtility.PlayerXenosOnMap(Map) || DebugSettings.ShowDevGizmos)
             {
-                if (XMTUtility.PlayerXenosOnMap(Map))
+                if (gestateProgress < 1)
                 {
-                    text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "HatchesIn".Translate() + ": " + "PeriodDays".Translate((XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1")) ;
+
                     if (!Map.terrainGrid.TerrainAt(Position).affordances.Contains(InternalDefOf.Resin))
                     {
-                        text += "\n" + "cannot mature off resin.";
+                        text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "HatchesIn".Translate() + ": " + "PeriodDays".Translate((accelerated ? 5 : 10 * XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1")) + "\n";
+                        text += "Needs Resin Support";
                     }
+                    else
+                    {
+                        text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "HatchesIn".Translate() + ": " + "PeriodDays".Translate((accelerated ? 0.5 : 1 * XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1"));
+                    }
+
+                }
+                else
+                {
+                    text += "Ready.";
                 }
             }
-            
             
             if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
             {
@@ -248,7 +303,7 @@ namespace Xenomorphtype
            
             if (!text.NullOrEmpty())
             {
-                text += "\n\n";
+                text += "\n";
             }
 
 

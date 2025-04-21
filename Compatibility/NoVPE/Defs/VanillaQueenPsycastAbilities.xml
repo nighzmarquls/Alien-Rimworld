@@ -80,7 +80,7 @@
 		</comps>
 	</AbilityDef>
 	
-	<AbilityDef ParentName="PsycastBase">
+	<AbilityDef ParentName="HivecastBase">
 		<defName>XMT_Fascination</defName>
 		<label>fascinate</label>
 		<description>Psychically reach out to the targets to imprint the caster upon them. In the most heavily effected they will approach the caster.</description>
@@ -116,6 +116,63 @@
 				<fleckDef>PsycastPsychicEffect</fleckDef>
 			</li>
 		</comps>
+	</AbilityDef>
+	
+	<AbilityDef ParentName="HivecastBase">
+		<defName>XMT_SirenBroadcast</defName>
+		<label>siren Broadcast</label>
+		<description>reach out to distant minds and instill in them a potent psychic call. Close up it may be sufficient to compell the easily suggestible to approach mindlessly in a fugue.</description>
+		<level>4</level>
+		<iconPath>UI/Abilities/Neuroquake</iconPath>
+		<hotKey>Misc12</hotKey>
+		<jobDef>CastAbilityOnThingUninterruptible</jobDef>
+		<targetRequired>False</targetRequired>
+		<canUseAoeToGetTargets>False</canUseAoeToGetTargets>
+		<showPsycastEffects>False</showPsycastEffects>
+		<showCastingProgressBar>True</showCastingProgressBar>
+		<warmupMote>Mote_WarmupNeuroquake</warmupMote>
+		<warmupStartSound>Psycast_Neuroquake_CastStart</warmupStartSound>
+		<warmupSound>Psycast_Neuroquake_CastLoop</warmupSound>
+		<warmupPreEndSound>Psycast_Neuroquake_CastEnd</warmupPreEndSound>
+		<warmupPreEndSoundSeconds>5</warmupPreEndSoundSeconds>
+		<hostile>false</hostile>
+		<statBases>
+		  <Ability_EntropyGain>100</Ability_EntropyGain>
+		  <Ability_PsyfocusCost>0.5</Ability_PsyfocusCost>
+		  <Ability_Duration>4800</Ability_Duration>
+		</statBases>
+		<verbProperties>
+		  <warmupTime>12</warmupTime>
+		  <drawAimPie>False</drawAimPie>
+		  <requireLineOfSight>False</requireLineOfSight>
+		  <targetParams>
+			<canTargetSelf>True</canTargetSelf>
+		  </targetParams>
+		</verbProperties>
+		<comps>
+		  <li Class="Xenomorphtype.CompProperties_SirenBroadcast">
+			<worldRangeTiles>6</worldRangeTiles>
+			<screenShakeIntensity>2</screenShakeIntensity>
+			<mesmerizedJobDef>GotoMindControlled</mesmerizedJobDef>
+			<friendlyPrecepts>
+				<li>XMT_Parasite_Reincarnation</li>
+				<li>XMT_Parasite_Revered</li>
+				<li>XMT_Biomorph_Worship</li>
+			</friendlyPrecepts>
+			<hostilePrecepts>
+				<li>XMT_Parasite_Abhorrent</li>
+				<li>XMT_Biomorph_Abhorrent</li>
+				<li>XMT_Biomorph_Study</li>
+				<li>XMT_Biomorph_Hunt</li>
+			</hostilePrecepts>
+			<psychic>True</psychic>
+		  </li>
+		  <li Class="CompProperties_AbilityFleckOnTarget">
+			<fleckDef>PsychicApplyNeuroquake</fleckDef>
+			<sound>Psycast_Neuroquake_Effect</sound>
+		  </li>
+		</comps>
+		<confirmationDialogText>If you use siren broadcast, everyone in this region will feel the psychic call and send a party to investigate, you may lose goodwill with some factions and hostile factions will send raids.\n\nSiren Broadcast takes 12 seconds to cast, and cannot be interrupted.\n\nEveryone on the map will be effected by it.\n\nDo you really want to cast siren broadcast?</confirmationDialogText>
 	</AbilityDef>
 	
 	<!--

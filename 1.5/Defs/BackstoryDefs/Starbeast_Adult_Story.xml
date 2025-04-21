@@ -218,7 +218,7 @@
 	<AlienRace.AlienBackstoryDef>
 		<defName>StarbeastHiveGuard11</defName>
 		<title>hive guard</title>
-		<titleShort>gaurd</titleShort>
+		<titleShort>guard</titleShort>
 		<description>Renowned as stronger that most others, they stay close to the hive providing protection.</description>
 		<slot>Adulthood</slot>
 		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>

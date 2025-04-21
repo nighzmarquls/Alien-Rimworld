@@ -257,6 +257,7 @@
 			<canBePredatorPrey>false</canBePredatorPrey>
 			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
 			<leatherDef>Starbeast_Chitin</leatherDef>
+			<canBecomeShambler>false</canBecomeShambler>
 			<!--<bloodSmearDef Inherit="false">Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
 		</race>
 		<alienRace>
@@ -303,6 +304,48 @@
 					  <li>Male</li>
 					  <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
 					</bodyTypes>
+					<headOffsetDirectional>
+						<north>
+							<bodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.0)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.0)</Male>
+							</portraitBodyTypes>
+						</north>
+						<south>
+							<bodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.07)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.07)</Male>
+							</portraitBodyTypes>
+						</south>
+						<east>
+							<bodyTypes>
+								<Hulk>(0.16, 0.12)</Hulk>
+								<Male>(0.06, 0.07)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(0.16, 0.12)</Hulk>
+								<Male>(0.06, 0.07)</Male>
+							</portraitBodyTypes>
+						</east>
+						<west>
+							<bodyTypes>
+								<Hulk>(-0.16, 0.12)</Hulk>
+								<Male>(-0.06, 0.07)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(-0.16, 0.12)</Hulk>
+								<Male>(-0.06, 0.07)</Male>
+							</portraitBodyTypes>
+						</west>
+					</headOffsetDirectional>
 					<headBodyPartDef>StarbeastHead</headBodyPartDef>
 					<colorChannels Inherit="False">
 						<li>
@@ -509,9 +552,17 @@
 							  </south>
 							  <north>
 								<layerOffset>0.25</layerOffset>
+								<bodyTypes>
+									<Hulk>(0.0, 0.0)</Hulk>
+									<Male>(0.0, 0.0)</Male>
+								</bodyTypes>
 							  </north>
 							  <east>
 								<layerOffset>0.25</layerOffset>
+								<bodyTypes>
+									<Hulk>(0.2, 0.0)</Hulk>
+									<Male>(0.06, 0.0)</Male>
+								</bodyTypes>
 							  </east>
 							</offsets>
 						</li>
@@ -542,6 +593,8 @@
 								<bodyTypes>
 									<Baby MayRequire="ludeon.rimworld.biotech">(-0.05, 0.3)</Baby>
 									<Child MayRequire="ludeon.rimworld.biotech">(-0.05, 0.3)</Child>
+									<Hulk>(-0.2, -0.08)</Hulk>
+									<Male>(0.0, 0.0)</Male>
 								</bodyTypes>
 							  </south>
 							  <north>
@@ -550,6 +603,8 @@
 								<bodyTypes>
 									<Baby MayRequire="ludeon.rimworld.biotech">(0.006, 0.14)</Baby>
 									<Child MayRequire="ludeon.rimworld.biotech">(0.006, 0.14)</Child>
+									<Hulk>(0.0, -0.22)</Hulk>
+									<Male>(0.0, 0.0)</Male>
 								</bodyTypes>
 							  </north>
 							  <east>
@@ -558,6 +613,8 @@
 								<bodyTypes>
 									<Baby MayRequire="ludeon.rimworld.biotech">(-0.14, 0.06)</Baby>
 									<Child MayRequire="ludeon.rimworld.biotech">(-0.14, 0.06)</Child>
+									<Hulk>(0.1, -0.1)</Hulk>
+									<Male>(0.0, 0.0)</Male>
 								</bodyTypes>
 							  </east>
 							</offsets>
@@ -607,6 +664,13 @@
 			</relationSettings>
 			
 			<raceRestriction>
+				<researchList>
+					<li>
+						<projects>
+							<li>XMT_Starbeast_Construction</li>
+						</projects>
+					</li>
+				</researchList>
 				<!-- Reproduction Restrictions -->
 				<canReproduce>true</canReproduce>
 				<canReproduceWithSelf>true</canReproduceWithSelf>
@@ -641,19 +705,27 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Beauty_Beautiful</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Fertile</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Immunity_Weak</li>
-					<li MayRequire="vanillaracesexpanded.highmate">VRE_PerfectBody</li>
+					<li MayRequire="vanillaracesexpanded.highmate">VRE_PerfectBody</li>	
+					<li MayRequire="Rooboid.Satyr,Rooboid.Minotaur,Rooboid.Faun">RBM_UnguligradeLegs</li>
 				</blackGeneList>
 				<blackGeneTags> 
 					<li MayRequire="Ludeon.RimWorld.Biotech">EyeColor</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Furskin</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Tail</li>	
 					<li MayRequire="Ludeon.RimWorld.Biotech">HairColor</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">HairStyle</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">BeardStyle</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Ears</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Nose</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Jaw</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Addiction</li>	
 					<li MayRequire="vanillaracesexpanded.insector">InsectorEye</li>
+					<li>Fur</li>
+					<li>Headeyes</li>
+					<li>AG_Heads</li>
+					<li>Heads</li>
+					<li>AG_Bodies</li>
+					<li>Bodies</li>
 				</blackGeneTags>
 				<blackEndoCategories/>
 				<!-- Apparel Restrictions-->
@@ -677,7 +749,13 @@
 				<onlyBuildRaceRestrictedBuildings>true</onlyBuildRaceRestrictedBuildings>
 				
 				<buildingList>
+				  <!-- Mimic Buildings -->
+				  <li>HiveMimicWallBuildable</li>
+				  <li>SmoothHiveFloorBuildable</li>
+				  <!-- Instinctive Buildings -->
 				  <li>HiveMassBuildable</li>
+				  <li>HiveBridgeBuildable</li>
+				  <li>HeavyHiveFloorBuildable</li>
 				  <li>HiveFloorBuildable</li>
 				  <li>HiveWebbingBuildable</li>
 				  <li>XMT_NestSpot</li>

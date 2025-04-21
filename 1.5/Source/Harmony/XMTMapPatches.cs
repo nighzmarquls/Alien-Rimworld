@@ -15,15 +15,51 @@ namespace Xenomorphtype
     public class XMTMapPatches
     {
         [HarmonyPatch(typeof(SitePartWorker), nameof(SitePartWorker.Notify_SiteMapAboutToBeRemoved))]
-        public static class Patch_SitePartWorker_ExitMap
+        public static class Patch_SitePartWorker_SiteMapAboutToBeRemoved
         {
-            [HarmonyPostfix]
-            public static void Postfix(SitePart sitePart)
+            [HarmonyPrefix]
+            public static void Prefix(SitePart sitePart)
             {
+                if(sitePart == null)
+                {
+                    return;
+                }
+
+                if(sitePart.site == null)
+                {
+                    return;
+                }
                 
-                foreach(Thing thing in sitePart.things)
+                if(!sitePart.site.HasMap)
+                {
+                    return;
+                }
+
+                foreach(Thing thing in sitePart.site.Map.listerThings.ThingsInGroup(ThingRequestGroup.MinifiedThing))
                 {
                     XenoformingUtility.HandleXenoformingImpact(thing);
+                }
+
+                foreach(Pawn pawn in sitePart.site.Map.mapPawns.AllPawnsSpawned)
+                {
+                    if(pawn.Faction == Faction.OfPlayer)
+                    {
+                        continue;
+                    }
+
+                    XenoformingUtility.HandleXenoformingImpact(pawn);
+                }
+
+                foreach(Thing thing in sitePart.site.Map.spawnedThings)
+                {
+                    if(thing is Ovamorph ovamorph)
+                    {
+                        XenoformingUtility.HandleXenoformingImpact(ovamorph);
+                    }
+                    if(thing is HibernationCocoon hibernationCocoon)
+                    {
+                        XenoformingUtility.HandleXenoformingImpact(hibernationCocoon);
+                    }
                 }
               
                 return;

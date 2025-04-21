@@ -31,7 +31,22 @@ namespace Xenomorphtype
 
                 if(parent.Map.terrainGrid.TerrainAt(item) != ExternalDefOf.EmptySpace)
                 {
-                    parent.Map.terrainGrid.SetTerrain(item,Props.spreadTerrain);
+                    if(Props.upgradeTerrain != null)
+                    {
+                        if(parent.Map.terrainGrid.TerrainAt(item) == Props.spreadTerrain)
+                        {
+                            parent.Map.terrainGrid.SetTerrain(item, Props.upgradeTerrain);
+                        }
+                        else if(parent.Map.terrainGrid.TerrainAt(item) != Props.upgradeTerrain)
+                        {
+                            parent.Map.terrainGrid.SetTerrain(item, Props.spreadTerrain);
+                        }
+                    }
+                    else
+                    {
+                        parent.Map.terrainGrid.SetTerrain(item, Props.spreadTerrain);
+                    }
+                    
                 }
             }
         }
@@ -40,6 +55,7 @@ namespace Xenomorphtype
     public class CompSpreadTerrainProperties : CompProperties
     {
         public TerrainDef spreadTerrain = null;
+        public TerrainDef upgradeTerrain = null;
 
         public float radius = 1;
 

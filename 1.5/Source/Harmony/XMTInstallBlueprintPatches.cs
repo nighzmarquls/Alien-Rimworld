@@ -29,6 +29,44 @@ namespace Xenomorphtype
                         {
                             egg.LayEgg(workerPawn);
                         }
+                        else
+                        {
+                            egg.SetFaction(queen.Faction);
+                        }
+                    }
+                    else
+                    {
+                        bool cannotPlaceOvamorphs = true;
+
+                        if (ModsConfig.IdeologyActive)
+                        {
+                            if (workerPawn.mechanitor != null)
+                            {
+                                if (workerPawn.mechanitor.Pawn.Ideo is Ideo workerIdeo)
+                                {
+                                    if(workerIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation))
+                                    {
+                                        cannotPlaceOvamorphs = false;
+                                    }
+                                }
+                            }
+                            else if (workerPawn.Ideo is Ideo workerIdeo)
+                            {
+                                if (workerIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation))
+                                {
+                                    cannotPlaceOvamorphs = false;
+                                }
+                            }
+                        }
+
+                        if (cannotPlaceOvamorphs)
+                        {
+                            egg.SetFaction(null);
+                        }
+                        else
+                        {
+                            egg.SetFaction(workerPawn.Faction);
+                        }
                     }
                 }
             }

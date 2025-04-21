@@ -7,5 +7,11 @@
     <label>resin</label>
     <order>3000</order>
   </TerrainAffordanceDef>
+  
+  <TerrainAffordanceDef>
+    <defName>HeavyResin</defName>
+    <label>reinforced resin</label>
+    <order>3000</order>
+  </TerrainAffordanceDef>
 
 </Defs>

@@ -87,10 +87,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    if (XMTSettings.LogRituals)
-                    {
-                        Log.Message("Queen Already Exists on World: " + XMTUtility.GetQueen());
-                    }
+
                 }
             
             }
