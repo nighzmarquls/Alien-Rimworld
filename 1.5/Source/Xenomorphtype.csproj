@@ -159,6 +159,7 @@
     <Compile Include="DefOfs\XenoPreceptDefOf.cs" />
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Game\GameComponent_Xenomorph.cs" />
+    <Compile Include="Game\XenoResearchUtility.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
     <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
     <Compile Include="Harmony\XMTLordDutyPatches.cs" />

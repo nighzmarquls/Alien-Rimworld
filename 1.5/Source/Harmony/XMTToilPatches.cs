@@ -30,8 +30,10 @@ namespace Xenomorphtype
                     {
                         if (!XMTUtility.IsHiveBuilding(building.def))
                         {
-                            int progress = building.HitPoints / 10;
-                            Find.ResearchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, actor);
+                           
+                            int progress = building.HitPoints / 100;
+                            XenoResearchUtility.ProgressMimicTech(progress, actor);
+                            
                         }
                     }
                 }

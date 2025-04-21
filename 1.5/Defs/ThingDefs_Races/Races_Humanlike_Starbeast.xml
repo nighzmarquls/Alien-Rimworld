@@ -707,6 +707,7 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Immunity_Weak</li>
 					<li MayRequire="vanillaracesexpanded.highmate">VRE_PerfectBody</li>	
 					<li MayRequire="Rooboid.Satyr,Rooboid.Minotaur,Rooboid.Faun">RBM_UnguligradeLegs</li>
+					<li MayRequire="det.stoneborn">DV_BushyEyebrows</li>
 				</blackGeneList>
 				<blackGeneTags> 
 					<li MayRequire="Ludeon.RimWorld.Biotech">EyeColor</li>
