@@ -175,6 +175,41 @@
 		<confirmationDialogText>If you use siren broadcast, everyone in this region will feel the psychic call and send a party to investigate, you may lose goodwill with some factions and hostile factions will send raids.\n\nSiren Broadcast takes 12 seconds to cast, and cannot be interrupted.\n\nEveryone on the map will be effected by it.\n\nDo you really want to cast siren broadcast?</confirmationDialogText>
 	</AbilityDef>
 	
+	<AbilityDef ParentName="HivecastBase">
+		<defName>XMT_Dominion</defName>
+		<label>sovereign Dominion</label>
+		<description>The caster extends their mental presence around them, dominating the weak willed and stunning those that try to directly harm them.</description>
+		<level>5</level>
+		<iconPath>UI/Abilities/Neuroquake</iconPath>
+		<hotKey>Misc12</hotKey>
+		<showCastingProgressBar>True</showCastingProgressBar>
+		<writeCombatLog>True</writeCombatLog>
+		<hostile>True</hostile>
+		<statBases>
+		  <Ability_EntropyGain>10</Ability_EntropyGain>
+		  <Ability_PsyfocusCost>0.1</Ability_PsyfocusCost>
+		  <Ability_EffectRadius>21</Ability_EffectRadius>
+		</statBases>
+		<verbProperties>
+		  <warmupTime>0.25</warmupTime>
+			<range>1</range>
+			<targetParams>
+				<canTargetSelf>True</canTargetSelf>
+				<canTargetAnimals>False</canTargetAnimals>
+			</targetParams>
+		</verbProperties>
+		<comps>
+		  <li Class = "CompProperties_AbilityEffect">
+			<compClass>Xenomorphtype.CompSovereignDominion</compClass>
+			<psychic>True</psychic>
+			<goodwillImpact>-20</goodwillImpact>
+		  </li>
+		  <li Class="CompProperties_AbilityFleckOnTarget">
+			<fleckDef>PsycastPsychicEffect</fleckDef>
+		  </li>
+		</comps>
+	</AbilityDef>
+	
 	<!--
 	 <level>2</level>
     <iconPath>UI/Abilities/BlindingPulse</iconPath>

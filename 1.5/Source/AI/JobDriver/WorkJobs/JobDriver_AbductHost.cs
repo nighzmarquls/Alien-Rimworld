@@ -105,15 +105,15 @@ namespace Xenomorphtype
                 CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
                 if (matureMorph != null)
                 {
-                    if (GrabProgress >= 1)
+                    if (GrabProgress >= 1 && !FailedGrab)
                     {
                         matureMorph.TryGrab(Victim);
                     }
                 }
+               
             });
             toil.WithProgressBar(TargetIndex.A, () => GrabProgress);
             toil.defaultCompleteMode = ToilCompleteMode.Never;
-            toil.WithEffect(EffecterDefOf.Breastfeeding, TargetIndex.A);
             return toil;
         }
 

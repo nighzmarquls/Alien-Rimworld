@@ -32,14 +32,8 @@ namespace Xenomorphtype
                 Thing target = pawn.CurJob.targetA.Thing;
                 if (target != null)
                 {
-                    DamageInfo dinfo = new DamageInfo(DamageDefOf.Cut, 16, instigator: pawn);
-                    FilthMaker.TryMakeFilth(target.Position, target.Map, InternalDefOf.Starbeast_Filth_Resin);
-                    target.Kill(dinfo);
-
-                    if (pawn.Faction != null && pawn.Faction.IsPlayer)
-                    {
-                        pawn.needs.joy.GainJoy(0.1f, ExternalDefOf.Gaming_Dexterity);
-                    }
+                    XMTUtility.SabotageThing(target, pawn);
+                   
 
                 }
             });

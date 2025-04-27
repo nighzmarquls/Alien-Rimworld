@@ -1297,6 +1297,31 @@ namespace Xenomorphtype
             return true;
         }
 
+        internal static bool TransformThingIntoThing(Thing target, ThingDef targetDef, out Thing result, Pawn instigator = null)
+        {
+            result = null;
+            if (targetDef == null)
+            {
+                return false;
+            }
+
+            if (target == null)
+            {
+                return false;
+            }
+
+            Thing NewThing = ThingMaker.MakeThing(targetDef);
+           
+            XMTBase_Building building = NewThing as XMTBase_Building;
+            if (building != null)
+            {
+                building.TransformedFrom(target, instigator);
+            }
+
+            result = GenSpawn.Spawn(NewThing, target.PositionHeld, target.MapHeld, WipeMode.Vanish);
+            return true;
+        }
+
         internal static bool TransformPawnIntoThing(Pawn target, ThingDef targetDef, out Thing result, Pawn instigator = null)
         {
             result = null;
@@ -1591,6 +1616,38 @@ namespace Xenomorphtype
             return x.def == BodyPartDefOf.Head
             || x.def == ExternalDefOf.InsectHead
             || x.def == ExternalDefOf.SnakeHead;
+        }
+
+        internal static void SabotageThing(Thing target, Pawn pawn)
+        {
+            CompBreakdownable breakdownable = target.TryGetComp<CompBreakdownable>();
+            FilthMaker.TryMakeFilth(target.Position, target.Map, InternalDefOf.Starbeast_Filth_Resin);
+            if (breakdownable != null)
+            {
+                breakdownable.DoBreakdown();
+            }
+            else if(target.def == ExternalDefOf.Ship_Beam)
+            {
+                GenSpawn.Spawn(ExternalDefOf.Ship_Beam_Unpowered, target.Position, target.Map);
+            }
+            else if (target.def == ExternalDefOf.Ship_BeamMech)
+            {
+                GenSpawn.Spawn(ExternalDefOf.Ship_BeamMech_Unpowered, target.Position, target.Map);
+            }
+            else if (target.def == ExternalDefOf.Ship_BeamArchotech)
+            {
+                GenSpawn.Spawn(ExternalDefOf.Ship_BeamArchotech_Unpowered, target.Position, target.Map);
+            }
+            else
+            {
+                DamageInfo dinfo = new DamageInfo(DamageDefOf.Cut, 16, instigator: pawn);
+                target.Kill(dinfo);
+            }
+
+            if (pawn.Faction != null && pawn.Faction.IsPlayer)
+            {
+                pawn.needs.joy.GainJoy(0.1f, ExternalDefOf.Gaming_Dexterity);
+            }
         }
     }
 }

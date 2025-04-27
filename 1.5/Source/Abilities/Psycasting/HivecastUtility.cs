@@ -33,14 +33,18 @@ namespace Xenomorphtype
             float subjectSensitivity = subject.GetStatValue(StatDefOf.PsychicSensitivity);
             float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
 
-            int subjectLevel = subject.GetPsylinkLevel();
-            int casterLevel = caster.GetPsylinkLevel();
+            int subjectLevel = subject.GetPsylinkLevel()+1;
+            int casterLevel = caster.GetPsylinkLevel()+1;
 
-            float difference = subjectSensitivity - casterSensitivity;
+            float difference = (subjectLevel*subjectSensitivity) - (casterLevel*casterSensitivity);
 
             if (difference > casterSensitivity)
             {
-                return true;
+                float cumulativeSensitvity = (casterSensitivity * subjectSensitivity) / 2;
+                if (Rand.Chance(cumulativeSensitvity))
+                {
+                    return true;
+                }
             }
 
             return false;

@@ -96,12 +96,32 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>AlterGenes</defName>
+		<defName>StarbeastAlterGenes</defName>
 		<driverClass>Xenomorphtype.JobDriver_AlterGenes</driverClass>
 		<reportString>altering TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
 		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
+	
+	<JobDef>
+		<defName>StarbeastCopyGenes</defName>
+		<driverClass>Xenomorphtype.JobDriver_CopyGenesFrom</driverClass>
+		<reportString>acquiring genes from TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
+	
+	<JobDef>
+		<defName>StarbeastMergeIntoJellyWell</defName>
+		<driverClass>Xenomorphtype.JobDriver_MergeIntoJellyWell</driverClass>
+		<reportString>merging with TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 		<neverFleeFromEnemies>true</neverFleeFromEnemies>
 	</JobDef>
 	

@@ -12,5 +12,10 @@ namespace Xenomorphtype
 
         public abstract void TransformedFrom(Pawn pawn, Pawn instigator = null);
 
+        public virtual void TransformedFrom(Thing thing, Pawn instigator = null)
+        {
+
+        }
+
     }
 }

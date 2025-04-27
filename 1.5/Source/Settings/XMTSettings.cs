@@ -18,6 +18,11 @@ namespace Xenomorphtype
         private bool _logRituals = false;
         private bool _logWorld = false;
 
+        public static bool PlayerSabotage => instance != null ? instance._playerSabotage : true;
+        private bool _playerSabotage = true;
+
+        public static bool HorrorPregnancy => instance != null ? instance._horrorPregnancy : true;
+        private bool _horrorPregnancy = true;
         public static float JellyNutritionEfficiency => instance != null ? instance._jellyNutritionEfficiency : 0.5f;
         public static float JellyMassEfficiency => instance != null ? instance._jellyMassEfficiency : 0.025f;
 
@@ -78,6 +83,12 @@ namespace Xenomorphtype
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("Log World Horror", ref _logWorld, "Enable log reporting on world horror system");
             listingStandard.Gap(5f);
+
+            listingStandard.CheckboxLabeled("Enable Player Sabotage Behavior", ref _playerSabotage, "If enabled player xenomorphs will sabotage human infrastructure when recreation or mood is low.");
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("Enable Horror Pregnancies", ref _horrorPregnancy, "If enabled xenomorph corruption will cause horror pregnancies.");
+            listingStandard.Gap(5f);
+
             _jellyNutritionEfficiency = listingStandard.SliderLabeled("Jelly Nutrition Efficiency", _jellyNutritionEfficiency, 0.01f, 4f, tooltip: TooltipForJellyNutrition());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("",TooltipForJellyNutrition());
@@ -114,6 +125,10 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _logBiohorror, "logBiohorror", false, false);
             Scribe_Values.Look(ref _logRituals, "logRituals", false, false);
             Scribe_Values.Look(ref _logWorld, "logWorld", false, false);
+
+            Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
+            Scribe_Values.Look(ref _horrorPregnancy, "horrorPregnancy", true, false);
+
             Scribe_Values.Look(ref _jellyNutritionEfficiency, "jellyNutritionEfficiency", 0.5f, false);
             Scribe_Values.Look(ref _jellyMassEfficiency, "jellyMassEfficiency", 0.025f, false);
             Scribe_Values.Look(ref _wildEmbryoChance, "wildEmbryoChance", 0.25f, false);

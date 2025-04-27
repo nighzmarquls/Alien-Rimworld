@@ -8,8 +8,18 @@ using Verse;
 
 namespace Xenomorphtype
 {
-    internal class XenoResearchUtility
+    internal class XMTResearch
     {
+        public static bool HumanProjectsVisible()
+        {
+            return Find.ResearchManager.GetProgress(XenoGeneDefOf.XMT_Starbeast_Genetics) > 0;
+        }
+
+        public static bool StarbeastProjectsVisible()
+        {
+            return XMTUtility.QueenIsPlayer();
+        }
+
         static bool FinishedResearching(ResearchProjectDef project, ResearchManager researchManager)
         {
             return researchManager.GetProgress(project) >= project.Cost;
@@ -17,13 +27,12 @@ namespace Xenomorphtype
         internal static void ProgressMimicTech(int progress, Pawn actor)
         {
             ResearchManager researchManager = Find.ResearchManager;
-            
+
             if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Construction, researchManager))
             {
                 researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, actor);
             }
         }
-
         internal static void ProgressCryptobioTech(int progress, Pawn actor)
         {
             ResearchManager researchManager = Find.ResearchManager;

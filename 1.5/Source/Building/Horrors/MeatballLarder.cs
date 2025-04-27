@@ -1,20 +1,18 @@
-﻿using RimWorld;
+﻿
+using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
-using static UnityEngine.Scripting.GarbageCollector;
-using Verse.Noise;
+using Verse.AI;
+
 
 namespace Xenomorphtype
 {
     public class MeatballLarder : XMTBase_Building
     {
         CompMeatBall meatBall;
-
+        static private Texture2D jellyTexture => ContentFinder<Texture2D>.Get("UI/Abilities/JellyWell");
         public float bodySize => meatBall.TotalBodySize();
         internal float harvestWork => meatBall.harvestWork;
 
@@ -30,6 +28,78 @@ namespace Xenomorphtype
         public bool CanBePruned()
         {
             return meatBall.CanBePruned();
+        }
+
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+
+            foreach (Gizmo gizmo in base.GetGizmos())
+            {
+                yield return gizmo;
+            }
+
+            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_JellyWellSerum))
+            {
+                yield break;
+            }
+
+            TargetingParameters GeneTargetParameters = new TargetingParameters();
+
+            GeneTargetParameters.validator = delegate (TargetInfo target)
+            {
+                if (target.Thing == this)
+                {
+                    return false;
+                }
+
+                if (target.Thing is Pawn targetPawn)
+                {
+                    if (targetPawn.Dead || targetPawn.Downed)
+                    {
+                        return false;
+                    }
+
+                    if (XMTUtility.IsQueen(targetPawn))
+                    {
+                        return false;
+                    }
+
+                    return XMTUtility.IsXenomorph(targetPawn);
+                }
+
+                return false;
+
+            };
+
+            Command_Action Jelly_Action = new Command_Action();
+            Jelly_Action.defaultLabel = "Create Jelly Well";
+            Jelly_Action.defaultDesc = "Target will devour the larder and become a Jelly Well.";
+            Jelly_Action.icon = jellyTexture;
+            Jelly_Action.action = delegate
+            {
+                Find.Targeter.BeginTargeting(GeneTargetParameters, delegate (LocalTargetInfo target)
+                {
+                    Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("The target will merge to become a Jelly Well, this is lethal and irreversible.\n" +
+                        "Are you sure?",
+                    delegate {
+                        if (target.Thing is Pawn targetPawn)
+                        {
+                            Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastMergeIntoJellyWell, this);
+                            targetPawn.jobs.StartJob(job, JobCondition.InterruptForced);
+                        }
+                    }));
+                });
+
+            };
+
+            if (bodySize < 4)
+            {
+                Jelly_Action.Disabled = true;
+                Jelly_Action.disabledReason = "Larder is not large enough.";
+            }
+
+
+            yield return Jelly_Action;
         }
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {

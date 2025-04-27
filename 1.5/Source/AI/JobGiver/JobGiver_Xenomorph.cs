@@ -384,7 +384,7 @@ namespace Xenomorphtype
                                 Log.Message(pawn + " is clearing offensive thing " + offensiveThing + " from the nest.");
                             }
        
-                            return JobMaker.MakeJob(JobDefOf.AttackMelee, offensiveThing);
+                            return JobMaker.MakeJob(XenoWorkDefOf.StarbeastSabotage, offensiveThing);
                         }
 
                         if (XMTSettings.LogJobGiver)

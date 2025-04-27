@@ -1122,7 +1122,7 @@
     <durationDays>6</durationDays>
     <stages>
       <li>
-        <label>violated!</label>
+        <label>parasitic attachment!</label>
         <description>It could have implanted...</description>
         <baseMoodEffect>-50</baseMoodEffect>
       </li>
@@ -1155,7 +1155,7 @@
     <stages>
       <li>
         <label>birthed monster!</label>
-        <description>No! One of them came from me! I'd rather have died!</description>
+        <description>No! One of them came out of me! I'd rather have died!</description>
         <baseMoodEffect>-60</baseMoodEffect>
       </li>
     </stages>

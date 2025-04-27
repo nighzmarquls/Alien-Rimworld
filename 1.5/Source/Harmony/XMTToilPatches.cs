@@ -32,7 +32,7 @@ namespace Xenomorphtype
                         {
                            
                             int progress = building.HitPoints / 100;
-                            XenoResearchUtility.ProgressMimicTech(progress, actor);
+                            XMTResearch.ProgressMimicTech(progress, actor);
                             
                         }
                     }

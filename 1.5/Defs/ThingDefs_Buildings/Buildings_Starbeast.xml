@@ -584,6 +584,16 @@
 		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
 		<designationCategory>XMT_Hive</designationCategory>
 		<constructEffect>ResinBuild</constructEffect>
+		<comps>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>1</radius>
+		  </li>
+		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
+			<radius>1</radius>
+		  </li>
+		</comps>
   </ThingDef>
 	
 </Defs>

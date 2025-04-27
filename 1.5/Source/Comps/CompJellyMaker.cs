@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -11,6 +12,7 @@ namespace Xenomorphtype
     public class CompJellyMaker : ThingComp
     {
         public float WorkPerJelly => Props.processingWork;
+        public float Efficiency => Props.conversionRate;
         CompJellyMakerProperties Props => props as CompJellyMakerProperties;
 
         protected Thing ingredient;
@@ -24,19 +26,21 @@ namespace Xenomorphtype
             Region localRegion = parent.GetRegion();
             if (localRegion != null)
             {
-                Pawn pawn = parent as Pawn;
-                Thing ingredient = XMTUtility.SearchRegionsByFilterForFirst(localRegion, Props.jellyIngredientFilter, pawn);
-
-                if (ingredient != null)
+                if (parent is Pawn pawn)
                 {
-                    if (pawn.needs.joy != null)
+                    Thing ingredient = XMTUtility.SearchRegionsByFilterForFirst(localRegion, Props.jellyIngredientFilter, pawn);
+
+                    if (ingredient != null)
                     {
-                        pawn.needs.joy.GainJoy(0.12f, InternalDefOf.NestTending);
+                        if (pawn.needs.joy != null)
+                        {
+                            pawn.needs.joy.GainJoy(0.12f, InternalDefOf.NestTending);
+                        }
+                        pawn.Map.reservationManager.ReleaseAllForTarget(ingredient);
+                        job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastProduceJelly, ingredient);
+                        pawn.Map.reservationManager.Reserve(pawn, job, ingredient);
+                        return true;
                     }
-                    pawn.Map.reservationManager.ReleaseAllForTarget(ingredient);
-                    job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastProduceJelly, ingredient);
-                    pawn.Map.reservationManager.Reserve(pawn, job, ingredient);
-                    return true;
                 }
             }
             job = null;
@@ -54,15 +58,23 @@ namespace Xenomorphtype
                 output = 0;
                 if (corpse.GetRotStage() != RotStage.Dessicated)
                 {
-                    IEnumerable<Thing> products = corpse.ButcherProducts(parent as Pawn,efficiency);
-                    foreach (Thing product in products)
+                    if (parent is Pawn pawn)
                     {
-                        float nutrition = product.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * product.stackCount; ;
-                        if(nutrition <= 0)
+                        IEnumerable<Thing> products = corpse.ButcherProducts(pawn, efficiency);
+                        foreach (Thing product in products)
                         {
-                            output += (product.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency) * product.stackCount;
+                            float nutrition = product.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * product.stackCount; ;
+                            if (nutrition <= 0)
+                            {
+                                output += (product.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency) * product.stackCount;
+                            }
+                            output += nutrition;
                         }
-                        output += nutrition;
+                    }
+                    else 
+                    {
+
+                        return output * 2;
                     }
                 }
             }
@@ -74,7 +86,6 @@ namespace Xenomorphtype
 
             return output;
         }
-
         public int JellyFromThing(Thing ingredient, float efficiency = 1f)
         {
 
@@ -86,7 +97,7 @@ namespace Xenomorphtype
 
             return Mathf.CeilToInt( jellyValue * efficiency * Props.conversionRate);
         }
-        public void ConvertToJelly(Thing ingredient, float efficiency = 1f)
+        public int ConvertToJelly(Thing ingredient, float efficiency = 1f)
         {
             IntVec3 cell = ingredient.Position;
             Map map = ingredient.Map;
@@ -94,6 +105,7 @@ namespace Xenomorphtype
             int totalJelly = JellyFromThing(ingredient, efficiency);
             ingredient.Destroy();
             DropJelly(totalJelly, cell, map);
+            return totalJelly;
         }
 
         public ThingDef GetJellyProduct()
@@ -124,6 +136,26 @@ namespace Xenomorphtype
             ThingDef Jelly = GetJellyProduct();
 
             XMTUtility.DropAmountThing(Jelly, stackTotal, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
+        }
+
+        protected int JellyFromDef(ThingDef thingDef, float efficiency = 1f)
+        {
+            float output = thingDef.GetStatValueAbstract(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency;
+            float ingredientMass = thingDef.GetStatValueAbstract(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency;
+
+            if(output == 0)
+            {
+                output = ingredientMass;
+            }
+
+            return Mathf.CeilToInt(output* efficiency);
+        }
+
+        public int MakeJellyByDef(int count, ThingDef thingDef, IntVec3 position, Map map, float efficiency = 1f)
+        {
+            int total = count * JellyFromDef(thingDef, efficiency);
+            DropJelly(total, position, map);
+            return total;
         }
     }
 

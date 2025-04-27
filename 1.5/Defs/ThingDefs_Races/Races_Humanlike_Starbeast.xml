@@ -43,6 +43,8 @@
 					<thingDefs>
 						<li>WoodLog</li>
 						<li>Starbeast_Resin</li>
+						<li>Cloth</li>
+						<li>DevilstrandCloth</li>
 					</thingDefs>
 					<disallowedCategories>
 						<li>CorpsesMechanoid</li>
@@ -781,6 +783,7 @@
 					<li>XMT_Ovamorph</li>
 					<li>XMT_GeneOvamorph</li>
 					<li>XMT_MeatballLarder</li>
+					<li>XMT_JellyWell</li>
 					<li>XMT_HibernationCocoon</li>
 					
 				</whiteBuildingList>

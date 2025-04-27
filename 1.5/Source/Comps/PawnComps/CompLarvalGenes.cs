@@ -153,7 +153,7 @@ namespace Xenomorphtype
                 }
                 if (TryResist(target))
                 {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
+                    MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted");
                     return;
                 }
             }

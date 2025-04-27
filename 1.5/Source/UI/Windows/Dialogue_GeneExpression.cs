@@ -43,64 +43,8 @@ namespace Xenomorphtype
             {
                 Log.Message("attempting to alter genes on " + target);
             }
-
-            int differences = 0; 
-            foreach(GeneDef gene in SelectedGenes)
-            {
-                if(_originalGenes.Contains(gene))
-                {
-                    continue;
-                }
-                differences++;
-            }
-
-            foreach(GeneDef gene in _originalGenes)
-            {
-                if (!SelectedGenes.Contains(gene))
-                {
-                    differences++;
-                }
-            }
-
-            if (differences > 0)
-            {
-                Pawn targetPawn = target as Pawn;
-
-                if (targetPawn != null)
-                {
-                    Hediff geneIntegration = HediffMaker.MakeHediff(XenoGeneDefOf.XMT_GeneIntegration, targetPawn);
-
-                    geneIntegration.Severity = (1.0f * differences) / 24;
-
-                    targetPawn.health.AddHediff(geneIntegration);
-
-                    if(targetPawn.genes != null)
-                    {
-                        targetPawn.genes.xenotypeName = xenotypeName;
-                    }
-                    BioUtility.AssignAlteredGeneExpression(ref target, SelectedGenes);
-
-                    AlienPartGenerator.AlienComp testComp = targetPawn.GetComp<AlienPartGenerator.AlienComp>();
-                    if (testComp != null)
-                    {
-                        Log.Message("Found Alien Comp on " + targetPawn);
-                        testComp.RegenerateAddonsForced();
-                    }
-                    else
-                    {
-                        Log.Message("Did not find Alien Comp on " + targetPawn);
-                    }
-                }
-                else
-                {
-                    BioUtility.AssignAlteredGeneExpression(ref target, SelectedGenes);
-                }
-
-                if (XMTSettings.LogBiohorror)
-                {
-                    Log.Message("applied altered genes to " + target);
-                }
-            }
+            
+            BioUtility.AlterGenes(ref target, SelectedGenes, _originalGenes, xenotypeName);
 
             Close();
         }

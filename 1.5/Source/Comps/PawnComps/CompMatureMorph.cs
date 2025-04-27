@@ -36,9 +36,17 @@ namespace Xenomorphtype
 
         bool lairUnloaded = true;
 
+        bool destroyNextTick = false;
+        DestroyMode delayedDestroyMode = DestroyMode.Vanish;
+
+        int destroyTicks = 5;
+
         public override void PostExposeData()
         {
             base.PostExposeData();
+            Scribe_Values.Look(ref destroyNextTick, "destroyNextTick", false);
+            Scribe_Values.Look(ref delayedDestroyMode, "delayedDestroyMode", DestroyMode.Vanish);
+
             Scribe_Values.Look(ref canNuzzleTick, "canNuzzleTick", 0);
             Scribe_Values.Look(ref canAbductTick, "canAbductTick", 0);
             Scribe_Values.Look(ref canOvamorphTick, "canOvamorphTick", 0);
@@ -63,6 +71,20 @@ namespace Xenomorphtype
 
             if (Parent.Spawned)
             {
+                if (destroyNextTick)
+                {
+                    if (destroyTicks <= 0)
+                    {
+                        Parent.ClearAllReservations();
+                        Parent.jobs.ClearDriver();
+                        Parent.Destroy(delayedDestroyMode);
+                        return;
+                    }
+                    else
+                    {
+                        destroyTicks--;
+                    }
+                }
 
                 if (lairUnloaded)
                 {
@@ -270,14 +292,17 @@ namespace Xenomorphtype
 
             if (Parent.Faction.IsPlayer)
             {
-                if (Parent.needs.joy.tolerances.BoredOf(ExternalDefOf.Gaming_Dexterity))
+                if (XMTSettings.PlayerSabotage)
                 {
-                    return false;
-                }
-                if (Parent.needs.mood.CurLevelPercentage < 0.5f || Parent.needs.joy.CurLevelPercentage < 0.25f)
-                {
-                    canMischiefTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
-                    return true;
+                    if (Parent.needs.joy.tolerances.BoredOf(ExternalDefOf.Gaming_Dexterity))
+                    {
+                        return false;
+                    }
+                    if (Parent.needs.mood.CurLevelPercentage < 0.5f || Parent.needs.joy.CurLevelPercentage < 0.25f)
+                    {
+                        canMischiefTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
+                        return true;
+                    }
                 }
             }
 
@@ -913,12 +938,20 @@ namespace Xenomorphtype
         }
         public void TryGrab(Pawn target)
         {
-            target.jobs.StopAll();
+            if(target == null)
+            {
+                return;
+            }
+
+            if (target.jobs != null)
+            {
+                target.jobs.StopAll();
+            }
 
             Hediff hediff = HediffMaker.MakeHediff(Props.grabHediff, target);
 
             bool likesIt = false;
-            if (target?.story.traits != null)
+            if (target.story != null && target.story.traits != null)
             {
                 if(target.story.traits.HasTrait(ExternalDefOf.Masochist))
                 {
@@ -937,6 +970,7 @@ namespace Xenomorphtype
                 }
             }
 
+
             if (likesIt)
             {
                 XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.GrabbedObsessed, Parent);
@@ -947,14 +981,13 @@ namespace Xenomorphtype
                 Parent.mindState.lastAttackedTarget = target;
                 Parent.mindState.lastAttackTargetTick = Find.TickManager.TicksGame;
             }
-            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.GrabbedPrey);
 
-            
+            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.GrabbedPrey);
 
             target.health.AddHediff(hediff);
         }
 
-       
+
         public bool FindMichief(out Job michief)
         {
             michief = null;
@@ -965,7 +998,7 @@ namespace Xenomorphtype
 
                 if (offensive != null )
                 {
-                    michief = JobMaker.MakeJob(JobDefOf.AttackMelee, offensive);
+                    michief = JobMaker.MakeJob(XenoWorkDefOf.StarbeastSabotage, offensive);
                     return true;
                 }
             }
@@ -1246,6 +1279,7 @@ namespace Xenomorphtype
                         job = JobMaker.MakeJob(JobDefOf.PredatorHunt, prey);
                         job.killIncappedTarget = true;
                         parent.Map.reservationManager.Reserve(Parent, job, prey);
+                        Parent.needs.joy.GainJoy(0.12f, ExternalDefOf.Gaming_Dexterity);
                         return true;
 
                     }
@@ -1551,6 +1585,13 @@ namespace Xenomorphtype
 
             if(cocoon != null)
             {
+                if(Parent.needs.TryGetNeed(NeedDefOf.Rest) is Need_Rest rest)
+                {
+                    if(rest.CurLevelPercentage >= 1.0f)
+                    {
+                        rest.CurLevelPercentage = 0.5f;
+                    }
+                }
                 Parent.jobs.Notify_TuckedIntoBed(cocoon);
             }
             
@@ -1594,6 +1635,12 @@ namespace Xenomorphtype
             canHuntTick = 0;
             canTendLairTick = 0;
             canTunnelTick = 0;
+        }
+
+        internal void DelayedDestroy(DestroyMode mode)
+        {
+            destroyNextTick = true;
+            delayedDestroyMode = mode;
         }
     }
 

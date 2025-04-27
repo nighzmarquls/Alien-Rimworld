@@ -44,7 +44,10 @@ namespace Xenomorphtype
 
             if (ClimbOver)
             {
-                if (InfiltrationUtility.IsCellTrapped(FinalGoalCell, pawn.Map))
+                TraverseMode climbTraverseMode = pawn.Faction == Faction.OfPlayer? TraverseMode.PassDoors : TraverseMode.NoPassClosedDoors ;
+                Danger climbDanger = pawn.Faction == Faction.OfPlayer ? Danger.Deadly : Danger.None;
+
+                if (InfiltrationUtility.IsCellTrapped(FinalGoalCell, pawn.Map,climbTraverseMode,climbDanger))
                 {
                     NoWallToClimb = false;
                     Log.Message(FinalGoalCell + " is trapped for wall climbing check.");
@@ -90,7 +93,7 @@ namespace Xenomorphtype
                         pathFromWall.Dispose();
                     }
                 }
-                else if (InfiltrationUtility.IsCellTrapped(pawn.Position, pawn.Map))
+                else if (InfiltrationUtility.IsCellTrapped(pawn.Position, pawn.Map,climbTraverseMode, climbDanger))
                 {
                     Log.Message(pawn + " is trapped for wall climbing check.");
                     NoWallToClimb = false;

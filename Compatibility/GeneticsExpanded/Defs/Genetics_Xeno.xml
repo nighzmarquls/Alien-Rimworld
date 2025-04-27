@@ -6,8 +6,7 @@
 		<tier>1</tier>
 		<itemProduced>XMT_StarbeastBaseGenetic</itemProduced>
 		<extractableAnimals>
-			<li>XMT_StarbeastKind</li>
-			<li>XMT_FeralStarbeastKind</li>
+			<li>XMT_Starbeast_AlienRace</li>
 			<li>XMT_Larva</li>
 			<li>XMT_Fleshspawn</li>			
 		</extractableAnimals>
@@ -38,7 +37,7 @@
 		<tier>3</tier>
 		<itemProduced>XMT_StarbeastParagonGenetic</itemProduced>
 		<extractableAnimals>
-			<li>XMT_RoyaltyKind</li>
+			<li>XMT_Royal_AlienRace</li>
 		</extractableAnimals>
 	</GeneticRim.ExtractableAnimalsList>
 	

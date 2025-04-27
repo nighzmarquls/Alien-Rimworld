@@ -57,7 +57,7 @@ namespace Xenomorphtype
                 Find.Targeter.BeginTargeting(GeneTargetParameters, delegate (LocalTargetInfo target)
                 {
                     Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.AlterGenes, target);
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastAlterGenes, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
 

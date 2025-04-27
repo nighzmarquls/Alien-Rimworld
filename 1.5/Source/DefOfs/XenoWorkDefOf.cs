@@ -37,11 +37,14 @@ namespace Xenomorphtype
         public static JobDef StarbeastHiveBuilding;
         public static JobDef PerformTrophallaxis;
         public static JobDef PruneLarder;
+        public static JobDef StarbeastMergeIntoJellyWell;
         public static JobDef StarbeastWallClimb;
         public static JobDef StarbeastProduceJelly;
-        public static JobDef AlterGenes;
+        public static JobDef StarbeastAlterGenes;
+        public static JobDef StarbeastCopyGenes;
         public static JobDef StarbeastLayOvamorph;
         public static JobDef StarbeastGeneDevour;
+
 
         // Vanilla Work Types
 

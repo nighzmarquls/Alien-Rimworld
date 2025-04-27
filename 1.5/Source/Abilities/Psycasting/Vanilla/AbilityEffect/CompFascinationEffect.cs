@@ -39,7 +39,7 @@ namespace Xenomorphtype
                     if(!info.IsObsessed())
                     {
                         float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
-                        pawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 20*casterSensitivity));
+                        pawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 2*casterSensitivity));
 
                         info.WitnessPsychicHorror(0.1f);
                         info.GainObsession(0.05f);

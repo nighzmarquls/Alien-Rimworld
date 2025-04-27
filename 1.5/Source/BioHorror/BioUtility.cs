@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
+using static UnityEngine.GraphicsBuffer;
 
 
 namespace Xenomorphtype
@@ -387,7 +388,7 @@ namespace Xenomorphtype
                 }
 
                 AddLovinMutation(second);
-                if(CanGiveHorrorBirth(second))
+                if(CanGiveHorrorBirth(second) && XMTSettings.HorrorPregnancy)
                 {
                     ApplyHorrorPregnancy(second);
                     
@@ -404,7 +405,7 @@ namespace Xenomorphtype
                     info.GainObsession(0.12f);
                 }
                 AddLovinMutation(first);
-                if (CanGiveHorrorBirth(first))
+                if (CanGiveHorrorBirth(first) && XMTSettings.HorrorPregnancy)
                 {
                     ApplyHorrorPregnancy(first);
                 }
@@ -416,11 +417,11 @@ namespace Xenomorphtype
 
             if (Rand.Chance( (firstXenomorphEssence + secondXenomorphEssence)/2))
             {
-                if (CanGiveHorrorBirth(first))
+                if (CanGiveHorrorBirth(first) && XMTSettings.HorrorPregnancy)
                 {
                     ApplyHorrorPregnancy(first);
                 }
-                if (CanGiveHorrorBirth(second))
+                if (CanGiveHorrorBirth(second) && XMTSettings.HorrorPregnancy)
                 {
                     ApplyHorrorPregnancy(second);
                 }
@@ -634,43 +635,24 @@ namespace Xenomorphtype
             return genes;
         }
 
-        public static void AssignAlteredGeneExpression(ref Thing target, List<GeneDef> genes)
+        public static void AssignAlteredGeneExpression(ref Pawn pawn, List<GeneDef> genes, string xenotypeName = "")
         {
-            if (XMTSettings.LogBiohorror)
-            {
-                Log.Message("assigning Altered Gene Expression to " + target);
-            }
-            CompHiveGeneHolder geneHolder = target.TryGetComp<CompHiveGeneHolder>();
-            if (geneHolder != null)
-            {
-                if (XMTSettings.LogBiohorror)
-                {
-                    Log.Message("confirmed Gene Holder " + target);
-                }
-                geneHolder.genes = new GeneSet();
-                ExtractGenesToGeneset(ref geneHolder.genes, genes);
-            }
-
-            Pawn pawn = target as Pawn;
 
             if (pawn != null)
             {
-                if (XMTSettings.LogBiohorror)
-                {
-                    Log.Message("confirmed as pawn " + target);
-                }
+
                 if (pawn.genes != null)
                 {
                     if (XMTSettings.LogBiohorror)
                     {
-                        Log.Message("confirmed has genes " + target);
+                        Log.Message("confirmed has genes " + pawn);
                     }
 
                     List<Gene> genesToRemove = pawn.genes.GenesListForReading.ToList();
 
                     if (XMTSettings.LogBiohorror)
                     {
-                        Log.Message("removing original genes on " + target);
+                        Log.Message("removing original genes on " + pawn);
                     }
 
                     foreach (Gene gene in genesToRemove)
@@ -680,14 +662,51 @@ namespace Xenomorphtype
 
                     if (XMTSettings.LogBiohorror)
                     {
-                        Log.Message("generating new geneset " + target);
+                        Log.Message("generating new geneset " + pawn);
                     }
 
                     GeneSet geneSet = new GeneSet();
+
                     ExtractGenesToGeneset(ref geneSet, genes);
                     InsertGenesetToPawn(geneSet, ref pawn);
+
+                    if (!xenotypeName.NullOrEmpty())
+                    {
+                        pawn.genes.xenotypeName = xenotypeName;
+                    }
                 }
             }
+        }
+        public static void AssignAlteredGeneExpression(ref Thing target, List<GeneDef> genes, string xenotypeName = "")
+        {
+            if (XMTSettings.LogBiohorror)
+            {
+                Log.Message("assigning Altered Gene Expression to " + target);
+            }
+
+
+            if (target is Pawn pawn)
+            {
+                AssignAlteredGeneExpression(ref pawn, genes);
+                return;
+            }
+
+            CompHiveGeneHolder geneHolder = target.TryGetComp<CompHiveGeneHolder>();
+            if (geneHolder != null)
+            {
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message("confirmed Gene Holder " + target);
+                }
+                geneHolder.genes = new GeneSet();
+                ExtractGenesToGeneset(ref geneHolder.genes, genes);
+                if (!xenotypeName.NullOrEmpty())
+                {
+                   geneHolder.templateName = xenotypeName;
+                }
+            }
+
+            
         }
 
         internal static List<GeneDef> GetAllHiveGenes(Map map)
@@ -780,6 +799,101 @@ namespace Xenomorphtype
             BodyPartRecord bodyPartRecord = source.RandomElement<BodyPartRecord>();
             return HediffMaker.MakeHediff(embryoHediff, pawn, bodyPartRecord);
             
+        }
+
+        internal static void AlterGenes(ref Pawn targetPawn, List<GeneDef> selectedGenes, List<GeneDef> originalGenes, String xenotypeName)
+        {
+            int differences = 0;
+            foreach (GeneDef gene in selectedGenes)
+            {
+                if (originalGenes.Contains(gene))
+                {
+                    continue;
+                }
+                differences++;
+            }
+
+            foreach (GeneDef gene in originalGenes)
+            {
+                if (!selectedGenes.Contains(gene))
+                {
+                    differences++;
+                }
+            }
+
+            if (differences > 0)
+            {
+                Hediff geneIntegration = HediffMaker.MakeHediff(XenoGeneDefOf.XMT_GeneIntegration, targetPawn);
+
+                geneIntegration.Severity = (1.0f * differences) / 24;
+
+                targetPawn.health.AddHediff(geneIntegration);
+
+                if (targetPawn.genes != null)
+                {
+                    targetPawn.genes.xenotypeName = xenotypeName;
+                }
+                AssignAlteredGeneExpression(ref targetPawn, selectedGenes);
+
+                AlienPartGenerator.AlienComp testComp = targetPawn.GetComp<AlienPartGenerator.AlienComp>();
+                if (testComp != null)
+                {
+                    Log.Message("Found Alien Comp on " + targetPawn);
+                    testComp.RegenerateAddonsForced();
+                }
+                else
+                {
+                    Log.Message("Did not find Alien Comp on " + targetPawn);
+                }
+               
+
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message("applied altered genes to " + targetPawn);
+                }
+
+                if (targetPawn.jobs.curDriver is JobDriver_CopyGenesFrom)
+                {
+                    targetPawn.jobs.EndCurrentJob(Verse.AI.JobCondition.Succeeded);
+                }
+            }
+        }
+        internal static void AlterGenes(ref Thing target, List<GeneDef> selectedGenes, List<GeneDef> originalGenes, String xenotypeName)
+        {
+            if (target is Pawn targetPawn)
+            {
+                AlterGenes(ref targetPawn, selectedGenes, originalGenes, xenotypeName);
+                return;
+            }
+
+            int differences = 0;
+            foreach (GeneDef gene in selectedGenes)
+            {
+                if (originalGenes.Contains(gene))
+                {
+                    continue;
+                }
+                differences++;
+            }
+
+            foreach (GeneDef gene in originalGenes)
+            {
+                if (!selectedGenes.Contains(gene))
+                {
+                    differences++;
+                }
+            }
+
+            if (differences > 0)
+            {
+
+                AssignAlteredGeneExpression(ref target, selectedGenes, xenotypeName);
+
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message("applied altered genes to " + target);
+                }
+            }
         }
     }
 }

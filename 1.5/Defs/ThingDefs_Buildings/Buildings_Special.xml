@@ -57,6 +57,99 @@
 	</ThingDef>
 	
 	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_JellyWell</defName>
+		<thingClass>Xenomorphtype.JellyWell</thingClass>
+		<label>Resinous Jelly Fountain</label>
+		<comps>
+			<li Class="Xenomorphtype.CompJellyMakerProperties">
+				<jellyIngredientFilter>
+					<categories>
+						<li>Leathers</li>
+						<li>Foods</li>
+						<li>Corpses</li>
+						<li>PlantMatter</li>
+					</categories>
+					<thingDefs>
+						<li>WoodLog</li>
+						<li>Starbeast_Resin</li>
+						<li>Cloth</li>
+						<li>DevilstrandCloth</li>
+					</thingDefs>
+					<disallowedCategories>
+						<li>CorpsesMechanoid</li>
+					</disallowedCategories>
+					<disallowedThingDefs>
+						<li>Starbeast_Jelly</li>
+						<li>Starbeast_RoyalJelly</li>
+					</disallowedThingDefs>
+				</jellyIngredientFilter>
+				<processingWork>50</processingWork>
+				<conversionRate>0.45</conversionRate>
+				<jellyProduct>Starbeast_Jelly</jellyProduct>
+			</li>
+			<li Class="Xenomorphtype.CompJellywellProperties"/>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="Xenomorphtype.CompSpreadTerrainProperties">
+				<spreadTerrain>HiveFloor</spreadTerrain>
+				<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+				<radius>1.0</radius>
+			</li>
+		</comps>
+		<description>A strange fountain which draws in organic materials through its roots and converts it into a viscous jelly which flows out of the centrepiece. Did it just move?</description>
+		<graphicData>
+			<texPath>Things/Building/JellyWell/JellyWell</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>2</drawSize>
+		</graphicData>
+		<filthLeaving>Filth_Blood</filthLeaving>
+		<drawerType>RealtimeOnly</drawerType>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<selectable>true</selectable>
+		<fillPercent>1</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<defaultPlacingRot>South</defaultPlacingRot>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<statBases>
+			<MaxHitPoints>800</MaxHitPoints>
+			<Mass>300</Mass>
+			<Flammability>0.0</Flammability>
+			<MarketValue>42</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<specialDisplayRadius>1.5</specialDisplayRadius>
+		<building>
+			<repairable>false</repairable>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<costList>
+			<Starbeast_Flesh_Meat>120</Starbeast_Flesh_Meat>
+			<Starbeast_Chitin>80</Starbeast_Chitin>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Flesh_Meat>120</Starbeast_Flesh_Meat>
+			<Starbeast_Chitin>80</Starbeast_Chitin>
+		</killedLeavings>
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_GeneOvamorph</defName>
 		<thingClass>Xenomorphtype.GeneOvamorph</thingClass>
 		<label>Ovamorph</label>

@@ -19,7 +19,7 @@ namespace Xenomorphtype
             {
                 if(tab == XenoGeneDefOf.XMT_HumanResearchTab && !___tabInfoVisibility[XenoGeneDefOf.XMT_HumanResearchTab])
                 {
-                    if (XenoGeneDefOf.XMT_Starbeast_Genetics.IsFinished)
+                    if (XMTResearch.HumanProjectsVisible())
                     {
                         ___tabInfoVisibility[XenoGeneDefOf.XMT_HumanResearchTab] = true;
                         __result = true;
@@ -29,7 +29,7 @@ namespace Xenomorphtype
 
                 if(tab == XenoSocialDefOf.XMT_StarbeastResearchTab && !___tabInfoVisibility[XenoSocialDefOf.XMT_StarbeastResearchTab])
                 {
-                    if(XMTUtility.QueenIsPlayer())
+                    if(XMTResearch.StarbeastProjectsVisible())
                     {
                         ___tabInfoVisibility[XenoSocialDefOf.XMT_StarbeastResearchTab] = true;
                         __result = true;

@@ -103,6 +103,16 @@
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_JellyWellSerum</defName>
+		<label>Jelly Wells</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Unlocks the ability to merge a hive daughter with a Larder in order to become a means of mass producing Resinous Jelly.</description>
+		<prerequisites>
+			<li>Evo_LarderSerum</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
 	<!-- 3rd tier -->
 	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">

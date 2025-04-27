@@ -39,7 +39,7 @@
 		</thingCategories>
 		<ingredient>
 			<mergeCompatibilityTags>
-			<li  MayRequire="Ludeon.RimWorld.Anomaly">TwistedMeat</li>
+				<li  MayRequire="Ludeon.RimWorld.Anomaly">TwistedMeat</li>
 			</mergeCompatibilityTags>
 		</ingredient>
 		<ingestible>

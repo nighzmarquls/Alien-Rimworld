@@ -60,7 +60,7 @@ namespace Xenomorphtype
             float essence = GetMotherEssence();
             foreach(HorrorChild baby in Props.babies)
             {
-                if(essence >= baby.essenceMinimum)
+                if(essence >= baby.essenceMinimum && essence <= baby.essenceMaximum)
                 {
                     if(Rand.Chance(baby.probability))
                     {

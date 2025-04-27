@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace Xenomorphtype
 {
@@ -15,6 +16,7 @@ namespace Xenomorphtype
 
         private CompHiveGeneHolder geneHolder;
 
+        static private Texture2D geneticTexture => ContentFinder<Texture2D>.Get("UI/Abilities/AlterGenes");
         List<string> tmpGeneLabelsDesc = new List<string>();
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
@@ -68,6 +70,10 @@ namespace Xenomorphtype
                 text += "\n\n";
             }
 
+            if (!geneHolder.templateName.NullOrEmpty())
+            {
+                text += geneHolder.templateName + "\n";
+            }
 
             tmpGeneLabelsDesc.Clear();
 
@@ -77,6 +83,72 @@ namespace Xenomorphtype
             }
 
             return text + ("Genes".Translate().CapitalizeFirst() + ":\n" + tmpGeneLabelsDesc.ToLineList("  - ", capitalizeItems: true));
+        }
+
+        public override IEnumerable<Gizmo> GetGizmos()
+        {
+
+            foreach (Gizmo gizmo in base.GetGizmos())
+            {
+                yield return gizmo;
+            }
+
+            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
+            {
+                yield break;
+            }
+
+            TargetingParameters GeneTargetParameters = new TargetingParameters();
+
+            GeneTargetParameters.validator = delegate (TargetInfo target)
+            {
+                if (target.Thing == this)
+                {
+                    return false;
+                }
+
+                if(target.Thing is Pawn targetPawn)
+                {
+                    if (targetPawn.Dead || targetPawn.Downed)
+                    {
+                        return false;
+                    }
+
+                    if (XMTUtility.IsQueen(targetPawn))
+                    {
+                        if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return BioUtility.HasAlterableGenes(target.Thing);
+                }
+
+                return false;
+                
+            };
+
+            Command_Action GeneClone_Action = new Command_Action();
+            GeneClone_Action.defaultLabel = "Apply Genes";
+            GeneClone_Action.defaultDesc = "Apply Genes to Target, overwriting existing genome.";
+            GeneClone_Action.icon = geneticTexture;
+            GeneClone_Action.action = delegate
+            {
+                Find.Targeter.BeginTargeting(GeneTargetParameters, delegate (LocalTargetInfo target)
+                {
+                    if (target.Thing is Pawn targetPawn)
+                    {
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastCopyGenes, this);
+
+                        targetPawn.jobs.StartJob(job, JobCondition.InterruptForced);
+                    }
+
+                });
+
+            };
+
+            yield return GeneClone_Action;
         }
 
         protected void RecieveGenesFrom(Pawn pawn)

@@ -164,6 +164,21 @@ namespace Xenomorphtype
         [MayRequire("kentington.saveourship2")]
         public static ThingDef ShipHullTile;
 
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef Ship_Beam_Unpowered;
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef Ship_Beam;
+
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef Ship_BeamMech_Unpowered;
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef Ship_BeamMech;
+
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef Ship_BeamArchotech_Unpowered;
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef Ship_BeamArchotech;
+
         //RJW
 
         //Bodyparts

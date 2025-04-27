@@ -16,6 +16,7 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(RoyalEvolutionDefOf));
         }
         public static RoyalEvolutionDef Evo_LarderSerum;
+        public static RoyalEvolutionDef Evo_JellyWellSerum;
         public static RoyalEvolutionDef Evo_GeneControl;
         public static RoyalEvolutionDef Evo_GeneStorage;
         public static RoyalEvolutionDef Evo_GeneDigestion;

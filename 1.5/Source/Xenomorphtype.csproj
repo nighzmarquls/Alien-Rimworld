@@ -83,8 +83,11 @@
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompFascinationEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompHiveSongEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompSirenBroadcastEffect.cs" />
+    <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompSovereignDominion.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\XMT_Hivecast.cs" />
     <Compile Include="Abilities\Verbs\Verb_CastAbilityPounce.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_CopyGenesFrom.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
@@ -115,7 +118,9 @@
     <Compile Include="BioHorror\BioUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
     <Compile Include="BioHorror\WorkGiver_XMT_HaulToGeneBank.cs" />
-    <Compile Include="BioHorror\XMTResearch.cs" />
+    <Compile Include="Building\Horrors\JellyWell.cs" />
+    <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
+    <Compile Include="Game\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
     <Compile Include="Building\FillableChrysalis.cs" />
     <Compile Include="Building\Horrors\Petrolsump.cs" />
@@ -159,8 +164,8 @@
     <Compile Include="DefOfs\XenoPreceptDefOf.cs" />
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Game\GameComponent_Xenomorph.cs" />
-    <Compile Include="Game\XenoResearchUtility.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
+    <Compile Include="Harmony\XMTIncidentPatches.cs" />
     <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
     <Compile Include="Harmony\XMTLordDutyPatches.cs" />
     <Compile Include="Harmony\XMTMapPatches.cs" />
@@ -202,7 +207,7 @@
     <Compile Include="Comps\ThingCompHorror\CompAcidBlood.cs" />
     <Compile Include="Comps\BuildingComps\CompHatchingEgg.cs" />
     <Compile Include="Comps\HediffComps\Reproduction\HediffComp_HorrorPregnant.cs" />
-    <Compile Include="Comps\PawnComps\CompJellyMaker.cs" />
+    <Compile Include="Comps\CompJellyMaker.cs" />
     <Compile Include="Comps\PawnComps\CompMatureMorph.cs" />
     <Compile Include="Comps\PawnComps\CompPawnInfo.cs" />
     <Compile Include="Comps\PawnComps\CompPerfectOrganism.cs" />

@@ -61,6 +61,7 @@ namespace Xenomorphtype
         public static ThingDef              Starbeast_Fabric;
 
         //Xenomorph buildings
+        public static ThingDef              XMT_JellyWell;
         public static ThingDef              XMT_Ovamorph;
         public static ThingDef              XMT_CocoonBase;
         public static ThingDef              XMT_CocoonBaseAnimal;
