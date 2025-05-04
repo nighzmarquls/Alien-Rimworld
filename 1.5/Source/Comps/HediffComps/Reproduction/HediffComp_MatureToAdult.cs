@@ -11,7 +11,7 @@ using Verse;
 
 namespace Xenomorphtype
 {
-    public class HediffComp_MatureToAdult : HediffComp
+    public class HediffComp_MatureToAdult : HediffComp_SeverityModifierBase
     {
         HediffCompProperties_MatureToAdult Props => props as HediffCompProperties_MatureToAdult;
         int tickInterval = 2500;
@@ -26,6 +26,21 @@ namespace Xenomorphtype
                     return true;
                 }
                 return fullyMatured;
+            }
+        }
+
+        GeneSet _genes = null;
+        GeneSet Genes
+        {
+            get
+            {
+                if (_genes == null)
+                {
+                    _genes = new GeneSet();
+
+                    BioUtility.ExtractGenesToGeneset(ref _genes, Pawn.genes.GenesListForReading);
+                }
+                return _genes;
             }
         }
 
@@ -107,11 +122,17 @@ namespace Xenomorphtype
                 Pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, "", forced: true, forceWake: true, false);
             }    
         }
+
+        public override float SeverityChangePerDay()
+        {
+            
+            return (Props.severityPerDay / (Genes.ComplexityTotal + 1 / 9))*XMTSettings.MaturationFactor;
+        }
     }
 
 
 
-    public class HediffCompProperties_MatureToAdult : HediffCompProperties
+    public class HediffCompProperties_MatureToAdult : HediffCompProperties_SeverityPerDay
     {
         public float learningIntervalHours = 1;
         public HediffCompProperties_MatureToAdult()

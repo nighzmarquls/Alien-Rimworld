@@ -119,6 +119,8 @@
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
     <Compile Include="BioHorror\WorkGiver_XMT_HaulToGeneBank.cs" />
     <Compile Include="Building\Horrors\JellyWell.cs" />
+    <Compile Include="Comps\BuildingComps\Architecture\CompReinforceable.cs" />
+    <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
     <Compile Include="Game\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
@@ -167,6 +169,7 @@
     <Compile Include="Harmony\XMTBedPatches.cs" />
     <Compile Include="Harmony\XMTIncidentPatches.cs" />
     <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
+    <Compile Include="Harmony\XMTLifeStagePatches.cs" />
     <Compile Include="Harmony\XMTLordDutyPatches.cs" />
     <Compile Include="Harmony\XMTMapPatches.cs" />
     <Compile Include="Harmony\XMTOffsetPatch.cs" />
@@ -211,9 +214,9 @@
     <Compile Include="Comps\PawnComps\CompMatureMorph.cs" />
     <Compile Include="Comps\PawnComps\CompPawnInfo.cs" />
     <Compile Include="Comps\PawnComps\CompPerfectOrganism.cs" />
-    <Compile Include="Comps\BuildingComps\CompReplacerBuilding.cs" />
-    <Compile Include="Comps\BuildingComps\CompSpawnOnDestroy.cs" />
-    <Compile Include="Comps\BuildingComps\CompSpreadTerrain.cs" />
+    <Compile Include="Comps\BuildingComps\Architecture\CompReplacerBuilding.cs" />
+    <Compile Include="Comps\BuildingComps\Architecture\CompSpawnOnDestroy.cs" />
+    <Compile Include="Comps\BuildingComps\Architecture\CompSpreadTerrain.cs" />
     <Compile Include="Comps\PawnComps\CompStealth.cs" />
     <Compile Include="DefOfs\ExternalDefOf.cs" />
     <Compile Include="DefOfs\HorrorMoodDefOf.cs" />
@@ -255,6 +258,7 @@
     <Compile Include="UI\Designators\Designator_Hive_Cancel.cs" />
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
     <Compile Include="UI\Letters\ChoiceLetter_XenoGameEnded.cs" />
+    <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="WorldHorror\XenoformingUtility.cs" />
@@ -263,6 +267,7 @@
     <Compile Include="XMTUtility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Abilities\Psycasting\Expanded\" />
     <Folder Include="Abilities\Psycasting\Paths\" />
     <Folder Include="AI\Toils\" />
     <Folder Include="Incidents\" />

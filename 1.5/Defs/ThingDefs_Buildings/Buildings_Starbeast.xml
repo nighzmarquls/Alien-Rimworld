@@ -377,6 +377,7 @@
 				<li>HiveMassBuildable</li>
 				<li>HiveWebbingBuildable</li>
 				<li>HiveFloorBuildable</li>
+				<li>HiveReinforcementBuildable</li>
 			</relatedBuildCommands>
 		</building>
 		<costList>
@@ -395,8 +396,145 @@
 		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
 			<radius>1</radius>
 		  </li>
+		  <li Class="Xenomorphtype.CompReinforceableProperties">
+			<reinforcedHitPoints>500</reinforcedHitPoints>
+		  </li>
 		</comps>
-
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveReinforcementBuildable">
+		<defName>HiveReinforcementBuildable</defName>
+		<label>resin reinforcement</label>
+		<description>structural supports which reinforce adjacent resin mass.</description>
+		<graphicData>
+		  <texPath>Things/Building/Linked/Reinforced_Hive_Atlas_Blueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>CornerFiller</linkType>
+		  <linkFlags>
+			<li>Custom7</li>
+		  </linkFlags>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2000</uiOrder>
+		<rotatable>false</rotatable>
+		<uiIconPath>Things/Building/Linked/HiveReinforcement_MenuIcon</uiIconPath>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>1300</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<building>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Linked/Reinforced_Hive_Atlas_Blueprint</texPath>
+			</blueprintGraphicData>
+			<relatedBuildCommands>
+				<li>HiveWebbingBuildable</li>
+				<li>HiveFloorBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>HiveReinforcement</replacedWith>
+		  </li>
+		</comps>
+		<placeWorkers>
+			<li>Xenomorphtype.Placeworker_AttachedToHive</li>
+		</placeWorkers>
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<constructEffect>ResinBuild</constructEffect>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveReinforcement">
+		<defName>HiveReinforcement</defName>
+		<label>resin reinforcement</label>
+		<description>structural supports which reinforce adjacent resin mass.</description>
+		<graphicData>
+		  <texPath>Things/Building/Linked/Reinforced_Hive_Atlas</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkFlags>
+			<li>Custom7</li>
+		  </linkFlags>
+		  <linkType>CornerOverlay</linkType>
+		  <cornerOverlayPath>Things/Building/Linked/HivePiece</cornerOverlayPath>
+		  <damageData>
+			<cornerTL>Damage/Corner</cornerTL>
+			<cornerTR>Damage/Corner</cornerTR>
+			<cornerBL>Damage/Corner</cornerBL>
+			<cornerBR>Damage/Corner</cornerBR>
+			<edgeTop>Damage/Edge</edgeTop>
+			<edgeBot>Damage/Edge</edgeBot>
+			<edgeLeft>Damage/Edge</edgeLeft>
+			<edgeRight>Damage/Edge</edgeRight>
+		  </damageData>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<tickerType>Never</tickerType>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<blockWind>true</blockWind>
+		<castEdgeShadows>true</castEdgeShadows>
+		<fillPercent>1</fillPercent>
+		<coversFloor>false </coversFloor>
+		<neverMultiSelect>false</neverMultiSelect>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<saveCompressible>false</saveCompressible>
+		<holdsRoof>true</holdsRoof>
+		<staticSunShadowHeight>1.0</staticSunShadowHeight>
+		<blockLight>true</blockLight>
+		<mineable>false</mineable>
+		<fertility>0</fertility>
+		<canOverlapZones>false</canOverlapZones>
+		<autoTargetNearbyIdenticalThings>true</autoTargetNearbyIdenticalThings>
+		<statBases>
+		  <MaxHitPoints>600</MaxHitPoints>
+		  <Flammability>0</Flammability>
+		  <Beauty>1</Beauty>
+		  <WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<isInert>true</isInert>
+			<claimable>true</claimable>
+			<canBuildNonEdificesUnder>true</canBuildNonEdificesUnder>
+			<deconstructible>true</deconstructible>
+			<quickTargetable>true</quickTargetable>
+			<supportsWallAttachments>true</supportsWallAttachments>
+			<isTargetable>true</isTargetable>
+			<destroyShakeAmount>0</destroyShakeAmount>
+			<artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+			<relatedBuildCommands>
+				<li>HiveMassBuildable</li>
+				<li>HiveWebbingBuildable</li>
+				<li>HiveFloorBuildable</li>
+				<li>HiveReinforcementBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<costList>
+			<Starbeast_Resin>20</Starbeast_Resin>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Resin>20</Starbeast_Resin>
+		</killedLeavings>
+		<repairEffect>ResinBuild</repairEffect>
+		<comps>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>1</radius>
+		  </li>
+		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
+			<radius>1</radius>
+		  </li>
+		  <li Class="Xenomorphtype.CompReinforcingProperties">
+		  </li>
+		</comps>
 	</ThingDef>
 	
 	<ThingDef ParentName="BuildingBase" Name="HiveWebbingBuildable">

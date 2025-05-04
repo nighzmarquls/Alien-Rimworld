@@ -29,6 +29,9 @@ namespace Xenomorphtype
         private float _jellyNutritionEfficiency = 0.5f;
         private float _jellyMassEfficiency = 0.025f;
 
+        public static float MaturationFactor => instance != null ? instance._maturationFactor : 1f;
+        private float _maturationFactor = 1f;
+
         private static Vector2 scrollPosition;
         private static float height_modifier = 100f;
 
@@ -50,6 +53,10 @@ namespace Xenomorphtype
             return Mathf.Floor(_laidEggMaturationTime * 24) + " hours";
         }
 
+        private string TooltipForFactor(float value)
+        {
+            return Mathf.Floor(value * 100) + "% factor";
+        }
         private string TooltipForChance(float value)
         {
             return Mathf.Floor(value * 100) + "% chance";
@@ -97,6 +104,10 @@ namespace Xenomorphtype
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForJellyMass());
             listingStandard.Gap(5f);
+            _maturationFactor = listingStandard.SliderLabeled("Maturation Factor", _maturationFactor, 0.00f, 10f, tooltip: TooltipForFactor(_maturationFactor));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForFactor(_maturationFactor));
+            listingStandard.Gap(5f);
             _wildEmbryoChance = listingStandard.SliderLabeled("Wild Embryo Chance Factor", _wildEmbryoChance, 0.00f, 1f, tooltip: TooltipForChance(_wildEmbryoChance));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForChance(_wildEmbryoChance));
@@ -128,6 +139,9 @@ namespace Xenomorphtype
 
             Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
             Scribe_Values.Look(ref _horrorPregnancy, "horrorPregnancy", true, false);
+
+            
+            Scribe_Values.Look(ref _maturationFactor, "maturationFactor", 1f, false);
 
             Scribe_Values.Look(ref _jellyNutritionEfficiency, "jellyNutritionEfficiency", 0.5f, false);
             Scribe_Values.Look(ref _jellyMassEfficiency, "jellyMassEfficiency", 0.025f, false);

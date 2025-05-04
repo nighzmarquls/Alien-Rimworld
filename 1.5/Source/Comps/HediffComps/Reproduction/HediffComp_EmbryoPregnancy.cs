@@ -369,7 +369,8 @@ namespace Xenomorphtype
 
         public override float SeverityChangePerDay()
         {
-            return Props.severityPerDay;
+            
+            return (Props.severityPerDay/((genes.ComplexityTotal+1)/9) ) * XMTSettings.MaturationFactor;
         }
     }
 

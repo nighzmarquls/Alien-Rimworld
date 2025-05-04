@@ -70,6 +70,7 @@
 			  <li Class="CompProperties_AbilityGiveHediff">
 				<compClass>Xenomorphtype.CompHiveSongEffect</compClass>
 				<psychic>True</psychic>
+				<hediffDef>PsychicVertigo</hediffDef>
 				<durationMultiplier>PsychicSensitivity</durationMultiplier>
 				<applicableToMechs>False</applicableToMechs>
 				<goodwillImpact>-30</goodwillImpact>
@@ -191,7 +192,7 @@
 		  <Ability_EffectRadius>21</Ability_EffectRadius>
 		</statBases>
 		<verbProperties>
-		  <warmupTime>0.25</warmupTime>
+			<warmupTime>0.25</warmupTime>
 			<range>1</range>
 			<targetParams>
 				<canTargetSelf>True</canTargetSelf>
@@ -210,39 +211,40 @@
 		</comps>
 	</AbilityDef>
 	
-	<!--
-	 <level>2</level>
-    <iconPath>UI/Abilities/BlindingPulse</iconPath>
-    <writeCombatLog>True</writeCombatLog>
-    <hotKey>Misc5</hotKey>
-    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
-    <statBases>
-      <Ability_EntropyGain>20</Ability_EntropyGain>
-      <Ability_PsyfocusCost>0.01</Ability_PsyfocusCost>
-      <Ability_Duration>30</Ability_Duration>
-      <Ability_EffectRadius>3.9</Ability_EffectRadius>
-    </statBases>
-    <verbProperties>
-      <warmupTime>1</warmupTime>
-      <range>24.9</range>
-      <targetParams>
-        <canTargetSelf>True</canTargetSelf>
-        <canTargetAnimals>True</canTargetAnimals>
-        <canTargetLocations>True</canTargetLocations>
-      </targetParams>
-    </verbProperties>
-    <comps>
-      <li Class = "CompProperties_AbilityGiveHediff">
-        <compClass>CompAbilityEffect_GiveHediff</compClass>
-        <hediffDef>PsychicBlindness</hediffDef>
-        <onlyBrain>True</onlyBrain>
-        <psychic>True</psychic>
-        <goodwillImpact>-15</goodwillImpact>
-        <applyGoodwillImpactToLodgers>False</applyGoodwillImpactToLodgers>
-      </li>
-      <li Class="CompProperties_AbilityFleckOnTarget">
-        <fleckDef>PsycastPsychicEffect</fleckDef>
-      </li>
-    </comps>
-	-->
+	<AbilityDef ParentName="HivecastBase">
+		<defName>XMT_Catatonic</defName>
+		<label>catatonic suppression</label>
+		<description>The full force of the caster's psychic power falls upon the targets. Either stunning or rendering them catatonic under the burden of their mind.</description>
+		<level>6</level>
+		<iconPath>UI/Abilities/Burden</iconPath>
+		<writeCombatLog>True</writeCombatLog>
+		<hotKey>Misc6</hotKey>
+		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
+		<statBases>
+			<Ability_EntropyGain>30</Ability_EntropyGain>
+			<Ability_PsyfocusCost>0.01</Ability_PsyfocusCost>
+			<Ability_Duration>1000</Ability_Duration>
+			<Ability_EffectRadius>5.9</Ability_EffectRadius>
+		</statBases>
+		<verbProperties>
+			<warmupTime>0.25</warmupTime>
+			<range>19.9</range>
+			<targetParams>
+				<canTargetSelf>False</canTargetSelf>
+				<canTargetAnimals>True</canTargetAnimals>
+				<canTargetLocations>True</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class = "CompProperties_AbilityGiveHediff">
+				<compClass>Xenomorphtype.CompHiveSongEffect</compClass>
+				<hediffDef>PsychicShock</hediffDef>
+				<onlyBrain>True</onlyBrain>
+				<psychic>True</psychic>
+		    </li>
+			<li Class="CompProperties_AbilityFleckOnTarget">
+				<fleckDef>PsycastPsychicEffect</fleckDef>
+			</li>
+		</comps>
+	</AbilityDef>
 </Defs>

@@ -172,10 +172,7 @@ namespace Xenomorphtype
                 
                 if (pawnClimber != null)
                 {
-                    if (!Tunneling)
-                    {
-                        RoofCollapserImmediate.DropRoofInCells(StartClimbCell, map);
-                    }
+                    
                     pawnClimber.underground = Tunneling;
                     GenSpawn.Spawn(pawnClimber, cell, map);
                     InTransit = true;
@@ -184,7 +181,10 @@ namespace Xenomorphtype
                         Find.Selector.Select(pawn, playSound: false, forceDesignatorDeselect: false);
                     }
 
-                    
+                    if (!Tunneling)
+                    {
+                        RoofCollapserImmediate.DropRoofInCells(StartClimbCell, map);
+                    }
                 }
             };
             toil.tickAction = delegate

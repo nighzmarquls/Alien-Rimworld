@@ -336,14 +336,11 @@
     <label>chrysalis</label>
     <description>Has formed a disturbingly suggestive chrysalis for maturation.</description>
     <makesSickThought>false</makesSickThought>
-
     <comps>
-	  <li Class="HediffCompProperties_SeverityPerDay">
-        <severityPerDay>1</severityPerDay>
-		<showDaysToRecover>false</showDaysToRecover>
-        <minAge>0</minAge>
-      </li>
 	  <li Class="Xenomorphtype.HediffCompProperties_MatureToAdult">
+		<severityPerDay>1</severityPerDay>
+		<showDaysToRecover>True</showDaysToRecover>
+        <minAge>0</minAge>
 	  </li>
     </comps>
     <stages>
@@ -360,7 +357,6 @@
           </li>
         </capMods>
       </li>
-
     </stages>
   </HediffDef>
   

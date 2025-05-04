@@ -28,7 +28,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        public static bool PsychicChallengeTest(Pawn subject, Pawn caster)
+        public static bool PsychicChallengeTest(Pawn subject, Pawn caster, float chanceOffset = 0)
         {
             float subjectSensitivity = subject.GetStatValue(StatDefOf.PsychicSensitivity);
             float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
@@ -40,8 +40,16 @@ namespace Xenomorphtype
 
             if (difference > casterSensitivity)
             {
+                float cumulativeSensitvity = (casterSensitivity * subjectSensitivity) / 4;
+                if (Rand.Chance(cumulativeSensitvity + chanceOffset))
+                {
+                    return true;
+                }
+            }
+            else
+            {
                 float cumulativeSensitvity = (casterSensitivity * subjectSensitivity) / 2;
-                if (Rand.Chance(cumulativeSensitvity))
+                if (Rand.Chance(cumulativeSensitvity + chanceOffset))
                 {
                     return true;
                 }

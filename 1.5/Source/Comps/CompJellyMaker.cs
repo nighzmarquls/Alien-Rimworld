@@ -19,6 +19,38 @@ namespace Xenomorphtype
 
         public bool CanMakeIntoJelly(Thing thing)
         {
+            if(thing == null)
+            {
+                return false;
+            }
+
+            return CanMakeIntoJelly(thing.def);
+        }
+
+        public bool CanMakeIntoJelly(ThingDef thing)
+        {
+            if (parent is Pawn pawn && XMTUtility.IsQueen(pawn))
+            {
+                if (pawn.genes != null)
+                {
+                    if (pawn.genes.HasActiveGene(XenoGeneDefOf.XMT_Chemfuel_Metabolism))
+                    {
+                        if(ThingDefOf.Chemfuel == thing)
+                        {
+                            return true;
+                        }
+                    }
+
+                    if (pawn.genes.HasActiveGene(XenoGeneDefOf.XMT_Muffalo_Ruff))
+                    {
+                        if (ExternalDefOf.WoolMuffalo == thing)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
             return Props.jellyIngredientFilter.Allows(thing);
         }
         public bool GetJellyMakingJob(out Job job)
@@ -58,28 +90,61 @@ namespace Xenomorphtype
                 output = 0;
                 if (corpse.GetRotStage() != RotStage.Dessicated)
                 {
-                    if (parent is Pawn pawn)
+                    if (corpse.InnerPawn != null)
                     {
-                        IEnumerable<Thing> products = corpse.ButcherProducts(pawn, efficiency);
-                        foreach (Thing product in products)
+                        if (parent is Pawn pawn)
                         {
-                            float nutrition = product.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * product.stackCount; ;
-                            if (nutrition <= 0)
+                            IEnumerable<Thing> products = corpse.ButcherProducts(pawn, efficiency);
+                            foreach (Thing product in products)
                             {
-                                output += (product.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency) * product.stackCount;
+                                float nutrition = product.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * product.stackCount; ;
+                                if (nutrition <= 0)
+                                {
+                                    output += (product.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency) * product.stackCount;
+                                }
+                                output += nutrition;
                             }
-                            output += nutrition;
                         }
-                    }
-                    else 
-                    {
+                        else
+                        {
+                            if (corpse.InnerPawn.def.race != null)
+                            {
+                                ThingDef meatDef = corpse.InnerPawn.def.race.meatDef;
+                                if (meatDef != null)
+                                {
+                                    if (CanMakeIntoJelly(meatDef))
+                                    {
+                                        output += JellyFromDef(meatDef, corpse.InnerPawn.def.GetStatValueAbstract(StatDefOf.MeatAmount));
+                                    }
+                                }
 
-                        return output * 2;
+                                ThingDef leatherDef = corpse.InnerPawn.def.race.leatherDef;
+                                if (leatherDef != null)
+                                {
+                                    if (CanMakeIntoJelly(leatherDef))
+                                    {
+                                        output += JellyFromDef(leatherDef, corpse.InnerPawn.def.GetStatValueAbstract(StatDefOf.LeatherAmount));
+                                    }
+                                }
+                                
+                                if (corpse.InnerPawn.def.butcherProducts != null)
+                                {
+                                    foreach (ThingDefCountClass thingCount in corpse.InnerPawn.def.butcherProducts)
+                                    {
+                                        if (CanMakeIntoJelly(thingCount.stuff))
+                                        {
+                                            output += JellyFromDef(thingCount.stuff, thingCount.count);
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
                     }
                 }
             }
 
-            if(output <= 0)
+            if (output <= float.Epsilon)
             {
                 return ingredientMass;
             }
@@ -88,7 +153,6 @@ namespace Xenomorphtype
         }
         public int JellyFromThing(Thing ingredient, float efficiency = 1f)
         {
-
             float nutrition = GetNutritionFromThing(ingredient, efficiency);
 
             float jellyNutrition = Props.jellyProduct.GetStatValueAbstract(StatDefOf.Nutrition);
@@ -112,7 +176,7 @@ namespace Xenomorphtype
         {
             Pawn pawn = parent as Pawn;
 
-            if (pawn != null)
+            if (pawn != null && !XMTUtility.IsQueen(pawn))
             {
                 if(pawn.genes != null)
                 {

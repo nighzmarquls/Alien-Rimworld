@@ -757,10 +757,11 @@
 				  <li>SmoothHiveFloorBuildable</li>
 				  <!-- Instinctive Buildings -->
 				  <li>HiveMassBuildable</li>
+				  <li>HiveReinforcementBuildable</li>
+				  <li>HiveWebbingBuildable</li>
+				  <li>HiveFloorBuildable</li>
 				  <li>HiveBridgeBuildable</li>
 				  <li>HeavyHiveFloorBuildable</li>
-				  <li>HiveFloorBuildable</li>
-				  <li>HiveWebbingBuildable</li>
 				  <li>XMT_NestSpot</li>
 				  <li>HiveSleepingSpot</li>
 				  <li>AtmospherePylon_Buildable</li>
@@ -1233,11 +1234,11 @@
 					  </south>
 					  <east>
 						<layerOffset>0.1</layerOffset>
-						<offset>(0.5, 0.1)</offset>
+						<offset>(0.36, 0.1)</offset>
 					  </east>
 					  <west>
 						<layerOffset>0.1</layerOffset>
-						<offset>(-0.5, 0.1)</offset>
+						<offset>(-0.36, 0.1)</offset>
 					  </west>
 					</headOffsetDirectional>
 					<customDrawSize>(1.5, 1.5)</customDrawSize>
@@ -1586,7 +1587,7 @@
 
 							</li>
 							<li>
-								<path>Pawn/HostVariation/Boomalope_Head</path>
+								<path>Pawn/HostVariation/RoyalBoomalope_Head</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>base</colorChannel>
 								<alignWithHead>true</alignWithHead>
@@ -1715,7 +1716,7 @@
 								  </north>
 								  <east>
 									<layerOffset>0.25</layerOffset>
-									<offset>(0.72, -0.58)</offset>
+									<offset>(0.85, -0.58)</offset>
 								  </east>
 								</offsets>
 							</li>

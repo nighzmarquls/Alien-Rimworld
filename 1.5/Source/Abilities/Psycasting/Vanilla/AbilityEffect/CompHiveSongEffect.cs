@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
@@ -33,8 +34,11 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.IsXenomorph(subject))
                     {
-                        base.Apply(target, dest);
-                        subject.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
+                        
+                        if (subject?.needs.joy != null)
+                        {
+                            subject.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
+                        }
                     }
                     else
                     {
@@ -43,12 +47,25 @@ namespace Xenomorphtype
                         {
                             info.WitnessPsychicHorror(0.1f);
                             info.GainObsession(0.05f);
-                        
+
+                            float offsetChance = caster.GetPsylinkLevel() * 0.05f;
                             if (info.IsObsessed())
                             {
                                 base.Apply(target, dest);
-                                subject.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
+                                if (subject?.needs.joy != null)
+                                {
+                                    subject.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
+                                }
                                 XMTUtility.GiveMemory(subject, HorrorMoodDefOf.XMT_CommuneWithQueen);
+                            }
+                            else if(HivecastUtility.PsychicChallengeTest(subject, caster, offsetChance))
+                            {
+                                base.Apply(target, dest);
+                            }
+                            else
+                            {
+                                float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
+                                subject.TakeDamage(new DamageInfo(DamageDefOf.Stun, caster.GetPsylinkLevel() * casterSensitivity));
                             }
                         }
                     }

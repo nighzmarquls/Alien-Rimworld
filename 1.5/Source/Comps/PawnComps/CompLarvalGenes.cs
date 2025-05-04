@@ -153,7 +153,7 @@ namespace Xenomorphtype
                 }
                 if (TryResist(target))
                 {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted");
+                    MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
                     return;
                 }
             }
@@ -197,7 +197,6 @@ namespace Xenomorphtype
         {
             if (target.apparel != null)
             {
-                
                 if (target.meleeVerbs.TryMeleeAttack(parent))
                 {
                     if ((parent as Pawn).Dead)
@@ -205,11 +204,8 @@ namespace Xenomorphtype
                         return true;
                     }
                 }
-
                 XMTUtility.DamageApparelByBodyPart(target, BodyPartGroupDefOf.FullHead, 160f);
                 return target.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.FullHead);
-
-
             }
             return false;
         }
