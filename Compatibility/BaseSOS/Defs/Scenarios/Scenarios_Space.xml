@@ -1,50 +1,59 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-	<ScenarioDef>
-		<defName>XMT_SoSNostromoHuman</defName>
-		<label>USCSS Nostromo</label>
-		<description>The five of you awoke in your cryptosleep sarcophagi, stirred from slumber by an automated warning. By company orders you were forced to land on an uninhabited planet to investigate a possibly non-human signal. One of your crew came back with something attached to them.</description>
-		<scenario>
-			<summary>A ship crew aboard a starship with a hostile organism.</summary>
-			<playerFaction>
-				<def>PlayerFaction</def>
-				<factionDef>PlayerColony</factionDef>
-			</playerFaction>
-			<parts>
-				<!-- Config pages -->
-				<li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
-					<def>ConfigPage_ConfigureStartingPawns</def>
-					<pawnCount>5</pawnCount>
-					<pawnChoiceCount>8</pawnChoiceCount>
-				</li>
-				<!-- Player starting stuff spawn method-->
-				<li Class="ScenPart_PlayerPawnsArriveMethod">
-					<def>PlayerPawnsArriveMethod</def>
-					<method>DropPods</method>
-					<visible>false</visible>
-				</li>
-				<li Class="SaveOurShip2.ScenPart_StartInSpace">
-					<def>StartInSpace</def>
-					<startType>Station</startType>
-					<spaceShipDef>Nostromo_Human_Base</spaceShipDef>
-					<damageStart>false</damageStart>
-					<visible>false</visible>
-				</li>
-				<!-- Player pawns modifiers -->
-				<!-- Player starting things -->
-				<!-- Player starting Research -->
-				<li Class="ScenPart_StartingResearch">
-					<def>StartingResearch</def>
-					<project>ShipBasics</project>
-				</li>
-				<!-- Game start dialog -->
-				<li Class="ScenPart_GameStartDialog">
-					<def>GameStartDialog</def>
-					<text>A Foreign Organism has attached itself to one of the crew!</text>
-					<closeSound>GameStartSting</closeSound>
-				</li>
-			</parts>
-		</scenario>
-	</ScenarioDef>
-	
+  <ScenarioDef>
+    <defName>XMT_SoSNostromoHuman</defName>
+    <label>USCSS Nostromo</label>
+    <description>
+      The five of you awoke in your cryptosleep sarcophagi, stirred from slumber by
+      an automated warning. By company orders, you were forced to land on an
+      uninhabited planet to investigate a possible non-human signal. One of your crew
+      returned with something attached to them.
+    </description>
+    <scenario>
+      <summary>A ship crew aboard a starship with a hostile organism.</summary>
+
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>PlayerColony</factionDef>
+      </playerFaction>
+
+      <parts>
+        <!-- Configure starting pawns -->
+        <li Class="ScenPart_ConfigPage_ConfigureStartingPawns">
+          <def>ConfigPage_ConfigureStartingPawns</def>
+          <pawnCount>5</pawnCount>
+          <pawnChoiceCount>8</pawnChoiceCount>
+        </li>
+
+        <!-- Player arrival method -->
+        <li Class="ScenPart_PlayerPawnsArriveMethod">
+          <def>PlayerPawnsArriveMethod</def>
+          <method>DropPods</method>
+          <visible>false</visible>
+        </li>
+
+        <!-- Start in space (Save Our Ship 2) -->
+        <li Class="SaveOurShip2.ScenPart_StartInSpace">
+          <def>StartInSpace</def>
+          <startType>Station</startType>
+          <spaceShipDef>Nostromo_Human_Base</spaceShipDef>
+          <damageStart>false</damageStart>
+          <visible>false</visible>
+        </li>
+
+        <!-- Starting research -->
+        <li Class="ScenPart_StartingResearch">
+          <def>StartingResearch</def>
+          <project>ShipBasics</project>
+        </li>
+
+        <!-- Game start dialog -->
+        <li Class="ScenPart_GameStartDialog">
+          <def>GameStartDialog</def>
+          <text>A foreign organism has attached itself to one of the crew!</text>
+          <closeSound>GameStartSting</closeSound>
+        </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
 </Defs>
