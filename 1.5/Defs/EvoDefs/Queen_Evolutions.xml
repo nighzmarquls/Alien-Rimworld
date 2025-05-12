@@ -49,7 +49,7 @@
 		<defName>Evo_LarderSerum</defName>
 		<label>Meat Larder Serum</label>
 		<evoPointCost>1</evoPointCost>
-		<description>A potent growth serum which hive daughters can be inject into prey to promote tissue growth above all else.</description>
+		<description>A potent growth serum which hive daughters can inject into prey to promote tissue growth above all else.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">

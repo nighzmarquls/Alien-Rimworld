@@ -1,17 +1,13 @@
 ﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RimWorld.Planet;
 using Verse;
+using VFECore.Abilities;
+using Ability = VFECore.Abilities.Ability;
 
 namespace Xenomorphtype
 {
-    internal class CompSovereignDominion : CompAbilityEffect
+    public class AbilityExtension_SovereignDominion : AbilityExtension_AbilityMod
     {
-        Pawn caster => parent.pawn;
-
         private void HumanDominateHuman(Pawn subject, Pawn caster)
         {
 
@@ -19,7 +15,17 @@ namespace Xenomorphtype
 
             if (psychicTestPass)
             {
-                subject.guest.SetGuestStatus(caster.Faction, GuestStatus.Slave);
+                if (subject.guest != null)
+                {
+                    subject.guest.SetGuestStatus(caster.Faction, GuestStatus.Slave);
+                }
+                else
+                {
+                    if (TameUtility.CanTame(subject))
+                    {
+                        subject.SetFaction(caster.Faction);
+                    }
+                }
             }
             else
             {
@@ -30,18 +36,21 @@ namespace Xenomorphtype
                 }
             }
         }
-        public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
+        public override void Cast(GlobalTargetInfo[] targets, Ability ability)
         {
-            if (target.HasThing)
+            base.Cast(targets, ability);
+            Pawn caster = ability.pawn;
+            bool xenomorphCaster = XMTUtility.IsXenomorph(caster);
+            foreach (GlobalTargetInfo target in targets)
             {
-                base.Apply(target, dest);
-                if(target.Thing == caster)
+                
+                if (target.Thing == caster)
                 {
-                    return;
+                    continue;
                 }
+
                 if (target.Thing is Pawn subject)
                 {
-                    bool xenomorphCaster = XMTUtility.IsXenomorph(caster);
                     bool xenomorphTarget = XMTUtility.IsXenomorph(subject);
                     CompPawnInfo info = subject.GetComp<CompPawnInfo>();
 
@@ -67,15 +76,6 @@ namespace Xenomorphtype
                         {
                             if (info != null)
                             {
-                                Gene_PsychicBonding bonding = caster.genes.GetFirstGeneOfType<Gene_PsychicBonding>();
-                                if (bonding != null)
-                                {
-                                    if (bonding.CanBondToNewPawn)
-                                    {
-                                        caster.interactions.TryInteractWith(subject, InteractionDefOf.RomanceAttempt);
-                                        info.GainObsession(0.12f);
-                                    }
-                                }
                                 bool psychicTestPass = HivecastUtility.PsychicChallengeTest(subject, caster);
 
                                 if (info.IsObsessed() || psychicTestPass)
@@ -86,13 +86,12 @@ namespace Xenomorphtype
                                     }
                                     else
                                     {
-                                        if(TameUtility.CanTame(subject))
+                                        if (TameUtility.CanTame(subject))
                                         {
                                             subject.SetFaction(caster.Faction);
                                         }
                                     }
                                     MoteMaker.ThrowText(subject.DrawPos, subject.Map, "Dominated");
-
                                 }
                                 else
                                 {
@@ -120,9 +119,6 @@ namespace Xenomorphtype
                                     {
                                         subject.ideo.SetIdeo(caster.ideo.Ideo);
                                     }
-
-                                    casterInfo.WitnessPsychicHorror(0.25f);
-                                    casterInfo.GainObsession(0.125f);
                                 }
                                 else
                                 {
@@ -133,13 +129,6 @@ namespace Xenomorphtype
                             {
 
                                 bool failedPsycastCheck = HivecastUtility.PsychicChallengeTest(caster, queen);
-
-                                if (failedPsycastCheck)
-                                {
-                                    failedPsycastCheck = true;
-                                    casterInfo.WitnessPsychicHorror(1f);
-                                    casterInfo.GainObsession(1f);
-                                }
 
                                 if (xenomorphTarget)
                                 {
@@ -164,7 +153,6 @@ namespace Xenomorphtype
                                     }
                                     else
                                     {
-                                        casterInfo.WitnessPsychicHorror(1f);
                                         casterInfo.ApplyThreatPheromone(queen, 1, 2);
                                         caster.stances.stunner.StunFor(2f.SecondsToTicks(), queen, addBattleLog: false);
                                     }
@@ -190,7 +178,6 @@ namespace Xenomorphtype
                                     {
                                         HumanDominateHuman(subject, caster);
                                     }
-
                                 }
                             }
                         }
@@ -198,5 +185,6 @@ namespace Xenomorphtype
                 }
             }
         }
+
     }
 }

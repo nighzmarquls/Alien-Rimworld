@@ -15,7 +15,7 @@
 		<label>Adoption</label>
 		<description>Extend a connection via psycast to the target's mind offering a familial bond to the caster.</description>
 		<level>1</level>
-		<iconPath>UI/Abilities/Stun</iconPath>
+		<iconPath>UI/Abilities/Psycast/Adopt</iconPath>
 		<writeCombatLog>True</writeCombatLog>
 		<hotKey>Misc3</hotKey>
 		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
@@ -47,7 +47,7 @@
 		<label>Hive Song</label>
 		<description>All in radius of effect feel the presence of the hive, improving mood and focus for some. Traumatizing, disorienting and disturbing others.</description>
 		<level>2</level>
-		<iconPath>UI/Abilities/Stun</iconPath>
+		<iconPath>UI/Abilities/Psycast/Hivesong</iconPath>
 		<writeCombatLog>True</writeCombatLog>
 		<hotKey>Misc3</hotKey>
 		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
@@ -86,7 +86,7 @@
 		<label>fascinate</label>
 		<description>Psychically reach out to the targets to imprint the caster upon them. In the most heavily effected they will approach the caster.</description>
 		<level>3</level>
-		<iconPath>UI/Abilities/Beckon</iconPath>
+		<iconPath>UI/Abilities/Psycast/Fascinate</iconPath>
 		<writeCombatLog>True</writeCombatLog>
 		<hotKey>Misc6</hotKey>
 		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
@@ -124,7 +124,7 @@
 		<label>siren Broadcast</label>
 		<description>reach out to distant minds and instill in them a potent psychic call. Close up it may be sufficient to compell the easily suggestible to approach mindlessly in a fugue.</description>
 		<level>4</level>
-		<iconPath>UI/Abilities/Neuroquake</iconPath>
+		<iconPath>UI/Abilities/Psycast/SirenBroadcast</iconPath>
 		<hotKey>Misc12</hotKey>
 		<jobDef>CastAbilityOnThingUninterruptible</jobDef>
 		<targetRequired>False</targetRequired>
@@ -179,9 +179,9 @@
 	<AbilityDef ParentName="HivecastBase">
 		<defName>XMT_Dominion</defName>
 		<label>sovereign Dominion</label>
-		<description>The caster extends their mental presence around them, dominating the weak willed and stunning those that try to directly harm them.</description>
+		<description>The caster extends their mental presence around them, dominating the weak willed and stunning others.</description>
 		<level>5</level>
-		<iconPath>UI/Abilities/Neuroquake</iconPath>
+		<iconPath>UI/Abilities/Psycast/Dominion</iconPath>
 		<hotKey>Misc12</hotKey>
 		<showCastingProgressBar>True</showCastingProgressBar>
 		<writeCombatLog>True</writeCombatLog>
@@ -216,7 +216,7 @@
 		<label>catatonic suppression</label>
 		<description>The full force of the caster's psychic power falls upon the targets. Either stunning or rendering them catatonic under the burden of their mind.</description>
 		<level>6</level>
-		<iconPath>UI/Abilities/Burden</iconPath>
+		<iconPath>UI/Abilities/Psycast/Suppression</iconPath>
 		<writeCombatLog>True</writeCombatLog>
 		<hotKey>Misc6</hotKey>
 		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>

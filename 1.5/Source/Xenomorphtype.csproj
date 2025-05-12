@@ -78,6 +78,12 @@
     <Compile Include="Abilities\Comps\CompAbilityBloodLet.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
     <Compile Include="Abilities\Climber\PawnClimber.cs" />
+    <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_Adoption.cs" />
+    <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_Hivemind.cs" />
+    <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_ObsessionForceJob.cs" />
+    <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_ObsessionGiveHediff.cs" />
+    <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_SirenBroadcast.cs" />
+    <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_SovereignDominion.cs" />
     <Compile Include="Abilities\Psycasting\HivecastUtility.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompAdoptionEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompFascinationEffect.cs" />
@@ -267,7 +273,6 @@
     <Compile Include="XMTUtility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Abilities\Psycasting\Expanded\" />
     <Folder Include="Abilities\Psycasting\Paths\" />
     <Folder Include="AI\Toils\" />
     <Folder Include="Incidents\" />

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+
+  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>XMT_Adopt</defName>
+    <label>adopt</label>
+    <description>Extend a connection via psycast to the target's mind offering a familial bond to the caster.</description>
+    <iconPath>UI/Abilities/Psycast/Adopt</iconPath>
+    <targetMode>Pawn</targetMode>
+    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <castTime>15</castTime>
+    <fleckOnTarget>PsycastPsychicEffect</fleckOnTarget>
+    <goodwillImpact>-15</goodwillImpact>
+    <durationTime>1200</durationTime>
+    <range>24.9</range>
+    <modExtensions>
+      <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+        <path>XMT_Hivemother</path>
+        <level>1</level>
+        <order>1</order>
+        <psyfocusCost>0.15</psyfocusCost>
+        <entropyGain>12</entropyGain>
+        <psychic>true</psychic>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<psychicHorrorGain>0.1</psychicHorrorGain>
+		<obsessionGain>0.1</obsessionGain>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_Adoption">
+	  </li>
+    </modExtensions>
+  </VFECore.Abilities.AbilityDef>
+
+
+  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>XMT_Hivesong</defName>
+    <label>Hive Song</label>
+    <description>All in radius of effect feel the presence of the hive, improving mood and focus for some. Traumatizing, disorienting and disturbing others.</description>
+    <iconPath>UI/Abilities/Psycast/Hivesong</iconPath>
+    <castTime>60</castTime>
+    <durationTime>600</durationTime>
+    <range>24.9</range>
+    <radius>3.9</radius>
+    <targetMode>Location</targetMode>
+    <hasAoE>True</hasAoE>
+    <targetingParametersForAoE>
+      <canTargetSelf>False</canTargetSelf>
+      <canTargetHumans>True</canTargetHumans>
+      <canTargetMechs>True</canTargetMechs>
+      <canTargetAnimals>True</canTargetAnimals>
+      <neverTargetIncapacitated>False</neverTargetIncapacitated>
+    </targetingParametersForAoE>
+    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <castSound>PsychicShockLanceCast</castSound>
+    <fleckOnTarget>PsycastAreaEffect</fleckOnTarget>
+    <modExtensions>
+      <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+        <path>XMT_Hivemother</path>
+        <level>2</level>
+        <order>1</order>
+        <psyfocusCost>0.1</psyfocusCost>
+        <entropyGain>20</entropyGain>
+        <psychic>true</psychic>
+        <prerequisites>
+          <li>XMT_Adopt</li>
+        </prerequisites>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<psychicHorrorGain>0.2</psychicHorrorGain>
+		<obsessionGain>0.2</obsessionGain>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_ObsessionGiveHediff">
+		<morphHediff>PsychicFocus</morphHediff>
+		<obsessedHediff>Joyfuzz</obsessedHediff>
+        <defaultHediff>PsychicVertigo</defaultHediff>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+		<durationMultiplierFromCaster>False</durationMultiplierFromCaster>
+      </li>
+    </modExtensions>
+  </VFECore.Abilities.AbilityDef>
+
+  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>XMT_Fascination</defName>
+    <label>fascinate</label>
+    <description>Psychically reach out to the targets to imprint the caster upon them. In the most heavily effected they will approach the caster.</description>
+    <iconPath>UI/Abilities/Psycast/Fascinate</iconPath>
+	<castTime>60</castTime>
+    <durationTime>600</durationTime>
+    <range>24.9</range>
+    <radius>3.9</radius>
+    <targetMode>Location</targetMode>
+    <hasAoE>True</hasAoE>
+    <targetingParametersForAoE>
+      <canTargetSelf>False</canTargetSelf>
+      <canTargetHumans>True</canTargetHumans>
+      <canTargetMechs>True</canTargetMechs>
+      <canTargetAnimals>True</canTargetAnimals>
+      <neverTargetIncapacitated>False</neverTargetIncapacitated>
+    </targetingParametersForAoE>
+    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <castSound>PsychicShockLanceCast</castSound>
+    <fleckOnTarget>PsycastAreaEffect</fleckOnTarget>
+    <modExtensions>
+      <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+        <path>XMT_Hivemother</path>
+        <level>2</level>
+        <order>2</order>
+        <psyfocusCost>0.01</psyfocusCost>
+        <entropyGain>20</entropyGain>
+        <prerequisites>
+          <li>XMT_Adopt</li>
+        </prerequisites>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<psychicHorrorGain>0.2</psychicHorrorGain>
+		<obsessionGain>0.2</obsessionGain>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_ObsessionForceJob">
+        <jobDef>GotoMindControlled</jobDef>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+        <fleckOnTarget>PsycastPsychicEffect</fleckOnTarget>
+      </li>
+    </modExtensions>
+  </VFECore.Abilities.AbilityDef>
+
+  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>XMT_SirenBroadcast</defName>
+    <label>siren Broadcast</label>
+    <description>reach out to distant minds and instill in them a potent psychic call. Close up it may be sufficient to compell the easily suggestible to approach mindlessly in a fugue.</description>
+    <iconPath>UI/Abilities/Psycast/SirenBroadcast</iconPath>
+    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <jobDef>VFEA_UseAbilityUninterruptible</jobDef>
+    <castTime>720</castTime>
+    <targetMode>Self</targetMode>
+    <durationTime>100</durationTime>
+    <warmupMote>Mote_WarmupNeuroquake</warmupMote>
+    <warmupStartSound>Psycast_Neuroquake_CastStart</warmupStartSound>
+    <warmupSound>Psycast_Neuroquake_CastLoop</warmupSound>
+    <warmupPreEndSound>Psycast_Neuroquake_CastEnd</warmupPreEndSound>
+    <warmupPreEndSoundTicks>300</warmupPreEndSoundTicks>
+    <radius>60</radius>
+    <modExtensions>
+	  <li Class="VFECore.Abilities.AbilityExtension_ConfirmationMessage">
+        <message>If you use siren broadcast, everyone in this region will feel the psychic call and send a party to investigate, you may lose goodwill with some factions and hostile factions will send raids.\n\nEveryone on the map will be effected by it.\n\nDo you really want to cast siren broadcast?</message>
+      </li>
+      <li Class="VFECore.Abilities.AbilityExtension_ScreenShaker">
+        <intensity>1.2</intensity>
+      </li>
+      <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+        <path>XMT_Hivemother</path>
+        <level>4</level>
+        <order>1</order>
+        <psyfocusCost>0.5</psyfocusCost>
+        <entropyGain>100</entropyGain>
+        <psychic>true</psychic>
+        <prerequisites>
+          <li>XMT_Fascination</li>
+		  <li>XMT_Hivesong</li>
+        </prerequisites>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<psychicHorrorGain>1</psychicHorrorGain>
+		<obsessionGain>1</obsessionGain>
+      </li>
+	  <li Class="VFECore.Abilities.AbilityExtension_FleckOnTarget">
+        <fleckDef>PsychicApplyNeuroquake</fleckDef>
+        <sound>Psycast_Neuroquake_Effect</sound>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_SirenBroadcast">
+		<worldRangeTiles>6</worldRangeTiles>
+		<mesmerizedJobDef>GotoMindControlled</mesmerizedJobDef>
+		<friendlyPrecepts>
+			<li>XMT_Parasite_Reincarnation</li>
+			<li>XMT_Parasite_Revered</li>
+			<li>XMT_Biomorph_Worship</li>
+		</friendlyPrecepts>
+		<hostilePrecepts>
+			<li>XMT_Parasite_Abhorrent</li>
+			<li>XMT_Biomorph_Abhorrent</li>
+			<li>XMT_Biomorph_Study</li>
+			<li>XMT_Biomorph_Hunt</li>
+		</hostilePrecepts>
+      </li>
+    </modExtensions>
+  </VFECore.Abilities.AbilityDef>
+
+  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>XMT_Dominion</defName>
+    <label>sovereign Dominion</label>
+    <description>The caster extends their mental presence around them, dominating the weak willed and stunning others.</description>
+    <iconPath>UI/Abilities/Psycast/Dominion</iconPath>
+    <targetMode>Self</targetMode>
+    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <castSound>VPE_PsychicDrone_Cast</castSound>
+    <durationTime>1800</durationTime>
+    <castTime>60</castTime>
+    <radius>25.9</radius>
+	<hasAoE>True</hasAoE>
+    <targetingParametersForAoE>
+      <canTargetSelf>False</canTargetSelf>
+      <canTargetHumans>True</canTargetHumans>
+      <canTargetMechs>True</canTargetMechs>
+      <canTargetAnimals>True</canTargetAnimals>
+      <neverTargetIncapacitated>False</neverTargetIncapacitated>
+    </targetingParametersForAoE>
+    <modExtensions>
+      <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+        <path>XMT_Hivemother</path>
+        <level>5</level>
+        <order>1</order>
+        <psyfocusCost>0.06</psyfocusCost>
+        <entropyGain>85</entropyGain>
+        <psychic>true</psychic>
+        <prerequisites>
+          <li>XMT_SirenBroadcast</li>
+        </prerequisites>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<psychicHorrorGain>0.5</psychicHorrorGain>
+		<obsessionGain>0.5</obsessionGain>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_SovereignDominion">
+      </li>
+    </modExtensions>
+  </VFECore.Abilities.AbilityDef>
+
+
+
+  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+    <defName>XMT_Catatonic</defName>
+    <label>catatonic Suppression</label>
+    <description>The full force of the caster's psychic power falls upon the targets. Either stunning or rendering them catatonic under the burden of their mind.</description>
+    <iconPath>UI/Abilities/Psycast/Suppression</iconPath>
+    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <targetMode>Self</targetMode>
+    <castSound>VPE_PsychicDrone_Cast</castSound>
+    <durationTime>1800</durationTime>
+    <castTime>60</castTime>
+    <radius>19.9</radius>
+	<hasAoE>True</hasAoE>
+	<targetingParametersForAoE>
+      <canTargetSelf>False</canTargetSelf>
+      <canTargetHumans>True</canTargetHumans>
+      <canTargetMechs>True</canTargetMechs>
+      <canTargetAnimals>True</canTargetAnimals>
+      <neverTargetIncapacitated>False</neverTargetIncapacitated>
+    </targetingParametersForAoE>
+    <modExtensions>
+      <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
+        <path>XMT_Hivemother</path>
+        <level>5</level>
+        <order>2</order>
+        <psyfocusCost>0.5</psyfocusCost>
+        <entropyGain>0</entropyGain>
+        <prerequisites>
+          <li>XMT_SirenBroadcast</li>
+        </prerequisites>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<psychicHorrorGain>0.5</psychicHorrorGain>
+		<obsessionGain>0.5</obsessionGain>
+      </li>
+	  <li Class="Xenomorphtype.AbilityExtension_ObsessionGiveHediff">
+		<morphHediff>PsychicFocus</morphHediff>
+		<obsessedHediff>PsychicShock</obsessedHediff>
+        <defaultHediff>PsychicShock</defaultHediff>
+        <durationMultiplier>PsychicSensitivity</durationMultiplier>
+		<durationMultiplierFromCaster>False</durationMultiplierFromCaster>
+      </li>
+    </modExtensions>
+  </VFECore.Abilities.AbilityDef>
+</Defs>
