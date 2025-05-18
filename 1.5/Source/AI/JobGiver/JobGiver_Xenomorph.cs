@@ -306,6 +306,13 @@ namespace Xenomorphtype
                     }
                 }
 
+                if (pawn.MentalState is MentalState_XMT_MurderousRage rage)
+                {
+                    Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, rage.target);
+                    job.killIncappedTarget = true;
+                    return job;
+                }
+
                 if (compMatureMorph.ShouldSnuggle())
                 {
                     Pawn SnuggleTarget = compMatureMorph.GetSnuggleTarget();

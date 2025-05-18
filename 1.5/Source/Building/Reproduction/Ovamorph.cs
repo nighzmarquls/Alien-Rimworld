@@ -241,7 +241,7 @@ namespace Xenomorphtype
             HiveUtility.RemoveOvamorph(this, Map);
 
             XMTUtility.WitnessOvamorph(Position, Map, 0.1f, 0.1f);
-
+            
             HatchingEgg.TrySpawnPawn(Position, HatchingEgg.hatchedPawnKind.race.race.lifeStageAges[0].minAge);
         }
 

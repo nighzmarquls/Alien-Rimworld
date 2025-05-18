@@ -138,56 +138,49 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (Parent.Drafted)
+            if (aggressor == null)
+            {
+                if (Parent.Faction == null)
+                {
+                    if (Parent.mindState.mentalStateHandler.InMentalState)
+                    {
+                        return;
+                    }
+                    Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
+                }
+                return;
+            }
+
+            if (aggressor.Dead)
             {
                 return;
             }
 
-            if (aggressor != null)
+            if (aggressor == Parent)
             {
-                if (aggressor.Dead)
-                {
-                    return;
-                }
-
-                if (aggressor == Parent)
-                {
-                    return;
-                }
-
-                if (XMTUtility.IsXenomorph(aggressor))
-                {
-                    if (Parent.mindState.mentalStateHandler.InMentalState && Parent.mindState.mentalStateHandler.CurStateDef != MentalStateDefOf.SocialFighting)
-                    {
-                        Parent.mindState.mentalStateHandler.Reset();
-                    }
-                    Parent.interactions.StartSocialFight(aggressor);
-                    return;
-                }
-
-                CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
-
-                if (info != null)
-                {
-                    info.ApplyThreatPheromone(Parent);
-                }
-
-                if (Parent.HostileTo(aggressor))
-                {
-                    return;
-                }
-
-                Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, aggressor);
-                job.killIncappedTarget = true;
-                Parent.jobs.StartJob(job, JobCondition.InterruptForced);
+                return;
             }
-            else if (Parent.Faction == null)
+
+            if (XMTUtility.IsXenomorph(aggressor))
             {
-                if (Parent.mindState.mentalStateHandler.InMentalState)
+                if (Parent.mindState.mentalStateHandler.InMentalState && Parent.mindState.mentalStateHandler.CurStateDef != MentalStateDefOf.SocialFighting)
                 {
-                    return;
+                    Parent.mindState.mentalStateHandler.Reset();
                 }
-                Parent.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, "", forced: true, forceWake: true, false);
+                Parent.interactions.StartSocialFight(aggressor);
+                return;
+            }
+
+            CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
+
+            if (info != null)
+            {
+                info.ApplyThreatPheromone(Parent);
+            }
+
+            if (Parent.HostileTo(aggressor))
+            {
+                return;
             }
         }
 
@@ -867,6 +860,8 @@ namespace Xenomorphtype
                 building.InheritFromInjector(Parent);
             }
 
+            int progress = 250;
+            XMTResearch.ProgressEvolutionTech(progress, Parent);
             target.health.AddHediff(hediff);
         }
 

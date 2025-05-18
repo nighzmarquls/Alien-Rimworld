@@ -17,10 +17,12 @@ namespace Xenomorphtype
         }
         public static PreceptDef XMT_QueenAscension;
 
-        // human xen biotech researchdefs
+        // xeno research tab
         public static ResearchTabDef XMT_StarbeastResearchTab;
 
-        // xeno biotech researchdefs
+        // xeno researchdefs
         public static ResearchProjectDef XMT_Starbeast_Construction;
+        public static ResearchProjectDef XMT_Starbeast_Reinforcement;
+        public static ResearchProjectDef XMT_Starbeast_Chrysalis;
     }
 }

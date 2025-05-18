@@ -17,7 +17,7 @@ namespace Xenomorphtype
 
         public static bool StarbeastProjectsVisible()
         {
-            return XMTUtility.QueenIsPlayer();
+            return XMTUtility.PlayerXenosOnMap(Find.CurrentMap);
         }
 
         static bool FinishedResearching(ResearchProjectDef project, ResearchManager researchManager)
@@ -31,6 +31,26 @@ namespace Xenomorphtype
             if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Construction, researchManager))
             {
                 researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, actor);
+            }
+        }
+
+        internal static void ProgressEvolutionTech(int progress, Pawn actor)
+        {
+            ResearchManager researchManager = Find.ResearchManager;
+
+            if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Chrysalis, researchManager))
+            {
+                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Chrysalis, progress, actor);
+            }
+        }
+
+        internal static void ProgressResinTech(int progress, Pawn actor)
+        {
+            ResearchManager researchManager = Find.ResearchManager;
+
+            if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Reinforcement, researchManager))
+            {
+                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Reinforcement, progress, actor);
             }
         }
         internal static void ProgressCryptobioTech(int progress, Pawn actor)

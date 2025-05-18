@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>XMT_MurderousRage</defName>
+    <stateClass>Xenomorphtype.MentalState_XMT_MurderousRage</stateClass>
+    <workerClass>Xenomorphtype.MentalStateWorker_XMT_MurderousRage</workerClass>
+    <label>murderous rage</label>
+    <category>Aggro</category>
+    <blockInteractionInitiationExcept>
+      <li>Insult</li>
+    </blockInteractionInitiationExcept>
+    <blockInteractionRecipientExcept>
+      <li>Insult</li>
+    </blockInteractionRecipientExcept>
+    <blockRandomInteraction>true</blockRandomInteraction>
+    <colonistsOnly>true</colonistsOnly>
+    <minTicksBeforeRecovery>100000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>100000</maxTicksBeforeRecovery>
+    <recoverFromSleep>true</recoverFromSleep>
+    <nameColor>(0.9,0.2,0.5)</nameColor>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <recoveryMessage>{0} is no longer in a murderous rage.</recoveryMessage>
+    <beginLetter>{0} has flown into a murderous rage.\n\n[PAWN_pronoun] has decided to kill {1}.</beginLetter>
+    <beginLetterDef>ThreatSmall</beginLetterDef>
+    <baseInspectLine>Mental state: Murderous rage</baseInspectLine>
+    <allowBeatfire>true</allowBeatfire>
+  </MentalStateDef>
+
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>XMT_GiveUpExit</defName>
+    <label>fleeing in horror</label>
+    <stateClass>MentalState_GiveUpExit</stateClass>
+    <category>Misc</category>
+    <prisonersCanDo>false</prisonersCanDo>
+    <slavesCanDo>false</slavesCanDo>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <nameColor>(0.65, 0.9, 0.93)</nameColor>
+    <beginLetterLabel>gave up</beginLetterLabel>
+    <beginLetter>{0} is horrified by the actions of the colony.\n\n[PAWN_pronoun] fleeing before it gets worse. You can try to arrest [PAWN_objective] as [PAWN_pronoun] leaves. Otherwise, you may still see [PAWN_objective] again some day.</beginLetter>
+    <beginLetterDef>NegativeEvent</beginLetterDef>
+    <recoveryMessage>{0} has had a change of heart and is coming back to the colony.</recoveryMessage>
+    <baseInspectLine>Mental state: Fleeing in horror</baseInspectLine>
+    <tale>MentalStateGaveUp</tale>
+    <allowBeatfire>true</allowBeatfire>
+    <escapingPrisonersIgnore>true</escapingPrisonersIgnore>
+  </MentalStateDef>
+
+  <MentalStateDef ParentName="Tantrum">
+    <defName>XMT_TargetedTantrum</defName>
+    <stateClass>MentalState_TargetedTantrum</stateClass>
+    <workerClass>MentalStateWorker_TargetedTantrum</workerClass>
+    <minTicksBeforeRecovery>40000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>60000</maxTicksBeforeRecovery>
+    <recoveryMtbDays>0.166</recoveryMtbDays>
+    <beginLetter>{0} is having a tantrum.\n\n[PAWN_pronoun] is going to destroy {1}.</beginLetter>
+  </MentalStateDef>
+
+  <MentalStateDef ParentName="Tantrum">
+    <defName>XMT_SadisticRage</defName>
+    <stateClass>MentalState_SadisticRageTantrum</stateClass>
+    <workerClass>MentalStateWorker_SadisticRageTantrum</workerClass>
+    <label>sadistic rage</label>
+    <maxTicksBeforeRecovery>30000</maxTicksBeforeRecovery>
+    <recoveryMessage>{0} is no longer in a sadistic rage.</recoveryMessage>
+    <beginLetterDef>ThreatSmall</beginLetterDef>
+    <beginLetter>{0} has flown into a sadistic rage.\n\n[PAWN_pronoun] is going to vent [PAWN_possessive] anger on the prisoners.</beginLetter>
+    <baseInspectLine>Mental state: Sadistic rage</baseInspectLine>
+  </MentalStateDef>
+
+  <!-- Mental breaks: minor -->
+
+  <MentalBreakDef>
+    <defName>XMT_Binging_Food</defName>
+    <mentalState>XMT_Binging_Food</mentalState>
+    <baseCommonality>0.8</baseCommonality>
+    <intensity>Minor</intensity>
+  </MentalBreakDef>
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>XMT_Binging_Food</defName>
+    <stateClass>MentalState_Binging</stateClass>
+    <workerClass>MentalStateWorker_BingingFood</workerClass>
+    <label>binging on food</label>
+    <category>Misc</category>
+    <prisonersCanDo>false</prisonersCanDo>
+    <colonistsOnly>true</colonistsOnly>
+    <minTicksBeforeRecovery>25000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>45000</maxTicksBeforeRecovery>
+    <recoveryMtbDays>0.166</recoveryMtbDays>
+    <recoverFromSleep>true</recoverFromSleep>
+    <nameColor>(0.5, 0.9, 0.5)</nameColor>
+    <beginLetterLabel>food binge</beginLetterLabel>
+    <beginLetter>{0} is pigging out on food.</beginLetter>
+    <beginLetterDef>NegativeEvent</beginLetterDef>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <recoveryMessage>{0} is no longer pigging out on food.</recoveryMessage>
+    <baseInspectLine>Mental state: Pigging out</baseInspectLine>
+    <allowBeatfire>true</allowBeatfire>
+    <escapingPrisonersIgnore>true</escapingPrisonersIgnore>
+  </MentalStateDef>
+
+
+</Defs>

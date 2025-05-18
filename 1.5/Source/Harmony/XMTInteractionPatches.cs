@@ -15,6 +15,46 @@ namespace Xenomorphtype
 {
     internal class XMTInteractionPatches
     {
+        [HarmonyPatch(typeof(Pawn_InteractionsTracker), nameof(Pawn_InteractionsTracker.TryInteractWith))]
+        public static class Pawn_InteractionsTracker_TryInteractWith
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Pawn recipient, Pawn ___pawn)
+            {
+                bool recipientXenomorph = XMTUtility.IsXenomorph(recipient);
+                bool initiatorXenomorph = XMTUtility.IsXenomorph(___pawn);
+                if ((!recipientXenomorph && !initiatorXenomorph) || (recipientXenomorph && initiatorXenomorph))
+                {
+                    return;
+                }
+
+                if (recipientXenomorph)
+                {
+                    CompPawnInfo info = ___pawn.GetComp<CompPawnInfo>();
+                    if (info != null)
+                    {
+                        float value = info.XenomorphPheromoneValue();
+                        if(value <= -0.5f)
+                        {
+                            recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
+                        }
+                    }
+                }
+                else
+                {
+                    CompPawnInfo info = recipient.GetComp<CompPawnInfo>();
+                    if (info != null)
+                    {
+                        float value = info.XenomorphPheromoneValue();
+                        if (value <= -0.5f)
+                        {
+                            ___pawn.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
+                        }
+                    }
+                }
+
+            }
+        }
         [HarmonyPatch(typeof(InteractionWorker_RomanceAttempt), nameof(InteractionWorker_RomanceAttempt.SuccessChance))]
         public static class Patch_InteractionWorker_RomanceAttempt_SuccessChance
         {

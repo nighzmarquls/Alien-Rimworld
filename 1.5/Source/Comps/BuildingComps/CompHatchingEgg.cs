@@ -45,7 +45,39 @@ namespace Xenomorphtype
 
             if (pawn != null)
             {
+                int progress = 250;
+                XMTResearch.ProgressEvolutionTech(progress, pawn);
                 Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Hatched, pawn.Named(HistoryEventArgsNames.Doer)));
+            }
+        }
+
+        public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
+        {
+            base.PostPostApplyDamage(dinfo, totalDamageDealt);
+
+            if (UnHatched)
+            {
+                Pawn aggressor = dinfo.Instigator as Pawn;
+
+                if (aggressor != null)
+                {
+                    if (aggressor.Dead)
+                    {
+                        return;
+                    }
+
+                    if (XMTUtility.IsXenomorph(aggressor))
+                    {
+                        return;
+                    }
+
+                    CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
+
+                    if (info != null)
+                    {
+                        info.ApplyThreatPheromone(parent,1,2);
+                    }
+                }
             }
         }
 

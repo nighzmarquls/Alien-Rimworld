@@ -118,6 +118,9 @@
     <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvamorph.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Metamorphosis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
+    <Compile Include="AI\MentalState\States\MentalState_XMT_MurderousRage.cs" />
+    <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_MurderousRage.cs" />
+    <Compile Include="AI\MentalState\XMTMentalStateUtility.cs" />
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_Obsession.cs" />
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_PheromoneOpinion.cs" />
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_TraumatizedBy.cs" />
@@ -128,6 +131,7 @@
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforceable.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
+    <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Game\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
     <Compile Include="Building\FillableChrysalis.cs" />

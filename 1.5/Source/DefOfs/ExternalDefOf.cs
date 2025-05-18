@@ -163,6 +163,13 @@ namespace Xenomorphtype
 
         [MayRequire("kentington.saveourship2")]
         public static ThingDef ShipHullTile;
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef ShipHullfoamTile;
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef ShipHullTileMech;
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef ShipHullTileArchotech;
+        
 
         [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_Beam_Unpowered;

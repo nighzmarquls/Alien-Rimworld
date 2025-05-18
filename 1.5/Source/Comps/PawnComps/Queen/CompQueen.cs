@@ -191,6 +191,42 @@ namespace Xenomorphtype
             XMTUtility.QueenDied(Parent);
         }
 
+        public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
+        {
+            base.PostPostApplyDamage(dinfo, totalDamageDealt);
+
+            Pawn aggressor = dinfo.Instigator as Pawn;
+
+            if (Parent.Downed)
+            {
+                return;
+            }
+
+            if (aggressor != null)
+            {
+                if (aggressor.Dead)
+                {
+                    return;
+                }
+
+                if (aggressor == Parent)
+                {
+                    return;
+                }
+
+                if (XMTUtility.IsXenomorph(aggressor))
+                {
+                    return;
+                }
+
+                CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
+
+                if (info != null)
+                {
+                    info.ApplyThreatPheromone(Parent,1,10);
+                }
+            }
+        }
         public bool HasDependencies(RoyalEvolutionDef evolution, out RoyalEvolutionDef[] dependencies)
         {
             bool foundDependencies = false;

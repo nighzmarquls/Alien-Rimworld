@@ -45,8 +45,5 @@ namespace Xenomorphtype
         public static ThoughtDef GaveTrophallaxis;
         public static ThoughtDef RecievedTrophallaxis;
         
-    }
-
-    
-   
+    }  
 }

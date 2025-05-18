@@ -97,7 +97,7 @@ namespace Xenomorphtype
             for (int i = 0; i < InternalDefOf.XMT_Starbeast_AlienRace.race.lifeStageAges.Count; i++)
             {
                 LifeStageAge lifeStageAge = InternalDefOf.XMT_Starbeast_AlienRace.race.lifeStageAges[i];
-                if(lifeStageAge.def.developmentalStage == DevelopmentalStage.Adult)
+                if (lifeStageAge.def.developmentalStage == DevelopmentalStage.Adult)
                 {
                     ageTarget = lifeStageAge.minAge;
                     break;
@@ -112,15 +112,18 @@ namespace Xenomorphtype
                     FilthMaker.TryMakeFilth(Pawn.Position, Pawn.Map, InternalDefOf.Starbeast_Filth_Resin);
                 }
             }
-            
+
 
             fullyMatured = true;
 
-            if(attacked)
+            if (attacked)
             {
                 Pawn.health.RemoveHediff(parent);
                 Pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, "", forced: true, forceWake: true, false);
-            }    
+            }
+
+            int progress = 250;
+            XMTResearch.ProgressEvolutionTech(progress, Pawn);
         }
 
         public override float SeverityChangePerDay()

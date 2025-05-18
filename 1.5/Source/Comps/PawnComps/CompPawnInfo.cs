@@ -100,15 +100,15 @@ namespace Xenomorphtype
         float obsession = 0;
         float Obsession => obsession + TraitObsessionModifier();
 
-        public float OvamorphAwareness => ovamorphAwareness + TraitAwarenessModifier() + IdeaReproductionModifier();
-        public float LarvaAwareness => larvaAwareness + TraitAwarenessModifier() + IdeaReproductionModifier();
+        public float OvamorphAwareness => ovamorphAwareness + TraitAwarenessModifier() + IdeoReproductionModifier();
+        public float LarvaAwareness => larvaAwareness + TraitAwarenessModifier() + IdeoReproductionModifier();
         public float HorrorAwareness => horrorAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
         public float AcidAwareness => acidAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
 
         public float PsychicAwareness => psychicAwareness;
 
 
-        public float IdeaReproductionModifier()
+        public float IdeoReproductionModifier()
         {
             float modifier = 0;
             if (parent is Pawn Parent)
@@ -577,7 +577,7 @@ namespace Xenomorphtype
 
         public float TotalHorrorAwareness()
         {
-            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() + IdeaReproductionModifier() + IdeoAdultModifier();
+            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() + IdeoReproductionModifier() + IdeoAdultModifier();
         }
 
         public bool IsObsessed()
@@ -624,13 +624,15 @@ namespace Xenomorphtype
             }
         }
 
-        public void ApplyThreatPheromone(Pawn victim, float amount = 0.5f, float maxStrength = 1f)
+        public void ApplyThreatPheromone(Thing victim, float amount = 0.5f, float maxStrength = 1f)
         {
 
             _threatPheromone = Mathf.Min(ThreatPheromone + amount, maxStrength);
 
             ReduceHygiene(amount);
             TryApplyDisplayHediff();
+
+            XMTUtility.ThreatResponse(victim, this);
         }
         public void ApplyFriendlyPheromone(Pawn partner, float amount = 0.25f, float maxStrength = 0.25f)
         {

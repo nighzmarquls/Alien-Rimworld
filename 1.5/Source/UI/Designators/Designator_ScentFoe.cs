@@ -104,7 +104,7 @@ namespace Xenomorphtype
 
                 if (info != null)
                 {
-                    info.ApplyFriendlyPheromone(XMTUtility.GetQueen(), 0.25f, 0.5f);
+                    info.ApplyThreatPheromone(XMTUtility.GetQueen(), 0.25f, 1.5f);
                 }
             }
             justDesignated.Clear();

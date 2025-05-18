@@ -54,37 +54,47 @@ namespace Xenomorphtype
                     }
                     queen.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
                     List<Pawn> Humanlikes = queen.Map.mapPawns.AllHumanlikeSpawned.ToList();
-                    foreach (Pawn subject in Humanlikes)
+                    if (Humanlikes != null && Humanlikes.Count > 0)
                     {
-                        if(subject == null)
+                        foreach (Pawn subject in Humanlikes)
                         {
-                            continue;
-                        }
-                        if (subject == queen)
-                        {
-                            continue;
-                        }
+                            if (subject == null)
+                            {
+                                continue;
+                            }
+                            if (subject == queen)
+                            {
+                                continue;
+                            }
 
-                        bool IsXenomorph = XMTUtility.IsXenomorph(subject);
+                            bool IsXenomorph = XMTUtility.IsXenomorph(subject);
 
-                        if (IsXenomorph)
-                        {
-                            if (ModsConfig.IdeologyActive)
+                            if (IsXenomorph)
                             {
-                                subject.ideo.SetIdeo(queen.ideo.Ideo);
+                                if (ModsConfig.IdeologyActive)
+                                {
+                                    if (subject.ideo != null)
+                                    {
+                                        subject.ideo.SetIdeo(queen.ideo.Ideo);
+                                    }
+                                }
+                                if (subject.Faction != queen.Faction)
+                                {
+                                    subject.SetFaction(queen.Faction);
+                                }
+                                if (subject.relations != null && !subject.relations.DirectRelationExists(PawnRelationDefOf.Parent, queen))
+                                {
+                                    subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, queen);
+                                }
+                                if (subject?.needs.joy != null)
+                                {
+                                    subject.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
+                                }
+                                XMTUtility.GiveMemory(subject, HorrorMoodDefOf.XMT_CommuneWithQueen);
                             }
-                            if (subject.Faction != queen.Faction)
-                            {
-                                subject.SetFaction(queen.Faction);
-                            }
-                            if (!subject.relations.DirectRelationExists(PawnRelationDefOf.Parent, queen))
-                            {
-                                subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, queen);
-                            }
-                            subject.needs.joy.GainJoy(0.5f, InternalDefOf.Communion);
-                            XMTUtility.GiveMemory(subject, HorrorMoodDefOf.XMT_CommuneWithQueen);
                         }
                     }
+                
                     string text = queen + " has finished her advancement";
 
                     text = text + "\n\n" + OutcomeQualityBreakdownDesc(quality, progress, jobRitual);

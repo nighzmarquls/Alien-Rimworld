@@ -200,6 +200,9 @@
 		  <Beauty>0</Beauty>
 		</statBases>
 		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<researchPrerequisites>
+			<li>XMT_Starbeast_Reinforcement</li>
+		</researchPrerequisites>
 		<building>
 			<isEdifice>false</isEdifice>
 			<expandHomeArea>true</expandHomeArea>
@@ -426,6 +429,9 @@
 		  <Beauty>0</Beauty>
 		</statBases>
 		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<researchPrerequisites>
+			<li>XMT_Starbeast_Reinforcement</li>
+		</researchPrerequisites>
 		<building>
 			<expandHomeArea>true</expandHomeArea>
 			<isInert>true</isInert>

@@ -34,7 +34,7 @@ namespace Xenomorphtype
 
             if (latched)
             {
-               
+
                 if (Parent != null)
                 {
                     Parent.jobs.StopAll();
@@ -90,7 +90,7 @@ namespace Xenomorphtype
 
         protected void Decay()
         {
-            if(Parent.Dead)
+            if (Parent.Dead)
             {
                 return;
             }
@@ -98,9 +98,9 @@ namespace Xenomorphtype
             hoursSpent++;
             if (hoursSpent >= Props.hoursTilDeathAfterImplant)
             {
-                Parent.Kill(new DamageInfo(ExternalDefOf.Decayed, 1,999));
+                Parent.Kill(new DamageInfo(ExternalDefOf.Decayed, 1, 999));
             }
-              
+
         }
         public void TryEmbrace(Pawn target)
         {
@@ -110,7 +110,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if(target.health.hediffSet.HasHediff(Props.larvaHediff))
+            if (target.health.hediffSet.HasHediff(Props.larvaHediff))
             {
                 return;
             }
@@ -119,7 +119,7 @@ namespace Xenomorphtype
             {
                 int goodWill = -25;
 
-                if(ModsConfig.IdeologyActive)
+                if (ModsConfig.IdeologyActive)
                 {
                     goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation) ? 30 : 0;
                     goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study) ? 15 : 0;
@@ -167,7 +167,7 @@ namespace Xenomorphtype
 
             XMTUtility.GiveMemory(target, HorrorMoodDefOf.ParasiteLatchedMood);
 
-            IEnumerable <BodyPartRecord> source = from x in target.health.hediffSet.GetNotMissingParts()
+            IEnumerable<BodyPartRecord> source = from x in target.health.hediffSet.GetNotMissingParts()
                                                  where
                                                     XMTUtility.IsPartHead(x)
                                                  select x;
@@ -176,9 +176,9 @@ namespace Xenomorphtype
 
             HediffComp_LarvalAttachment LarvalAttachment = hediff.TryGetComp<HediffComp_LarvalAttachment>();
 
-            if ( LarvalAttachment != null && !latched)
+            if (LarvalAttachment != null && !latched)
             {
-               
+
                 Pawn pawn = (parent as Pawn);
                 latched = true;
                 LarvalAttachment.mother = mother;
@@ -208,6 +208,43 @@ namespace Xenomorphtype
                 return target.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.FullHead);
             }
             return false;
+        }
+
+        public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
+        {
+            base.PostPostApplyDamage(dinfo, totalDamageDealt);
+
+            Pawn aggressor = dinfo.Instigator as Pawn;
+
+            if (Parent.Downed)
+            {
+                return;
+            }
+
+            if (aggressor != null)
+            {
+                if (aggressor.Dead)
+                {
+                    return;
+                }
+
+                if (aggressor == Parent)
+                {
+                    return;
+                }
+
+                if (XMTUtility.IsXenomorph(aggressor))
+                {
+                    return;
+                }
+
+                CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
+
+                if (info != null)
+                {
+                    info.ApplyThreatPheromone(Parent);
+                }
+            }
         }
     }
     public class CompLarvalGenesProperties : CompProperties

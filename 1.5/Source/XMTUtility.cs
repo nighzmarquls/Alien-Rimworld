@@ -10,6 +10,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using static AlienRace.ExtendedGraphics.ConditionMood;
 
 
 namespace Xenomorphtype
@@ -827,7 +828,7 @@ namespace Xenomorphtype
 
         public static bool IsAcidImmune(Thing thing)
         {
-            if(thing == null)
+            if (thing == null)
             {
                 return true;
             }
@@ -847,9 +848,21 @@ namespace Xenomorphtype
                 }
             }
 
-            if(thing.def.designationCategory == InternalDefOf.Hivemass.designationCategory)
+            if (thing.def.designationCategory == InternalDefOf.Hivemass.designationCategory)
             {
                 return true;
+            }
+            
+            if (thing.def == ExternalDefOf.ShipHullTile ||
+                thing.def == ExternalDefOf.ShipHullTileMech ||
+                thing.def == ExternalDefOf.ShipHullTileArchotech ||
+                thing.def == ExternalDefOf.ShipHullfoamTile)
+            {
+                TerrainDef terrain = thing.PositionHeld.GetTerrain(thing.MapHeld);
+                if (terrain.affordances.Contains(InternalDefOf.Resin))
+                {
+                    return true;
+                }
             }
 
             if (thing.def == InternalDefOf.Hivemass)
@@ -1647,6 +1660,39 @@ namespace Xenomorphtype
             if (pawn.Faction != null && pawn.Faction.IsPlayer)
             {
                 pawn.needs.joy.GainJoy(0.1f, ExternalDefOf.Gaming_Dexterity);
+            }
+        }
+
+        internal static void ThreatResponse(Thing victim, CompPawnInfo aggressorInfo)
+        {
+            if(!aggressorInfo.IsXenomorphFriendly())
+            {
+                IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(victim.PositionHeld, 5, true);
+
+                foreach (IntVec3 cell in cells)
+                {
+                    Pawn witness = cell.GetFirstPawn(victim.MapHeld);
+
+                    if (witness.mindState.mentalStateHandler.InMentalState)
+                    {
+                        continue;
+                    }
+
+                    if (IsXenomorph(witness))
+                    {
+                        if (witness.Drafted)
+                        {
+                            if(aggressorInfo.parent.Faction == witness.Faction && aggressorInfo.XenomorphPheromoneValue() <= -1f)
+                            {
+                                witness.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
+                            }
+                        }
+                        else
+                        {
+                            witness.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
+                        }
+                    }
+                }
             }
         }
     }

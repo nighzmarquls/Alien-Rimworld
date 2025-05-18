@@ -76,6 +76,8 @@ namespace Xenomorphtype
                                     if (actor.skills != null)
                                     {
                                         actor.skills.Learn(SkillDefOf.Construction, 0.25f);
+                                        int progress = 1;
+                                        XMTResearch.ProgressResinTech(progress, actor);
                                     }
 
                                     if (actor?.needs?.food != null)
@@ -86,10 +88,12 @@ namespace Xenomorphtype
                                         {
                                             Hediff Malnutrition = actor.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition);
 
-                                            if(Malnutrition != null)
+                                            if (Malnutrition != null)
                                             {
                                                 Malnutrition.Severity += 0.001f;
-                                                actor.workSettings.Disable(WorkTypeDefOf.Construction);
+
+                                                
+                                                //actor.workSettings.Disable(WorkTypeDefOf.Construction);
                                             }
                                             __instance.ReadyForNextToil();
                                             return;

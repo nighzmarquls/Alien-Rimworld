@@ -348,6 +348,9 @@ namespace Xenomorphtype
 
             XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f);
 
+            int progress = 250;
+            XMTResearch.ProgressEvolutionTech(progress, child);
+
             Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
 
 

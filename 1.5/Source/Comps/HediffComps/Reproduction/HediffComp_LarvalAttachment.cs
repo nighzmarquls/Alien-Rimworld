@@ -258,7 +258,8 @@ namespace Xenomorphtype
                     }
                 }
             }
-  
+            int progress = 250;
+            XMTResearch.ProgressEvolutionTech(progress, Pawn);
             Pawn.health.hediffSet.AddDirect(hediff);
             spent = true;
 
