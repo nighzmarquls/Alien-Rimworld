@@ -19,7 +19,6 @@
 			</li>
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
 				<ImpossibleHediffs>
-					<li>Anesthetic</li>
 					<li MayRequire="ludeon.rimworld.anomaly">DarknessExposure</li>
 					<li MayRequire="ludeon.rimworld.anomaly">Digested</li>
 				</ImpossibleHediffs>

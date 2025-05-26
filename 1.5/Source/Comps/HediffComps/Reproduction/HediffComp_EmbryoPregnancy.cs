@@ -105,15 +105,6 @@ namespace Xenomorphtype
                 }
             }
         }
-        public override void Notify_SurgicallyRemoved(Pawn surgeon)
-        {
-            base.Notify_SurgicallyRemoved(surgeon);
-
-            float maturity = CalculateMaturity();
-            float childAge = 0;
-            XMTUtility.GetLifeStageByEmbryoMaturity(maturity, out childAge);
-            SpawnChild(childAge, maturity);
-        }
 
         public override void Notify_PawnDied(DamageInfo? dinfo, Hediff culprit = null)
         {

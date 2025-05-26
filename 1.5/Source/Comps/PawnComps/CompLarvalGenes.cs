@@ -146,7 +146,14 @@ namespace Xenomorphtype
 
             if (!XMTUtility.IsTargetImmobile(target) && !Parent.IsPsychologicallyInvisible())
             {
-                if (Rand.Chance(XMTUtility.GetDodgeChance(target, true)))
+                CompPawnInfo info = target.GetComp<CompPawnInfo>();
+                float bonusDodge = 0;
+                if (info != null)
+                {
+                    bonusDodge += info.LarvaAwareness / 4;
+                }
+
+                if (Rand.Chance(XMTUtility.GetDodgeChance(target, true) + bonusDodge))
                 {
                     MoteMaker.ThrowText(target.DrawPos, target.Map, "TextMote_Dodge".Translate(), 1.9f);
                     return;
@@ -195,15 +202,16 @@ namespace Xenomorphtype
 
         public bool TryResist(Pawn target)
         {
+            if (target.meleeVerbs.TryMeleeAttack(parent))
+            {
+                if ((parent as Pawn).Dead)
+                {
+                    return true;
+                }
+            }
+
             if (target.apparel != null)
             {
-                if (target.meleeVerbs.TryMeleeAttack(parent))
-                {
-                    if ((parent as Pawn).Dead)
-                    {
-                        return true;
-                    }
-                }
                 XMTUtility.DamageApparelByBodyPart(target, BodyPartGroupDefOf.FullHead, 160f);
                 return target.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.FullHead);
             }

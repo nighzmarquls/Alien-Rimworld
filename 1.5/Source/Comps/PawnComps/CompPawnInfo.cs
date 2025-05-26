@@ -575,11 +575,20 @@ namespace Xenomorphtype
             TryApplyDisplayHediff();
         }
 
+        public float TotalHorrorExperience()
+        {
+            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier();
+        }
         public float TotalHorrorAwareness()
         {
-            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() + IdeoReproductionModifier() + IdeoAdultModifier();
+            return TotalHorrorExperience() + IdeoReproductionModifier() + IdeoAdultModifier();
         }
 
+        public bool IsObsessed(out float awareness)
+        {
+            awareness = TotalHorrorAwareness();
+            return Obsession > awareness;
+        }
         public bool IsObsessed()
         {
             return Obsession > TotalHorrorAwareness();

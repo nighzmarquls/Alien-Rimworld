@@ -11,6 +11,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using static AlienRace.ExtendedGraphics.ConditionMood;
+using static UnityEngine.GraphicsBuffer;
 
 
 namespace Xenomorphtype
@@ -256,8 +257,12 @@ namespace Xenomorphtype
             return false;
 
         }
-        public static void TrySpawnPawnFromTarget(Pawn pawn, Thing target)
+        public static Thing TrySpawnPawnFromTarget(Pawn pawn, Thing target)
         {
+            if (XMTSettings.LogBiohorror)
+            {
+                Log.Message(pawn + " is trying to spawn from " + target);
+            }
             Thing ValidSpawnTarget = target;
 
             Pawn TargetPawn = target as Pawn;
@@ -284,11 +289,11 @@ namespace Xenomorphtype
                 if (TargetPawn.IsPlayerControlledCaravanMember())
                 {
                     TargetPawn.GetCaravan().AddPawn(pawn, true);
-                    return;
+                    return null;
                 }
             }
 
-            GenSpawn.Spawn(pawn, ValidSpawnTarget.Position, ValidSpawnTarget.Map);
+            return GenSpawn.Spawn(pawn, ValidSpawnTarget.Position, ValidSpawnTarget.Map);
         }
 
         public static bool IsSpotter(Thing thing)
@@ -694,7 +699,7 @@ namespace Xenomorphtype
             return found;
         }
 
-        public static void GiveMemory(Pawn pawn, ThoughtDef thoughtMemory, int maxcount = -1)
+        public static void GiveMemory(Pawn pawn, ThoughtDef thoughtMemory, int maxcount = -1, int stage = -1)
         {
             if (pawn.needs == null || pawn.needs.mood == null || pawn.needs.mood.thoughts == null)
             {
@@ -714,6 +719,10 @@ namespace Xenomorphtype
                 {
                     return;
                 }
+            }
+            if (stage >= 0)
+            {
+                thought_Memory.SetForcedStage(stage);
             }
 
             pawn.needs.mood.thoughts.memories.TryGainMemory(thought_Memory);
@@ -945,7 +954,32 @@ namespace Xenomorphtype
         }
 
 
-
+        public static bool WitnessAcid(IntVec3 positionHeld, Map mapHeld, float strength, out float bonus, float maxAwareness = 1.0f, float radius = 1.5f)
+        {
+            IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
+            bool XenomorphWitness = false;
+            bonus = 0;
+            foreach (Pawn witness in witnesses)
+            {
+                if (XMTUtility.IsXenomorph(witness))
+                {
+                    XenomorphWitness = true;
+                }
+                else
+                {
+                    if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
+                    {
+                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                        if (info != null)
+                        {
+                            bonus += info.AcidAwareness;
+                            info.WitnessAcidHorror(strength, maxAwareness);
+                        }
+                    }
+                }
+            }
+            return XenomorphWitness;
+        }
         public static bool WitnessAcid(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
@@ -975,7 +1009,8 @@ namespace Xenomorphtype
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
-
+            Thing horror = positionHeld.GetFirstPawn(mapHeld);
+ 
             foreach (Pawn witness in witnesses)
             {
                 if (XMTUtility.IsXenomorph(witness))
@@ -990,6 +1025,11 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessHorror(strength, maxAwareness);
+
+                            if(horror != null)
+                            {
+                                TraumaResponse(horror, info);
+                            }
                         }
                     }
                 }
@@ -1000,6 +1040,8 @@ namespace Xenomorphtype
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
+
+            Thing horror = positionHeld.GetEdifice(mapHeld);
 
             foreach (Pawn witness in witnesses)
             {
@@ -1015,6 +1057,10 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessOvamorphHorror(strength, maxAwareness);
+                            if (horror != null)
+                            {
+                                TraumaResponse(horror, info);
+                            }
                         }
                     }
   
@@ -1022,14 +1068,16 @@ namespace Xenomorphtype
             }
             return XenomorphWitness;
         }
+
         public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
+            Thing horror = positionHeld.GetFirstPawn(mapHeld);
 
             foreach (Pawn witness in witnesses)
             {
-                if(witness == null)
+                if (witness == null)
                 {
                     continue;
                 }
@@ -1046,6 +1094,52 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessLarvaHorror(strength, maxAwareness);
+                            if (horror != null)
+                            {
+                                TraumaResponse(horror, info);
+                            }
+                        }
+                    }
+                }
+            }
+            return XenomorphWitness;
+        }
+        public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, out float bonus, float maxAwareness = 1.0f, float radius = 1.5f)
+        {
+            bonus = 0;
+            IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
+            bool XenomorphWitness = false;
+            Thing horror = positionHeld.GetFirstPawn(mapHeld);
+
+            foreach (Pawn witness in witnesses)
+            {
+                if(witness == null)
+                {
+                    continue;
+                }
+
+                if(witness.Downed)
+                {
+                    continue;
+                }
+
+                if (XMTUtility.IsXenomorph(witness))
+                {
+                    XenomorphWitness = true;
+                }
+                else
+                {
+                    if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
+                    {
+                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                        if (info != null)
+                        {
+                            bonus += info.LarvaAwareness / 8;
+                            info.WitnessLarvaHorror(strength, maxAwareness);
+                            if (horror != null)
+                            {
+                                TraumaResponse(horror, info);
+                            }
                         }
                     }
                 }
@@ -1663,6 +1757,73 @@ namespace Xenomorphtype
             }
         }
 
+        internal static void TraumaResponse(Thing horror, CompPawnInfo witnessInfo)
+        {
+            if (witnessInfo.parent is Pawn witness)
+            {
+                if(!witness.Awake() || witness.Downed)
+                {
+                    return;
+                }
+
+                if (witnessInfo.IsObsessed(out float awareness))
+                {
+                    return;
+                }
+
+                if(XMTUtility.IsXenomorph(witness))
+                {
+                    return;
+                }
+
+                bool violent = Rand.Chance(witness.RaceProps.manhunterOnDamageChance);
+
+                float moodChance = (witness.needs.mood != null)? witness.needs.mood.CurLevelPercentage : 0.5f;
+                bool traumaBreak = Rand.Chance((awareness / 4) - moodChance);
+
+                if(witness.story != null)
+                {
+                    if(witness.story.traits.HasTrait(TraitDefOf.Wimp) || witness.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent))
+                    {
+                        violent = false;
+                    }
+                }
+
+                if (witness.Drafted && witnessInfo.parent.Faction == horror.Faction)
+                {
+                    if (traumaBreak)
+                    {
+                        if (violent)
+                        {
+                            Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, horror);
+                            witness.jobs.StartJob(job, JobCondition.InterruptForced);
+                        }
+                        else
+                        {
+                            witness.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Wander_OwnRoom, "", forced: true, forceWake: true, false);
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    if (traumaBreak)
+                    {
+                        if (violent)
+                        {
+                            Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, horror);
+                            witness.jobs.StartJob(job, JobCondition.InterruptForced);
+                        }
+                        else
+                        {
+                            witness.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, "", forced: true, forceWake: true, false);
+                        }
+                    }
+                }
+                
+            }
+        }
+
         internal static void ThreatResponse(Thing victim, CompPawnInfo aggressorInfo)
         {
             if(!aggressorInfo.IsXenomorphFriendly())
@@ -1694,6 +1855,11 @@ namespace Xenomorphtype
                     }
                 }
             }
+        }
+
+        internal static void AcidBurn(Pawn pawn)
+        {
+            
         }
     }
 }

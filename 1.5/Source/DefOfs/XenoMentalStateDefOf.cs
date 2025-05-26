@@ -17,11 +17,8 @@ namespace Xenomorphtype
         }
 
         public static MentalStateDef XMT_MurderousRage;
-        public static MentalStateDef XMT_GiveUpExit;
         public static MentalStateDef XMT_TargetedTantrum;
         public static MentalStateDef XMT_SadisticRage;
-        public static MentalStateDef XMT_Binging_Food;
-        
 
     }
 }

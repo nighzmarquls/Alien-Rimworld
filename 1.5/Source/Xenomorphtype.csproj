@@ -118,6 +118,9 @@
     <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvamorph.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Metamorphosis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
+    <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Morph.cs" />
+    <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Traumatized.cs" />
+    <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Obsession.cs" />
     <Compile Include="AI\MentalState\States\MentalState_XMT_MurderousRage.cs" />
     <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_MurderousRage.cs" />
     <Compile Include="AI\MentalState\XMTMentalStateUtility.cs" />
@@ -184,6 +187,7 @@
     <Compile Include="Harmony\XMTMapPatches.cs" />
     <Compile Include="Harmony\XMTOffsetPatch.cs" />
     <Compile Include="Harmony\XMTResearchPatches.cs" />
+    <Compile Include="Harmony\XMTRestPatches.cs" />
     <Compile Include="Harmony\XMTToilPatches.cs" />
     <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
     <Compile Include="Harmony\XMTWildmanPatch.cs" />

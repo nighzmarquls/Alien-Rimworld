@@ -114,6 +114,39 @@
     </renderNodeProperties>
   </HediffDef>
   
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>XMT_Remove_LarvalEmbrace</defName>
+    <label>remove parasite</label>
+    <description>Remove a parasite.</description>
+    <workerClass>Recipe_RemoveHediff</workerClass>
+    <jobString>removing parasite.</jobString>
+    <workAmount>4500</workAmount>
+    <removesHediff>XMT_LarvalEmbrace</removesHediff>
+    <successfullyRemovedHediffMessage>{0} has successfully removed attached parasite.</successfullyRemovedHediffMessage>
+    <deathOnFailedSurgeryChance>0.5</deathOnFailedSurgeryChance>
+    <skillRequirements>
+      <Medicine>0</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+      <disallowedThingDefs>
+        <li>MedicineHerbal</li>
+      </disallowedThingDefs>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_SmotheringEmbrace</defName>
     <label>engulfed</label>

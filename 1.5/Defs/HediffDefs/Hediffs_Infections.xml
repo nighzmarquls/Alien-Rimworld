@@ -156,6 +156,40 @@
     </comps>
   </HediffDef>
   
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>XMT_RemoveEmbryo</defName>
+    <label>excise embryo</label>
+    <description>Excise a embryo.</description>
+    <workerClass>Recipe_RemoveHediff</workerClass>
+    <jobString>Excising embryo.</jobString>
+    <workAmount>4500</workAmount>
+    <removesHediff>XMT_Embryo</removesHediff>
+    <successfullyRemovedHediffMessage>{0} has successfully removed {1}'s foreign embryo.</successfullyRemovedHediffMessage>
+    <deathOnFailedSurgeryChance>0.95</deathOnFailedSurgeryChance>
+    <skillRequirements>
+      <Medicine>15</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+      <disallowedThingDefs>
+        <li>MedicineHerbal</li>
+		<li>MedicineIndustrial</li>
+      </disallowedThingDefs>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Lardering</defName>
     <label>swelling</label>

@@ -34,6 +34,7 @@ namespace Xenomorphtype
         public static ThoughtDef VictimSnuggledScared;
         public static ThoughtDef VictimTrophallaxisHappy;
         public static ThoughtDef VictimTrophallaxisScared;
+        public static ThoughtDef VictimNightmareMood;
 
         //Starbeasts
         public static ThoughtDef TooMuchNestWork;

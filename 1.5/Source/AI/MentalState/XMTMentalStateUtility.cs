@@ -20,7 +20,6 @@ namespace Xenomorphtype
 
             bool KillerIsXenomorph = XMTUtility.IsXenomorph(pawn);
 
-
             tmpTargets.Clear();
             IReadOnlyList<Pawn> allPawnsSpawned = pawn.Map.mapPawns.AllPawnsSpawned;
             for (int i = 0; i < allPawnsSpawned.Count; i++)

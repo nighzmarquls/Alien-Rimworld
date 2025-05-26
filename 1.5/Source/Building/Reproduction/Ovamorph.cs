@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿//using HarmonyLib;
+using RimWorld;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-//using HarmonyLib;
-using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Noise;
 using static HarmonyLib.Code;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
 {
@@ -177,8 +178,13 @@ namespace Xenomorphtype
 
                     foreach (Pawn host in PossibleHosts)
                     {
-
-                        if (Rand.Chance(SpringChance(host)))
+                        CompPawnInfo info = host.GetComp<CompPawnInfo>();
+                        float bonusDodge = 0;
+                        if (info != null)
+                        {
+                            bonusDodge += info.LarvaAwareness / 6;
+                        }
+                        if (Rand.Chance(SpringChance(host) - bonusDodge))
                         {
                             HatchNow();
                             break;

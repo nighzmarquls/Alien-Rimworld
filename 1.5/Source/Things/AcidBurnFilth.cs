@@ -34,7 +34,7 @@ namespace Xenomorphtype
 
                 if (pawn != null)
                 {
-
+                    XMTUtility.AcidBurn(pawn);
                 }
 
                 sitTicks++;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Markup;
@@ -83,25 +84,62 @@ namespace Xenomorphtype
         public override void Notify_PawnDied(DamageInfo? dinfo, Hediff culprit = null)
         {
             base.Notify_PawnDied(dinfo, culprit);
+            LarvaRelease();
             base.Pawn.health.RemoveHediff(parent);
-            LarvaRelease();
-
         }
-        public override void Notify_SurgicallyRemoved(Pawn surgeon)
+
+        public override void CompPostPostRemoved()
         {
-            base.Notify_SurgicallyRemoved(surgeon);
-            if(!spent || !XMTUtility.IsXenomorph(surgeon))
+            base.CompPostPostRemoved();
+
+            if (removed)
             {
-                LarvaSqueeze(5);
+                return;
             }
-            LarvaRelease();
+
+            float larvaBonus = 0;
+            float acidBonus = 0;
+
+            if (!Pawn.Dead)
+            {
+                XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, out larvaBonus, 1f);
+                XMTUtility.WitnessAcid(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, out acidBonus, 1f);
+
+
+                if (!spent)
+                {
+                    if (larvaBonus < 1)
+                    {
+                        LarvaSqueeze(8f);
+                    }
+                }
+            }
+
+
+            if (LarvaRelease() is Pawn larvaPawn)
+            {
+                if (larvaBonus > 0.5f)
+                {
+                    larvaPawn.health.AddHediff(HediffDefOf.Anesthetic);
+                }
+
+                if (acidBonus < 1 )
+                {
+                    CompAcidBlood acid = larvaPawn.TryGetComp<CompAcidBlood>();
+
+                    if (acid != null)
+                    {
+                        acid.TrySplashAcid();
+                    }
+                }
+            }
         }
         public override void CompTended(float quality, float maxQuality, int batchPosition = 0)
         {
             base.CompTended(quality, maxQuality, batchPosition);
+            float witnessBonus;
+            bool XenomorphTending = XMTUtility.WitnessLarva(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.1f, out witnessBonus, 1f);
 
-            bool XenomorphTending = XMTUtility.WitnessLarva(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.1f, 1f);
-            
             if (XenomorphTending)
             {
                 //xenomorphs just make it worse.
@@ -112,11 +150,14 @@ namespace Xenomorphtype
                 //if you catch it early enough or too late you can get the thing off.
                 LarvaRelease();
             }
-            else if (parent.CurStageIndex < 2 && quality >= Props.minimumTendToRemove)
+            else if (parent.CurStageIndex < 2 && quality + witnessBonus >= Props.minimumTendToRemove)
             {
                 //Larva removed before implantation but may still kill host.
-            
-                LarvaSqueeze(8f);
+                //Experience with Larva will mitigate this.
+                if (witnessBonus < 1)
+                {
+                    LarvaSqueeze(8f);
+                }
                 LarvaRelease();
             }
             else if (quality <= Props.minimumTendToAvoidInjury)
@@ -133,7 +174,10 @@ namespace Xenomorphtype
 
         protected void LarvaSqueeze(float damage = 5f)
         {
-
+            if (XMTSettings.LogBiohorror)
+            {
+                Log.Message(parent + " is squeezing ");
+            }
             XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.Map, 1f);
 
             parent.Severity += 0.25f;
@@ -171,12 +215,17 @@ namespace Xenomorphtype
                 base.Pawn.TakeDamage(new DamageInfo(squeeze, amount, armorPenetration, -1f, null, source.RandomElement<BodyPartRecord>(), null, DamageInfo.SourceCategory.ThingOrUnknown, null));
             }
         }
-        protected void LarvaRelease()
+        protected Thing LarvaRelease()
         {
-       
+
+            if (XMTSettings.LogBiohorror)
+            {
+                Log.Message(parent + " is releasing ");
+            }
+
             if (removed)
             {
-                return;
+                return null;
             }
 
             Faction spawnFaction = (mother != null && !spent) ? mother.Faction : null;
@@ -196,14 +245,12 @@ namespace Xenomorphtype
                 larvalGenes.spent = spent;
                 larva.Named(name);
 
-                larva.TakeDamage(new DamageInfo(DamageDefOf.Stun, 20, 999));
-
-                XMTUtility.TrySpawnPawnFromTarget(larva, Pawn);
-
                 removed = true;
+
+                return XMTUtility.TrySpawnPawnFromTarget(larva, Pawn);
             }
 
-      
+            return null;
            
         }
 

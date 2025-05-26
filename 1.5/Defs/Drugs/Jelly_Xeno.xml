@@ -16,32 +16,32 @@
 				<painFactor>0.0</painFactor>
 				<capMods>
 					<li>
-					<capacity>Consciousness</capacity>
-					<offset>1.0</offset>
+						<capacity>Consciousness</capacity>
+						<offset>1.0</offset>
 					</li>
 					<li>
-					<capacity>Moving</capacity>
-					<offset>0.5</offset>
+						<capacity>Moving</capacity>
+						<offset>0.5</offset>
 					</li>
 					<li>
-					<capacity>Sight</capacity>
-					<offset>0.5</offset>
+						<capacity>Sight</capacity>
+						<offset>0.5</offset>
 					</li>
 					<li>
-					<capacity>BloodFiltration</capacity>
-					<offset>0.5</offset>
+						<capacity>BloodFiltration</capacity>
+						<offset>2</offset>
 					</li>
 					<li>
-					<capacity>BloodPumping</capacity>
-					<offset>0.5</offset>
+						<capacity>BloodPumping</capacity>
+						<offset>0.5</offset>
 					</li>
 					<li>
-					<capacity>Metabolism</capacity>
-					<offset>0.5</offset>
+						<capacity>Metabolism</capacity>
+						<offset>0.5</offset>
 					</li>
 					<li>
-					<capacity>Breathing</capacity>
-					<offset>0.5</offset>
+						<capacity>Breathing</capacity>
+						<offset>0.5</offset>
 					</li>
 				</capMods>
 			</li>
@@ -73,32 +73,32 @@
 				<painFactor>0.8</painFactor>
 				<capMods>
 					<li>
-					<capacity>Consciousness</capacity>
-					<offset>0.1</offset>
+						<capacity>Consciousness</capacity>
+						<offset>0.1</offset>
 					</li>
 					<li>
-					<capacity>Moving</capacity>
-					<offset>0.05</offset>
+						<capacity>Moving</capacity>
+						<offset>0.05</offset>
 					</li>
 					<li>
-					<capacity>Sight</capacity>
-					<offset>0.1</offset>
+						<capacity>Sight</capacity>
+						<offset>0.1</offset>
 					</li>
 					<li>
-					<capacity>BloodFiltration</capacity>
-					<offset>0.1</offset>
+						<capacity>BloodFiltration</capacity>
+						<offset>1</offset>
 					</li>
 					<li>
-					<capacity>BloodPumping</capacity>
-					<offset>0.1</offset>
+						<capacity>BloodPumping</capacity>
+						<offset>0.1</offset>
 					</li>
 					<li>
-					<capacity>Metabolism</capacity>
-					<offset>0.1</offset>
+						<capacity>Metabolism</capacity>
+						<offset>0.1</offset>
 					</li>
 					<li>
-					<capacity>Breathing</capacity>
-					<offset>0.1</offset>
+						<capacity>Breathing</capacity>
+						<offset>0.1</offset>
 					</li>
 				</capMods>
 			</li>
@@ -152,24 +152,24 @@
 				<deathMtbDays>10</deathMtbDays>
 				<mtbDeathDestroysBrain>true</mtbDeathDestroysBrain>
 				<capMods>
-				<li>
-				<capacity>Consciousness</capacity>
-				<setMax>0.8</setMax>
-				</li>
-				<li>
-				<capacity>BloodFiltration</capacity>
-				<setMax>0.1</setMax>
-				</li>
-				<li>
-				<capacity>Metabolism</capacity>
-				<setMax>0.1</setMax>
-				</li>
+					<li>
+						<capacity>Consciousness</capacity>
+						<setMax>0.8</setMax>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<setMax>0</setMax>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<setMax>0.1</setMax>
+					</li>
 				</capMods>
 				<mentalStateGivers>
-				<li>
-				<mentalState>Berserk</mentalState>
-				<mtbDays>0.4</mtbDays>
-				</li>
+					<li>
+						<mentalState>Berserk</mentalState>
+						<mtbDays>0.4</mtbDays>
+					</li>
 				</mentalStateGivers>
 			</li>
 		</stages>

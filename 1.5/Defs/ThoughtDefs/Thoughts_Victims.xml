@@ -489,5 +489,39 @@
 		  </li>
 		</stages>
 	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>VictimNightmareMood</defName>
+		<thoughtClass>Thought_Memory</thoughtClass>
+		<durationDays>2</durationDays>
+		<stackLimit>1</stackLimit>
+		<stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<nullifyingHediffs>
+		  <li MayRequire="Ludeon.RimWorld.Anomaly">Inhumanized</li>
+		</nullifyingHediffs>
+		<stages>
+		  <li>
+			<label>poor sleep</label>
+			<description>I thought there were no monsters, no real ones.</description>
+			<baseMoodEffect>-5</baseMoodEffect>
+		  </li>
+		  <li>
+			<label>nightmares</label>
+			<description>It's the same dream, something horrible inside me bursting out!</description>
+			<baseMoodEffect>-10</baseMoodEffect>
+		  </li>
+		  <li>
+			<label>night terrors</label>
+			<description>Those things are out there. I wish I woulden't dream.</description>
+			<baseMoodEffect>-15</baseMoodEffect>
+		  </li>
+		  <li>
+			<label>traumatizing memories</label>
+			<description>These things have been in my life so long, I can't remember a time without them.</description>
+			<baseMoodEffect>-20</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
 
 </Defs>

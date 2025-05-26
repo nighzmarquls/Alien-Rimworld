@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
+  <MentalBreakDef>
+    <defName>XMT_MurderousRage</defName>
+    <label>murder enemy</label>
+    <baseCommonality>1</baseCommonality>
+    <intensity>Minor</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Morph</workerClass>
+	<mentalState>XMT_MurderousRage</mentalState>
+  </MentalBreakDef>
   <MentalStateDef ParentName="BaseMentalState">
     <defName>XMT_MurderousRage</defName>
     <stateClass>Xenomorphtype.MentalState_XMT_MurderousRage</stateClass>
@@ -28,6 +36,14 @@
     <allowBeatfire>true</allowBeatfire>
   </MentalStateDef>
 
+  <MentalBreakDef>
+    <defName>XMT_GiveUpExit</defName>
+    <label>horrorified</label>
+    <baseCommonality>2</baseCommonality>
+    <intensity>Major</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+	<mentalState>XMT_GiveUpExit</mentalState>
+  </MentalBreakDef>
   <MentalStateDef ParentName="BaseMentalState">
     <defName>XMT_GiveUpExit</defName>
     <label>fleeing in horror</label>
@@ -48,6 +64,14 @@
     <escapingPrisonersIgnore>true</escapingPrisonersIgnore>
   </MentalStateDef>
 
+  <MentalBreakDef>
+    <defName>XMT_TargetedTantrum</defName>
+    <label>destroy eggs</label>
+    <baseCommonality>2</baseCommonality>
+    <intensity>Major</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+	<mentalState>XMT_TargetedTantrum</mentalState>
+  </MentalBreakDef>
   <MentalStateDef ParentName="Tantrum">
     <defName>XMT_TargetedTantrum</defName>
     <stateClass>MentalState_TargetedTantrum</stateClass>
@@ -58,6 +82,14 @@
     <beginLetter>{0} is having a tantrum.\n\n[PAWN_pronoun] is going to destroy {1}.</beginLetter>
   </MentalStateDef>
 
+  <MentalBreakDef>
+    <defName>XMT_SadisticRage</defName>
+    <label>sadistic rage</label>
+    <baseCommonality>2</baseCommonality>
+    <intensity>Major</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+	<mentalState>XMT_SadisticRage</mentalState>
+  </MentalBreakDef>
   <MentalStateDef ParentName="Tantrum">
     <defName>XMT_SadisticRage</defName>
     <stateClass>MentalState_SadisticRageTantrum</stateClass>
@@ -70,36 +102,12 @@
     <baseInspectLine>Mental state: Sadistic rage</baseInspectLine>
   </MentalStateDef>
 
-  <!-- Mental breaks: minor -->
-
   <MentalBreakDef>
-    <defName>XMT_Binging_Food</defName>
-    <mentalState>XMT_Binging_Food</mentalState>
-    <baseCommonality>0.8</baseCommonality>
+    <defName>XMT_Wander_OwnRoom</defName>
+    <mentalState>Wander_OwnRoom</mentalState>
+    <baseCommonality>0.75</baseCommonality>
+	<workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
     <intensity>Minor</intensity>
   </MentalBreakDef>
-  <MentalStateDef ParentName="BaseMentalState">
-    <defName>XMT_Binging_Food</defName>
-    <stateClass>MentalState_Binging</stateClass>
-    <workerClass>MentalStateWorker_BingingFood</workerClass>
-    <label>binging on food</label>
-    <category>Misc</category>
-    <prisonersCanDo>false</prisonersCanDo>
-    <colonistsOnly>true</colonistsOnly>
-    <minTicksBeforeRecovery>25000</minTicksBeforeRecovery>
-    <maxTicksBeforeRecovery>45000</maxTicksBeforeRecovery>
-    <recoveryMtbDays>0.166</recoveryMtbDays>
-    <recoverFromSleep>true</recoverFromSleep>
-    <nameColor>(0.5, 0.9, 0.5)</nameColor>
-    <beginLetterLabel>food binge</beginLetterLabel>
-    <beginLetter>{0} is pigging out on food.</beginLetter>
-    <beginLetterDef>NegativeEvent</beginLetterDef>
-    <moodRecoveryThought>Catharsis</moodRecoveryThought>
-    <recoveryMessage>{0} is no longer pigging out on food.</recoveryMessage>
-    <baseInspectLine>Mental state: Pigging out</baseInspectLine>
-    <allowBeatfire>true</allowBeatfire>
-    <escapingPrisonersIgnore>true</escapingPrisonersIgnore>
-  </MentalStateDef>
-
 
 </Defs>
