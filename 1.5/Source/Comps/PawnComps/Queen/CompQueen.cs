@@ -224,6 +224,22 @@ namespace Xenomorphtype
                 if (info != null)
                 {
                     info.ApplyThreatPheromone(Parent,1,10);
+
+                    if(XenoformingUtility.XenoformingMeets(10))
+                    {
+                        IncidentParms parms = new IncidentParms();
+                        parms.forced = true;
+                        parms.target = parent.Map;
+                        if (XenoIncidentDefOf.XMT_HuntingPack.Worker.TryExecute(parms))
+                        {
+                            XenoformingUtility.QueenCalledForAid();
+                            if (ModsConfig.RoyaltyActive)
+                            {
+                                FleckMaker.Static(Parent.Position, parent.Map, FleckDefOf.PsycastAreaEffect, 10f);
+                            }
+                        }
+                    }
+
                 }
             }
         }

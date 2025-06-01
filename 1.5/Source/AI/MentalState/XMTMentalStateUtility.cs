@@ -25,7 +25,7 @@ namespace Xenomorphtype
             for (int i = 0; i < allPawnsSpawned.Count; i++)
             {
                 Pawn candidate = allPawnsSpawned[i];
-                if (KillerIsXenomorph && XMTUtility.IsMorphing(candidate) || XMTUtility.HasEmbryo(candidate) || XMTUtility.IsXenomorph(candidate))
+                if (KillerIsXenomorph && ( XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.IsMorphing(candidate) || XMTUtility.HasEmbryo(candidate) || XMTUtility.IsXenomorph(candidate)))
                 {
                     continue;
                 }

@@ -1826,7 +1826,11 @@ namespace Xenomorphtype
 
         internal static void ThreatResponse(Thing victim, CompPawnInfo aggressorInfo)
         {
-            if(!aggressorInfo.IsXenomorphFriendly())
+            if (aggressorInfo == null)
+            {
+                return;
+            }
+            if (!aggressorInfo.IsXenomorphFriendly())
             {
                 IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(victim.PositionHeld, 5, true);
 
@@ -1834,6 +1838,11 @@ namespace Xenomorphtype
                 {
                     Pawn witness = cell.GetFirstPawn(victim.MapHeld);
 
+                    if(witness == null)
+                    {
+                        continue;
+                    }
+                    
                     if (witness.mindState.mentalStateHandler.InMentalState)
                     {
                         continue;

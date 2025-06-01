@@ -14,6 +14,9 @@
 		<stages>
 			<li>
 				<painFactor>0.0</painFactor>
+				<statOffsets>
+					<ImmunityGainSpeed>2</ImmunityGainSpeed>
+				</statOffsets>
 				<capMods>
 					<li>
 						<capacity>Consciousness</capacity>
@@ -71,6 +74,9 @@
 		<stages>
 			<li>
 				<painFactor>0.8</painFactor>
+				<statOffsets>
+					<ImmunityGainSpeed>0.5</ImmunityGainSpeed>
+				</statOffsets>
 				<capMods>
 					<li>
 						<capacity>Consciousness</capacity>
@@ -151,6 +157,9 @@
 				<lifeThreatening>true</lifeThreatening>
 				<deathMtbDays>10</deathMtbDays>
 				<mtbDeathDestroysBrain>true</mtbDeathDestroysBrain>
+				<statFactors>
+					<ImmunityGainSpeed>0.0</ImmunityGainSpeed>
+				</statFactors>
 				<capMods>
 					<li>
 						<capacity>Consciousness</capacity>

@@ -2,16 +2,11 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Cryptography;
 using UnityEngine;
 using Verse.Sound;
-using Verse.AI;
+
 
 namespace Xenomorphtype
 {

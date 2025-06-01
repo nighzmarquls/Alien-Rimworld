@@ -30,7 +30,31 @@ namespace Xenomorphtype
         }
 
         private float _xenoforming = 0;
-        public float Xenoforming => _xenoforming;
+        public float Xenoforming
+        {
+            get
+            {
+                return _xenoforming;
+            }
+            set
+            {
+                if(DebugSettings.ShowDevGizmos)
+                {
+                    if (value >= 0)
+                    {
+                        _xenoforming = value;
+                    }
+                    else
+                    {
+                        _xenoforming = 0;
+                    }
+                    if (XMTSettings.LogWorld)
+                    {
+                        Log.Message("Adjusting Xenoforming by DEBUG total: " + _xenoforming);
+                    }
+                }
+            }
+        }
         float MutationProliferation = 0;
 
         int nextXenoformingTick = -1;
@@ -40,7 +64,7 @@ namespace Xenomorphtype
         private const float OvamorphImpact = 0.1f;
         private const float EmbryoSaturationLimit = 10;
         private const float EmbryoImpact = 0.5f;
-
+        private const float QueenAidImpact = 2f;
         public GameComponent_Xenomorph(Game game)
         {
             Queen = null;
@@ -154,6 +178,15 @@ namespace Xenomorphtype
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for " + pawn + " leaving the map with an embryo. total: " + _xenoforming);
+            }
+        }
+
+        internal void HandleQueenCallForAid()
+        {
+            _xenoforming = Mathf.Max(0, _xenoforming - (QueenAidImpact));
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("Adjusting Xenoforming for " + Queen + " calling aid to the map. total: " + _xenoforming);
             }
         }
     }

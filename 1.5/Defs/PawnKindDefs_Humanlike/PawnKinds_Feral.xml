@@ -2,7 +2,7 @@
 <Defs>
   <PawnKindDef ParentName="BasePlayerStarbeast">
     <defName>XMT_FeralStarbeastKind</defName>
-    <label>kin</label>
+    <label>cryptimorph</label>
     <defaultFactionType></defaultFactionType>
     <chemicalAddictionChance>0</chemicalAddictionChance>
     <apparelTags>

@@ -92,10 +92,6 @@ namespace Xenomorphtype
         public static JoyKindDef            NestTending;
         public static JoyKindDef            HuntingPrey;
         public static JoyKindDef            Communion;
-
-       
-
-        
     }
 }
 

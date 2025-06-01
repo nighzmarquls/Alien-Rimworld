@@ -11,6 +11,23 @@ namespace Xenomorphtype
 {
     internal class XMTIncidentPatches
     {
+        [HarmonyPatch(typeof(ThreatsGenerator), "GetPossibleIncidents")]
+        public static class Patch_ThreatsGenerator_GetPossibleIncidents
+        {
+            [HarmonyPostfix]
+            public static void Postfix(ref IEnumerable<IncidentDef> __result)
+            {
+                if(XenoformingUtility.XenoformingMeets(10))
+                {
+                    if (XMTSettings.LogWorld)
+                    {
+                        Log.Message("adding incident to options " + XenoIncidentDefOf.XMT_HuntingPack);
+                    }
+                    __result.AddItem(XenoIncidentDefOf.XMT_HuntingPack);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(IncidentWorker_NeutralGroup), "SpawnPawns")]
         public static class Patch_IncidentWorker_NeutralGroup_SpawnPawns
         {

@@ -12,7 +12,10 @@ namespace Xenomorphtype
     public class AcidBurnFilth : Filth
     {
         int sitTicks = 0;
-        int maxSitTicks = 100;
+        int maxSitTicks = 240;
+
+        int burnTicks = 0;
+        int maxBurnTicks = 2;
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
@@ -23,11 +26,12 @@ namespace Xenomorphtype
         {
             base.ExposeData();
             Scribe_Values.Look(ref sitTicks, "sitTicks", 0);
+            Scribe_Values.Look(ref burnTicks, "burnTicks", 0);
 
         }
         public override void Tick()
         {
-            if (GenTicks.IsTickInterval(125))
+            if (GenTicks.IsTickInterval(60))
             {
 
                 Pawn pawn = this.Position.GetFirstPawn(this.Map);
@@ -35,16 +39,22 @@ namespace Xenomorphtype
                 if (pawn != null)
                 {
                     XMTUtility.AcidBurn(pawn);
+                    burnTicks++;
                 }
 
-                sitTicks++;
+                sitTicks+= 60;
                 if (XMTUtility.DamageFloors(this.Position, this.Map))
                 {
+                    burnTicks++;
+
                     FleckMaker.ThrowSmoke(DrawPos, base.Map, 1);
-                    DeSpawn();
+                    if(burnTicks >= maxBurnTicks)
+                    {
+                        DeSpawn();
+                    }
                 }
 
-                if (sitTicks > maxSitTicks)
+                if (sitTicks >= maxSitTicks)
                 {
                     DeSpawn();
                 }

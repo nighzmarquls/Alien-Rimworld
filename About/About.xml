@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.050</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.051</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -57,6 +57,7 @@
 		<li>kentington.saveourship2</li>
 		<li>cyanobot.TalkingIsntEverything</li>
 		<li>RedMattis.BetterPrerequisites</li>
+		<li>bs.performance</li>
 	</loadAfter>
 	<loadBefore>
 		<li>rim.job.world</li>

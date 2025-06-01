@@ -287,6 +287,13 @@ namespace Xenomorphtype
                     Log.Message(pawn + " is looking for base xenomorph jobs.");
                 }
 
+                if (pawn.MentalState is MentalState_XMT_MurderousRage rage)
+                {
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StealthHunt, rage.target);
+                    job.killIncappedTarget = true;
+                    return job;
+                }
+
                 if (compMatureMorph.ShouldMature())
                 {
                     if (XMTSettings.LogJobGiver)
@@ -304,13 +311,6 @@ namespace Xenomorphtype
                     {
                         return foodJob;
                     }
-                }
-
-                if (pawn.MentalState is MentalState_XMT_MurderousRage rage)
-                {
-                    Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, rage.target);
-                    job.killIncappedTarget = true;
-                    return job;
                 }
 
                 if (compMatureMorph.ShouldSnuggle())

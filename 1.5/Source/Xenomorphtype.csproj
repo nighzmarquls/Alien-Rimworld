@@ -134,6 +134,7 @@
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforceable.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
+    <Compile Include="DefOfs\XenoIncidentDefOf.cs" />
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Game\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
     <Compile Include="Harmony\XMTLifeStagePatches.cs" />
     <Compile Include="Harmony\XMTLordDutyPatches.cs" />
+    <Compile Include="Harmony\XMTManhunterPatches.cs" />
     <Compile Include="Harmony\XMTMapPatches.cs" />
     <Compile Include="Harmony\XMTOffsetPatch.cs" />
     <Compile Include="Harmony\XMTResearchPatches.cs" />
@@ -196,6 +198,7 @@
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph_Social.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_ParasiteEggs.cs" />
+    <Compile Include="Incidents\IncidentWorker_HuntingXenomorph.cs" />
     <Compile Include="ModExtensions\AnimalMutateForms.cs" />
     <Compile Include="Progression\RoyalEvolutionDef.cs" />
     <Compile Include="IdeoHorror\Rituals\Behaviors\RitualBehaviorWorker_MatureQueen.cs" />
@@ -275,6 +278,7 @@
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
+    <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
     <Compile Include="WorldHorror\XenoformingUtility.cs" />
     <Compile Include="XMT.cs" />
     <Compile Include="Settings\XMTMod.cs" />
@@ -283,7 +287,6 @@
   <ItemGroup>
     <Folder Include="Abilities\Psycasting\Paths\" />
     <Folder Include="AI\Toils\" />
-    <Folder Include="Incidents\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

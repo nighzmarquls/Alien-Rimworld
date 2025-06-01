@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
@@ -16,6 +17,11 @@ namespace Xenomorphtype
         public static bool XenoformingMeets(float minXenoforming)
         {
             return gameComponent.Xenoforming >= minXenoforming;
+        }
+
+        public static void ReleaseEmbryoOnWorld(Pawn pawn)
+        {
+            gameComponent.ReleaseEmbryoOnWorld(pawn);
         }
         public static void HandleXenoformingImpact(Pawn pawn)
         {
@@ -188,6 +194,28 @@ namespace Xenomorphtype
         internal static float ChanceByXenoforming(float chance)
         {
             return chance + (gameComponent.Xenoforming / 100);
+        }
+
+        internal static void IncreaseXenoforming(float v)
+        {
+            gameComponent.Xenoforming += v;
+            Messages.Message("DEBUG: Xenoforming Increased to: " + gameComponent.Xenoforming, MessageTypeDefOf.NeutralEvent);
+
+        }
+
+        internal static void DecreaseXenoforming(float v)
+        {
+            gameComponent.Xenoforming -= v;
+            Messages.Message("DEBUG: Xenoforming Decreased to: " + gameComponent.Xenoforming, MessageTypeDefOf.NeutralEvent);
+
+        }
+
+        internal static void QueenCalledForAid()
+        {
+            if(XMTUtility.QueenPresent())
+            {
+                gameComponent.HandleQueenCallForAid();
+            }
         }
     }
 }

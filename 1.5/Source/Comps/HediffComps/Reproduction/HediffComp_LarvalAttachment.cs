@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,8 @@ namespace Xenomorphtype
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
-            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: true);
+            Scribe_References.Look(ref father, "father", saveDestroyedThings: false);
+            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: false);
             Scribe_Deep.Look(ref genes, "genes");
             Scribe_Defs.Look(ref kind, "kind");
             Scribe_Values.Look(ref spent, "spent", defaultValue: false);
@@ -92,7 +93,12 @@ namespace Xenomorphtype
         {
             base.CompPostPostRemoved();
 
-            if (removed)
+            if (spent)
+            {
+                return;
+            }
+
+            if (Pawn.MapHeld == null)
             {
                 return;
             }
@@ -136,6 +142,21 @@ namespace Xenomorphtype
         }
         public override void CompTended(float quality, float maxQuality, int batchPosition = 0)
         {
+            if (Pawn.IsWorldPawn())
+            {
+                if(spent)
+                {
+                    return;
+                }
+
+                spent = true;
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message(Pawn + " has a larva attached and will develop an embryo.");
+                }
+                XenoformingUtility.ReleaseEmbryoOnWorld(Pawn);
+                return;
+            }
             base.CompTended(quality, maxQuality, batchPosition);
             float witnessBonus;
             bool XenomorphTending = XMTUtility.WitnessLarva(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.1f, out witnessBonus, 1f);
