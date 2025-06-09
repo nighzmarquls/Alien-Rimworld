@@ -9,14 +9,32 @@
 			<li Class="AlphaGenes.JobGiver_GetMetalicResource" MayRequire="Ludeon.RimWorld.Biotech" />
 		</value>
 	</Operation>
-	
+	-->
 	<Operation Class="PatchOperationAdd">
 		<success>Always</success>
-		<xpath>/Defs/ThinkTreeDef[defName = "MainColonistBehaviorCore"]/thinkRoot/subNodes/li/subNodes</xpath>
+		<xpath>/Defs/ThinkTreeDef[defName = "MentalStateNonCritical"]/thinkRoot/subNodes</xpath>
 		<value>
-			<li Class="AlphaGenes.JobGiver_GetMetalicResource" MayRequire="Ludeon.RimWorld.Biotech" />
+			<li Class="ThinkNode_ConditionalMentalState">
+				<state>XMT_MurderXenomorph</state>
+				<subNodes>
+					<li Class="Xenomorphtype.JobGiver_MurderXenomorph" />
+					<li Class="ThinkNode_PrioritySorter">
+					  <subNodes>
+						<li Class="JobGiver_GetFood">
+						  <maxLevelPercentage>0.05</maxLevelPercentage>
+						</li>
+						<li Class="JobGiver_GetRest">
+						  <maxLevelPercentage>0.15</maxLevelPercentage>
+						</li>
+					  </subNodes>
+					</li>
+					<li Class="JobGiver_WanderColony" />
+				</subNodes>
+			</li>
 		</value>
 	</Operation>
-	-->
+	
+
+	
 	
 </Patch>

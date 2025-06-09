@@ -61,6 +61,10 @@ namespace Xenomorphtype
                 {
                     pawn.skills.Learn(SkillDefOf.Cooking, xpPerTick);
                 }
+                if (pawn?.needs.joy != null)
+                {
+                    pawn.needs.joy.GainJoy(0.001f, InternalDefOf.NestTending);
+                }
                 Progress = (Ticks / TicksFinish);
                 if (Ticks >= TicksFinish)
                 {

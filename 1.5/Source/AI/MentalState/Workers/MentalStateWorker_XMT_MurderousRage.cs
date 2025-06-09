@@ -14,7 +14,14 @@ namespace Xenomorphtype
                 return false;
             }
 
-            return XMTMentalStateUtility.FindPawnToKill(pawn) != null;
+            if (XMTUtility.IsXenomorph(pawn))
+            {
+                return XMTMentalStateUtility.FindXenoEnemyToKill(pawn) != null;
+            }
+            else
+            {
+                return XMTMentalStateUtility.FindXenoToKill(pawn) != null;
+            }
         }
     }
 }

@@ -641,7 +641,9 @@ namespace Xenomorphtype
             ReduceHygiene(amount);
             TryApplyDisplayHediff();
 
+            
             XMTUtility.ThreatResponse(victim, this);
+
         }
         public void ApplyFriendlyPheromone(Pawn partner, float amount = 0.25f, float maxStrength = 0.25f)
         {

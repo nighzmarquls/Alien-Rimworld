@@ -131,7 +131,7 @@ namespace Xenomorphtype
             Ovamorph ovamorph = parent as Ovamorph;
             if (ovamorph != null)
             {
-                if (ovamorph.CanFire)
+                if (ovamorph.Unhatched)
                 {
                     bool ready = ovamorph.Ready;
                     FloatMenuOption HatchOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hatch", delegate

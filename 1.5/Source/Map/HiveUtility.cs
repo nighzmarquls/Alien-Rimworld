@@ -1024,7 +1024,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        internal static Ovamorph GetOvamorph(Map map)
+        internal static Ovamorph GetOvamorph(Map map , bool requireReady = true)
         {
             NestSite localNest = GetLocalNest(map);
             if (localNest == null || localNest.Ovamorphs.Count == 0)
@@ -1034,22 +1034,32 @@ namespace Xenomorphtype
 
             foreach (Ovamorph ova in localNest.Ovamorphs)
             {
-                if (ova.Ready)
+                if (requireReady)
                 {
-                    IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(ova.Position, map, 1.5f, true).OfType<Pawn>()
-                        .Where(x => XMTUtility.IsHost(x));
-
-                    if(PossibleHosts.Any())
+                    if (ova.Ready)
                     {
-                        continue;
-                    }
+                        IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(ova.Position, map, 1.5f, true).OfType<Pawn>()
+                            .Where(x => XMTUtility.IsHost(x));
 
-                    if(map.reservationManager.IsReserved(ova))
+                        if (PossibleHosts.Any())
+                        {
+                            continue;
+                        }
+
+                        if (map.reservationManager.IsReserved(ova))
+                        {
+                            continue;
+                        }
+
+                        return ova;
+                    }
+                }
+                else
+                {
+                    if(ova.Unhatched)
                     {
-                        continue;
+                        return ova;
                     }
-
-                    return ova;
                 }
             }
 
@@ -1364,7 +1374,7 @@ namespace Xenomorphtype
                 return;
             }
             
-            if (ovamorph.CanFire)
+            if (ovamorph.Unhatched)
             {
                 localNest.Ovamorphs.Add(ovamorph);
             }

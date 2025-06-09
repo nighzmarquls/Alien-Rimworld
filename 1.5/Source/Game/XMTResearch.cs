@@ -42,6 +42,13 @@ namespace Xenomorphtype
             {
                 researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Chrysalis, progress, actor);
             }
+            else if(!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_JellyTransport,researchManager))
+            {
+                if (XenoSocialDefOf.XMT_Starbeast_JellyTransport.PrerequisitesCompleted)
+                {
+                    researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_JellyTransport, progress, actor);
+                }
+            }
         }
 
         internal static void ProgressResinTech(int progress, Pawn actor)

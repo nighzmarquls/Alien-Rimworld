@@ -24,7 +24,7 @@ namespace Xenomorphtype
         bool accelerated = false;
 
         private CompHatchingEgg HatchingEgg;
-        public bool CanFire => (HatchingEgg == null)? false : HatchingEgg.UnHatched;
+        public bool Unhatched => (HatchingEgg == null)? false : HatchingEgg.UnHatched;
 
         public bool Ready => gestateProgress >= 1f;
 
@@ -39,7 +39,7 @@ namespace Xenomorphtype
             base.SpawnSetup(map, respawningAfterLoad);
             HatchingEgg = this.GetComp<CompHatchingEgg>();
 
-            if (HatchingEgg != null && CanFire)
+            if (HatchingEgg != null && Unhatched)
             {
                 HiveUtility.AddOvamorph(this, map);
             }
@@ -99,7 +99,7 @@ namespace Xenomorphtype
         {
             get
             {
-                if (CanFire)
+                if (Unhatched)
                 {
                     return base.Graphic;
                 }
@@ -121,7 +121,7 @@ namespace Xenomorphtype
         {
             if(Ready )
             {
-                if (CanFire && (XMTUtility.PlayerXenosOnMap(Map) || DebugSettings.ShowDevGizmos))
+                if (Unhatched && (XMTUtility.PlayerXenosOnMap(Map) || DebugSettings.ShowDevGizmos))
                 {
                     Command_Action command_Action = new Command_Action();
                     command_Action.defaultLabel = "Hatch Now";
@@ -169,7 +169,7 @@ namespace Xenomorphtype
                 accelerated = Position.GetTemperature(Map) >= 30;
             }
 
-            if (CanFire && Spawned)
+            if (Unhatched && Spawned)
             {
                 if (gestateProgress >= 1f)
                 {
@@ -221,7 +221,7 @@ namespace Xenomorphtype
         }
         public void HatchNow()
         {
-            if(!CanFire)
+            if(!Unhatched)
             {
                 return;
             }

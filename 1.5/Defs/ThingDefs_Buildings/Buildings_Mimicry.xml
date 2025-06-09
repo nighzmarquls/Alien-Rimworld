@@ -6,13 +6,13 @@
 		<label>smooth Resin Floor</label>
 		<description>Smooth Reinforced Resin to an even grade suitable for traditional construction.</description>
 		<graphicData>
-		  <texPath>Terrain/FloorBlueprint</texPath>
+		  <texPath>Designations/SmoothSurface</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
 		<tickerType>Normal</tickerType>
 		<designationCategory>XMT_Hive</designationCategory>
 		<uiOrder>2001</uiOrder>
-		<uiIconPath>Designations/SmoothSurface</uiIconPath>
+		<uiIconPath>UI/Designators/SmoothSurface</uiIconPath>
 		<altitudeLayer>FloorCoverings</altitudeLayer>
 		<wipesPlants>true</wipesPlants>
 		<selectable>true</selectable>
@@ -36,7 +36,7 @@
 			<isInert>true</isInert>
 			<canPlaceOverWall>true</canPlaceOverWall>
 			<blueprintGraphicData>
-				<texPath>Terrain/FloorBlueprint</texPath>
+				<texPath>Designations/SmoothSurface</texPath>
 			</blueprintGraphicData>
 		</building>
 		<comps>

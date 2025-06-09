@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<PipeSystem.PipeNetDef>
+		<defName>XMT_JellyNet</defName>
+		<resource>
+		  <name>Jelly</name>
+		  <unit>l</unit>
+		  <color>(46,49,54)</color>
+		  <onlyShowStored>True</onlyShowStored>
+		</resource>
+		<pipeDefs>
+		  <li>XMT_JellyPipe</li>
+		</pipeDefs>
+		<designator>
+		  <deconstructIconPath>UI/Designators/Break</deconstructIconPath>
+		  <designationCategoryDef>XMT_Hive</designationCategoryDef>
+		</designator>
+		<overlayOptions>
+		  <overlayColor>(46,49,54)</overlayColor>
+		</overlayOptions>
+		<linkToRefuelables>
+		  <li>
+			<thing>Starbeast_Jelly</thing>
+			<ratio>1</ratio>
+		  </li>
+		</linkToRefuelables>
+	</PipeSystem.PipeNetDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_JellyPipe</defName>
+		<label>ridged tube</label>
+		<description>A ridged tube of dark resin.</description>
+		<thingClass>PipeSystem.Building_Pipe</thingClass>
+		<category>Building</category>
+		<tickerType>Rare</tickerType>
+		<graphicData>
+		  <texPath>Things/Building/Linked/Hive_Tube_Atlas</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>Basic</linkType>
+		  <linkFlags>
+			<li>Custom7</li>
+		  </linkFlags>
+		  <damageData>
+			<rect>(0,0.35,1,0.3)</rect>
+		  </damageData>
+		</graphicData>
+		<uiIconPath>Things/Building/Linked/HiveTube_MenuIcon</uiIconPath>
+		<uiIconScale>0.7</uiIconScale>
+		<building>
+		  <ai_chillDestination>false</ai_chillDestination>
+		  <isInert>true</isInert>
+		  <isEdifice>false</isEdifice>
+		  <blueprintGraphicData>
+			<texPath>Things/Building/Linked/Hive_Tube_Atlas</texPath>
+		  </blueprintGraphicData>
+		  <relatedBuildCommands>
+			<li>XMT_JellyDrain</li>
+			<li>XMT_JellyStorage</li>
+		  </relatedBuildCommands>
+		</building>
+		<drawerType>MapMeshOnly</drawerType>
+		<altitudeLayer>Conduits</altitudeLayer>
+		<passability>Standable</passability>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<statBases>
+		  <MaxHitPoints>80</MaxHitPoints>
+		  <WorkToBuild>35</WorkToBuild>
+		  <Flammability>0.7</Flammability>
+		</statBases>
+		<placingDraggableDimensions>1</placingDraggableDimensions>
+		<costList>
+		</costList>
+		<comps>
+		  <li Class="PipeSystem.CompProperties_Resource">
+			<pipeNet>XMT_JellyNet</pipeNet>
+		  </li>
+		  <li Class="PipeSystem.CompProperties_SpillWhenDamaged">
+			<spillEachTicks>600</spillEachTicks>
+			<startAtHitPointsPercent>0.333</startAtHitPointsPercent>
+			<amountToDraw>1</amountToDraw>
+			<filthMaxSpawnRadius>1</filthMaxSpawnRadius>
+		  </li>
+		</comps>
+		<placeWorkers>
+		  <li>PipeSystem.PlaceWorker_Pipe</li>
+		</placeWorkers>
+		<rotatable>false</rotatable>
+		<selectable>true</selectable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<constructEffect>ResinBuild</constructEffect>
+		<clearBuildingArea>false</clearBuildingArea>
+		<researchPrerequisites>
+		  <li>XMT_Starbeast_JellyTransport</li>
+		</researchPrerequisites>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_JellyDrain</defName>
+		<label>dripping cavity</label>
+		<description>A suggestively shaped cavity which may allow passage but it would be quite the squeeze.</description>
+		<rotatable>true</rotatable>
+		<thingClass>Building_Storage</thingClass>
+		<graphicData>
+		  <texPath>Things/Building/JellyDrain/JellyDrain</texPath>
+		  <graphicClass>Graphic_Multi</graphicClass>
+		  <drawOffsetNorth>(0,0,0.9)</drawOffsetNorth>
+		  <drawOffsetSouth>(0,0,-0.9)</drawOffsetSouth>
+		  <drawOffsetWest>(-0.9,0,0)</drawOffsetWest>
+		  <drawOffsetEast>(0.9,0,0)</drawOffsetEast>
+		  <damageData>
+			<enabled>false</enabled>
+		  </damageData>
+		</graphicData>
+		<!--<uiIconPath>Things/Building/Furniture/WallLamp/WallLamp_MenuIcon</uiIconPath>-->
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<costList>
+		</costList>
+		<statBases>
+		  <WorkToBuild>330</WorkToBuild>
+		  <MaxHitPoints>35</MaxHitPoints>
+		  <Mass>2</Mass>
+		</statBases>
+		<uiOrder>2991</uiOrder>
+		<passability>Standable</passability>
+		<pathCost>0</pathCost>
+		<building>
+			<isEdifice>true</isEdifice>
+			<isAttachment>true</isAttachment>
+			<relatedBuildCommands>
+				<li>HiveMassBuildable</li>
+				<li>XMT_JellyPipe</li>
+				<li>XMT_JellyStorage</li>
+			</relatedBuildCommands>
+			<fixedStorageSettings>
+				<filter>
+					<disallowNotEverStorable>true</disallowNotEverStorable>
+					<thingDefs>
+					<li>Starbeast_Jelly</li>
+					</thingDefs>
+				</filter>
+			</fixedStorageSettings>
+			<defaultStorageSettings>
+				<priority>Important</priority>
+				<filter>
+				  <disallowNotEverStorable>true</disallowNotEverStorable>
+				  <thingDefs>
+					<li>Starbeast_Jelly</li>
+				  </thingDefs>
+				</filter>
+			</defaultStorageSettings>
+		</building>
+		<placeWorkers>
+		  <li>Placeworker_AttachedToWall</li>
+		</placeWorkers>
+		<comps>
+			<li Class="PipeSystem.CompProperties_ConvertThingToResource">
+				<pipeNet>XMT_JellyNet</pipeNet>
+				<thing>Starbeast_Jelly</thing>
+			</li>
+		</comps>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<constructEffect>ResinBuild</constructEffect>
+		<researchPrerequisites>
+		  <li>XMT_Starbeast_JellyTransport</li>
+		</researchPrerequisites>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_JellyPool</defName>
+		<label>resinous bowl</label>
+		<description>strange resinous hollow.</description>
+		<rotatable>true</rotatable>
+		<thingClass>Building_Storage</thingClass>
+		<graphicData>
+		  <texPath>Things/Building/JellyPool</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <damageData>
+			<enabled>false</enabled>
+		  </damageData>
+		</graphicData>
+		<!--<uiIconPath>Things/Building/Furniture/WallLamp/WallLamp_MenuIcon</uiIconPath>-->
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<costList>
+		</costList>
+		<statBases>
+		  <WorkToBuild>330</WorkToBuild>
+		  <MaxHitPoints>35</MaxHitPoints>
+		  <Mass>2</Mass>
+		</statBases>
+		<uiOrder>2991</uiOrder>
+		<passability>Standable</passability>
+		<pathCost>0</pathCost>
+		<building>
+			<isEdifice>true</isEdifice>
+			<isAttachment>false</isAttachment>
+			<relatedBuildCommands>
+				<li>XMT_JellyPipe</li>
+				<li>XMT_JellyStorage</li>
+			</relatedBuildCommands>
+			<fixedStorageSettings>
+				<priority>Important</priority>
+				<filter>
+					<disallowNotEverStorable>true</disallowNotEverStorable>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
+				</filter>
+			</fixedStorageSettings>
+			<defaultStorageSettings>
+				<priority>Important</priority>
+				<filter>
+				  <disallowNotEverStorable>true</disallowNotEverStorable>
+				  <thingDefs>
+					<li>Starbeast_Jelly</li>
+				  </thingDefs>
+				</filter>
+			</defaultStorageSettings>
+		</building>
+		<comps>
+			<li Class="PipeSystem.CompProperties_ConvertResourceToThing">
+				<pipeNet>XMT_JellyNet</pipeNet>
+				<maxOutputStackSize>1</maxOutputStackSize>
+				<thing>Starbeast_Jelly</thing>
+			</li>
+		</comps>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<constructEffect>ResinBuild</constructEffect>
+		<researchPrerequisites>
+		  <li>XMT_Starbeast_JellyTransport</li>
+		</researchPrerequisites>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_JellyStorage</defName>
+		<label>turgid structure</label>
+		<description>a large resinous structure, it gurgles, shifts and groans with fluids.</description>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<graphicData>
+		  <texPath>Things/Building/JellyStorage</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawSize>(3,3)</drawSize>
+		  <damageData>
+			<cornerTL>Damage/Corner</cornerTL>
+			<cornerTR>Damage/Corner</cornerTR>
+		  </damageData>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<blockWind>true</blockWind>
+		<castEdgeShadows>true</castEdgeShadows>
+		<fillPercent>1</fillPercent>
+		<statBases>
+		  <MaxHitPoints>150</MaxHitPoints>
+		  <WorkToBuild>800</WorkToBuild>
+		  <Mass>20</Mass>
+		  <Flammability>1.0</Flammability>
+		</statBases>
+		<size>(2,2)</size>
+		<costList>
+		</costList>
+		<comps>
+		  <li Class="PipeSystem.CompProperties_ResourceStorage">
+			<pipeNet>XMT_JellyNet</pipeNet>
+			<storageCapacity>500</storageCapacity>
+			<barSize>(0.0, 0.0)</barSize>
+			<margin>0.0</margin>
+			<centerOffset>(0, 0, -0.35)</centerOffset>
+			<destroyOption>
+			  <filth>Starbeast_Filth_Goop</filth>
+			  <ratio>1</ratio>
+			  <maxRadius>5</maxRadius>
+			</destroyOption>
+			<contentRequirePower>false</contentRequirePower>
+		  </li>
+		</comps>
+		<tickerType>Rare</tickerType>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<constructEffect>ResinBuild</constructEffect>
+		<canOverlapZones>false</canOverlapZones>
+		<researchPrerequisites>
+		  <li>XMT_Starbeast_JellyTransport</li>
+		</researchPrerequisites>
+	</ThingDef>
+	
+</Defs>

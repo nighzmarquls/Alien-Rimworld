@@ -60,6 +60,8 @@ namespace Xenomorphtype
         public static ThingDef              Starbeast_Chitin;
         public static ThingDef              Starbeast_Fabric;
 
+        public static DesignationCategoryDef    XMT_Hive;
+
         //Xenomorph buildings
         public static ThingDef              XMT_JellyWell;
         public static ThingDef              XMT_Ovamorph;

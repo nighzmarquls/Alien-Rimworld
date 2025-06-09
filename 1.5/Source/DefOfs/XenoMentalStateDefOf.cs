@@ -16,9 +16,12 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(XenoMentalStateDefOf));
         }
 
+        // Generic
         public static MentalStateDef XMT_MurderousRage;
-        public static MentalStateDef XMT_TargetedTantrum;
         public static MentalStateDef XMT_SadisticRage;
+
+        // Non-Xenomorph Only
+        public static MentalStateDef XMT_DestroyOvamorph;
 
     }
 }

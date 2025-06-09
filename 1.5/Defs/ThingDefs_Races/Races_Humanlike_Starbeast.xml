@@ -17,6 +17,7 @@
 				<splashRange>1.5</splashRange>
 				<cells>5</cells>
 				<damage>26</damage>
+				<acidFilth>Starbeast_Filth_AcidBlood</acidFilth>
 			</li>
 			<li Class="Xenomorphtype.CompStealthProperties">
 			</li>
@@ -759,16 +760,23 @@
 				  <li>SmoothHiveFloorBuildable</li>
 				  <!-- Instinctive Buildings -->
 				  <li>HiveMassBuildable</li>
-				  <li>HiveReinforcementBuildable</li>
 				  <li>HiveWebbingBuildable</li>
 				  <li>HiveFloorBuildable</li>
 				  <li>HiveBridgeBuildable</li>
-				  <li>HeavyHiveFloorBuildable</li>
 				  <li>XMT_NestSpot</li>
 				  <li>HiveSleepingSpot</li>
 				  <li>AtmospherePylon_Buildable</li>
 				  <li>HiveSleepingNest</li>
+				  <!-- Reinforced Buildings -->
+				  <li>HiveReinforcementBuildable</li>
+				  <li>HeavyHiveFloorBuildable</li>
+				  <!-- Chrysalis Buildings -->
 				  <li>XMT_QueenChrysalis</li>
+				  <!-- Pipes -->
+				  <li>XMT_JellyPipe</li>
+				  <li>XMT_JellyStorage</li>
+				  <li>XMT_JellyDrain</li>
+				  <li>XMT_JellyPool</li>
 				</buildingList>
 				
 				<whiteBuildingList>

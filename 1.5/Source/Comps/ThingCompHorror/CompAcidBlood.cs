@@ -122,11 +122,7 @@ namespace Xenomorphtype
                     fullness *= Parent.BodySize;
                 }
             }
-            else
-            {
-                fullness = parent.HitPoints / parent.MaxHitPoints;
-            }
-            return fullness;
+            return fullness*(parent.MaxHitPoints/parent.HitPoints);
         }
 
         public void CreateAcidExplosion(float radius)
@@ -210,8 +206,6 @@ namespace Xenomorphtype
                 return;
             }
 
- 
-
             bool AutoBleed = false;
             if(IsParentPawn)
             {
@@ -219,10 +213,8 @@ namespace Xenomorphtype
             }
             else
             {
-                AutoBleed = parent.MaxHitPoints < parent.HitPoints;
+                AutoBleed = parent.MaxHitPoints > parent.HitPoints;
             }
-
-
 
             if (dinfo.Def == DamageDefOf.Cut
                || dinfo.Def == DamageDefOf.ExecutionCut
@@ -232,9 +224,8 @@ namespace Xenomorphtype
                || dinfo.Def == DamageDefOf.Bullet || AutoBleed
                )
             {
-
+                
                 float bloodfullness = GetBloodFullness();
-
 
                 if (dinfo.Instigator != null && dinfo.Instigator.Position.AdjacentTo8WayOrInside(parent.PositionHeld))
                 {
@@ -302,10 +293,12 @@ namespace Xenomorphtype
                     return false;
                 }
             }
+            
             float modifiedDamage = Props.damage * severity;
             float pristineDamage = modifiedDamage;
             if (thing != parent && thing != null)
             {
+                
                 if (!XMTUtility.IsAcidImmune(thing))
                 {
                     IntVec3 SplashCell = thing.PositionHeld;
@@ -387,7 +380,8 @@ namespace Xenomorphtype
                         }
                         FleckMaker.ThrowSmoke(thing.DrawPos, thing.Map, 5);
                     }
-                    FilthMaker.TryMakeFilth(SplashCell, Parent.MapHeld, Props.acidFilth == null? InternalDefOf.Starbeast_Filth_AcidBlood : Props.acidFilth);
+
+                    FilthMaker.TryMakeFilth(SplashCell, parent.MapHeld, Props.acidFilth == null? InternalDefOf.Starbeast_Filth_AcidBlood : Props.acidFilth);
                     return true;
                 }
             }
@@ -406,7 +400,6 @@ namespace Xenomorphtype
         }
         public void TrySplashAcid(float severity = 1, float radiusOverride = -1f, bool cellLimit = true)
         {
-            
             if (IsParentPawn)
             {
                 if (Parent == null || Parent.Dead)
@@ -414,6 +407,7 @@ namespace Xenomorphtype
                     return;
                 }
             }
+            
             float modifiedSplashRange = (radiusOverride > 0)? radiusOverride : Props.splashRange * severity;
             int modifiedCells = cellLimit? Mathf.CeilToInt(Props.cells*severity) : int.MaxValue;
 

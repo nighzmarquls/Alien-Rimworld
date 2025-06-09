@@ -64,10 +64,6 @@ namespace Xenomorphtype
 
                     if (ingredient != null)
                     {
-                        if (pawn.needs.joy != null)
-                        {
-                            pawn.needs.joy.GainJoy(0.12f, InternalDefOf.NestTending);
-                        }
                         pawn.Map.reservationManager.ReleaseAllForTarget(ingredient);
                         job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastProduceJelly, ingredient);
                         pawn.Map.reservationManager.Reserve(pawn, job, ingredient);

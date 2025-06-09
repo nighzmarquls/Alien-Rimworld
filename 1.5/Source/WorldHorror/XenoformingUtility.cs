@@ -103,7 +103,7 @@ namespace Xenomorphtype
 
             if (ovamorph != null)
             {
-                if (ovamorph.CanFire)
+                if (ovamorph.Unhatched)
                 {
                     if (XMTSettings.LogWorld)
                     {
@@ -145,7 +145,7 @@ namespace Xenomorphtype
 
             if (ovamorph != null)
             {
-                if (ovamorph.CanFire)
+                if (ovamorph.Unhatched)
                 {
                     if (XMTSettings.LogWorld)
                     {

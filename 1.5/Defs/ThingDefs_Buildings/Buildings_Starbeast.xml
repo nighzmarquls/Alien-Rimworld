@@ -282,7 +282,7 @@
 		  <graphicClass>Graphic_Single</graphicClass>
 		  <linkType>CornerFiller</linkType>
 		  <linkFlags>
-			<li>Custom7</li>
+			<li>Custom8</li>
 		  </linkFlags>
 		</graphicData>
 		<tickerType>Normal</tickerType>
@@ -325,7 +325,7 @@
 		  <texPath>Things/Building/Linked/Hive_Atlas</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
 		  <linkFlags>
-			<li>Custom7</li>
+			<li>Custom8</li>
 		  </linkFlags>
 		  <linkType>CornerOverlay</linkType>
 		  <cornerOverlayPath>Things/Building/Linked/HivePiece</cornerOverlayPath>
@@ -414,7 +414,7 @@
 		  <graphicClass>Graphic_Single</graphicClass>
 		  <linkType>CornerFiller</linkType>
 		  <linkFlags>
-			<li>Custom7</li>
+			<li>Custom8</li>
 		  </linkFlags>
 		</graphicData>
 		<tickerType>Normal</tickerType>
@@ -464,7 +464,7 @@
 		  <texPath>Things/Building/Linked/Reinforced_Hive_Atlas</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
 		  <linkFlags>
-			<li>Custom7</li>
+			<li>Custom8</li>
 		  </linkFlags>
 		  <linkType>CornerOverlay</linkType>
 		  <cornerOverlayPath>Things/Building/Linked/HivePiece</cornerOverlayPath>
@@ -511,7 +511,7 @@
 			<canBuildNonEdificesUnder>true</canBuildNonEdificesUnder>
 			<deconstructible>true</deconstructible>
 			<quickTargetable>true</quickTargetable>
-			<supportsWallAttachments>true</supportsWallAttachments>
+			<supportsWallAttachments>false</supportsWallAttachments>
 			<isTargetable>true</isTargetable>
 			<destroyShakeAmount>0</destroyShakeAmount>
 			<artificialForMeditationPurposes>false</artificialForMeditationPurposes>
@@ -739,5 +739,7 @@
 		  </li>
 		</comps>
   </ThingDef>
+  
+  
 	
 </Defs>

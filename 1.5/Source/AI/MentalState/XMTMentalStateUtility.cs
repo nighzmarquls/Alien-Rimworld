@@ -9,9 +9,51 @@ namespace Xenomorphtype
 {
     internal class XMTMentalStateUtility
     {
-        private static List<Pawn> tmpTargets = new List<Pawn>();
 
-        public static Pawn FindPawnToKill(Pawn pawn)
+
+        public static Thing FindEggToDestroy(Pawn pawn)
+        {
+            if (!pawn.Spawned)
+            {
+                return null;
+            }
+
+            return HiveUtility.GetOvamorph(pawn.Map, false);
+        }
+        public static Pawn FindXenoToKill(Pawn pawn)
+        {
+            if (!pawn.Spawned)
+            {
+                return null;
+            }
+
+            List<Pawn> tmpTargets = new List<Pawn>();
+            IReadOnlyList<Pawn> allPawnsSpawned = pawn.Map.mapPawns.AllPawnsSpawned;
+            for (int i = 0; i < allPawnsSpawned.Count; i++)
+            {
+                Pawn candidate = allPawnsSpawned[i];
+                if (!XMTUtility.IsXenomorph(candidate))
+                {
+                    continue;
+                }
+
+                if (pawn.CanReach(candidate, PathEndMode.Touch, Danger.Deadly) && (candidate.CurJob == null || !candidate.CurJob.exitMapOnArrival))
+                {
+                    tmpTargets.Add(candidate);
+                }
+            }
+
+            if (!tmpTargets.Any())
+            {
+                return null;
+            }
+
+            Pawn result = tmpTargets.RandomElement();
+
+            tmpTargets.Clear();
+            return result;
+        }
+        public static Pawn FindXenoEnemyToKill(Pawn pawn)
         {
             if (!pawn.Spawned)
             {
@@ -20,7 +62,7 @@ namespace Xenomorphtype
 
             bool KillerIsXenomorph = XMTUtility.IsXenomorph(pawn);
 
-            tmpTargets.Clear();
+            List<Pawn> tmpTargets = new List<Pawn>();
             IReadOnlyList<Pawn> allPawnsSpawned = pawn.Map.mapPawns.AllPawnsSpawned;
             for (int i = 0; i < allPawnsSpawned.Count; i++)
             {

@@ -622,6 +622,12 @@ namespace Xenomorphtype
         public static bool IsTargetImmobile(LocalTargetInfo target)
         {
             Thing thing = target.Thing;
+
+            if(thing is Plant)
+            {
+                return true;
+            }
+
             Pawn pawn = thing as Pawn;
             if (thing.def.category == ThingCategory.Pawn && !pawn.Downed)
             {
@@ -857,11 +863,11 @@ namespace Xenomorphtype
                 }
             }
 
-            if (thing.def.designationCategory == InternalDefOf.Hivemass.designationCategory)
+            if (thing.def.designationCategory == InternalDefOf.XMT_Hive)
             {
                 return true;
             }
-            
+
             if (thing.def == ExternalDefOf.ShipHullTile ||
                 thing.def == ExternalDefOf.ShipHullTileMech ||
                 thing.def == ExternalDefOf.ShipHullTileArchotech ||
@@ -1832,11 +1838,12 @@ namespace Xenomorphtype
             }
             if (!aggressorInfo.IsXenomorphFriendly())
             {
-                IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(victim.PositionHeld, 5, true);
+                IntVec3 eventPosition = (victim != null) ? victim.PositionHeld : aggressorInfo.parent.PositionHeld;
+                IEnumerable <IntVec3> cells = GenRadial.RadialCellsAround(eventPosition, 5, true);
 
                 foreach (IntVec3 cell in cells)
                 {
-                    Pawn witness = cell.GetFirstPawn(victim.MapHeld);
+                    Pawn witness = cell.GetFirstPawn(aggressorInfo.parent.MapHeld);
 
                     if(witness == null)
                     {

@@ -59,8 +59,16 @@ namespace Xenomorphtype
         }
         private bool TryFindNewTarget()
         {
-            target = XMTMentalStateUtility.FindPawnToKill(pawn);
-            return target != null;
+            if (XMTUtility.IsXenomorph(pawn))
+            {
+                target = XMTMentalStateUtility.FindXenoEnemyToKill(pawn);
+                return target != null;
+            }
+            else
+            {
+                target = XMTMentalStateUtility.FindXenoToKill(pawn);
+                return target != null;
+            }
         }
 
         public bool IsTargetStillValidAndReachable()

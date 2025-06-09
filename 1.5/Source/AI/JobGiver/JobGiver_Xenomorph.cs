@@ -289,7 +289,11 @@ namespace Xenomorphtype
 
                 if (pawn.MentalState is MentalState_XMT_MurderousRage rage)
                 {
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StealthHunt, rage.target);
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is seeking to hunt a murder target");
+                    }
+                    Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, rage.target);
                     job.killIncappedTarget = true;
                     return job;
                 }
@@ -305,6 +309,10 @@ namespace Xenomorphtype
 
                 if (compMatureMorph.ShouldGorge())
                 {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is gorging");
+                    }
                     Job foodJob = GetFoodJob(pawn, true);
 
                     if (foodJob != null)
