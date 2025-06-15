@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <DrawStyleCategoryDef Name="Default2D">
+    <defName>Organic2D</defName>
+    <styles>
+      <li>FilledOval</li>
+      <li>EmptyOval</li>
+      <li>Line</li>
+      <li>AngledLine</li>
+    </styles>
+  </DrawStyleCategoryDef>
+
+  <DrawStyleCategoryDef Name="Fill2D">
+    <defName>OrganicFill2D</defName>
+    <styles>
+      <li>FilledOval</li>
+    </styles>
+  </DrawStyleCategoryDef>
+
+  <DrawStyleCategoryDef Name="Default1D">
+    <defName>Organic1D</defName>
+    <styles>
+      <li>Line</li>
+      <li>AngledLine</li>
+      <li>EmptyOval</li>
+    </styles>
+  </DrawStyleCategoryDef>
+
+  
+  
+</Defs>

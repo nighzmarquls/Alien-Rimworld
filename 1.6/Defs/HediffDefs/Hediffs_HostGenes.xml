@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+
+	<HediffDef ParentName="XMT_Bodypart">
+		<defName>XMT_ThrumboHorn</defName>
+		<label>majestic horn</label>
+		<labelNoun>a majestic horn</labelNoun>
+		<description>A thrumbo's horn. It's razor-sharp, rock-hard, a deadly melee weapon.</description>
+		<descriptionHyperlinks><ThingDef>ThrumboHorn</ThingDef></descriptionHyperlinks>
+		<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+					<li>
+						<label>horn</label>
+						<capacities>
+							<li>Scratch</li>
+							<li>Stab</li>
+						</capacities>
+						<power>23</power>
+						<cooldownTime>2</cooldownTime>
+					</li>
+				</tools>
+			</li>
+		</comps>
+		<spawnThingOnRemoved>ThrumboHorn</spawnThingOnRemoved>
+		<addedPartProps>
+			<solid>true</solid>
+			<partEfficiency>1.25</partEfficiency>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+	</HediffDef>
+
+	<RecipeDef ParentName="SurgeryInstallBodyPartArtificialBase">
+		<defName>InstallThrumbohorn</defName>
+		<label>install a thrumbo horn</label>
+		<description>Install a Thrumbo Horn.</description>
+		<descriptionHyperlinks>
+			<ThingDef>ThrumboHorn</ThingDef>
+			<HediffDef>XMT_ThrumboHorn</HediffDef>
+		</descriptionHyperlinks>
+		<jobString>Installing thrumbo horn.</jobString>
+		<ingredients>
+			<li>
+			<filter>
+			<thingDefs>
+			<li>ThrumboHorn</li>
+			</thingDefs>
+			</filter>
+			<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>ThrumboHorn</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<appliedOnFixedBodyParts>
+			<li>Skull</li>
+			<li>StarbeastSkull</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_ThrumboHorn</addsHediff>
+	</RecipeDef>
+
+
+
+</Defs>

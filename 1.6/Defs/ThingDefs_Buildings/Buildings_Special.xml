@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_MeatballLarder</defName>
+		<thingClass>Xenomorphtype.MeatballLarder</thingClass>
+		<label>meatball Larder</label>
+		<comps>
+			<li Class="Xenomorphtype.CompMeatBallProperties"/>
+			<li Class="CompProperties_Forbiddable" />
+		</comps>
+		<description>a strange amorpheous mass of quivering flesh. It sucks at the ground wet and hungrily, it trembles and heaves in a terribly pained manner. Feint whimpers can just barely be heard from beneath it.</description>
+		<graphicData>
+			<texPath>Things/Building/MeatBall</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutSkin</shaderType>
+			<color>(0.9, 0.8, 0.7, 1.0)</color>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>1</drawSize>
+		</graphicData>
+		<filthLeaving>Filth_Blood</filthLeaving>
+		<drawerType>RealtimeOnly</drawerType>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<selectable>true</selectable>
+		<fillPercent>0.20</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>false</rotatable>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything?-->
+		<statBases>
+			<MaxHitPoints>42</MaxHitPoints>
+			<Mass>60</Mass>
+			<Flammability>1.0</Flammability>
+			<MarketValue>42</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<specialDisplayRadius>3.5</specialDisplayRadius>
+		<building>
+			<repairable>false</repairable>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<!--<designationCategory>Xenomorphtype</designationCategory>-->
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_JellyWell</defName>
+		<thingClass>Xenomorphtype.JellyWell</thingClass>
+		<label>Resinous Jelly Fountain</label>
+		<comps>
+			<li Class="Xenomorphtype.CompJellyMakerProperties">
+				<jellyIngredientFilter>
+					<categories>
+						<li>Leathers</li>
+						<li>Foods</li>
+						<li>Corpses</li>
+						<li>PlantMatter</li>
+					</categories>
+					<thingDefs>
+						<li>WoodLog</li>
+						<li>Starbeast_Resin</li>
+						<li>Cloth</li>
+						<li>DevilstrandCloth</li>
+					</thingDefs>
+					<disallowedCategories>
+						<li>CorpsesMechanoid</li>
+					</disallowedCategories>
+					<disallowedThingDefs>
+						<li>Starbeast_Jelly</li>
+						<li>Starbeast_RoyalJelly</li>
+					</disallowedThingDefs>
+				</jellyIngredientFilter>
+				<processingWork>50</processingWork>
+				<conversionRate>0.45</conversionRate>
+				<jellyProduct>Starbeast_Jelly</jellyProduct>
+			</li>
+			<li Class="Xenomorphtype.CompJellywellProperties"/>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="Xenomorphtype.CompSpreadTerrainProperties">
+				<spreadTerrain>HiveFloor</spreadTerrain>
+				<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+				<radius>1.0</radius>
+			</li>
+		</comps>
+		<description>A strange fountain which draws in organic materials through its roots and converts it into a viscous jelly which flows out of the centrepiece. Did it just move?</description>
+		<graphicData>
+			<texPath>Things/Building/JellyWell/JellyWell</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>2</drawSize>
+		</graphicData>
+		<filthLeaving>Filth_Blood</filthLeaving>
+		<drawerType>RealtimeOnly</drawerType>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<selectable>true</selectable>
+		<fillPercent>1</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<defaultPlacingRot>South</defaultPlacingRot>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<statBases>
+			<MaxHitPoints>800</MaxHitPoints>
+			<Mass>300</Mass>
+			<Flammability>0.0</Flammability>
+			<MarketValue>42</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<specialDisplayRadius>1.5</specialDisplayRadius>
+		<building>
+			<repairable>false</repairable>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<costList>
+			<Starbeast_Flesh_Meat>120</Starbeast_Flesh_Meat>
+			<Starbeast_Chitin>80</Starbeast_Chitin>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Flesh_Meat>120</Starbeast_Flesh_Meat>
+			<Starbeast_Chitin>80</Starbeast_Chitin>
+		</killedLeavings>
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_GeneOvamorph</defName>
+		<thingClass>Xenomorphtype.GeneOvamorph</thingClass>
+		<label>Ovamorph</label>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+		</comps>
+		<description>Strange leathery object like an egg or something.</description>
+		<graphicData>
+			<texPath>Things/Building/GeneOvamorph</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>0.75</drawSize>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<drawerType>RealtimeOnly</drawerType>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<selectable>true</selectable>
+		<fillPercent>0.20</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>false</rotatable>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+			<MaxHitPoints>40</MaxHitPoints>
+			<Mass>3</Mass>
+			<Flammability>1.0</Flammability>
+			<MarketValue>10000</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+			<TrapSpringChance>1.0</TrapSpringChance>
+		</statBases>
+		<costList>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</killedLeavings>
+		<specialDisplayRadius>1.5</specialDisplayRadius>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<!--<designationCategory>Xenomorphtype</designationCategory>-->
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_Ovamorph</defName>
+		<thingClass>Xenomorphtype.Ovamorph</thingClass>
+		<label>Ovamorph</label>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingEggProperties">
+				<hatchedPawnKind>XMT_Larva</hatchedPawnKind>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+		</comps>
+		<description>Strange leathery object like an egg or something.</description>
+		<graphicData>
+			<texPath>Things/Building/Ovamorph</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>1</drawSize>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<drawerType>RealtimeOnly</drawerType>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<selectable>true</selectable>
+		<fillPercent>0.20</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>false</rotatable>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+			<MaxHitPoints>40</MaxHitPoints>
+			<Mass>4</Mass>
+			<Flammability>1.0</Flammability>
+			<MarketValue>10000</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+			<TrapSpringChance>1.0</TrapSpringChance>
+		</statBases>
+		<costList>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</killedLeavings>
+		<specialDisplayRadius>1.5</specialDisplayRadius>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<!--<designationCategory>Xenomorphtype</designationCategory>-->
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>XMT_CocoonBase</defName>
+		<label>secreted resin.</label>
+		<thingClass>Xenomorphtype.CocoonBase</thingClass>
+		<statBases>
+		  <WorkToBuild>0</WorkToBuild>
+		  <Comfort>0.5</Comfort>
+		  <SurgerySuccessChanceFactor>0.1</SurgerySuccessChanceFactor>
+		</statBases>
+		<description>A patch of resinous material on the floor.</description>
+		<graphicData>
+			<texPath>Things/Building/CocoonBase</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<designationCategory></designationCategory>
+		<uiOrder>2000</uiOrder>
+		<passability>Standable</passability>
+		<drawGUIOverlay>True</drawGUIOverlay>
+		<defaultPlacingRot>South</defaultPlacingRot>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<selectable>false</selectable>
+		<fillPercent>0.20</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>true</rotatable>
+		<tickerType>Normal</tickerType>
+		<size>(1,1)</size>
+		<building>
+			<isEdifice>true</isEdifice>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+			<bed_pawnDrawOffset>-0.75</bed_pawnDrawOffset>
+		</building>
+	</ThingDef>
+	
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>XMT_CocoonBaseAnimal</defName>
+		<label>secreted resin.</label>
+		<thingClass>Xenomorphtype.CocoonBase</thingClass>
+		<statBases>
+		  <WorkToBuild>0</WorkToBuild>
+		  <Comfort>0.5</Comfort>
+		  <SurgerySuccessChanceFactor>0.1</SurgerySuccessChanceFactor>
+		</statBases>
+		<description>A patch of resinous material on the floor.</description>
+		<graphicData>
+			<texPath>Things/Building/Animal_Cocoon</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>2</drawSize>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<designationCategory></designationCategory>
+		<uiOrder>2000</uiOrder>
+		<passability>Standable</passability>
+		<drawGUIOverlay>True</drawGUIOverlay>
+		<defaultPlacingRot>South</defaultPlacingRot>
+		<altitudeLayer>MoteOverheadLow</altitudeLayer>
+		<selectable>false</selectable>
+		<fillPercent>0.20</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>true</rotatable>
+		<tickerType>Normal</tickerType>
+		<size>(1,1)</size>
+		<building>
+			<bed_humanlike>false</bed_humanlike>
+			<isEdifice>true</isEdifice>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+			<bed_pawnDrawOffset>-0.75</bed_pawnDrawOffset>
+		</building>
+	</ThingDef>
+
+	<ThingDef ParentName="AncientCryptosleepCasket">
+		<defName>XMT_HibernationCocoon</defName>
+		<label>resinous Mass</label>
+		<thingClass>Xenomorphtype.HibernationCocoon</thingClass>
+		<containedPawnsSelectable>true</containedPawnsSelectable>
+		<description>A resinous form, it sounds hollow when struck.</description>
+		<graphicData>
+			<texPath>Things/Building/HibernationCocoon</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>1.5</drawSize>
+		</graphicData>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<building>
+			<deconstructible>false</deconstructible>
+			<claimable>false</claimable>
+		</building>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<size>(1,1)</size>
+		<researchPrerequisites Inherit="False" />
+		<hasInteractionCell>false</hasInteractionCell>
+		<statBases>
+			<WorkToBuild>200</WorkToBuild>
+			<MaxHitPoints>200</MaxHitPoints>
+			<Mass>200</Mass>
+			<Flammability>0.0</Flammability>
+		</statBases>
+		<thingCategories Inherit="False">
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<costList Inherit="False" />
+		<comps Inherit="False"/>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_HiddenNestSpot</defName>
+		<label>nest spot</label>
+		<thingClass>Xenomorphtype.NestSpot</thingClass>
+		<statBases>
+		  <WorkToBuild>0</WorkToBuild>
+		</statBases>
+		<description>where the hive will gather.</description>
+		<graphicData>
+			<texPath>Things/Building/Empty</texPath> <!--Empty-->
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<designationCategory/>
+		<filthLeaving/>
+		<uiOrder>2000</uiOrder>
+		<passability>Standable</passability>
+		<drawGUIOverlay/>
+		<defaultPlacingRot>South</defaultPlacingRot>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<terrainAffordanceNeeded/>
+		<selectable>true</selectable>
+		<fillPercent>0.0</fillPercent>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<tickerType>Normal</tickerType>
+		<size>(1,1)</size>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+	</ThingDef>
+	
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>HiveHidingSpot</defName>
+		<label>hiding spot</label>
+		<thingClass>Xenomorphtype.CocoonBase</thingClass>
+		<description>A Spot a Xenomorph can hide.</description>
+		<graphicData>
+		  <texPath>Things/Building/Empty</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<size>(1,1)</size>
+		<designationCategory/>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+			<bed_showSleeperBody>False</bed_showSleeperBody>
+		</building>
+		<blocksAltitudes Inherit="false">
+		</blocksAltitudes>
+		<altitudeLayer>MoteOverheadLow</altitudeLayer>
+		<selectable>false</selectable>
+		<filthLeaving/>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded>
+	</ThingDef>
+</Defs>

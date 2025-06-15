@@ -1,10 +1,11 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.052</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.053</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
 	<supportedVersions>
 		<li>1.5</li>
+		<li>1.6</li>
 	</supportedVersions>
 	<modIconPath IgnoreIfNoMatchingField="True">UI/Icon/ModIcon</modIconPath>
 	<modDependencies>
@@ -26,7 +27,7 @@
 			<downloadUrl>https://github.com/Vanilla-Expanded/VanillaExpandedFramework</downloadUrl>
 		</li>
 		<li>
-			<packageId>erdelf.HumanoidAlienRaces</packageId>
+			<packageId>erdelf.HumanoidAlienRaces.dev</packageId>
 			<displayName>Humanoid Alien Races</displayName>
 			<downloadUrl>https://github.com/RimWorld-CCL-Reborn/AlienRaces/releases</downloadUrl>
 			<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=839005762</steamWorkshopUrl>
@@ -44,6 +45,7 @@
 		<li>Ludeon.RimWorld.Anomaly</li>
 		<li>brrainz.harmony</li>
 		<li>erdelf.HumanoidAlienRaces</li>
+		<li>erdelf.HumanoidAlienRaces.dev</li>
 		<li>OskarPotocki.vanillaracesexpanded.android</li>
 		<li>OskarPotocki.VanillaFactionsExpanded.Core</li>
 		<li>erdelf.HumanoidAlienRaces</li>
@@ -63,7 +65,7 @@
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Alphatest version 0.052.
+	<description>Alphatest version 0.053.
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="BiofuelRefinery"]/recipes
+		</xpath>
+		<value>
+			<li>Make_MakeNeutromineFromJelly</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[@Name="AnimalThingBase"]/recipes
+		</xpath>
+		<value>
+			<li>XMT_Remove_LarvalEmbrace</li>
+			<li>XMT_RemoveEmbryo</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Human"]/recipes
+		</xpath>
+		<value>
+			<li>XMT_Remove_LarvalEmbrace</li>
+			<li>XMT_RemoveEmbryo</li>
+		</value>
+	</Operation>
+	
+</Patch>

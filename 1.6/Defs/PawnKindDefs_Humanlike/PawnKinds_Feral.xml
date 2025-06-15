@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PawnKindDef ParentName="BasePlayerStarbeast">
+    <defName>XMT_FeralStarbeastKind</defName>
+    <label>cryptimorph</label>
+    <defaultFactionType></defaultFactionType>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <apparelTags>
+      <li>Neolithic</li>
+    </apparelTags>
+    <apparelMoney>0</apparelMoney>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <techHediffsMoney>0</techHediffsMoney>
+    <techHediffsTags>
+      <li>Poor</li>
+    </techHediffsTags>
+    <techHediffsChance>0</techHediffsChance>
+    <initialResistanceRange>9~15</initialResistanceRange>
+	<backstoryFiltersOverride>
+		<li>
+		  <categories>
+			<li>XMT_Starbeast</li>
+		  </categories>
+		</li>
+	</backstoryFiltersOverride>
+  </PawnKindDef>
+  
+  <!--<PawnKindDef ParentName="BasePlayerStarbeast">
+    <defName>XMT_FeralRoyaltyKind</defName>
+    <label>queen</label>
+    <race>XMT_Royal_AlienRace</race>
+    <defaultFactionType></defaultFactionType>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <apparelTags>
+      <li>Neolithic</li>
+    </apparelTags>
+    <apparelMoney>0</apparelMoney>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <techHediffsMoney>0</techHediffsMoney>
+    <techHediffsTags>
+      <li>Poor</li>
+    </techHediffsTags>
+    <techHediffsChance>0</techHediffsChance>
+    <initialResistanceRange>9~15</initialResistanceRange>
+	<backstoryFiltersOverride>
+		<li>
+		  <categories>
+			<li>XMT_Starbeast</li>
+		  </categories>
+		</li>
+	</backstoryFiltersOverride>
+  </PawnKindDef>-->
+
+</Defs>

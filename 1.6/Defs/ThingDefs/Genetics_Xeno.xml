@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<ThingDef ParentName="GeneSetHolderBase">
+		<defName>XMT_Genepack</defName>
+		<label>capsule</label>
+		<description>A small capsule containing a black shining fluid. One end has an injector. The fluid trembles and writhes slightly within. A standard Genebank will not contain it.</description>
+		<thingClass>Xenomorphtype.XMTGenePack</thingClass>
+		<tickerType>Rare</tickerType>
+		<useHitPoints>true</useHitPoints>
+		<canDeteriorateUnspawned>true</canDeteriorateUnspawned>
+		<deteriorateFromEnvironmentalEffects>false</deteriorateFromEnvironmentalEffects>
+		<inspectorTabs>
+			<li>ITab_Genes</li>
+		</inspectorTabs>
+		<graphicData>
+			<texPath>Things/Item/Special/XMT_Genepack</texPath>
+			<graphicClass>Graphic_Genepack</graphicClass>
+			<drawSize>(0.75, 0.75)</drawSize>
+		</graphicData>
+		<statBases>
+			<MarketValue>100</MarketValue>
+			<DeteriorationRate>5</DeteriorationRate>
+		</statBases>
+		<descriptionHyperlinks>
+			<ThingDef>Xenogerm</ThingDef>
+			<ThingDef>GeneAssembler</ThingDef>
+		</descriptionHyperlinks>
+		<thingSetMakerTags>
+			<li>RewardStandardMidFreq</li>
+		</thingSetMakerTags>
+		<ingestible>
+			<preferability>NeverForNutrition</preferability>
+			<maxNumToIngestAtOnce>1</maxNumToIngestAtOnce>
+			<defaultNumToIngestAtOnce>1</defaultNumToIngestAtOnce>
+			<foodType>Processed, Fluid</foodType>
+			<baseIngestTicks>80</baseIngestTicks>
+			<ingestSound>Ingest_Inject</ingestSound>
+			<ingestHoldOffsetStanding>
+				<northDefault>
+					<offset>(0.18,0,0)</offset>
+				</northDefault>
+			</ingestHoldOffsetStanding>
+			<ingestCommandString>Inject {0}</ingestCommandString>
+			<ingestReportString>Injecting {0}.</ingestReportString>
+			<useEatingSpeedStat>false</useEatingSpeedStat>
+			<chairSearchRadius>0</chairSearchRadius>
+		</ingestible>
+	</ThingDef>
+</Defs>

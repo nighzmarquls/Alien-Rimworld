@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <BodyPartGroupDef>
+    <defName>StarbeastTailAttackTool</defName>
+    <label>Tail</label>
+  </BodyPartGroupDef>
+  
+  <BodyPartGroupDef>
+    <defName>StarbeastPylons</defName>
+    <label>Tubes</label>
+  </BodyPartGroupDef>
+
+  <BodyPartDef>
+    <defName>XMT_LesserShoulder</defName>
+    <label>shoulder</label>
+    <hitPoints>15</hitPoints>
+    <skinCovered>true</skinCovered>
+    <tags>
+      <li>ManipulationLimbSegment</li>
+      <li>Mirrored</li>
+    </tags>
+  </BodyPartDef>
+
+   <BodyPartDef>
+    <defName>StarbeastHead</defName>
+    <label>head</label>
+    <hitPoints>50</hitPoints>
+    <skinCovered>true</skinCovered>
+    <canScarify>true</canScarify>
+	<beautyRelated>true</beautyRelated>
+    <canSuggestAmputation>false</canSuggestAmputation>
+    <bleedRate>2</bleedRate>
+    <executionPartPriority>500</executionPartPriority>
+  </BodyPartDef>
+  
+   <BodyPartDef>
+    <defName>StarbeastCrest</defName>
+    <label>crest</label>
+    <hitPoints>50</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>true</skinCovered>
+    <solid>false</solid>
+	<beautyRelated>true</beautyRelated>
+    <canSuggestAmputation>false</canSuggestAmputation>
+    <bleedRate>1</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+  </BodyPartDef>
+
+  <BodyPartDef>
+    <defName>StarbeastSkull</defName>
+    <label>skull</label>
+    <hitPoints>50</hitPoints>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+	<beautyRelated>true</beautyRelated>
+    <canSuggestAmputation>false</canSuggestAmputation>
+    <bleedRate>0</bleedRate>
+    <destroyableByDamage>false</destroyableByDamage>
+  </BodyPartDef>
+
+  <BodyPartDef>
+    <defName>StarbeastBrain</defName>
+    <label>brain</label>
+    <hitPoints>30</hitPoints>
+	<bleedRate>0</bleedRate>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <solid>true</solid>
+    <skinCovered>false</skinCovered>
+	<beautyRelated>true</beautyRelated>
+    <tags>
+      <li>ConsciousnessSource</li>
+    </tags>
+    <canSuggestAmputation>false</canSuggestAmputation>
+  </BodyPartDef>
+  
+  <BodyPartDef>
+    <defName>StarbeastPores</defName>
+    <label>pores</label>
+    <hitPoints>10</hitPoints>
+	<bleedRate>0</bleedRate>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <solid>true</solid>
+    <skinCovered>false</skinCovered>
+	<beautyRelated>true</beautyRelated>
+    <tags>
+	  <li>SightSource</li>
+	  <li>HearingSource</li>
+    </tags>
+    <canSuggestAmputation>false</canSuggestAmputation>
+  </BodyPartDef>
+  
+   <BodyPartDef>
+    <defName>StarbeastHeart</defName>
+    <label>heart</label>
+    <hitPoints>40</hitPoints>
+    <bleedRate>5</bleedRate>
+    <skinCovered>false</skinCovered>
+    <tags>
+      <li>BloodPumpingSource</li>
+      <li>BloodFiltrationSource</li>
+      <li>MetabolismSource</li>
+      <li>BreathingSource</li>
+    </tags>
+  </BodyPartDef>
+  
+  <BodyPartDef>
+    <defName>StarbeastTubes</defName>
+    <label>tubes</label>
+    <hitPoints>40</hitPoints>
+    <bleedRate>5</bleedRate>
+    <skinCovered>true</skinCovered>
+  </BodyPartDef>
+  
+  <BodyPartDef>
+    <defName>StarbeastJaw</defName>
+    <label>jaw</label>
+    <hitPoints>40</hitPoints>
+    <frostbiteVulnerability>2</frostbiteVulnerability>
+    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <skinCovered>false</skinCovered>
+    <solid>true</solid>
+    <beautyRelated>true</beautyRelated>
+    <bleedRate>0</bleedRate>
+    <tags>
+      <li>EatingSource</li>
+	  <li>ManipulationLimbCore</li>
+	  <li>ManipulationLimbSegment</li>
+    </tags>
+  </BodyPartDef>
+  
+  <BodyPartDef>
+    <defName>StarbeastTail</defName>
+    <label>tail</label>
+    <hitPoints>40</hitPoints>
+    <frostbiteVulnerability>0</frostbiteVulnerability>
+    <skinCovered>true</skinCovered>
+	<tags>
+      <li>MovingLimbCore</li>
+      <li>ManipulationLimbCore</li>
+    </tags>
+  </BodyPartDef>
+
+</Defs>

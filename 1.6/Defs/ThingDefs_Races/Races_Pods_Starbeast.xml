@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef Abstract="True" Name="XMT_Base_Pod" ParentName="BasePawn">
+		<label>pod</label>
+		<description>A translucent fleshy orb with a body shifting within.</description>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+		</comps>
+		<statBases>
+			<MoveSpeed>0.0</MoveSpeed>
+			<Flammability>0</Flammability>
+			<ComfyTemperatureMin>-200</ComfyTemperatureMin>
+			<ComfyTemperatureMax>90</ComfyTemperatureMax>
+			<MarketValue>0</MarketValue>
+			<ArmorRating_Blunt>0</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0</ArmorRating_Sharp>
+			<MeleeDodgeChance>0</MeleeDodgeChance>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>5</MeatAmount>
+			<ToxicResistance>1.0</ToxicResistance>
+			<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
+			<Wildness>0</Wildness>
+		</statBases>
+		<uiIconScale>2</uiIconScale>
+		<tools>
+			<li>
+				<label>splash</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>1</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+				<surpriseAttack>
+				  <extraMeleeDamages>
+					<li>
+					  <def>Stun</def>
+					  <amount>10</amount>
+					</li>
+				  </extraMeleeDamages>
+				</surpriseAttack>
+				<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+				<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			</li>
+		</tools>
+		<race>
+		  <thinkTreeMain>Animal</thinkTreeMain>
+		  <thinkTreeConstant>AnimalConstant</thinkTreeConstant>
+		  <hasGenders>false</hasGenders>
+		  <isImmuneToInfections>true</isImmuneToInfections>
+		  <nameGenerator>NamerAnimalGenericFemale</nameGenerator>
+		  <nameGeneratorFemale>NamerAnimalGenericFemale</nameGeneratorFemale>
+		  <trainability>None</trainability>
+		  <fleshType>StarbeastFlesh</fleshType>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+		  <!--<bloodSmearDef>Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
+		  <canBecomeShambler>false</canBecomeShambler>
+		  <renderTree>Animal</renderTree>
+		  <canBePredatorPrey>false</canBePredatorPrey>
+		  <foodType>None</foodType>
+		  <hediffGiverSets>
+			<li>OrganicStandard</li>
+		  </hediffGiverSets>
+		  <body>LarvaLike</body>
+		  <baseBodySize>0.1</baseBodySize>
+		  <baseHungerRate>0.0</baseHungerRate>
+		  <baseHealthScale>0.1</baseHealthScale>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <lifeExpectancy>0</lifeExpectancy>
+		  
+		  <lifeStageAges>
+			<li>
+			  <def>EusocialInsectAdult</def>
+			  <minAge>0</minAge>
+			  <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+			  <soundDeath>Pawn_Megascarab_Death</soundDeath>
+			  <soundCall>Pawn_Megascarab_Call</soundCall>
+			  <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.12)</li>
+			<li>(0.07, 0, -0.05)</li>
+			<li>(0.0, 0, -0.08)</li>
+			<li>(-0.07, 0, -0.05)</li>
+		  </headPosPerRotation>
+		</race>
+	</ThingDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Starbeast_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Ovamorph</thingDef>
+						<hatchTime>1</hatchTime>
+						<probability>0.5</probability>
+					</li>
+					<li>
+						<thingDef>XMT_Larva</thingDef>
+						<pawnDef>XMT_Larva</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef>
+		<defName>XMT_Starbeast_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Starbeast_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Larva_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Humanoid_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_MeatballLarder</thingDef>
+						<hatchTime>1</hatchTime>
+						<probability>0.25</probability>
+					</li>
+					<li>
+						<thingDef>XMT_FetalHorror</thingDef>
+						<pawnDef>XMT_FetalHorror</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Humanoid_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Humanoid_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Human_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Thrumbo_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_AbominableMaw</thingDef>
+						<pawnDef>XMT_AbominableMaw</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Thrumbo_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Thrumbo_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>2.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Reptile_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Fleshtoad</thingDef>
+						<pawnDef>XMT_Fleshtoad</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Reptile_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Reptile_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Feline_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Smotherer</thingDef>
+						<pawnDef>XMT_Smotherer</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Feline_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Feline_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Canine_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Howler</thingDef>
+						<pawnDef>XMT_Howler</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Canine_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Canine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Avian_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Barnacle</thingDef>
+						<pawnDef>XMT_Barnacle</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Avian_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Avian_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Booma_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Petrolsump</thingDef>
+						<pawnDef></pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>2</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Booma_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Booma_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Mass_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Ursine_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_SlumberingBeast</thingDef>
+						<pawnDef></pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>2.15</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Ursine_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Ursine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Mass_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Rodent_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef></thingDef>
+						<pawnDef>XMT_Plaguerat</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>0.25</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Rodent_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Rodent_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>0.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Equine_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef></thingDef>
+						<pawnDef>XMT_Umbilical</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>0.25</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Equine_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Equine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Bovine_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef></thingDef>
+						<pawnDef>XMT_StrangleMoss</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>0.5</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Bovine_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Bovine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Mass_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Insect_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef></thingDef>
+						<pawnDef>XMT_Hammerpede</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>0.5</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Insect_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Insect_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Grub_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+</Defs>

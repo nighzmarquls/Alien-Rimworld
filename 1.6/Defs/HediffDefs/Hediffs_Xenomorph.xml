@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<HediffDef>
+		<hediffClass>Xenomorphtype.DisplayHediff</hediffClass>
+		<defName>PawnInfoHediff</defName>
+		<label>error</label>
+		<description>this should never display.</description>
+		<isBad>false</isBad>
+	</HediffDef>
+  
+  <HediffDef>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defName>StarbeastStealthHostile</defName>
+    <label>not visible</label>
+    <description>(hostile) This creature does not show up on thermals and is adept at stealth.</description>
+    <isBad>false</isBad>
+	<stages>
+	  <li>
+	    <label>hidden</label>
+	    <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Invisibility">
+        <visibleToPlayer>false</visibleToPlayer>
+        <fadeDurationTicks>60</fadeDurationTicks>
+		<affectedByDisruptor>true</affectedByDisruptor>
+        <recoverFromDisruptedTicks>90</recoverFromDisruptedTicks>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath" />
+	  <li Class="Xenomorphtype.HediffCompProperties_RemoveOnFactionStatus">
+		<RemoveIfPlayer>true</RemoveIfPlayer>
+	  </li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef>
+	<hediffClass>HediffWithComps</hediffClass>
+    <defName>StarbeastStealthFriendly</defName>
+    <label>not visible</label>
+    <description>(friendly) This creature does not show up on thermals and is adept at stealth.</description>
+    <isBad>false</isBad>
+	<stages>
+	  <li>
+	    <label>hidden</label>
+	    <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_Invisibility">
+        <visibleToPlayer>true</visibleToPlayer>
+        <fadeDurationTicks>60</fadeDurationTicks>
+		<affectedByDisruptor>true</affectedByDisruptor>
+        <recoverFromDisruptedTicks>90</recoverFromDisruptedTicks>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath" />
+	  <li Class="Xenomorphtype.HediffCompProperties_RemoveOnFactionStatus">
+		<RemoveIfPlayer>false</RemoveIfPlayer>
+	  </li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>StarbeastOrganism</defName>
+    <label>perfect</label>
+    <description>this being is a perfectly adaptable organism.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+		<hungerRateFactorOffset>-0.85</hungerRateFactorOffset>
+	    <becomeVisible>false</becomeVisible>
+		<foodPoisoningChanceFactor>0</foodPoisoningChanceFactor>
+		<capMods>
+		  <li>
+            <capacity>Talking</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+		<makeImmuneTo>
+			<li>XMT_EssenceAddiction</li>
+            <li>Malaria</li>
+            <li>SleepingSickness</li>
+            <li>Plague</li>
+            <li>Hangover</li>
+            <li>Heatstroke</li>
+			<li>Hypothermia</li>
+            <li>Heatstroke</li>
+			<li>Carcinoma</li>
+			<li>Dementia</li>
+			<li>GutWorms</li>
+			<li>MuscleParasites</li>
+			<li>FibrousMechanites</li>
+			<li>SensoryMechanites</li>
+			<li>WoundInfection</li>
+			<li>Flu</li>
+			<li>Animal_Flu</li>
+			<li>Animal_Plague</li>
+			<li>LungRotExposure</li>
+			<li>LungRot</li>
+			<li>BadBack</li>
+			<li>Frail</li>
+			<li>Cataract</li>
+			<li>Blindness</li>
+			<li>HearingLoss</li>
+			<li>Alzheimers</li>
+			<li>Asthma</li>
+			<li>HeartArteryBlockage</li>
+			<li>OrganDecay</li>
+        </makeImmuneTo>
+      </li>
+    </stages>
+    <comps>
+		<li Class="Xenomorphtype.HediffCompProperties_RemoveOnXenomorph">
+			<ifXenomorph>false</ifXenomorph>
+		</li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>StarbeastCocoon</defName>
+    <label>cocooned</label>
+    <description>held immobile by resinous secretion.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>true</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>0.1</initialSeverity>
+    <stages>
+	  <li>
+	    <label>trapped</label>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Manipulation</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+		<makeImmuneTo>
+			<li>WoundInfection</li>
+        </makeImmuneTo>
+      </li>
+    </stages>
+    <comps>
+		<li Class="Xenomorphtype.HediffCompProperties_RemoveOnCarryStatus">
+			<RemoveIfCarried>true</RemoveIfCarried>
+		</li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>StarbeastGrab</defName>
+    <label>restrained</label>
+    <description>held immobile.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <label>grabbed</label>
+	    <becomeVisible>false</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+		<li Class="Xenomorphtype.HediffCompProperties_RemoveOnCarryStatus">
+			<RemoveIfCarried>false</RemoveIfCarried>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>AcidCorrosion</defName>
+    <label>corrosion</label>
+    <description>tissue is being burned away by a highly corrosive agent.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>true</makesAlert>
+	<tendable>false</tendable>
+	<minSeverity>0.001</minSeverity>
+    <stages>
+	  <li>
+	    <label>burning</label>
+	    <becomeVisible>false</becomeVisible>
+		<painOffset>0.1</painOffset>
+      </li>
+    </stages>
+    <comps>
+	  <li Class="Xenomorphtype.HediffCompProperties_Spreading">
+		<spreadIntervalHours>0.1</spreadIntervalHours>
+	  </li>
+	  <li Class="Xenomorphtype.HediffCompProperties_Corrosive">
+		 <damageType>AcidBurn</damageType>
+		 <damageIntervalHours>0.1</damageIntervalHours>
+	  </li>
+	  <li Class="HediffCompProperties_SelfHeal">
+        <healAmount>1</healAmount>
+      </li>
+	  <li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>Undeveloped</defName>
+    <label>undeveloped</label>
+    <labelNoun>undeveloped.</labelNoun>
+    <description>This bodypart is vestigial but it appears that it will eventually fully develop.</description>
+    <makesSickThought>true</makesSickThought>
+    <tendable>false</tendable>
+    <comps>
+	  <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>0.017</severityPerDay>
+		<showDaysToRecover>false</showDaysToRecover>
+        <minAge>0</minAge>
+      </li>
+	  <li Class="Xenomorphtype.HediffCompProperties_CureOnSeverity">
+		    <cureSeverity>1</cureSeverity>
+	  </li>
+    </comps>
+    <stages>
+      <li>
+	    <becomeVisible>false</becomeVisible>
+        <label>extreme</label>
+		<partEfficiencyOffset>-0.9</partEfficiencyOffset>
+		<lifeThreatening>true</lifeThreatening>
+
+      </li> 
+      <li>
+	    <becomeVisible>false</becomeVisible>
+        <minSeverity>0.33</minSeverity>
+        <label>extreme</label>
+		<partEfficiencyOffset>-0.66</partEfficiencyOffset>
+		<lifeThreatening>true</lifeThreatening>
+      </li>
+      <li>
+	    <becomeVisible>false</becomeVisible>
+        <minSeverity>0.8</minSeverity>
+        <label>major</label>
+		<partEfficiencyOffset>-0.2</partEfficiencyOffset>
+
+      </li>
+      <li>
+	    <becomeVisible>false</becomeVisible>
+        <minSeverity>0.9</minSeverity>
+        <label>minor</label>
+		<partEfficiencyOffset>-0.1</partEfficiencyOffset>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>Overdeveloped</defName>
+    <label>overdeveloped</label>
+    <labelNoun>overdeveloped.</labelNoun>
+    <description>This bodypart is excessively developed but this appears to be temporary.</description>
+    <makesSickThought>false</makesSickThought>
+
+    <comps>
+	  <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>0.017</severityPerDay>
+		<showDaysToRecover>false</showDaysToRecover>
+        <minAge>0</minAge>
+      </li>
+	  <li Class="Xenomorphtype.HediffCompProperties_CureOnSeverity">
+		    <cureSeverity>1</cureSeverity>
+	  </li>
+    </comps>
+    <stages>
+      <li>
+        <label>extreme</label>
+		<partEfficiencyOffset>1</partEfficiencyOffset>
+      </li> 
+      <li>
+        <minSeverity>0.33</minSeverity>
+        <label>extreme</label>
+		<partEfficiencyOffset>0.5</partEfficiencyOffset>
+      </li>
+      <li>
+        <minSeverity>0.8</minSeverity>
+        <label>major</label>
+		<partEfficiencyOffset>0.25</partEfficiencyOffset>
+
+      </li>
+      <li>
+        <minSeverity>0.9</minSeverity>
+        <label>minor</label>
+		<partEfficiencyOffset>0.12</partEfficiencyOffset>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef>
+    <defName>XMT_GeneIntegration</defName>
+    <label>gene adaptation</label>
+    <description>The body is changing its gene expression.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <stages>
+      <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>Maturation</defName>
+    <label>chrysalis</label>
+    <description>Has formed a disturbingly suggestive chrysalis for maturation.</description>
+    <makesSickThought>false</makesSickThought>
+    <comps>
+	  <li Class="Xenomorphtype.HediffCompProperties_MatureToAdult">
+		<severityPerDay>1</severityPerDay>
+		<showDaysToRecover>True</showDaysToRecover>
+        <minAge>0</minAge>
+	  </li>
+    </comps>
+    <stages>
+      <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Manipulation</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Helpless</defName>
+    <label>helpless</label>
+    <description>is completely incapable of taking care of itself.</description>
+    <makesSickThought>false</makesSickThought>
+
+    <comps>
+    </comps>
+    <stages>
+      <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+		  <li>
+            <capacity>Manipulation</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+
+</Defs>

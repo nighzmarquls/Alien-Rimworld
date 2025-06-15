@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <PawnKindDef Abstract="True" Name="BasePlayerStarbeast">
+    <race>XMT_Starbeast_AlienRace</race>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <apparelIgnorePollution MayRequire="Ludeon.RimWorld.Biotech">true</apparelIgnorePollution>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <initialWillRange>0~0</initialWillRange>
+    <humanPregnancyChance>0.06</humanPregnancyChance>
+  </PawnKindDef>
+
+  <PawnKindDef ParentName="BasePlayerStarbeast">
+    <defName>XMT_StarbeastKind</defName>
+    <label>kin</label>
+    <defaultFactionType>PlayerHive</defaultFactionType>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <apparelTags>
+      <li>Neolithic</li>
+    </apparelTags>
+    <apparelMoney>0</apparelMoney>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <techHediffsMoney>0</techHediffsMoney>
+    <techHediffsTags>
+      <li>Poor</li>
+    </techHediffsTags>
+    <techHediffsChance>0</techHediffsChance>
+    <initialResistanceRange>9~15</initialResistanceRange>
+	<backstoryFiltersOverride>
+		<li>
+		  <categories>
+			<li>XMT_Starbeast</li>
+		  </categories>
+		</li>
+	</backstoryFiltersOverride>
+  </PawnKindDef>
+  
+  <PawnKindDef ParentName="BasePlayerStarbeast">
+    <defName>XMT_RoyaltyKind</defName>
+    <label>queen</label>
+    <race>XMT_Royal_AlienRace</race>
+    <defaultFactionType>PlayerHive</defaultFactionType>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <apparelTags>
+      <li>Neolithic</li>
+    </apparelTags>
+    <apparelMoney>0</apparelMoney>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <techHediffsMoney>0</techHediffsMoney>
+    <techHediffsTags>
+      <li>Poor</li>
+    </techHediffsTags>
+    <techHediffsChance>0</techHediffsChance>
+    <initialResistanceRange>9~15</initialResistanceRange>
+	<backstoryFiltersOverride>
+		<li>
+		  <categories>
+			<li>XMT_Starbeast</li>
+		  </categories>
+		</li>
+	</backstoryFiltersOverride>
+  </PawnKindDef>
+
+</Defs>

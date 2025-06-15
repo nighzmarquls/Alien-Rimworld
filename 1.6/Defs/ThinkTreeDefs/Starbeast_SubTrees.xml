@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThinkTreeDef>
+		<defName>XMT_StarbeastAnimal</defName>
+		<insertTag>Animal_PreMain</insertTag>
+		<insertPriority>100</insertPriority>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="Xenomorphtype.JobGiver_Xenomorph"/>
+			</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+	
+	<ThinkTreeDef>
+		<defName>XMT_StarbeastHumanlike</defName>
+		<insertTag>Humanlike_PreMain</insertTag>
+		<insertPriority>100</insertPriority>
+		<thinkRoot Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="Xenomorphtype.JobGiver_Xenomorph"/>
+			</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
+</Defs>

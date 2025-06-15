@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ResearchProjectTagDef>
+    <defName>XMT_Researcher_Start</defName>
+  </ResearchProjectTagDef>
+  
+  <ResearchProjectDef>
+    <defName>XMT_Starbeast_Genetics</defName>
+    <label>Novel Chemistry Genetics</label>
+    <description>Study of alternative chemistry for storing genetic alteration allowing the study of more exotic life forms.</description>
+    <techLevel>Industrial</techLevel>
+    <baseCost>1500</baseCost>
+    <researchViewX>0.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+    <requiredResearchFacilities>
+    </requiredResearchFacilities>
+    <prerequisites>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->gene processors</li>
+
+        <li>subject_story->extracted Glitterworld genes from a drifting derelict</li>
+        <li>subject_story->processed an entire village to create one set of higher genes</li>
+        <li>subject_story->began the slow process of uplift by implanting xenogerms into a primitive tribe</li>
+
+        <li>subject_gerund->constructing gene processors</li>
+        <li>subject_gerund->processing genes</li>
+
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_HumanResearchTab</tab>
+  </ResearchProjectDef>
+</Defs>

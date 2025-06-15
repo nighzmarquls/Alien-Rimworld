@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef Name="Chrysalis" ParentName="BuildingBase">
+		<defName>XMT_QueenChrysalis</defName>
+		<label>metamorphic chrysalis</label>
+		<description>An expansive structure of curved resinous petals.</description>
+		<thingClass>Xenomorphtype.FillableChrysalis</thingClass>
+		<category>Building</category>
+		<graphicData>
+			<texPath>Things/Building/Royalty/QueenChrysalis</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawRotated>false</drawRotated>
+			<drawSize>(5,5)</drawSize>
+		</graphicData>
+		<size>(5,5)</size>
+		<uiIconScale>1.0</uiIconScale>
+		<designationCategory>XMT_Hive</designationCategory>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<researchPrerequisites>
+			<li>XMT_Starbeast_Chrysalis</li>
+		</researchPrerequisites>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Standable</passability>
+		<pathCost>30</pathCost>
+		<constructEffect>ResinBuild</constructEffect>
+		<tickerType>Normal</tickerType>
+		<drawerType>RealtimeOnly</drawerType>
+		<fillPercent>0.15</fillPercent>
+		<statBases>
+			<MaxHitPoints>300</MaxHitPoints>
+			<WorkToBuild>10000</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Beauty>300</Beauty>
+		</statBases>
+		<selectable>true</selectable>
+		<costList></costList>
+		<building>
+			<artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+		</building>
+		<soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<killedLeavings>
+			<Starbeast_Resin>150</Starbeast_Resin>
+		</killedLeavings>
+		<resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>0.0</fuelConsumptionRate>
+				<fuelCapacity>600.0</fuelCapacity>
+				<fuelConsumptionPerTickInRain>0.000</fuelConsumptionPerTickInRain>
+				<fuelFilter>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
+				</fuelFilter>
+				<initialFuelPercent>0</initialFuelPercent>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+				<showFuelGizmo>true</showFuelGizmo>
+				<targetFuelLevelConfigurable>false</targetFuelLevelConfigurable>
+				<drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+				<minimumFueledThreshold>600</minimumFueledThreshold>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+				<autoRefuelPercent>1</autoRefuelPercent>
+				<fuelLabel>Jelly</fuelLabel>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>XMT_QueenSleepingSpot</defName>
+		<label>royal sleeping spot</label>
+		<rotatable>false</rotatable>
+		<thingClass>Xenomorphtype.QueenBed</thingClass>
+		<description>Designates a spot in the hive where the queen can sleep.</description>
+		<graphicData>
+			<texPath>Things/Building/Royalty/Queen_Sleeping_Spot</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(5,5)</drawSize>
+		</graphicData>
+		<size>(5,5)</size>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+			<bed_pawnDrawOffset>-1</bed_pawnDrawOffset>
+		</building>
+	</ThingDef>
+	
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>RoyalHidingSpot</defName>
+		<label>hiding spot</label>
+		<thingClass>Xenomorphtype.CocoonBase</thingClass>
+		<description>A Spot a Xenomorph can hide.</description>
+		<graphicData>
+		  <texPath>Things/Building/Empty</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<size>(1,1)</size>
+		<designationCategory/>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+			<bed_showSleeperBody>False</bed_showSleeperBody>
+		</building>
+		<blocksAltitudes Inherit="false">
+		</blocksAltitudes>
+		<altitudeLayer>MoteOverheadLow</altitudeLayer>
+		<selectable>false</selectable>
+		<filthLeaving/>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded>
+	</ThingDef>
+</Defs>

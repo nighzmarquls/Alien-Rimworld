@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<RecipeDef>
+		<defName>Make_MakeNeutromineFromJelly</defName>
+		<label>render neutroamine from jelly</label>
+		<description>Make a batch of neutroamine by refining resinous jelly.</description>
+		<jobString>Refining neutroamine from jelly.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>2000</workAmount>
+		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
+				</filter>
+				<count>10</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Starbeast_Jelly</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<Neutroamine>5</Neutroamine>
+		</products>
+	</RecipeDef>
+	
+</Defs>

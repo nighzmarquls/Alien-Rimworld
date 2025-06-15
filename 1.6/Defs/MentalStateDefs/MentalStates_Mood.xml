@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <MentalBreakDef>
+    <defName>XMT_MurderousRage</defName>
+    <label>murder enemy</label>
+    <baseCommonality>1</baseCommonality>
+    <intensity>Minor</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Morph</workerClass>
+	<mentalState>XMT_MurderousRage</mentalState>
+  </MentalBreakDef>
+  
+  <MentalBreakDef>
+    <defName>XMT_MurderXenomorph</defName>
+    <label>horrorified</label>
+    <baseCommonality>2</baseCommonality>
+    <intensity>Major</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+	<mentalState>XMT_MurderXenomorph</mentalState>
+  </MentalBreakDef>
+  
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>XMT_MurderXenomorph</defName>
+    <stateClass>Xenomorphtype.MentalState_XMT_MurderousRage</stateClass>
+    <workerClass>Xenomorphtype.MentalStateWorker_XMT_MurderousRage</workerClass>
+    <label>murderous rage</label>
+    <category>Aggro</category>
+    <blockInteractionInitiationExcept>
+      <li>Insult</li>
+    </blockInteractionInitiationExcept>
+    <blockInteractionRecipientExcept>
+      <li>Insult</li>
+    </blockInteractionRecipientExcept>
+    <blockRandomInteraction>true</blockRandomInteraction>
+    <colonistsOnly>true</colonistsOnly>
+    <minTicksBeforeRecovery>100000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>100000</maxTicksBeforeRecovery>
+    <recoverFromSleep>true</recoverFromSleep>
+    <nameColor>(0.9,0.2,0.5)</nameColor>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <recoveryMessage>{0} is no longer in a murderous rage.</recoveryMessage>
+    <beginLetter>{0} has flown into a murderous rage.\n\n[PAWN_pronoun] has decided to kill {1}.</beginLetter>
+    <beginLetterDef>ThreatSmall</beginLetterDef>
+    <baseInspectLine>Mental state: Murderous rage</baseInspectLine>
+    <allowBeatfire>true</allowBeatfire>
+  </MentalStateDef>
+  
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>XMT_MurderousRage</defName>
+    <stateClass>Xenomorphtype.MentalState_XMT_MurderousRage</stateClass>
+    <workerClass>Xenomorphtype.MentalStateWorker_XMT_MurderousRage</workerClass>
+    <label>murderous rage</label>
+    <category>Aggro</category>
+    <blockInteractionInitiationExcept>
+      <li>Insult</li>
+    </blockInteractionInitiationExcept>
+    <blockInteractionRecipientExcept>
+      <li>Insult</li>
+    </blockInteractionRecipientExcept>
+    <blockRandomInteraction>true</blockRandomInteraction>
+    <colonistsOnly>true</colonistsOnly>
+    <minTicksBeforeRecovery>100000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>100000</maxTicksBeforeRecovery>
+    <recoverFromSleep>true</recoverFromSleep>
+    <nameColor>(0.9,0.2,0.5)</nameColor>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <recoveryMessage>{0} is no longer in a murderous rage.</recoveryMessage>
+    <beginLetter>{0} has flown into a murderous rage.\n\n[PAWN_pronoun] has decided to kill {1}.</beginLetter>
+    <beginLetterDef>ThreatSmall</beginLetterDef>
+    <baseInspectLine>Mental state: Murderous rage</baseInspectLine>
+    <allowBeatfire>true</allowBeatfire>
+  </MentalStateDef>
+
+  <MentalBreakDef>
+    <defName>XMT_GiveUpExit</defName>
+    <label>horrorified</label>
+    <baseCommonality>2</baseCommonality>
+    <intensity>Major</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+	<mentalState>XMT_GiveUpExit</mentalState>
+  </MentalBreakDef>
+  
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>XMT_GiveUpExit</defName>
+    <label>fleeing in horror</label>
+    <stateClass>MentalState_GiveUpExit</stateClass>
+    <category>Misc</category>
+    <prisonersCanDo>false</prisonersCanDo>
+    <slavesCanDo>false</slavesCanDo>
+    <moodRecoveryThought>Catharsis</moodRecoveryThought>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <nameColor>(0.65, 0.9, 0.93)</nameColor>
+    <beginLetterLabel>gave up</beginLetterLabel>
+    <beginLetter>{0} is horrified by the actions of the colony.\n\n[PAWN_pronoun] fleeing before it gets worse. You can try to arrest [PAWN_objective] as [PAWN_pronoun] leaves. Otherwise, you may still see [PAWN_objective] again some day.</beginLetter>
+    <beginLetterDef>NegativeEvent</beginLetterDef>
+    <recoveryMessage>{0} has had a change of heart and is coming back to the colony.</recoveryMessage>
+    <baseInspectLine>Mental state: Fleeing in horror</baseInspectLine>
+    <tale>MentalStateGaveUp</tale>
+    <allowBeatfire>true</allowBeatfire>
+    <escapingPrisonersIgnore>true</escapingPrisonersIgnore>
+  </MentalStateDef>
+
+  <MentalBreakDef>
+    <defName>XMT_DestroyOvamorph</defName>
+    <label>destroy eggs</label>
+    <baseCommonality>2</baseCommonality>
+    <intensity>Major</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+	<mentalState>XMT_DestroyOvamorph</mentalState>
+  </MentalBreakDef>
+  
+  <MentalStateDef ParentName="Tantrum">
+    <defName>XMT_DestroyOvamorph</defName>
+    <stateClass>Xenomorphtype.MentalState_XMT_DestroyOvamorph</stateClass>
+    <workerClass>Xenomorphtype.MentalStateWorker_XMT_DestroyOvamorph</workerClass>
+    <minTicksBeforeRecovery>40000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>60000</maxTicksBeforeRecovery>
+    <recoveryMtbDays>0.166</recoveryMtbDays>
+    <beginLetter>{0} is having a tantrum.\n\n[PAWN_pronoun] is going to destroy {1}.</beginLetter>
+  </MentalStateDef>
+
+  <MentalBreakDef>
+    <defName>XMT_SadisticRage</defName>
+    <label>sadistic rage</label>
+    <baseCommonality>2</baseCommonality>
+    <intensity>Major</intensity>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+	<mentalState>XMT_SadisticRage</mentalState>
+  </MentalBreakDef>
+  
+  <MentalStateDef ParentName="Tantrum">
+    <defName>XMT_SadisticRage</defName>
+    <stateClass>MentalState_SadisticRageTantrum</stateClass>
+    <workerClass>MentalStateWorker_SadisticRageTantrum</workerClass>
+    <label>sadistic rage</label>
+    <maxTicksBeforeRecovery>30000</maxTicksBeforeRecovery>
+    <recoveryMessage>{0} is no longer in a sadistic rage.</recoveryMessage>
+    <beginLetterDef>ThreatSmall</beginLetterDef>
+    <beginLetter>{0} has flown into a sadistic rage.\n\n[PAWN_pronoun] is going to vent [PAWN_possessive] anger on the prisoners.</beginLetter>
+    <baseInspectLine>Mental state: Sadistic rage</baseInspectLine>
+  </MentalStateDef>
+
+  <MentalBreakDef>
+    <defName>XMT_Wander_OwnRoom</defName>
+    <mentalState>Wander_OwnRoom</mentalState>
+    <baseCommonality>2</baseCommonality>
+	<workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+    <intensity>Minor</intensity>
+  </MentalBreakDef>
+
+</Defs>

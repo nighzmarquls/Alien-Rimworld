@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <TerrainDef ParentName="NaturalTerrainBase">
+    <defName>AcidBurned</defName>
+    <label>corroded</label>
+    <texturePath>Terrain/XMT_AcidBurn</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <categoryType>Soil</categoryType>
+    <renderPrecedence>360</renderPrecedence>
+    <pathCost>14</pathCost>
+    <statBases>
+      <Beauty>-5</Beauty>
+      <BeautyOutdoors>-5</BeautyOutdoors>
+      <Cleanliness>-8</Cleanliness>
+    </statBases>
+    <affordances>
+      <li>Bridgeable</li>
+    </affordances>
+    <generatedFilth>Filth_Dirt</generatedFilth>
+    <fertility>0</fertility>
+    <takeFootprints>True</takeFootprints>
+    <avoidWander>true</avoidWander>
+  </TerrainDef>
+  
+  <TerrainDef ParentName="NaturalTerrainBase">
+    <defName>LightAcidBurned</defName>
+    <label>acid burned</label>
+    <texturePath>Terrain/XMT_AcidBurnLight</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <categoryType>Soil</categoryType>
+    <renderPrecedence>60</renderPrecedence>
+    <pathCost>14</pathCost>
+    <statBases>
+      <Beauty>-1</Beauty>
+      <BeautyOutdoors>-1</BeautyOutdoors>
+      <Cleanliness>-2</Cleanliness>
+    </statBases>
+    <affordances>
+      <li>Light</li>
+      <li>Medium</li>
+    </affordances>
+    <generatedFilth>Filth_Dirt</generatedFilth>
+    <fertility>0</fertility>
+    <takeFootprints>True</takeFootprints>
+    <avoidWander>true</avoidWander>
+  </TerrainDef>
+  
+  <TerrainDef ParentName="NaturalTerrainBase">
+    <defName>MediumAcidBurned</defName>
+    <label>deeply acid burned</label>
+    <texturePath>Terrain/XMT_AcidBurnMedium</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <categoryType>Soil</categoryType>
+    <renderPrecedence>55</renderPrecedence>
+    <pathCost>14</pathCost>
+    <statBases>
+      <Beauty>-2</Beauty>
+      <BeautyOutdoors>-2</BeautyOutdoors>
+      <Cleanliness>-4</Cleanliness>
+    </statBases>
+    <affordances>
+      <li>Light</li>
+    </affordances>
+    <generatedFilth>Filth_Dirt</generatedFilth>
+    <fertility>0</fertility>
+    <takeFootprints>True</takeFootprints>
+    <avoidWander>true</avoidWander>
+  </TerrainDef>
+  
+  <TerrainDef Name="HiveFloorBase" Abstract="True">
+    <layerable>true</layerable>
+    <affordances>
+      <li>Resin</li>
+    </affordances>
+    <tags>
+      <li>Floor</li>
+    </tags>
+    <designationCategory></designationCategory>
+    <fertility>0</fertility>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+  </TerrainDef>
+  
+  <TerrainDef ParentName="HiveFloorBase">
+    <defName>HiveFloor</defName>
+    <label>Resin Floors</label>
+	<renderPrecedence>340</renderPrecedence>
+	<description>Some kind of secreted resin, shaped into organic patterns on the ground.</description>
+    <texturePath>Terrain/XMT_HiveResin</texturePath>
+    <edgeType>FadeRough</edgeType>
+	<pathCost>1</pathCost>
+    <statBases>
+      <Beauty>0</Beauty>
+      <Cleanliness>-0.1</Cleanliness>
+      <FilthMultiplier>0.05</FilthMultiplier>
+      <Flammability>0</Flammability>
+    </statBases>
+	<costList>
+      <Starbeast_Resin>5</Starbeast_Resin>
+    </costList>
+  </TerrainDef>
+  
+  <TerrainDef ParentName="HiveFloorBase">
+    <defName>HeavyHiveFloor</defName>
+    <label>reinforced Resin Floors</label>
+	<renderPrecedence>345</renderPrecedence>
+	<description>Some kind of secreted resin, shaped into organic patterns on the ground. It has extremely stable and deep foundations.</description>
+    <texturePath>Terrain/XMT_HeavyHiveResin</texturePath>
+    <edgeType>FadeRough</edgeType>
+	<pathCost>2</pathCost>
+	<smoothedTerrain>SmoothHiveFloor</smoothedTerrain>
+	<affordances>
+      <li>HeavyResin</li>
+    </affordances>
+    <statBases>
+      <Beauty>0</Beauty>
+      <Cleanliness>-0.1</Cleanliness>
+      <FilthMultiplier>0.05</FilthMultiplier>
+      <Flammability>0</Flammability>
+    </statBases>
+	<costList>
+      <Starbeast_Resin>10</Starbeast_Resin>
+    </costList>
+  </TerrainDef>
+  
+  <TerrainDef ParentName="HiveFloorBase">
+    <defName>SmoothHiveFloor</defName>
+    <label>polished Resin Floors</label>
+	<renderPrecedence>335</renderPrecedence>
+	<description>a beautiful shining dark floor, smoothed and polished.</description>
+    <texturePath>Terrain/XMT_SmoothResin</texturePath>
+    <edgeType>FadeRough</edgeType>
+	<pathCost>1</pathCost>
+	<affordances>
+      <li>Light</li>
+      <li>Medium</li>
+      <li>Heavy</li>
+    </affordances>
+    <statBases>
+      <Beauty>1</Beauty>
+      <Cleanliness>0</Cleanliness>
+      <FilthMultiplier>0.05</FilthMultiplier>
+      <Flammability>0</Flammability>
+    </statBases>
+	<costList>
+      <Starbeast_Resin>10</Starbeast_Resin>
+    </costList>
+  </TerrainDef>
+  
+  <TerrainDef ParentName="NaturalTerrainBase">
+    <defName>BarrenDust</defName>
+    <label>gritty dust</label>
+    <texturePath>Terrain/XMT_BarrenDust</texturePath>
+    <edgeType>FadeRough</edgeType>
+    <renderPrecedence>352</renderPrecedence>
+    <pathCost>14</pathCost>
+    <categoryType>Sand</categoryType>
+    <statBases>
+      <Beauty>-3</Beauty>
+      <BeautyOutdoors>0</BeautyOutdoors>
+      <Cleanliness>-1</Cleanliness>
+    </statBases>
+    <affordances>
+      <li>Light</li>
+      <li>Diggable</li>
+    </affordances>
+    <generatedFilth>Filth_Sand</generatedFilth>
+    <fertility>0</fertility>
+    <takeFootprints>true</takeFootprints>
+    <tools>
+      <li>
+        <label>sand</label>
+        <capacities>
+          <li>KickMaterialInEyes</li>
+        </capacities>
+        <hediff>SandInEyes</hediff>
+        <cooldownTime>1.5</cooldownTime>
+      </li>
+    </tools>
+    <pollutionColor>(1, 1, 1, 0.25)</pollutionColor>
+  </TerrainDef>
+</Defs>

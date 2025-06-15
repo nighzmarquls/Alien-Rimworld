@@ -1,0 +1,742 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<DesignationCategoryDef>
+		<defName>XMT_Hive</defName>
+		<label>hive</label>
+		<order>701</order>
+		<specialDesignatorClasses>
+		  <li>Xenomorphtype.Designator_Hive_Cancel</li>
+		  <li>Xenomorphtype.Designator_Abduct</li>
+		  <li>Xenomorphtype.Designator_ScentFriend</li>
+		  <li>Xenomorphtype.Designator_ScentFoe</li>
+		</specialDesignatorClasses>
+	</DesignationCategoryDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>AtmospherePylon_Buildable</defName>
+		<label>resinous cooling pylon</label>
+		<description>A towering pylon of resin shaped such that it naturally circulates air in through its base to the outisde to regulate temperature.</description>
+		<category>Building</category>
+		<graphicData>
+		  <texPath>Things/Building/AtmospherePylon</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawRotated>false</drawRotated>
+		  <allowFlip>false</allowFlip>
+		  <shadowData>
+			<volume>(0.9,4,0.9)</volume>
+			<offset>(0,0,-1.5)</offset>
+		  </shadowData>
+		  <drawSize>(1,4)</drawSize>
+		  <drawOffset>(0,0,1.5)</drawOffset>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<constructEffect>ResinBuild</constructEffect>
+		<tickerType>Normal</tickerType>
+		<drawerType>RealtimeOnly</drawerType>
+		<fillPercent>0.8</fillPercent>
+		<pathCost>50</pathCost>
+		<statBases>
+		  <MaxHitPoints>150</MaxHitPoints>
+		  <WorkToBuild>3300</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<selectable>true</selectable>
+		<costList>
+		</costList>
+		<building>
+			<destroySound>BuildingDestroyed_Metal_Small</destroySound>
+		</building>
+		<soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+		<placeWorkers>
+			<li>PlaceWorker_CoolerSimple</li>
+		</placeWorkers>
+		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>AtmospherePylon</replacedWith>
+		  </li>
+		</comps>
+		<designationCategory>XMT_Hive</designationCategory>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>AtmospherePylon</defName>
+		<label>resinous cooling pylon</label>
+		<description>A towering pylon of resin shaped such that it naturally circulates air in through its base to the outisde to regulate temperature.</description>
+		<category>Building</category>
+		<graphicData>
+		  <texPath>Things/Building/AtmospherePylon</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawRotated>false</drawRotated>
+		  <allowFlip>false</allowFlip>
+		  <shadowData>
+			<volume>(0.9,4,0.9)</volume>
+			<offset>(0,0,-1.5)</offset>
+		  </shadowData>
+		  <drawSize>(1,4)</drawSize>
+		  <drawOffset>(0,0,1.5)</drawOffset>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<constructEffect>ResinBuild</constructEffect>
+		<tickerType>Normal</tickerType>
+		<drawerType>RealtimeOnly</drawerType>
+		<fillPercent>0.8</fillPercent>
+		<pathCost>50</pathCost>
+		<statBases>
+		  <MaxHitPoints>150</MaxHitPoints>
+		  <WorkToBuild>4000</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<selectable>true</selectable>
+		<building>
+			<destroySound>BuildingDestroyed_Metal_Small</destroySound>
+		</building>
+		<costList>
+			<Starbeast_Resin>50</Starbeast_Resin>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Resin>50</Starbeast_Resin>
+		</killedLeavings>
+		<soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+		<placeWorkers>
+			<li>PlaceWorker_CoolerSimple</li>
+		</placeWorkers>
+		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+		<comps>
+		  <li Class="Xenomorphtype.CompAtmosphericPylonProperties">
+		  </li>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>2</radius>
+		  </li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveBridgeBuildable">
+		<defName>HiveBridgeBuildable</defName>
+		<label>resin Bridge</label>
+		<description>Some kind of secreted resin, shaped into organic patterns on the ground. It fills in a foundation of uneven ground.</description>
+		<graphicData>
+		  <texPath>Terrain/FloorBlueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<uiIconPath>Terrain/HiveFloor_MenuIcon</uiIconPath>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<wipesPlants>true</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<blocksAltitudes>
+		  <li>FloorCoverings</li>
+		</blocksAltitudes>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>350</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>Bridgeable</terrainAffordanceNeeded>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Terrain/FloorBlueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith></replacedWith>
+		  </li>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<radius>0</radius>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
+		<drawStyleCategory>OrganicFill2D</drawStyleCategory>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase" Name="HeavyHiveFloorBuildable">
+		<defName>HeavyHiveFloorBuildable</defName>
+		<label>reinforced Resin Floor</label>
+		<description>Some kind of secreted resin, shaped into organic patterns on the ground. It has extremely stable and deep foundations.</description>
+		<graphicData>
+		  <texPath>Terrain/FloorBlueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<uiIconPath>Terrain/HeavyHiveFloor_MenuIcon</uiIconPath>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<wipesPlants>true</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<blocksAltitudes>
+		  <li>FloorCoverings</li>
+		</blocksAltitudes>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>350</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<researchPrerequisites>
+			<li>XMT_Starbeast_Reinforcement</li>
+		</researchPrerequisites>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Terrain/FloorBlueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith></replacedWith>
+		  </li>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HeavyHiveFloor</spreadTerrain>
+			<radius>0</radius>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
+		<drawStyleCategory>OrganicFill2D</drawStyleCategory>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveFloorBuildable">
+		<defName>HiveFloorBuildable</defName>
+		<label>resin Floor</label>
+		<description>Some kind of secreted resin, shaped into organic patterns on the ground.</description>
+		<graphicData>
+		  <texPath>Terrain/FloorBlueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<uiIconPath>Terrain/HiveFloor_MenuIcon</uiIconPath>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<wipesPlants>true</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<blocksAltitudes>
+		  <li>FloorCoverings</li>
+		</blocksAltitudes>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>350</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Terrain/FloorBlueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith></replacedWith>
+		  </li>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<radius>0</radius>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
+		<drawStyleCategory>OrganicFill2D</drawStyleCategory>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase" Name="HiveMassBuildable">
+		<defName>HiveMassBuildable</defName>
+		<label>resin mass</label>
+		<description>A solid mass of dark resin. It glistens with moisture.</description>
+		<graphicData>
+		  <texPath>Things/Building/Linked/Hive_Atlas_Blueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>CornerFiller</linkType>
+		  <linkFlags>
+			<li>Custom8</li>
+		  </linkFlags>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2000</uiOrder>
+		<uiIconPath>Things/Building/Linked/HiveMass_MenuIcon</uiIconPath>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>650</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<building>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Linked/Hive_Atlas_Blueprint</texPath>
+			</blueprintGraphicData>
+			<relatedBuildCommands>
+				<li>HiveWebbingBuildable</li>
+				<li>HiveFloorBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>Hivemass</replacedWith>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
+		<drawStyleCategory>Organic1D</drawStyleCategory>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="Hivemass">
+		<defName>Hivemass</defName>
+		<label>resin mass</label>
+		<description>A solid mass of dark resin. It glistens with moisture.</description>
+		<graphicData>
+		  <texPath>Things/Building/Linked/Hive_Atlas</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkFlags>
+			<li>Custom8</li>
+		  </linkFlags>
+		  <linkType>CornerOverlay</linkType>
+		  <cornerOverlayPath>Things/Building/Linked/HivePiece</cornerOverlayPath>
+		  <damageData>
+			<cornerTL>Damage/Corner</cornerTL>
+			<cornerTR>Damage/Corner</cornerTR>
+			<cornerBL>Damage/Corner</cornerBL>
+			<cornerBR>Damage/Corner</cornerBR>
+			<edgeTop>Damage/Edge</edgeTop>
+			<edgeBot>Damage/Edge</edgeBot>
+			<edgeLeft>Damage/Edge</edgeLeft>
+			<edgeRight>Damage/Edge</edgeRight>
+		  </damageData>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<tickerType>Never</tickerType>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<blockWind>true</blockWind>
+		<castEdgeShadows>true</castEdgeShadows>
+		<fillPercent>1</fillPercent>
+		<coversFloor>false </coversFloor>
+		<neverMultiSelect>false</neverMultiSelect>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<saveCompressible>false</saveCompressible>
+		<holdsRoof>true</holdsRoof>
+		<staticSunShadowHeight>1.0</staticSunShadowHeight>
+		<blockLight>true</blockLight>
+		<mineable>false</mineable>
+		<fertility>0</fertility>
+		<canOverlapZones>false</canOverlapZones>
+		<autoTargetNearbyIdenticalThings>true</autoTargetNearbyIdenticalThings>
+		<statBases>
+		  <MaxHitPoints>300</MaxHitPoints>
+		  <Flammability>0</Flammability>
+		  <Beauty>1</Beauty>
+		  <WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<isInert>true</isInert>
+			<claimable>true</claimable>
+			<canBuildNonEdificesUnder>true</canBuildNonEdificesUnder>
+			<deconstructible>true</deconstructible>
+			<quickTargetable>true</quickTargetable>
+			<supportsWallAttachments>true</supportsWallAttachments>
+			<isTargetable>true</isTargetable>
+			<destroyShakeAmount>0</destroyShakeAmount>
+			<artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+			<relatedBuildCommands>
+				<li>HiveMassBuildable</li>
+				<li>HiveWebbingBuildable</li>
+				<li>HiveFloorBuildable</li>
+				<li>HiveReinforcementBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<costList>
+			<Starbeast_Resin>10</Starbeast_Resin>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Resin>10</Starbeast_Resin>
+		</killedLeavings>
+		<repairEffect>ResinBuild</repairEffect>
+		<comps>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>1</radius>
+		  </li>
+		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
+			<radius>1</radius>
+		  </li>
+		  <li Class="Xenomorphtype.CompReinforceableProperties">
+			<reinforcedHitPoints>500</reinforcedHitPoints>
+		  </li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveReinforcementBuildable">
+		<defName>HiveReinforcementBuildable</defName>
+		<label>resin reinforcement</label>
+		<description>structural supports which reinforce adjacent resin mass.</description>
+		<graphicData>
+		  <texPath>Things/Building/Linked/Reinforced_Hive_Atlas_Blueprint</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkType>CornerFiller</linkType>
+		  <linkFlags>
+			<li>Custom8</li>
+		  </linkFlags>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2000</uiOrder>
+		<rotatable>false</rotatable>
+		<uiIconPath>Things/Building/Linked/HiveReinforcement_MenuIcon</uiIconPath>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+		  <WorkToBuild>1300</WorkToBuild>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<researchPrerequisites>
+			<li>XMT_Starbeast_Reinforcement</li>
+		</researchPrerequisites>
+		<building>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Linked/Reinforced_Hive_Atlas_Blueprint</texPath>
+			</blueprintGraphicData>
+			<relatedBuildCommands>
+				<li>HiveWebbingBuildable</li>
+				<li>HiveFloorBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>HiveReinforcement</replacedWith>
+		  </li>
+		</comps>
+		<placeWorkers>
+			<li>Xenomorphtype.Placeworker_AttachedToHive</li>
+		</placeWorkers>
+		<constructEffect>ResinBuild</constructEffect>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveReinforcement">
+		<defName>HiveReinforcement</defName>
+		<label>resin reinforcement</label>
+		<description>structural supports which reinforce adjacent resin mass.</description>
+		<graphicData>
+		  <texPath>Things/Building/Linked/Reinforced_Hive_Atlas</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <linkFlags>
+			<li>Custom8</li>
+		  </linkFlags>
+		  <linkType>CornerOverlay</linkType>
+		  <cornerOverlayPath>Things/Building/Linked/HivePiece</cornerOverlayPath>
+		  <damageData>
+			<cornerTL>Damage/Corner</cornerTL>
+			<cornerTR>Damage/Corner</cornerTR>
+			<cornerBL>Damage/Corner</cornerBL>
+			<cornerBR>Damage/Corner</cornerBR>
+			<edgeTop>Damage/Edge</edgeTop>
+			<edgeBot>Damage/Edge</edgeBot>
+			<edgeLeft>Damage/Edge</edgeLeft>
+			<edgeRight>Damage/Edge</edgeRight>
+		  </damageData>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<tickerType>Never</tickerType>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<blockWind>true</blockWind>
+		<castEdgeShadows>true</castEdgeShadows>
+		<fillPercent>1</fillPercent>
+		<coversFloor>false </coversFloor>
+		<neverMultiSelect>false</neverMultiSelect>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded>HeavyResin</terrainAffordanceNeeded>
+		<saveCompressible>false</saveCompressible>
+		<holdsRoof>true</holdsRoof>
+		<staticSunShadowHeight>1.0</staticSunShadowHeight>
+		<blockLight>true</blockLight>
+		<mineable>false</mineable>
+		<fertility>0</fertility>
+		<canOverlapZones>false</canOverlapZones>
+		<autoTargetNearbyIdenticalThings>true</autoTargetNearbyIdenticalThings>
+		<statBases>
+		  <MaxHitPoints>600</MaxHitPoints>
+		  <Flammability>0</Flammability>
+		  <Beauty>1</Beauty>
+		  <WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<isInert>true</isInert>
+			<claimable>true</claimable>
+			<canBuildNonEdificesUnder>true</canBuildNonEdificesUnder>
+			<deconstructible>true</deconstructible>
+			<quickTargetable>true</quickTargetable>
+			<supportsWallAttachments>false</supportsWallAttachments>
+			<isTargetable>true</isTargetable>
+			<destroyShakeAmount>0</destroyShakeAmount>
+			<artificialForMeditationPurposes>false</artificialForMeditationPurposes>
+			<relatedBuildCommands>
+				<li>HiveMassBuildable</li>
+				<li>HiveWebbingBuildable</li>
+				<li>HiveFloorBuildable</li>
+				<li>HiveReinforcementBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<costList>
+			<Starbeast_Resin>20</Starbeast_Resin>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Resin>20</Starbeast_Resin>
+		</killedLeavings>
+		<repairEffect>ResinBuild</repairEffect>
+		<comps>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>1</radius>
+		  </li>
+		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
+			<radius>1</radius>
+		  </li>
+		  <li Class="Xenomorphtype.CompReinforcingProperties">
+		  </li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase" Name="HiveWebbingBuildable">
+		<defName>HiveWebbingBuildable</defName>
+		<label>resin Web</label>
+		<description>Some kind of secreted resin, a organic web which obstructs motion. (This building acts as a door.)</description>
+		<graphicData>
+		  <texPath>Things/Building/Web</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawSize>1.5</drawSize>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<wipesPlants>true</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<statBases>
+		  <MaxHitPoints>1</MaxHitPoints>
+			<WorkToBuild>70</WorkToBuild>
+			<Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>true</canPlaceOverWall>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Web_blueprint</texPath>
+			</blueprintGraphicData>
+			<relatedBuildCommands>
+				<li>HiveMassBuildable</li>
+				<li>HiveFloorBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>HiveWebbing</replacedWith>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+	</ThingDef>
+	
+	<ThingDef ParentName="DoorBase">
+		<defName>HiveWebbing</defName>
+		<label>resin Web</label>
+		<thingClass>Xenomorphtype.PassableRoomborder</thingClass>
+		<description>Some kind of secreted resin, a organic web which obstructs motion.</description>
+		<category>Building</category>
+		<graphicData>
+			<texPath>Things/Building/Web</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>1.5</drawSize>
+		</graphicData>
+		<statBases>
+			<MaxHitPoints>60</MaxHitPoints>
+			<WorkToBuild>420</WorkToBuild>
+			<Flammability>0</Flammability>
+		</statBases>
+		<stuffCategories Inherit="False"/>
+		<designationCategory Inherit="False"/>
+		<useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+		<altitudeLayer>MoteOverheadLow</altitudeLayer>
+		<pathCost>80</pathCost>
+		<blockWind>false</blockWind>
+		<blockLight>true</blockLight>
+		<fillPercent>0.25</fillPercent>
+		<holdsRoof>true</holdsRoof>
+		<rotatable>false</rotatable>
+		<selectable>true</selectable>
+		<neverMultiSelect>true</neverMultiSelect>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<uiOrder>2020</uiOrder>
+		<building Inherit="False">
+			<isInert>true</isInert>
+			<claimable>true</claimable>
+			<canBuildNonEdificesUnder>true</canBuildNonEdificesUnder>
+			<isPlaceOverableWall>true</isPlaceOverableWall>
+			<ai_chillDestination>false</ai_chillDestination>
+			<relatedBuildCommands>
+				<li>HiveMassBuildable</li>
+				<li>HiveWebbingBuildable</li>
+				<li>HiveFloorBuildable</li>
+			</relatedBuildCommands>
+			<paintable>false</paintable>
+		</building>
+		<costList>
+			<Starbeast_Resin>5</Starbeast_Resin>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Resin>5</Starbeast_Resin>
+		</killedLeavings>
+		<constructEffect>ResinBuild</constructEffect>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_NestSpot</defName>
+		<label>nest spot</label>
+		<thingClass>Xenomorphtype.NestSpot</thingClass>
+		<uiIconPath>Things/Building/NestSpot</uiIconPath>
+		<statBases>
+		  <WorkToBuild>0</WorkToBuild>
+		</statBases>
+		<description>where the hive will gather.</description>
+		<graphicData>
+			<texPath>Things/Building/NestSpot</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<designationCategory>XMT_Hive</designationCategory>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<uiOrder>2000</uiOrder>
+		<passability>Standable</passability>
+		<drawGUIOverlay>True</drawGUIOverlay>
+		<defaultPlacingRot>South</defaultPlacingRot>
+		<altitudeLayer>FloorEmplacement</altitudeLayer>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded>
+		<selectable>true</selectable>
+		<fillPercent>0.20</fillPercent>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<tickerType>Normal</tickerType>
+		<size>(1,1)</size>
+		<building>
+			<isEdifice>true</isEdifice>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+			<bed_pawnDrawOffset>-0.75</bed_pawnDrawOffset>
+		</building>
+	</ThingDef>
+	
+  <ThingDef ParentName="SleepingSpotBase">
+		<defName>HiveSleepingSpot</defName>
+		<label>sleeping spot</label>
+		<description>Designates a spot in the hive where people should sleep.</description>
+		<graphicData>
+		  <texPath>Things/Building/HiveSleepSpot</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<size>(1,1)</size>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+  </ThingDef>
+  
+    <ThingDef ParentName="SleepingSpotBase">
+		<defName>HiveSleepingNest</defName>
+		<label>sleeping nest</label>
+		<description>a hollowed out depression which conforms to the sleeper's form.</description>
+		<graphicData>
+		  <texPath>Things/Building/SleepingNest</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>1.5</drawSize>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<size>(1,1)</size>
+		<statBases>
+			<MaxHitPoints>60</MaxHitPoints>
+			<WorkToBuild>100</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Comfort>0.0</Comfort>
+			<BedRestEffectiveness>1.5</BedRestEffectiveness>
+		</statBases>
+		<building>
+			<isEdifice>true</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>false</canPlaceOverWall>
+			<bed_showSleeperBody>False</bed_showSleeperBody>
+			<bed_healPerDay>4</bed_healPerDay>
+			<blueprintGraphicData>
+				<texPath>Things/Building/SleepingNest_blueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<killedLeavings>
+			<Starbeast_Resin>5</Starbeast_Resin>
+		</killedLeavings>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<constructEffect>ResinBuild</constructEffect>
+		<comps>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>1</radius>
+		  </li>
+		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
+			<radius>1</radius>
+		  </li>
+		</comps>
+  </ThingDef>
+  
+  
+	
+</Defs>
