@@ -25,5 +25,6 @@ namespace Xenomorphtype
         public static ResearchProjectDef XMT_Starbeast_Reinforcement;
         public static ResearchProjectDef XMT_Starbeast_Chrysalis;
         public static ResearchProjectDef XMT_Starbeast_JellyTransport;
+        public static ResearchProjectDef XMT_Starbeast_Eggs;
     }
 }

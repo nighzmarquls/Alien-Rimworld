@@ -49,6 +49,13 @@ namespace Xenomorphtype
                     researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_JellyTransport, progress, actor);
                 }
             }
+            else if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Eggs, researchManager))
+            {
+                if (XenoSocialDefOf.XMT_Starbeast_Eggs.PrerequisitesCompleted)
+                {
+                    researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Eggs, progress, actor);
+                }
+            }
         }
 
         internal static void ProgressResinTech(int progress, Pawn actor)
