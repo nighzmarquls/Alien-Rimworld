@@ -83,9 +83,9 @@ namespace Xenomorphtype
             {
                 if (parent.pawn.skills != null && parent.pawn.skills.skills.Where((SkillRecord x) => !x.TotallyDisabled).TryRandomElement(out var result))
                 {
-                    result.Learn(8000f, direct: true);
+                    result.Learn(8000f* GeneMaturationFactor(), direct: true);
                     parent.pawn.needs.learning.Learn(1);
-                    parent.pawn.ageTracker.growthPoints += 5.0f;
+                    parent.pawn.ageTracker.growthPoints += 5.0f* GeneMaturationFactor();
                 }
             }
         }
@@ -126,10 +126,16 @@ namespace Xenomorphtype
             XMTResearch.ProgressEvolutionTech(progress, Pawn);
         }
 
+        protected float GeneMaturationFactor()
+        {
+            float complexityFactor = (1 / ((Genes.ComplexityTotal + 1) / 9));
+
+            return complexityFactor * XMTSettings.MaturationFactor;
+        }
+
         public override float SeverityChangePerDay()
         {
-            
-            return (Props.severityPerDay / (Genes.ComplexityTotal + 1 / 9))*XMTSettings.MaturationFactor;
+            return Mathf.Max(0.0166666666666667f, Props.severityPerDay * GeneMaturationFactor());
         }
     }
 

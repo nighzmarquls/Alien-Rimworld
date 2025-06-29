@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.053</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.054</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -28,6 +28,9 @@
 		</li>
 		<li>
 			<packageId>erdelf.HumanoidAlienRaces.dev</packageId>
+			<alternativePackageIds IgnoreIfNoMatchingField="True">
+				<li>erdelf.HumanoidAlienRaces</li>
+			</alternativePackageIds>
 			<displayName>Humanoid Alien Races</displayName>
 			<downloadUrl>https://github.com/RimWorld-CCL-Reborn/AlienRaces/releases</downloadUrl>
 			<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=839005762</steamWorkshopUrl>
@@ -65,7 +68,7 @@
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Alphatest version 0.053.
+	<description>Alphatest version 0.054.
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?

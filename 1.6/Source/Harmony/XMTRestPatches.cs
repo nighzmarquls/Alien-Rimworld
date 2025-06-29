@@ -32,13 +32,17 @@ namespace Xenomorphtype
         }
 
         [HarmonyPatch(typeof(Toils_LayDown), "ApplyBedThoughts")]
-        static class RestUtility_WakeUp
+        static class Toils_LayDown_ApplyBedThoughts
         {
             public static void Postfix(Pawn actor, Building_Bed bed)
             {
-                if(XMTUtility.IsXenomorph(actor))
+
+                if(bed is JellyPod pod)
                 {
-                    return;
+                    if (pod.SoakInJelly(actor))
+                    {
+
+                    }
                 }
 
                 CompPawnInfo info = actor.GetComp<CompPawnInfo>();

@@ -68,7 +68,7 @@ namespace Xenomorphtype
         public static ThingDef              XMT_CocoonBase;
         public static ThingDef              XMT_CocoonBaseAnimal;
         public static ThingDef              XMT_HiddenNestSpot;
-        public static ThingDef              HiveSleepingNest;
+        public static ThingDef              HiveSleepingCocoon;
         public static ThingDef              HiveHidingSpot;
         public static ThingDef              HiveWebbing;
         public static ThingDef              Hivemass;

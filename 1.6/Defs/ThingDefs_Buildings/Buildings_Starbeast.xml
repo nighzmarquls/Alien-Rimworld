@@ -329,6 +329,7 @@
 		  </linkFlags>
 		  <linkType>CornerOverlay</linkType>
 		  <cornerOverlayPath>Things/Building/Linked/HivePiece</cornerOverlayPath>
+		  <shaderType>CutoutComplex</shaderType>
 		  <damageData>
 			<cornerTL>Damage/Corner</cornerTL>
 			<cornerTR>Damage/Corner</cornerTR>
@@ -467,6 +468,7 @@
 		  </linkFlags>
 		  <linkType>CornerOverlay</linkType>
 		  <cornerOverlayPath>Things/Building/Linked/HivePiece</cornerOverlayPath>
+		  <shaderType>CutoutComplex</shaderType>
 		  <damageData>
 			<cornerTL>Damage/Corner</cornerTL>
 			<cornerTR>Damage/Corner</cornerTR>
@@ -637,6 +639,9 @@
 		<killedLeavings>
 			<Starbeast_Resin>5</Starbeast_Resin>
 		</killedLeavings>
+		<placeWorkers>
+			<li>Xenomorphtype.Placeworker_AttachedToHive</li>
+		</placeWorkers>
 		<constructEffect>ResinBuild</constructEffect>
 	</ThingDef>
 
@@ -675,68 +680,25 @@
 		</building>
 	</ThingDef>
 	
-  <ThingDef ParentName="SleepingSpotBase">
+	<ThingDef ParentName="SleepingSpotBase">
 		<defName>HiveSleepingSpot</defName>
-		<label>sleeping spot</label>
-		<description>Designates a spot in the hive where people should sleep.</description>
+		<label>sleeping nest</label>
+		<description>A patch of resin shaped to provide a place to rest.</description>
 		<graphicData>
 		  <texPath>Things/Building/HiveSleepSpot</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
-		</graphicData>
-		<size>(1,1)</size>
-		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
-		<designationCategory>XMT_Hive</designationCategory>
-  </ThingDef>
-  
-    <ThingDef ParentName="SleepingSpotBase">
-		<defName>HiveSleepingNest</defName>
-		<label>sleeping nest</label>
-		<description>a hollowed out depression which conforms to the sleeper's form.</description>
-		<graphicData>
-		  <texPath>Things/Building/SleepingNest</texPath>
-			<graphicClass>Graphic_Single</graphicClass>
 			<shaderType>CutoutComplex</shaderType>
-			<drawSize>1.5</drawSize>
-			<drawRotated>false</drawRotated>
 		</graphicData>
-		<altitudeLayer>Building</altitudeLayer>
 		<size>(1,1)</size>
-		<statBases>
-			<MaxHitPoints>60</MaxHitPoints>
-			<WorkToBuild>100</WorkToBuild>
-			<Flammability>0</Flammability>
-			<Comfort>0.0</Comfort>
-			<BedRestEffectiveness>1.5</BedRestEffectiveness>
-		</statBases>
-		<building>
-			<isEdifice>true</isEdifice>
-			<expandHomeArea>true</expandHomeArea>
-			<isInert>true</isInert>
-			<canPlaceOverWall>false</canPlaceOverWall>
-			<bed_showSleeperBody>False</bed_showSleeperBody>
-			<bed_healPerDay>4</bed_healPerDay>
-			<blueprintGraphicData>
-				<texPath>Things/Building/SleepingNest_blueprint</texPath>
-			</blueprintGraphicData>
-		</building>
-		<killedLeavings>
-			<Starbeast_Resin>5</Starbeast_Resin>
-		</killedLeavings>
 		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
 		<designationCategory>XMT_Hive</designationCategory>
-		<constructEffect>ResinBuild</constructEffect>
-		<comps>
-		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
-			<spreadTerrain>HiveFloor</spreadTerrain>
-			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
-			<radius>1</radius>
-		  </li>
-		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
-			<radius>1</radius>
-		  </li>
-		</comps>
-  </ThingDef>
-  
-  
-	
+		<statBases>
+			<MaxHitPoints>5</MaxHitPoints>
+			<WorkToBuild>10</WorkToBuild>
+			<Flammability>0</Flammability>
+			<Comfort>0.1</Comfort>
+			<BedRestEffectiveness>1</BedRestEffectiveness>
+		</statBases>
+	</ThingDef>
+
 </Defs>

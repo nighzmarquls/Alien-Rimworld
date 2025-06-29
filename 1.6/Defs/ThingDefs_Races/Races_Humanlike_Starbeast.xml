@@ -765,7 +765,6 @@
 				  <li>XMT_NestSpot</li>
 				  <li>HiveSleepingSpot</li>
 				  <li>AtmospherePylon_Buildable</li>
-				  <li>HiveSleepingNest</li>
 				  <!-- Reinforced Buildings -->
 				  <li>HiveReinforcementBuildable</li>
 				  <li>HeavyHiveFloorBuildable</li>
@@ -776,6 +775,9 @@
 				  <li>XMT_JellyStorage</li>
 				  <li>XMT_JellyDrain</li>
 				  <li>XMT_JellyPool</li>
+				  <!-- Ovamorph Crafts -->
+				  <li>HiveSleepingCocoonBuildable</li>
+				  <li>XMT_ExplosivePodBuildable</li>
 				</buildingList>
 				
 				<whiteBuildingList>
@@ -791,6 +793,7 @@
 					<li>SculptureSmall</li>
 					<li>Urn</li>
 					<li>XMT_Ovamorph</li>
+					<li>XMT_ExplosivePod</li>
 					<li>XMT_GeneOvamorph</li>
 					<li>XMT_MeatballLarder</li>
 					<li>XMT_JellyWell</li>

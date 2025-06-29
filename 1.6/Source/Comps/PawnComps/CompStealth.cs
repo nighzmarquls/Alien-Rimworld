@@ -209,7 +209,7 @@ namespace Xenomorphtype
         {
             if(Parent.InBed())
             {
-                if (Parent.CurrentBed().def == InternalDefOf.HiveSleepingNest || Parent.CurrentBed().def == InternalDefOf.HiveHidingSpot)
+                if (Parent.CurrentBed().def == InternalDefOf.HiveSleepingCocoon || Parent.CurrentBed().def == InternalDefOf.HiveHidingSpot)
                 {
                     return true;
                 }

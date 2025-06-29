@@ -22,6 +22,8 @@ namespace Xenomorphtype {
 
         int tickCountUp = 0;
 
+        const float maxBodySize = 8f;
+
         CompSlumbererProperties Props => props as CompSlumbererProperties;
 
         float tickBreath => (Props.maxSizeChange) / (Props.breathticks / 2);
@@ -39,7 +41,7 @@ namespace Xenomorphtype {
         public void SetProgenitor(Pawn pawn)
         {
             progenitorPawn = pawn;
-            bodySize = XMTUtility.GetFinalBodySize(pawn);
+            bodySize = Mathf.Max(maxBodySize, XMTUtility.GetFinalBodySize(pawn));
             parent.HitPoints = parent.MaxHitPoints;
         }
 
@@ -175,7 +177,7 @@ namespace Xenomorphtype {
                 //Log.Message(parent + " Reached Hour Check " + interiorTemperature);
                 tickCountUp = 0;
                 NotFedThisHour = true;
-                if (bodySize < 8f)
+                if (bodySize < maxBodySize)
                 {
                     IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(parent.Position, parent.def.specialDisplayRadius, true);
                     if (cells.Any())

@@ -55,41 +55,7 @@ namespace Xenomorphtype
         {
             base.Notify_Killed(prevMap, dinfo);
         }
-        public override void CompTickRare()
-        {
-            base.CompTickRare();
 
-            if (IsParentPawn)
-            {
-                if(!Parent.health.CanBleed)
-                {
-                    return;
-                }
-
-                Pawn other = null;
-                Bill_Medical bill = null;
-                float progress = -1;
-
-                if(XMTUtility.IsPawnInSurgery(Parent,out other,out progress, out bill))
-                {
-                    if (bill != null)
-                    {
-                        Parent.health.AddHediff(HediffDefOf.SurgicalCut, bill.Part,new DamageInfo(DamageDefOf.SurgicalCut,1,instigator: other));
-                    }
-                    if (other != null)
-                    {
-                        other.ClearAllReservations();
-                        other.jobs.StopAll();
-                    }
-                    TrySplashAcid(GetBloodFullness());
-                }
-
-                if(Parent.health.hediffSet.BleedRateTotal > 0)
-                {
-                    TrySplashAcid(GetBloodFullness());
-                }
-            }
-        }
 
 
         public override void Initialize(CompProperties props)
@@ -391,13 +357,13 @@ namespace Xenomorphtype
 
             }
         }
-        public void TrySplashAcid(float severity = 1, float radiusOverride = -1f, bool cellLimit = true)
+        public bool TrySplashAcid(float severity = 1, float radiusOverride = -1f, bool cellLimit = true)
         {
             if (IsParentPawn)
             {
                 if (Parent == null || Parent.Dead)
                 {
-                    return;
+                    return false;
                 }
             }
             
@@ -409,7 +375,8 @@ namespace Xenomorphtype
             IEnumerable<Thing> splashedThings = from x in GenRadial.RadialDistinctThingsAround(parent.PositionHeld, parent.MapHeld, modifiedSplashRange, true)
                                                 where !(x is Mote) && !(x is Filth) && !(x is Corpse)
                                                 select x;
-            if (!splashedThings.Any())
+            
+            if (!splashedThings.Any() || !cellLimit)
             {
                 IEnumerable<IntVec3> Cells = GenRadial.RadialCellsAround(parent.Position, modifiedSplashRange, true);
                 int hitCells = 0;
@@ -422,6 +389,7 @@ namespace Xenomorphtype
                         break;
                     }
                 }
+                return true;
             }
             else
             {
@@ -443,7 +411,14 @@ namespace Xenomorphtype
                         passthrough--;
                     }
                 }
+
+                if (hitCells > 0)
+                {
+                    return true;
+                }
             }
+
+            return false;
         }
     }
 

@@ -133,7 +133,8 @@
     <Compile Include="BioHorror\BioUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
     <Compile Include="BioHorror\WorkGiver_XMT_HaulToGeneBank.cs" />
-    <Compile Include="Building\Horrors\JellyWell.cs" />
+    <Compile Include="Building\Fillable\JellyPod.cs" />
+    <Compile Include="Building\Fillable\JellyWell.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforceable.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
@@ -141,7 +142,7 @@
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Game\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
-    <Compile Include="Building\FillableChrysalis.cs" />
+    <Compile Include="Building\Fillable\FillableChrysalis.cs" />
     <Compile Include="Building\Horrors\Petrolsump.cs" />
     <Compile Include="Building\Horrors\Slumberer.cs" />
     <Compile Include="Building\QueenBed.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Game\GameComponent_Xenomorph.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
+    <Compile Include="Harmony\XMTExplosivePatches.cs" />
     <Compile Include="Harmony\XMTIncidentPatches.cs" />
     <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
     <Compile Include="Harmony\XMTLifeStagePatches.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Harmony\XMTOffsetPatch.cs" />
     <Compile Include="Harmony\XMTResearchPatches.cs" />
     <Compile Include="Harmony\XMTRestPatches.cs" />
+    <Compile Include="Harmony\XMTSurgeryPatch.cs" />
     <Compile Include="Harmony\XMTToilPatches.cs" />
     <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
     <Compile Include="Harmony\XMTWildmanPatch.cs" />
@@ -279,6 +282,7 @@
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
     <Compile Include="UI\Letters\ChoiceLetter_XenoGameEnded.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
+    <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvamorph.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />

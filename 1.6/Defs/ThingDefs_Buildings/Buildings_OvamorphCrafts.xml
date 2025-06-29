@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_Ovamorph</defName>
+		<thingClass>Xenomorphtype.Ovamorph</thingClass>
+		<label>Ovamorph</label>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingEggProperties">
+				<hatchedPawnKind>XMT_Larva</hatchedPawnKind>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+		</comps>
+		<description>Strange leathery object like an egg or something.</description>
+		<graphicData>
+			<texPath>Things/Building/Ovamorph</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>1</drawSize>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<drawerType>RealtimeOnly</drawerType>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<selectable>true</selectable>
+		<fillPercent>0.20</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>false</rotatable>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+			<MaxHitPoints>40</MaxHitPoints>
+			<Mass>4</Mass>
+			<Flammability>1.0</Flammability>
+			<MarketValue>10000</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+			<TrapSpringChance>1.0</TrapSpringChance>
+		</statBases>
+		<costList>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</killedLeavings>
+		<specialDisplayRadius>1.5</specialDisplayRadius>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<!--<designationCategory>Xenomorphtype</designationCategory>-->
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_GeneOvamorph</defName>
+		<thingClass>Xenomorphtype.GeneOvamorph</thingClass>
+		<label>Ovamorph</label>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+		</comps>
+		<description>Strange leathery object like an egg or something.</description>
+		<graphicData>
+			<texPath>Things/Building/GeneOvamorph</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shadowData>
+				<volume>(0.3, 0.6, 0.3)</volume>
+				<offset>(0,0,-0.1)</offset>
+			</shadowData>
+			<drawSize>0.75</drawSize>
+		</graphicData>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<drawerType>RealtimeOnly</drawerType>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<selectable>true</selectable>
+		<fillPercent>0.20</fillPercent>
+		<uiIconScale>0.6</uiIconScale>
+		<uiIconOffset>(0, 0.1)</uiIconOffset>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<rotatable>false</rotatable>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+			<MaxHitPoints>40</MaxHitPoints>
+			<Mass>3</Mass>
+			<Flammability>1.0</Flammability>
+			<MarketValue>10000</MarketValue>
+			<WorkToBuild>1000</WorkToBuild>
+			<TrapSpringChance>1.0</TrapSpringChance>
+		</statBases>
+		<costList>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Flesh_Meat>40</Starbeast_Flesh_Meat>
+		</killedLeavings>
+		<specialDisplayRadius>1.5</specialDisplayRadius>
+		<building>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<!--<designationCategory>Xenomorphtype</designationCategory>-->
+		<thingCategories>
+			<li>BuildingsSecurity</li>
+		</thingCategories>
+		<placeWorkers>
+			<li>PlaceWorker_NeverAdjacentTrap</li>
+		</placeWorkers>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>HiveSleepingCocoonBuildable</defName>
+		<label>sleeping cocoon</label>
+		<description>a resinous fleshy cocoon, sized to fit a single occupant, made out of hatched ovamorphs.</description>
+		<graphicData>
+		  <texPath>Things/Building/SleepingNest/SleepingNest</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>1.5</drawSize>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<blocksAltitudes>
+			<li>FloorCoverings</li>
+		</blocksAltitudes>
+		<size>(1,1)</size>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<wipesPlants>true</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<costList>
+			<Starbeast_Jelly>75</Starbeast_Jelly>
+		</costList>
+		<statBases>
+			<MaxHitPoints>1</MaxHitPoints>
+			<WorkToBuild>100</WorkToBuild>
+			<Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<researchPrerequisites>
+			<li>XMT_Starbeast_Eggs</li>
+		</researchPrerequisites>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<blueprintGraphicData>
+				<texPath>Things/Building/SleepingNest/SleepingNest_blueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>HiveSleepingCocoon</replacedWith>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<placeWorkers>
+			<li>Xenomorphtype.Placeworker_EmptyOvamorph</li>
+		</placeWorkers>
+	</ThingDef>
+
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>HiveSleepingCocoon</defName>
+		<label>sleeping cocoon</label>
+		<description>a resinous fleshy cocoon, sized to fit a single occupant.</description>
+		<thingClass>Xenomorphtype.JellyPod</thingClass>
+		<graphicData>
+		  <texPath>Things/Building/SleepingNest/SleepingNest</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>1.5</drawSize>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<size>(1,1)</size>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<Flammability>0</Flammability>
+			<Comfort>5</Comfort>
+			<BedRestEffectiveness>1.5</BedRestEffectiveness>
+		</statBases>
+		<building>
+			<isEdifice>true</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<canPlaceOverWall>false</canPlaceOverWall>
+			<bed_showSleeperBody>False</bed_showSleeperBody>
+			<bed_healPerDay>4</bed_healPerDay>
+			<blueprintGraphicData>
+				<texPath>Things/Building/SleepingNest/SleepingNest_blueprint</texPath>
+			</blueprintGraphicData>
+			<bed_pawnDrawOffset>0.45</bed_pawnDrawOffset>
+			<relatedBuildCommands>
+				<li>HiveSleepingCocoonBuildable</li>
+			</relatedBuildCommands>
+		</building>
+		<killedLeavings>
+			<Starbeast_Resin>300</Starbeast_Resin>
+		</killedLeavings>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<constructEffect>ResinBuild</constructEffect>
+		<comps>
+		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
+			<spreadTerrain>HiveFloor</spreadTerrain>
+			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+			<radius>1</radius>
+		  </li>
+		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
+			<radius>1</radius>
+		  </li>
+		  <li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>0.0</fuelConsumptionRate>
+				<fuelCapacity>75</fuelCapacity>
+				<fuelConsumptionPerTickInRain>0.000</fuelConsumptionPerTickInRain>
+				<fuelFilter>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
+				</fuelFilter>
+				<initialFuelPercent>1</initialFuelPercent>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+				<showFuelGizmo>true</showFuelGizmo>
+				<targetFuelLevelConfigurable>false</targetFuelLevelConfigurable>
+				<drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+				<minimumFueledThreshold>75</minimumFueledThreshold>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<initialAllowAutoRefuel>false</initialAllowAutoRefuel>
+				<autoRefuelPercent>1</autoRefuelPercent>
+				<fuelLabel>Jelly</fuelLabel>
+			</li>
+		</comps>
+		<designationCategory></designationCategory>
+  </ThingDef>
+  
+  <ThingDef ParentName="SleepingSpotBase">
+		<defName>XMT_ExplosivePodBuildable</defName>
+		<label>explosive pod</label>
+		<description>Fill a ovamorph with a potent mix of resin, acid and volatile chemicals.</description>
+		<graphicData>
+		  <texPath>Things/Building/Security/ExplosivePod</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+			<drawSize>1</drawSize>
+			<drawRotated>false</drawRotated>
+		</graphicData>
+		<altitudeLayer>FloorCoverings</altitudeLayer>
+		<blocksAltitudes>
+			<li>FloorCoverings</li>
+		</blocksAltitudes>
+		<size>(1,1)</size>
+		<tickerType>Normal</tickerType>
+		<designationCategory>XMT_Hive</designationCategory>
+		<uiOrder>2002</uiOrder>
+		<wipesPlants>false</wipesPlants>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<costList>
+			 <Chemfuel>50</Chemfuel>
+		</costList>
+		<statBases>
+			<MaxHitPoints>1</MaxHitPoints>
+			<WorkToBuild>50</WorkToBuild>
+			<Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<researchPrerequisites>
+			<li>XMT_Starbeast_Eggs</li>
+		</researchPrerequisites>
+		<building>
+			<isEdifice>false</isEdifice>
+			<expandHomeArea>true</expandHomeArea>
+			<isInert>true</isInert>
+			<blueprintGraphicData>
+				<texPath>Things/Building/SleepingNest/SleepingNest_blueprint</texPath>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>XMT_ExplosivePod</replacedWith>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded>
+		<placeWorkers>
+			<li>Xenomorphtype.Placeworker_EmptyOvamorph</li>
+		</placeWorkers>
+		<specialDisplayRadius>4.9</specialDisplayRadius>
+	</ThingDef>
+  
+  <ThingDef ParentName="TrapIEDBase">
+    <defName>XMT_ExplosivePod</defName>
+    <label>ovamorph</label>
+    <description>Strange leathery object like an egg or something.</description>
+    <graphicData>
+      <texPath>Things/Building/Security/ExplosivePod</texPath>
+    </graphicData>
+    <designationHotKey>Misc7</designationHotKey>
+    <comps>
+		<li Class="CompProperties_Explosive">
+			<explosiveRadius>4.9</explosiveRadius>
+			<explosiveDamageType>Bomb</explosiveDamageType>
+			<startWickHitPointsPercent>0.2</startWickHitPointsPercent>
+			<preExplosionSpawnSingleThingDef>Filth_BlastMark</preExplosionSpawnSingleThingDef>
+			<wickTicks>15</wickTicks>
+			<startWickOnDamageTaken>
+			  <li>Bullet</li>
+			  <li>Arrow</li>
+			  <li>ArrowHighVelocity</li>
+			</startWickOnDamageTaken>
+		</li>
+		<li Class="Xenomorphtype.CompAcidBloodProperties">
+			<appliedHediff>AcidCorrosion</appliedHediff>
+		</li>
+    </comps>
+	<specialDisplayRadius>4.9</specialDisplayRadius>
+	<terrainAffordanceNeeded></terrainAffordanceNeeded>
+	<designationCategory></designationCategory>
+  </ThingDef>
+
+</Defs>

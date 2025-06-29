@@ -21,7 +21,6 @@
   <DrawStyleCategoryDef Name="Default1D">
     <defName>Organic1D</defName>
     <styles>
-      <li>Line</li>
       <li>AngledLine</li>
       <li>EmptyOval</li>
     </styles>
