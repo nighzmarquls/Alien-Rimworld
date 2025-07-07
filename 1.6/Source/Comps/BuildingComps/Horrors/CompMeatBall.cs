@@ -57,27 +57,6 @@ namespace Xenomorphtype
             return base.GetStatFactor(stat);
         }
 
-        protected TerrainDef DegradeTerrain(TerrainDef terrainDef)
-        {
-            if (terrainDef.fertility > 1.0)
-            {
-                return TerrainDefOf.Soil;
-            }
-
-            if (terrainDef.fertility == 1.0 || (terrainDef.driesTo != null && terrainDef.driesTo.fertility == 1.0))
-            {
-                return TerrainDefOf.Gravel;
-            }
-
-            if (terrainDef.fertility > 0.5 || (terrainDef.driesTo != null && terrainDef.driesTo.fertility > 0.5))
-            {
-                return TerrainDefOf.Sand;
-            }
-
-            return InternalDefOf.BarrenDust;
-
-        }
-
         public float TotalBodySize()
         { 
             return bodySize;
@@ -342,12 +321,9 @@ namespace Xenomorphtype
 
             }
 
-            if (CellIsFertile(bestCell))
+            if (XenoformingUtility.CellIsFertile(bestCell, parent.Map))
             {
-                TerrainDef degraded = DegradeTerrain(bestTerrain);
-                float drainedFertility = bestTerrain.fertility - degraded.fertility;
-                parent.Map.terrainGrid.SetTerrain(bestCell, degraded);
-                growth = (drainedFertility * 0.1f);
+                growth = (XenoformingUtility.DegradeTerrainOnCell(parent.Map, bestCell, bestTerrain) * 0.1f);
 
                 if (parent.HitPoints < parent.MaxHitPoints)
                 {

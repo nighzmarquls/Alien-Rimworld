@@ -44,6 +44,8 @@ namespace Xenomorphtype
 
         public static float WildMorphHuntChance => instance != null ? instance._wildMorphHuntChance : 0.25f;
         private float _wildMorphHuntChance = 0.25f;
+        public static float SiteAttackChance => instance != null ? instance._siteAttackChance : 0.25f;
+        private float _siteAttackChance = 0.25f;
 
         public static float LaidEggMaturationTime => instance != null ? instance._laidEggMaturationTime : 1f;
         private float _laidEggMaturationTime = 1;
@@ -115,6 +117,10 @@ namespace Xenomorphtype
             _wildMorphHuntChance = listingStandard.SliderLabeled("Wild Alien Chance Factor", _wildMorphHuntChance, 0.00f, 1f, tooltip: TooltipForChance(_wildMorphHuntChance));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForChance(_wildMorphHuntChance));
+            listingStandard.Gap(5f);
+            _wildMorphHuntChance = listingStandard.SliderLabeled("Site Attack Chance Factor", _siteAttackChance, 0.00f, 1f, tooltip: TooltipForChance(_siteAttackChance));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForChance(_siteAttackChance));
             listingStandard.Gap(5f);
             _minimumOpinionForHiveFriend = Mathf.FloorToInt(listingStandard.SliderLabeled("Min Relationship For Hive Friend", _minimumOpinionForHiveFriend, -100, 100f, tooltip: ""));
             listingStandard.Gap(2f);

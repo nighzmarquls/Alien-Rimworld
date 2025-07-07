@@ -35,6 +35,8 @@ namespace Xenomorphtype
         public static HediffDef             StarbeastStealthHostile;
         public static HediffDef             StarbeastStealthFriendly;
 
+        public static HediffDef             StarbeastCocoon;
+
         public static HediffDef             PawnInfoHediff;
 
         //Xenomorph bodyparts

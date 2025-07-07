@@ -16,15 +16,16 @@ namespace Xenomorphtype
             {
                 return !(XMTUtility.NotPrey(x)) && (int)x.def.race.intelligence >= 1;
             }
+
             [HarmonyPrefix]
             public static bool PreFix( Pawn pawn,ref Pawn __result)
             {
 
                 if(XMTUtility.IsXenomorph(pawn))
                 {
-                    Log.Message(pawn + " is manhunter looking for target");
+                    //Log.Message(pawn + " is manhunter looking for target");
                     __result = (Pawn)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable, (Thing x) => x is Pawn p && IsValidTarget(p) , 0f, 9999f, default(IntVec3), float.MaxValue, true, canTakeTargetsCloserThanEffectiveMinRange: true, true);
-                    Log.Message(__result + " picked as target");
+                    //Log.Message(__result + " picked as target");
                     return false;
                 }
                 return true;

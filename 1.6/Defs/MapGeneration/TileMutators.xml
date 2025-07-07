@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+-200: Elevation changers (mountains, cliffs)
+-100: Caves
+50: Rivers (After lakes)
+100: Coast
+-->
+
+<Defs>
+  <TileMutatorDef>
+    <defName>XMT_Aftermath</defName>
+    <label>underground cave</label>
+    <priority>5</priority>
+    <workerClass>Xenomorphtype.TileMutatorWorker_Aftermath</workerClass>
+    <genOrder>-100</genOrder> <!-- After mountain but before other terrain gen -->
+  </TileMutatorDef>
+</Defs>

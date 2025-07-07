@@ -189,7 +189,7 @@ namespace Xenomorphtype
             request.ForceNoIdeo = true;
             request.ForceNoBackstory = true;
             request.ForceNoGear = true;
-            request.ForceBaselinerChance = 1;
+            request.ForceBaselinerChance = 100;
             request.ForcedXenotype = XenotypeDefOf.Baseliner;
 
             Pawn child = PawnGenerator.GeneratePawn(request);

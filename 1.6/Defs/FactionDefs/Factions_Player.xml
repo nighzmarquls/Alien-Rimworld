@@ -2,7 +2,7 @@
 <Defs>
 
   <FactionDef ParentName="FactionBase" Abstract="True" Name="StarbeastPlayerFactionBase">
-    <settlementTexturePath>World/WorldObjects/DefaultSettlement</settlementTexturePath>
+    <settlementTexturePath>World/WorldObjects/SmallNest</settlementTexturePath>
     <playerInitialSettlementNameMaker>NamerInitialSettlementColony</playerInitialSettlementNameMaker>
     <colorSpectrum>
       <li>(0, 0.737, 0.847)</li>
@@ -39,8 +39,8 @@
         </categories>
       </li>
     </backstoryFilters>
-    <factionIconPath>World/WorldObjects/Expanding/Village</factionIconPath>
-    <settlementTexturePath>World/WorldObjects/TribalSettlement</settlementTexturePath>
+    <factionIconPath>World/WorldObjects/Expanding/SmallNest</factionIconPath>
+    <settlementTexturePath>World/WorldObjects/SmallNest</settlementTexturePath>
     <forageabilityFactor>1.7</forageabilityFactor>
     <startingResearchTags>
       <li>TribalStart</li>

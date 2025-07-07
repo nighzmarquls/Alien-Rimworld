@@ -1764,7 +1764,7 @@ namespace Xenomorphtype
             }
         }
 
-        internal static void ThreatResponse(Thing victim, CompPawnInfo aggressorInfo)
+        internal static void ThreatResponse(Thing victim, CompPawnInfo aggressorInfo, float radius = 5f)
         {
             if (aggressorInfo == null)
             {
@@ -1773,7 +1773,7 @@ namespace Xenomorphtype
             if (!aggressorInfo.IsXenomorphFriendly())
             {
                 IntVec3 eventPosition = (victim != null) ? victim.PositionHeld : aggressorInfo.parent.PositionHeld;
-                IEnumerable <IntVec3> cells = GenRadial.RadialCellsAround(eventPosition, 5, true);
+                IEnumerable <IntVec3> cells = GenRadial.RadialCellsAround(eventPosition, radius, true);
 
                 foreach (IntVec3 cell in cells)
                 {
@@ -1800,6 +1800,7 @@ namespace Xenomorphtype
                         }
                         else
                         {
+                            Debug.Log(witness + " is avenging!");
                             witness.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
                         }
                     }

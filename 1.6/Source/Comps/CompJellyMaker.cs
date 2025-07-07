@@ -235,6 +235,11 @@ namespace Xenomorphtype
         {
             ThingDef Jelly = GetJellyProduct();
 
+            if (XenoformingUtility.CellIsFertile(cell,currentmap))
+            {
+                XenoformingUtility.DegradeTerrainOnCell(currentmap, cell);
+            }
+
             XMTUtility.DropAmountThing(Jelly, stackTotal, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
         }
 

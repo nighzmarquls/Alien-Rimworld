@@ -46,7 +46,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="PipeSystem">
-      <HintPath>..\..\..\VanillaExpandedFramework\1.6\Assemblies\PipeSystem.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\PipeSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -69,8 +69,9 @@
       <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VEF">
-      <HintPath>..\..\..\VanillaExpandedFramework\1.6\Assemblies\VEF.dll</HintPath>
+    <Reference Include="VEF, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\VEF.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -139,6 +140,7 @@
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
     <Compile Include="DefOfs\XenoIncidentDefOf.cs" />
+    <Compile Include="DefOfs\XenoMapDefOf.cs" />
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Game\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
@@ -205,7 +207,12 @@
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph_Social.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_ParasiteEggs.cs" />
     <Compile Include="Incidents\IncidentWorker_HuntingXenomorph.cs" />
+    <Compile Include="Map\GenSteps\GenStep_XenoNest.cs" />
+    <Compile Include="Map\GenSteps\GenStep_XenoAftermath.cs" />
+    <Compile Include="Map\TileMutatorWorkers\TileMutatorWorker_Aftermath.cs" />
+    <Compile Include="Map\TileMutatorWorkers\TileMutatorWorker_Xenoforming.cs" />
     <Compile Include="ModExtensions\AnimalMutateForms.cs" />
+    <Compile Include="Progression\Quests\QuestNode_RequiresXenoforming.cs" />
     <Compile Include="Progression\RoyalEvolutionDef.cs" />
     <Compile Include="IdeoHorror\Rituals\Behaviors\RitualBehaviorWorker_MatureQueen.cs" />
     <Compile Include="IdeoHorror\Rituals\Obligations\TargetWorker\RitualObligationTargetWorker_MatureChrysalis.cs" />
@@ -294,6 +301,9 @@
   <ItemGroup>
     <Folder Include="Abilities\Psycasting\Paths\" />
     <Folder Include="AI\Toils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="VEF.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

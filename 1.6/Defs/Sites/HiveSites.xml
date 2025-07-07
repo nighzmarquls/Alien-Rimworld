@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <SitePartDef Name="HiveSiteBase" Abstract="True">
+    <description>A strange resinous structure visible from a great distance.</description>
+    <siteTexture>World/WorldObjects/SmallNest</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/SmallNest</expandingIconTexture>
+    <applyFactionColorToSiteTexture>false</applyFactionColorToSiteTexture>
+    <showFactionInInspectString>false</showFactionInInspectString>
+    <requiresFaction>false</requiresFaction>
+    <approachOrderString>Investigate {0}</approachOrderString>
+    <approachingReportString>Investigating {0}.</approachingReportString>
+    <arrivedLetter>You've arrived at the strange structure.</arrivedLetter>
+    <arrivedLetterDef>NeutralEvent</arrivedLetterDef>
+    <wantsThreatPoints>true</wantsThreatPoints>
+    <minThreatPoints>350</minThreatPoints>
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
+    <tags>
+      <li>HiveNest</li>
+	  <li>DownedRefugeeQuestThreat</li>
+      <li>PrisonerRescueQuestThreat</li>
+    </tags>
+	<excludesTags>
+      <li>MechCluster</li>
+      <li>MechClusterForceNoConditionCauser</li>
+      <li>SleepingMechanoids</li>
+	  <li>Electrical</li>
+    </excludesTags>
+  </SitePartDef>
+
+  <SitePartDef ParentName="HiveSiteBase">
+    <defName>Hivesite_Small</defName>
+    <label>strange hill</label>
+    <workerClass>SitePartWorker</workerClass>
+    <selectionWeight>1</selectionWeight>
+  </SitePartDef>
+
+  <GenStepDef>
+    <defName>XMT_SmallHive</defName>
+	<linkWithSite>Hivesite_Small</linkWithSite>
+    <order>413</order>
+    <genStep Class="Xenomorphtype.GenStep_XenoNest">
+	  <nestFrequency>0.2</nestFrequency>
+      <nestThreshold>0.3</nestThreshold>
+	  <entranceChance>0.1</entranceChance>
+      <nestRadius>40</nestRadius>
+	  <eggRadius>8</eggRadius>
+      <noiseOctaves>2</noiseOctaves>
+	  <eggCount>3</eggCount>
+	  <hostCount>2</hostCount>
+	  <gaurdians>3</gaurdians>
+    </genStep>
+  </GenStepDef>
+
+
+</Defs>

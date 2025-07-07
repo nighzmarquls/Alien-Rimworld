@@ -634,7 +634,7 @@ namespace Xenomorphtype
             }
         }
 
-        public void ApplyThreatPheromone(Thing victim, float amount = 0.5f, float maxStrength = 1f)
+        public void ApplyThreatPheromone(Thing victim, float amount = 0.5f, float maxStrength = 1f, float radius = 5)
         {
 
             _threatPheromone = Mathf.Min(ThreatPheromone + amount, maxStrength);
@@ -643,7 +643,7 @@ namespace Xenomorphtype
             TryApplyDisplayHediff();
 
             
-            XMTUtility.ThreatResponse(victim, this);
+            XMTUtility.ThreatResponse(victim, this, radius);
 
         }
         public void ApplyFriendlyPheromone(Pawn partner, float amount = 0.25f, float maxStrength = 0.25f)

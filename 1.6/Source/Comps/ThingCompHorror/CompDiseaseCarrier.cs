@@ -15,6 +15,11 @@ namespace Xenomorphtype
         {
             base.CompTick();
 
+            if (parent.MapHeld == null)
+            {
+                return;
+            }
+
             if (GenTicks.IsTickInterval(Props.tickInterval) && parent.Spawned)
             {
 

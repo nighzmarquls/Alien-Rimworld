@@ -35,7 +35,6 @@ namespace Xenomorphtype
                     }
                 }
 
-                //Log.Message(this + " has reset nest spot to " + Position);
             }
             HiveUtility.ForceNestPosition(this.Position, map);
 

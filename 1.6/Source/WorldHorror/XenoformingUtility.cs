@@ -14,6 +14,43 @@ namespace Xenomorphtype
     {
         private static GameComponent_Xenomorph gameComponent => Current.Game.GetComponent<GameComponent_Xenomorph>();
 
+        public static bool CellIsFertile(IntVec3 cell, Map map)
+        {
+            TerrainDef foundTerrain = cell.GetTerrain(map);
+            return foundTerrain.fertility > 0 || (foundTerrain.driesTo != null && foundTerrain.driesTo.fertility > 0);
+        }
+        protected static TerrainDef DegradeTerrain(TerrainDef terrainDef)
+        {
+            if (terrainDef.fertility > 1.0 || (terrainDef.driesTo != null && terrainDef.driesTo.fertility == 1.0))
+            {
+                return TerrainDefOf.Soil;
+            }
+
+            if (terrainDef.fertility == 1.0 || (terrainDef.driesTo != null && terrainDef.driesTo.fertility == 1.0))
+            {
+                return TerrainDefOf.Gravel;
+            }
+
+            if (terrainDef.fertility > 0.5 || (terrainDef.driesTo != null && terrainDef.driesTo.fertility > 0.5))
+            {
+                return TerrainDefOf.Sand;
+            }
+
+            return InternalDefOf.BarrenDust;
+
+        }
+        public static float DegradeTerrainOnCell(Map map, IntVec3 cell, TerrainDef startingTerrain = null)
+        {
+            if (startingTerrain == null)
+            {
+                startingTerrain = map.terrainGrid.TerrainAt(cell);
+            }
+            TerrainDef degraded = DegradeTerrain(startingTerrain);
+            float drainedFertility = startingTerrain.fertility - degraded.fertility;
+            map.terrainGrid.SetTerrain(cell, degraded);
+            return drainedFertility;
+        }
+
         public static bool XenoformingMeets(float minXenoforming)
         {
             return gameComponent.Xenoforming >= minXenoforming;

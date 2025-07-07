@@ -613,7 +613,7 @@
 		<pathCost>80</pathCost>
 		<blockWind>false</blockWind>
 		<blockLight>true</blockLight>
-		<fillPercent>0.25</fillPercent>
+		<fillPercent>1</fillPercent>
 		<holdsRoof>true</holdsRoof>
 		<rotatable>false</rotatable>
 		<selectable>true</selectable>
@@ -639,9 +639,6 @@
 		<killedLeavings>
 			<Starbeast_Resin>5</Starbeast_Resin>
 		</killedLeavings>
-		<placeWorkers>
-			<li>Xenomorphtype.Placeworker_AttachedToHive</li>
-		</placeWorkers>
 		<constructEffect>ResinBuild</constructEffect>
 	</ThingDef>
 

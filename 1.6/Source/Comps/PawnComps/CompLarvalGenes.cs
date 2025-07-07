@@ -250,7 +250,7 @@ namespace Xenomorphtype
 
                 if (info != null)
                 {
-                    info.ApplyThreatPheromone(Parent);
+                    info.ApplyThreatPheromone(Parent, radius:10);
                 }
             }
         }

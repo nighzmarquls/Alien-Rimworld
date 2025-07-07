@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	
+	<Operation Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>Defs/SitePartDef[@Name="Outpost" or @ParentName="Outpost"]</xpath>
+		<value>
+			<forceMutators>
+				<li>XMT_Aftermath</li>
+			</forceMutators>
+		</value>
+	</Operation>
+	
+	<Operation MayRequire="Ludeon.RimWorld.Ideology" Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>Defs/SitePartDef[@Name="WorkSiteBase" or @ParentName="WorkSiteBase"]</xpath>
+		<value>
+			<forceMutators>
+				<li>XMT_Aftermath</li>
+			</forceMutators>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>Defs/SitePartDef[defName="ItemStash" or defName="PrisonerWillingToJoin"]</xpath>
+		<value>
+			<forceMutators>
+				<li>XMT_Aftermath</li>
+			</forceMutators>
+		</value>
+	</Operation>
+	
+	<Operation MayRequire="Ludeon.RimWorld.Royalty" Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>Defs/SitePartDef[defName="RaidSource"]</xpath>
+		<value>
+			<forceMutators>
+				<li>XMT_Aftermath</li>
+			</forceMutators>
+		</value>
+	</Operation>
+	
+	<Operation MayRequire="Ludeon.RimWorld.Royalty" Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>/Defs/SitePartDef[defName="AncientComplex"]</xpath>
+		<value>
+			<forceMutators>
+				<li>XMT_Aftermath</li>
+			</forceMutators>
+		</value>
+	</Operation>
+	
+</Patch>
