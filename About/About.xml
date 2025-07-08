@@ -27,9 +27,9 @@
 			<downloadUrl>https://github.com/Vanilla-Expanded/VanillaExpandedFramework</downloadUrl>
 		</li>
 		<li>
-			<packageId>erdelf.HumanoidAlienRaces.dev</packageId>
+			<packageId>erdelf.HumanoidAlienRaces</packageId>
 			<alternativePackageIds IgnoreIfNoMatchingField="True">
-				<li>erdelf.HumanoidAlienRaces</li>
+				<li>erdelf.HumanoidAlienRaces.dev</li>
 			</alternativePackageIds>
 			<displayName>Humanoid Alien Races</displayName>
 			<downloadUrl>https://github.com/RimWorld-CCL-Reborn/AlienRaces/releases</downloadUrl>

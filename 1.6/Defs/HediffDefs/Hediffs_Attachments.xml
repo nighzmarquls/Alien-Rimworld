@@ -107,7 +107,7 @@
             <layer>56</layer>
           </defaultData>
           <dataWest>
-            <flip>true</flip>
+            <flip>false</flip>
           </dataWest>
         </drawData>
       </li>
