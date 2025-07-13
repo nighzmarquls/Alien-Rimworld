@@ -146,7 +146,7 @@ namespace Xenomorphtype
                     if (!ready)
                     {
                         HatchOption.Disabled = true;
-                        HatchOption.tooltip = "cannot hatch, still gestating.";
+                        HatchOption.tooltip = "XMT_CannotHatch".Translate();
                     }
                     yield return HatchOption;
                 }

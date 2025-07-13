@@ -6,7 +6,7 @@
 		<defName>ChildSurvivor00</defName>
 		<title>Sole Survivor</title>
 		<titleShort>survivor</titleShort>
-		<description>[PAWN_nameDef]was young when [PAWN_possessive] colony was infested with terrible monsters, surviving by keeping to the vents before being rescued years later by a contingent of glitter world Marines that was sent to investigate the colony.</description>
+		<description>[PAWN_nameDef] was young when [PAWN_possessive] colony was infested with terrible monsters, surviving by keeping to the vents before being rescued years later by a contingent of glitter world Marines that was sent to investigate the colony.</description>
 		<slot>Childhood</slot>
 		<skillGains>
 			<Melee>4</Melee>

@@ -202,7 +202,8 @@ namespace Xenomorphtype
             XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.Map, 1f);
 
             parent.Severity += 0.25f;
-            Messages.Message("The Parasite is crushing " + Pawn + " to stay secured!", MessageTypeDefOf.NegativeEvent);
+
+            Messages.Message("XMT_ParasiteCrushing".Translate(Pawn.LabelShort).CapitalizeFirst(), MessageTypeDefOf.NegativeEvent);
 
             IEnumerable<BodyPartRecord> source = from x in Pawn.health.hediffSet.GetNotMissingParts()
                                                  where
@@ -216,7 +217,6 @@ namespace Xenomorphtype
             DamageDef squeeze = DamageDefOf.Blunt;
             float amount = damage;
             float armorPenetration = 999f;
-            Log.Message(source.Count() + " bodypart targets found");
             if (source.Any())
             {
                 foreach (BodyPartRecord part in source)

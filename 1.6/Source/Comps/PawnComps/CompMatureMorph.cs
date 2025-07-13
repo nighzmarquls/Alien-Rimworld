@@ -112,21 +112,6 @@ namespace Xenomorphtype
 
         }
 
-        public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn myPawn)
-        {
-            if (myPawn != Parent)
-            {
-                yield break;
-            }
-
-            if (myPawn.Faction == null || !myPawn.Faction.IsPlayer)
-            {
-                yield break;
-            }
-
-            yield break;
-        }
-
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.PostPostApplyDamage(dinfo, totalDamageDealt);

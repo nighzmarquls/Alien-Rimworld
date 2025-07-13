@@ -15,6 +15,13 @@
     </genStep>
   </GenStepDef>
   
+  <GenStepDef>
+    <defName>XMT_AbductPopulation</defName>
+    <order>1501</order>
+    <genStep Class="Xenomorphtype.GenStep_XenoAbduction">
+    </genStep>
+  </GenStepDef>
+  
 
 
 </Defs>

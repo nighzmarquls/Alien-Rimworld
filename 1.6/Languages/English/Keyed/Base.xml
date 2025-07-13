@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
+	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
+	
+	<XMT_ConsumeGenesLabel>Consume Genes</XMT_ConsumeGenesLabel>
+	<XMT_ConsumeGenesDescription>Extract Genes into a Gene Ovamorph.</XMT_ConsumeGenesDescription>
+	
+	<XMT_AlterSelfLabel>Alter Self</XMT_AlterSelfLabel>
+	<XMT_AlterSelfDescription>Alter Gene Expression in self.</XMT_AlterSelfDescription> 
+	
+	<XMT_EvolutionLabel>Choose Traits</XMT_EvolutionLabel>
+	<XMT_EvolutionDescription>express different morphological traits.</XMT_EvolutionDescription>
+	
+	<XMT_LayOvamorphLabel>Lay {0}</XMT_LayOvamorphLabel>
+	<XMT_LayOvamorphDescription>Lay {0} at the designated location.</XMT_LayOvamorphDescription>
+	<XMT_InsufficientNutrition>Insufficient nutrition to lay {0}.</XMT_InsufficientNutrition>
+
+	<XMT_MotherEggHatch>{0}'s ovamorph has hatched!</XMT_MotherEggHatch>
+	<XMT_ParasiteCrushing>The Parasite is crushing {0} to stay secured!</XMT_ParasiteCrushing>
+
+	<XMT_CannotHatch>cannot hatch, still gestating."</XMT_CannotHatch>
+	<XMT_ForceHatch>Hatch Now</XMT_ForceHatch>
+	<XMT_Ready>Ready.</XMT_Ready>
+	
+	<XMT_ReadyIn>Ready in</XMT_ReadyIn>
+	<XMT_EggNeedResin>Needs resin to help mature.</XMT_EggNeedResin>
+	
+	<XMT_MustPlaceOnEmptyOvamorph>Must place on empty Ovamorph.</XMT_MustPlaceOnEmptyOvamorph>
+	
+	<XMT_LetterLabelQueenDefendersArrived>Defenders have arrived</XMT_LetterLabelQueenDefendersArrived>
+	<XMT_QueenDefendersArrived>A pack of {0} have come to defend their mother! They will hunt down all enemies who dared to harm her!</XMT_QueenDefendersArrived>
+	
+	<XMT_CommandMarkFriend>Mark Friend</XMT_CommandMarkFriend>
+	<XMT_CommandMarkFriendDescription>Mark as friends of the family!</XMT_CommandMarkFriendDescription>
+	
+	<XMT_CommandMarkEnemy>Mark Enemy</XMT_CommandMarkEnemy>
+	<XMT_CommandMarkEnemyDescription>Mark as enemies of the family!</XMT_CommandMarkEnemyDescription>
+	
+	<XMT_MessageMustDesignateAlive>Must designate a living target.</XMT_MessageMustDesignateAlive>
+	
+	<XMT_CommandAbduct>Abduct</XMT_CommandAbduct>
+	<XMT_CommandAbductDescription>Designate target for Abduction.</XMT_CommandAbductDescription>
+	
+	<XMT_MessageMustDesignateAbductable>Must designate abductable.</XMT_MessageMustDesignateAbductable>
+	
+	<XMT_CommandInvestigateSite>Investigate Settlement</XMT_CommandInvestigateSite>
+	<XMT_CommandInvestigateSiteDesc>No one seems to be home? that's odd.</XMT_CommandInvestigateSiteDesc>
+	<XMT_LetterLabelCaravanEnteredAftermathBase>Investigating Settlement</XMT_LetterLabelCaravanEnteredAftermathBase>
+	<XMT_LetterCaravanEnteredAftermathBase>The Settlement is eeriely quiet, the area pockmarked with signs of corrosive acid burned into the ground.</XMT_LetterCaravanEnteredAftermathBase>
+</LanguageData>

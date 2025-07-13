@@ -14,8 +14,8 @@ namespace Xenomorphtype
         private List<Pawn> justDesignated = new List<Pawn>();
         public Designator_ScentFriend()
         {
-            defaultLabel = "Mark Friend";
-            defaultDesc = "Designate target with a friendly scent";
+            defaultLabel = "XMT_CommandMarkFriend".Translate();
+            defaultDesc = "XMT_CommandMarkFriendDescription".Translate();
             icon = ContentFinder<Texture2D>.Get("UI/Designators/Friend");
             soundDragSustain = SoundDefOf.Designate_DragStandard;
             soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
@@ -60,7 +60,7 @@ namespace Xenomorphtype
 
             if (!MarkableInCell(c).Any())
             {
-                return "MessageMustDesignateHuntable".Translate();
+                return "XMT_MessageMustDesignateAlive".Translate();
             }
 
             return true;

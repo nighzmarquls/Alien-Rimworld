@@ -7,6 +7,57 @@ namespace Xenomorphtype
 {
     internal class XenoformingComp : WorldObjectComp
     {
+        private bool _settlementAttacked = false;
+
+        public bool SettlementAttacked => _settlementAttacked;
+
+        float AttackTolerance = 0;
+
+        int nextTickCheck = -1;
+        int AttackInterval = 60000;
+        public override void Initialize(WorldObjectCompProperties props)
+        {
+            base.Initialize(props);
+            AttackTolerance = Rand.Range(10, 75);
+        }
+        
+
+        public override void CompTickInterval(int delta)
+        {
+            base.CompTickInterval(delta);
+            if(_settlementAttacked)
+            {
+                return;
+            }
+
+            if(parent.Faction == Faction.OfPlayer)
+            {
+                return;
+            }
+
+            if(_settlementAttacked)
+            {
+                return;
+            }    
+
+            if (XenoformingUtility.XenoformingMeets(AttackTolerance))
+            {
+                if(parent.IsHashIntervalTick(AttackInterval))
+                {
+                    if(Rand.Chance(XenoformingUtility.ChanceByXenoforming(XMTSettings.SiteAttackChance)))
+                    {
+                        _settlementAttacked = true;
+
+                        if (XMTSettings.LogWorld)
+                        {
+                            Log.Message(parent + " was attacked by cryptimorphs!");
+                        }
+                    }
+                }
+
+            }
+
+        }
         public override IEnumerable<Gizmo> GetGizmos()
         {
 

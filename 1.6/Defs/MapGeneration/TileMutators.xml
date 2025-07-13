@@ -15,4 +15,16 @@
     <workerClass>Xenomorphtype.TileMutatorWorker_Aftermath</workerClass>
     <genOrder>-100</genOrder> <!-- After mountain but before other terrain gen -->
   </TileMutatorDef>
+
+  <TileMutatorDef>
+    <defName>XMT_SettlementAftermath</defName>
+    <label>aftermath</label>
+    <priority>5</priority>
+    <genOrder>-100</genOrder> <!-- After mountain but before other terrain gen -->
+	<extraGenSteps>
+		<li>XMT_AttackAftermath</li>
+		<li>XMT_AbductPopulation</li>
+	</extraGenSteps>
+  </TileMutatorDef>
+
 </Defs>

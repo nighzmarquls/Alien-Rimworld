@@ -8,12 +8,39 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
-using Xenomorphtype;
 
 namespace Xenomorphtype
 { 
     public class XMTMapPatches
     {
+
+
+        [HarmonyPatch(typeof(Settlement), nameof(Settlement.GetCaravanGizmos))]
+        public static class Patch_Settlement_GetCaravanGizmos
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Caravan caravan, Settlement __instance,ref IEnumerable<Gizmo> __result)
+            {
+                if(!XenoformingUtility.XenoformingMeets(10))
+                {
+                    return;
+                }
+    
+                if(__instance.TryGetComponent(out XenoformingComp comp))
+                {
+                    if (comp.SettlementAttacked)
+                    {
+                        List<Gizmo> adjustedGizmos = new List<Gizmo>();
+
+                        adjustedGizmos.Add(XenoformingUtility.InvestigateCommand(caravan, __instance));
+
+                        __result = adjustedGizmos;
+                        return;
+                    }
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(SitePartWorker), nameof(SitePartWorker.Notify_SiteMapAboutToBeRemoved))]
         public static class Patch_SitePartWorker_SiteMapAboutToBeRemoved
         {
@@ -78,7 +105,7 @@ namespace Xenomorphtype
                 }
 
                 XenoformingUtility.HandleXenoformingImpact(__instance);
-               
+                
                 return;
             }
         }

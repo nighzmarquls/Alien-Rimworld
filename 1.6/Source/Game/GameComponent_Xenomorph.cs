@@ -29,6 +29,7 @@ namespace Xenomorphtype
             }
         }
 
+        private float _lastxenoforming = 0;
         private float _xenoforming = 0;
         public float Xenoforming
         {
@@ -52,6 +53,7 @@ namespace Xenomorphtype
                     {
                         Log.Message("Adjusting Xenoforming by DEBUG total: " + _xenoforming);
                     }
+                    EvaluateXenoforming();
                 }
             }
         }
@@ -65,6 +67,10 @@ namespace Xenomorphtype
         private const float EmbryoSaturationLimit = 10;
         private const float EmbryoImpact = 0.5f;
         private const float QueenAidImpact = 2f;
+
+        private int _xenoformingStartTick = -1;
+
+
         public GameComponent_Xenomorph(Game game)
         {
             Queen = null;
@@ -82,13 +88,10 @@ namespace Xenomorphtype
             {
                 return;
             }
-
-            if(Find.TickManager.TicksGame >= nextXenoformingTick)
+            int tick = Find.TickManager.TicksGame;
+            if (tick >= nextXenoformingTick)
             {
-                if (XMTSettings.LogWorld)
-                {
-                    Log.Message("Evaluating current Xenoforming: " + _xenoforming);
-                }
+                
 
                 if (_xenoforming >= 0.5f && _xenoforming < 1.0f)
                 {
@@ -107,10 +110,51 @@ namespace Xenomorphtype
                     _xenoforming += 0.01f;
                 }
 
-                nextXenoformingTick = Find.TickManager.TicksGame + 60000;
+                nextXenoformingTick = tick + 60000;
+
+                EvaluateXenoforming();
             }
 
         }
+
+        public void EvaluateXenoforming()
+        {
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("Evaluating current Xenoforming: " + _xenoforming);
+            }
+
+            if (_xenoforming == _lastxenoforming)
+            {
+                return;
+            }
+
+            if(_lastxenoforming <= 0 && _xenoforming > 0)
+            {
+                _xenoformingStartTick = Find.TickManager.TicksGame;
+
+                //TODO: Message Xenomorph released on planet.
+
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("Xenoforming has begun with: " + _xenoforming);
+                }
+            }
+
+            if (_xenoforming <= 0)
+            {
+                _xenoformingStartTick = -1;
+
+                //TODO: Message Xenomorph Eradication.
+
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("Xenoforming has ended.");
+                }
+            }
+            _lastxenoforming = _xenoforming;
+        }
+
         public override void LoadedGame()
         {
 
@@ -125,6 +169,8 @@ namespace Xenomorphtype
         {
             base.ExposeData();
             Scribe_Values.Look(ref _xenoforming, "Xenoforming", 0);
+            Scribe_Values.Look(ref _lastxenoforming, "lastXenoforming", 0);
+            Scribe_Values.Look(ref _xenoformingStartTick, "xenoformingStartTick", -1);
             Scribe_Values.Look(ref nextXenoformingTick, "nextXenoformingTick", 0);
             Scribe_Values.Look(ref MutationProliferation, "MutationProliferation", 0);
             Scribe_Values.Look(ref PlayerEmbryoInWorld, "PlayerEmbryoInWorld", false);
@@ -140,6 +186,7 @@ namespace Xenomorphtype
             {
                 Log.Message("Adjusting Xenoforming for death of " + pawn + " total: " + _xenoforming);
             }
+            EvaluateXenoforming();
         }
         public void ReleaseOvamorphOnWorld(Ovamorph ovamorph)
         {
@@ -149,6 +196,7 @@ namespace Xenomorphtype
             {
                 Log.Message("Adjusting Xenoforming for " + ovamorph + " leaving the map. total: " + _xenoforming);
             }
+            EvaluateXenoforming();
         }
 
         internal void ReleaseMutagenOnWorld(float intensity)
@@ -159,6 +207,7 @@ namespace Xenomorphtype
             {
                 Log.Message("Adjusting mutation proliferation by " + intensity);
             }
+            EvaluateXenoforming();
         }
 
         internal void ReleaseXenomorphOnWorld(Pawn pawn)
@@ -169,6 +218,7 @@ namespace Xenomorphtype
             {
                 Log.Message("Adjusting Xenoforming for " + pawn + " leaving the map. total: " + _xenoforming);
             }
+            EvaluateXenoforming();
         }
 
         internal void ReleaseEmbryoOnWorld(Pawn pawn)
@@ -179,6 +229,7 @@ namespace Xenomorphtype
             {
                 Log.Message("Adjusting Xenoforming for " + pawn + " leaving the map with an embryo. total: " + _xenoforming);
             }
+            EvaluateXenoforming();
         }
 
         internal void HandleQueenCallForAid()
@@ -188,6 +239,7 @@ namespace Xenomorphtype
             {
                 Log.Message("Adjusting Xenoforming for " + Queen + " calling aid to the map. total: " + _xenoforming);
             }
+            EvaluateXenoforming();
         }
     }
 }

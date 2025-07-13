@@ -124,7 +124,7 @@ namespace Xenomorphtype
                 if (Unhatched && (XMTUtility.PlayerXenosOnMap(Map) || DebugSettings.ShowDevGizmos))
                 {
                     Command_Action command_Action = new Command_Action();
-                    command_Action.defaultLabel = "Hatch Now";
+                    command_Action.defaultLabel = "XMT_ForceHatch".Translate();
                     command_Action.icon = ContentFinder<Texture2D>.Get(base.Graphic.path + "_Empty"); ;
                     command_Action.action = delegate
                     {
@@ -241,7 +241,7 @@ namespace Xenomorphtype
 
             if (HatchingEgg.mother != null && HatchingEgg.mother.Faction.IsPlayer)
             {
-                Log.Message(HatchingEgg.mother + " has had her ovamorph hatch!");
+                Messages.Message("XMT_MotherEggHatch".Translate(HatchingEgg.mother.LabelShort), MessageTypeDefOf.PositiveEvent);
             }
 
             HiveUtility.RemoveOvamorph(this, Map);
@@ -280,18 +280,18 @@ namespace Xenomorphtype
 
                     if (!Map.terrainGrid.TerrainAt(Position).affordances.Contains(InternalDefOf.Resin))
                     {
-                        text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "HatchesIn".Translate() + ": " + "PeriodDays".Translate((accelerated ? 5 : 10 * XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1")) + "\n";
-                        text += "Needs Resin Support";
+                        text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "XMT_ReadyIn".Translate() + ": " + "PeriodDays".Translate((accelerated ? 5 : 10 * XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1")) + "\n";
+                        text += "XMT_EggNeedResin".Translate();
                     }
                     else
                     {
-                        text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "HatchesIn".Translate() + ": " + "PeriodDays".Translate((accelerated ? 0.5 : 1 * XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1"));
+                        text += "EggProgress".Translate() + ": " + gestateProgress.ToStringPercent() + "\n" + "XMT_ReadyIn".Translate() + ": " + "PeriodDays".Translate((accelerated ? 0.5 : 1 * XMTSettings.LaidEggMaturationTime * (1f - gestateProgress)).ToString("F1"));
                     }
 
                 }
                 else
                 {
-                    text += "Ready.";
+                    text += "XMT_Ready".Translate();
                 }
             }
             

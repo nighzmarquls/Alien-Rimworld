@@ -16,8 +16,8 @@ namespace Xenomorphtype
         private List<Pawn> justDesignated = new List<Pawn>();
         public Designator_ScentFoe()
         {
-            defaultLabel = "Mark Enemy";
-            defaultDesc = "Designate target with an antagonistic scent.";
+            defaultLabel = "XMT_CommandMarkEnemy".Translate();
+            defaultDesc = "XMT_CommandMarkEnemyDescription".Translate();
             icon = ContentFinder<Texture2D>.Get("UI/Designators/Enemy");
             soundDragSustain = SoundDefOf.Designate_DragStandard;
             soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
@@ -62,7 +62,7 @@ namespace Xenomorphtype
 
             if (!MarkableInCell(c).Any())
             {
-                return "MessageMustDesignateHuntable".Translate();
+                return "XMT_MessageMustDesignateAlive".Translate();
             }
 
             return true;

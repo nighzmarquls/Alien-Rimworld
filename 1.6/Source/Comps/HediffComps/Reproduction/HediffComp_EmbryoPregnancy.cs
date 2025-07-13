@@ -77,7 +77,7 @@ namespace Xenomorphtype
             {
                 if (parent.pawn.MapHeld != null)
                 {
-                    Log.Message("Found Map, tracking in Hive");
+                    
                     HiveUtility.AddImplantedHosts(parent.pawn, parent.pawn.MapHeld);
                     Host = parent.pawn;
 
@@ -91,7 +91,7 @@ namespace Xenomorphtype
             {
                 if (Host.MapHeld != null)
                 {
-                    Log.Message("Found Map, untracking from Hive");
+                   
                     HiveUtility.RemoveImplantedHosts(Host, Host.MapHeld);
 
                     if(unbirthed)

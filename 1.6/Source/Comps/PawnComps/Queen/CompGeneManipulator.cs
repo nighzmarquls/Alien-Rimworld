@@ -49,8 +49,8 @@ namespace Xenomorphtype
             };
 
             Command_Action GeneControl_Action = new Command_Action();
-            GeneControl_Action.defaultLabel = "Alter Genes";
-            GeneControl_Action.defaultDesc = "Alter Gene Expression in Target";
+            GeneControl_Action.defaultLabel = "XMT_AlterGenesLabel".Translate();
+            GeneControl_Action.defaultDesc = "XMT_AlterGenesDescription".Translate();
             GeneControl_Action.icon = geneticTexture;
             GeneControl_Action.action = delegate
             {
@@ -95,8 +95,8 @@ namespace Xenomorphtype
             };
 
             Command_Action GeneConsume_Action = new Command_Action();
-            GeneConsume_Action.defaultLabel = "Consume Genes";
-            GeneConsume_Action.defaultDesc = "Extract Genes into a Gene Ovamorph.";
+            GeneConsume_Action.defaultLabel = "XMT_ConsumeGenesLabel".Translate();
+            GeneConsume_Action.defaultDesc = "XMT_ConsumeGenesDescription".Translate();
             GeneConsume_Action.icon = consumeTexture;
             GeneConsume_Action.action = delegate
             {
@@ -119,8 +119,8 @@ namespace Xenomorphtype
             }
 
             Command_Action GeneSelf_Action = new Command_Action();
-            GeneSelf_Action.defaultLabel = "Alter Self";
-            GeneSelf_Action.defaultDesc = "Alter Gene Expression in self.";
+            GeneSelf_Action.defaultLabel = "XMT_AlterSelfLabel".Translate();
+            GeneSelf_Action.defaultDesc = "XMT_AlterSelfDescription".Translate();
             GeneSelf_Action.icon = selfTexture;
             GeneSelf_Action.action = delegate
             {

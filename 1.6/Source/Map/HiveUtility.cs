@@ -767,10 +767,10 @@ namespace Xenomorphtype
 
             if (nestRoom.CellCount > 1000 || nestRoom == null)
             {
-                Log.Message("attempting to Generate Nest Circle");
+                //Log.Message("attempting to Generate Nest Circle");
                 if (NWcorner.InBounds(map) && SEcorner.InBounds(map))
                 {
-                    Log.Message("corners are in bounds");
+                    //Log.Message("corners are in bounds");
                     Circle = GenRadial.RadialCellsAround(localNest.Position, Radius - 1, Radius).ToArray();
                     ThingDef wallDef = InternalDefOf.Hivemass;
                     ThingDef doorDef = InternalDefOf.HiveWebbing;
@@ -801,7 +801,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    Log.Message("circle not in bounds");
+                    //Log.Message("circle not in bounds");
                 }
             }
             else

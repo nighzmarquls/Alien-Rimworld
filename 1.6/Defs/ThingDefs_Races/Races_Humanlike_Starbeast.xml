@@ -107,13 +107,15 @@
 			 <ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
 			 <IncomingDamageFactor>0.50</IncomingDamageFactor>
 			 <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">50</TerrorSource>
+			 <SlaveSuppressionFallRate MayRequire="Ludeon.RimWorld.Ideology">8</SlaveSuppressionFallRate>
 			 <PawnTrapSpringChance>0</PawnTrapSpringChance>
 			 <Flammability>0</Flammability>
 			 <MeatAmount>15</MeatAmount>
 			 <StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
-			 <Wildness>0.9</Wildness>
+			 <Wildness>1</Wildness>
 			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
 			 <DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
+			 <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
 	    </statBases>
 		<tradeTags>
 			<li>ExoticMisc</li>

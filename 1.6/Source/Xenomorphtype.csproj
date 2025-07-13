@@ -207,6 +207,7 @@
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph_Social.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_ParasiteEggs.cs" />
     <Compile Include="Incidents\IncidentWorker_HuntingXenomorph.cs" />
+    <Compile Include="Map\GenSteps\GenStep_XenoAbduction.cs" />
     <Compile Include="Map\GenSteps\GenStep_XenoNest.cs" />
     <Compile Include="Map\GenSteps\GenStep_XenoAftermath.cs" />
     <Compile Include="Map\TileMutatorWorkers\TileMutatorWorker_Aftermath.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
+    <Compile Include="WorldHorror\WorldDrawLayer_Xenoforming.cs" />
     <Compile Include="WorldHorror\XenoformingUtility.cs" />
     <Compile Include="XMT.cs" />
     <Compile Include="Settings\XMTMod.cs" />

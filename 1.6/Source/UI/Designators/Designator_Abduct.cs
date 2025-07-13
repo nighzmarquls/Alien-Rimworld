@@ -33,8 +33,8 @@ namespace Xenomorphtype
         }
         public Designator_Abduct()
         {
-            defaultLabel = "Abduct";
-            defaultDesc = "Designate target for Abduction by hive.";
+            defaultLabel = "XMT_CommandAbduct".Translate();
+            defaultDesc = "XMT_CommandAbductDescription".Translate();
             icon = ContentFinder<Texture2D>.Get("UI/Designators/Abduct");
             soundDragSustain = SoundDefOf.Designate_DragStandard;
             soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
@@ -52,7 +52,7 @@ namespace Xenomorphtype
 
             if (!AbductableInCell(c).Any())
             {
-                return "MessageMustDesignateHuntable".Translate();
+                return "XMT_MessageMustDesignateAbductable".Translate();
             }
 
             return true;

@@ -12,7 +12,47 @@ namespace Xenomorphtype
 {
     internal class XenoformingUtility
     {
+
         private static GameComponent_Xenomorph gameComponent => Current.Game.GetComponent<GameComponent_Xenomorph>();
+
+        private static readonly Texture2D InvestigateTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts");
+
+        public static Command InvestigateCommand(Caravan caravan, Settlement settlement)
+        {
+            return new Command_Action
+            {
+                defaultLabel = "XMT_CommandInvestigateSite".Translate(),
+                defaultDesc = "XMT_CommandInvestigateSiteDesc".Translate(),
+                icon = InvestigateTex,
+                action = delegate
+                {
+                    InvestigateSettlement(settlement, caravan);
+                }
+            };
+        }
+        public static void InvestigateSettlement(Settlement settlement, Caravan caravan)
+        {
+            SurfaceTile tile = Find.WorldGrid[settlement.Tile.tileId];
+
+            if (!tile.Mutators.Contains(XenoMapDefOf.XMT_SettlementAftermath))
+            {
+                tile.AddMutator(XenoMapDefOf.XMT_SettlementAftermath);
+            }
+
+            bool GeneratedMap = !settlement.HasMap;
+            Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(settlement.Tile, null);
+            TaggedString letterLabel = "XMT_LetterLabelCaravanEnteredAftermathBase".Translate();
+            TaggedString letterText = "XMT_LetterCaravanEnteredAftermathBase".Translate(caravan.Label, settlement.Label.ApplyTag(TagType.Settlement, settlement.Faction.GetUniqueLoadID())).CapitalizeFirst();
+
+            if (GeneratedMap)
+            {
+                Find.TickManager.Notify_GeneratedPotentiallyHostileMap();
+            }
+
+            Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NeutralEvent, caravan.PawnsListForReading, settlement.Faction);
+            CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, CaravanDropInventoryMode.DoNotDrop, draftColonists: true);
+
+        }
 
         public static bool CellIsFertile(IntVec3 cell, Map map)
         {

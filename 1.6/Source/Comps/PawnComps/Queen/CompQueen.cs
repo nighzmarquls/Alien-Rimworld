@@ -86,7 +86,7 @@ namespace Xenomorphtype
         {
             
             progress += input;
-            Log.Message(parent + " recieved: " + input + " progress: " + progress);
+            
             int totalNewBenefits = Mathf.FloorToInt(progress - lastBenefit);
 
             if(totalNewBenefits > 0)
@@ -146,11 +146,11 @@ namespace Xenomorphtype
 
             Command Command_Evolution = new Command_Evolution
             {
-                defaultLabel = "Choose Traits",
-                defaultDesc = "express different morphological traits.",
+                defaultLabel = "XMT_EvolutionLabel".Translate(),
+                defaultDesc = "XMT_EvolutionDescription".Translate(),
                 action = delegate
                 {
-                    Dialogue_Evolution window = new Dialogue_Evolution("Choose Traits", Parent, this);
+                    Dialogue_Evolution window = new Dialogue_Evolution("XMT_EvolutionLabel".Translate(), Parent, this);
                     Find.WindowStack.Add(window);
                 },
                 icon = evolutionTexture

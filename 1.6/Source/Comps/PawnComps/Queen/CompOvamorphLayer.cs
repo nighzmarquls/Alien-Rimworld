@@ -91,28 +91,28 @@ namespace Xenomorphtype
 
         public string OvamorphDescription()
         {
-            string description = "Lay a Ovamorph";
+            string description = "XMT_LayOvamorphDescription".Translate(Props.ovamorphDef.label);
            
             if (Parent.needs.food.CurLevel > FoodCost)
             {
                 return description;
             }
 
-            description += "\nInsufficient nutrition to lay Ovamorph.";
+            description += "\n" + "XMT_InsufficientNutrition".Translate(Props.ovamorphDef.label);
 
             return description;
         }
 
         public string GeneOvamorphDescription()
         {
-            string description = "Lay a Gene Ovamorph";
+            string description = "XMT_LayOvamorphDescription".Translate(Props.geneOvamorphDef.label); ;
 
             if (Parent.needs.food.CurLevel > FoodCost/2)
             {
                 return description;
             }
 
-            description += "\nInsufficient nutrition to lay Gene Ovamorph.";
+            description += "\n" + "XMT_InsufficientNutrition".Translate(Props.geneOvamorphDef.label);
 
             return description;
         }
@@ -151,7 +151,7 @@ namespace Xenomorphtype
             };
 
             Command_Action LayOvamorph_Action = new Command_Action();
-            LayOvamorph_Action.defaultLabel = "Lay Ovamorph";
+            LayOvamorph_Action.defaultLabel = "XMT_LayOvamorphLabel".Translate(Props.ovamorphDef.label);
             LayOvamorph_Action.defaultDesc = OvamorphDescription();
             LayOvamorph_Action.icon = OvamorphTexture;
             LayOvamorph_Action.action = delegate
@@ -177,7 +177,7 @@ namespace Xenomorphtype
             }
 
             Command_Action LayGeneOvamorph_Action = new Command_Action();
-            LayGeneOvamorph_Action.defaultLabel = "Lay Gene Ovamorph";
+            LayGeneOvamorph_Action.defaultLabel = "XMT_LayOvamorphLabel".Translate(Props.geneOvamorphDef.label);
             LayGeneOvamorph_Action.defaultDesc = GeneOvamorphDescription();
             LayGeneOvamorph_Action.icon = GeneOvamorphTexture;
             LayGeneOvamorph_Action.action = delegate

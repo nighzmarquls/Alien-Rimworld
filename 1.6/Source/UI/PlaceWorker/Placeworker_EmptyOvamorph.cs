@@ -22,7 +22,7 @@ namespace Xenomorphtype
                 }
                
             }
-            return "MustPlaceOnEmptyOvamorph".Translate();
+            return "XMT_MustPlaceOnEmptyOvamorph".Translate();
         }
     }
 }

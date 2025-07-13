@@ -95,7 +95,7 @@ namespace Xenomorphtype
 
             if (XMTUtility.QueenIsPlayer())
             {
-                SendStandardLetter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(animalKind.GetLabelPlural()), LetterDefOf.PositiveEvent, parms, list[0]);
+                SendStandardLetter("XMT_LetterLabelQueenDefendersArrived".Translate(), "XMT_QueenDefendersArrived".Translate(animalKind.GetLabelPlural()), LetterDefOf.PositiveEvent, parms, list[0]);
             }
             else
             {
