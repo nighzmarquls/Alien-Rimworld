@@ -22,7 +22,7 @@ namespace Xenomorphtype
         int nextSpotCheck = -1;
         private bool IsFriendly => Parent.Faction == null ? false : Parent.Faction.IsPlayer;
         [Unsaved(false)]
-        private HediffComp_Invisibility invisibility;
+        private HediffComp_Invisibility _invisibility;
 
         public HediffComp_Invisibility Invisibility
         {
@@ -30,16 +30,16 @@ namespace Xenomorphtype
             {
                 if (wasLastFriendly == IsFriendly)
                 {
-                    if (invisibility != null)
+                    if (_invisibility != null)
                     {
-                        return invisibility;
+                        return _invisibility;
                     }
                 }
                 else
                 {
-                    if (invisibility != null)
+                    if (_invisibility != null)
                     {
-                        invisibility.BecomeVisible();
+                        _invisibility.BecomeVisible();
                     }
                 }
 
@@ -62,8 +62,8 @@ namespace Xenomorphtype
                         hediff = Parent.health.AddHediff(InternalDefOf.StarbeastStealthHostile);
                     }
                 }
-                invisibility = hediff?.TryGetComp<HediffComp_Invisibility>();
-                return invisibility;
+                _invisibility = hediff?.TryGetComp<HediffComp_Invisibility>();
+                return _invisibility;
             }
         }
 
@@ -167,10 +167,11 @@ namespace Xenomorphtype
             if (Invisibility != null)
             {
                 Invisibility.BecomeVisible();
-                becomeInvisibleTick = Find.TickManager.TicksGame + 300;
+                becomeInvisibleTick = Find.TickManager.TicksGame + 600;
             }
         }
-        public override void CompTick()
+
+        public override void CompTickInterval(int delta)
         {
             if (Parent.Spawned)
             {
@@ -191,7 +192,7 @@ namespace Xenomorphtype
 
                 if (tick > nextSpotCheck)
                 {
-                    nextSpotCheck = tick + 60;
+                    nextSpotCheck = tick + 600;
 
                     CheckIfSeen();
 
