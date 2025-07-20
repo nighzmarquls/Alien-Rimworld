@@ -16,13 +16,14 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(XenoPreceptDefOf));
         }
 
-        public static IssueDef   XMT_Reproduction;
+        public static IssueDef XMT_Reproduction;
         public static IssueDef XMT_Cryptobio;
 
         public static PreceptDef XMT_Parasite_Revered;
         public static PreceptDef XMT_Parasite_Reincarnation;
         public static PreceptDef XMT_Parasite_Abhorrent;
 
+        public static PreceptDef XMT_Biomorph_Hunt;
         public static PreceptDef XMT_Biomorph_Study;
         public static PreceptDef XMT_Biomorph_Worship;
         public static PreceptDef XMT_Biomorph_Abhorrent;

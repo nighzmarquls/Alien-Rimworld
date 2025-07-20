@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
 
-  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
     <defName>XMT_Adopt</defName>
     <label>adopt</label>
     <description>Extend a connection via psycast to the target's mind offering a familial bond to the caster.</description>
     <iconPath>UI/Abilities/Psycast/Adopt</iconPath>
     <targetMode>Pawn</targetMode>
-    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
     <castTime>15</castTime>
     <fleckOnTarget>PsycastPsychicEffect</fleckOnTarget>
     <goodwillImpact>-15</goodwillImpact>
@@ -29,10 +29,10 @@
 	  <li Class="Xenomorphtype.AbilityExtension_Adoption">
 	  </li>
     </modExtensions>
-  </VFECore.Abilities.AbilityDef>
+  </VEF.Abilities.AbilityDef>
 
 
-  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
     <defName>XMT_Hivesong</defName>
     <label>Hive Song</label>
     <description>All in radius of effect feel the presence of the hive, improving mood and focus for some. Traumatizing, disorienting and disturbing others.</description>
@@ -50,7 +50,7 @@
       <canTargetAnimals>True</canTargetAnimals>
       <neverTargetIncapacitated>False</neverTargetIncapacitated>
     </targetingParametersForAoE>
-    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
     <castSound>PsychicShockLanceCast</castSound>
     <fleckOnTarget>PsycastAreaEffect</fleckOnTarget>
     <modExtensions>
@@ -77,9 +77,9 @@
 		<durationMultiplierFromCaster>False</durationMultiplierFromCaster>
       </li>
     </modExtensions>
-  </VFECore.Abilities.AbilityDef>
+  </VEF.Abilities.AbilityDef>
 
-  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
     <defName>XMT_Fascination</defName>
     <label>fascinate</label>
     <description>Psychically reach out to the targets to imprint the caster upon them. In the most heavily effected they will approach the caster.</description>
@@ -97,7 +97,7 @@
       <canTargetAnimals>True</canTargetAnimals>
       <neverTargetIncapacitated>False</neverTargetIncapacitated>
     </targetingParametersForAoE>
-    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
     <castSound>PsychicShockLanceCast</castSound>
     <fleckOnTarget>PsycastAreaEffect</fleckOnTarget>
     <modExtensions>
@@ -121,14 +121,14 @@
         <fleckOnTarget>PsycastPsychicEffect</fleckOnTarget>
       </li>
     </modExtensions>
-  </VFECore.Abilities.AbilityDef>
+  </VEF.Abilities.AbilityDef>
 
-  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
     <defName>XMT_SirenBroadcast</defName>
     <label>siren Broadcast</label>
     <description>reach out to distant minds and instill in them a potent psychic call. Close up it may be sufficient to compell the easily suggestible to approach mindlessly in a fugue.</description>
     <iconPath>UI/Abilities/Psycast/SirenBroadcast</iconPath>
-    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
     <jobDef>VFEA_UseAbilityUninterruptible</jobDef>
     <castTime>720</castTime>
     <targetMode>Self</targetMode>
@@ -140,10 +140,10 @@
     <warmupPreEndSoundTicks>300</warmupPreEndSoundTicks>
     <radius>60</radius>
     <modExtensions>
-	  <li Class="VFECore.Abilities.AbilityExtension_ConfirmationMessage">
+	  <li Class="VEF.Abilities.AbilityExtension_ConfirmationMessage">
         <message>If you use siren broadcast, everyone in this region will feel the psychic call and send a party to investigate, you may lose goodwill with some factions and hostile factions will send raids.\n\nEveryone on the map will be effected by it.\n\nDo you really want to cast siren broadcast?</message>
       </li>
-      <li Class="VFECore.Abilities.AbilityExtension_ScreenShaker">
+      <li Class="VEF.Abilities.AbilityExtension_ScreenShaker">
         <intensity>1.2</intensity>
       </li>
       <li Class="VanillaPsycastsExpanded.AbilityExtension_Psycast">
@@ -162,7 +162,7 @@
 		<psychicHorrorGain>1</psychicHorrorGain>
 		<obsessionGain>1</obsessionGain>
       </li>
-	  <li Class="VFECore.Abilities.AbilityExtension_FleckOnTarget">
+	  <li Class="VEF.Abilities.AbilityExtension_FleckOnTarget">
         <fleckDef>PsychicApplyNeuroquake</fleckDef>
         <sound>Psycast_Neuroquake_Effect</sound>
       </li>
@@ -182,15 +182,15 @@
 		</hostilePrecepts>
       </li>
     </modExtensions>
-  </VFECore.Abilities.AbilityDef>
+  </VEF.Abilities.AbilityDef>
 
-  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
     <defName>XMT_Dominion</defName>
     <label>sovereign Dominion</label>
     <description>The caster extends their mental presence around them, dominating the weak willed and stunning others.</description>
     <iconPath>UI/Abilities/Psycast/Dominion</iconPath>
     <targetMode>Self</targetMode>
-    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
     <castSound>VPE_PsychicDrone_Cast</castSound>
     <durationTime>1800</durationTime>
     <castTime>60</castTime>
@@ -222,16 +222,16 @@
 	  <li Class="Xenomorphtype.AbilityExtension_SovereignDominion">
       </li>
     </modExtensions>
-  </VFECore.Abilities.AbilityDef>
+  </VEF.Abilities.AbilityDef>
 
 
 
-  <VFECore.Abilities.AbilityDef ParentName="VPE_PsycastBase">
+  <VEF.Abilities.AbilityDef ParentName="VPE_PsycastBase">
     <defName>XMT_Catatonic</defName>
     <label>catatonic Suppression</label>
     <description>The full force of the caster's psychic power falls upon the targets. Either stunning or rendering them catatonic under the burden of their mind.</description>
     <iconPath>UI/Abilities/Psycast/Suppression</iconPath>
-    <abilityClass>VFECore.Abilities.Ability_Blank</abilityClass>
+    <abilityClass>VEF.Abilities.Ability_Blank</abilityClass>
     <targetMode>Self</targetMode>
     <castSound>VPE_PsychicDrone_Cast</castSound>
     <durationTime>1800</durationTime>
@@ -268,5 +268,5 @@
 		<durationMultiplierFromCaster>False</durationMultiplierFromCaster>
       </li>
     </modExtensions>
-  </VFECore.Abilities.AbilityDef>
+  </VEF.Abilities.AbilityDef>
 </Defs>

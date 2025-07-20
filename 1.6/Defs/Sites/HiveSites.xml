@@ -17,8 +17,6 @@
     <gravShipsCanLandOn>true</gravShipsCanLandOn>
     <tags>
       <li>HiveNest</li>
-	  <li>DownedRefugeeQuestThreat</li>
-      <li>PrisonerRescueQuestThreat</li>
     </tags>
 	<excludesTags>
       <li>MechCluster</li>

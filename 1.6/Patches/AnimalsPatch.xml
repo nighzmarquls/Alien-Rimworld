@@ -13,7 +13,6 @@
 					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectPheromones</li>
 					<li MayRequire="vanillaracesexpanded.insector">VRE_GenelineEvolution</li>
 					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectMandibles</li>
-					
 					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 				</genes>
 			</li>

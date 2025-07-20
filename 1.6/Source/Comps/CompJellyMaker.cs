@@ -29,7 +29,6 @@ namespace Xenomorphtype
             {
                 if(corpse.GetRotStage() == RotStage.Dessicated)
                 {
-                    Log.Message(corpse + " is too dessicated for jellymaking");
                     return false;
                 }
             }

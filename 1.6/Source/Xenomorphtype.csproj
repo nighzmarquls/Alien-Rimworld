@@ -225,6 +225,8 @@
     <Compile Include="IdeoHorror\Rituals\StageActions\RitualStageAction_Metamorphosis.cs" />
     <Compile Include="IdeoHorror\Rituals\StageActions\RitualStageAction_OpenChrysalis.cs" />
     <Compile Include="IdeoHorror\Rituals\Targets\RitualTargetFilter_MatureQueen.cs" />
+    <Compile Include="Rendering\OffsetDefs.cs" />
+    <Compile Include="Rendering\PawnRenderer\PawnRenderNodeWorker_HeadAttachment.cs" />
     <Compile Include="Settings\XMTSettings.cs" />
     <Compile Include="Things\MutagenGooFilth.cs" />
     <Compile Include="Things\XMTGenePack.cs" />
@@ -303,6 +305,7 @@
   <ItemGroup>
     <Folder Include="Abilities\Psycasting\Paths\" />
     <Folder Include="AI\Toils\" />
+    <Folder Include="UI\FloatMenuOptions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="VEF.dll" />

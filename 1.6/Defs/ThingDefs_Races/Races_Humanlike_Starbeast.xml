@@ -112,7 +112,7 @@
 			 <Flammability>0</Flammability>
 			 <MeatAmount>15</MeatAmount>
 			 <StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
-			 <Wildness>1</Wildness>
+			 <Wildness>0.999</Wildness>
 			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
 			 <DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 			 <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>

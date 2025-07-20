@@ -1812,5 +1812,15 @@ namespace Xenomorphtype
         {
             
         }
+
+        internal static bool IsCocooned(Pawn pawn)
+        {
+            if(!pawn.Downed)
+            {
+                return false;
+            }
+
+            return pawn.health.hediffSet.HasHediff(InternalDefOf.StarbeastCocoon);
+        }
     }
 }

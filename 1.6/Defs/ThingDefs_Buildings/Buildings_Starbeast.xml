@@ -137,7 +137,7 @@
 		<tickerType>Normal</tickerType>
 		<designationCategory>XMT_Hive</designationCategory>
 		<uiOrder>2002</uiOrder>
-		<uiIconPath>Terrain/HiveFloor_MenuIcon</uiIconPath>
+		<uiIconPath>Terrain/Surfaces/ResinBridge_MenuIcon</uiIconPath>
 		<altitudeLayer>FloorCoverings</altitudeLayer>
 		<wipesPlants>true</wipesPlants>
 		<selectable>true</selectable>
@@ -166,7 +166,7 @@
 			<replacedWith></replacedWith>
 		  </li>
 		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
-			<spreadTerrain>HiveFloor</spreadTerrain>
+			<spreadTerrain>XMT_ResinBridge</spreadTerrain>
 			<radius>0</radius>
 		  </li>
 		</comps>

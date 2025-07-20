@@ -21,7 +21,6 @@ namespace Xenomorphtype
             AttackTolerance = Rand.Range(10, 75);
         }
         
-
         public override void CompTickInterval(int delta)
         {
             base.CompTickInterval(delta);

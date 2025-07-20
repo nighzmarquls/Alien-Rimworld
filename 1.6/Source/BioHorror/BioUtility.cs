@@ -106,6 +106,11 @@ namespace Xenomorphtype
                                 }
                             }
                         }
+
+                        if (XMTSettings.LogBiohorror)
+                        {
+                            Log.Message(host + " has extra genes " + hostGenes);
+                        }
                     }
                 }
             }

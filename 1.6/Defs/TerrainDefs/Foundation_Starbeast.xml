@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+  
+  <TerrainDef Name="XMT_BridgeBase" ParentName="BridgeBase" Abstract="True">
+    <layerable>true</layerable>
+    <affordances>
+      <li>Resin</li>
+    </affordances>
+    <tags>
+      <li>Floor</li>
+    </tags>
+    <designationCategory></designationCategory>
+    <fertility>0</fertility>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+  </TerrainDef>
+  
+  <TerrainDef ParentName="XMT_BridgeBase">
+    <defName>XMT_ResinBridge</defName>
+    <label>Resin bridge</label>
+	<renderPrecedence>340</renderPrecedence>
+	<description>Some kind of secreted resin, shaped into organic patterns on the ground, woven into the foundations.</description>
+    <texturePath>Terrain/XMT_HiveResin</texturePath>
+	<bridgePropsPath>Terrain/Surfaces/ResinBridgeProps</bridgePropsPath>
+    <color>(1, 1, 1)</color>
+	<pathCost>1</pathCost>
+    <statBases>
+      <Beauty>0</Beauty>
+      <Cleanliness>-0.1</Cleanliness>
+      <FilthMultiplier>0.05</FilthMultiplier>
+      <Flammability>0</Flammability>
+    </statBases>
+	<costList>
+      <Starbeast_Resin>5</Starbeast_Resin>
+    </costList>
+  </TerrainDef>
+
+</Defs>

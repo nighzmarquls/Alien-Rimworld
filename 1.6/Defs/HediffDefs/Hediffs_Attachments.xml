@@ -98,7 +98,7 @@
     </comps>
 	<renderNodeProperties>
       <li Class="PawnRenderNodeProperties">
-        <workerClass>PawnRenderNodeWorker_HediffEye</workerClass>
+        <workerClass>Xenomorphtype.PawnRenderNodeWorker_HeadAttachment</workerClass>
         <texPath>Things/Pawn/Wounds/Larva</texPath>
         <parentTagDef>Head</parentTagDef>
         <drawSize>1</drawSize>
@@ -106,10 +106,19 @@
           <defaultData>
             <layer>56</layer>
           </defaultData>
-          <dataWest>
-            <flip>false</flip>
-          </dataWest>
         </drawData>
+      </li>
+	  <li Class="PawnRenderNodeProperties">
+        <workerClass>Xenomorphtype.PawnRenderNodeWorker_HeadAttachment</workerClass>
+        <texPath>Things/Pawn/Wounds/Larva</texPath>
+        <parentTagDef>Head</parentTagDef>
+        <drawSize>1</drawSize>
+        <drawData>
+          <defaultData>
+            <layer>56</layer>
+          </defaultData>
+        </drawData>
+		<pawnType>NonHumanlikeOnly</pawnType>
       </li>
     </renderNodeProperties>
   </HediffDef>

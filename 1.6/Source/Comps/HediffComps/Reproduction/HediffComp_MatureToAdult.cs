@@ -14,9 +14,10 @@ namespace Xenomorphtype
     public class HediffComp_MatureToAdult : HediffComp_SeverityModifierBase
     {
         HediffCompProperties_MatureToAdult Props => props as HediffCompProperties_MatureToAdult;
-        int tickInterval = 2500;
-        bool fullyMatured = false;
-        bool attacked = false;
+        int     tickInterval = 2500;
+        bool    fullyMatured = false;
+        bool    attacked = false;
+        int     matureTick = -1;
         public override bool CompShouldRemove
         {
             get
@@ -47,6 +48,7 @@ namespace Xenomorphtype
         public override void CompExposeData()
         {
             base.CompExposeData();
+            Scribe_Values.Look(ref matureTick, "matureTick", defaultValue: -1);
             Scribe_Values.Look(ref attacked, "attacked", defaultValue: false);
             Scribe_Values.Look(ref fullyMatured, "fullyMatured", defaultValue: false);
         }
@@ -59,13 +61,29 @@ namespace Xenomorphtype
         {
             base.CompPostTick(ref severityAdjustment);
 
+            int tick = Find.TickManager.TicksGame;
             if (parent.pawn.IsHashIntervalTick(tickInterval))
             {
                 TryLearning();
                 FilthMaker.TryMakeFilth(Pawn.PositionHeld, Pawn.MapHeld, InternalDefOf.Starbeast_Filth_Resin);
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message(parent + " will mature in " + (matureTick - tick));
+                }
             }
 
-            if (parent.Severity >= 1.0f || parent.pawn.ageTracker.Adult)
+           
+            if (matureTick <= 0)
+            {
+                float ticksToMature = 60000/GeneMaturationFactor();
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message(parent + " will mature in " + ticksToMature);
+                }
+                matureTick = tick + Mathf.FloorToInt(ticksToMature);
+            }
+
+            if (parent.Severity >= 1.0f || parent.pawn.ageTracker.Adult || tick > matureTick)
             {
                 TryMatureNow();
             }

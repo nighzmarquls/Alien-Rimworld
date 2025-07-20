@@ -300,8 +300,7 @@ namespace Xenomorphtype
                 return text;
             }
 
-           
-            if (HatchingEgg.genes == null || !HatchingEgg.genes.GenesListForReading.Any())
+            if (!HatchingEgg.UnHatched || HatchingEgg.genes == null || !HatchingEgg.genes.GenesListForReading.Any())
             {
                 return text;
             }

@@ -35,7 +35,7 @@
 		<JobDef>
 		<defName>CocoonTarget</defName>
 		<driverClass>Xenomorphtype.JobDriver_CocoonTarget</driverClass>
-		<reportString>abducting TargetA.</reportString>
+		<reportString>cocooning TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
 		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>

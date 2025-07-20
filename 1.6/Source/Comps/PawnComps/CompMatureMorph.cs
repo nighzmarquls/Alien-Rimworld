@@ -766,9 +766,14 @@ namespace Xenomorphtype
             CocoonBase cocoonBase = HiveUtility.TryPlaceCocoonBase(Parent.Position, target) as CocoonBase;
             if (cocoonBase != null)
             {
+                
                 if (Parent.Faction != null && Parent.Faction.IsPlayer)
                 {
                     cocoonBase.SetFaction(Parent.Faction);
+                }
+                if (target.IsPrisoner)
+                {
+                    cocoonBase.ForPrisoners = true;
                 }
                 RestUtility.TuckIntoBed(cocoonBase, Parent, target, false);
                 HiveUtility.TryPlaceHiveMassSupport(cocoonBase.Position, Parent);
@@ -1312,8 +1317,6 @@ namespace Xenomorphtype
             job = null;
 
             List<Pawn> prisoners = Parent.Map.mapPawns.PrisonersOfColony;
-            //IEnumerable<Designation> abductTargets = Parent.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_Abduct);
-
 
             prisoners.Shuffle();
 
@@ -1330,6 +1333,11 @@ namespace Xenomorphtype
                 }
 
                 if (XMTUtility.GetDefendGrappleChance(Parent, prisoner) >= 0.25f)
+                {
+                    continue;
+                }
+
+                if(XMTUtility.IsCocooned(prisoner))
                 {
                     continue;
                 }

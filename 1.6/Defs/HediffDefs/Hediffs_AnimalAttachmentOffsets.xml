@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<Xenomorphtype.OffsetListDef>
+		<defName>XMT_HeadAttachmentOffsets</defName>
+		<raceOffsets>
+			<li>
+				<race>Thrumbo</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.5, 0, 0.9)</east>
+				<south>(0, 0, 0.75)</south>
+				<west>(0.5, 0, 0.9)</west>
+			</li>
+			<li>
+				<race>Deer</race>
+				<north>(0, 0, 0.0)</north>
+				<east>(0.25, 0, 0.0)</east>
+				<south>(0, 0, -0.15)</south>
+				<west>(-0.25, 0, 0.0)</west>
+			</li>
+			<li>
+				<race>Alpaca</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.15, 0, 0.15)</east>
+				<south>(0, 0, 0.15)</south>
+				<west>(-0.15, 0, 0.15)</west>
+			</li>
+			<li>
+				<race>Donkey</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.25, 0, -0.15)</east>
+				<south>(0, 0, -0.15)</south>
+				<west>(-0.25, 0, -0.15)</west>
+			</li>
+			<li>
+				<race>Rhinoceros</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.70, 0, -0.4)</east>
+				<south>(0, 0, -0.3)</south>
+				<west>(-0.70, 0, -0.4)</west>
+			</li>
+			<li>
+				<race>Ibex</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.15, 0, 0)</east>
+				<south>(0, 0, 0)</south>
+				<west>(-0.15, 0, 0)</west>
+			</li>
+			<li>
+				<race>Megasloth</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(1.0, 0, -0.2)</east>
+				<south>(0, 0, -0.45)</south>
+				<west>(-1.0, 0, -0.2)</west>
+			</li>
+			<li>
+				<race>Spelopede</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.25, -0.25, -0.25)</east>
+				<south>(0, 0, 0.0)</south>
+				<west>(-0.25, -0.25, -0.25)</west>
+			</li>
+			<li>
+				<race>Megaspider</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.4, 0, 0.0)</east>
+				<south>(0, 0, -0.5)</south>
+				<west>(-0.4, 0, 0.0)</west>
+			</li>
+		</raceOffsets>
+	</Xenomorphtype.OffsetListDef>
+</Defs>

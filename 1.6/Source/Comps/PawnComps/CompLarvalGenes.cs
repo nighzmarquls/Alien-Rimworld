@@ -2,13 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace Xenomorphtype
 {
+    [StaticConstructorOnStartup]
     public class CompLarvalGenes : CompHiveGeneHolder
     {
+        static private Texture2D Implant => ContentFinder<Texture2D>.Get("UI/Abilities/Implant");
+
         public Pawn mother;
         public Pawn father;
         public bool latched;
@@ -50,15 +54,9 @@ namespace Xenomorphtype
                 }
             }
         }
-
-        public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn myPawn)
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
-            if (Parent.Faction == null || !Parent.Faction.IsPlayer)
-            {
-                yield break;
-            }
-
-            if (!XMTUtility.IsXenomorph(myPawn))
+            if(!XMTUtility.PlayerXenosOnMap(Parent.MapHeld))
             {
                 yield break;
             }
@@ -71,21 +69,32 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
-                return XMTUtility.IsHost(target.Thing);
+
+                if(!XMTUtility.IsHost(target.Thing))
+                {
+                    return false;
+                }
+
+                return target.Map.reachability.CanReach(parent.Position, target.Cell, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Deadly);
             };
 
-            FloatMenuOption ImplantOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Implant", delegate
+            Command_Action ImplantHost_Action = new Command_Action();
+            ImplantHost_Action.defaultLabel = "XMT_Implant".Translate();
+            ImplantHost_Action.defaultDesc = "XMT_ImplantDescription".Translate();
+            ImplantHost_Action.icon = Implant;
+            ImplantHost_Action.action = delegate
             {
                 Find.Targeter.BeginTargeting(ImplantParameters, delegate (LocalTargetInfo target)
                 {
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.ImplantHunt, target);
+                    Parent.Reserve(target, job);
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
 
                 });
 
-            }, priority: MenuOptionPriority.Default), myPawn, parent);
+            };
 
-            yield return ImplantOption;
+            yield return ImplantHost_Action;
         }
 
         protected void Decay()
@@ -104,7 +113,6 @@ namespace Xenomorphtype
         }
         public void TryEmbrace(Pawn target)
         {
-
             if (target == null)
             {
                 return;
@@ -115,15 +123,19 @@ namespace Xenomorphtype
                 return;
             }
 
+
             if (target.Faction != null && !target.Faction.IsPlayer)
             {
                 int goodWill = -25;
 
                 if (ModsConfig.IdeologyActive)
                 {
-                    goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation) ? 30 : 0;
-                    goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study) ? 15 : 0;
-                    goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Worship) ? 20 : 0;
+                    if (target.Faction.ideos != null)
+                    {
+                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation) ? 30 : 0;
+                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study) ? 15 : 0;
+                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Worship) ? 20 : 0;
+                    }
                 }
 
                 if (Parent.Faction != null)
@@ -139,7 +151,10 @@ namespace Xenomorphtype
                     target.Faction.TryAffectGoodwillWith(Faction.OfPlayer, goodWill, reason: XenoPreceptDefOf.XMT_Parasite_Attached);
                 }
 
-                target.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee);
+                if (target.mindState != null)
+                {
+                    target.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee);
+                }
             }
 
             XMTUtility.WitnessLarva(Parent.PositionHeld, Parent.MapHeld, 0.5f);
@@ -179,6 +194,11 @@ namespace Xenomorphtype
                                                     XMTUtility.IsPartHead(x)
                                                  select x;
 
+            if (!source.Any())
+            {
+                return;
+            }
+
             Hediff hediff = HediffMaker.MakeHediff(Props.larvaHediff, target, source.First());
 
             HediffComp_LarvalAttachment LarvalAttachment = hediff.TryGetComp<HediffComp_LarvalAttachment>();
@@ -194,7 +214,6 @@ namespace Xenomorphtype
                 LarvalAttachment.kind = pawn.kindDef;
                 LarvalAttachment.name = pawn.Name?.ToString();
                 LarvalAttachment.age = pawn.ageTracker.AgeBiologicalYearsFloat;
-
             }
 
             target.health.AddHediff(hediff, source.First());

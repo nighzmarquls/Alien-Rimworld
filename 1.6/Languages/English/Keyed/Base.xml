@@ -23,6 +23,9 @@
 	<XMT_ForceHatch>Hatch Now</XMT_ForceHatch>
 	<XMT_Ready>Ready.</XMT_Ready>
 	
+	<XMT_Implant>Implant</XMT_Implant>
+	<XMT_ImplantDescription>Attempt attachment to a host for embryo implantation.</XMT_ImplantDescription>
+	
 	<XMT_ReadyIn>Ready in</XMT_ReadyIn>
 	<XMT_EggNeedResin>Needs resin to help mature.</XMT_EggNeedResin>
 	
@@ -48,4 +51,8 @@
 	<XMT_CommandInvestigateSiteDesc>No one seems to be home? that's odd.</XMT_CommandInvestigateSiteDesc>
 	<XMT_LetterLabelCaravanEnteredAftermathBase>Investigating Settlement</XMT_LetterLabelCaravanEnteredAftermathBase>
 	<XMT_LetterCaravanEnteredAftermathBase>The Settlement is eeriely quiet, the area pockmarked with signs of corrosive acid burned into the ground.</XMT_LetterCaravanEnteredAftermathBase>
+
+	<XMT_LetterLabelCaravanAttackedByBase>Settlement Attacking!</XMT_LetterLabelCaravanAttackedByBase>
+	<XMT_LetterCaravanAttackedByBase> Negotiations with {1} have broken down, and they are attacking {0}!</XMT_LetterCaravanAttackedByBase>
+
 </LanguageData>

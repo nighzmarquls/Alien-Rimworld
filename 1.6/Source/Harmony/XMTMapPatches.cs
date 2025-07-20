@@ -41,6 +41,106 @@ namespace Xenomorphtype
             }
         }
 
+        [HarmonyPatch(typeof(CaravanVisitUtility), nameof(CaravanVisitUtility.TradeCommand))]
+        public static class Patch_CaravanVisitUtility_TradeCommand
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Caravan caravan, Faction faction, ref Command __result)
+            {
+                bool haveXenomorphSlave = false;
+                bool haveXenomorphColonist = false;
+
+                foreach(Pawn pawn in caravan.pawns)
+                {
+                    if(XMTUtility.IsXenomorph(pawn))
+                    {
+                        if (pawn.IsSlave)
+                        {
+                            haveXenomorphSlave = true;
+                        }
+                        else
+                        {
+                            haveXenomorphColonist = true;
+                        }
+                    }
+                }
+
+                bool haveXenomorph = haveXenomorphSlave || haveXenomorphColonist;
+
+                bool violentResponse = false;
+
+                if (faction != null)
+                {
+                    bool worshipers = false;
+
+                    if (faction.leader != null)
+                    {
+                        CompPawnInfo info = faction.leader.GetComp<CompPawnInfo>();
+                        if(info != null)
+                        {
+                            if(info.IsObsessed())
+                            {
+                                worshipers = true;
+                            }
+                        }
+                    }
+                    if (ModsConfig.IdeologyActive)
+                    {
+                        Ideo dominantIdeology = faction.ideos.PrimaryIdeo;
+                        if (haveXenomorph)
+                        {
+                            if (dominantIdeology.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Abhorrent))
+                            {
+                                violentResponse = true;
+                            }
+                            else if (dominantIdeology.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Abhorrent))
+                            {
+                                violentResponse = true;
+                            }
+                            else if (dominantIdeology.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study)
+                                || dominantIdeology.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Hunt))
+                            {
+                                if(haveXenomorphColonist)
+                                {
+                                    violentResponse = true;
+                                }
+                            }
+                            else if(dominantIdeology.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Worship))
+                            {
+                                worshipers = true;
+
+                                if(haveXenomorphSlave && !haveXenomorphColonist)
+                                {
+                                    violentResponse = true;
+                                }
+                            }
+                        }
+                    }
+                    if (XenoformingUtility.XenoformingMeets(10) && haveXenomorph)
+                    {
+                        if (!worshipers)
+                        {
+                            if (haveXenomorphColonist)
+                            {
+                                violentResponse = true;
+                            }
+                        }
+                    }
+                }
+                if(violentResponse && __result is Command_Action command_Action)
+                {
+                    command_Action.action = delegate
+                    {
+                        Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(caravan);
+                        if (settlement != null)
+                        {
+                            XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                        }
+                    };
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(SitePartWorker), nameof(SitePartWorker.Notify_SiteMapAboutToBeRemoved))]
         public static class Patch_SitePartWorker_SiteMapAboutToBeRemoved
         {
