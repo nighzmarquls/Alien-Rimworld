@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<XMT_AlterGenesLabel>Alterar Genes</XMT_AlterGenesLabel>
+	<XMT_AlterGenesDescription>Alterar Expressão Genética no Alvo</XMT_AlterGenesDescription>
+	
+	<XMT_ConsumeGenesLabel>Consumir Genes</XMT_ConsumeGenesLabel>
+	<XMT_ConsumeGenesDescription>Extrair Genes para um Gene de Ovamorph.</XMT_ConsumeGenesDescription>
+	
+	<XMT_AlterSelfLabel>Alterar a si mesmo</XMT_AlterSelfLabel>
+	<XMT_AlterSelfDescription>Alterar Expressão Genética a si mesmo.</XMT_AlterSelfDescription> 
+	
+	<XMT_EvolutionLabel>Choose Traits</XMT_EvolutionLabel>
+	<XMT_EvolutionDescription>expressar diferentes características morfológicas.</XMT_EvolutionDescription>
+	
+	<XMT_LayOvamorphLabel>Pôr {0}</XMT_LayOvamorphLabel>
+	<XMT_LayOvamorphDescription>Pôr {0} na localização designada.</XMT_LayOvamorphDescription>
+	<XMT_InsufficientNutrition>Nutrição insuficiente para pôr {0}.</XMT_InsufficientNutrition>
+
+	<XMT_MotherEggHatch>{0}'s ovamorph chocaram!</XMT_MotherEggHatch>
+	<XMT_ParasiteCrushing>O Parasita está esmagando {0} para continuar seguro!</XMT_ParasiteCrushing>
+
+	<XMT_CannotHatch>não é possível chocar, ainda está gestando."</XMT_CannotHatch>
+	<XMT_ForceHatch>Chocar Agora</XMT_ForceHatch>
+	<XMT_Ready>Pronto.</XMT_Ready>
+
+	<XMT_Implant>Implantar</XMT_Implant>
+	<XMT_ImplantDescription>Tentando se prender a um hospedeiro para implantação do embrião.</XMT_ImplantDescription>
+	
+	<XMT_ReadyIn>Pronto em</XMT_ReadyIn>
+	<XMT_EggNeedResin>Precisa de resina para ajudar a amadurecer.</XMT_EggNeedResin>
+	
+	<XMT_MustPlaceOnEmptyOvamorph>Deve ser colocado em um Ovamorph vazio.</XMT_MustPlaceOnEmptyOvamorph>
+	
+	<XMT_LetterLabelQueenDefendersArrived>Os defensores chegaram</XMT_LetterLabelQueenDefendersArrived>
+	<XMT_QueenDefendersArrived>Um bando de {0} veio defender sua mãe!Eles irão caçar todos os inimigos que ousaram machucá-la!</XMT_QueenDefendersArrived>
+	
+	<XMT_CommandMarkFriend>Marcar Amigo</XMT_CommandMarkFriend>
+	<XMT_CommandMarkFriendDescription>Marcar como Amigo da família!</XMT_CommandMarkFriendDescription>
+	
+	<XMT_CommandMarkEnemy>Marcar Inimigo</XMT_CommandMarkEnemy>
+	<XMT_CommandMarkEnemyDescription>Marcar como Inimigo da família!</XMT_CommandMarkEnemyDescription>
+	
+	<XMT_MessageMustDesignateAlive>Deve designar um alvo vivo.</XMT_MessageMustDesignateAlive>
+	
+	<XMT_CommandAbduct>Abduzir</XMT_CommandAbduct>
+	<XMT_CommandAbductDescription>Designar alvo para Abdução.</XMT_CommandAbductDescription>
+	
+	<XMT_MessageMustDesignateAbductable>Deve designar abduzível.</XMT_MessageMustDesignateAbductable>
+	
+	<XMT_CommandInvestigateSite>Investigar o Assentamento</XMT_CommandInvestigateSite>
+	<XMT_CommandInvestigateSiteDesc>Não parece ter ninguém em casa? Isso é estranho.</XMT_CommandInvestigateSiteDesc>
+	<XMT_LetterLabelCaravanEnteredAftermathBase>Investigando o Assentamento</XMT_LetterLabelCaravanEnteredAftermathBase>
+	<XMT_LetterCaravanEnteredAftermathBase>O Assentamento está estranhamente silencioso, a área parece marcada por sinais de ácido corrosivo queimado no solo.</XMT_LetterCaravanEnteredAftermathBase>
+
+	<XMT_LetterLabelCaravanAttackedByBase>Assentamento Atacando!</XMT_LetterLabelCaravanAttackedByBase>
+	<XMT_LetterCaravanAttackedByBase> Negociações com {1} fracassaram, e agora eles estão atacando {0}!</XMT_LetterCaravanAttackedByBase>
+
+</LanguageData>
