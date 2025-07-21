@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	
+    <!-- Buildings_Exotic -->
+    <BuildingBase.label>pedaço de nave</BuildingBase.label>
+    <BuildingBase.description>Um pedaço de uma espaço-nave. Parece ter sido arrancado por uma re-entrada descontrolada or algum tipo de arma.\n\nTendo pousado há pouco tempo, ainda contém recursos úteis que você pode adquirer ao desconstruí-lo.</BuildingBase.description>
+    <BuildingBase.category>Construção</BuildingBase.category>
+
+    <!-- Buildings_Horror -->
+    <XMT_Petrolsump.label>Massa de carne escorrendo</XMT_Petrolsump.label>
+    <XMT_Petrolsump.description>uma estranha massa amorfa de carne trêmula, coberta de sacos turvos e ondulantes. Ela se contorce no chão molhada e faminta, treme e se agita de maneira terrivelmente dolorosa, exala secreções fétidas.</XMT_Petrolsump.description>
+    
+    <XMT_SlumberingBeast.label>Massa Adormecida</XMT_SlumberingBeast.label>
+    <XMT_SlumberingBeast.description>uma massa agitada de carne gelatinosa crivada de veias com um esqueleto flutuando dentro, ela treme e se agita de maneira lenta e pesada.</XMT_SlumberingBeast.description>
+
+
+
+</LanguageData>
