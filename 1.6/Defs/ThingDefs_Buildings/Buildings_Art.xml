@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="SculptureBase">
+		<defName>XMT_CorpseSculptureSmall</defName>
+		<label>small sculpture</label>
+		<description>A torso-sized piece of material sculpted into an artistic form.</description>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/CorpseSculpture/Small</texPath>
+		</graphicData>
+		<fillPercent>0.35</fillPercent>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+		  <MaxHitPoints>90</MaxHitPoints>
+		  <Mass>3</Mass>
+		  <Beauty>50</Beauty>
+		  <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">50</TerrorSource>
+		  <WorkToMake>1000</WorkToMake>
+		  <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">10</StyleDominance>
+		</statBases>
+		<recipeMaker Inherit="False" IsNull="True"></recipeMaker>
+	</ThingDef>
+	
+	<ThingDef ParentName="SculptureBase">
+		<defName>XMT_CorpseSculptureLarge</defName>
+		<label>large sculpture</label>
+		<description>A person-sized piece of material sculpted into an artistic form.</description>
+		<castEdgeShadows>true</castEdgeShadows>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/CorpseSculpture/Large</texPath>
+		  <drawSize>(4,4)</drawSize>
+		</graphicData>
+		<uiIconScale>0.666</uiIconScale>
+		<fillPercent>0.5</fillPercent>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+		  <MaxHitPoints>150</MaxHitPoints>
+		  <Mass>7</Mass>
+		  <Beauty>100</Beauty>
+		  <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">100</TerrorSource>
+		  <WorkToMake>3000</WorkToMake>
+		  <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">20</StyleDominance>
+		</statBases>
+		<recipeMaker Inherit="False" IsNull="True"></recipeMaker>
+	</ThingDef>
+
+	<ThingDef ParentName="SculptureBase">
+		<defName>XMT_CorpseSculptureGrand</defName>
+		<label>grand sculpture</label>
+		<description>A huge sculpture sized to dominate a room.</description>
+		<castEdgeShadows>true</castEdgeShadows>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/CorpseSculpture/Grand</texPath>
+		  <drawSize>(5,5)</drawSize>
+		</graphicData>
+		<uiIconScale>0.6666</uiIconScale>
+		<fillPercent>0.5</fillPercent>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<size>(2,2)</size>
+		<canOverlapZones>false</canOverlapZones>
+		<statBases>
+		  <MaxHitPoints>300</MaxHitPoints>
+		  <Beauty>400</Beauty>
+		  <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">400</TerrorSource>
+		  <Mass>28</Mass>
+		  <WorkToMake>6000</WorkToMake>
+		  <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">40</StyleDominance>
+		</statBases>
+		<recipeMaker Inherit="False" IsNull="True"></recipeMaker>
+	</ThingDef>
+	
+</Defs>

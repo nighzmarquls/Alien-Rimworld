@@ -262,6 +262,7 @@
 			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
 			<leatherDef>Starbeast_Chitin</leatherDef>
 			<canBecomeShambler>false</canBecomeShambler>
+			<waterCellCost>5</waterCellCost>
 			<!--<bloodSmearDef Inherit="false">Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
 		</race>
 		<alienRace>
@@ -410,9 +411,9 @@
 							<conditions>
 								<Or>
 									<!--<Drafted>true</Drafted>-->
-									<Job>AbductHost</Job>
-									<Job>StealthHunt</Job>
-									<Job>StarbeastSabotage</Job>
+									<Job>XMT_AbductHost</Job>
+									<Job>XMT_StealthHunt</Job>
+									<Job>XMT_Sabotage</Job>
 									<Job>PredatorHunt</Job>
 									<Job>Kidnap</Job>
 									<Job>Arrest</Job>
@@ -756,6 +757,8 @@
 				<onlyBuildRaceRestrictedBuildings>true</onlyBuildRaceRestrictedBuildings>
 				
 				<buildingList>
+				  <!-- Self Using Buildings -->
+				  <li>XMT_AmbushSpot</li>
 				  <!-- Mimic Buildings -->
 				  <li>HiveMimicWallBuildable</li>
 				  <li>SmoothHiveFloorBuildable</li>
@@ -800,7 +803,9 @@
 					<li>XMT_MeatballLarder</li>
 					<li>XMT_JellyWell</li>
 					<li>XMT_HibernationCocoon</li>
-					
+					<li>XMT_CorpseSculptureSmall</li>
+					<li>XMT_CorpseSculptureLarge</li>
+					<li>XMT_CorpseSculptureGrand</li>
 				</whiteBuildingList>
 				
 				<!-- Xenomorph Recipes -->
@@ -1517,9 +1522,9 @@
 								<conditions>
 									<Or>
 										<!--<Drafted>true</Drafted>-->
-										<Job>AbductHost</Job>
-										<Job>StealthHunt</Job>
-										<Job>StarbeastSabotage</Job>
+										<Job>XMT_AbductHost</Job>
+										<Job>XMT_StealthHunt</Job>
+										<Job>XMT_Sabotage</Job>
 										<Job>PredatorHunt</Job>
 										<Job>Kidnap</Job>
 										<Job>Arrest</Job>
@@ -1749,7 +1754,12 @@
 				</blackGeneList>
 				<blackGeneTags> 
 					<li MayRequire="Ludeon.RimWorld.Biotech">BodyType</li>
-				</blackGeneTags> 
+				</blackGeneTags>
+				
+				<blackBuildingList>
+					<li>XMT_AmbushSpot</li>
+				</blackBuildingList>
+				
 				<onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
 				<whiteApparelList Inherit="False">
 				</whiteApparelList>

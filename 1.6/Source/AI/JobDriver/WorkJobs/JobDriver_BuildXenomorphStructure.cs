@@ -45,7 +45,7 @@ namespace Xenomorphtype {
 
         private Toil DoToilBuilding()
         {
-            Toil toil = ToilMaker.MakeToil("AttemptGrab");
+            Toil toil = ToilMaker.MakeToil("AttemptBuilding");
             toil.atomicWithPrevious = true;
             toil.initAction = delegate
             {
@@ -55,32 +55,21 @@ namespace Xenomorphtype {
                     IncreasedDifficulty = obstruction.HitPoints / 5;
                 }
             };
-            toil.tickAction = delegate
+            toil.tickIntervalAction = delegate (int delta)
             {
-                Ticks += pawn.GetStatValue(StatDefOf.ConstructionSpeedFactor);
+                Ticks += (pawn.GetStatValue(StatDefOf.ConstructionSpeedFactor)*delta);
                 if (pawn.skills != null)
                 {
-                    pawn.skills.Learn(SkillDefOf.Construction, xpPerTick);
+                    pawn.skills.Learn(SkillDefOf.Construction, xpPerTick * delta);
                 }
                 Progress = (Ticks / TicksFinish);
 
-                if (pawn?.needs?.food != null)
+                if (!BioUtility.PerformBioconstructionCost(pawn))
                 {
-                    pawn.needs.food.CurLevel = pawn.needs.food.CurLevel - HiveUtility.HiveHungerCostPerTick;
-
-                    if (pawn.needs.food.Starving)
-                    {
-                        Hediff Malnutrition = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition);
-
-                        if (Malnutrition != null)
-                        {
-                            Malnutrition.Severity += 0.001f;
-                            pawn?.workSettings.Disable(WorkTypeDefOf.Construction);
-                        }
-                        ReadyForNextToil();
-                        return;
-                    }
+                    this.FailOnMentalState(TargetIndex.A);
+                    return;
                 }
+
                 if (Ticks >= TicksFinish)
                 {
                     ReadyForNextToil();

@@ -2,7 +2,7 @@
 <Defs>
 
 	<JobDef>
-		<defName>Ritual_Metamorphosis</defName>
+		<defName>XMT_Ritual_Metamorphosis</defName>
 		<driverClass>Xenomorphtype.JobDriver_Ritual_Metamorphosis</driverClass>
 		<reportString>metamorphosis.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -11,7 +11,7 @@
 	</JobDef>
 
 	<JobDef>
-		<defName>ImplantHunt</defName>
+		<defName>XMT_ImplantHunt</defName>
 		<driverClass>Xenomorphtype.JobDriver_LarvaImplant</driverClass>
 		<reportString>implanting TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -21,7 +21,7 @@
 	</JobDef>
 
 	<JobDef>
-		<defName>AbductHost</defName>
+		<defName>XMT_AbductHost</defName>
 		<driverClass>Xenomorphtype.JobDriver_AbductHost</driverClass>
 		<reportString>abducting TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -33,7 +33,7 @@
 	</JobDef>
 	
 		<JobDef>
-		<defName>CocoonTarget</defName>
+		<defName>XMT_CocoonTarget</defName>
 		<driverClass>Xenomorphtype.JobDriver_CocoonTarget</driverClass>
 		<reportString>cocooning TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -45,7 +45,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>PerformTrophallaxis</defName>
+		<defName>XMT_PerformTrophallaxis</defName>
 		<driverClass>Xenomorphtype.JobDriver_Trophallaxis</driverClass>
 		<reportString>feeding TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -54,7 +54,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>MoveOvamorph</defName>
+		<defName>XMT_MoveOvamorph</defName>
 		<driverClass>Xenomorphtype.JobDriver_MoveBuilding</driverClass>
 		<reportString>moving TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -64,7 +64,17 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>StealthHunt</defName>
+		<defName>XMT_CorpseSculpture</defName>
+		<driverClass>Xenomorphtype.JobDriver_CorpseSculpture</driverClass>
+		<reportString>sculpting TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<neverFleeFromEnemies>false</neverFleeFromEnemies>
+		<carryThingAfterJob>false</carryThingAfterJob>
+		<suspendable>false</suspendable>
+	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_StealthHunt</defName>
 		<driverClass>Xenomorphtype.JobDriver_StealthHunt</driverClass>
 		<reportString>hunting TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -76,7 +86,7 @@
 	</JobDef>
 
 	<JobDef>
-		<defName>ApplyOvamorphing</defName>
+		<defName>XMT_ApplyOvamorphing</defName>
 		<driverClass>Xenomorphtype.JobDriver_ApplyOvamorph</driverClass>
 		<reportString>ovamorphing TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -86,7 +96,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>ApplyLardering</defName>
+		<defName>XMT_ApplyLardering</defName>
 		<driverClass>Xenomorphtype.JobDriver_ApplyLarder</driverClass>
 		<reportString>lardering TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -96,7 +106,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastAlterGenes</defName>
+		<defName>XMT_AlterGenes</defName>
 		<driverClass>Xenomorphtype.JobDriver_AlterGenes</driverClass>
 		<reportString>altering TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -106,7 +116,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastCopyGenes</defName>
+		<defName>XMT_CopyGenes</defName>
 		<driverClass>Xenomorphtype.JobDriver_CopyGenesFrom</driverClass>
 		<reportString>acquiring genes from TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -116,7 +126,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastMergeIntoJellyWell</defName>
+		<defName>XMT_MergeIntoJellyWell</defName>
 		<driverClass>Xenomorphtype.JobDriver_MergeIntoJellyWell</driverClass>
 		<reportString>merging with TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -126,7 +136,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>PruneLarder</defName>
+		<defName>XMT_PruneLarder</defName>
 		<driverClass>Xenomorphtype.JobDriver_PruneLarder</driverClass>
 		<reportString>pruning TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -136,56 +146,56 @@
 	</JobDef>
 
 	<JobDef>
-		<defName>StarbeastSnuggle</defName>
+		<defName>XMT_Snuggle</defName>
 		<driverClass>Xenomorphtype.JobDriver_StarbeastSnuggle</driverClass>
 		<reportString>snuggling TargetA.</reportString>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastSeduce</defName>
+		<defName>XMT_Seduce</defName>
 		<driverClass>Xenomorphtype.JobDriver_StarbeastSeduce</driverClass>
 		<reportString>seducing TargetA.</reportString>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastSabotage</defName>
+		<defName>XMT_Sabotage</defName>
 		<driverClass>Xenomorphtype.JobDriver_Sabotage</driverClass>
 		<reportString>sabotaging TargetA.</reportString>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastMature</defName>
+		<defName>XMT_Mature</defName>
 		<driverClass>Xenomorphtype.JobDriver_Metamorphosis</driverClass>
 		<reportString>maturing.</reportString>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastHibernate</defName>
+		<defName>XMT_Hibernate</defName>
 		<driverClass>Xenomorphtype.JobDriver_Hibernate</driverClass>
 		<reportString>entering hibernation.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 
 	<JobDef>
-		<defName>StarbeastHiveBuilding</defName>
+		<defName>XMT_HiveBuilding</defName>
 		<driverClass>Xenomorphtype.JobDriver_BuildXenomorphStructure</driverClass>
 		<reportString>building hive.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastHideInSpot</defName>
+		<defName>XMT_HideInSpot</defName>
 		<driverClass>Xenomorphtype.JobDriver_HideInside</driverClass>
 		<reportString>hiding.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastWallClimb</defName>
+		<defName>XMT_WallClimb</defName>
 		<driverClass>Xenomorphtype.JobDriver_ClimbToPosition</driverClass>
 		<reportString>climbing.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
@@ -193,7 +203,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastProduceJelly</defName>
+		<defName>XMT_ProduceJelly</defName>
 		<driverClass>Xenomorphtype.JobDriver_ProduceJelly</driverClass>
 		<reportString>producing jelly.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
@@ -202,14 +212,14 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastLayOvamorph</defName>
+		<defName>XMT_LayOvamorph</defName>
 		<driverClass>Xenomorphtype.JobDriver_LayOvamorph</driverClass>
 		<reportString>laying ovamorph.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 	
 	<JobDef>
-		<defName>StarbeastGeneDevour</defName>
+		<defName>XMT_GeneDevour</defName>
 		<driverClass>Xenomorphtype.JobDriver_ConsumeGenes</driverClass>
 		<reportString>consuming genes.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>

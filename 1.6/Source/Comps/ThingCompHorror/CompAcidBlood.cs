@@ -14,49 +14,10 @@ namespace Xenomorphtype
         Pawn Parent = null;
         CompAcidBloodProperties Props => props as CompAcidBloodProperties;
 
-        public override void CompTick()
-        {
-            base.CompTick();
-
-            if (IsParentPawn)
-            {
-                if (!Parent.health.CanBleed)
-                {
-                    return;
-                }
-
-                if (Parent.health.hediffSet.HasHediff(HediffDefOf.BloodfeederMark))
-                {
-                    Hediff bloodmark = Parent.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodfeederMark);
-                    Parent.health.RemoveHediff(bloodmark);
-                    IEnumerable<Pawn> bystanders = GenRadial.RadialDistinctThingsAround(Parent.PositionHeld, Parent.MapHeld, 1.5f, true).OfType<Pawn>();
-
-                    foreach (Pawn bystander in bystanders)
-                    {
-                        if (bystander == Parent || XMTUtility.IsXenomorph(bystander))
-                        {
-                            continue;
-                        }
-
-                        if (bystander.IsBloodfeeder())
-                        {
-                            bystander.ClearAllReservations();
-                            bystander.jobs.StopAll();
-                            DamageBiter(bystander);
-
-                        }
-                    }
-                    TrySplashAcid(GetBloodFullness());
-                }
-            }
-        }
-
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
         {
             base.Notify_Killed(prevMap, dinfo);
         }
-
-
 
         public override void Initialize(CompProperties props)
         {
@@ -98,7 +59,7 @@ namespace Xenomorphtype
             base.PostPreApplyDamage(ref dinfo, out absorbed);
         }
 
-        protected void DamageBiter(Pawn bitingPawn)
+        public void DamageBiter(Pawn bitingPawn)
         {
             if (bitingPawn != null)
             {

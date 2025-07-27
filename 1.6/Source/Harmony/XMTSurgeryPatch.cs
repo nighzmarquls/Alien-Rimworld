@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace Xenomorphtype
     internal class XMTSurgeryPatch
     {
         [HarmonyPatch(typeof(Bill_Medical), nameof(Bill_Medical.Notify_BillWorkStarted))]
-        public static class CompExplosive_Detonate
+        public static class Bill_Medical_Notify_BillWorkStarted_Patch
         {
             [HarmonyPostfix]
             public static void PostFix(Pawn billDoer, BillStack ___billStack, Dictionary<ThingDef, int> ___consumedMedicine, RecipeDef ___recipe)

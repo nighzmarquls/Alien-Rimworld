@@ -188,6 +188,35 @@
   </HediffDef>
   
   <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Ambushed</defName>
+    <label>ambushed</label>
+    <description>has been ambushed!</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <label>shocked</label>
+	    <becomeVisible>false</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0.0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+    <comps>
+		<li Class="Xenomorphtype.HediffCompProperties_RemoveOnCarryStatus">
+			<RemoveIfCarried>true</RemoveIfCarried>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
     <defName>AcidCorrosion</defName>
     <label>corrosion</label>
     <description>tissue is being burned away by a highly corrosive agent.</description>

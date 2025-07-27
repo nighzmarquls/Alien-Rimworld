@@ -8,7 +8,7 @@ namespace Xenomorphtype
     {
         protected override Job TryGiveJob(Pawn pawn)
         {
-            if(pawn.CurJob != null && pawn.CurJob.def == JobDefOf.AttackMelee)
+            if(pawn.CurJob != null && (pawn.CurJob.def == JobDefOf.AttackMelee || pawn.CurJob.def == JobDefOf.PredatorHunt))
             {
                 return null;
             }
@@ -26,15 +26,39 @@ namespace Xenomorphtype
             {
                 Thing spawnedParentOrMe = mentalState_MurderousRage.target.SpawnedParentOrMe;
 
-                Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, spawnedParentOrMe);
-                job.canBashDoors = true;
-                job.killIncappedTarget = true;
-                if (spawnedParentOrMe != mentalState_MurderousRage.target)
+                if (pawn.needs.food.Starving)
                 {
-                    job.maxNumMeleeAttacks = 2;
-                }
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is starving and doing a predator hunt on " + spawnedParentOrMe);
+                    }
+                    pawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+                    Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, spawnedParentOrMe);
+                    job.killIncappedTarget = true;
+                    //pawn.Map.designationManager.AddDesignation(new Designation(spawnedParentOrMe, DesignationDefOf.Hunt));
 
-                return job;
+                    if (spawnedParentOrMe != mentalState_MurderousRage.target)
+                    {
+                        job.maxNumMeleeAttacks = 2;
+                    }
+                    return job;
+                }
+                else
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is not hungry and going to murder " + spawnedParentOrMe);
+                    }
+                    Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, spawnedParentOrMe);
+                    job.canBashDoors = true;
+                    job.killIncappedTarget = true;
+                    if (spawnedParentOrMe != mentalState_MurderousRage.target)
+                    {
+                        job.maxNumMeleeAttacks = 2;
+                    }
+
+                    return job;
+                }
             }
         }
     }

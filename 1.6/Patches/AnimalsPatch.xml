@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
-<!-- Vanilla Insectoids -->
+<!-- Vanilla Insectoids TODO: LavaSnail-->
 	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Megascarab"]</xpath>
 		<value>
@@ -117,7 +117,7 @@
 	</Operation>
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Thrumbo"]</xpath>
+		<xpath>Defs/ThingDef[defName="Thrumbo" or defName="AlphaThrumbo"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -198,7 +198,7 @@
 <!--  Elephant -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Elephant"]</xpath>
+		<xpath>Defs/ThingDef[defName="Elephant" or defName="Mastodon"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -214,7 +214,7 @@
 		</value>
 	</Operation>
 	
-<!--  Rhinoceros -->
+<!--  Rhinoceros TODO: Hippo-->
 
 	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Rhinoceros"]</xpath>
@@ -268,7 +268,7 @@
 <!-- Bears and Wargs -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Bear_Polar"]</xpath>
+		<xpath>Defs/ThingDef[defName="Bear_Polar" or defName="Panda"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -295,7 +295,7 @@
 	</Operation>
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Bear_Grizzly" or defName="Warg"]</xpath>
+		<xpath>Defs/ThingDef[defName="Bear_Grizzly" or defName="Warg" or defName="Wolf_Great"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -323,7 +323,7 @@
 <!-- Cats -->
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Cougar" or defName="Panther" or defName="Cat" or defName="Lynx"]</xpath>
+		<xpath>Defs/ThingDef[defName="Cougar" or defName="Panther" or defName="Cat" or defName="Lynx" or defName = "Cat_Scimitar" or defName = "Tiger"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -403,7 +403,7 @@
 <!-- Wolves -->
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Wolf_Timber" or defName="Wolf_Arctic"]</xpath>
+		<xpath>Defs/ThingDef[defName="Wolf_Timber" or defName="Wolf_Arctic" or defName="BogHound"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -425,7 +425,7 @@
 		</value>
 	</Operation>
 	
-<!-- Small handy -->
+<!-- Small handy TODO: Wolverine, Badger-->
 	
 	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Raccoon"]</xpath>
@@ -453,7 +453,7 @@
 <!-- Monkey -->
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Monkey"]</xpath>
+		<xpath>Defs/ThingDef[defName="Monkey" or defName="Gorilla"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -475,10 +475,10 @@
 		</value>
 	</Operation>
 	
-<!-- Small Weak Animals -->
+<!-- Small Weak Animals  TODO: Porcupine, Armadillo-->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="GuineaPig" or defName="Squirrel" or defName="Squirrel" or defName="Rat" or defName="Chinchilla"]</xpath>
+		<xpath>Defs/ThingDef[defName="GuineaPig" or defName="Squirrel" or defName="Squirrel" or defName="Rat" or defName="Chinchilla" or defName="PrairieDog" or defName="Mink" or defName="Megavole"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -533,7 +533,7 @@
 <!-- Cow Animals -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Cow" or defName="Bison" or defName="Yak"]</xpath>
+		<xpath>Defs/ThingDef[defName="Cow" or defName="Bison" or defName="Yak" or defName="Muskox"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -559,7 +559,7 @@
 <!-- Horse Animals -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Elk" or defName="Gazelle" or defName="Caribou"]</xpath>
+		<xpath>Defs/ThingDef[defName="Elk" or defName="Gazelle" or defName="Caribou" or defName="Moose"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -658,7 +658,7 @@
 <!-- Reptiles -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Iguana" or defName="Cobra" or defName="Tortoise"]</xpath>
+		<xpath>Defs/ThingDef[defName="Iguana" or defName="Cobra" or defName="Tortoise" or defName="MonitorLizard" or defName="Alligator" or defName="Bullfrog" or defName="ColossusToad"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>

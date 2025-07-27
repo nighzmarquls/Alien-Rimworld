@@ -139,7 +139,7 @@ namespace Xenomorphtype
                 {
                     if (target.Thing is Pawn targetPawn)
                     {
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastCopyGenes, this);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CopyGenes, this);
 
                         targetPawn.jobs.StartJob(job, JobCondition.InterruptForced);
                     }

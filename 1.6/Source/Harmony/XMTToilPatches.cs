@@ -9,6 +9,7 @@ using Unity.Jobs;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using static AlienRace.ExtendedGraphics.ConditionMood;
 
 namespace Xenomorphtype
 {
@@ -80,24 +81,10 @@ namespace Xenomorphtype
                                         XMTResearch.ProgressResinTech(progress, actor);
                                     }
 
-                                    if (actor?.needs?.food != null)
+                                    if (!BioUtility.PerformBioconstructionCost(actor))
                                     {
-                                        actor.needs.food.CurLevel = actor.needs.food.CurLevel - HiveUtility.HiveHungerCostPerTick;
-
-                                        if(actor.needs.food.Starving)
-                                        {
-                                            Hediff Malnutrition = actor.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition);
-
-                                            if (Malnutrition != null)
-                                            {
-                                                Malnutrition.Severity += 0.001f;
-
-                                                
-                                                //actor.workSettings.Disable(WorkTypeDefOf.Construction);
-                                            }
-                                            __instance.ReadyForNextToil();
-                                            return;
-                                        }
+                                        __instance.FailOnMentalState(TargetIndex.A);
+                                        return;
                                     }
 
                                     if (IsBuildingAttachment(frame))

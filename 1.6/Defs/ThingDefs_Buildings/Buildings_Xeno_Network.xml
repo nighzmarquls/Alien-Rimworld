@@ -25,6 +25,9 @@
 			<ratio>1</ratio>
 		  </li>
 		</linkToRefuelables>
+		<noLinkedGraphicDefs>
+			<li>XMT_JellyDrain</li>
+		</noLinkedGraphicDefs>
 	</PipeSystem.PipeNetDef>
 
 	<ThingDef ParentName="BuildingBase">

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
+using Verse.AI;
 using static UnityEngine.GraphicsBuffer;
 
 
@@ -899,6 +900,28 @@ namespace Xenomorphtype
                     Log.Message("applied altered genes to " + target);
                 }
             }
+        }
+
+        internal static bool PerformBioconstructionCost(Pawn pawn)
+        {
+            if (pawn?.needs?.food != null)
+            {
+                pawn.needs.food.CurLevel = pawn.needs.food.CurLevel - HiveUtility.HiveHungerCostPerTick;
+
+                if (pawn.needs.food.Starving)
+                {
+                    Hediff Malnutrition = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition);
+
+                    if (Malnutrition != null)
+                    {
+                        Malnutrition.Severity += 0.001f;
+                        pawn.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                        return false;
+                    }
+
+                }
+            }
+            return true;
         }
     }
 }

@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
+using static UnityEngine.GraphicsBuffer;
 
 
 namespace Xenomorphtype
@@ -61,9 +63,9 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref canTunnelTick, "canTunnelTick", 0);
         }
 
-        public override void CompTick()
+        public override void CompTickInterval(int delta)
         {
-            base.CompTick();
+            base.CompTickInterval(delta);
             if (Parent == null)
             {
                 return;
@@ -82,7 +84,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        destroyTicks--;
+                        destroyTicks-= delta;
                     }
                 }
 
@@ -491,7 +493,7 @@ namespace Xenomorphtype
         {
             if (Parent.needs.food.CurCategory == HungerCategory.Fed)
             {
-                Job job = JobMaker.MakeJob(XenoWorkDefOf.PerformTrophallaxis, candidate);
+                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate);
                 return job;
             }
             return null;
@@ -919,7 +921,6 @@ namespace Xenomorphtype
                 target.TakeDamage(new DamageInfo(DamageDefOf.Blunt, 1, 999f, -1, parent));
                 return false;
             }
-
             return true;
         }
         public void TryGrab(Pawn target)
@@ -984,7 +985,7 @@ namespace Xenomorphtype
 
                 if (offensive != null )
                 {
-                    michief = JobMaker.MakeJob(XenoWorkDefOf.StarbeastSabotage, offensive);
+                    michief = JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, offensive);
                     return true;
                 }
             }
@@ -993,7 +994,7 @@ namespace Xenomorphtype
 
             if (BestSabotageTarget != null)
             {
-                michief = JobMaker.MakeJob(XenoWorkDefOf.StarbeastSabotage, BestSabotageTarget);
+                michief = JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, BestSabotageTarget);
                 return true;
             }
             return false;
@@ -1040,7 +1041,7 @@ namespace Xenomorphtype
                             }
                             
                             
-                            job = JobMaker.MakeJob(XenoWorkDefOf.MoveOvamorph, ovamorphCandidate, clearSite);
+                            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MoveOvamorph, ovamorphCandidate, clearSite);
                             job.count = 1;
                             Parent.Map.reservationManager.Reserve(Parent, job, ovamorphCandidate);
                             Parent.Map.reservationManager.Reserve(Parent, job, clearSite);
@@ -1131,7 +1132,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    job =  JobMaker.MakeJob(XenoWorkDefOf.ApplyOvamorphing, candidate);
+                    job =  JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvamorphing, candidate);
                     parent.Map.reservationManager.Reserve(Parent, job, candidate);
                     return true;
                 }
@@ -1156,7 +1157,7 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
-                job = JobMaker.MakeJob(XenoWorkDefOf.ApplyLardering, candidate);
+                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyLardering, candidate);
                 parent.Map.reservationManager.Reserve(Parent,job, candidate);
                 return true;
             }
@@ -1173,7 +1174,7 @@ namespace Xenomorphtype
             {
                 if (PruningLarder.CanBePruned())
                 {
-                    job = JobMaker.MakeJob(XenoWorkDefOf.PruneLarder, PruningLarder);
+                    job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, PruningLarder);
                     parent.Map.reservationManager.Reserve(Parent, job, PruningLarder);
                     return true;
                 }
@@ -1190,7 +1191,7 @@ namespace Xenomorphtype
             if (thing != null)
             {
                 ThingDef doorDef = InternalDefOf.HiveWebbing;
-                Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHiveBuilding, thing.Position);
+                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, thing.Position);
                 job.plantDefToSow = InternalDefOf.HiveWebbing;
                 if (job != null)
                 {
@@ -1229,7 +1230,7 @@ namespace Xenomorphtype
             if (cell.IsValid)
             {
                 ThingDef cooler = InternalDefOf.AtmospherePylon;
-                job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHiveBuilding, cell);
+                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, cell);
                 job.plantDefToSow = cooler;
                 if (job != null)
                 {
@@ -1275,6 +1276,36 @@ namespace Xenomorphtype
             return false;
         }
 
+        public bool GetArtJob(out Job job)
+        {
+            job = null;
+
+            IEnumerable<Designation> artTargets = Parent.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_CorpseArt);
+
+            if (artTargets.Any())
+            {
+                List<Designation> materials = artTargets.ToList();
+                materials.Shuffle();
+
+                foreach (Designation material in materials)
+                {
+                    if (material.target.Thing is Corpse corpse)
+                    {
+                        if (Parent.Map.reservationManager.IsReserved(corpse))
+                        {
+                            continue;
+                        }
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CorpseSculpture, corpse);
+                        parent.Map.reservationManager.Reserve(Parent, job, corpse);
+                        return true;
+
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public bool GetAbductJob(out Job job)
         {
             job = null;
@@ -1299,7 +1330,7 @@ namespace Xenomorphtype
                         {
                             continue;
                         }
-                        job = JobMaker.MakeJob(XenoWorkDefOf.AbductHost, prey, NestPosition);
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, NestPosition);
                         job.count = 1;
                         parent.Map.reservationManager.Reserve(Parent, job, prey);
                         return true;
@@ -1342,7 +1373,7 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                job = JobMaker.MakeJob(XenoWorkDefOf.CocoonTarget, prisoner);
+                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CocoonTarget, prisoner);
                 job.count = 1;
                 parent.Map.reservationManager.Reserve(Parent, job, prisoner);
                 return true;
@@ -1460,6 +1491,16 @@ namespace Xenomorphtype
             if (workType == XenoWorkDefOf.PlantCutting)
             {
                 if (GetPruningJob(out job))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            if (workType == XenoWorkDefOf.Art)
+            {
+                if (GetArtJob(out job))
                 {
                     return true;
                 }
@@ -1614,7 +1655,7 @@ namespace Xenomorphtype
 
         }
 
-        internal void ClearAllTickLimits()
+        public void ClearAllTickLimits()
         {
             canNuzzleTick = 0;
             canAbductTick = 0;
@@ -1630,6 +1671,33 @@ namespace Xenomorphtype
         {
             destroyNextTick = true;
             delayedDestroyMode = mode;
+        }
+
+        public void TryAmbushAbduct(Pawn targetPawn)
+        {
+            targetPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 8));
+            if (InitiateGrabCheck(targetPawn))
+            {
+                Parent.playerSettings.hostilityResponse = HostilityResponseMode.Ignore;
+                Hediff hediff = HediffMaker.MakeHediff(InternalDefOf.XMT_Ambushed, targetPawn);
+                targetPawn.health.AddHediff(hediff);
+                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, HiveUtility.GetNestPosition(targetPawn.Map));
+                job.count = 1;
+                Parent.jobs.StartJob(job, JobCondition.InterruptForced);
+            }
+            else
+            {
+                Parent.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+            }
+        }
+
+        public void TryAmbushAttack(Pawn targetPawn)
+        {
+            Parent.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+            targetPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 8));
+            Parent.Map.reservationManager.ReleaseAllForTarget(targetPawn);
+            Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, targetPawn);
+            Parent.jobs.StartJob(job, JobCondition.InterruptForced);
         }
     }
 

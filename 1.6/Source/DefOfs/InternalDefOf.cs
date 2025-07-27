@@ -39,6 +39,8 @@ namespace Xenomorphtype
 
         public static HediffDef             PawnInfoHediff;
 
+        public static HediffDef             XMT_Ambushed;
+
         //Xenomorph bodyparts
         public static BodyPartGroupDef      StarbeastTailAttackTool;
         public static BodyPartDef           StarbeastTail;

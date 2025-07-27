@@ -4,14 +4,11 @@ using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
-
 using System.Linq;
-
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using static AlienRace.ExtendedGraphics.ConditionMood;
-using static UnityEngine.GraphicsBuffer;
+
 
 
 namespace Xenomorphtype
@@ -387,12 +384,13 @@ namespace Xenomorphtype
                     }
                 }
 
-
-                if (map.terrainGrid.TerrainAt(location) != InternalDefOf.AcidBurned &&
-                    map.terrainGrid.TerrainAt(location) != InternalDefOf.HiveFloor &&
-                    map.terrainGrid.TerrainAt(location) != InternalDefOf.HeavyHiveFloor &&
-                    map.terrainGrid.TerrainAt(location) != InternalDefOf.SmoothHiveFloor &&
-                    map.terrainGrid.TerrainAt(location) != ExternalDefOf.EmptySpace)
+                TerrainDef terrainAt = map.terrainGrid.TerrainAt(location);
+                if (terrainAt != InternalDefOf.AcidBurned &&
+                    terrainAt != InternalDefOf.HiveFloor &&
+                    terrainAt != InternalDefOf.HeavyHiveFloor &&
+                    terrainAt != InternalDefOf.SmoothHiveFloor &&
+                    terrainAt != ExternalDefOf.EmptySpace &&
+                    terrainAt != TerrainDefOf.Space)
                 {
                     if (map.terrainGrid.CanRemoveTopLayerAt(location))
                     {
@@ -475,24 +473,29 @@ namespace Xenomorphtype
                 defenderChance *= 0.25f;
             }
 
+            if(defender.stances.stunner.Stunned)
+            {
+                defenderChance *= 0.5f;
+            }
+
             float attackerChance = attacker.GetStatValue(StatDefOf.MeleeHitChance);
             if (ModsConfig.IdeologyActive)
             {
                 if (DarknessCombatUtility.IsOutdoorsAndLit(attacker))
                 {
-                    defenderChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsLitOffset);
+                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsLitOffset);
                 }
                 else if (DarknessCombatUtility.IsOutdoorsAndDark(attacker))
                 {
-                    defenderChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsDarkOffset);
+                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsDarkOffset);
                 }
                 else if (DarknessCombatUtility.IsIndoorsAndDark(attacker))
                 {
-                    defenderChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsDarkOffset);
+                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsDarkOffset);
                 }
                 else if (DarknessCombatUtility.IsIndoorsAndLit(attacker))
                 {
-                    defenderChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsLitOffset);
+                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsLitOffset);
                 }
             }
 
@@ -519,6 +522,11 @@ namespace Xenomorphtype
             }
 
             if (!(target.Thing is Pawn pawn))
+            {
+                return 0f;
+            }
+
+            if (pawn.stances.stunner.Stunned)
             {
                 return 0f;
             }
@@ -562,10 +570,10 @@ namespace Xenomorphtype
                 return true;
             }
 
-            Pawn pawn = thing as Pawn;
-            if (thing.def.category == ThingCategory.Pawn && !pawn.Downed)
+            if (thing is Pawn pawn && !pawn.Downed)
             {
-                return pawn.GetPosture() != PawnPosture.Standing;
+
+                return pawn.GetPosture() != PawnPosture.Standing ;
             }
 
             return true;
@@ -1124,7 +1132,21 @@ namespace Xenomorphtype
             {
                 NewPawn.Name = target.Name;
 
-                
+                if(NewPawn.BodySize < target.BodySize)
+                {
+                    if (target.Spawned)
+                    {
+                        ThingDef meat = NewPawn.RaceProps.meatDef;
+                        if(meat == null)
+                        {
+                            meat = ThingDefOf.Meat_Human;
+                        }
+
+                        int ExcessAmount = Mathf.FloorToInt((target.GetStatValue(StatDefOf.Mass) - NewPawn.GetStatValue(StatDefOf.Mass))/NewPawn.RaceProps.meatDef.BaseMass);
+
+                        DropAmountThing(meat, ExcessAmount, target.PositionHeld, target.MapHeld, InternalDefOf.Starbeast_Filth_Resin);
+                    }
+                }
 
                 if(target.skills != null)
                 {
@@ -1428,23 +1450,7 @@ namespace Xenomorphtype
         }
         public static bool PlayerXenosOnMap(Map localMap)
         {
-            if(localMap == null)
-            {
-                return false;
-            }
-
-            if (localMap?.mapPawns.FreeColonists != null)
-            {
-                foreach (Pawn colonist in localMap.mapPawns.FreeColonists)
-                {
-                    if (IsXenomorph(colonist))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return HiveUtility.PlayerXenosOnMap(localMap);
         }
 
         public static void DropAmountThing(ThingDef thingDef, int stackTotal, IntVec3 position, Map targetMap, ThingDef Filth = null)
@@ -1481,7 +1487,7 @@ namespace Xenomorphtype
                 {
                     FilthMaker.TryMakeFilth(dropRadial[i], targetMap, Filth);
                 }
-                GenSpawn.Spawn(DroppedMeat[i], dropRadial[i], targetMap);
+                GenSpawn.Spawn(DroppedMeat[i], dropRadial[i], targetMap,WipeMode.VanishOrMoveAside);
             }
         }
 
@@ -1789,8 +1795,21 @@ namespace Xenomorphtype
                         continue;
                     }
 
+                    if(witness.Downed)
+                    {
+                        continue;
+                    }
+
                     if (IsXenomorph(witness))
                     {
+                        if(witness.jobs.curJob != null && aggressorInfo.XenomorphPheromoneValue() > -5f)
+                        {
+                            if(witness.jobs.curJob.def == XenoWorkDefOf.XMT_AbductHost)
+                            {
+                                continue;
+                            }
+                        }
+
                         if (witness.Drafted)
                         {
                             if(aggressorInfo.parent.Faction == witness.Faction && aggressorInfo.XenomorphPheromoneValue() <= -1f)

@@ -86,7 +86,7 @@ namespace Xenomorphtype
             {
                 Find.Targeter.BeginTargeting(ImplantParameters, delegate (LocalTargetInfo target)
                 {
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.ImplantHunt, target);
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, target);
                     Parent.Reserve(target, job);
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
 

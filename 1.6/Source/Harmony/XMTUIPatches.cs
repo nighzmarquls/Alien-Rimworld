@@ -53,7 +53,7 @@ namespace Xenomorphtype
                         FloatMenuOption JellyOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Make " + JellyName, delegate
                         {
 
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastProduceJelly, targetItem);
+                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, targetItem);
                             if (pawn.jobs.curDriver is JobDriver_ProduceJelly)
                             {
                                 //pawn.jobs//jobQueue.AddItem(new QueuedJob(job, JobTag.Misc));
@@ -76,7 +76,7 @@ namespace Xenomorphtype
                     FloatMenuOption AdbuctOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Abduct", delegate
                     {
 
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.AbductHost, targetPawn, HiveUtility.GetNestPosition(pawn.Map));
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, HiveUtility.GetNestPosition(pawn.Map));
                         job.count = 1;
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
@@ -88,11 +88,9 @@ namespace Xenomorphtype
                     FloatMenuOption CocoonOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Cocoon", delegate
                     {
 
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.CocoonTarget, targetPawn, HiveUtility.GetNestPosition(pawn.Map));
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CocoonTarget, targetPawn, HiveUtility.GetNestPosition(pawn.Map));
                         job.count = 1;
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-
-
                     }, priority: MenuOptionPriority.Default), pawn, targetPawn);
 
                     __result.Add(CocoonOption);
@@ -124,7 +122,7 @@ namespace Xenomorphtype
                     {
 
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.PerformTrophallaxis, targetPawn);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, targetPawn);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
 
@@ -148,7 +146,7 @@ namespace Xenomorphtype
                     FloatMenuOption OvamorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Ovamorph", delegate
                     {
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.ApplyOvamorphing, targetPawn);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvamorphing, targetPawn);
                         job.count = 1;
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
@@ -162,7 +160,7 @@ namespace Xenomorphtype
                         {
 
                             pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.ApplyLardering, targetPawn);
+                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyLardering, targetPawn);
                             job.count = 1;
                             pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
@@ -182,7 +180,7 @@ namespace Xenomorphtype
                     FloatMenuOption PruneLarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Prune Larder", delegate
                     {
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetBuilding);
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.PruneLarder, targetBuilding);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, targetBuilding);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
                     }, priority: MenuOptionPriority.Default), pawn, targetBuilding);
@@ -200,25 +198,12 @@ namespace Xenomorphtype
 
                     FloatMenuOption HibernateOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hibernate", delegate
                     {
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHibernate, cell);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Hibernate, cell);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
                     }, priority: MenuOptionPriority.Default), pawn, cell);
 
                     __result.Add(HibernateOption);
-
-                    TargetingParameters HideParameters = TargetingParameters.ForCell();
-
-                    FloatMenuOption HideOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hide Inside", delegate
-                    {
-
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHideInSpot, cell);
-                        pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-
-
-                    }, priority: MenuOptionPriority.Default), pawn, cell);
-
-                    __result.Add(HideOption);
                 }
 
                 if (!cell.Fogged(pawn.Map))
@@ -226,7 +211,7 @@ namespace Xenomorphtype
                     FloatMenuOption ClimbOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Climb To", delegate
                     {
                         
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastWallClimb, cell);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, cell);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
                         
 
@@ -257,6 +242,11 @@ namespace Xenomorphtype
                     }
 
                     if (pawn.Drafted)
+                    {
+                        continue;
+                    }
+
+                    if(pawn.Downed)
                     {
                         continue;
                     }

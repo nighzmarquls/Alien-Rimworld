@@ -1,10 +1,6 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 
@@ -13,8 +9,6 @@ namespace Xenomorphtype
     internal class Designator_Abduct : Designator
     {
         private List<Pawn> justDesignated = new List<Pawn>();
-
-
         protected override DesignationDef Designation => XenoWorkDefOf.XMT_Abduct;
 
         public override bool Disabled

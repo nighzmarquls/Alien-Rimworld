@@ -175,24 +175,23 @@ namespace Xenomorphtype
         {
             if (Parent.Spawned)
             {
-                int tick = Find.TickManager.TicksGame;
-                if (tick > becomeInvisibleTick)
+                if (parent.IsHashIntervalTick(60))
                 {
-                    if (Parent.Map.gameConditionManager.MapBrightness <= Props.hideBrightness || HiddenByBed())
+                    int tick = Find.TickManager.TicksGame;
+                    if (tick > becomeInvisibleTick)
                     {
-                        TryHide();
+                        if (Parent.Map.gameConditionManager.MapBrightness <= Props.hideBrightness || HiddenByBed())
+                        {
+                            TryHide();
+                        }
                     }
-                }
 
-                if(tick < Parent.LastAttackTargetTick + 300)
-                {
-                    RevelationShock(Parent.LastAttackedTarget.Thing);
-                    TryVisible(); 
-                }
-
-                if (tick > nextSpotCheck)
-                {
-                    nextSpotCheck = tick + 600;
+                    if (tick < Parent.LastAttackTargetTick + 300)
+                    {
+                        RevelationShock(Parent.LastAttackedTarget.Thing);
+                        TryVisible();
+                        return;
+                    }
 
                     CheckIfSeen();
 
@@ -201,7 +200,6 @@ namespace Xenomorphtype
                         CheckIfHeard();
                     }
                 }
-
                 
             }
         }
@@ -220,18 +218,17 @@ namespace Xenomorphtype
 
         private void CheckIfSeen()
         {
+            if (HiddenByBed())
+            {
+                TryHide();
+                return;
+            }
+
             float brightness = Parent.MapHeld.glowGrid.GroundGlowAt(Parent.Position);
 
             if(DarklightUtility.IsDarklightAt(Parent.Position,Parent.MapHeld))
             {
                 brightness *= 0.5f;
-            }
-
-
-            if(HiddenByBed())
-            {
-                TryHide();
-                return;
             }
 
             if (brightness > Props.hideBrightness)
@@ -244,9 +241,17 @@ namespace Xenomorphtype
                 return;
             }
 
+            bool visible = true;
             if (brightness < Props.minVisibleBrightness)
             {
                 TryHide();
+                visible = false;
+            }
+
+            if(visible)
+            {
+                TryVisible();
+                return;
             }
 
             IEnumerable<Thing> PossibleSpotters = GenRadial.RadialDistinctThingsAround(Parent.Position, Parent.Map, Props.spotRange, true)

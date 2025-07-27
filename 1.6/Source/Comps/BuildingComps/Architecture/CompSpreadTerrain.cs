@@ -10,6 +10,11 @@ namespace Xenomorphtype
 {
     public class CompSpreadTerrain : ThingComp
     {
+        struct TerrainSpreadingFrame
+        {
+            public CompSpreadTerrainProperties properties;
+            public Frame Frame;
+        }
         CompSpreadTerrainProperties Props => props as CompSpreadTerrainProperties;
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -28,22 +33,76 @@ namespace Xenomorphtype
                 {
                     continue;
                 }
+                TerrainDef terrainAt = parent.Map.terrainGrid.TerrainAt(item);
+                List<Thing> things = parent.Position.GetThingList(parent.Map);
+                List<TerrainSpreadingFrame> terrainSpreaders = new List<TerrainSpreadingFrame>();
+                foreach(Thing thing in things)
+                {
+                    if(thing is Frame frame)
+                    {
+                        if (frame.BuildDef != null)
+                        {
+                            foreach (CompProperties comp in frame.BuildDef.comps)
+                            {
+                                if(comp is CompSpreadTerrainProperties terrainSpreader)
+                                {
+                                    TerrainSpreadingFrame newSpreader = new() { Frame = frame, properties = terrainSpreader};
+                                    terrainSpreaders.Add(newSpreader);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
 
-                if(parent.Map.terrainGrid.TerrainAt(item) != ExternalDefOf.EmptySpace)
+                if (terrainAt != ExternalDefOf.EmptySpace )
                 {
                     if(Props.upgradeTerrain != null)
                     {
-                        if(parent.Map.terrainGrid.TerrainAt(item) == Props.spreadTerrain)
+                        if(terrainAt == Props.spreadTerrain)
                         {
+                            foreach (TerrainSpreadingFrame spreader in terrainSpreaders)
+                            {
+                                if (spreader.properties.radius > 0)
+                                {
+                                    continue;
+                                }
+                                if (spreader.properties.spreadTerrain == Props.upgradeTerrain || spreader.properties.spreadTerrain == Props.spreadTerrain)
+                                {
+                                    spreader.Frame.Destroy();
+                                }
+                            }
                             parent.Map.terrainGrid.SetTerrain(item, Props.upgradeTerrain);
                         }
-                        else if(parent.Map.terrainGrid.TerrainAt(item) != Props.upgradeTerrain)
+                        else if(terrainAt != Props.upgradeTerrain)
                         {
                             parent.Map.terrainGrid.SetTerrain(item, Props.spreadTerrain);
+                            foreach (TerrainSpreadingFrame spreader in terrainSpreaders)
+                            {
+                                if (spreader.properties.radius > 0)
+                                {
+                                    continue;
+                                }
+                                if (spreader.properties.spreadTerrain == Props.spreadTerrain)
+                                {
+                                    spreader.Frame.Destroy();
+                                }
+                            }
                         }
                     }
                     else
                     {
+                        foreach(TerrainSpreadingFrame spreader in terrainSpreaders)
+                        {
+                            if(spreader.properties.radius > 0)
+                            {
+                                continue;
+                            }
+                            if (spreader.properties.spreadTerrain == Props.spreadTerrain)
+                            {
+                                spreader.Frame.Destroy();
+                            }
+                        }
                         parent.Map.terrainGrid.SetTerrain(item, Props.spreadTerrain);
                     }
                     

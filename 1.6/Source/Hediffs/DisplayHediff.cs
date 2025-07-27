@@ -35,7 +35,9 @@ namespace Xenomorphtype
             {
                 return false;
             }
+
             return pawnInfo.ShouldDisplay();
+            
         }
         protected string GetLabel()
         {

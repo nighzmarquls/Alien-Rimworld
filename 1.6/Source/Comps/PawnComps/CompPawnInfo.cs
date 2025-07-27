@@ -108,7 +108,37 @@ namespace Xenomorphtype
 
         public float PsychicAwareness => psychicAwareness;
 
+        public override void CompTickInterval(int delta)
+        {
+            if (parent.IsHashIntervalTick(2000))
+            {
+                if (parent is Pawn Parent)
+                {
+                    if(Parent.Swimming)
+                    {
+                        CleanPheramones(0.12f);
+                    }
 
+                    if(parent.MapHeld is Map map)
+                    {
+                        if (Parent.IsOutside())
+                        {
+                            WeatherDef weather = map.weatherManager.CurWeatherPerceived;
+
+                            if (weather != null)
+                            {
+
+                                if (weather.rainRate > 0)
+                                {
+                                    CleanPheramones(0.12f * weather.rainRate);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
         public float IdeoReproductionModifier()
         {
             float modifier = 0;

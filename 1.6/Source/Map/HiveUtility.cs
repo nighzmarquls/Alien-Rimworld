@@ -784,7 +784,7 @@ namespace Xenomorphtype
                             if (cell.GetEdifice(map) == null)
                             {
                                 countTilDoor--;
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHiveBuilding, cell);
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, cell);
                                 job.plantDefToSow = wallDef;
                                 jobs.Add(job);
                             }
@@ -792,7 +792,7 @@ namespace Xenomorphtype
                         else
                         {
                             countTilDoor = divisionCount;
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHiveBuilding, cell);
+                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, cell);
                             job.plantDefToSow = doorDef;
                             jobs.Add(job);
                         }
@@ -1521,6 +1521,38 @@ namespace Xenomorphtype
             }
 
             localNest.GeneOvamorphs.Remove(geneOvamorph);
+        }
+
+        public static bool PlayerXenosOnMap(Map localMap)
+        {
+            if (localMap == null)
+            {
+                return false;
+            }
+
+            NestSite localNest = GetLocalNest(localMap);
+
+            if (localNest == null)
+            {
+                return false;
+            }
+
+            if(localNest.TotalHiveMates <= 0)
+            {
+                return false;
+            }
+
+            foreach(Pawn hiveMate in localNest.HiveMates)
+            {
+                if(hiveMate.Faction != null)
+                {
+                    if(hiveMate.Faction.IsPlayer)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

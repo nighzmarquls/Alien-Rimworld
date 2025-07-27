@@ -319,4 +319,46 @@
 		<tickerType>Normal</tickerType>
 		<terrainAffordanceNeeded></terrainAffordanceNeeded>
 	</ThingDef>
+
+	<ThingDef ParentName="AncientCryptosleepCasket">
+		<defName>XMT_AmbushSpot</defName>
+		<label>ambush trap</label>
+		<thingClass>Xenomorphtype.AmbushTrap</thingClass>
+		<containedPawnsSelectable>false</containedPawnsSelectable>
+		<description>A hiding place where Cryptimorphs can wait in ambush.</description>
+		<graphicData>
+			<texPath>Things/Building/AmbushSpot/AmbushSpot</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawOffsetNorth>(0,0,0.9)</drawOffsetNorth>
+			<drawOffsetSouth>(0,0,-0.9)</drawOffsetSouth>
+			<drawOffsetWest>(-0.9,0,0)</drawOffsetWest>
+			<drawOffsetEast>(0.9,0,0)</drawOffsetEast>
+			<drawSize>1.0</drawSize>
+		</graphicData>
+		<altitudeLayer>BuildingOnTop</altitudeLayer>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<building>
+			<deconstructible>false</deconstructible>
+			<claimable>true</claimable>
+			<isEdifice>true</isEdifice>
+			<isAttachment>true</isAttachment>
+		</building>
+		<size>(1,1)</size>
+		<passability>Standable</passability>
+		<pathCost>0</pathCost>
+		<researchPrerequisites Inherit="False" />
+		<hasInteractionCell>false</hasInteractionCell>
+		<specialDisplayRadius>1</specialDisplayRadius>
+		<statBases>
+			<WorkToBuild>60</WorkToBuild>
+			<MaxHitPoints>60</MaxHitPoints>
+			<Flammability>0.0</Flammability>
+			<TrapSpringChance>1.0</TrapSpringChance>
+		</statBases>
+		<filthLeaving>Starbeast_Filth_Resin</filthLeaving>
+		<costList Inherit="False" />
+		<comps Inherit="False"/>
+		<constructEffect>ResinBuild</constructEffect>
+		<designationCategory>XMT_Hive</designationCategory>
+	</ThingDef>
 </Defs>

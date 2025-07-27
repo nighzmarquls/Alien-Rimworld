@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-	<ScenarioDef>
+	<ScenarioDef ParentName="ScenarioBase">
 		<defName>XMT_SoSNostromoHuman</defName>
 		<label>USCSS Nostromo</label>
 		<description>The five of you awoke in your cryptosleep sarcophagi, stirred from slumber by an automated warning. By company orders you were forced to land on an uninhabited planet to investigate a possibly non-human signal. One of your crew came back with something attached to them.</description>

@@ -134,7 +134,17 @@ namespace Xenomorphtype
                         Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(caravan);
                         if (settlement != null)
                         {
-                            XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                            if (!settlement.HasMap)
+                            {
+                                LongEventHandler.QueueLongEvent(delegate
+                                {
+                                    XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                                }, "GeneratingMapForNewEncounter", doAsynchronously: false, null);
+                            }
+                            else
+                            {
+                                XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                            } 
                         }
                     };
                 }

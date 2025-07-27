@@ -74,7 +74,7 @@ namespace Xenomorphtype
                     if (ingredient != null)
                     {
                         pawn.Map.reservationManager.ReleaseAllForTarget(ingredient);
-                        job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastProduceJelly, ingredient);
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, ingredient);
                         pawn.Map.reservationManager.Reserve(pawn, job, ingredient);
                         return true;
                     }
@@ -234,12 +234,22 @@ namespace Xenomorphtype
         {
             ThingDef Jelly = GetJellyProduct();
 
+            bool geneProduct = Props.jellyProduct != Jelly;
+
             if (XenoformingUtility.CellIsFertile(cell,currentmap))
             {
                 XenoformingUtility.DegradeTerrainOnCell(currentmap, cell);
             }
-
-            XMTUtility.DropAmountThing(Jelly, stackTotal, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
+            if (geneProduct)
+            {
+                int halfstack = stackTotal / 2;
+                XMTUtility.DropAmountThing(Jelly, halfstack, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
+                XMTUtility.DropAmountThing(Props.jellyProduct, halfstack, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
+            }
+            else
+            {
+                XMTUtility.DropAmountThing(Jelly, stackTotal, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
+            }
         }
 
         protected int JellyFromDef(ThingDef thingDef, float efficiency = 1f)

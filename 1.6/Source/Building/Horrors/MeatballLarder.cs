@@ -84,7 +84,7 @@ namespace Xenomorphtype
                     delegate {
                         if (target.Thing is Pawn targetPawn)
                         {
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastMergeIntoJellyWell, this);
+                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MergeIntoJellyWell, this);
                             targetPawn.jobs.StartJob(job, JobCondition.InterruptForced);
                         }
                     }));

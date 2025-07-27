@@ -23,7 +23,7 @@ namespace Xenomorphtype
                 return null;
             }
 
-            Job job = JobMaker.MakeJob(XenoWorkDefOf.Ritual_Metamorphosis, duty.focusSecond);
+            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Ritual_Metamorphosis, duty.focusSecond);
             job.speechSoundMale = soundDefMale ?? SoundDefOf.Speech_Leader_Male;
             job.speechSoundFemale = soundDefFemale ?? SoundDefOf.Speech_Leader_Female;
             return job;

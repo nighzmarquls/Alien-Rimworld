@@ -103,6 +103,7 @@
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_CocoonTarget.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Hibernate.cs" />
     <Compile Include="AI\JobDriver\JobDriver_HideInside.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_CorpseSculpture.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_MoveBuilding.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ProduceJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_PruneLarder.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="BioHorror\BioUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
     <Compile Include="BioHorror\WorkGiver_XMT_HaulToGeneBank.cs" />
+    <Compile Include="Building\AmbushTrap.cs" />
     <Compile Include="Building\Fillable\JellyPod.cs" />
     <Compile Include="Building\Fillable\JellyWell.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforceable.cs" />
@@ -201,7 +203,9 @@
     <Compile Include="Harmony\XMTToilPatches.cs" />
     <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
     <Compile Include="Harmony\XMTWildmanPatch.cs" />
+    <Compile Include="Harmony\XMT_BloodfeedPatch.cs" />
     <Compile Include="Hediffs\DisplayHediff.cs" />
+    <Compile Include="IdeoHorror\ArtUtility.cs" />
     <Compile Include="IdeoHorror\Precepts\Comps\PreceptComp_WitnessedAction.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph.cs" />
     <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph_Social.cs" />
@@ -286,6 +290,7 @@
     <Compile Include="Things\AcidBurnFilth.cs" />
     <Compile Include="Things\StarbeastCorpse.cs" />
     <Compile Include="UI\Designators\Designator_Abduct.cs" />
+    <Compile Include="UI\Designators\Designator_Art.cs" />
     <Compile Include="UI\Designators\Designator_ScentFoe.cs" />
     <Compile Include="UI\Designators\Designator_ScentFriend.cs" />
     <Compile Include="UI\Designators\Designator_Hive_Cancel.cs" />

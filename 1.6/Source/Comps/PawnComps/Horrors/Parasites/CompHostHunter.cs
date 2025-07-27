@@ -26,12 +26,12 @@ namespace Xenomorphtype
 
         public virtual bool ShouldHunt()
         {
-            return Parent.CurJobDef != XenoWorkDefOf.ImplantHunt && !Parent.Downed;
+            return Parent.CurJobDef != XenoWorkDefOf.XMT_ImplantHunt && !Parent.Downed;
         }
 
         public virtual void StartHunt(Pawn prey)
         {
-            Job attachJob = JobMaker.MakeJob(XenoWorkDefOf.ImplantHunt, prey);
+            Job attachJob = JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, prey);
 
             Parent.jobs.StartJob(attachJob, JobCondition.InterruptForced);
         }

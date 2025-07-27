@@ -149,9 +149,15 @@ namespace Xenomorphtype
                 yield return gizmo;
             }
         }
-        protected override void Tick()
+        protected override void TickInterval(int delta)
         {
-            base.Tick();
+            base.TickInterval(delta);
+
+            if(!Spawned)
+            {
+                return;
+            }
+      
             if(HatchingEgg == null)
             {
                 Log.WarningOnce("No HatchingEgg Comp Defined",098765678);
@@ -169,11 +175,11 @@ namespace Xenomorphtype
                 accelerated = Position.GetTemperature(Map) >= 30;
             }
 
-            if (Unhatched && Spawned)
+            if (Unhatched)
             {
                 if (gestateProgress >= 1f)
                 {
-                    IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(Position, Map, 1.5f, true).OfType<Pawn>()
+                    IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(Position, Map, def.specialDisplayRadius, true).OfType<Pawn>()
                         .Where(x => XMTUtility.IsHost(x));
 
                     foreach (Pawn host in PossibleHosts)

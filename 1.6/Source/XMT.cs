@@ -1,12 +1,12 @@
 ﻿
+using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-
-using System.Reflection;
-using HarmonyLib;
 
 namespace Xenomorphtype
 {
@@ -16,9 +16,13 @@ namespace Xenomorphtype
         static XMT()
         {
             var harmony = new Harmony("XMT.XMTMod");
-            harmony.PatchAll();
-            UpdateXenomorphCorpses();
-            
+
+            LongEventHandler.QueueLongEvent(delegate
+            {
+                harmony.PatchAll();
+                Log.Message("[Alien|Rimworld] finished harmony patches");
+                UpdateXenomorphCorpses();
+            }, "XMT_LoadPatching", doAsynchronously: true, null);
         }
 
         static void UpdateXenomorphCorpses()

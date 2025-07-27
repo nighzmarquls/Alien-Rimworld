@@ -160,7 +160,7 @@ namespace Xenomorphtype
                 {
                     nextOvamorph = Props.ovamorphDef;
                     Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastLayOvamorph, target);
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_LayOvamorph, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
 
@@ -186,7 +186,7 @@ namespace Xenomorphtype
                 {
                     nextOvamorph = Props.geneOvamorphDef;
                     Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastLayOvamorph, target);
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_LayOvamorph, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
 

@@ -47,14 +47,14 @@ namespace Xenomorphtype
 
                                 if (canReach)
                                 {
-                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.AbductHost, target, compMatureMorph.NestPosition);
+                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
                                     job.count = 1;
 
                                     return job;
                                 }
                                 else
                                 {
-                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastWallClimb, target);
+                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
 
                                     return job;
                                 }
@@ -100,7 +100,7 @@ namespace Xenomorphtype
                             }
                             else
                             {
-                                return JobMaker.MakeJob(XenoWorkDefOf.ApplyOvamorphing, target);
+                                return JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvamorphing, target);
                             }
                         }
                     }
@@ -134,11 +134,11 @@ namespace Xenomorphtype
 
                             if (canReach)
                             {
-                                return JobMaker.MakeJob(XenoWorkDefOf.StealthHunt, target);
+                                return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
                             }
                             else
                             {
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastWallClimb, target);
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
 
                                 return job;
                             }
@@ -166,11 +166,11 @@ namespace Xenomorphtype
 
                             if (canReach)
                             {
-                                return JobMaker.MakeJob(XenoWorkDefOf.StealthHunt, target);
+                                return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
                             }
                             else
                             {
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastWallClimb, target);
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
 
                                 return job;
                             }
@@ -185,7 +185,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastWallClimb, compMatureMorph.NestPosition);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
 
                         return job;
                     }
@@ -200,7 +200,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastWallClimb, compMatureMorph.NestPosition);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
 
                         return job;
                     }
@@ -242,6 +242,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
+                    pawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
                     Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, pawn2);
                     job.killIncappedTarget = true;
                     return job;
@@ -291,10 +292,12 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is seeking to hunt a murder target");
+                        Log.Message(pawn + " is seeking to hunt " + rage.target);
                     }
                     Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, rage.target);
                     job.killIncappedTarget = true;
+                    pawn.Map.designationManager.RemoveAllDesignationsOn(rage.target);
+                    pawn.Map.designationManager.AddDesignation(new Designation(rage.target, DesignationDefOf.Hunt));
                     return job;
                 }
 
@@ -304,7 +307,7 @@ namespace Xenomorphtype
                     {
                         Log.Message(pawn + " is trying to mature.");
                     }
-                    return JobMaker.MakeJob(XenoWorkDefOf.StarbeastMature, compMatureMorph.NestPosition);
+                    return JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, compMatureMorph.NestPosition);
                 }
 
                 if (compMatureMorph.ShouldGorge())
@@ -332,10 +335,10 @@ namespace Xenomorphtype
                             {
                                 Log.Message(pawn + " is seducing " + SnuggleTarget);
                             }
-                            return JobMaker.MakeJob(XenoWorkDefOf.StarbeastSeduce, SnuggleTarget);
+                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_Seduce, SnuggleTarget);
                         }
 
-                        return JobMaker.MakeJob(XenoWorkDefOf.StarbeastSnuggle, SnuggleTarget);
+                        return JobMaker.MakeJob(XenoWorkDefOf.XMT_Snuggle, SnuggleTarget);
                     }
                 }
 
@@ -368,7 +371,7 @@ namespace Xenomorphtype
                                 {
                                     Log.Message(pawn + " is going to abduct " + target);
                                 }
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.AbductHost, target, compMatureMorph.NestPosition);
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
                                 job.count = 1;
 
                                 return job;
@@ -399,7 +402,7 @@ namespace Xenomorphtype
                                 Log.Message(pawn + " is clearing offensive thing " + offensiveThing + " from the nest.");
                             }
        
-                            return JobMaker.MakeJob(XenoWorkDefOf.StarbeastSabotage, offensiveThing);
+                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, offensiveThing);
                         }
 
                         if (XMTSettings.LogJobGiver)
@@ -430,7 +433,7 @@ namespace Xenomorphtype
                                         continue;
                                     }
 
-                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.StarbeastHideInSpot, cell);
+                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HideInSpot, cell);
                                     pawn.Map.reservationManager.Reserve(pawn, job, cell);
                                     return job;
                                 }
@@ -517,7 +520,7 @@ namespace Xenomorphtype
                     {
                         foreach (Pawn target in pawns)
                         {
-                            return JobMaker.MakeJob(XenoWorkDefOf.ImplantHunt, target);
+                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, target);
                         }
                     }
                 }

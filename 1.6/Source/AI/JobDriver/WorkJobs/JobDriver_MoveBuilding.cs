@@ -44,16 +44,16 @@ namespace Xenomorphtype
                     Thing InnerThing = thing.InnerThing;
                     if (InnerThing != null)
                     {
-                        if(thing.Spawned)
+                        if (thing.Spawned)
                         {
                             thing.DeSpawn();
                         }
-                        else
-                        {
-                            thing.Destroy();
-                        }
+                        
                         Thing placedBuilding = GenSpawn.Spawn(InnerThing, pawn.CurJob.targetB.Cell, pawn.Map);
+                        thing.InnerThing = null;
+                        thing.Destroy();
                     }
+
                 }
                 ReadyForNextToil();
 

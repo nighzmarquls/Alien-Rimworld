@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Verse.AI;
 using Verse;
 using static UnityEngine.GraphicsBuffer;
+using RimWorld;
 
 namespace Xenomorphtype
 {
@@ -84,20 +85,42 @@ namespace Xenomorphtype
             }
 
             Pawn result = tmpTargets[0];
+            int closest = int.MaxValue;
             float worstTarget = 0;
 
             foreach (Pawn target in tmpTargets)
             {
+                if (target.Downed)
+                {
+                    continue;
+                }
+
                 CompPawnInfo info = target.GetComp<CompPawnInfo>();
                 if (info != null)
                 {
                     float pheromone = info.XenomorphPheromoneValue();
 
-                    if (pheromone < worstTarget)
+                    
+                    if(target.HostileTo(pawn))
+                    {
+                        pheromone -= 0.5f;
+                    }
+
+                    int distance = target.Position.DistanceToSquared(pawn.Position);
+
+                    if (pheromone < -5 && pheromone < worstTarget)
                     {
                         result = target;
                         worstTarget = pheromone;
+                        closest = distance;
                     }
+                    else if( worstTarget > -5 && distance < closest)
+                    {
+                        result = target;
+                        worstTarget = pheromone;
+                        closest = distance;
+                    }
+                    
                 }
             }
             

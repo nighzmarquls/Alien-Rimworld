@@ -43,7 +43,7 @@
 	<XMT_MessageMustDesignateAlive>Must designate a living target.</XMT_MessageMustDesignateAlive>
 	
 	<XMT_CommandAbduct>Abduct</XMT_CommandAbduct>
-	<XMT_CommandAbductDescription>Designate target for Abduction.</XMT_CommandAbductDescription>
+	<XMT_CommandAbductDescription>Designate targets for Abduction.</XMT_CommandAbductDescription>
 	
 	<XMT_MessageMustDesignateAbductable>Must designate abductable.</XMT_MessageMustDesignateAbductable>
 	
@@ -54,5 +54,9 @@
 
 	<XMT_LetterLabelCaravanAttackedByBase>Settlement Attacking!</XMT_LetterLabelCaravanAttackedByBase>
 	<XMT_LetterCaravanAttackedByBase> Negotiations with {1} have broken down, and they are attacking {0}!</XMT_LetterCaravanAttackedByBase>
-
+	
+	<XMT_LoadPatching>Alien|Rimworld Patching</XMT_LoadPatching>
+	<XMT_CommandArt>Sculpt</XMT_CommandArt>
+	<XMT_CommandArtDescription>Designate skeletons for art sculpture.</XMT_CommandArtDescription>
+	<XMT_MessageMustDesignateArtable>Must Designate Dessicated Corpses.</XMT_MessageMustDesignateArtable>
 </LanguageData>

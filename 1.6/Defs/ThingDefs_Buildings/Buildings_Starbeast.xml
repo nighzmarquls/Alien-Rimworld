@@ -8,6 +8,7 @@
 		<specialDesignatorClasses>
 		  <li>Xenomorphtype.Designator_Hive_Cancel</li>
 		  <li>Xenomorphtype.Designator_Abduct</li>
+		  <li>Xenomorphtype.Designator_Art</li>
 		  <li>Xenomorphtype.Designator_ScentFriend</li>
 		  <li>Xenomorphtype.Designator_ScentFoe</li>
 		</specialDesignatorClasses>

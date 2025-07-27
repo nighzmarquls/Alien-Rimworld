@@ -73,9 +73,10 @@ namespace Xenomorphtype
                 }
             }
         }
-        public override void CompTick()
+
+        public override void CompTickInterval(int delta)
         {
-            base.CompTick();
+            base.CompTickInterval(delta);
 
             if (pawn != null)
             {

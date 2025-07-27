@@ -11,4 +11,11 @@
     <texturePath>Designations/Break</texturePath>
     <targetType>Thing</targetType>
   </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_CorpseArt</defName>
+    <texturePath>Designations/Art</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+
 </Defs>

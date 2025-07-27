@@ -16,34 +16,41 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(XenoWorkDefOf));
         }
 
+        public static ThingDef XMT_CorpseSculptureSmall;
+        public static ThingDef XMT_CorpseSculptureLarge;
+        public static ThingDef XMT_CorpseSculptureGrand;
+
         public static DesignationDef XMT_Abduct;
         public static DesignationDef XMT_Release;
+        public static DesignationDef XMT_CorpseArt;
 
-        public static JobDef Ritual_Metamorphosis;
+        public static JobDef XMT_Ritual_Metamorphosis;
 
-        public static JobDef ImplantHunt;
-        public static JobDef StealthHunt;
-        public static JobDef AbductHost;
-        public static JobDef CocoonTarget;
-        public static JobDef ApplyOvamorphing;
-        public static JobDef ApplyLardering;
-        public static JobDef MoveOvamorph;
-        public static JobDef StarbeastSnuggle;
-        public static JobDef StarbeastSeduce;
-        public static JobDef StarbeastMature;
-        public static JobDef StarbeastSabotage;
-        public static JobDef StarbeastHibernate;
-        public static JobDef StarbeastHideInSpot;
-        public static JobDef StarbeastHiveBuilding;
-        public static JobDef PerformTrophallaxis;
-        public static JobDef PruneLarder;
-        public static JobDef StarbeastMergeIntoJellyWell;
-        public static JobDef StarbeastWallClimb;
-        public static JobDef StarbeastProduceJelly;
-        public static JobDef StarbeastAlterGenes;
-        public static JobDef StarbeastCopyGenes;
-        public static JobDef StarbeastLayOvamorph;
-        public static JobDef StarbeastGeneDevour;
+        public static JobDef XMT_ImplantHunt;
+        public static JobDef XMT_StealthHunt;
+        public static JobDef XMT_AbductHost;
+        public static JobDef XMT_CocoonTarget;
+        public static JobDef XMT_ApplyOvamorphing;
+        public static JobDef XMT_ApplyLardering;
+        public static JobDef XMT_MoveOvamorph;
+        public static JobDef XMT_Snuggle;
+        public static JobDef XMT_Seduce;
+        public static JobDef XMT_Mature;
+        public static JobDef XMT_Sabotage;
+        public static JobDef XMT_Hibernate;
+        public static JobDef XMT_HideInSpot;
+        public static JobDef XMT_HiveBuilding;
+        public static JobDef XMT_PerformTrophallaxis;
+        public static JobDef XMT_PruneLarder;
+        public static JobDef XMT_MergeIntoJellyWell;
+        public static JobDef XMT_WallClimb;
+        public static JobDef XMT_ProduceJelly;
+        public static JobDef XMT_AlterGenes;
+        public static JobDef XMT_CopyGenes;
+        public static JobDef XMT_LayOvamorph;
+        public static JobDef XMT_GeneDevour;
+        public static JobDef XMT_CorpseSculpture;
+
 
 
         // Vanilla Work Types

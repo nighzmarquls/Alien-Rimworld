@@ -27,20 +27,26 @@ namespace Xenomorphtype
                 icon = InvestigateTex,
                 action = delegate
                 {
-                    InvestigateSettlement(settlement, caravan);
+                    if (!settlement.HasMap)
+                    {
+                        LongEventHandler.QueueLongEvent(delegate
+                        {
+                            InvestigateSettlement(settlement, caravan);
+                        }, "GeneratingMapForNewEncounter", doAsynchronously: false, null);
+                    }
+                    else
+                    {
+                        InvestigateSettlement(settlement, caravan);
+                    }
+
                 }
             };
         }
 
-        internal static void SettlementCounterAttack(Settlement settlement, Caravan caravan)
+        public static void SettlementCounterAttack(Settlement settlement, Caravan caravan)
         {
             SurfaceTile tile = Find.WorldGrid[settlement.Tile.tileId];
-            /*
-            if (!tile.Mutators.Contains(XenoMapDefOf.XMT_SettlementAftermath))
-            {
-                tile.AddMutator(XenoMapDefOf.XMT_SettlementAftermath);
-            }
-            */
+            
             bool GeneratedMap = !settlement.HasMap;
             Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(settlement.Tile, null);
             TaggedString letterLabel = "XMT_LetterLabelCaravanAttackedByBase".Translate();
@@ -60,6 +66,8 @@ namespace Xenomorphtype
             Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NegativeEvent, caravan.PawnsListForReading, settlement.Faction);
             CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Center, CaravanDropInventoryMode.DoNotDrop, draftColonists: true);
         }
+
+
         public static void InvestigateSettlement(Settlement settlement, Caravan caravan)
         {
             SurfaceTile tile = Find.WorldGrid[settlement.Tile.tileId];
