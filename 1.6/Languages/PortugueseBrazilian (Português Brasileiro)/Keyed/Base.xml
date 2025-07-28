@@ -43,7 +43,7 @@
 	<XMT_MessageMustDesignateAlive>Deve designar um alvo vivo.</XMT_MessageMustDesignateAlive>
 	
 	<XMT_CommandAbduct>Abduzir</XMT_CommandAbduct>
-	<XMT_CommandAbductDescription>Designar alvo para Abdução.</XMT_CommandAbductDescription>
+	<XMT_CommandAbductDescription>Designar alvos para Abdução.</XMT_CommandAbductDescription>
 	
 	<XMT_MessageMustDesignateAbductable>Deve designar abduzível.</XMT_MessageMustDesignateAbductable>
 	
@@ -54,5 +54,10 @@
 
 	<XMT_LetterLabelCaravanAttackedByBase>Assentamento Atacando!</XMT_LetterLabelCaravanAttackedByBase>
 	<XMT_LetterCaravanAttackedByBase> Negociações com {1} fracassaram, e agora eles estão atacando {0}!</XMT_LetterCaravanAttackedByBase>
+
+	<XMT_LoadPatching>Alien|Rimworld Patching</XMT_LoadPatching>
+	<XMT_CommandArt>Esculpir</XMT_CommandArt>
+	<XMT_CommandArtDescription>Designar esqueletos para escultura de arte.</XMT_CommandArtDescription>
+	<XMT_MessageMustDesignateArtable>Deve Designar Corpos Dissecados.</XMT_MessageMustDesignateArtable>
 
 </LanguageData>

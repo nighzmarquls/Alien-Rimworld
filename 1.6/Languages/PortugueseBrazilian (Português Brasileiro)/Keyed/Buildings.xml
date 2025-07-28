@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	
+    <!-- Buildings_Art -->
+    <XMT_CorpseSculptureSmall.label>escultura pequena</XMT_CorpseSculptureSmall.label>
+    <XMT_CorpseSculptureSmall.description>Um pedaço de material do tamanho de um torso esculpido em uma forma artística.</XMT_CorpseSculptureSmall.description>
+
+    <XMT_CorpseSculptureLarge.label>escultura grande</XMT_CorpseSculptureLarge.label>
+    <XMT_CorpseSculptureLarge.description>Um pedaço de material do tamanho de uma pessoa esculpida em uma forma artística.</XMT_CorpseSculptureLarge.description>
+
+    <XMT_CorpseSculptureGrand.label>escultura grandiosa</XMT_CorpseSculptureGrand.label>
+    <XMT_CorpseSculptureGrand.description>Uma enorme escultura projetada para dominar uma sala.</XMT_CorpseSculptureGrand.description>
+
     <!-- Buildings_Exotic -->
     <BuildingBase.label>pedaço de nave</BuildingBase.label>
     <BuildingBase.description>Um pedaço de uma espaço-nave. Parece ter sido arrancado por uma re-entrada descontrolada or algum tipo de arma.\n\nTendo pousado há pouco tempo, ainda contém recursos úteis que você pode adquirer ao desconstruí-lo.</BuildingBase.description>
@@ -12,6 +22,47 @@
     
     <XMT_SlumberingBeast.label>Massa Adormecida</XMT_SlumberingBeast.label>
     <XMT_SlumberingBeast.description>uma massa agitada de carne gelatinosa crivada de veias com um esqueleto flutuando dentro, ela treme e se agita de maneira lenta e pesada.</XMT_SlumberingBeast.description>
+
+    <!-- Buildings_Mimicry -->
+    <SmoothHiveFloorBuildable.label>Piso de Resina Liso</SmoothHiveFloorBuildable.label>
+    <SmoothHiveFloorBuildable.description>Resina Reforçada Lisa para um grau uniforme adequado para construção tradicional.</SmoothHiveFloorBuildable.description>
+
+    <HiveMimicWallBuildable.label>Parede</HiveMimicWallBuildable.label>
+    <HiveMimicWallBuildable.description>Uma parede intransponível. Inicialmente parece ter sido construída convencionalmente, mas em uma inspeção mais próxima, na verdade é uma peça única. Capaz de sustentar um teto.</HiveMimicWallBuildable.description>
+    
+    <!-- Buildings_OvamorphCrafts -->
+    <Xenomorphtype.Ovamorph.label>Ovamorph</Xenomorphtype.Ovamorph.label>
+    <Xenomorphtype.Ovamorph.description>Objeto estranho de couro, como um ovo ou algo assim.</Xenomorphtype.Ovamorph.description>
+
+    <Xenomorphtype.GeneOvamorph.label>Ovamorph com Gene</Xenomorphtype.GeneOvamorph.label>
+    <Xenomorphtype.GeneOvamorph.description>Objeto estranho de couro, como um ovo ou algo assim.</Xenomorphtype.GeneOvamorph.description>
+    
+    <HiveSleepingCocoonBuildable.label>casulo adormecido</HiveSleepingCocoonBuildable.label>
+    <HiveSleepingCocoonBuildable.description>um casulo carnudo e resinoso, dimensionado para caber um único ocupante, feito de Ovamorphs que foram chocados.</HiveSleepingCocoonBuildable.description>
+    
+    <HiveSleepingCocoon.label>casulo adormecido</HiveSleepingCocoon.label>
+    <HiveSleepingCocoon.description>um casulo carnudo e resinoso, dimensionado para caber um único ocupante, feito de Ovamorphs que foram chocados.</HiveSleepingCocoon.description>
+
+    <XMT_ExplosivePodBuildable.label>cápsula explosiva</XMT_ExplosivePodBuildable.label>
+    <XMT_ExplosivePodBuildable.description>Encher um Ovamorph com uma mistura potente de resina, ácido e produtos químicos voláteis.</XMT_ExplosivePodBuildable.description>
+
+    <XMT_ExplosivePod.label>Ovamorph</XMT_ExplosivePod.label>
+    <XMT_ExplosivePod.description>Objeto estranho de couro, como um ovo ou algo assim.</XMT_ExplosivePod.description>
+
+    <!-- Buildings_Royalty -->
+    <XMT_QueenChrysalis.label>crisálida metamórfica</XMT_QueenChrysalis.label>
+    <XMT_QueenChrysalis.description>Uma estrutura expansiva de pétalas resinosas curvas.</XMT_QueenChrysalis.description>
+
+    <XMT_QueenSleepingSpot.label>local de dormir real</XMT_QueenSleepingSpot.label>
+    <XMT_QueenSleepingSpot.description>Designa um local na colmeia onde a rainha pode dormir.</XMT_QueenSleepingSpot.description>
+
+    <RoyalHidingSpot.label>esconderijo</RoyalHidingSpot.label>
+    <RoyalHidingSpot.description>Um local onde um Xenomorph pode se esconder.</RoyalHidingSpot.description>
+
+    
+
+
+
 
 
 
