@@ -87,6 +87,9 @@
 				<conversionRate>0.45</conversionRate>
 				<jellyProduct>Starbeast_Jelly</jellyProduct>
 			</li>
+			<li Class="PipeSystem.CompProperties_Resource">
+				<pipeNet>XMT_JellyNet</pipeNet>
+			</li>
 			<li Class="Xenomorphtype.CompJellywellProperties"/>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
 				<appliedHediff>AcidCorrosion</appliedHediff>

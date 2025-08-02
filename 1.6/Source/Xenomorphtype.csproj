@@ -121,6 +121,7 @@
     <Compile Include="AI\JobGiver\JobGiver_Metamorphosis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_MurderXenomorph.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
+    <Compile Include="AI\Lord\LordJob\LordJob_HumanRebellion.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Morph.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Traumatized.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Obsession.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Game\GameComponent_Xenomorph.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
+    <Compile Include="Harmony\XMTEnderPatch.cs" />
     <Compile Include="Harmony\XMTExplosivePatches.cs" />
     <Compile Include="Harmony\XMTIncidentPatches.cs" />
     <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
@@ -203,13 +205,16 @@
     <Compile Include="Harmony\XMTToilPatches.cs" />
     <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
     <Compile Include="Harmony\XMTWildmanPatch.cs" />
-    <Compile Include="Harmony\XMT_BloodfeedPatch.cs" />
+    <Compile Include="Harmony\XMTBloodfeedPatch.cs" />
     <Compile Include="Hediffs\DisplayHediff.cs" />
+    <Compile Include="Hediffs\RevealedHediff.cs" />
     <Compile Include="IdeoHorror\ArtUtility.cs" />
-    <Compile Include="IdeoHorror\Precepts\Comps\PreceptComp_WitnessedAction.cs" />
-    <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph.cs" />
-    <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_Biomorph_Social.cs" />
-    <Compile Include="IdeoHorror\Precepts\ThoughtWorkers\ThoughtWorker_Precept_ParasiteEggs.cs" />
+    <Compile Include="IdeoHorror\Precept\Comp\PreceptComp_WitnessedAction.cs" />
+    <Compile Include="IdeoHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_Biomorph.cs" />
+    <Compile Include="IdeoHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_Biomorph_Social.cs" />
+    <Compile Include="IdeoHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_ParasiteEggs.cs" />
+    <Compile Include="IdeoHorror\Ritual\StageAction\ActionOnTick\ActionOnTick_EnrichChrysalis.cs" />
+    <Compile Include="IdeoHorror\Ritual\StageAction\RitualStageAction_EnrichChrysalis.cs" />
     <Compile Include="Incidents\IncidentWorker_HuntingXenomorph.cs" />
     <Compile Include="Map\GenSteps\GenStep_XenoAbduction.cs" />
     <Compile Include="Map\GenSteps\GenStep_XenoNest.cs" />
@@ -219,16 +224,14 @@
     <Compile Include="ModExtensions\AnimalMutateForms.cs" />
     <Compile Include="Progression\Quests\QuestNode_RequiresXenoforming.cs" />
     <Compile Include="Progression\RoyalEvolutionDef.cs" />
-    <Compile Include="IdeoHorror\Rituals\Behaviors\RitualBehaviorWorker_MatureQueen.cs" />
-    <Compile Include="IdeoHorror\Rituals\Obligations\TargetWorker\RitualObligationTargetWorker_MatureChrysalis.cs" />
-    <Compile Include="IdeoHorror\Rituals\Obligations\RitualObligationTargetWorker_HiveSpot.cs" />
-    <Compile Include="IdeoHorror\Rituals\Obligations\RitualObligationTrigger_CanMatureQueen.cs" />
-    <Compile Include="IdeoHorror\Rituals\Outcomes\RitualOutcomeEffectWorker_MatureQueen.cs" />
-    <Compile Include="IdeoHorror\Rituals\Roles\RitualRoleQueen.cs" />
-    <Compile Include="IdeoHorror\Rituals\Roles\RitualRoleXenomorph.cs" />
-    <Compile Include="IdeoHorror\Rituals\StageActions\RitualStageAction_Metamorphosis.cs" />
-    <Compile Include="IdeoHorror\Rituals\StageActions\RitualStageAction_OpenChrysalis.cs" />
-    <Compile Include="IdeoHorror\Rituals\Targets\RitualTargetFilter_MatureQueen.cs" />
+    <Compile Include="IdeoHorror\Ritual\Behavior\RitualBehaviorWorker_MatureQueen.cs" />
+    <Compile Include="IdeoHorror\Ritual\Obligation\TargetWorker\RitualObligationTargetWorker_MatureChrysalis.cs" />
+    <Compile Include="IdeoHorror\Ritual\Outcome\RitualOutcomeEffectWorker_MatureQueen.cs" />
+    <Compile Include="IdeoHorror\Ritual\Role\RitualRoleQueen.cs" />
+    <Compile Include="IdeoHorror\Ritual\Role\RitualRoleXenomorph.cs" />
+    <Compile Include="IdeoHorror\Ritual\StageAction\RitualStageAction_Metamorphosis.cs" />
+    <Compile Include="IdeoHorror\Ritual\StageAction\RitualStageAction_OpenChrysalis.cs" />
+    <Compile Include="IdeoHorror\Ritual\Target\RitualTargetFilter_MatureQueen.cs" />
     <Compile Include="Rendering\OffsetDefs.cs" />
     <Compile Include="Rendering\PawnRenderer\PawnRenderNodeWorker_HeadAttachment.cs" />
     <Compile Include="Settings\XMTSettings.cs" />
@@ -295,7 +298,6 @@
     <Compile Include="UI\Designators\Designator_ScentFriend.cs" />
     <Compile Include="UI\Designators\Designator_Hive_Cancel.cs" />
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
-    <Compile Include="UI\Letters\ChoiceLetter_XenoGameEnded.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvamorph.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
@@ -311,6 +313,7 @@
     <Folder Include="Abilities\Psycasting\Paths\" />
     <Folder Include="AI\Toils\" />
     <Folder Include="UI\FloatMenuOptions\" />
+    <Folder Include="UI\Letters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="VEF.dll" />

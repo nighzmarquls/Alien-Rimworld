@@ -9,7 +9,7 @@
       <summary>The crashlanded survivor - the classic Alien Rimworld experience.</summary>
       <playerFaction>
         <def>PlayerFaction</def>
-        <factionDef>PlayerHive</factionDef>
+        <factionDef>XMT_PlayerHive</factionDef>
       </playerFaction>
       <parts>
         <!-- Config pages -->

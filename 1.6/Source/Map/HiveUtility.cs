@@ -1,11 +1,14 @@
 ﻿using RimWorld;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 using Verse.Noise;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.Scripting.GarbageCollector;
 
@@ -1523,6 +1526,26 @@ namespace Xenomorphtype
             localNest.GeneOvamorphs.Remove(geneOvamorph);
         }
 
+        public static bool XenosOnMap(Map localMap)
+        {
+            if (localMap == null)
+            {
+                return false;
+            }
+
+            NestSite localNest = GetLocalNest(localMap);
+
+            if (localNest == null)
+            {
+                return false;
+            }
+
+            if (localNest.TotalHiveMates <= 0)
+            {
+                return false;
+            }
+            return true;
+        }
         public static bool PlayerXenosOnMap(Map localMap)
         {
             if (localMap == null)
@@ -1553,6 +1576,162 @@ namespace Xenomorphtype
                 }
             }
             return false;
+        }
+
+        internal static void PlayerJoinXenomorphs(Map localMap)
+        {
+            if (localMap == null)
+            {
+                return;
+            }
+            NestSite localNest = GetLocalNest(localMap);
+
+            if (localNest == null)
+            {
+                return;
+            }
+
+            bool rebellion = false;
+
+            List<Pawn> rebellingPawns = new List<Pawn>();
+            foreach (Pawn colonist in localMap.mapPawns.FreeColonists)
+            {
+                if (colonist.Dead)
+                {
+                    continue;
+                }
+
+                if (XMTUtility.IsXenomorph(colonist))
+                {
+                    continue;
+                }
+
+                CompPawnInfo info = colonist.GetComp<CompPawnInfo>();
+                if (info != null)
+                {
+                    if (!info.IsObsessed())
+                    {
+                        if (colonist.WorkTagIsDisabled(WorkTags.Violent))
+                        {
+                            colonist.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, "", forced: true, forceWake: true, false);
+                            continue;
+                        }
+                        
+                        rebellion = true;
+                        rebellingPawns.Add(colonist);
+                        colonist.SetFaction(Faction.OfAncientsHostile);
+                    }
+                }
+            }
+
+            foreach(Pawn animal in localMap.mapPawns.ColonyAnimals)
+            {
+                if (animal.Dead)
+                {
+                    continue;
+                }
+
+                if (XMTUtility.IsXenomorph(animal))
+                {
+                    continue;
+                }
+
+                if (rebellion)
+                {
+                    animal.SetFaction(Faction.OfAncientsHostile);
+                }
+                else
+                {
+                    animal.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, "", forced: true, forceWake: true, false);
+                }
+            }
+
+            if (localNest.TotalHiveMates > 0)
+            {
+                foreach (Pawn hiveMate in localNest.HiveMates)
+                {
+                    hiveMate.SetFaction(Faction.OfPlayer);
+                }
+            }
+
+            if (!XMTUtility.QueenIsPlayer())
+            {
+                string hivetext = "XMT_HiveRisesLetterDescription".Translate();
+                Find.LetterStack.ReceiveLetter("XMT_HiveRisesLetterTitle".Translate(), hivetext, LetterDefOf.NeutralEvent);
+            }
+
+            if (rebellion)
+            {
+                RCellFinder.TryFindRandomExitSpot(rebellingPawns[0], out var spot, TraverseMode.PassDoors);
+
+                if (!PrisonBreakUtility.TryFindGroupUpLoc(rebellingPawns, spot, out var groupUpLoc))
+                {
+                    groupUpLoc = localMap.Center;
+                }
+
+                string rebeltext = "XMT_HumanRebellionLetterDescription".Translate();
+                Find.LetterStack.ReceiveLetter("XMT_HumanRebellionLetterTitle".Translate(), rebeltext, LetterDefOf.NegativeEvent, new LookTargets(rebellingPawns));
+
+                LordMaker.MakeNewLord(rebellingPawns[0].Faction, new LordJob_HumanRebellion(groupUpLoc, spot, rebellingPawns[0].thingIDNumber), localMap, rebellingPawns);
+
+                for (int m = 0; m < rebellingPawns.Count; m++)
+                {
+                    if (!rebellingPawns[m].Awake())
+                    {
+                        RestUtility.WakeUp(rebellingPawns[m]);
+                    }
+
+                    if (rebellingPawns[m].drafter != null)
+                    {
+                        rebellingPawns[m].drafter.Drafted = false;
+                    }
+
+                    if (rebellingPawns[m].CurJob != null)
+                    {
+                        rebellingPawns[m].jobs.EndCurrentJob(JobCondition.InterruptForced);
+                    }
+
+                    if (rebellingPawns[m].equipment.Primary == null)
+                    {
+                        Log.Message(rebellingPawns[m] + " has no weapon");
+
+                        Thing weapon = XMTUtility.SearchRegionForUnreservedWeapon(rebellingPawns[m]);
+                        Job job = JobMaker.MakeJob(JobDefOf.Equip, weapon);
+                        rebellingPawns[m].Reserve(weapon, job);
+
+                        rebellingPawns[m].jobs.StartJob(job);
+
+                    }
+
+
+                    rebellingPawns[m].Map.attackTargetsCache.UpdateTarget(rebellingPawns[m]);
+
+                    if (rebellingPawns[m].carryTracker.CarriedThing != null)
+                    {
+                        rebellingPawns[m].carryTracker.TryDropCarriedThing(rebellingPawns[m].Position, ThingPlaceMode.Near, out var _);
+                    }
+                }
+            }
+
+            Log.Message(" assigning faction def");
+            Faction.OfPlayer.def = InternalDefOf.XMT_PlayerHive;
+        }
+
+        internal static int Population(Map localMap)
+        {
+
+            if (localMap == null)
+            {
+                return 0;
+            }
+            NestSite localNest = GetLocalNest(localMap);
+
+            if (localNest == null)
+            {
+                return 0;
+            }
+
+            return localNest.TotalHiveMates;
         }
     }
 }

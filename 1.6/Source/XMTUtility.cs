@@ -323,7 +323,8 @@ namespace Xenomorphtype
                 return true;
             }
 
-            bool isit = pawn.RaceProps.IsMechanoid
+            bool isit = !pawn.RaceProps.IsFlesh
+                || pawn.RaceProps.IsMechanoid
                 || pawn.RaceProps.FleshType == FleshTypeDefOf.Mechanoid
                 || pawn.RaceProps.FleshType == FleshTypeDefOf.EntityMechanical;
 
@@ -608,6 +609,41 @@ namespace Xenomorphtype
             return false;
         }
 
+        public static Thing SearchRegionForUnreservedWeapon(Pawn pawn)
+        {
+            Region region = pawn.GetRegion();
+            TraverseParms traverseParams = TraverseParms.For(pawn);
+            RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParams, isDestination: false);
+            Thing found = null;
+            RegionProcessor regionProcessor = delegate (Region r)
+            {
+                List<Thing> list = r.ListerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.Weapon));
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Thing thing = list[i];
+
+                    if (pawn.Map.reservationManager.IsReserved(thing))
+                    {
+                        continue;
+                    }
+
+                    if (pawn.Faction != null && pawn.Faction.IsPlayer)
+                    {
+                        if (thing.IsForbidden(pawn.Faction))
+                        {
+                            continue;
+                        }
+                    }
+                    found = thing;
+                    return true;
+
+                }
+                return false;
+            };
+            RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 99999);
+            return found;
+        }
         public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker)
         {
 
@@ -1651,7 +1687,7 @@ namespace Xenomorphtype
             {
                 CompAwakenedSlumberer slumberer = pawn.GetComp<CompAwakenedSlumberer>();
 
-                if (slumberer != null)
+                if (slumberer != null && slumberer.BodySize > 0)
                 {
                     finalSize = slumberer.BodySize;
                 }

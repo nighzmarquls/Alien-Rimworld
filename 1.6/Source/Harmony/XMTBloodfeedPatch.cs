@@ -5,7 +5,7 @@ using Verse;
 
 namespace Xenomorphtype
 {
-    internal class XMT_BloodfeedPatch
+    internal class XMTBloodfeedPatch
     {
         [HarmonyPatch(typeof(SanguophageUtility), nameof(SanguophageUtility.DoBite))]
         public static class SanguophageUtility_DoBite_Patch

@@ -19,6 +19,7 @@
     <defName>XMT_ResinBridge</defName>
     <label>Resin bridge</label>
 	<renderPrecedence>340</renderPrecedence>
+	<edgeType>FadeRough</edgeType>
 	<description>Some kind of secreted resin, shaped into organic patterns on the ground, woven into the foundations.</description>
     <texturePath>Terrain/XMT_HiveResin</texturePath>
 	<bridgePropsPath>Terrain/Surfaces/ResinBridgeProps</bridgePropsPath>

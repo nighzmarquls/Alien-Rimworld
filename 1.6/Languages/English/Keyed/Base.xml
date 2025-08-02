@@ -59,4 +59,21 @@
 	<XMT_CommandArt>Sculpt</XMT_CommandArt>
 	<XMT_CommandArtDescription>Designate skeletons for art sculpture.</XMT_CommandArtDescription>
 	<XMT_MessageMustDesignateArtable>Must Designate Dessicated Corpses.</XMT_MessageMustDesignateArtable>
+	
+	<XMT_GameOverJoinXenomorphs>Embrace Perfection</XMT_GameOverJoinXenomorphs>
+	
+	<XMT_RitualTargetJellyInfo>You need {0} jelly for each participant ({1} total).</XMT_RitualTargetJellyInfo>
+	<XMT_RitualTargetJellyInfoAppend>A participant cannot reach enough jelly.</XMT_RitualTargetJellyInfoAppend>
+	<XMT_RitualTargetJellyInfoAppendMultiple>{0} participants cannot reach enough jelly.</XMT_RitualTargetJellyInfoAppendMultiple>
+	<XMT_RitualTargetJellyInfoWarning>{PAWN_labelShort} cannot reach enough jelly.</XMT_RitualTargetJellyInfoWarning>
+	
+	<XMT_QueenAscensionLetterTitle>Advancement Complete!</XMT_QueenAscensionLetterTitle>
+	<XMT_QueenAscensionLetterDescription>{PAWN_labelShort} has finished her advancement, her voice now commands all cryptimorphs on the planet.</XMT_QueenAscensionLetterDescription>
+	
+	<XMT_HiveRisesLetterTitle>Cryptimorphs Triumphant!</XMT_HiveRisesLetterTitle>
+	<XMT_HiveRisesLetterDescription>The prey has been overcome and this nesting site is now secure, gather more hosts, grow the family, ascend!</XMT_HiveRisesLetterDescription>
+	
+	<XMT_HumanRebellionLetterTitle>Prey Resists!</XMT_HumanRebellionLetterTitle>
+	<XMT_HumanRebellionLetterDescription>The prey are not yet docile! Some have turned violent in the face of your ascendency and must be repelled or contained!</XMT_HumanRebellionLetterDescription>
+	
 </LanguageData>

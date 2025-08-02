@@ -25,4 +25,26 @@
       </subNodes>
     </thinkNode>
   </DutyDef>
+  
+  <DutyDef>
+    <defName>XMT_PrepareMetamorphosis</defName>
+    <hook>HighPriority</hook>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <!-- Fetch 75 jelly-->
+        <li Class="JobGiver_TakeCountToInventory">
+          <def>Starbeast_Jelly</def>
+          <count>75</count>
+        </li>
+        <li Class="JobGiver_PrepareSkylantern">
+          <locomotionUrgency>Jog</locomotionUrgency>
+          <def>Starbeast_Jelly</def>
+          <count>75</count>
+          <allowUnroofed>false</allowUnroofed>
+          <desiredRadius>5</desiredRadius>
+          <minDistanceToOtherReservedCell>3</minDistanceToOtherReservedCell>
+        </li> 
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
 </Defs>

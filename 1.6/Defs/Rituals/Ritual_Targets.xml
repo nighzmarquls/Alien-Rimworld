@@ -9,6 +9,7 @@
   <RitualObligationTargetFilterDef>
     <defName>XMT_QueenAscension</defName>
     <workerClass>Xenomorphtype.RitualObligationTargetWorker_MatureChrysalis</workerClass>
+	<woodPerParticipant>75</woodPerParticipant>
   </RitualObligationTargetFilterDef>
   
 </Defs>

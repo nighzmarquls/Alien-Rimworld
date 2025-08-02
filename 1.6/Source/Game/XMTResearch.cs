@@ -24,56 +24,65 @@ namespace Xenomorphtype
         {
             return researchManager.GetProgress(project) >= project.Cost;
         }
-        internal static void ProgressMimicTech(int progress, Pawn actor)
+        internal static void ProgressMimicTech(int progress, Thing actor)
         {
             ResearchManager researchManager = Find.ResearchManager;
+
+            Pawn pawn = actor as Pawn;
 
             if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Construction, researchManager))
             {
-                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, actor);
+                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, pawn);
             }
         }
 
-        internal static void ProgressEvolutionTech(int progress, Pawn actor)
+  
+        internal static void ProgressEvolutionTech(int progress, Thing actor)
         {
             ResearchManager researchManager = Find.ResearchManager;
 
+            Pawn pawn = actor as Pawn;
+
             if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Chrysalis, researchManager))
             {
-                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Chrysalis, progress, actor);
+                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Chrysalis, progress, pawn);
             }
             else if(!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_JellyTransport,researchManager))
             {
                 if (XenoSocialDefOf.XMT_Starbeast_JellyTransport.PrerequisitesCompleted)
                 {
-                    researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_JellyTransport, progress, actor);
+                    researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_JellyTransport, progress, pawn);
                 }
             }
             else if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Eggs, researchManager))
             {
                 if (XenoSocialDefOf.XMT_Starbeast_Eggs.PrerequisitesCompleted)
                 {
-                    researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Eggs, progress, actor);
+                    researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Eggs, progress, pawn);
                 }
             }
         }
 
-        internal static void ProgressResinTech(int progress, Pawn actor)
+        internal static void ProgressResinTech(int progress, Thing actor)
         {
             ResearchManager researchManager = Find.ResearchManager;
 
+            Pawn pawn = actor as Pawn;
+
             if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Reinforcement, researchManager))
             {
-                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Reinforcement, progress, actor);
+                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Reinforcement, progress, pawn);
             }
         }
         internal static void ProgressCryptobioTech(int progress, Pawn actor)
         {
             ResearchManager researchManager = Find.ResearchManager;
 
+            Pawn pawn = actor as Pawn;
+
             if (!FinishedResearching(XenoGeneDefOf.XMT_Starbeast_Genetics, researchManager))
             {
-                researchManager.AddProgress(XenoGeneDefOf.XMT_Starbeast_Genetics, progress, actor);
+                researchManager.AddProgress(XenoGeneDefOf.XMT_Starbeast_Genetics, progress, pawn);
             }
         }
     }

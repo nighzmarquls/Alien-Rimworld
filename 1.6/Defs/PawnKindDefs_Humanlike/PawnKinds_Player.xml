@@ -15,7 +15,7 @@
   <PawnKindDef ParentName="BasePlayerStarbeast">
     <defName>XMT_StarbeastKind</defName>
     <label>kin</label>
-    <defaultFactionType>PlayerHive</defaultFactionType>
+    <defaultFactionType>XMT_PlayerHive</defaultFactionType>
     <chemicalAddictionChance>0</chemicalAddictionChance>
     <apparelTags>
       <li>Neolithic</li>
@@ -41,7 +41,7 @@
     <defName>XMT_RoyaltyKind</defName>
     <label>queen</label>
     <race>XMT_Royal_AlienRace</race>
-    <defaultFactionType>PlayerHive</defaultFactionType>
+    <defaultFactionType>XMT_PlayerHive</defaultFactionType>
     <chemicalAddictionChance>0</chemicalAddictionChance>
     <apparelTags>
       <li>Neolithic</li>

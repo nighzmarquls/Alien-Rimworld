@@ -18,6 +18,21 @@ namespace Xenomorphtype
 
         protected Thing ingredient;
 
+        PipeSystem.CompResource _network;
+
+        PipeSystem.CompResource network
+        {
+            get
+            {
+                if (_network == null)
+                {
+                    _network = parent.GetComp<PipeSystem.CompResource>();
+                }
+
+                return _network;
+            }
+        }
+
         public bool CanMakeIntoJelly(Thing thing)
         {
             if(thing == null)
@@ -177,10 +192,22 @@ namespace Xenomorphtype
             IntVec3 cell = ingredient.Position;
             Map map = ingredient.Map;
 
-            int totalJelly = JellyFromThing(ingredient, efficiency);
+            int droppedJelly = JellyFromThing(ingredient, efficiency);
             CleanUpConvertedAmount(ingredient, efficiency);
-            
-            DropJelly(totalJelly, cell, map);
+
+            int totalJelly = droppedJelly;
+            if(network != null)
+            {
+                if(network.PipeNet.AvailableCapacity > 0)
+                {
+                    float stored = 0;
+                    network.PipeNet.DistributeAmongStorage(totalJelly, out stored);
+                    droppedJelly -= Mathf.CeilToInt(stored);
+                }
+            }
+
+            XMTResearch.ProgressEvolutionTech(totalJelly, parent);
+            DropJelly(droppedJelly, cell, map);
             return totalJelly;
         }
 

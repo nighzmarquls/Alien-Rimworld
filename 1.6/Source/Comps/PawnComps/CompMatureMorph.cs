@@ -158,6 +158,11 @@ namespace Xenomorphtype
                 return;
             }
 
+            if (XMTUtility.NotPrey(aggressor))
+            {
+                return;
+            }
+
             CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
 
             if (info != null)

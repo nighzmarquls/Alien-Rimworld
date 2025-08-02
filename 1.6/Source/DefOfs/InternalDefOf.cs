@@ -17,6 +17,7 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(InternalDefOf));
         }
 
+        public static FactionDef            XMT_PlayerHive;
 
         //Xenomorphtype Defs
         public static PawnKindDef           XMT_StarbeastKind;
@@ -63,6 +64,7 @@ namespace Xenomorphtype
         public static ThingDef              Starbeast_Resin;
         public static ThingDef              Starbeast_Chitin;
         public static ThingDef              Starbeast_Fabric;
+        public static ThingDef              Starbeast_Jelly;
 
         public static DesignationCategoryDef    XMT_Hive;
 

@@ -23,7 +23,6 @@ namespace Xenomorphtype {
         int tickCountUp = 0;
 
         const float maxBodySize = 8f;
-
         CompSlumbererProperties Props => props as CompSlumbererProperties;
 
         float tickBreath => (Props.maxSizeChange) / (Props.breathticks / 2);
@@ -41,8 +40,21 @@ namespace Xenomorphtype {
         public void SetProgenitor(Pawn pawn)
         {
             progenitorPawn = pawn;
-            bodySize = Mathf.Max(maxBodySize, XMTUtility.GetFinalBodySize(pawn));
-            parent.HitPoints = parent.MaxHitPoints;
+            float pawnsize = XMTUtility.GetFinalBodySize(pawn);
+            bodySize = Mathf.Min(maxBodySize, pawnsize);
+            Log.Message(pawn + " had a bodysize of " + bodySize + " calculated Body Size " + bodySize);
+            float damageFactor = 0;
+            for (int i = 0; i < progenitorPawn.health.hediffSet.hediffs.Count; i++)
+            {
+                if (progenitorPawn.health.hediffSet.hediffs[i] is Hediff_Injury)
+                {
+                    damageFactor += progenitorPawn.health.hediffSet.hediffs[i].Severity;
+                }
+            }
+            damageFactor = damageFactor/progenitorPawn.health.LethalDamageThreshold;
+            StatDefOf.MaxHitPoints.Worker.ClearCacheForThing(parent);
+            parent.HitPoints = Mathf.FloorToInt((parent.MaxHitPoints) * (1 - damageFactor));
+
         }
 
         public override float GetStatFactor(StatDef stat)
@@ -67,9 +79,11 @@ namespace Xenomorphtype {
         {
             List<IntVec3> cells = GenRadial.RadialCellsAround(parent.Position, 1.5f, false).ToList();
             cells.Shuffle();
-
+            if ((parent.MaxHitPoints / 2 ) < parent.HitPoints)
+            {
+                AwakenSleeper(parent.PositionHeld, parent.MapHeld);
+            }
             base.PostPostApplyDamage(dinfo, totalDamageDealt);
-            AwakenSleeper(parent.PositionHeld, parent.MapHeld); 
         }
 
         public void AwakenSleeper(IntVec3 cell, Map targetMap)
@@ -87,8 +101,23 @@ namespace Xenomorphtype {
 
             if (slumberer.Spawned)
             {
-                slumberer.mindState.mentalBreaker.TryDoMentalBreak("awakened", MentalBreakDefOf.Berserk);
-                
+                if(parent.HitPoints < parent.MaxHitPoints)
+                {
+                    float percentage = (float) parent.HitPoints / (float)parent.MaxHitPoints;
+                    float max = slumberer.health.LethalDamageThreshold;
+
+                    float hitpoint = max * percentage;
+                    Log.Message(parent + " percentage:" + percentage + " max:" + max + " hitpoint:" + hitpoint);
+
+                    while (hitpoint < max)
+                    {
+                        DamageWorker.DamageResult result = slumberer.TakeDamage(new DamageInfo(DamageDefOf.Crush, 2,armorPenetration:100));
+                        hitpoint += 10;
+                        Log.Message(slumberer + " taking " + result.totalDamageDealt + " damage");
+                    }
+                }
+                slumberer.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, forced: true);
+        
                 parent.Destroy();
             }
         }

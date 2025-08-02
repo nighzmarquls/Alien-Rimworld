@@ -94,7 +94,7 @@ namespace Xenomorphtype
                 {
                     if (!appliedBodyType)
                     {
-                        Log.Message(Pawn + " changing body type to " + Props.forcedBodyType);
+                        //Log.Message(Pawn + " changing body type to " + Props.forcedBodyType);
                         ThingDef_AlienRace alienDef = Pawn.def as ThingDef_AlienRace;
                         if (alienDef != null)
                         {

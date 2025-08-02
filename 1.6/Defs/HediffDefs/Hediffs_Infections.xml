@@ -103,7 +103,7 @@
     <defName>XMT_Embryo</defName>
     <label>foreign tissue</label>
     <description>A foreign growth on the organ.</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Xenomorphtype.RevealedHediff</hediffClass>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>
     <minSeverity>0.001</minSeverity>
@@ -194,7 +194,7 @@
     <defName>XMT_Lardering</defName>
     <label>swelling</label>
     <description>Subject's body is swelling grotesquely.</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Xenomorphtype.RevealedHediff</hediffClass>
     <makesSickThought>true</makesSickThought>
     <makesAlert>false</makesAlert>
 	<tendable>true</tendable>
@@ -266,7 +266,7 @@
     <defName>XMT_Ovamorphing</defName>
     <label>metamorphosis</label>
     <description>Subject's body is metamorphizing into something else.</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Xenomorphtype.RevealedHediff</hediffClass>
     <makesSickThought>true</makesSickThought>
     <makesAlert>false</makesAlert>
 	<tendable>true</tendable>

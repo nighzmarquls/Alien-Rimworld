@@ -424,6 +424,12 @@
 									<Job>GuiltyColonistExecution</Job>
 									<Job>AttackMelee</Job>
 								</Or>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
 							</conditions>
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 							<offsets>
@@ -447,6 +453,9 @@
 							<alignWithHead>true</alignWithHead>
 							<conditions>
 								<Hediff>XMT_ThrumboHorn</Hediff>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
 								<Not>
 									<Hediff>Maturation</Hediff>
 								</Not>
@@ -472,6 +481,9 @@
 							<alignWithHead>false</alignWithHead>
 							<conditions>
 								<Gene>XMT_Muffalo_Ruff</Gene>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
 								<Not>
 									<Hediff>Maturation</Hediff>
 								</Not>
@@ -500,6 +512,12 @@
 							<alignWithHead>true</alignWithHead>
 							<conditions>
 								<Gene>XMT_Chemfuel_Metabolism</Gene>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
 							</conditions>
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 							<offsets>
@@ -515,7 +533,27 @@
 							</offsets>
 						</li>
 						<li>
-							<path>Pawn/Conditions/Chrysalis</path>
+							<path>Pawn/Conditions/Chrysalis/GeneChrysalis</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<conditions>
+								<Hediff>XMT_GeneIntegration</Hediff>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-2</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>2</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-2</layerOffset>
+							  </east>
+							</offsets>
+						</li>
+						<li>
+							<path>Pawn/Conditions/Chrysalis/Chrysalis</path>
 							<userCustomizable>false</userCustomizable>
 							<colorChannel>base</colorChannel>
 							<conditions>
@@ -549,6 +587,12 @@
 									<drawnInBed>false</drawnInBed>
 								</Posture>
 								<Age>HumanlikeAdult</Age>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
 							</conditions>
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 							<offsets>
@@ -586,6 +630,9 @@
 									<drawnLaying>true</drawnLaying>
 									<drawnInBed>false</drawnInBed>
 								</Posture>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
 								<Not>
 									<Hediff>Maturation</Hediff>
 								</Not>
@@ -1273,11 +1320,25 @@
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
 								<alignWithHead>true</alignWithHead>
+								<conditions>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
 								<extendedGraphics>
 									<li>
 										<path>Pawn/Royalty/Crests/Crest_Queen</path>
 										<conditions>
 											<Hediff>XMT_MaternalCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
 										</conditions>
 									</li>
 								</extendedGraphics>
@@ -1309,6 +1370,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1341,6 +1408,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1373,6 +1446,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1405,6 +1484,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1437,6 +1522,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1469,6 +1560,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1497,6 +1594,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1535,6 +1638,12 @@
 										<Job>GuiltyColonistExecution</Job>
 										<Job>AttackMelee</Job>
 									</Or>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1558,6 +1667,9 @@
 								<alignWithHead>true</alignWithHead>
 								<conditions>
 									<Hediff>XMT_ThrumboHorn</Hediff>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
 									<Not>
 										<Hediff>Maturation</Hediff>
 									</Not>
@@ -1583,6 +1695,9 @@
 								<alignWithHead>false</alignWithHead>
 								<conditions>
 									<Gene>XMT_Muffalo_Ruff</Gene>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
 									<Not>
 										<Hediff>Maturation</Hediff>
 									</Not>
@@ -1612,6 +1727,12 @@
 								<alignWithHead>true</alignWithHead>
 								<conditions>
 									<Gene>XMT_Chemfuel_Metabolism</Gene>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1627,11 +1748,31 @@
 								</offsets>
 							</li>
 							<li>
-								<path>Pawn/Conditions/Chrysalis</path>
+									<path>Pawn/Conditions/Chrysalis/Chrysalis</path>
+									<userCustomizable>false</userCustomizable>
+									<colorChannel>base</colorChannel>
+									<conditions>
+										<Hediff>Maturation</Hediff>
+									</conditions>
+									<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+									<offsets>
+									  <south>
+										<layerOffset>-2</layerOffset>
+									  </south>
+									  <north>
+										<layerOffset>2</layerOffset>
+									  </north>
+									  <east>
+										<layerOffset>-2</layerOffset>
+									  </east>
+									</offsets>
+							</li>
+							<li>
+								<path>Pawn/Conditions/Chrysalis/RoyalGeneChrysalis</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>base</colorChannel>
 								<conditions>
-									<Hediff>Maturation</Hediff>
+									<Hediff>XMT_GeneIntegration</Hediff>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1660,6 +1801,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1688,6 +1835,12 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
@@ -1719,6 +1872,9 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
 									<Not>
 										<Hediff>Maturation</Hediff>
 									</Not>

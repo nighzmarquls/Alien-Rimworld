@@ -350,6 +350,9 @@
             <setMax>0.1</setMax>
           </li>
         </capMods>
+		<statOffsets>
+			<IncomingDamageFactor>-0.25</IncomingDamageFactor>
+		</statOffsets>
       </li>
     </stages>
     <comps>

@@ -18,6 +18,7 @@ namespace Xenomorphtype
 
         private static readonly Texture2D InvestigateTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts");
 
+  
         public static Command InvestigateCommand(Caravan caravan, Settlement settlement)
         {
             return new Command_Action

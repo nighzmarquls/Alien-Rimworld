@@ -13,9 +13,9 @@ namespace Xenomorphtype
         public static readonly SimpleCurve ProgressPerParticipantCurve = new SimpleCurve
         {
             new CurvePoint(1f, 1f),
-            new CurvePoint(2f, 0.8f),
-            new CurvePoint(4f, 0.6f),
-            new CurvePoint(6f, 0.5f)
+            new CurvePoint(2f, 1f),
+            new CurvePoint(4f, 1f),
+            new CurvePoint(6f, 1f)
         };
 
         public override TargetInfo GetSecondFocus(LordJob_Ritual ritual)

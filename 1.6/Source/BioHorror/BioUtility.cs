@@ -494,6 +494,11 @@ namespace Xenomorphtype
 
         public static void SpawnJellyHorror(IntVec3 positionHeld, Map mapHeld, float jellyPotency)
         {
+            if(mapHeld == null)
+            {
+                return;
+            }
+
             if(XenoGeneDefOf.XMT_GooGenericSet != null)
             {
                 GooHorror horror = XenoGeneDefOf.XMT_GooGenericSet.horrors.RandomElement();

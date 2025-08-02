@@ -189,7 +189,7 @@ namespace Xenomorphtype
             request.ForceNoIdeo = true;
             request.ForceNoBackstory = true;
             request.ForceNoGear = true;
-            request.ForceBaselinerChance = 100;
+            request.ForceBaselinerChance = 1000;
             request.ForcedXenotype = XenotypeDefOf.Baseliner;
 
             Pawn child = PawnGenerator.GeneratePawn(request);
@@ -234,6 +234,7 @@ namespace Xenomorphtype
             }
 
             child.genes.ClearXenogenes();
+            child.genes.SetXenotype(XenotypeDefOf.Baseliner);
 
             BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetExtraHostGenes(Pawn));
 

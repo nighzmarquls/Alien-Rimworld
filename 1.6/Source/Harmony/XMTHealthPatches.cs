@@ -11,6 +11,44 @@ namespace Xenomorphtype
 {
     internal class XMTHealthPatches
     {
+        [HarmonyPatch(typeof(TendUtility), nameof(TendUtility.DoTend))]
+        public static class Patch_TendUtility_DoTend
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Pawn doctor, Pawn patient, Medicine medicine)
+            {
+                if (medicine == null)
+                {
+                    if (XMTUtility.IsXenomorph(patient))
+                    {
+                        return;
+                    }
+                    if (XMTUtility.IsXenomorph(doctor))
+                    {
+                        BioUtility.TryMutatingPawn(ref patient);
+                    }
+                    return;
+                }
+                else
+                {
+
+                    if (medicine.Destroyed)
+                    {
+                        return;
+                    }
+
+                    if (XMTUtility.IsXenomorph(patient))
+                    {
+                        return;
+                    }
+
+                    if (medicine.def == InternalDefOf.Starbeast_Jelly || XMTUtility.IsXenomorph(doctor))
+                    {
+                        BioUtility.TryMutatingPawn(ref patient);
+                    }
+                }
+            }
+        }
         [HarmonyPatch(typeof(HediffSet), nameof(HediffSet.AddDirect))]
         public static class Patch_HediffSet_AddDirect
         {

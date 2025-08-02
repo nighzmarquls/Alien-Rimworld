@@ -19,7 +19,6 @@ namespace Xenomorphtype
 
         public int becomeInvisibleTick = int.MaxValue;
 
-        int nextSpotCheck = -1;
         private bool IsFriendly => Parent.Faction == null ? false : Parent.Faction.IsPlayer;
         [Unsaved(false)]
         private HediffComp_Invisibility _invisibility;
@@ -146,7 +145,7 @@ namespace Xenomorphtype
         }
         public void TryHide()
         {
-            if(Parent.IsPsychologicallyInvisible())
+            if(!Invisibility.PsychologicallyVisible)
             {
                 return;
             }
@@ -160,7 +159,7 @@ namespace Xenomorphtype
 
         protected void TryVisible()
         {
-            if (!Parent.IsPsychologicallyInvisible())
+            if (Invisibility.PsychologicallyVisible)
             {
                 return;
             }

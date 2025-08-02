@@ -11,7 +11,7 @@
   </FactionDef>
 
   <FactionDef ParentName="StarbeastPlayerFactionBase">
-    <defName>PlayerHive</defName>
+    <defName>XMT_PlayerHive</defName>
     <label>New Hive</label>
     <description>A small hive.</description>
     <isPlayer>true</isPlayer>

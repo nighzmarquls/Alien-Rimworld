@@ -1,13 +1,6 @@
 ﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verse.AI.Group;
 using Verse;
-using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+
 
 namespace Xenomorphtype
 {

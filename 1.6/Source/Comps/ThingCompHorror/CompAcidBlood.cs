@@ -42,7 +42,7 @@ namespace Xenomorphtype
                     fullness *= Parent.BodySize;
                 }
             }
-            return fullness*(parent.MaxHitPoints/parent.HitPoints);
+            return fullness*(parent.HitPoints/parent.MaxHitPoints);
         }
 
         public void CreateAcidExplosion(float radius)

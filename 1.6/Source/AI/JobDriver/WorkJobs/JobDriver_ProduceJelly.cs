@@ -79,8 +79,8 @@ namespace Xenomorphtype
                 CompJellyMaker jellyMaker = pawn.GetComp<CompJellyMaker>();
                 if (jellyMaker != null)
                 {
-                    int research = jellyMaker.ConvertToJelly(ingredient, Progress);
-                    XMTResearch.ProgressEvolutionTech(research, pawn);
+                    jellyMaker.ConvertToJelly(ingredient, Progress);
+                    
                 }
             });
             toil.WithProgressBar(TargetIndex.A, () => Progress);

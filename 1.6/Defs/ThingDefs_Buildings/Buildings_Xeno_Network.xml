@@ -227,7 +227,7 @@
 		<comps>
 			<li Class="PipeSystem.CompProperties_ConvertResourceToThing">
 				<pipeNet>XMT_JellyNet</pipeNet>
-				<maxOutputStackSize>1</maxOutputStackSize>
+				<maxOutputStackSize>75</maxOutputStackSize>
 				<thing>Starbeast_Jelly</thing>
 			</li>
 		</comps>

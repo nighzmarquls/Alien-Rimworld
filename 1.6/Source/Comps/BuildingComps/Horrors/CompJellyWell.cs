@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -22,6 +23,21 @@ namespace Xenomorphtype
         public bool processedJelly => !NoJellyPresent;
 
         int tickCountUp = 0;
+
+        PipeSystem.CompResource _network;
+
+        PipeSystem.CompResource network
+        {
+            get
+            {
+                if(_network== null)
+                {
+                    _network = parent.GetComp<PipeSystem.CompResource>();
+                }
+
+                return _network;
+            }
+        }
 
         CompJellywellProperties Props => props as CompJellywellProperties;
         CompJellyMaker _compJellyMaker;
@@ -129,6 +145,19 @@ namespace Xenomorphtype
             if(compJellyMaker == null)
             {
                 return;
+            }
+
+            float jellyStored = network.PipeNet.Stored;
+            bool hasCapacityInNetwork = network.PipeNet.AvailableCapacity > 0;
+
+            if (jellyStored > 10)
+            {
+                NoJellyPresent = false;
+                if (parent.HitPoints < parent.MaxHitPoints)
+                {
+                    parent.HitPoints += 50;
+                    network.PipeNet.DrawAmongStorage(10, network.PipeNet.storages);
+                }
             }
 
             foreach (IntVec3 cell in Cells)

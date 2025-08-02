@@ -1,10 +1,6 @@
 ﻿using RimWorld;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -78,10 +74,6 @@ namespace Xenomorphtype
                                         subject.ideo.SetIdeo(queen.ideo.Ideo);
                                     }
                                 }
-                                if (subject.Faction != queen.Faction)
-                                {
-                                    subject.SetFaction(queen.Faction);
-                                }
                                 if (subject.relations != null && !subject.relations.DirectRelationExists(PawnRelationDefOf.Parent, queen))
                                 {
                                     subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, queen);
@@ -94,16 +86,18 @@ namespace Xenomorphtype
                             }
                         }
                     }
-                
-                    string text = queen + " has finished her advancement";
 
+                    
+                    
+                    string text = "XMT_QueenAscensionLetterDescription".Translate(queen.Named("PAWN")); 
                     text = text + "\n\n" + OutcomeQualityBreakdownDesc(quality, progress, jobRitual);
-                    Find.LetterStack.ReceiveLetter("Advancement Complete!", text, LetterDefOf.RitualOutcomePositive, new LookTargets(queen, jobRitual.selectedTarget.Thing));
+                    Find.LetterStack.ReceiveLetter("XMT_QueenAscensionLetterTitle".Translate(), text, LetterDefOf.RitualOutcomePositive, new LookTargets(queen, jobRitual.selectedTarget.Thing));
                     CompQueen compQueen = queen.GetComp<CompQueen>();
                     if (compQueen != null)
                     {
                         compQueen.RecieveProgress(Mathf.Max(1, quality * 3f));
                     }
+                    HiveUtility.PlayerJoinXenomorphs(queen.MapHeld);
                 }
             }
             if (progress >= 0.25f)

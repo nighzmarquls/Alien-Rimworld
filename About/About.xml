@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.058</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.059</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -24,6 +24,22 @@
 			<displayName>Vanilla Expanded Framework</displayName>
 			<steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=2023507013</steamWorkshopUrl>
 			<downloadUrl>https://github.com/Vanilla-Expanded/VanillaExpandedFramework</downloadUrl>
+		</li>
+		<li>
+			<packageId>Ludeon.rimworld.anomaly</packageId>
+			<displayName>Rimworld - Anomaly</displayName>
+			<steamWorkshopUrl>https://store.steampowered.com/app/2380740/RimWorld__Anomaly/</steamWorkshopUrl>
+			<alternativePackageIds IgnoreIfNoMatchingField="True">
+			  <li>Ludeon.rimworld.royalty</li>
+			</alternativePackageIds>
+		</li>
+		<li>
+			<packageId>Ludeon.rimworld.royalty</packageId>
+			<displayName>Rimworld - Royalty</displayName>
+			<steamWorkshopUrl>https://store.steampowered.com/app/1149640/RimWorld__Royalty/</steamWorkshopUrl>
+			<alternativePackageIds IgnoreIfNoMatchingField="True">
+			  <li>Ludeon.rimworld.anomaly</li>
+			</alternativePackageIds>
 		</li>
 		<li>
 			<packageId>erdelf.HumanoidAlienRaces</packageId>
@@ -69,7 +85,7 @@
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Alphatest version 0.058.
+	<description>Alphatest version 0.059.
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?

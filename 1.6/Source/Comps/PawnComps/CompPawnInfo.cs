@@ -108,6 +108,24 @@ namespace Xenomorphtype
 
         public float PsychicAwareness => psychicAwareness;
 
+
+        public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
+        {
+            base.Notify_Killed(prevMap, dinfo);
+            if(parent.Faction == Faction.OfPlayer)
+            {
+                if (prevMap != null)
+                {
+                    if (HiveUtility.PlayerXenosOnMap(prevMap))
+                    {
+                        if (prevMap.mapPawns.FreeColonistsCount <= HiveUtility.Population(prevMap))
+                        {
+                            HiveUtility.PlayerJoinXenomorphs(prevMap);
+                        }
+                    }
+                }
+            }
+        }
         public override void CompTickInterval(int delta)
         {
             if (parent.IsHashIntervalTick(2000))

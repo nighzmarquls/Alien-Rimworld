@@ -22,31 +22,36 @@ namespace Xenomorphtype
 
                 CompAcidBlood acidBlood = pawn.GetComp<CompAcidBlood>();
 
-                if (acidBlood != null)
+
+                if (___recipe.Worker is Recipe_Surgery recipe_Surgery)
                 {
-                    if(___recipe.Worker is Recipe_Surgery recipe_Surgery)
+                    bool insufficientMedicine = true;
+
+
+                    foreach (ThingDef medicine in ___consumedMedicine.Keys)
                     {
-                        bool insufficientMedicine = true;
-
-                        foreach (ThingDef medicine in ___consumedMedicine.Keys)
+                        if (medicine == InternalDefOf.Starbeast_Jelly)
                         {
-                            float potency = medicine.statBases.GetStatValueFromList(StatDefOf.MedicalPotency, 0);
-                            if (potency > 1.5)
-                            {
-                                insufficientMedicine = false;
-                                break;
-                            }
+                            BioUtility.TryMutatingPawn(ref pawn);
                         }
-
-                        if (___recipe.defName == "ExtractHemogenPack")
+                        float potency = medicine.statBases.GetStatValueFromList(StatDefOf.MedicalPotency, 0);
+                        if (potency > 1.5)
                         {
-                            insufficientMedicine = true;
+                            insufficientMedicine = false;
                         }
+                    }
 
-                        if (insufficientMedicine)
+                    if (___recipe.defName == "ExtractHemogenPack")
+                    {
+                        insufficientMedicine = true;
+                    }
+
+                    if (insufficientMedicine)
+                    {
+                        if (acidBlood != null)
                         {
                             pawn.health.AddHediff(HediffDefOf.SurgicalCut, dinfo: new DamageInfo(DamageDefOf.SurgicalCut, amount: 1, instigator: billDoer));
-                            if(acidBlood.TrySplashAcidThing(1,billDoer))
+                            if (acidBlood.TrySplashAcidThing(1, billDoer))
                             {
                                 billDoer.ClearAllReservations();
                                 billDoer.jobs.StopAll();
@@ -55,12 +60,11 @@ namespace Xenomorphtype
                             acidBlood.TrySplashAcid(acidBlood.GetBloodFullness());
                             return;
                         }
-
-                        
                     }
+
+
                 }
-                
-               
+
             }
         }
     }
