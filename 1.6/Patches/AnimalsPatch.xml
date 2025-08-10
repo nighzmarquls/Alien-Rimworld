@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
+<!-- For People Modding custom Genes for a HAR race you need to xpath to Defs/AlienRace.ThingDef_AlienRace instead of ThingDef-->
 <!-- Vanilla Insectoids TODO: LavaSnail-->
 	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Megascarab"]</xpath>

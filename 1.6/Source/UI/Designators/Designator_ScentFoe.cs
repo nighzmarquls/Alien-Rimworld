@@ -13,6 +13,8 @@ namespace Xenomorphtype
 {
     internal class Designator_ScentFoe : Designator
     {
+        public override bool DragDrawMeasurements => true;
+        public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.Areas;
         private List<Pawn> justDesignated = new List<Pawn>();
         public Designator_ScentFoe()
         {

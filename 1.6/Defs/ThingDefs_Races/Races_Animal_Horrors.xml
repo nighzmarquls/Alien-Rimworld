@@ -1195,7 +1195,7 @@
 	
 	<ThingDef ParentName="RatThingBase">
 		<defName>XMT_Plaguerat</defName>
-		<label>sporous rodent</label>
+		<label>rat</label>
 		<description>a tiny eyeless rodent with pale skin and segmented pattern to its back. it expells an earthy scent from pores on its sides.</description>
 		<race>
 			<herdMigrationAllowed>false</herdMigrationAllowed>
@@ -1238,7 +1238,7 @@
 
 	<PawnKindDef ParentName="RatKindBase">
 		<defName>XMT_Plaguerat</defName>
-		<label>sporous rodent</label>
+		<label>rat</label>
 		<race>XMT_Plaguerat</race>
 		<lifeStages Inherit="false">
 		  <li>

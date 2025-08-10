@@ -45,6 +45,9 @@
       <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="MVCF">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\MVCF.dll</HintPath>
+    </Reference>
     <Reference Include="PipeSystem">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\PipeSystem.dll</HintPath>
       <Private>False</Private>
@@ -145,7 +148,7 @@
     <Compile Include="DefOfs\XenoIncidentDefOf.cs" />
     <Compile Include="DefOfs\XenoMapDefOf.cs" />
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
-    <Compile Include="Game\XMTResearch.cs" />
+    <Compile Include="Progression\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
     <Compile Include="Building\Fillable\FillableChrysalis.cs" />
     <Compile Include="Building\Horrors\Petrolsump.cs" />
@@ -303,6 +306,7 @@
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
+    <Compile Include="WorldHorror\BiomeWorker\BiomeWorker_DessicatedBlight.cs" />
     <Compile Include="WorldHorror\WorldDrawLayer_Xenoforming.cs" />
     <Compile Include="WorldHorror\XenoformingUtility.cs" />
     <Compile Include="XMT.cs" />

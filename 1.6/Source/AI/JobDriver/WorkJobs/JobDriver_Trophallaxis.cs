@@ -45,11 +45,14 @@ namespace Xenomorphtype
             {
                 
                 float nutritionWanted = recipient.needs.food.NutritionWanted;
-                float gained = Mathf.Min(Mathf.Min(recipient.needs.food.MaxLevel / 1250f, nutritionWanted), pawn.needs.food.CurLevel);
+                float gained = pawn.needs.food == null ? Mathf.Min(recipient.needs.food.MaxLevel / 1250f, nutritionWanted) : Mathf.Min(Mathf.Min(recipient.needs.food.MaxLevel / 1250f, nutritionWanted), pawn.needs.food.CurLevel);
                 float lost = gained;
 
                 recipient.needs.food.CurLevel += gained;
-                pawn.needs.food.CurLevel -= lost;
+                if (pawn.needs.food != null)
+                {
+                    pawn.needs.food.CurLevel -= lost;
+                }
 
                 if (recipient.needs.food.CurLevelPercentage >= 0.75f|| pawn.needs.food.CurCategory == HungerCategory.Starving)
                 {

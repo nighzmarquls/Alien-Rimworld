@@ -33,6 +33,9 @@ namespace Xenomorphtype
             if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Construction, researchManager))
             {
                 researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, pawn);
+            } else if(!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Sculpture,researchManager))
+            {
+                researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Sculpture, progress, pawn);
             }
         }
 

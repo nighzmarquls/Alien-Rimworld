@@ -30,6 +30,32 @@
   </ResearchProjectDef>
   
   <ResearchProjectDef>
+    <defName>XMT_Starbeast_Sculpture</defName>
+    <label>Artistic Mimicry</label>
+    <description>The Hive has begun imitating patterns of aesthetics and art.</description>
+    <techLevel>Neolithic</techLevel>
+    <baseCost>3000</baseCost>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+    <prerequisites>
+		<li>XMT_Starbeast_Construction</li>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->mimicry</li>
+
+        <li>subject_story->was the first in a line of temple designers, all sharing the same name</li>
+        <li>subject_story->developed unique techniques for cutting the hardest rock with basic tools</li>
+        <li>subject_story->tiled the entirety of the viceroy's palace on a medieval world</li>
+
+        <li>subject_gerund->stonecutting</li>
+        <li>subject_gerund->cutting stones</li>
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_StarbeastResearchTab</tab>
+  </ResearchProjectDef>
+  
+  <ResearchProjectDef>
     <defName>XMT_Starbeast_Reinforcement</defName>
     <label>Resinous Reinforcement</label>
     <description>Working with the naturally secreted resin has revealed to the hive how to reinforce its construction.</description>

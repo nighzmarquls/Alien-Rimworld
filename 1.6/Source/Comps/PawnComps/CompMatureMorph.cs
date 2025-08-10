@@ -84,7 +84,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        destroyTicks-= delta;
+                        destroyTicks -= delta;
                     }
                 }
 
@@ -154,6 +154,10 @@ namespace Xenomorphtype
                 {
                     Parent.mindState.mentalStateHandler.Reset();
                 }
+                if(Parent.mindState.mentalStateHandler.CurStateDef == MentalStateDefOf.SocialFighting)
+                {
+                    return;
+                }
                 Parent.interactions.StartSocialFight(aggressor);
                 return;
             }
@@ -208,7 +212,7 @@ namespace Xenomorphtype
                     int stackLimit = HorrorMoodDefOf.TooMuchNestWork.stackLimit;
                     int maxOverwork = stackLimit - hiveCount;
 
-                    if(XMTUtility.QueenPresent())
+                    if (XMTUtility.QueenPresent())
                     {
                         maxOverwork -= 4;
                     }
@@ -496,7 +500,7 @@ namespace Xenomorphtype
         }
         public Job GetCandidateFeedJob(Pawn candidate)
         {
-            if (Parent.needs.food.CurCategory == HungerCategory.Fed)
+            if (Parent.needs.food == null || Parent.needs.food.CurCategory == HungerCategory.Fed)
             {
                 Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate);
                 return job;
@@ -1406,10 +1410,9 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (workType == XenoWorkDefOf.Doctor
-            )
+            if (workType == XenoWorkDefOf.Doctor)
             {
-                if (Parent.needs.food.CurCategory == HungerCategory.Fed)
+                if (Parent.needs.food == null || Parent.needs.food.CurCategory == HungerCategory.Fed)
                 {
                     if (GetFeedJob(out job))
                     {

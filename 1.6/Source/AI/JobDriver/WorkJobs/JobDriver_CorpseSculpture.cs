@@ -69,6 +69,25 @@ namespace Xenomorphtype
                     finishedSculpture.SetFaction(pawn.Faction);
                     corpse.DeSpawn();
 
+                    CompQuality compQuality = finishedSculpture.TryGetComp<CompQuality>();
+                    if (compQuality != null)
+                    {
+                        QualityCategory q = QualityUtility.GenerateQualityCreatedByPawn(pawn, SkillDefOf.Artistic);
+                        compQuality.SetQuality(q, ArtGenerationContext.Colony);
+                        QualityUtility.SendCraftNotification(finishedSculpture, pawn);
+                    }
+
+                    CompArt compArt = finishedSculpture.TryGetComp<CompArt>();
+                    if (compArt != null)
+                    {
+                        if (compQuality == null)
+                        {
+                            compArt.InitializeArt(ArtGenerationContext.Colony);
+                        }
+
+                        compArt.JustCreatedBy(pawn);
+                    }
+
                     if (SculptureDef.Minifiable)
                     {
                         MinifiedThing minifiedThing = finishedSculpture.MakeMinified();

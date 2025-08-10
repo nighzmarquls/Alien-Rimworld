@@ -84,7 +84,7 @@ namespace Xenomorphtype
                     adjustedCost *= 0.5f;
                 }
 
-                adjustedCost = Mathf.Min(Parent.needs.food.MaxLevel, adjustedCost);
+                adjustedCost = Parent.needs.food == null? adjustedCost : Mathf.Min(Parent.needs.food.MaxLevel, adjustedCost);
                 return adjustedCost;
             }
         }
@@ -93,7 +93,7 @@ namespace Xenomorphtype
         {
             string description = "XMT_LayOvamorphDescription".Translate(Props.ovamorphDef.label);
            
-            if (Parent.needs.food.CurLevel > FoodCost)
+            if (Parent.needs.food == null || Parent.needs.food.CurLevel > FoodCost)
             {
                 return description;
             }
@@ -107,7 +107,7 @@ namespace Xenomorphtype
         {
             string description = "XMT_LayOvamorphDescription".Translate(Props.geneOvamorphDef.label); ;
 
-            if (Parent.needs.food.CurLevel > FoodCost/2)
+            if (Parent.needs.food == null || Parent.needs.food.CurLevel > FoodCost/2)
             {
                 return description;
             }
@@ -119,7 +119,7 @@ namespace Xenomorphtype
 
         public bool CannotLayOvamorph(float cost)
         {
-            if (Parent.needs.food.CurLevel > cost)
+            if (Parent.needs.food == null || Parent.needs.food.CurLevel > cost)
             {
                 return false;
             }
@@ -219,15 +219,19 @@ namespace Xenomorphtype
                     ovamorph.LayEgg(Parent, Parent);
                 }
 
-                if (ovamorphDef == Props.geneOvamorphDef)
+                if (Parent.needs.food != null)
                 {
-                    
-                    Parent.needs.food.CurLevel -= FoodCost / 2;
+                    if (ovamorphDef == Props.geneOvamorphDef)
+                    {
+
+                        Parent.needs.food.CurLevel -= FoodCost / 2;
+                    }
+                    else
+                    {
+                        Parent.needs.food.CurLevel -= FoodCost;
+                    }
                 }
-                else
-                {
-                    Parent.needs.food.CurLevel -= FoodCost;
-                }
+
                 XMTUtility.WitnessOvamorph(loc, map, 0.1f);
                 Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Laid, Parent.Named(HistoryEventArgsNames.Doer)));
                 SoundDefOf.CocoonDestroyed.PlayOneShot(new TargetInfo(loc, map));

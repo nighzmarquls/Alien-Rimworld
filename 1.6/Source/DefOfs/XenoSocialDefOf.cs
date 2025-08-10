@@ -21,10 +21,15 @@ namespace Xenomorphtype
         public static ResearchTabDef XMT_StarbeastResearchTab;
 
         // xeno researchdefs
+        // mimicry
         public static ResearchProjectDef XMT_Starbeast_Construction;
+        public static ResearchProjectDef XMT_Starbeast_Sculpture;
+        // resin
         public static ResearchProjectDef XMT_Starbeast_Reinforcement;
+        // evo
         public static ResearchProjectDef XMT_Starbeast_Chrysalis;
         public static ResearchProjectDef XMT_Starbeast_JellyTransport;
         public static ResearchProjectDef XMT_Starbeast_Eggs;
+
     }
 }

@@ -8,6 +8,9 @@ namespace Xenomorphtype
 {
     internal class Designator_Abduct : Designator
     {
+        public override bool DragDrawMeasurements => true;
+        public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.Areas;
+
         private List<Pawn> justDesignated = new List<Pawn>();
         protected override DesignationDef Designation => XenoWorkDefOf.XMT_Abduct;
 

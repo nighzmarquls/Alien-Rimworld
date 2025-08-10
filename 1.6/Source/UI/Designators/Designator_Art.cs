@@ -9,6 +9,9 @@ namespace Xenomorphtype
 {
     internal class Designator_Art : Designator
     {
+        public override bool DragDrawMeasurements => true;
+        public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.Areas;
+
         private List<Corpse> justDesignated = new List<Corpse>();
         protected override DesignationDef Designation => XenoWorkDefOf.XMT_CorpseArt;
 
@@ -16,14 +19,31 @@ namespace Xenomorphtype
         {
             get
             {
-                return !XMTUtility.PlayerXenosOnMap(Find.CurrentMap);
+                if (XenoSocialDefOf.XMT_Starbeast_Sculpture.IsFinished)
+                {
+
+                    if (XMTUtility.PlayerXenosOnMap(Find.CurrentMap))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+
             }
         }
         public override bool Visible
         {
             get
             {
-                return XMTUtility.PlayerXenosOnMap(Find.CurrentMap);
+                if (XenoSocialDefOf.XMT_Starbeast_Sculpture.IsFinished)
+                {
+
+                    if (XMTUtility.PlayerXenosOnMap(Find.CurrentMap))
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
         public Designator_Art()

@@ -14,6 +14,8 @@ namespace Xenomorphtype
     {
         public Pawn Queen = null;
 
+        List<PlanetTile> XenoformedTiles = new List<PlanetTile>;
+
         bool PlayerEmbryoInWorld = false;
         bool PlayerXenomorphInWorld = false;
         bool PlayerOvamorphInWorld = false;
@@ -29,8 +31,8 @@ namespace Xenomorphtype
             }
         }
 
-        private float _lastxenoforming = 0;
-        private float _xenoforming = 0;
+        private float _lastxenoforming = 100;
+        private float _xenoforming = 100;
         public float Xenoforming
         {
             get
@@ -113,8 +115,44 @@ namespace Xenomorphtype
                 nextXenoformingTick = tick + 60000;
 
                 EvaluateXenoforming();
+
             }
 
+        }
+
+        public void BiomeXenoformingImpact()
+        {
+            if (_xenoforming >= 15)
+            {
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("Xenoforming Biomes");
+                }
+
+                if (XenoformedTiles.Count <= 0)
+                {
+                    Map playerMap = Find.AnyPlayerHomeMap;
+
+                    if (playerMap != null)
+                    {
+                        List<PlanetTile> outNeighbor = new List<PlanetTile>();
+                        Find.WorldGrid.Surface.GetTileNeighbors(playerMap.Tile, outNeighbor);
+
+                        foreach(PlanetTile tile in outNeighbor)
+                        {
+                            
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+
+                }
+            }
         }
 
         public void EvaluateXenoforming()
@@ -176,6 +214,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref PlayerEmbryoInWorld, "PlayerEmbryoInWorld", false);
             Scribe_Values.Look(ref PlayerXenomorphInWorld, "PlayerXenomorphInWorld", false);
             Scribe_Values.Look(ref PlayerOvamorphInWorld, "PlayerOvamorphInWorld", false);
+            Scribe_Collections.Look(ref XenoformedTiles, "XenoformedTiles");
         }
 
         public void HandleMatureMorphDeath(Pawn pawn)

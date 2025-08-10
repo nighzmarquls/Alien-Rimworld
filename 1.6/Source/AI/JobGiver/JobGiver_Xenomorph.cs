@@ -270,12 +270,9 @@ namespace Xenomorphtype
                 return null;
             }
 
-            if(!XMTUtility.IsXenomorph(pawn))
-            {
-                return null;
-            }
 
-            if (pawn.Downed)
+
+            if(!XMTUtility.IsXenomorph(pawn))
             {
                 return null;
             }
@@ -322,6 +319,7 @@ namespace Xenomorphtype
                     {
                         return foodJob;
                     }
+
                 }
 
                 if (compMatureMorph.ShouldSnuggle())

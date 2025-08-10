@@ -10,6 +10,8 @@ namespace Xenomorphtype
 {
     internal class Designator_Hive_Cancel : Designator_Cancel
     {
+        public override bool DragDrawMeasurements => true;
+        public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.Areas;
         public override bool Disabled {
             get
             {

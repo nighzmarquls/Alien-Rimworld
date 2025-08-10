@@ -128,7 +128,7 @@ namespace Xenomorphtype
 
                     }, priority: MenuOptionPriority.Default), pawn, targetPawn);
 
-                    if (pawn.needs.food.CurCategory == HungerCategory.Starving)
+                    if (pawn.Starving())
                     {
                         TrophallaxisOption.Disabled = true;
                         TrophallaxisOption.tooltip = pawn + " is too hungry to perform Trophallaxis.";
@@ -156,6 +156,7 @@ namespace Xenomorphtype
 
                     if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_LarderSerum))
                     {
+                        
                         FloatMenuOption LarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Larder", delegate
                         {
 

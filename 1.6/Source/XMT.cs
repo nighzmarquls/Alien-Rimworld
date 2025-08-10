@@ -29,7 +29,7 @@ namespace Xenomorphtype
         {
             if (InternalDefOf.XMT_Starbeast_AlienRace != null)
             {
-                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Starbeast_AlienRace.defName);
+                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Starbeast_AlienRace.race.corpseDef  + " on " + InternalDefOf.XMT_Starbeast_AlienRace.defName);
                 InternalDefOf.XMT_Starbeast_AlienRace.race.corpseDef.thingClass = typeof(StarbeastCorpse);
             }
 

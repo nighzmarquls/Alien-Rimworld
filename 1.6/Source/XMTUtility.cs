@@ -323,17 +323,22 @@ namespace Xenomorphtype
                 return true;
             }
 
-            bool isit = !pawn.RaceProps.IsFlesh
-                || pawn.RaceProps.IsMechanoid
-                || pawn.RaceProps.FleshType == FleshTypeDefOf.Mechanoid
-                || pawn.RaceProps.FleshType == FleshTypeDefOf.EntityMechanical;
-
-            if (pawn.genes != null)
+            if(pawn.RaceProps.IsFlesh)
             {
-                isit = isit || pawn.genes.HasActiveGene(ExternalDefOf.VREA_SyntheticBody);
+                return true;
             }
 
-            return isit;
+            if((pawn.def as ThingDef_AlienRace)?.alienRace.compatibility.IsFleshPawn(pawn) ?? false)
+            {
+                return true;
+            }
+
+            if (pawn.genes?.HasActiveGene(ExternalDefOf.VREA_SyntheticBody) ?? true)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static LifeStageDef GetLifeStageByEmbryoMaturity(float input, out float age)

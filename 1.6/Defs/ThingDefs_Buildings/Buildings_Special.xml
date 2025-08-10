@@ -285,7 +285,7 @@
 		<defaultPlacingRot>South</defaultPlacingRot>
 		<altitudeLayer>FloorEmplacement</altitudeLayer>
 		<terrainAffordanceNeeded/>
-		<selectable>true</selectable>
+		<selectable>false</selectable>
 		<fillPercent>0.0</fillPercent>
 		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
 		<tickerType>Normal</tickerType>

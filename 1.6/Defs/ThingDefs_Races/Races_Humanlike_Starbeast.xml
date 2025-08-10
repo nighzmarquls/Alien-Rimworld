@@ -49,6 +49,7 @@
 					</thingDefs>
 					<disallowedCategories>
 						<li>CorpsesMechanoid</li>
+						<li MayRequire="Ludeon.RimWorld.Odyssey">CorpsesDrone</li>
 					</disallowedCategories>
 					<disallowedThingDefs>
 						<li>Starbeast_Jelly</li>
@@ -96,12 +97,12 @@
 			 <ArmorRating_Blunt>0.80</ArmorRating_Blunt>
 			 <ArmorRating_Heat>0.2</ArmorRating_Heat>
 		     <MarketValue>58330</MarketValue>
+			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">100</RoyalFavorValue>
 			 <MoveSpeed>9.2</MoveSpeed>
 			 <CrawlSpeed>10</CrawlSpeed>
 			 <ComfyTemperatureMin>-270</ComfyTemperatureMin>
 			 <ComfyTemperatureMax>310</ComfyTemperatureMax>
 			 <LeatherAmount>25</LeatherAmount>
-			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">100</RoyalFavorValue>
 			 <MeleeDodgeChance>2.5</MeleeDodgeChance>
 			 <ToxicResistance>1.0</ToxicResistance>
 			 <ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
@@ -719,9 +720,15 @@
 				<researchList>
 					<li>
 						<projects>
+							<!-- mimicry -->
 							<li>XMT_Starbeast_Construction</li>
+							<li>XMT_Starbeast_Sculpture</li>
+							<!-- resin -->
 							<li>XMT_Starbeast_Reinforcement</li>
+							<!-- evolution -->
 							<li>XMT_Starbeast_Chrysalis</li>
+							<li>XMT_Starbeast_Eggs</li>
+							<li>XMT_Starbeast_JellyTransport</li>
 						</projects>
 					</li>
 				</researchList>
@@ -878,9 +885,7 @@
 				
 				<whitePlantList>
 				</whitePlantList>
-				
-				
-				
+
 				<!-- Xenomorph Weapons -->
 				<blackWeaponList></blackWeaponList>
 				
@@ -1256,6 +1261,8 @@
 			</li>-->
 		</comps>
 		<statBases>
+			<MarketValue>583300</MarketValue>
+			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">1000</RoyalFavorValue>
 			<MeleeDodgeChance>1.25</MeleeDodgeChance>
 			<MoveSpeed>7.0</MoveSpeed>
 			<CrawlSpeed>8</CrawlSpeed>
