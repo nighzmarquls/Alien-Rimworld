@@ -323,7 +323,7 @@ namespace Xenomorphtype
                 return true;
             }
 
-            if(pawn.RaceProps.IsFlesh)
+            if(!pawn.RaceProps.IsFlesh)
             {
                 return true;
             }
