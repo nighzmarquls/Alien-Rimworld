@@ -14,11 +14,13 @@ namespace Xenomorphtype
     {
         public Pawn Queen = null;
 
-        List<PlanetTile> XenoformedTiles = new List<PlanetTile>;
+        List<PlanetTile> CandidateTiles = new List<PlanetTile>();
 
         bool PlayerEmbryoInWorld = false;
         bool PlayerXenomorphInWorld = false;
         bool PlayerOvamorphInWorld = false;
+
+        int XenoformingCheckInterval = 60000;
         public bool QueenInWorld
         {
             get
@@ -31,8 +33,8 @@ namespace Xenomorphtype
             }
         }
 
-        private float _lastxenoforming = 100;
-        private float _xenoforming = 100;
+        private float _lastxenoforming = 0;
+        private float _xenoforming = 0;
         public float Xenoforming
         {
             get
@@ -112,12 +114,27 @@ namespace Xenomorphtype
                     _xenoforming += 0.01f;
                 }
 
-                nextXenoformingTick = tick + 60000;
+                nextXenoformingTick = tick + XenoformingCheckInterval;
 
                 EvaluateXenoforming();
-
+                BiomeXenoformingImpact();
             }
 
+        }
+
+        private void GetCandidateNeighbors(PlanetTile origin)
+        {
+            List<PlanetTile> outNeighbor = new List<PlanetTile>();
+            Find.WorldGrid.Surface.GetTileNeighbors(origin, outNeighbor);
+
+            foreach (PlanetTile tile in outNeighbor)
+            {
+                if (tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight)
+                {
+                    continue;
+                }
+                CandidateTiles.AddUnique(tile);
+            }
         }
 
         public void BiomeXenoformingImpact()
@@ -129,28 +146,42 @@ namespace Xenomorphtype
                     Log.Message("Xenoforming Biomes");
                 }
 
-                if (XenoformedTiles.Count <= 0)
+                if (CandidateTiles == null || CandidateTiles.Count == 0)
                 {
+                    CandidateTiles = new List<PlanetTile> { };
+
                     Map playerMap = Find.AnyPlayerHomeMap;
 
                     if (playerMap != null)
                     {
-                        List<PlanetTile> outNeighbor = new List<PlanetTile>();
-                        Find.WorldGrid.Surface.GetTileNeighbors(playerMap.Tile, outNeighbor);
-
-                        foreach(PlanetTile tile in outNeighbor)
-                        {
-                            
-                        }
+                        GetCandidateNeighbors(playerMap.Tile);
                     }
-                    else
-                    {
 
+                }
+
+                PlanetTile target = PlanetTile.Invalid;
+                foreach(PlanetTile candidate in CandidateTiles)
+                {
+                    float score = XenoMapDefOf.XMT_DessicatedBlight.Worker.GetScore(XenoMapDefOf.XMT_DessicatedBlight, candidate.Tile, candidate);
+
+                    if (XMTSettings.LogWorld)
+                    {
+                        Log.Message("Xenoforming biome score: " + score);
+                    }
+
+                    if (score > 1)
+                    {
+                        GetCandidateNeighbors(candidate);
+                        target = candidate;
+
+                        target.Tile.PrimaryBiome = XenoMapDefOf.XMT_DessicatedBlight;
+                        break;
                     }
                 }
-                else
-                {
 
+                if (target != PlanetTile.Invalid)
+                {
+                    CandidateTiles.Remove(target);
                 }
             }
         }
@@ -214,7 +245,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref PlayerEmbryoInWorld, "PlayerEmbryoInWorld", false);
             Scribe_Values.Look(ref PlayerXenomorphInWorld, "PlayerXenomorphInWorld", false);
             Scribe_Values.Look(ref PlayerOvamorphInWorld, "PlayerOvamorphInWorld", false);
-            Scribe_Collections.Look(ref XenoformedTiles, "XenoformedTiles");
+            Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
         }
 
         public void HandleMatureMorphDeath(Pawn pawn)

@@ -12,6 +12,8 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(XenoIncidentDefOf));
         }
 
+        public static BiomeDef XMT_DessicatedBlight;
+
         public static TileMutatorDef XMT_SettlementAftermath;
 
         public static GenStepDef XMT_AttackAftermath;
