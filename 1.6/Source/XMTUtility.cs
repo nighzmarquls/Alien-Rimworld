@@ -320,22 +320,32 @@ namespace Xenomorphtype
         {
             if (pawn == null)
             {
+                Log.Message("checking null pawn");
                 return true;
             }
 
             if(!pawn.RaceProps.IsFlesh)
             {
+                Log.Message(pawn + " is not flesh");
                 return true;
             }
 
-            if((pawn.def as ThingDef_AlienRace)?.alienRace.compatibility.IsFleshPawn(pawn) ?? false)
+            if(pawn.def is ThingDef_AlienRace HARdef)
             {
-                return true;
+                if (!HARdef.alienRace.compatibility.IsFleshPawn(pawn))
+                {
+                    Log.Message(pawn + " is not flesh according to HAR");
+                    return true;
+                }
             }
 
-            if (pawn.genes?.HasActiveGene(ExternalDefOf.VREA_SyntheticBody) ?? true)
+            if (pawn.genes != null)
             {
-                return true;
+                if (pawn.genes.HasActiveGene(ExternalDefOf.VREA_SyntheticBody))
+                {
+                    Log.Message(pawn + " is not flesh according VRE Androids");
+                    return true;
+                }
             }
 
             return false;

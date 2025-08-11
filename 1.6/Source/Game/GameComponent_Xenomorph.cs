@@ -174,14 +174,21 @@ namespace Xenomorphtype
                         GetCandidateNeighbors(candidate);
                         target = candidate;
 
-                        target.Tile.PrimaryBiome = XenoMapDefOf.XMT_DessicatedBlight;
+                        
                         break;
                     }
                 }
 
                 if (target != PlanetTile.Invalid)
                 {
+                    
+                    target.Tile.PrimaryBiome = XenoMapDefOf.XMT_DessicatedBlight;
                     CandidateTiles.Remove(target);
+                    List<WorldDrawLayer> drawLayers = Find.WorldGrid.Surface.WorldDrawLayers;
+                    foreach (WorldDrawLayer layer in drawLayers)
+                    {
+                        layer.SetDirty();
+                    }
                 }
             }
         }
