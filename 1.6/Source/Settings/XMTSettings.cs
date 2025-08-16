@@ -32,6 +32,9 @@ namespace Xenomorphtype
         public static float MaturationFactor => instance != null ? instance._maturationFactor : 1f;
         private float _maturationFactor = 1f;
 
+        public static float InitialXenoforming => instance != null ? instance._initialXenoforming : 0f;
+        private float _initialXenoforming = 0f;
+
         private static Vector2 scrollPosition;
         private static float height_modifier = 100f;
 
@@ -58,6 +61,11 @@ namespace Xenomorphtype
         private string TooltipForFactor(float value)
         {
             return Mathf.Floor(value * 100) + "% factor";
+        }
+
+        private string TooltipForPercent(float value)
+        {
+            return Mathf.Floor(value * 100) + "% ";
         }
         private string TooltipForChance(float value)
         {
@@ -98,6 +106,10 @@ namespace Xenomorphtype
             listingStandard.CheckboxLabeled("Enable Horror Pregnancies", ref _horrorPregnancy, "If enabled xenomorph corruption will cause horror pregnancies.");
             listingStandard.Gap(5f);
 
+            _initialXenoforming = listingStandard.SliderLabeled("Initial Xenoforming", _initialXenoforming, 0.00f, 1f, tooltip: TooltipForPercent(_initialXenoforming));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForPercent(_initialXenoforming));
+
             _jellyNutritionEfficiency = listingStandard.SliderLabeled("Jelly Nutrition Efficiency", _jellyNutritionEfficiency, 0.01f, 4f, tooltip: TooltipForJellyNutrition());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("",TooltipForJellyNutrition());
@@ -118,7 +130,7 @@ namespace Xenomorphtype
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForChance(_wildMorphHuntChance));
             listingStandard.Gap(5f);
-            _wildMorphHuntChance = listingStandard.SliderLabeled("Site Attack Chance Factor", _siteAttackChance, 0.00f, 1f, tooltip: TooltipForChance(_siteAttackChance));
+            _siteAttackChance = listingStandard.SliderLabeled("Site Attack Chance Factor", _siteAttackChance, 0.00f, 1f, tooltip: TooltipForChance(_siteAttackChance));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForChance(_siteAttackChance));
             listingStandard.Gap(5f);
@@ -146,13 +158,17 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
             Scribe_Values.Look(ref _horrorPregnancy, "horrorPregnancy", true, false);
 
-            
+
+
+            Scribe_Values.Look(ref _initialXenoforming, "initialXenoforming", 0f, false);
+
             Scribe_Values.Look(ref _maturationFactor, "maturationFactor", 1f, false);
 
             Scribe_Values.Look(ref _jellyNutritionEfficiency, "jellyNutritionEfficiency", 0.5f, false);
             Scribe_Values.Look(ref _jellyMassEfficiency, "jellyMassEfficiency", 0.025f, false);
             Scribe_Values.Look(ref _wildEmbryoChance, "wildEmbryoChance", 0.25f, false);
             Scribe_Values.Look(ref _wildMorphHuntChance, "wildMorphHuntChance", 0.25f, false);
+            Scribe_Values.Look(ref _siteAttackChance, "siteAttackChance", 0.25f, false);
             Scribe_Values.Look(ref _minimumOpinionForHiveFriend, "minimumOpinionForHiveFriend", 80, false);
             Scribe_Values.Look(ref _laidEggMaturationTime, "laidEggMaturationTime", 1, false); 
             instance = this;

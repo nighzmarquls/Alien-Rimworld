@@ -17,6 +17,7 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(InternalDefOf));
         }
 
+        public static FleshTypeDef          StarbeastFlesh;
         public static FactionDef            XMT_PlayerHive;
 
         //Xenomorphtype Defs

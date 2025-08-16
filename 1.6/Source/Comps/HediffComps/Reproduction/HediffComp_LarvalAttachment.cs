@@ -313,7 +313,7 @@ namespace Xenomorphtype
                         {
                             embryoPregnancy.father = Pawn;
                             
-                            BioUtility.ExtractGenesToGeneset(ref embryoPregnancy.genes, Pawn.genes.GenesListForReading);
+                            BioUtility.ExtractCryptimorphGenesToGeneset(ref embryoPregnancy.genes, Pawn.genes.GenesListForReading);
                         }
                     }
                 }
@@ -322,7 +322,7 @@ namespace Xenomorphtype
                     if (Pawn.genes != null)
                     {
                         embryoPregnancy.father = Pawn;
-                        BioUtility.ExtractGenesToGeneset(ref embryoPregnancy.genes, Pawn.genes.GenesListForReading);
+                        BioUtility.ExtractCryptimorphGenesToGeneset(ref embryoPregnancy.genes, Pawn.genes.GenesListForReading);
                     }
                 }
             }

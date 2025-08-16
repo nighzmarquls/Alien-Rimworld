@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<GeneDef ParentName="GeneHeadboneBase">
+		<defName>XMT_AsariCrestGene</defName>
+		<label>crested head</label>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<description>Carriers of this gene have a semi-flexible, cartilage-based scalp-crests that grow into a curved shape.</description>
+		<iconPath>UI/Icons/Genes/AsariCrest</iconPath>
+		<displayOrderInCategory>500</displayOrderInCategory>
+		<forcedHeadTypes>
+			<li>XMT_Asari_Head_Normal</li>
+		</forcedHeadTypes>
+	</GeneDef>
+	
+	<GeneDef ParentName="GeneHeadboneBase">
+		<defName>XMT_AsariRoyalCrestGene</defName>
+		<label>crested head</label>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<description>Carriers of this gene have a semi-flexible, cartilage-based scalp-crests that grow into a curved shape.</description>
+		<iconPath>UI/Icons/Genes/AsariCrest</iconPath>
+		<displayOrderInCategory>500</displayOrderInCategory>
+	</GeneDef>
+	
+	<GeneDef>
+		<defName>XMT_NaturalBiotic</defName>
+		<label>natural biotic</label>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<iconPath>Things/Item/Health/BioticAmp</iconPath>
+		<description>Carriers of this gene have an innate ability to use biotic powers.</description>
+		<displayCategory>Miscellaneous</displayCategory>
+		<displayOrderInCategory>-1000</displayOrderInCategory>
+		<biostatMet>-1</biostatMet>
+		<biostatCpx>2</biostatCpx>
+		<selectionWeight>0</selectionWeight>
+		<customEffectDescriptions>
+			<li>Losing this gene will make the colonist lose ALL biotic levels, though they will not forget the abilities they have already learned.</li>
+		</customEffectDescriptions>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<hediffsToBodyParts>
+					<li>
+						<hediff>RE_BioticNatural</hediff>
+						<bodyparts>
+							<li>StarbeastBrain</li>
+						</bodyparts>
+					</li>
+				</hediffsToBodyParts>
+			</li>
+		</modExtensions>
+	</GeneDef>
+	
+	<Xenomorphtype.XMT_GeneRemapListDef>
+		<defName>XMT_AsariGeneRemaps</defName>
+		<geneRemaps>
+			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>RE_AsariCrestGene</targetGeneDef>
+				<replacementGeneDef>XMT_AsariCrestGene</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>RE_NaturalBiotic</targetGeneDef>
+				<replacementGeneDef>XMT_NaturalBiotic</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>RE_NaturalBiotic</targetGeneDef>
+				<replacementGeneDef>XMT_NaturalBiotic</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>RE_AsariCrestGene</targetGeneDef>
+				<replacementGeneDef>XMT_AsariRoyalCrestGene</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>XMT_AsariCrestGene</targetGeneDef>
+				<replacementGeneDef>XMT_AsariRoyalCrestGene</replacementGeneDef>
+			</li>
+		</geneRemaps>
+	</Xenomorphtype.XMT_GeneRemapListDef>
+	
+</Defs>

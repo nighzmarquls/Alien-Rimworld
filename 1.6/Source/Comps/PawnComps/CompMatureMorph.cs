@@ -93,22 +93,38 @@ namespace Xenomorphtype
                     SeekNewLair();
                     lairUnloaded = false;
                 }
-                if (Parent.IsHashIntervalTick(IntervalCheck))
-                {
-                    if (Parent.CarriedBy != null)
-                    {
-                        if (!(XMTUtility.IsXenomorph(Parent.CarriedBy) && Parent.Downed))
-                        {
-                            Thing something;
-                            Pawn other = Parent.CarriedBy;
+            }
 
+            if(Parent.Downed)
+            {
+                return;
+            }
+
+            if (Parent.IsHashIntervalTick(IntervalCheck))
+            {
+                Log.Message(Parent + " is checking for confinement");
+                if (Parent.CarriedBy != null)
+                {
+                    if (!XMTUtility.IsXenomorph(Parent.CarriedBy))
+                    {
+                        Thing something;
+                        Pawn other = Parent.CarriedBy;
+
+                        if(!XMTUtility.IsXenomorphFriendly(other))
+                        {
                             Parent.CarriedBy.carryTracker.TryDropCarriedThing(Parent.PositionHeld, ThingPlaceMode.Near, out something);
                             Parent.interactions.StartSocialFight(other);
                         }
                     }
+                }
 
-
-
+                if (Parent.guest.IsPrisoner)
+                {
+                    if (!HiveUtility.PlayerXenosOnMap(Parent.MapHeld))
+                    {
+                        Parent.guest.SetGuestStatus(null);
+                        Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                    }
                 }
             }
 
@@ -429,8 +445,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (HiveUtility.NestOnMap(Parent.Map) && Parent.DevelopmentalStage.Adult()
-                && HiveUtility.NeedAbductions(Parent.Map))
+            if (HiveUtility.NeedAbductions(Parent.Map))
             {
                 canAbductTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
                 return true;
@@ -654,7 +669,7 @@ namespace Xenomorphtype
 
                 if (Parent.Map.reservationManager.IsReserved(candidate))
                 {
-                    Parent.Map.reservationManager.ReleaseAllForTarget(candidate);
+                    continue;
                 }
 
                 int score = EvaluateHost(candidate);
@@ -1712,7 +1727,7 @@ namespace Xenomorphtype
     public class CompMatureMorphProperties : CompProperties
     {
         public float        abductRange = 3f;
-        public float        IntervalHours = 1;
+        public float        IntervalHours = 0.1f;
         public HediffDef    grabHediff;
         public HediffDef    cocoonHediff;
         public HediffDef    ovamorphHediff;

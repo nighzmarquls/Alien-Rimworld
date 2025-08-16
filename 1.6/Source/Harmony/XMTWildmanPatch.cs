@@ -3,6 +3,7 @@ using Verse;
 
 namespace Xenomorphtype
 {
+    /*
     internal class XMTWildmanPatch
     {
         [HarmonyPatch(typeof(WildManUtility), nameof(WildManUtility.IsWildMan))]
@@ -23,4 +24,5 @@ namespace Xenomorphtype
             }
         }
     }
+    */
 }

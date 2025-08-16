@@ -120,7 +120,7 @@ namespace Xenomorphtype
                     BioUtility.ExtractGenesToGeneset(ref larvalGenes.genes, BioUtility.GetExtraHostGenes(Pawn));
                     if (Pawn.genes != null)
                     {
-                        BioUtility.ExtractGenesToGeneset(ref larvalGenes.genes, Pawn.genes.GenesListForReading);
+                        BioUtility.ExtractCryptimorphGenesToGeneset(ref larvalGenes.genes, Pawn.genes.GenesListForReading);
                     }
                 }
 

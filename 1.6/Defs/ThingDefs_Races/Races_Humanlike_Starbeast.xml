@@ -60,37 +60,56 @@
 				<conversionRate>0.5</conversionRate>
 				<jellyProduct>Starbeast_Jelly</jellyProduct>
 			</li>
-			<!--<li Class="CompProperties_HoldingPlatformTarget" MayRequire="Ludeon.RimWorld.Anomaly">
-				<baseEscapeIntervalMtbDays>120</baseEscapeIntervalMtbDays>
+			<li Class="CompProperties_HoldingPlatformTarget" MayRequire="Ludeon.RimWorld.Anomaly">
+				<baseEscapeIntervalMtbDays>0.1</baseEscapeIntervalMtbDays>
 				<getsColdContainmentBonus>true</getsColdContainmentBonus>
 			</li>
-			<li Class="CompProperties_Studiable">
+			<li Class="CompProperties_Studiable" MayRequire="Ludeon.RimWorld.Anomaly">
 				<frequencyTicks>120000</frequencyTicks>
 				<knowledgeCategory>Advanced</knowledgeCategory>
 				<anomalyKnowledge>3</anomalyKnowledge>
-				<minMonolithLevelForStudy>1</minMonolithLevelForStudy>
-				<requiresHoldingPlatform>false</requiresHoldingPlatform>
+				<minMonolithLevelForStudy>1</minMonolithLevelForStudy> 
+				<requiresHoldingPlatform>true</requiresHoldingPlatform>
 			</li>
-			<li Class="CompProperties_AttachPoints">
+			<li Class="CompProperties_AttachPoints" MayRequire="Ludeon.RimWorld.Anomaly">
 				<points>
 					<li>
-						<offset>(-.35, 0, .35)</offset>
+						<offset>(-.2, 0, 0.0)</offset>
 						<type>PlatformRestraint0</type>
 					</li>
 					<li>
-						<offset>(.35, 0, .35)</offset>
+						<offset>(.2, 0, 0.0)</offset>
 						<type>PlatformRestraint1</type>
 					</li>
 					<li>
-						<offset>(.2, 0, -.71)</offset>
+						<offset>(.2, 0, -.5)</offset>
 						<type>PlatformRestraint2</type>
 					</li>
 					<li>
-						<offset>(-.2, 0, -.71)</offset>
+						<offset>(-.2, 0, -.5)</offset>
 						<type>PlatformRestraint3</type>
 					</li>
 				</points>
-			</li>-->
+			</li>
+			<li Class="Xenomorphtype.CompStudyXenomorphProperties" MayRequire="Ludeon.RimWorld.Anomaly">
+				<studyNotes>
+				  <li>
+					<thresholdRange>2~3</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>{PAWN_nameDef}  {PAWN_nameDef} thinks {PAWN_pronoun} .</text>
+				  </li>
+				  <li>
+					<thresholdRange>5~6</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				  <li>
+					<thresholdRange>8~9</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				</studyNotes>
+			</li>
 		</comps>
 		<statBases>
 			 <ArmorRating_Sharp>0.75</ArmorRating_Sharp>
@@ -103,17 +122,18 @@
 			 <ComfyTemperatureMin>-270</ComfyTemperatureMin>
 			 <ComfyTemperatureMax>310</ComfyTemperatureMax>
 			 <LeatherAmount>25</LeatherAmount>
-			 <MeleeDodgeChance>2.5</MeleeDodgeChance>
+			 <MeleeDodgeChance>3.5</MeleeDodgeChance>
 			 <ToxicResistance>1.0</ToxicResistance>
 			 <ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
 			 <IncomingDamageFactor>0.50</IncomingDamageFactor>
 			 <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">50</TerrorSource>
 			 <SlaveSuppressionFallRate MayRequire="Ludeon.RimWorld.Ideology">8</SlaveSuppressionFallRate>
+			 <MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">250</MinimumContainmentStrength>
 			 <PawnTrapSpringChance>0</PawnTrapSpringChance>
 			 <Flammability>0</Flammability>
 			 <MeatAmount>15</MeatAmount>
 			 <StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
-			 <Wildness>0.999</Wildness>
+			 <Wildness>1</Wildness>
 			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
 			 <DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 			 <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
@@ -256,7 +276,7 @@
 			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
 			<foodType>OmnivoreHuman</foodType>
 			<baseHungerRate>0.01</baseHungerRate>
-			<manhunterOnTameFailChance>0.9</manhunterOnTameFailChance>
+			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
 			<manhunterOnDamageChance>1</manhunterOnDamageChance>
 			<predator>false</predator>
 			<canBePredatorPrey>false</canBePredatorPrey>
@@ -788,6 +808,7 @@
 					<li>Heads</li>
 					<li>AG_Bodies</li>
 					<li>Bodies</li>
+					<li>EyeVisuals</li>
 				</blackGeneTags>
 				<blackEndoCategories/>
 				<!-- Apparel Restrictions-->
@@ -1261,13 +1282,14 @@
 			</li>-->
 		</comps>
 		<statBases>
-			<MarketValue>583300</MarketValue>
-			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">1000</RoyalFavorValue>
+			<MarketValue>291650</MarketValue>
+			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">500</RoyalFavorValue>
 			<MeleeDodgeChance>1.25</MeleeDodgeChance>
 			<MoveSpeed>7.0</MoveSpeed>
 			<CrawlSpeed>8</CrawlSpeed>
 			<WorkSpeedGlobal>0.75</WorkSpeedGlobal>
 			<PsychicSensitivity>1.25</PsychicSensitivity>
+			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">500</MinimumContainmentStrength>
 		</statBases>
 		<race>
 			<body>XMT_Queen</body>

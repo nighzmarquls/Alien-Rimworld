@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+	<GeneDef ParentName="GeneHeadboneBase">
+		<defName>XMT_Royal_MiniHorns</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>mini-horns</label>
+		<description>Carriers of this gene grow two small horns protruding from the forehead.</description>
+		<iconPath>UI/Icons/Genes/Gene_HeadboneMinihorns</iconPath>
+		<renderNodeProperties>
+		  <li>
+			<nodeClass>PawnRenderNode_AttachmentHead</nodeClass>
+			<workerClass>PawnRenderNodeWorker_FlipWhenCrawling</workerClass>
+			<texPath>Things/Pawn/ReplacedHumanlike/HeadAttachments/MiniHorns/MiniHorns</texPath>
+			<color>(255, 255, 255)</color>
+			<parentTagDef>Head</parentTagDef>
+			<drawData>
+			  <defaultData>
+				<layer>80</layer>
+			  </defaultData>
+			  <dataNorth>
+				<layer>10</layer>
+			  </dataNorth>
+			</drawData>
+		  </li>
+		</renderNodeProperties>
+		<symbolPack>
+		  <prefixSymbols>
+			<li><symbol>horn</symbol></li>
+			<li><symbol>knob</symbol></li>
+			<li><symbol>spike</symbol></li>
+			<li><symbol>devil</symbol></li>
+			<li><symbol>demon</symbol></li>
+			<li><symbol>luci</symbol></li>
+			<li><symbol>beelze</symbol></li>
+			<li><symbol>hell</symbol></li>
+		  </prefixSymbols>
+		  <suffixSymbols>
+			<li><symbol>horn</symbol></li>
+			<li><symbol>spike</symbol></li>
+			<li><symbol>vil</symbol></li>
+		  </suffixSymbols>
+		</symbolPack>
+	</GeneDef>
+	<GeneDef ParentName="GeneHeadboneBase">
+		<defName>XMT_Royal_CenterHorn</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>center-horn</label>
+		<description>Carriers of this gene grow a single horn protruding from the center of the forehead.</description>
+		<iconPath>UI/Icons/Genes/Gene_HeadboneCenterhorn</iconPath>
+		<renderNodeProperties>
+		  <li>
+			<nodeClass>PawnRenderNode_AttachmentHead</nodeClass>
+			<workerClass>PawnRenderNodeWorker_FlipWhenCrawling</workerClass>
+			<texPath>Things/Pawn/ReplacedHumanlike/HeadAttachments/CenterHorn/CenterHorn</texPath>
+			<color>(255, 255, 255)</color>
+			<parentTagDef>Head</parentTagDef>
+			<drawData>
+			  <defaultData>
+				<layer>80</layer>
+			  </defaultData>
+			  <dataNorth>
+				<layer>10</layer>
+			  </dataNorth>
+			</drawData>
+		  </li>
+		</renderNodeProperties>
+		<symbolPack>
+		  <prefixSymbols>
+			<li>
+			  <symbol>rhino</symbol>
+			  <weight>2</weight>
+			</li>
+			<li><symbol>horn</symbol></li>
+			<li><symbol>knob</symbol></li>
+			<li><symbol>spike</symbol></li>
+		  </prefixSymbols>
+		  <suffixSymbols>
+			<li><symbol>horn</symbol></li>
+			<li><symbol>spike</symbol></li>
+		  </suffixSymbols>
+		</symbolPack>
+	</GeneDef>
+</Defs>

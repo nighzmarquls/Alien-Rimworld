@@ -39,7 +39,7 @@ namespace Xenomorphtype
                 {
                     _genes = new GeneSet();
 
-                    BioUtility.ExtractGenesToGeneset(ref _genes, Pawn.genes.GenesListForReading);
+                    BioUtility.ExtractCryptimorphGenesToGeneset(ref _genes, Pawn.genes.GenesListForReading);
                 }
                 return _genes;
             }

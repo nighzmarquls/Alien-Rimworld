@@ -320,13 +320,17 @@ namespace Xenomorphtype
         {
             if (pawn == null)
             {
-                Log.Message("checking null pawn");
+                
                 return true;
             }
 
             if(!pawn.RaceProps.IsFlesh)
             {
-                Log.Message(pawn + " is not flesh");
+                return true;
+            }
+
+            if(pawn.RaceProps.FleshType == ExternalDefOf.Asimov_Automaton)
+            {
                 return true;
             }
 
@@ -334,7 +338,7 @@ namespace Xenomorphtype
             {
                 if (!HARdef.alienRace.compatibility.IsFleshPawn(pawn))
                 {
-                    Log.Message(pawn + " is not flesh according to HAR");
+                    
                     return true;
                 }
             }
@@ -1345,7 +1349,7 @@ namespace Xenomorphtype
                     if(NewPawn.genes != null)
                     {
                         GeneSet geneset = new GeneSet();
-                        BioUtility.ExtractGenesToGeneset(ref geneset, target.genes.GenesListForReading);
+                        BioUtility.ExtractCryptimorphGenesToGeneset(ref geneset, target.genes.GenesListForReading);
                         BioUtility.InsertGenesetToPawn(geneset, ref NewPawn);
                     }
                 }

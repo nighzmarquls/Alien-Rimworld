@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <PawnKindDef ParentName="BasePlayerStarbeast">
+  <PawnKindDef ParentName="BaseStarbeast">
     <defName>XMT_FeralStarbeastKind</defName>
     <label>cryptimorph</label>
     <defaultFactionType></defaultFactionType>

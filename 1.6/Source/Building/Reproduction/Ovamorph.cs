@@ -80,7 +80,7 @@ namespace Xenomorphtype
             if (mother != null && mother.genes != null)
             {
                 //Log.Message("Mother ExtractGenes");
-                BioUtility.ExtractGenesToGeneset(ref HatchingEgg.genes, mother.genes.GenesListForReading);
+                BioUtility.ExtractCryptimorphGenesToGeneset(ref HatchingEgg.genes, mother.genes.GenesListForReading);
             }
 
             if (father != null && father != mother)
@@ -89,7 +89,7 @@ namespace Xenomorphtype
                 if (father.genes != null)
                 {
                     //Log.Message("Father ExtractGenes");
-                    BioUtility.ExtractGenesToGeneset(ref HatchingEgg.genes, father.genes.GenesListForReading);
+                    BioUtility.ExtractCryptimorphGenesToGeneset(ref HatchingEgg.genes, father.genes.GenesListForReading);
                 }
             }
 

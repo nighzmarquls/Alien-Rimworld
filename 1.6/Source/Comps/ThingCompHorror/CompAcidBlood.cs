@@ -158,12 +158,12 @@ namespace Xenomorphtype
                         {
                             if (!XMTUtility.IsAcidImmune(attacker?.equipment?.Primary))
                             {
-                                attacker.equipment.Primary.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, Props.damage * bloodfullness, 9, -1, parent));
+                                attacker.equipment.Primary.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, Props.damage + totalDamageDealt, 9, -1, parent));
                             }
                         }
                     }
                 }
-                TrySplashAcid(bloodfullness);
+                TrySplashAcid(bloodfullness + (totalDamageDealt / 10));
             }
         }
 

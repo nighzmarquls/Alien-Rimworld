@@ -244,7 +244,7 @@ namespace Xenomorphtype
                 {
                     child.genes.xenotypeName = Pawn.genes.xenotypeName;
                 }
-                BioUtility.ExtractGenesToGeneset(ref genes, Pawn.genes.GenesListForReading);
+                BioUtility.ExtractCryptimorphGenesToGeneset(ref genes, Pawn.genes.GenesListForReading);
             }
 
             if (headMaturity >= 0.8f)

@@ -13,7 +13,7 @@ namespace Xenomorphtype
     {
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(TargetA, pawn.CurJob) && base.TryMakePreToilReservations(errorOnFailed);
+            return base.TryMakePreToilReservations(errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()

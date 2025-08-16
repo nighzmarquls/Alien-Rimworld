@@ -215,32 +215,33 @@ namespace Xenomorphtype
             if (pawn.genes != null)
             {
                 List<GeneDef> blacklistGenes = (pawn.def as ThingDef_AlienRace)?.alienRace?.raceRestriction?.blackGeneList;
-                List<String> blacklistTags = (pawn.def as ThingDef_AlienRace)?.alienRace?.raceRestriction?.blackGeneTags;
+                List<string> blacklistTags = (pawn.def as ThingDef_AlienRace)?.alienRace?.raceRestriction?.blackGeneTags;
 
                 foreach (GeneDef gene in geneset.GenesListForReading)
                 {
-                    if (forbidUnknown && gene.geneClass == typeof(UnknownGene))
+                    GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(pawn.def, gene);
+                    if (forbidUnknown && remappedGene.geneClass == typeof(UnknownGene))
                     {
                         continue;
                     }
 
-                    if (blacklistGenes.Contains(gene))
+                    if (blacklistGenes.Contains(remappedGene))
                     {
                         continue;
                     }
 
-                    foreach (String tag in blacklistTags)
+                    foreach (string tag in blacklistTags)
                     {
-                        if (gene.exclusionTags != null)
+                        if (remappedGene.exclusionTags != null)
                         {
-                            if (gene.exclusionTags.Contains(tag))
+                            if (remappedGene.exclusionTags.Contains(tag))
                             {
                                 continue;
                             }
                         }
                     }
 
-                    pawn.genes.AddGene(gene, xenogene);
+                    pawn.genes.AddGene(remappedGene, xenogene);
                 }
             }
         }
@@ -258,7 +259,7 @@ namespace Xenomorphtype
                 geneset.AddGene(gene);
             }
         }
-        public static void ExtractGenesToGeneset(ref GeneSet geneset, List<Gene> genes)
+        public static void ExtractCryptimorphGenesToGeneset(ref GeneSet geneset, List<Gene> genes)
         {
             if (geneset == null || genes == null)
             {
@@ -271,27 +272,25 @@ namespace Xenomorphtype
 
             foreach (var gene in genes)
             {
-                if(gene is UnknownGene)
+                GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(InternalDefOf.XMT_Starbeast_AlienRace, gene.def);
+
+                if (blacklistGenes.Contains(remappedGene))
                 {
                     continue;
                 }
 
-                if (blacklistGenes.Contains(gene.def))
+                foreach (string tag in blacklistTags)
                 {
-                    continue;
-                }
-                foreach (String tag in blacklistTags)
-                {
-                    if (gene.def.exclusionTags != null)
+                    if (remappedGene.exclusionTags != null)
                     {
-                        if (gene.def.exclusionTags.Contains(tag))
+                        if (remappedGene.exclusionTags.Contains(tag))
                         {
                             continue;
                         }
                     }
                 }
 
-                geneset.AddGene(gene.def);
+                geneset.AddGene(remappedGene);
             }
         }
 

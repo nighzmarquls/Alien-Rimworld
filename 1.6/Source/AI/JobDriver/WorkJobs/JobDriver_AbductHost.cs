@@ -44,7 +44,7 @@ namespace Xenomorphtype
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-
+            PopulateClimbCells();
             return true;
         }
 
@@ -70,6 +70,8 @@ namespace Xenomorphtype
             else
             {
                 yield return ClimbOverWall();
+                Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
+                yield return carryToCell;
             }
             yield return AttemptCocoon();
         }
@@ -102,12 +104,18 @@ namespace Xenomorphtype
             };
             toil.AddFinishAction(delegate
             {
+                
                 CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
                 if (matureMorph != null)
                 {
                     if (GrabProgress >= 1 && !FailedGrab)
                     {
+                        PopulateClimbCells();
                         matureMorph.TryGrab(Victim);
+                        if (!NoWallToClimb)
+                        {
+                            matureMorph.ClearAllTickLimits();
+                        }
                     }
                 }
                

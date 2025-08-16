@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <PawnKindDef Abstract="True" Name="BasePlayerStarbeast">
+  <PawnKindDef Abstract="True" Name="BaseStarbeast">
     <race>XMT_Starbeast_AlienRace</race>
     <combatPower>30</combatPower>
     <isFighter>false</isFighter>
@@ -9,10 +9,11 @@
     <apparelIgnorePollution MayRequire="Ludeon.RimWorld.Biotech">true</apparelIgnorePollution>
     <forceNormalGearQuality>true</forceNormalGearQuality>
     <initialWillRange>0~0</initialWillRange>
-    <humanPregnancyChance>0.06</humanPregnancyChance>
+    <humanPregnancyChance>0</humanPregnancyChance>
+	<acceptArrestChanceFactor>0</acceptArrestChanceFactor>
   </PawnKindDef>
 
-  <PawnKindDef ParentName="BasePlayerStarbeast">
+  <PawnKindDef ParentName="BaseStarbeast">
     <defName>XMT_StarbeastKind</defName>
     <label>kin</label>
     <defaultFactionType>XMT_PlayerHive</defaultFactionType>
@@ -37,7 +38,7 @@
 	</backstoryFiltersOverride>
   </PawnKindDef>
   
-  <PawnKindDef ParentName="BasePlayerStarbeast">
+  <PawnKindDef ParentName="BaseStarbeast">
     <defName>XMT_RoyaltyKind</defName>
     <label>queen</label>
     <race>XMT_Royal_AlienRace</race>

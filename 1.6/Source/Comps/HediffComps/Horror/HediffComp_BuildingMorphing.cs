@@ -129,8 +129,11 @@ namespace Xenomorphtype
         {
             base.Notify_PawnDied(dinfo, culprit);
 
+            Log.Message(parent.pawn + " has died with " + parent);
+
             if (parent.Severity >= Props.DeathTriggerSeverity && unMorphed)
             {
+                Log.Message(parent.pawn + " is triggering morphing anyway");
                 TryMorphBuilding();
             }
         }

@@ -164,7 +164,7 @@ namespace Xenomorphtype
 
             if(pawn.genes != null)
             {
-                BioUtility.ExtractGenesToGeneset(ref geneHolder.genes, pawn.genes.GenesListForReading);
+                BioUtility.ExtractCryptimorphGenesToGeneset(ref geneHolder.genes, pawn.genes.GenesListForReading);
             }
         }
 

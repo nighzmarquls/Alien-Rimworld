@@ -33,8 +33,8 @@ namespace Xenomorphtype
             }
         }
 
-        private float _lastxenoforming = 0;
-        private float _xenoforming = 0;
+        private float _lastxenoforming = XMTSettings.InitialXenoforming*100;
+        private float _xenoforming = XMTSettings.InitialXenoforming*100;
         public float Xenoforming
         {
             get

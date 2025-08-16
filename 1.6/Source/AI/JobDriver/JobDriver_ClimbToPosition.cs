@@ -23,19 +23,28 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if(FinalGoalCell.GetRoomOrAdjacent(pawn.Map) == pawn.GetRoom())
+            {
+                return true;
+            }
             bool ClimbOver = true;
             Tunneling = false;
             IntVec3 Start = pawn.Position;
-            //Log.Message("Trying infiltrate from Position: " + Start);
+
+            if(!FinalGoalCell.IsValid)
+            {
+                return false;
+            }
+            Log.Message("Trying infiltrate from Position: " + Start + " to " + FinalGoalCell);
             if(InfiltrationUtility.GetInfiltrationEntry(pawn.Map, Start, FinalGoalCell, out Building entry))
             {
                 StartClimbCell = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(Start, entry);
-                //Log.Message("Found Infiltration Target Entry: " + entry + " at " + StartClimbCell);
+                Log.Message("Found Infiltration Target Entry: " + entry + " at " + StartClimbCell);
                 if (InfiltrationUtility.GetInfiltrationExit(entry, FinalGoalCell, out Building exit))
                 {
                    
                     EndClimbCell = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(FinalGoalCell, exit);
-                    //Log.Message("Found Infiltration Target Exit: " + exit + " at " + EndClimbCell);
+                    Log.Message("Found Infiltration Target Exit: " + exit + " at " + EndClimbCell);
                     NoWallToClimb = false;
                     ClimbOver = false;
                     Tunneling = true;

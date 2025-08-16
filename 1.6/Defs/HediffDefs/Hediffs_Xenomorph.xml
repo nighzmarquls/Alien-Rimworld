@@ -155,6 +155,9 @@
 		<li Class="Xenomorphtype.HediffCompProperties_RemoveOnCarryStatus">
 			<RemoveIfCarried>true</RemoveIfCarried>
 		</li>
+		<li Class="Xenomorphtype.HediffCompProperties_GrowCocoon">
+			<activateOnAffordance>Resin</activateOnAffordance>
+		</li>
     </comps>
   </HediffDef>
   
@@ -369,11 +372,14 @@
     <description>Has formed a disturbingly suggestive chrysalis for maturation.</description>
     <makesSickThought>false</makesSickThought>
     <comps>
-	  <li Class="Xenomorphtype.HediffCompProperties_MatureToAdult">
-		<severityPerDay>1</severityPerDay>
-		<showDaysToRecover>True</showDaysToRecover>
-        <minAge>0</minAge>
-	  </li>
+		<li Class="Xenomorphtype.HediffCompProperties_MatureToAdult">
+			<severityPerDay>1</severityPerDay>
+			<showDaysToRecover>True</showDaysToRecover>
+			<minAge>0</minAge>
+		</li>
+		<li Class="Xenomorphtype.HediffCompProperties_GrowCocoon">
+			<activateOnAffordance>Resin</activateOnAffordance>
+		</li>
     </comps>
     <stages>
       <li>

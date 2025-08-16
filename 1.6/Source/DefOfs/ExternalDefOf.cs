@@ -63,6 +63,14 @@ namespace Xenomorphtype
 
         //Thrumbo Products
 
+        //Asari
+        [MayRequire("RimEffectRenegade.AsariReapers")]
+        public static GeneDef XMT_NaturalBiotic;
+
+        //Asimov
+        [MayRequire("Neronix17.Asimov")]
+        public static FleshTypeDef Asimov_Automaton;
+
         //Big and Small Framework
         [MayRequire("RedMattis.BetterPrerequisites")]
         public static StatDef SM_BodySizeOffset;

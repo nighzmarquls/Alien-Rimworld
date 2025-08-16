@@ -97,6 +97,11 @@ namespace Xenomorphtype
             {
                 if (Discoverer != null)
                 {
+                    if(Discoverer.def == ThingDefOf.Fire)
+                    {
+                        return;
+                    }
+
                     Job attackJob = JobMaker.MakeJob(JobDefOf.AttackMelee, Discoverer);
 
                     Parent.jobs.StartJob(attackJob, JobCondition.InterruptForced);
@@ -113,6 +118,11 @@ namespace Xenomorphtype
                         bool foundTarget = false;
                         foreach (Thing thing in things)
                         {
+                            if (thing.def == ThingDefOf.Fire)
+                            {
+                                continue;
+                            }
+
                             CompGlower glower = thing.TryGetComp<CompGlower>();
                             if(glower != null)
                             {

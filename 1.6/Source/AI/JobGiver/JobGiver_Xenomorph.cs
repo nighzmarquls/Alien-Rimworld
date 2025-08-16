@@ -20,7 +20,7 @@ namespace Xenomorphtype
             {
                 Log.Message(pawn + " is getting Feral Job");
             }
-            IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => !XMTUtility.IsMorphing(x) && !XMTUtility.HasEmbryo(x) );
+            IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => !XMTUtility.IsMorphing(x) && !XMTUtility.HasEmbryo(x));
             IEnumerable<Pawn> hostPawns = pawn.Map.mapPawns.AllPawnsSpawned.Where(x => XMTUtility.IsHost(x));
             Need_Food food = pawn.needs.food;
             bool canReach = false;
@@ -28,34 +28,45 @@ namespace Xenomorphtype
 
             CompMatureMorph compMatureMorph = pawn.GetComp<CompMatureMorph>();
 
+            bool shouldOvamorph = compMatureMorph.ShouldOvamorphCandidate();
+            bool hasNest = HiveUtility.HasCocooned(pawn.Map);
+
             if (food.CurCategory == HungerCategory.Fed)
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(pawn + " is getting fed Job");
+                    Log.Message(pawn + " is getting fed Job there are " + hostPawns.Count() + " possible hosts");
                 }
                 if (hostPawns.Any())
                 {
                     if (compMatureMorph != null)
                     {
-                        if (compMatureMorph.ShouldAbductHost())
+                        if (compMatureMorph.ShouldAbductHost() && !(shouldOvamorph && hasNest) )
                         {
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message(pawn + " thinks a host should be abducted");
+                            }
                             Pawn target = compMatureMorph.BestAbductCandidate(hostPawns);
                             if (target != null)
                             {
+                                if (XMTSettings.LogJobGiver)
+                                {
+                                    Log.Message(pawn + " thinks " + target + " should be abducted");
+                                }
                                 canReach = pawn.Map.reachability.CanReach(pawn.Position, target.Position, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
 
                                 if (canReach)
                                 {
                                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
                                     job.count = 1;
-
+                                    pawn.Reserve(target, job);
                                     return job;
                                 }
                                 else
                                 {
                                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
-
+                                    compMatureMorph.ClearAllTickLimits();
                                     return job;
                                 }
                             }
@@ -78,9 +89,10 @@ namespace Xenomorphtype
                 {
                     Log.Message(pawn + " is doing Feral Activity");
                 }
+
                 if (HiveUtility.IsInsideNest(pawn.Position,pawn.Map) && HiveUtility.IsCloseToNest(pawn.Position, pawn.Map))
                 {
-                    if (compMatureMorph.ShouldOvamorphCandidate())
+                    if (shouldOvamorph)
                     {
                         if (XMTSettings.LogJobGiver)
                         {
@@ -121,8 +133,9 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        IEnumerable<Pawn> UndownedPawns = hostPawns.Where(x => !x.Downed && !XMTUtility.NotPrey(x));
-                        if (UndownedPawns.Count() == 1 && compMatureMorph.ShouldHunt())
+                        bool shouldHunt = compMatureMorph.ShouldHunt();
+                        IEnumerable<Pawn> UndownedPawns = colonyPawns.Where(x => !x.Downed && x != pawn);
+                        if (UndownedPawns.Count() == 1 && shouldHunt)
                         {
                             if (XMTSettings.LogJobGiver)
                             {
@@ -138,8 +151,8 @@ namespace Xenomorphtype
                             }
                             else
                             {
+                                compMatureMorph.ClearAllTickLimits();
                                 Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
-
                                 return job;
                             }
                             
@@ -153,7 +166,7 @@ namespace Xenomorphtype
                            
                             return JobMaker.MakeJob(JobDefOf.Wait_Asleep);
                         }
-                        else if (compMatureMorph.ShouldHunt() && UndownedPawns.Any())
+                        else if (shouldHunt && UndownedPawns.Any())
                         {
                             if (XMTSettings.LogJobGiver)
                             {
@@ -161,8 +174,12 @@ namespace Xenomorphtype
                             }
                             
                             Pawn target = UndownedPawns.RandomElement();
-
                             canReach = pawn.Map.reachability.CanReach(pawn.Position, target.Position, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
+
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message(pawn + " is hunting " + target);
+                            }
 
                             if (canReach)
                             {
@@ -170,25 +187,40 @@ namespace Xenomorphtype
                             }
                             else
                             {
+                                compMatureMorph.ClearAllTickLimits();
                                 Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
-
                                 return job;
                             }
                         }
                     }
 
-                    canReach = pawn.Map.reachability.CanReach(pawn.Position, compMatureMorph.NestPosition, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
-
-                    if (canReach)
+                    if (compMatureMorph.ShouldBeInNest())
                     {
-                        return JobMaker.MakeJob(JobDefOf.Wait_Asleep, compMatureMorph.NestPosition);
-                    }
-                    else
-                    {
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message(pawn + "should be in the nest.");
+                        }
 
-                        return job;
+                        canReach = pawn.Map.reachability.CanReach(pawn.Position, compMatureMorph.NestPosition, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
+
+                        if (canReach)
+                        {
+                            return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
+                        }
+                        else
+                        {
+                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
+
+                            return job;
+                        }
                     }
+
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " has nothing else to do.");
+                    }
+                    //TODO: Do something here.
+
                 }
                 else
                 {
@@ -201,17 +233,32 @@ namespace Xenomorphtype
                     else
                     {
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
-
                         return job;
                     }
                 }
                 
             }
+
             if (XMTSettings.LogJobGiver)
             {
                 Log.Message(pawn + " has no feral jobs valid.");
             }
            
+            if(hasNest)
+            {
+                canReach = pawn.Map.reachability.CanReach(pawn.Position, compMatureMorph.NestPosition, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
+
+                if (canReach)
+                {
+                    return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
+                }
+                else
+                {
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
+                    compMatureMorph.ClearAllTickLimits();
+                    return job;
+                }
+            }
             return null;
             
         }
@@ -270,8 +317,6 @@ namespace Xenomorphtype
                 return null;
             }
 
-
-
             if(!XMTUtility.IsXenomorph(pawn))
             {
                 return null;
@@ -297,6 +342,8 @@ namespace Xenomorphtype
                     pawn.Map.designationManager.AddDesignation(new Designation(rage.target, DesignationDefOf.Hunt));
                     return job;
                 }
+
+               
 
                 if (compMatureMorph.ShouldMature())
                 {
@@ -340,44 +387,6 @@ namespace Xenomorphtype
                     }
                 }
 
-                if (compMatureMorph.ShouldAbductHost())
-                {
-                    if (XMTSettings.LogJobGiver)
-                    {
-                        Log.Message(pawn + " thinks they should abduct hosts.");
-                    }
-
-                    if (pawn.IsPsychologicallyInvisible())
-                    {
-                        if (XMTSettings.LogJobGiver)
-                        {
-                            Log.Message(pawn + " is hidden.");
-                        }
-
-                        IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compMatureMorph.abductRange, true).OfType<Pawn>();
-                        if (pawns.Any())
-                        {
-                            if (XMTSettings.LogJobGiver)
-                            {
-                                Log.Message(pawn + " is near some pawns.");
-                            }
-
-                            Pawn target = compMatureMorph.BestAbductCandidate(pawns);
-                            if (target != null)
-                            {
-                                if (XMTSettings.LogJobGiver)
-                                {
-                                    Log.Message(pawn + " is going to abduct " + target);
-                                }
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
-                                job.count = 1;
-
-                                return job;
-                            }
-                        }
-                    }
-                }
-
                 if (compMatureMorph.ShouldBeInNest())
                 {
                     if (XMTSettings.LogJobGiver)
@@ -399,15 +408,17 @@ namespace Xenomorphtype
                             {
                                 Log.Message(pawn + " is clearing offensive thing " + offensiveThing + " from the nest.");
                             }
-       
-                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, offensiveThing);
+
+                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, offensiveThing);
+
+                            return job;
                         }
 
                         if (XMTSettings.LogJobGiver)
                         {
                             Log.Message(pawn + " is sleeping in the nest.");
                         }
- 
+
 
                         if (compMatureMorph.NestPosition.InSunlight(pawn.Map))
                         {
@@ -448,7 +459,7 @@ namespace Xenomorphtype
                         {
                             Log.Message(pawn + " is going to the nest.");
                         }
-                  
+
                         return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
                     }
                 }
@@ -459,7 +470,7 @@ namespace Xenomorphtype
                     {
                         Log.Message(pawn + " thinks the nest needs tending.");
                     }
-                 
+
                     Job TendNestJob = compMatureMorph.GetTendNestJob();
 
                     if (TendNestJob != null)
@@ -468,7 +479,7 @@ namespace Xenomorphtype
                         {
                             Log.Message(pawn + " is doing nest tending job.");
                         }
-                       
+
                         return TendNestJob;
                     }
                 }
@@ -495,8 +506,47 @@ namespace Xenomorphtype
                 {
                     return GetFeralJob(pawn);
                 }
+
+                if (compMatureMorph.ShouldAbductHost())
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " thinks they should abduct hosts.");
+                    }
+
+                    if (pawn.IsPsychologicallyInvisible())
+                    {
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message(pawn + " is hidden.");
+                        }
+
+                        IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compMatureMorph.abductRange, true).OfType<Pawn>();
+                        if (pawns.Any())
+                        {
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message(pawn + " is near some pawns.");
+                            }
+
+                            Pawn target = compMatureMorph.BestAbductCandidate(pawns);
+                            if (target != null)
+                            {
+                                if (XMTSettings.LogJobGiver)
+                                {
+                                    Log.Message(pawn + " is going to abduct " + target);
+                                }
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
+                                job.count = 1;
+
+                                pawn.Reserve(target, job);
+                                return job;
+                            }
+                        }
+                    }
+                }
             }
-            
+
             if (pawn.def == InternalDefOf.XMT_Larva)
             {
                 CompLarvalGenes compLarvalGenes = pawn.GetComp<CompLarvalGenes>();

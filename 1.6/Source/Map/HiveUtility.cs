@@ -1733,5 +1733,22 @@ namespace Xenomorphtype
 
             return localNest.TotalHiveMates;
         }
+
+        internal static bool HasCocooned(Map localMap)
+        {
+
+            if (localMap == null)
+            {
+                return false;
+            }
+            NestSite localNest = GetLocalNest(localMap);
+
+            if (localNest == null)
+            {
+                return false;
+            }
+
+            return localNest.Cocooned.Count > 0;
+        }
     }
 }

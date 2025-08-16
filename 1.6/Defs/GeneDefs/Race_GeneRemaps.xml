@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<Xenomorphtype.XMT_GeneRemapListDef>
+		<defName>XMT_BasemorphGeneRemaps</defName>
+		<geneRemaps>
+			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>XMT_Royal_MiniHorns</targetGeneDef>
+				<replacementGeneDef>Headbone_MiniHorns</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>XMT_Royal_CenterHorn</targetGeneDef>
+				<replacementGeneDef>Headbone_CenterHorn</replacementGeneDef>
+			</li>
+		</geneRemaps>
+	</Xenomorphtype.XMT_GeneRemapListDef>
+	
+	<Xenomorphtype.XMT_GeneRemapListDef>
+		<defName>XMT_RoyalGeneRemaps</defName>
+		<geneRemaps>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>Headbone_MiniHorns</targetGeneDef>
+				<replacementGeneDef>XMT_Royal_MiniHorns</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>Headbone_CenterHorn</targetGeneDef>
+				<replacementGeneDef>XMT_Royal_CenterHorn</replacementGeneDef>
+			</li>
+		</geneRemaps>
+	</Xenomorphtype.XMT_GeneRemapListDef>
+</Defs>
