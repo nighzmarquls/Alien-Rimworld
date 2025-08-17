@@ -45,6 +45,7 @@ namespace Xenomorphtype
 
         //Xenomorph bodyparts
         public static BodyPartGroupDef      StarbeastTailAttackTool;
+        public static BodyPartDef           StarbeastBrain;
         public static BodyPartDef           StarbeastTail;
         public static BodyPartDef           StarbeastSkull;
         public static BodyPartDef           StarbeastCrest;
@@ -104,6 +105,8 @@ namespace Xenomorphtype
 
         //Xenomorph render Offsets
         public static OffsetListDef         XMT_HeadAttachmentOffsets;
+
+        
     }
 }
 

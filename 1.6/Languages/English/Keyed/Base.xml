@@ -23,6 +23,12 @@
 	<XMT_ForceHatch>Hatch Now</XMT_ForceHatch>
 	<XMT_Ready>Ready.</XMT_Ready>
 	
+	<XMT_StandLabel>Stand-up</XMT_StandLabel>
+	<XMT_StandDescription>Stand to improve attack cooldown.</XMT_StandDescription>
+	
+	<XMT_CrawlLabel>Crawl</XMT_CrawlLabel>
+	<XMT_CrawlDescription>Drop to all fours to improve speed.</XMT_CrawlDescription>
+	
 	<XMT_Implant>Implant</XMT_Implant>
 	<XMT_ImplantDescription>Attempt attachment to a host for embryo implantation.</XMT_ImplantDescription>
 	

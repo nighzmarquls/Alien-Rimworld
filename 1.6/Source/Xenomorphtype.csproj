@@ -147,6 +147,7 @@
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_GrowCocoon.cs" />
+    <Compile Include="Comps\PawnComps\CompCrawler.cs" />
     <Compile Include="Comps\ThingCompHorror\CompStudyXenomorph.cs" />
     <Compile Include="DefOfs\XenoIncidentDefOf.cs" />
     <Compile Include="DefOfs\XenoMapDefOf.cs" />

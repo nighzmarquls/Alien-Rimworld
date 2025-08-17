@@ -60,6 +60,8 @@
 				<conversionRate>0.5</conversionRate>
 				<jellyProduct>Starbeast_Jelly</jellyProduct>
 			</li>
+			<li Class="Xenomorphtype.CompCrawlerProperties">
+			</li>
 			<li Class="CompProperties_HoldingPlatformTarget" MayRequire="Ludeon.RimWorld.Anomaly">
 				<baseEscapeIntervalMtbDays>0.1</baseEscapeIntervalMtbDays>
 				<getsColdContainmentBonus>true</getsColdContainmentBonus>
@@ -96,7 +98,7 @@
 				  <li>
 					<thresholdRange>2~3</thresholdRange>
 					<label>Cryptimorph study progress</label>
-					<text>{PAWN_nameDef}  {PAWN_nameDef} thinks {PAWN_pronoun} .</text>
+					<text>{PAWN_nameDef} has studied the organism {PAWN_nameDef} thinks {PAWN_pronoun} .</text>
 				  </li>
 				  <li>
 					<thresholdRange>5~6</thresholdRange>
@@ -118,7 +120,7 @@
 		     <MarketValue>58330</MarketValue>
 			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">100</RoyalFavorValue>
 			 <MoveSpeed>9.2</MoveSpeed>
-			 <CrawlSpeed>10</CrawlSpeed>
+			 <CrawlSpeed>18.4</CrawlSpeed>
 			 <ComfyTemperatureMin>-270</ComfyTemperatureMin>
 			 <ComfyTemperatureMax>310</ComfyTemperatureMax>
 			 <LeatherAmount>25</LeatherAmount>
@@ -134,6 +136,7 @@
 			 <MeatAmount>15</MeatAmount>
 			 <StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
 			 <Wildness>1</Wildness>
+			 <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
 			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
 			 <DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 			 <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
@@ -621,7 +624,7 @@
 								<layerOffset>0.2</layerOffset>
 							  </south>
 							  <north>
-								<layerOffset>0.25</layerOffset>
+								<layerOffset>-0.29</layerOffset>
 								<bodyTypes>
 									<Hulk>(0.0, 0.0)</Hulk>
 									<Male>(0.0, 0.0)</Male>

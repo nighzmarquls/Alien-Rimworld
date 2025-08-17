@@ -1,5 +1,6 @@
 ﻿
 using RimWorld;
+using System.Collections.Generic;
 using Verse;
 
 namespace Xenomorphtype
@@ -17,6 +18,17 @@ namespace Xenomorphtype
                 if(Pawn.InBed())
                 {
                     return;
+                }
+
+
+                List<Thing> things = Pawn.PositionHeld.GetThingList(Pawn.MapHeld);
+
+                foreach (Thing thing in things)
+                {
+                    if(thing is CocoonBase)
+                    {
+                        return;
+                    }
                 }
 
                 TryGrowNewBed();

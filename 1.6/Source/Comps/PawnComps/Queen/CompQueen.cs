@@ -15,6 +15,7 @@ namespace Xenomorphtype
         float lastBenefit = 0;
         int _totalEvoPoints = 0;
         int _advancementForPsyLink = 1;
+        int _advancementForBiotic = 1;
         int _totalSpentEvoPoints = 0;
 
         public int TotalEvoPoints => _totalEvoPoints;
@@ -104,30 +105,64 @@ namespace Xenomorphtype
         private void GainProgressBenefit()
         {
             _totalEvoPoints++;
-            if (ModsConfig.RoyaltyActive)
+
+            if (ModsConfig.IsActive("RimEffectRenegade.AsariReapers"))
             {
-                if (ModLister.CheckRoyalty("Psylinkable"))
+                if (Parent.genes != null)
                 {
-                    if (_totalEvoPoints == _advancementForPsyLink)
+                    if (Parent.genes.HasActiveGene(ExternalDefOf.XMT_NaturalBiotic))
                     {
-                        Parent.ChangePsylinkLevel(1);
-                        Find.History.Notify_PsylinkAvailable();
-                        if (_advancementForPsyLink == 1)
+                        Hediff firstHediffOfDef = Parent.health.hediffSet.GetFirstHediffOfDef(ExternalDefOf.RE_BioticNatural);
+                        if (_totalEvoPoints > _advancementForBiotic)
                         {
-                            _advancementForPsyLink += 2;
-                        }
-                        else if(_advancementForPsyLink == 3)
-                        {
-                            _advancementForPsyLink += 5;
-                        }
-                        else
-                        {
-                            _advancementForPsyLink += 8;
+                            if (firstHediffOfDef == null)
+                            {
+                                Parent.health.AddHediff(ExternalDefOf.RE_BioticNatural, Parent.health.hediffSet.GetBodyPartRecord(InternalDefOf.StarbeastBrain));
+                            }
+                            else
+                            {
+                                ((Hediff_Level)firstHediffOfDef).ChangeLevel(1);
+                            }
+
+                            if (_advancementForBiotic == 1)
+                            {
+                                _advancementForBiotic += 2;
+                            }
+                            else if (_advancementForBiotic == 3)
+                            {
+                                _advancementForBiotic += 5;
+                            }
+                            else
+                            {
+                                _advancementForBiotic += 8;
+                            }
                         }
                     }
-
                 }
             }
+
+            if (ModsConfig.RoyaltyActive)
+            {
+                if (_totalEvoPoints == _advancementForPsyLink)
+                {
+                    Parent.ChangePsylinkLevel(1);
+                    Find.History.Notify_PsylinkAvailable();
+                    if (_advancementForPsyLink == 1)
+                    {
+                        _advancementForPsyLink += 2;
+                    }
+                    else if(_advancementForPsyLink == 3)
+                    {
+                        _advancementForPsyLink += 5;
+                    }
+                    else
+                    {
+                        _advancementForPsyLink += 8;
+                    }
+                }
+            }
+
+            
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -175,8 +210,10 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref lastBenefit, "lastBenefit", progress);
             Scribe_Collections.Look(ref chosenEvolutions, "chosenEvolutions");
             Scribe_Values.Look(ref _totalEvoPoints, "totalEvoPoints", 0);
-            Scribe_Values.Look(ref _advancementForPsyLink, "advancementForPsyLink", 0);
-            Scribe_Values.Look(ref _totalSpentEvoPoints, "totalSpentEvoPoints", 0);
+            Scribe_Values.Look(ref _advancementForPsyLink, "advancementForPsyLink", 1);
+            Scribe_Values.Look(ref _advancementForBiotic, "advancementForBiotic", 1);
+            Scribe_Values.Look(ref _totalSpentEvoPoints, "totalSpentEvoPoints", 0); 
+            
         }
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {

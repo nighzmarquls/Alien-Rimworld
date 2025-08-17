@@ -334,6 +334,8 @@ namespace Xenomorphtype
 
             BioUtility.InsertGenesetToPawn(genes,ref child);
 
+            BioUtility.InheritNonGenes(Pawn, ref child);
+
             HiveUtility.ChestburstBirth(child, mother);
 
             XMTUtility.TrySpawnPawnFromTarget(child, Pawn);

@@ -100,9 +100,13 @@ namespace Xenomorphtype
                 return;
             }
 
+            if(Parent.MapHeld == null)
+            {
+                return;
+            }
+
             if (Parent.IsHashIntervalTick(IntervalCheck))
             {
-                Log.Message(Parent + " is checking for confinement");
                 if (Parent.CarriedBy != null)
                 {
                     if (!XMTUtility.IsXenomorph(Parent.CarriedBy))

@@ -3,6 +3,7 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 using static UnityEngine.GraphicsBuffer;
@@ -926,6 +927,73 @@ namespace Xenomorphtype
                 }
             }
             return true;
+        }
+
+        internal static void InheritNonGenes(Pawn source, ref Pawn child)
+        {
+            if (source.story != null && source.story.traits != null)
+            {
+                foreach (Trait trait in source.story.traits.allTraits)
+                {
+                    if (trait.def == ExternalDefOf.Nimble)
+                    {
+                        child.story.traits.GainTrait(new Trait(ExternalDefOf.Nimble));
+                        continue;
+                    }
+                    if (trait.def == ExternalDefOf.Tough)
+                    {
+                        child.story.traits.GainTrait(new Trait(ExternalDefOf.Tough));
+                        continue;
+                    }
+                    if (trait.def == ExternalDefOf.Beauty)
+                    {
+                        child.story.traits.GainTrait(new Trait(ExternalDefOf.Beauty, trait.Degree));
+                        continue;
+                    }
+
+                    if (trait.def == ExternalDefOf.PsychicSensitivity)
+                    {
+                        if (trait.Degree >= 0)
+                        {
+                            child.story.traits.GainTrait(new Trait(ExternalDefOf.PsychicSensitivity, trait.Degree));
+                        }
+                        continue;
+                    }
+                }
+            }
+            if (ModsConfig.IsActive("RimEffectRenegade.AsariReapers"))
+            {
+                Hediff sourceNaturalHediff = source.health.hediffSet.GetFirstHediffOfDef(ExternalDefOf.RE_BioticNatural);
+
+                if (sourceNaturalHediff != null) {
+                    int bioticLevel = Mathf.CeilToInt(sourceNaturalHediff.Severity);
+
+                    Hediff firstHediffOfDef = child.health.hediffSet.GetFirstHediffOfDef(ExternalDefOf.RE_BioticNatural);
+
+                    for (int i = 0; i < bioticLevel; i++)
+                    {
+                        if (firstHediffOfDef == null)
+                        {
+                            firstHediffOfDef = child.health.AddHediff(ExternalDefOf.RE_BioticNatural, child.health.hediffSet.GetBodyPartRecord(InternalDefOf.StarbeastBrain));
+                        }
+                        else
+                        {
+                            ((Hediff_Level)firstHediffOfDef).ChangeLevel(1);
+                        }
+                    }
+                }
+            }
+            if (ModsConfig.RoyaltyActive)
+            {
+                int inheritLevel = source.GetPsylinkLevel();
+                if (inheritLevel > 0)
+                {
+                    for(int i = 0; i < inheritLevel; i++)
+                    {
+                        child.GetPsylinkLevel();
+                    }
+                }
+            }
         }
     }
 }

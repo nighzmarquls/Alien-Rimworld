@@ -1304,6 +1304,16 @@ namespace Xenomorphtype
                             }
                             continue;
                         }
+
+                        if(partDef == ExternalDefOf.Brain)
+                        {
+                            if (IsXenomorph(NewPawn))
+                            {
+                                partDef = InternalDefOf.StarbeastBrain;
+                                label = partDef.label;
+                            }
+                        }
+
                         BodyPartRecord newPart = NewPawn.def.race.body.AllParts.FirstOrDefault(part => part.def == partDef && part.Label == label);
                         if (newPart != null)
                         {

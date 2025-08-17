@@ -17,11 +17,16 @@ namespace Xenomorphtype
         }
 
         //Vanilla Defs
+
+        //traits
         public static TraitDef Tough;
+        public static TraitDef Nimble;
         public static TraitDef Masochist;
+        public static TraitDef Beauty;
+        public static TraitDef PsychicSensitivity;
+
+        //stats
         public static StatDef CookSpeed;
-
-
 
         //cave flora
         public static ThingDef Bryolux;
@@ -41,7 +46,9 @@ namespace Xenomorphtype
         public static BodyPartGroupDef Mouth;
         public static BodyPartDef InsectHead;
         public static BodyPartDef SnakeHead;
-        
+        public static BodyPartDef Brain;
+
+
         public static BodyPartDef Waist;
         public static BodyPartDef Skull;
 
@@ -66,6 +73,8 @@ namespace Xenomorphtype
         //Asari
         [MayRequire("RimEffectRenegade.AsariReapers")]
         public static GeneDef XMT_NaturalBiotic;
+        [MayRequire("RimEffectRenegade.AsariReapers")]
+        public static HediffDef RE_BioticNatural;
 
         //Asimov
         [MayRequire("Neronix17.Asimov")]
