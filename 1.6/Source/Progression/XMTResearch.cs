@@ -29,7 +29,7 @@ namespace Xenomorphtype
             ResearchManager researchManager = Find.ResearchManager;
 
             Pawn pawn = actor as Pawn;
-
+            Log.Message(progress + " towards mimicry");
             if (!FinishedResearching(XenoSocialDefOf.XMT_Starbeast_Construction, researchManager))
             {
                 researchManager.AddProgress(XenoSocialDefOf.XMT_Starbeast_Construction, progress, pawn);

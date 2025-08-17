@@ -18,11 +18,7 @@ namespace Xenomorphtype
 
         Pawn Parent => parent as Pawn;
 
-        public override void PostExposeData()
-        {
-            base.PostExposeData();
-
-        }
+       
 
         bool _crawling;
         public bool Crawling { get
@@ -31,6 +27,12 @@ namespace Xenomorphtype
             }
         }
 
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Values.Look(ref _crawling, "crawling", false);
+
+        }
         public override float GetStatFactor(StatDef stat)
         {
             if (stat == StatDefOf.MeleeCooldownFactor)
@@ -38,6 +40,14 @@ namespace Xenomorphtype
                 if (_crawling)
                 {
                     return base.GetStatFactor(stat) * 2;
+                }
+            }
+
+            if (stat == StatDefOf.WorkSpeedGlobal)
+            {
+                if (_crawling)
+                {
+                    return base.GetStatFactor(stat) * 0.5f;
                 }
             }
             return base.GetStatFactor(stat);

@@ -231,7 +231,7 @@ namespace Xenomorphtype
         {
             Building_TurretGun turret = thing as Building_TurretGun;
 
-            if (turret != null)
+            if (turret != null && turret.PowerComp != null)
             {
                 if (turret.PowerComp.PowerNet.hasPowerSource)
                 {
@@ -241,7 +241,7 @@ namespace Xenomorphtype
 
             Building_ProximityDetector detector = thing as Building_ProximityDetector;
 
-            if (detector != null)
+            if (detector != null && detector.PowerComp != null)
             {
                 if (detector.PowerComp.PowerNet.hasPowerSource)
                 {

@@ -192,7 +192,10 @@ namespace Xenomorphtype
 
                     if (!Tunneling)
                     {
-                        RoofCollapserImmediate.DropRoofInCells(StartClimbCell, map);
+                        if (StartClimbCell.IsValid)
+                        {
+                            RoofCollapserImmediate.DropRoofInCells(StartClimbCell, map);
+                        }
                     }
                 }
             };

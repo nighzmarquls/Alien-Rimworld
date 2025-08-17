@@ -29,10 +29,11 @@ namespace Xenomorphtype
                 {
                     if (__instance.job.GetTarget(TargetIndex.A).Thing is Building building)
                     {
+                        Log.Message(actor + " deconstructing " +  building);
                         if (!XMTUtility.IsHiveBuilding(building.def))
                         {
                            
-                            int progress = building.HitPoints / 100;
+                            int progress = Mathf.CeilToInt(building.HitPoints / 100);
                             XMTResearch.ProgressMimicTech(progress, actor);
                             
                         }

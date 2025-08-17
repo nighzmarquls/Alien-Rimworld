@@ -47,6 +47,7 @@
     </Reference>
     <Reference Include="MVCF">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\MVCF.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PipeSystem">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\PipeSystem.dll</HintPath>
