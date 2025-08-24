@@ -119,6 +119,11 @@
 		<comps>
 		  <li Class="Xenomorphtype.CompAtmosphericPylonProperties">
 		  </li>
+		  <li Class="Xenomorphtype.CompRoofReplacerProperties">
+			<targetRoof>RoofRockThick</targetRoof>
+			<replaceRoof>RoofRockThin</replaceRoof>
+			<radius>1</radius> 
+		  </li>
 		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
 			<spreadTerrain>HiveFloor</spreadTerrain>
 			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>

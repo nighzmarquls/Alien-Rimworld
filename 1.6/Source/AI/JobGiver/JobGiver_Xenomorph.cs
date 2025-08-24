@@ -23,7 +23,6 @@ namespace Xenomorphtype
             IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => !XMTUtility.IsMorphing(x) && !XMTUtility.HasEmbryo(x));
             IEnumerable<Pawn> hostPawns = pawn.Map.mapPawns.AllPawnsSpawned.Where(x => XMTUtility.IsHost(x));
             Need_Food food = pawn.needs.food;
-            bool canReach = false;
             bool desperate = pawn.needs.food.CurCategory == HungerCategory.Starving;
 
             CompMatureMorph compMatureMorph = pawn.GetComp<CompMatureMorph>();
@@ -54,21 +53,14 @@ namespace Xenomorphtype
                                 {
                                     Log.Message(pawn + " thinks " + target + " should be abducted");
                                 }
-                                canReach = pawn.Map.reachability.CanReach(pawn.Position, target.Position, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
+                                
+                               
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
+                                job.count = 1;
+                                pawn.Reserve(target, job);
+                                return job;
+                                
 
-                                if (canReach)
-                                {
-                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
-                                    job.count = 1;
-                                    pawn.Reserve(target, job);
-                                    return job;
-                                }
-                                else
-                                {
-                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
-                                    compMatureMorph.ClearAllTickLimits();
-                                    return job;
-                                }
                             }
                         }
                     }
@@ -143,19 +135,9 @@ namespace Xenomorphtype
                             }
                            
                             Pawn target = UndownedPawns.First();
-                            canReach = pawn.Map.reachability.CanReach(pawn.Position, target.Position, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
 
-                            if (canReach)
-                            {
-                                return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
-                            }
-                            else
-                            {
-                                compMatureMorph.ClearAllTickLimits();
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
-                                return job;
-                            }
-                            
+                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
+
                         }
                         else if (pawn.needs.rest.CurLevelPercentage < 0.25f)
                         {
@@ -174,23 +156,14 @@ namespace Xenomorphtype
                             }
                             
                             Pawn target = UndownedPawns.RandomElement();
-                            canReach = pawn.Map.reachability.CanReach(pawn.Position, target.Position, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
 
                             if (XMTSettings.LogJobGiver)
                             {
                                 Log.Message(pawn + " is hunting " + target);
                             }
 
-                            if (canReach)
-                            {
-                                return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
-                            }
-                            else
-                            {
-                                compMatureMorph.ClearAllTickLimits();
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, target);
-                                return job;
-                            }
+                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
+                    
                         }
                     }
 
@@ -201,18 +174,7 @@ namespace Xenomorphtype
                             Log.Message(pawn + "should be in the nest.");
                         }
 
-                        canReach = pawn.Map.reachability.CanReach(pawn.Position, compMatureMorph.NestPosition, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
-
-                        if (canReach)
-                        {
-                            return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
-                        }
-                        else
-                        {
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
-
-                            return job;
-                        }
+                        return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
                     }
 
                     if (XMTSettings.LogJobGiver)
@@ -224,17 +186,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    canReach = pawn.Map.reachability.CanReach(pawn.Position, compMatureMorph.NestPosition, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
-
-                    if (canReach)
-                    {
-                        return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
-                    }
-                    else
-                    {
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
-                        return job;
-                    }
+                    return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
                 }
                 
             }
@@ -246,18 +198,7 @@ namespace Xenomorphtype
            
             if(hasNest)
             {
-                canReach = pawn.Map.reachability.CanReach(pawn.Position, compMatureMorph.NestPosition, PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.PassDoors));
-
-                if (canReach)
-                {
-                    return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
-                }
-                else
-                {
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, compMatureMorph.NestPosition);
-                    compMatureMorph.ClearAllTickLimits();
-                    return job;
-                }
+                return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
             }
             return null;
             
@@ -269,28 +210,56 @@ namespace Xenomorphtype
             {
                 Log.Message(pawn + " is getting food Job");
             }
+            bool caresAboutForbidden = ForbidUtility.CaresAboutForbidden(pawn, false);
             if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn, desperate,
                 out Thing foodSource, out var foodDef,
                 canRefillDispenser: false, canUseInventory: true, canUsePackAnimalInventory: false,
-                allowForbidden: true, allowCorpse: true, allowSociallyImproper: true, allowHarvest: false, forceScanWholeMap: true, ignoreReservations: true, calculateWantedStackCount: false, allowVenerated: true))
+                allowForbidden: !caresAboutForbidden, allowCorpse: true, allowSociallyImproper: true, allowHarvest: false, forceScanWholeMap: true, ignoreReservations: true, calculateWantedStackCount: false, allowVenerated: true))
             {
-                IEnumerable<Pawn> SuitablePrey = pawn.Map.spawnedThings.OfType<Pawn>().Where(p => !XMTUtility.NotPrey(p));
+                IEnumerable<Pawn> SuitablePrey = pawn.Map.spawnedThings.OfType<Pawn>().Where(p => !XMTUtility.NotPrey(p) && !XMTUtility.IsInorganic(p));
                 if (SuitablePrey.Any())
                 {
-                    foodSource = SuitablePrey.RandomElement();
+                    int distance = int.MaxValue;
+                    foreach(Pawn prey in SuitablePrey)
+                    {
+                        if(caresAboutForbidden)
+                        {
+                            if(prey.IsForbidden(pawn))
+                            {
+                                continue;
+                            }
+                            if(!prey.PositionHeld.InAllowedArea(pawn))
+                            {
+                                continue;
+                            }
+                        }
+
+                        int preydistance = prey.PositionHeld.DistanceToSquared(pawn.Position);
+
+                        if(preydistance < distance)
+                        {
+                            preydistance = distance;
+                            foodSource = prey;
+                        }
+
+                    }
+                }
+                if(foodSource == null)
+                {
+                    return null;
                 }
             }
 
-            if (foodSource is Pawn pawn2)
+            if (foodSource is Pawn foodPawn)
             {
-                if (pawn2.Dead)
+                if (foodPawn.Dead)
                 {
-                    foodSource = pawn2.Corpse;
+                    foodSource = foodPawn.Corpse;
                 }
                 else
                 {
                     pawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
-                    Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, pawn2);
+                    Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, foodPawn);
                     job.killIncappedTarget = true;
                     return job;
                 }

@@ -1032,7 +1032,7 @@ namespace Xenomorphtype
         {
             job = null;
 
-            Ovamorph ovamorphCandidate = HiveUtility.GetOvamorph(Parent.Map);
+            Ovamorph ovamorphCandidate = HiveUtility.GetOvamorph(Parent.Map, forPawn:Parent);
             if (ovamorphCandidate != null)
             {
                 Pawn hostCandidate = HiveUtility.GetHost(Parent.Map);
@@ -1099,7 +1099,7 @@ namespace Xenomorphtype
         protected bool GetFeedJob(out Job job)
         {
             job = null;
-            Pawn FeedCandidate = HiveUtility.GetHungriestCocooned(Parent.Map);
+            Pawn FeedCandidate = HiveUtility.GetHungriestCocooned(Parent.Map, forPawn: Parent);
             if (FeedCandidate != null)
             {
                 if (!FeedCandidate.Spawned)
@@ -1118,7 +1118,7 @@ namespace Xenomorphtype
                 }
             }
 
-            FeedCandidate = HiveUtility.GetHungriestHivemate(Parent.Map);
+            FeedCandidate = HiveUtility.GetHungriestHivemate(Parent.Map, forPawn: Parent);
 
             if (FeedCandidate != null)
             {
@@ -1146,7 +1146,7 @@ namespace Xenomorphtype
                 return false;
             }
             //Log.Message(pawn + " thinks a candidate should be ovamorphed.");
-            Pawn candidate = HiveUtility.GetOvamorphCandidate(Parent.Map);
+            Pawn candidate = HiveUtility.GetOvamorphCandidate(Parent.Map, forPawn: Parent);
             if (candidate != null)
             {
                 if (XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.PawnLikesTarget(Parent, candidate))
@@ -1178,7 +1178,7 @@ namespace Xenomorphtype
                 return false;
             }
             
-            Pawn candidate = HiveUtility.GetBestLarderCandidate(Parent.Map);
+            Pawn candidate = HiveUtility.GetBestLarderCandidate(Parent.Map, forPawn: Parent);
             if (candidate != null)
             {
                 if (XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.PawnLikesTarget(Parent, candidate))
@@ -1283,6 +1283,17 @@ namespace Xenomorphtype
                 {
                     if (hunt.target.TryGetPawn(out Pawn prey))
                     {
+                        if (ForbidUtility.CaresAboutForbidden(Parent, false))
+                        {
+                            if (prey.IsForbidden(Parent))
+                            {
+                                continue;
+                            }
+                            if (!prey.PositionHeld.InAllowedArea(Parent))
+                            {
+                                continue;
+                            }
+                        }
                         if (Parent.Map.reservationManager.IsReserved(prey))
                         {
                             continue;
@@ -1319,6 +1330,18 @@ namespace Xenomorphtype
                 {
                     if (material.target.Thing is Corpse corpse)
                     {
+                        if (ForbidUtility.CaresAboutForbidden(Parent, false))
+                        {
+                            if (corpse.IsForbidden(Parent))
+                            {
+                                continue;
+                            }
+                            if (!corpse.PositionHeld.InAllowedArea(Parent))
+                            {
+                                continue;
+                            }
+                        }
+
                         if (Parent.Map.reservationManager.IsReserved(corpse))
                         {
                             continue;
@@ -1349,6 +1372,18 @@ namespace Xenomorphtype
                 {
                     if (hunt.target.TryGetPawn(out Pawn prey))
                     {
+                        if (ForbidUtility.CaresAboutForbidden(Parent, false))
+                        {
+                            if (prey.IsForbidden(Parent))
+                            {
+                                continue;
+                            }
+                            if (!prey.PositionHeld.InAllowedArea(Parent))
+                            {
+                                continue;
+                            }
+                        }
+
                         if (Parent.Map.reservationManager.IsReserved(prey))
                         {
                             continue;
@@ -1381,6 +1416,18 @@ namespace Xenomorphtype
 
             foreach (Pawn prisoner in prisoners)
             {
+                if (ForbidUtility.CaresAboutForbidden(Parent, false))
+                {
+                    if (prisoner.IsForbidden(Parent))
+                    {
+                        continue;
+                    }
+                    if (!prisoner.PositionHeld.InAllowedArea(Parent))
+                    {
+                        continue;
+                    }
+                }
+
                 if (Parent.Map.reservationManager.IsReserved(prisoner))
                 {
                     continue;

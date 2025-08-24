@@ -8,7 +8,7 @@ using Verse;
 
 namespace Xenomorphtype
 {
-    internal class XMTEnderPatch
+    internal class XMTEnderPatches
     {
         [HarmonyPatch(typeof(ChoiceLetter_GameEnded), "Choices", MethodType.Getter)]
         static class Patch_ChoiceLetter_GameEnded_Choices

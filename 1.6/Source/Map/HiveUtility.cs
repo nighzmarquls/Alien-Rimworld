@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -1027,7 +1028,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        internal static Ovamorph GetOvamorph(Map map , bool requireReady = true)
+        internal static Ovamorph GetOvamorph(Map map , bool requireReady = true, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
             if (localNest == null || localNest.Ovamorphs.Count == 0)
@@ -1037,6 +1038,17 @@ namespace Xenomorphtype
 
             foreach (Ovamorph ova in localNest.Ovamorphs)
             {
+                if(forPawn != null)
+                {
+                    if (ForbidUtility.CaresAboutForbidden(forPawn, false))
+                    {
+                        if (!ova.PositionHeld.InAllowedArea(forPawn))
+                        {
+                            continue;
+                        }
+                    }
+                }
+
                 if (requireReady)
                 {
                     if (ova.Ready)
@@ -1153,11 +1165,23 @@ namespace Xenomorphtype
             }
             return true;
         }
-        internal static Pawn GetOvamorphCandidate(Map map)
+        internal static Pawn GetOvamorphCandidate(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
             foreach (Pawn candidate in localNest.Cocooned)
             {
+                if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                {
+                    if (candidate.IsForbidden(forPawn))
+                    {
+                        continue;
+                    }
+                    if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                    {
+                        continue;
+                    }
+                }
+
                 if (IsMorphingCandidate(candidate))
                 {
                     return candidate;
@@ -1181,9 +1205,16 @@ namespace Xenomorphtype
             {
                 foreach (MeatballLarder candidate in CurrentNest.MeatballThings)
                 {
-                    if(candidate.IsForbidden(pawn))
+                    if (ForbidUtility.CaresAboutForbidden(pawn, false))
                     {
-                        continue;
+                        if (candidate.IsForbidden(pawn))
+                        {
+                            continue;
+                        }
+                        if (!candidate.PositionHeld.InAllowedArea(pawn))
+                        {
+                            continue;
+                        }
                     }
 
                     if (map.reservationManager.IsReserved(candidate))
@@ -1207,7 +1238,7 @@ namespace Xenomorphtype
             return larder;
         }
 
-        internal static Pawn GetHungriestHivemate(Map map)
+        internal static Pawn GetHungriestHivemate(Map map, Pawn forPawn = null)
         {
             Pawn hungryCandidate = null;
             int BestScore = int.MinValue;
@@ -1217,6 +1248,18 @@ namespace Xenomorphtype
                 float lowestFoodNeed = float.MaxValue;
                 foreach (Pawn candidate in CurrentNest.HiveMates)
                 {
+                    if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                    {
+                        if (candidate.IsForbidden(forPawn))
+                        {
+                            continue;
+                        }
+                        if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                        {
+                            continue;
+                        }
+                    }
+
                     if (candidate.needs == null)
                     {
                         continue;
@@ -1252,7 +1295,7 @@ namespace Xenomorphtype
             return hungryCandidate;
         }
 
-        internal static Pawn GetBestLarderCandidate(Map map)
+        internal static Pawn GetBestLarderCandidate(Map map, Pawn forPawn = null)
         {
             Pawn bestLarderCandidate = null;
             int BestScore = int.MinValue;
@@ -1261,7 +1304,19 @@ namespace Xenomorphtype
             {
                 foreach (Pawn candidate in CurrentNest.Cocooned)
                 {
-                    if(XMTUtility.IsInorganic(candidate))
+                    if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                    {
+                        if (candidate.IsForbidden(forPawn))
+                        {
+                            continue;
+                        }
+                        if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (XMTUtility.IsInorganic(candidate))
                     {
                         continue;
                     }
@@ -1294,7 +1349,7 @@ namespace Xenomorphtype
 
             return bestLarderCandidate;
         }
-        internal static Pawn GetHungriestCocooned(Map map)
+        internal static Pawn GetHungriestCocooned(Map map, Pawn forPawn = null)
         {
             Pawn hungryCandidate = null;
             int BestScore = int.MinValue;
@@ -1307,6 +1362,18 @@ namespace Xenomorphtype
                     if(candidate.needs == null)
                     {
                         continue;
+                    }
+
+                    if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                    {
+                        if (candidate.IsForbidden(forPawn))
+                        {
+                            continue;
+                        }
+                        if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                        {
+                            continue;
+                        }
                     }
 
                     Need_Food food = candidate.needs.food;
@@ -1467,7 +1534,7 @@ namespace Xenomorphtype
             
         }
 
-        internal static IntVec3 GetClearNestCell(Map map)
+        internal static IntVec3 GetClearNestCell(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
 
@@ -1481,7 +1548,19 @@ namespace Xenomorphtype
 
             foreach (IntVec3 cell in nestRoom.Cells)
             {
-                if(cell.GetEdifice(map) == null)
+                if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                {
+                    if (cell.IsForbidden(forPawn))
+                    {
+                        continue;
+                    }
+                    if (!cell.InAllowedArea(forPawn))
+                    {
+                        continue;
+                    }
+                }
+
+                if (cell.GetEdifice(map) == null)
                 {
                     return cell;
                 }

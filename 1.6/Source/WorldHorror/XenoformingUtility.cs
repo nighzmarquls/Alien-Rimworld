@@ -96,6 +96,12 @@ namespace Xenomorphtype
         public static bool CellIsFertile(IntVec3 cell, Map map)
         {
             TerrainDef foundTerrain = cell.GetTerrain(map);
+            
+            if(foundTerrain.affordances.Contains(InternalDefOf.Resin))
+            {
+                return true;
+            }
+
             return foundTerrain.fertility > 0 || (foundTerrain.driesTo != null && foundTerrain.driesTo.fertility > 0);
         }
         protected static TerrainDef DegradeTerrain(TerrainDef terrainDef)
@@ -124,6 +130,18 @@ namespace Xenomorphtype
             {
                 startingTerrain = map.terrainGrid.TerrainAt(cell);
             }
+
+            if(startingTerrain == InternalDefOf.HiveFloor)
+            {
+                map.terrainGrid.RemoveTopLayer(cell);
+                return 0.5f;
+            }
+            else if(startingTerrain == InternalDefOf.HeavyHiveFloor)
+            {
+                map.terrainGrid.RemoveTopLayer(cell);
+                return 1;
+            }
+
             TerrainDef degraded = DegradeTerrain(startingTerrain);
             float drainedFertility = startingTerrain.fertility - degraded.fertility;
             map.terrainGrid.SetTerrain(cell, degraded);

@@ -44,7 +44,6 @@ namespace Xenomorphtype
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            PopulateClimbCells();
             return true;
         }
 
@@ -61,18 +60,7 @@ namespace Xenomorphtype
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
             yield return AttemptGrab();
             yield return Toils_Haul.StartCarryThing(TargetIndex.A);
-            if (NoWallToClimb)
-            {
-                Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
-
-                yield return carryToCell;
-            }
-            else
-            {
-                yield return ClimbOverWall();
-                Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
-                yield return carryToCell;
-            }
+            yield return Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
             yield return AttemptCocoon();
         }
 
@@ -110,12 +98,7 @@ namespace Xenomorphtype
                 {
                     if (GrabProgress >= 1 && !FailedGrab)
                     {
-                        PopulateClimbCells();
                         matureMorph.TryGrab(Victim);
-                        if (!NoWallToClimb)
-                        {
-                            matureMorph.ClearAllTickLimits();
-                        }
                     }
                 }
                

@@ -48,6 +48,8 @@ namespace Xenomorphtype
         private Vector3 effectivePos;
 
         private float effectiveHeight;
+        private Job preClimbJob;
+        private JobDriver preJobDriver;
 
         protected Thing ClimbingThing
         {
@@ -160,12 +162,17 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (jobQueue != null)
+            if (preClimbJob != null)
             {
-                pawn.jobs.RestoreCapturedJobs(jobQueue);
+                Log.Message(pawn + " is being assigned " + preClimbJob);
+                pawn.jobs.curJob = preClimbJob;
+                pawn.jobs.curDriver = preJobDriver;
+            }
+            else
+            {
+                pawn.jobs.CheckForJobOverride();
             }
 
-            pawn.jobs.CheckForJobOverride();
             if (def.pawnFlyer.stunDurationTicksRange != IntRange.Zero)
             {
                 pawn.stances.stunner.StunFor(def.pawnFlyer.stunDurationTicksRange.RandomInRange, null, addBattleLog: false, showMote: false);
@@ -193,12 +200,16 @@ namespace Xenomorphtype
 
         private void LandingEffects()
         {
-            soundLanding?.PlayOneShot(new TargetInfo(base.Position, base.Map));
-            FleckMaker.ThrowDustPuff(DestinationPos + Gen.RandomHorizontalVector(0.5f), base.Map, 2f);
+            soundLanding?.PlayOneShot(new TargetInfo(Position, Map));
+            FleckMaker.ThrowDustPuff(DestinationPos + Gen.RandomHorizontalVector(0.5f), Map, 2f);
 
             if(!underground)
             {
-               RoofCollapserImmediate.DropRoofInCells(base.Position, base.Map);
+               if(Map.roofGrid.RoofAt(Position) == RoofDefOf.RoofRockThick)
+               {
+                    Map.roofGrid.SetRoof(Position, RoofDefOf.RoofRockThin);
+               }
+               RoofCollapserImmediate.DropRoofInCells(Position, Map);
             }
         }
 
@@ -312,6 +323,7 @@ namespace Xenomorphtype
             pawnClimber.soundLanding = landingSound;
             pawnClimber.triggeringAbility = triggeringAbility?.def;
             pawnClimber.target = target;
+            
             if (pawn.drafter != null)
             {
                 pawnClimber.pawnCanFireAtWill = pawn.drafter.FireAtWill;
@@ -319,14 +331,12 @@ namespace Xenomorphtype
 
             if (pawn.CurJob != null)
             {
-                if (pawn.CurJob.def == JobDefOf.CastJump)
-                {
-                    pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
-                }
-                else
-                {
-                    pawn.jobs.SuspendCurrentJob(JobCondition.InterruptForced);
-                }
+                Log.Message(pawn + " has job " + pawn.CurJob);
+                pawnClimber.preClimbJob = pawn.CurJob;
+                pawnClimber.preJobDriver = pawn.jobs.curDriver;
+                
+                pawn.jobs.curJob = null;
+                pawn.jobs.curDriver = null;
             }
 
             pawnClimber.jobQueue = pawn.jobs.CaptureAndClearJobQueue();

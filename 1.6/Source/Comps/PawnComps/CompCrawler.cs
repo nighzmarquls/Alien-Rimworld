@@ -35,6 +35,11 @@ namespace Xenomorphtype
         }
         public override float GetStatFactor(StatDef stat)
         {
+            if(stat == StatDefOf.CrawlSpeed)
+            {
+                return (base.GetStatFactor(stat) * 0.5f) + (Parent.health.capacities.GetLevel(PawnCapacityDefOf.Moving ) * 0.5f);
+            }
+
             if (stat == StatDefOf.MeleeCooldownFactor)
             {
                 if (_crawling)

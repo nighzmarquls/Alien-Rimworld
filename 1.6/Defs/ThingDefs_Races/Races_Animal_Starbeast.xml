@@ -17,6 +17,8 @@
 				<hideBrightness>0.2</hideBrightness>
 				<minVisibleBrightness>0.0</minVisibleBrightness>
 			</li>
+			<li Class="Xenomorphtype.CompClimberProperties">
+			</li>
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
 				<ImpossibleHediffs>
 					<li MayRequire="ludeon.rimworld.anomaly">DarknessExposure</li>

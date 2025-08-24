@@ -10,7 +10,7 @@ using static HarmonyLib.Code;
 
 namespace Xenomorphtype
 {
-    internal class XMTOffsetPatch
+    internal class XMTOffsetPatches
     {
         [HarmonyPatch(typeof(Pawn_DrawTracker), nameof(Pawn_DrawTracker.DrawPos), MethodType.Getter)]
         public static class Patch_Pawn_DrawTracker_DrawPos

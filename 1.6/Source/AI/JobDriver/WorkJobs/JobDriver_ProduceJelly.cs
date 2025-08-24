@@ -34,14 +34,8 @@ namespace Xenomorphtype
         protected override IEnumerable<Toil> MakeNewToils()
         {
             AddFailCondition(IsNoLongerValidTarget);
-            if (NoWallToClimb)
-            {
-                yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-            }
-            else
-            {
-                yield return ClimbOverWall();
-            }
+
+            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
             yield return BeginProducingJelly();
         }
 

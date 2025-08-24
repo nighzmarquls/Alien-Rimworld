@@ -62,6 +62,8 @@
 			</li>
 			<li Class="Xenomorphtype.CompCrawlerProperties">
 			</li>
+			<li Class="Xenomorphtype.CompClimberProperties">
+			</li>
 			<li Class="CompProperties_HoldingPlatformTarget" MayRequire="Ludeon.RimWorld.Anomaly">
 				<baseEscapeIntervalMtbDays>0.1</baseEscapeIntervalMtbDays>
 				<getsColdContainmentBonus>true</getsColdContainmentBonus>
@@ -1222,6 +1224,8 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
 				</ImpossibleHediffs>
+			</li>
+			<li Class="Xenomorphtype.CompClimberProperties">
 			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
 				<jellyIngredientFilter>

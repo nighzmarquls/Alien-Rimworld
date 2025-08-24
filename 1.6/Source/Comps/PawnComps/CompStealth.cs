@@ -186,6 +186,11 @@ namespace Xenomorphtype
             {
                 if (parent.IsHashIntervalTick(60))
                 {
+                    if(!ModsConfig.AnomalyActive && !ModsConfig.RoyaltyActive)
+                    {
+                        return;
+                    }
+
                     int tick = Find.TickManager.TicksGame;
                     if (tick > becomeInvisibleTick)
                     {

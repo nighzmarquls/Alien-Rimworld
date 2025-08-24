@@ -146,14 +146,19 @@
     <Compile Include="Building\Fillable\JellyWell.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforceable.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
+    <Compile Include="Comps\BuildingComps\Architecture\CompRoofReplacer.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_GrowCocoon.cs" />
+    <Compile Include="Comps\PawnComps\CompClimber.cs" />
     <Compile Include="Comps\PawnComps\CompCrawler.cs" />
     <Compile Include="Comps\ThingCompHorror\CompStudyXenomorph.cs" />
     <Compile Include="DefOfs\XenoIncidentDefOf.cs" />
     <Compile Include="DefOfs\XenoMapDefOf.cs" />
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Harmony\XMTAnomalyPatches.cs" />
+    <Compile Include="Harmony\XMTClimbPatches.cs" />
+    <Compile Include="Harmony\XMTRecordsPatches.cs" />
+    <Compile Include="Map\ClimbUtility.cs" />
     <Compile Include="Progression\XMTResearch.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
     <Compile Include="Building\Fillable\FillableChrysalis.cs" />
@@ -199,7 +204,7 @@
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Game\GameComponent_Xenomorph.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
-    <Compile Include="Harmony\XMTEnderPatch.cs" />
+    <Compile Include="Harmony\XMTEnderPatches.cs" />
     <Compile Include="Harmony\XMTExplosivePatches.cs" />
     <Compile Include="Harmony\XMTIncidentPatches.cs" />
     <Compile Include="Harmony\XMTInstallBlueprintPatches.cs" />
@@ -207,7 +212,7 @@
     <Compile Include="Harmony\XMTLordDutyPatches.cs" />
     <Compile Include="Harmony\XMTManhunterPatches.cs" />
     <Compile Include="Harmony\XMTMapPatches.cs" />
-    <Compile Include="Harmony\XMTOffsetPatch.cs" />
+    <Compile Include="Harmony\XMTOffsetPatches.cs" />
     <Compile Include="Harmony\XMTResearchPatches.cs" />
     <Compile Include="Harmony\XMTRestPatches.cs" />
     <Compile Include="Harmony\XMTSurgeryPatch.cs" />

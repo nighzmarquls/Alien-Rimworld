@@ -2,15 +2,9 @@
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 using Verse.AI;
-using Verse.Noise;
-using static UnityEngine.Scripting.GarbageCollector;
 
 namespace Xenomorphtype
 {
@@ -780,19 +774,24 @@ namespace Xenomorphtype
             Room room = finalGoalCell.GetRoom(map);
             if (room != null)
             {
-                if(room.OpenRoofCount < room.CellCount)
+                IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(finalGoalCell, 10, true);
+
+                foreach (IntVec3 cell in cells)
                 {
-                    foreach (IntVec3 cell in room.Cells)
+                    if(!room.ContainsCell(cell))
                     {
-                        if (cell.GetRoof(map) != RoofDefOf.RoofRockThick && cell.Standable(map))
-                        {
-                            openCell = cell;
-                            return true;
-                        }
+                        continue;
                     }
 
-                    return false;
+                    if (cell.GetRoof(map) != RoofDefOf.RoofRockThick && cell.Standable(map))
+                    {
+                        openCell = cell;
+                        return true;
+                    }
                 }
+
+                return false;
+                
             }
 
             return true;

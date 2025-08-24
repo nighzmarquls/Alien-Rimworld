@@ -19,14 +19,7 @@ namespace Xenomorphtype
         protected override IEnumerable<Toil> MakeNewToils()
         {
             this.FailOnDespawnedOrNull(TargetIndex.A);
-            if (NoWallToClimb)
-            {
-                yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-            }
-            else
-            {
-                yield return ClimbOverWall();
-            }
+            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
             yield return Toils_General.Do(delegate
             {
                 Thing target = pawn.CurJob.targetA.Thing;

@@ -108,6 +108,14 @@ namespace Xenomorphtype
                     int lights = 0;
                     foreach (CompPowerTrader powerUser in net.powerComps)
                     {
+                        if (ForbidUtility.CaresAboutForbidden(pawn, false))
+                        { 
+                            if (!powerUser.parent.PositionHeld.InAllowedArea(pawn))
+                            {
+                                continue;
+                            }
+                        }
+                        
                         CompGlower glow = powerUser.parent.GetComp<CompGlower>();
                         if (glow != null)
                         {
@@ -682,9 +690,13 @@ namespace Xenomorphtype
                         continue;
                     }
 
-                    if (pawn.Faction != null && pawn.Faction.IsPlayer)
+                    if (ForbidUtility.CaresAboutForbidden(pawn, false))
                     {
-                        if (thing.IsForbidden(pawn.Faction))
+                        if (thing.IsForbidden(pawn))
+                        {
+                            continue;
+                        }
+                        if (!thing.PositionHeld.InAllowedArea(pawn))
                         {
                             continue;
                         }
