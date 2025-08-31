@@ -165,6 +165,7 @@ namespace Xenomorphtype
         //Vanilla Expanded
         //public static Hediff VEF_AcidBurn;
         //public static Hediff VEF_AcidBuildup;
+        
 
         //Vanilla Expanded Androids
         [MayRequire("vanillaracesexpanded.android")]
@@ -175,6 +176,13 @@ namespace Xenomorphtype
         public static DamageDef AG_AcidSpit;
 
         //Save Our Ship
+        [MayRequire("kentington.saveourship2")]
+        public static HediffDef SoSHologram;
+        [MayRequire("kentington.saveourship2")]
+        public static HediffDef SoSHologramMachine;
+        [MayRequire("kentington.saveourship2")]
+        public static HediffDef SoSHologramArchotech;
+
         [MayRequire("kentington.saveourship2")]
         public static TerrainDef EmptySpace;
 
@@ -187,7 +195,6 @@ namespace Xenomorphtype
         [MayRequire("kentington.saveourship2")]
         public static ThingDef ShipHullTileArchotech;
         
-
         [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_Beam_Unpowered;
         [MayRequire("kentington.saveourship2")]

@@ -95,6 +95,11 @@ namespace Xenomorphtype
 
                 if (!climber.climbParameters.Tunneling)
                 {
+                    RoofDef roof = climber.climbParameters.StartClimbCell.GetRoof(map);
+                    if(roof == RoofDefOf.RoofRockThick)
+                    {
+                        roof = RoofDefOf.RoofRockThin;
+                    }
                     RoofCollapserImmediate.DropRoofInCells(climber.climbParameters.StartClimbCell, map);
                 }
             }

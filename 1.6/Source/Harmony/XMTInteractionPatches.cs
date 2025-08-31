@@ -124,6 +124,10 @@ namespace Xenomorphtype
                     Pawn pawn = __instance.pawn;
                     Pawn partner = null;
                     
+                    if(pawn == null)
+                    {
+                        return;
+                    }
 
                     var any_ins = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 

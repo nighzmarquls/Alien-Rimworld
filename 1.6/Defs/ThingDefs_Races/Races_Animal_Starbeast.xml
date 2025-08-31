@@ -148,6 +148,9 @@
 		<tradeTags>
 			<li>ExoticMisc</li>
 		</tradeTags>
+		<recipes>
+			<li>ExtractJellyFromCreature</li>
+		</recipes>
 	</ThingDef>
 	
 	<PawnKindDef>

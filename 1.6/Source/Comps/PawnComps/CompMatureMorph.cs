@@ -36,6 +36,8 @@ namespace Xenomorphtype
 
         int IntervalCheck => Mathf.CeilToInt(Props.IntervalHours * 2500);
 
+        int DailyCheck => 60000;
+
         bool lairUnloaded = true;
 
         bool destroyNextTick = false;
@@ -69,6 +71,17 @@ namespace Xenomorphtype
             if (Parent == null)
             {
                 return;
+            }
+
+            if(Parent.IsHashIntervalTick(DailyCheck))
+            {
+                if (!XMTUtility.IsQueen(Parent))
+                {
+                    if (Rand.Chance(Props.slowDownDailyChance))
+                    {
+                        Hediff slowDown = Parent.health.GetOrAddHediff(InternalDefOf.XMT_Slowdown);
+                    }
+                }
             }
 
             if (Parent.Spawned)
@@ -1779,6 +1792,7 @@ namespace Xenomorphtype
     {
         public float        abductRange = 3f;
         public float        IntervalHours = 0.1f;
+        public float        slowDownDailyChance = 0.5f;
         public HediffDef    grabHediff;
         public HediffDef    cocoonHediff;
         public HediffDef    ovamorphHediff;

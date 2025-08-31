@@ -46,6 +46,7 @@ namespace Xenomorphtype
 
             if (pawn != null)
             {
+                
                 int progress = 250;
                 XMTResearch.ProgressEvolutionTech(progress, pawn);
                 Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Hatched, pawn.Named(HistoryEventArgsNames.Doer)));
@@ -99,11 +100,26 @@ namespace Xenomorphtype
             }
         }
 
+        public override float GetStatFactor(StatDef stat)
+        {
+            if(stat == StatDefOf.MarketValue)
+            {
+                if(UnHatched)
+                {
+                    return base.GetStatFactor(stat);
+                }
+                else
+                {
+                    return 0.1f;
+                }
+            }
+            return base.GetStatFactor(stat);
+        }
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_References.Look(ref mother, "mother");
-            Scribe_References.Look(ref father, "father");
+            Scribe_References.Look(ref mother, "mother", saveDestroyedThings:true);
+            Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
 
             Scribe_Values.Look(ref UnHatched, "UnHatched", defaultValue: true);
         }

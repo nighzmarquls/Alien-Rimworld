@@ -8,6 +8,53 @@ namespace Xenomorphtype
 {
     internal class XMTAnomalyPatches
     {
+        [HarmonyPatch(typeof(ITab_Pawn_Gear), "IsVisible", MethodType.Getter)]
+        static class Patch_ITab_Pawn_Gear_IsVisible
+        {
+
+            [HarmonyPostfix]
+            static void Postfix(ITab_Pawn_Gear __instance, ref bool __result)
+            {
+                if (__result)
+                {
+                    return;
+                }
+
+                Thing selected = Find.Selector.SingleSelectedThing;
+
+                Pawn selectedPawn = selected as Pawn;
+
+                if(selectedPawn == null)
+                {
+                    if(selected is Corpse corpse)
+                    {
+                        selectedPawn = corpse.InnerPawn;
+                    }
+                }
+
+                if (selectedPawn == null)
+                {
+                    return;
+                }
+
+                if(!XMTUtility.IsXenomorph(selectedPawn))
+                {
+                    return;
+                }
+
+                if (selectedPawn.apparel == null)
+                {
+                    if (selectedPawn.equipment == null)
+                    {
+                        return;
+                    }
+                }
+
+                __result = true;
+            }
+        }
+
+
         [HarmonyPatch(typeof(CompHoldingPlatformTarget), "StudiedAtHoldingPlatform", MethodType.Getter)]
         static class Patch_CompHoldingPlatformTarget_StudiedAtHoldingPlatform
         {

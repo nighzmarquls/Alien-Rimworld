@@ -46,5 +46,30 @@
 			<useEatingSpeedStat>false</useEatingSpeedStat>
 			<chairSearchRadius>0</chairSearchRadius>
 		</ingestible>
+		<statBases>
+			<WorkToMake>4000</WorkToMake>
+		</statBases>
+		<costList>
+			<Steel>2</Steel>
+			<Starbeast_Jelly>10</Starbeast_Jelly>
+		</costList>
+		<recipeMaker>
+			<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+			<workSkill>Intellectual</workSkill>
+			<recipeUsers>
+				<li>DrugLab</li>
+			</recipeUsers>
+			<researchPrerequisites>
+				<li>XMT_Jelly_Extraction</li>
+				<li>Xenogermination</li>
+			</researchPrerequisites>
+			<skillRequirements>
+				<Crafting>4</Crafting>
+				<Intellectual>10</Intellectual>
+				<Medicine>10</Medicine>
+			</skillRequirements>
+			<bulkRecipeCount></bulkRecipeCount>
+			<displayPriority>2000</displayPriority>
+		</recipeMaker>
 	</ThingDef>
 </Defs>

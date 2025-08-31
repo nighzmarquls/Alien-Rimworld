@@ -99,6 +99,7 @@
     <Compile Include="Abilities\Verbs\Verb_CastAbilityPounce.cs" />
     <Compile Include="AI\JobDriver\JobDriver_CopyGenesFrom.cs" />
     <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_Protofluid.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
@@ -139,6 +140,8 @@
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_TraumatizedBy.cs" />
     <Compile Include="BioHorror\BioUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
+    <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />
+    <Compile Include="BioHorror\Recipes\Recipe_ExtractJelly.cs" />
     <Compile Include="BioHorror\WorkGiver_XMT_HaulToGeneBank.cs" />
     <Compile Include="BioHorror\XMT_GeneRemapListDef.cs" />
     <Compile Include="Building\AmbushTrap.cs" />
@@ -148,7 +151,10 @@
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompRoofReplacer.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
+    <Compile Include="Comps\HediffComps\HediffComp_Allergy.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_GrowCocoon.cs" />
+    <Compile Include="Comps\ItemComps\CompTargetable_SingleCorpseOrPawn.cs" />
+    <Compile Include="Comps\ItemComps\Comp_TargetEffectProtofluid.cs" />
     <Compile Include="Comps\PawnComps\CompClimber.cs" />
     <Compile Include="Comps\PawnComps\CompCrawler.cs" />
     <Compile Include="Comps\ThingCompHorror\CompStudyXenomorph.cs" />

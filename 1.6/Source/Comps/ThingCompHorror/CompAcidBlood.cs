@@ -247,50 +247,53 @@ namespace Xenomorphtype
                         {
                             IEnumerable<BodyPartRecord> acidContact = thingAsPawn.health.hediffSet.GetNotMissingParts().Where(x => x.depth != BodyPartDepth.Inside && x.def.hitPoints >= modifiedDamage);
 
-                            BodyPartRecord hitPart = acidContact.RandomElement();
-                            bool unblocked = true;
-                            if (thingAsPawn.apparel != null)
+                            if(acidContact.Any())
                             {
-
-                                List<Apparel> wornThings = thingAsPawn.apparel.WornApparel;
-                                foreach (Apparel w in wornThings)
+                                BodyPartRecord hitPart = acidContact.RandomElement();
+                                bool unblocked = true;
+                                if (thingAsPawn.apparel != null)
                                 {
-                                    if (w.def.apparel.CoversBodyPart(hitPart))
+
+                                    List<Apparel> wornThings = thingAsPawn.apparel.WornApparel;
+                                    foreach (Apparel w in wornThings)
                                     {
-                                        if (XMTUtility.IsAcidImmune(w))
+                                        if (w.def.apparel.CoversBodyPart(hitPart))
                                         {
-                                            if (w.Stuff == InternalDefOf.Starbeast_Fabric)
+                                            if (XMTUtility.IsAcidImmune(w))
                                             {
-                                                unblocked = false;
+                                                if (w.Stuff == InternalDefOf.Starbeast_Fabric)
+                                                {
+                                                    unblocked = false;
+                                                }
+                                                else
+                                                {
+                                                    modifiedDamage = pristineDamage / 2;
+                                                }
                                             }
                                             else
                                             {
-                                                modifiedDamage = pristineDamage / 2;
+                                                w.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, inanimateDamage ? modifiedDamage * 10 : modifiedDamage, 9, -1, parent, hitPart));
                                             }
-                                        }
-                                        else
-                                        {
-                                            w.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, inanimateDamage ? modifiedDamage * 10 : modifiedDamage, 9, -1, parent, hitPart));
                                         }
                                     }
                                 }
-                            }
-                            if (unblocked && (thingAsPawn.health.hediffSet.HasBodyPart(hitPart) || XMTUtility.GetPartAttachedToPartOnPawn(thingAsPawn, ref hitPart)))
-                            {
-                                DamageWorker.DamageResult result = thingAsPawn.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, inanimateDamage ? modifiedDamage * 10 : modifiedDamage, 9, -1, parent, hitPart));
-                                if (result.totalDamageDealt > 0 && !result.deflected && Props.appliedHediff != null)
+                                if (unblocked && (thingAsPawn.health.hediffSet.HasBodyPart(hitPart) || XMTUtility.GetPartAttachedToPartOnPawn(thingAsPawn, ref hitPart)))
                                 {
-
-
-                                    BodyPartRecord targetPart = result.LastHitPart;
-                                    if (thingAsPawn.health.hediffSet.HasBodyPart(targetPart) || XMTUtility.GetPartAttachedToPartOnPawn(thingAsPawn, ref targetPart))
+                                    DamageWorker.DamageResult result = thingAsPawn.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, inanimateDamage ? modifiedDamage * 10 : modifiedDamage, 9, -1, parent, hitPart));
+                                    if (result.totalDamageDealt > 0 && !result.deflected && Props.appliedHediff != null)
                                     {
-                                        Hediff burn = HediffMaker.MakeHediff(Props.appliedHediff, thingAsPawn, targetPart);
-                                        burn.Severity = result.totalDamageDealt * Props.damageToSeverity;
 
-                                        thingAsPawn.health.AddHediff(burn, targetPart);
+
+                                        BodyPartRecord targetPart = result.LastHitPart;
+                                        if (thingAsPawn.health.hediffSet.HasBodyPart(targetPart) || XMTUtility.GetPartAttachedToPartOnPawn(thingAsPawn, ref targetPart))
+                                        {
+                                            Hediff burn = HediffMaker.MakeHediff(Props.appliedHediff, thingAsPawn, targetPart);
+                                            burn.Severity = result.totalDamageDealt * Props.damageToSeverity;
+
+                                            thingAsPawn.health.AddHediff(burn, targetPart);
+                                        }
+
                                     }
-
                                 }
                             }
                         }

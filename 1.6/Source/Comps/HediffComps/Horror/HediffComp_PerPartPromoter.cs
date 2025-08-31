@@ -39,7 +39,12 @@ namespace Xenomorphtype
 
         private void PromoteIntoHediff(HediffDef hediffDef)
         {
-
+            Hediff promoted = HediffMaker.MakeHediff(hediffDef, parent.pawn, parent.Part);
+            if (promoted != null)
+            {
+                parent.pawn.health.AddHediff(promoted);
+                parent.pawn.health.RemoveHediff(parent);
+            }
         }
     }
     public class HediffCompProperties_PerPartPromoter : HediffCompProperties

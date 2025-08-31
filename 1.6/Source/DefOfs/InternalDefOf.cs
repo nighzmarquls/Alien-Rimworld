@@ -31,6 +31,7 @@ namespace Xenomorphtype
         public static ThingDef_AlienRace    XMT_Royal_AlienRace;
 
         public static HediffDef             XMT_Embryo;
+        public static HediffDef             XMT_Slowdown;
         public static HediffDef             StarbeastOrganism;
         public static HediffDef             Undeveloped;
         public static HediffDef             Overdeveloped;

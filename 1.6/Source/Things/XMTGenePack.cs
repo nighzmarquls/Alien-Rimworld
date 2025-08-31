@@ -27,6 +27,17 @@ namespace Xenomorphtype
             base.PostIngested(ingester);
         }
 
+
+        public override void PostMake()
+        {
+            base.PostMake();
+
+            geneSet = new GeneSet();
+            foreach (GeneDef gene in XenoGeneDefOf.XMT_UnknownGenes.genes)
+            {
+                geneSet.AddGene(gene);
+            }
+        }
         public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.PostApplyDamage(dinfo, totalDamageDealt);

@@ -39,6 +39,7 @@
     <affordances>
       <li>Light</li>
       <li>Medium</li>
+	  <li>Bridgeable</li>
     </affordances>
     <generatedFilth>Filth_Dirt</generatedFilth>
     <fertility>0</fertility>
@@ -61,6 +62,7 @@
     </statBases>
     <affordances>
       <li>Light</li>
+	  <li>Bridgeable</li>
     </affordances>
     <generatedFilth>Filth_Dirt</generatedFilth>
     <fertility>0</fertility>
@@ -163,6 +165,7 @@
     <affordances>
       <li>Light</li>
       <li>Diggable</li>
+	  <li>Bridgeable</li>
     </affordances>
     <generatedFilth>Filth_Sand</generatedFilth>
     <fertility>0</fertility>

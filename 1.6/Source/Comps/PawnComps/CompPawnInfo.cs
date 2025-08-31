@@ -1,13 +1,14 @@
-﻿using System;
+﻿using AlienRace;
+using RimWorld;
+using RimWorld.Planet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using RimWorld;
 using Verse;
 using static AlienRace.AlienPartGenerator;
-using RimWorld.Planet;
 
 namespace Xenomorphtype
 {
@@ -61,6 +62,8 @@ namespace Xenomorphtype
         float _friendlyPheromone = 0;
         float _loverPheromone = 0;
         float _threatPheromone = 0;
+
+        float _traumaRelief = 0;
         float LoverPheromone => _loverPheromone;
         float FriendlyPheromone => _friendlyPheromone;
         float ThreatPheromone => _threatPheromone;
@@ -108,24 +111,37 @@ namespace Xenomorphtype
 
         public float PsychicAwareness => psychicAwareness;
 
-
-        public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
+        public override float GetStatFactor(StatDef stat)
         {
-            base.Notify_Killed(prevMap, dinfo);
-            if(parent.Faction == Faction.OfPlayer)
+            if(stat == StatDefOf.RestRateMultiplier)
             {
-                if (prevMap != null)
+                float totalExperience = TotalHorrorExperience();
+                if (totalExperience > 0)
                 {
-                    if (HiveUtility.PlayerXenosOnMap(prevMap))
+                    if (!IsObsessed())
                     {
-                        if (prevMap.mapPawns.FreeColonistsCount <= HiveUtility.Population(prevMap))
+                        if(totalExperience > 4.0f)
                         {
-                            HiveUtility.PlayerJoinXenomorphs(prevMap);
+                            return 0.5f;
+                        }
+                        else if (totalExperience >= 2.0f)
+                        {
+                            return 0.75f;
+                        }
+                        else if (totalExperience >= 1.0f)
+                        {
+                            return 0.85f;
+                        }
+                        else if (totalExperience > 0)
+                        {
+                            return 0.95f;
                         }
                     }
                 }
             }
+            return base.GetStatFactor(stat);
         }
+
         public override void CompTickInterval(int delta)
         {
             if (parent.IsHashIntervalTick(2000))
@@ -154,6 +170,12 @@ namespace Xenomorphtype
                             }
                         }
                     }
+
+                    if (_traumaRelief > 0)
+                    {
+                        Log.Message(Parent + " still has " + _traumaRelief + " relief");
+                        _traumaRelief -= 0.01f;
+                    }
                 }
             }
         }
@@ -166,13 +188,15 @@ namespace Xenomorphtype
                 {
                     if (Parent.Ideo is Ideo PawnIdeo)
                     {
-                        PawnIdeo.HasMaxPreceptsForIssue(XenoPreceptDefOf.XMT_Reproduction);
+                        if(PawnIdeo.HasMaxPreceptsForIssue(XenoPreceptDefOf.XMT_Reproduction))
+                        {
+                            modifier += 0.5f;
+                        }
                     }
                 }
             }
             return modifier;
         }
-
         public float IdeoAdultModifier()
         {
             float modifier = 0;
@@ -182,7 +206,10 @@ namespace Xenomorphtype
                 {
                     if(Parent.Ideo is Ideo PawnIdeo)
                     {
-                        PawnIdeo.HasMaxPreceptsForIssue(XenoPreceptDefOf.XMT_Cryptobio);
+                        if(PawnIdeo.HasMaxPreceptsForIssue(XenoPreceptDefOf.XMT_Cryptobio))
+                        {
+                            modifier += 0.5f;
+                        }
                     }
                 }
             }
@@ -258,6 +285,8 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _loverPheromone, "LoverPheromone", 0);
             Scribe_Values.Look(ref _friendlyPheromone, "FriendlyPheromone", 0);
             Scribe_Values.Look(ref _threatPheromone, "ThreatPheromone", 0);
+            Scribe_Values.Look(ref _traumaRelief, "TraumaRelief", 0);
+            
 
             Scribe_Values.Look(ref ovamorphAwareness, "OvamorphAwareness", 0);
             Scribe_Values.Look(ref larvaAwareness, "LarvaAwareness", 0);
@@ -624,9 +653,15 @@ namespace Xenomorphtype
             TryApplyDisplayHediff();
         }
 
+        public void GainRelief(float strength, float max = 5f)
+        {
+            _traumaRelief = Mathf.Min(max, _traumaRelief + strength);
+
+        }
+
         public float TotalHorrorExperience()
         {
-            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier();
+            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() - _traumaRelief;
         }
         public float TotalHorrorAwareness()
         {

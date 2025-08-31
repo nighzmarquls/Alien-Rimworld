@@ -114,8 +114,8 @@
     <researchViewX>1.00</researchViewX>
     <researchViewY>1.00</researchViewY>
     <prerequisites>
-		<li>XMT_Starbeast_Chrysalis</li>
 		<li>XMT_Starbeast_Reinforcement</li>
+		<li>XMT_Starbeast_Chrysalis</li>
     </prerequisites>
     <generalRules>
       <rulesStrings>
@@ -141,8 +141,8 @@
     <researchViewX>2.00</researchViewX>
     <researchViewY>1.5</researchViewY>
     <prerequisites>
-		<li>XMT_Starbeast_Chrysalis</li>
 		<li>XMT_Starbeast_JellyTransport</li>
+		<li>XMT_Starbeast_Chrysalis</li>
     </prerequisites>
     <generalRules>
       <rulesStrings>

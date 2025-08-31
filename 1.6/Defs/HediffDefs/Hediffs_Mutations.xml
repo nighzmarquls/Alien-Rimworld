@@ -4,6 +4,10 @@
 		<defName>XMT_InfluencesSet</defName>
 		<influences>
 			<li>
+				<hediff>XMT_Protofluid</hediff>
+				<influence>2</influence>
+			</li>
+			<li>
 				<hediff>XMT_BecomingMutant</hediff>
 				<influence>2</influence>
 			</li>
@@ -118,6 +122,26 @@
 	</Xenomorphtype.XMT_MutationsHealthSet>
 	
 	<Xenomorphtype.XMT_MutationsHealthSet>
+		<defName>XMT_ProtofluidMutationSet</defName>
+		<mutations>
+			<li>
+				<horror>XMT_MildEssence</horror>
+				<randomBodypart>true</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>0</essenceMinimum>
+				<essenceMaximum>0.45</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_BoostingEssence</horror>
+				<randomBodypart>true</randomBodypart>
+				<probability>0.25</probability>
+				<essenceMinimum>0.5</essenceMinimum>
+				<essenceMaximum>0.75</essenceMaximum>
+			</li>
+		</mutations>
+	</Xenomorphtype.XMT_MutationsHealthSet>
+	
+	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_UmbilicalSet</defName>
 		<mutations>
 			<li>
@@ -170,6 +194,36 @@
 			</li>
 		</transformations>
 	</Xenomorphtype.XMT_TransformationSet>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Protofluid</defName>
+		<label>discoloration</label>
+		<description>A discoloration laces the tissue.</description>
+		<makesSickThought>false</makesSickThought>
+		<makesAlert>false</makesAlert>
+		<minSeverity>0.000</minSeverity>
+		<maxSeverity>1</maxSeverity>
+		<initialSeverity>1</initialSeverity>
+		<stages>
+			<li>
+				<label>benign</label>
+				<becomeVisible>false</becomeVisible>
+				<minSeverity>0.1</minSeverity>
+				<partEfficiencyOffset>-0.05</partEfficiencyOffset>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.125</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+				<probability>0.5</probability>
+				<customMutationSet>XMT_ProtofluidMutationSet</customMutationSet>
+			</li>
+		</comps>
+	</HediffDef>
+	
 	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_MildEssence</defName>
@@ -239,6 +293,14 @@
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
 				<obsessionGain>0.001</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_PerPartPromoter">
+				<HediffPromotionsByPart>
+					<li>
+						<hediffDef>XMT_ImprovedStomach</hediffDef>
+						<bodyPartDef>Stomach</bodyPartDef>
+					</li>
+				</HediffPromotionsByPart>
 			</li>
 		</comps>
 		<injuryProps>

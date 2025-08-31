@@ -139,6 +139,11 @@ namespace Xenomorphtype
 
             float essence = GetXenomorphInfluence(pawn);
 
+            if(pawn.health.hediffSet.HasPregnancyHediff())
+            {
+                ApplyHorrorPregnancy(pawn);
+            }
+
             XMT_MutationsHealthSet mutations = customSet != null ? customSet : XenoGeneDefOf.XMT_MutationsSet;
             foreach (MutationHealth health in mutations.mutations)
             {

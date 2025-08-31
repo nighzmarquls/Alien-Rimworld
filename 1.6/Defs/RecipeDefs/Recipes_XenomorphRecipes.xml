@@ -2,14 +2,68 @@
 
 <Defs>
 	<RecipeDef>
-		<defName>Make_MakeNeutromineFromJelly</defName>
+		<defName>Make_Ovamorph</defName>
+		<label>catalyze ovum with protofluid</label>
+		<description>inject A0X Protofluid into a viable ovum in order to catalyze a transformation.</description>
+		<jobString>catalyzing ovum with protofluid.</jobString>
+		<effectWorking>Surgery</effectWorking>
+		<soundWorking>Recipe_Surgery</soundWorking>
+		<workSpeedStat>MedicalOperationSpeed</workSpeedStat>
+		<workSkill>Medicine</workSkill>
+		<workSkillLearnFactor>16</workSkillLearnFactor>
+		<workAmount>4000</workAmount>
+		<skillRequirements>
+			<Intellectual>7</Intellectual>
+			<Medicine>10</Medicine>
+		</skillRequirements>
+		<researchPrerequisites>
+			<li>FertilityProcedures</li>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>HumanOvum</li>
+						<li>HumanEmbryo</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_Protofluid</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>HumanOvum</li>
+				<li>HumanEmbryo</li>
+				<li>XMT_Protofluid</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<XMT_Ovamorph>1</XMT_Ovamorph>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+	</RecipeDef>
+
+	<RecipeDef>
+		<defName>Make_NeutromineFromJelly</defName>
 		<label>render neutroamine from jelly</label>
 		<description>Make a batch of neutroamine by refining resinous jelly.</description>
 		<jobString>Refining neutroamine from jelly.</jobString>
 		<effectWorking>Cremate</effectWorking>
 		<soundWorking>Recipe_Cremate</soundWorking>
 		<workAmount>2000</workAmount>
-		<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+			<li>MedicineProduction</li>
+		</researchPrerequisites>
 		<ingredients>
 			<li>
 				<filter>
@@ -17,7 +71,7 @@
 						<li>Starbeast_Jelly</li>
 					</thingDefs>
 				</filter>
-				<count>10</count>
+				<count>5</count>
 			</li>
 		</ingredients>
 		<fixedIngredientFilter>
@@ -28,6 +82,90 @@
 		<products>
 			<Neutroamine>5</Neutroamine>
 		</products>
+	</RecipeDef>
+	
+	<RecipeDef>
+		<defName>Make_Cryptizip</defName>
+		<label>make cryptizip</label>
+		<description>carefully dillute and process protofluid into Cryptizip in a neutromine suspension.</description>
+		<jobString>making cryptizip.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>1500</workAmount>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Drugs</li>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Neutroamine</li>
+					</thingDefs>
+				</filter>
+				<count>10</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_Protofluid</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Neutroamine</li>
+				<li>XMT_Protofluid</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<XMT_Cryptizip>20</XMT_Cryptizip>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+	</RecipeDef>
+	
+	<RecipeDef>
+		<defName>Make_GlitterworldMedicine</defName>
+		<label>make glitterworld medicine</label>
+		<description>enhance medical kits with filtered and diluted doses of protofluid.</description>
+		<jobString>making glitterworld medicine.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>2000</workAmount>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Drugs</li>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>MedicineIndustrial</li>
+					</thingDefs>
+				</filter>
+				<count>75</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_Protofluid</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>MedicineIndustrial</li>
+				<li>XMT_Protofluid</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<MedicineUltratech>75</MedicineUltratech>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
 	</RecipeDef>
 	
 </Defs>

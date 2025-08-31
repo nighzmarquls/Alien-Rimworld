@@ -30,8 +30,8 @@ namespace Xenomorphtype
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look(ref father, "father", saveDestroyedThings: false);
-            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: false);
+            Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
+            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: true);
             Scribe_Deep.Look(ref genes, "genes");
             Scribe_Defs.Look(ref kind, "kind");
             Scribe_Values.Look(ref spent, "spent", defaultValue: false);
@@ -138,6 +138,8 @@ namespace Xenomorphtype
                         acid.TrySplashAcid();
                     }
                 }
+
+                larvaPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 20*larvaBonus));
             }
         }
         public override void CompTended(float quality, float maxQuality, int batchPosition = 0)
@@ -169,7 +171,10 @@ namespace Xenomorphtype
             else if (parent.CurStageIndex < 1 || spent)
             {
                 //if you catch it early enough or too late you can get the thing off.
-                LarvaRelease();
+                if( LarvaRelease() is Pawn larvaPawn)
+                {
+                    larvaPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 5));
+                }
             }
             else if (parent.CurStageIndex < 2 && quality + witnessBonus >= Props.minimumTendToRemove)
             {
@@ -179,13 +184,16 @@ namespace Xenomorphtype
                 {
                     LarvaSqueeze(8f);
                 }
-                LarvaRelease();
+
+                if (LarvaRelease() is Pawn larvaPawn)
+                {
+                    larvaPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 10*(quality+witnessBonus)));
+                }
             }
             else if (quality <= Props.minimumTendToAvoidInjury)
             {
 
                 //too late requires surgery or you will end up tearing their face off.
-               
                 LarvaSqueeze();
             }
           

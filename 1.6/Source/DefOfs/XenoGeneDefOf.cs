@@ -21,6 +21,10 @@ namespace Xenomorphtype
 
         // xeno biotech researchdefs
         public static ResearchProjectDef XMT_Starbeast_Genetics;
+        public static ResearchProjectDef XMT_Jelly_Extraction;
+        public static ResearchProjectDef XMT_Jelly_Refinement;
+        //public static ResearchProjectDef XMT_Mutation_Targeted;
+        public static ResearchProjectDef XMT_Jelly_Drugs;
 
         // xeno items 
         public static ThingDef      XMT_Genepack;

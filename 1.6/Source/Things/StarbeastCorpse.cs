@@ -33,6 +33,8 @@ namespace Xenomorphtype
                 Find.HistoryEventsManager.RecordEvent(new HistoryEvent(HistoryEventDefOf.ButcheredHuman, new SignalArgs(butcher.Named(HistoryEventArgsNames.Doer), InnerPawn.Named(HistoryEventArgsNames.Victim))));
                 TaleRecorder.RecordTale(TaleDefOf.ButcheredHumanlikeCorpse, butcher);
             }
+
+            XMTResearch.ProgressCryptobioTech(10, butcher);
         }
     }
 }

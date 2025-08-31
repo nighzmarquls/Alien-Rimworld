@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+<ThingDef ParentName="MakeableDrugBase">
+    <defName>XMT_Cryptizip</defName>
+		<label>cryptizip</label>
+		<description>A synthetic performance-enhancing drug developed from cryptibiochemistry. cryptizip blocks pain, increases movement speed, and improves the user's melee and shooting abilities.\n\nThe military chemists who created it were never able to remove its addictiveness. Some saw this as a downside; others saw it as a benefit.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_CryptizipHigh</HediffDef>
+		  <HediffDef>XMT_CryptizipAddiction</HediffDef>
+		</descriptionHyperlinks>
+		<graphicData>
+		  <texPath>Things/Item/Drug/Cryptizip</texPath>
+		  <graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<rotatable>false</rotatable>
+		<statBases>
+		  <MarketValue>320</MarketValue>
+		  <Mass>0.1</Mass>
+		</statBases>
+		<recipeMaker IsNull="True" Inherit="False"/>
+		<techLevel>Industrial</techLevel>
+		<ingestible>
+		  <joyKind>Chemical</joyKind>
+		  <joy>0.40</joy>
+		  <drugCategory>Hard</drugCategory>
+		  <foodType>Processed, Fluid</foodType>
+		  <baseIngestTicks>80</baseIngestTicks>
+		  <ingestSound>Ingest_Inject</ingestSound>
+		  <ingestHoldOffsetStanding>
+			<northDefault>
+			  <offset>(0.18,0,0)</offset>
+			</northDefault>
+		  </ingestHoldOffsetStanding>
+		  <ingestCommandString>Take {0}</ingestCommandString>
+		  <ingestReportString>Taking {0}.</ingestReportString>
+		  <useEatingSpeedStat>true</useEatingSpeedStat>
+		  <chairSearchRadius>0</chairSearchRadius>
+		  <outcomeDoers>
+			<li Class="IngestionOutcomeDoer_GiveHediff">
+			  <hediffDef>XMT_CryptizipHigh</hediffDef>
+			  <severity>0.5</severity>
+			  <toleranceChemical>XMT_Cryptizip</toleranceChemical>
+			</li>
+			<li Class="IngestionOutcomeDoer_OffsetNeed">
+			  <need>Rest</need>
+			  <offset>0.4</offset>
+			  <toleranceChemical>GoJuice</toleranceChemical>
+			</li>
+			<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+			  <offset>0.15</offset>
+			</li>
+		  </outcomeDoers>
+		</ingestible>
+		<comps>
+		  <li Class="CompProperties_Drug">
+			<chemical>XMT_Cryptizip</chemical>
+			<addictiveness>0.026</addictiveness>
+			<existingAddictionSeverityOffset>0.20</existingAddictionSeverityOffset>
+			<needLevelOffset>0.9</needLevelOffset>
+			<isCombatEnhancingDrug>true</isCombatEnhancingDrug>
+			<listOrder>200</listOrder>
+			<overdoseSeverityOffset>0.18~0.35</overdoseSeverityOffset>
+			<largeOverdoseChance>0.005</largeOverdoseChance>
+		  </li>
+		</comps>
+	</ThingDef>
+	<!-- Cryptizip addiction -->
+
+	<HediffDef>
+		<defName>XMT_CryptizipHigh</defName>
+		<hediffClass>Hediff_High</hediffClass>
+		<label>cryptizip high</label>
+		<description>the body is being boosted by the performance enhancing drug Cryptizip.</description>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<maxSeverity>10.0</maxSeverity>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<painFactor>0.5</painFactor>
+				<statOffsets>
+					<ImmunityGainSpeed>2</ImmunityGainSpeed>
+				</statOffsets>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>1.0</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>2</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>2</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>2</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>2</offset>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>2</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>2</offset>
+					</li>
+				</capMods>
+			</li>
+			<li>
+				<minSeverity>1</minSeverity>
+				<painFactor>0.0</painFactor>
+				<statOffsets>
+					<ImmunityGainSpeed>4</ImmunityGainSpeed>
+				</statOffsets>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>1.0</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>4</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>4</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>4</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>4</offset>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>4</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>4</offset>
+					</li>
+				</capMods>
+				<mentalStateGivers>
+					<li>
+						<mentalState>Berserk</mentalState>
+						<mtbDays>1</mtbDays>
+					</li>
+					<li>
+						<mentalState>Slaughterer</mentalState>
+						<mtbDays>1</mtbDays>
+					</li>
+				</mentalStateGivers>
+				<hediffGivers>
+					<li Class="HediffGiver_Random">
+						<hediff>HeartAttack</hediff>
+						<mtbDays>1.5</mtbDays>
+						<partsToAffect>
+							<li>Heart</li>
+						</partsToAffect>
+					</li>
+				</hediffGivers>
+			</li>
+	
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.1</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Allergy">
+				<allergyHediff>XMT_allergy</allergyHediff>
+				<allergyImmuneHediff>XMT_allergyImmune</allergyImmuneHediff>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.75</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef>
+		<defName>XMT_allergy</defName>
+		<label>error</label>
+		<description>this should never display.</description>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>XMT_allergyImmune</defName>
+		<label>error</label>
+		<description>this should never display.</description>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+	</HediffDef>
+
+	<ChemicalDef>
+		<defName>XMT_Cryptizip</defName>
+		<label>cryptizip</label>
+		<addictionHediff>XMT_CryptizipAddiction</addictionHediff>
+		<canBinge>true</canBinge>
+		<generateAddictionGenes>false</generateAddictionGenes>
+	</ChemicalDef>
+
+	<NeedDef ParentName="DrugAddictionNeedBase">
+		<defName>XMT_Chemical_Cryptizip</defName>
+		<needClass>Need_Chemical</needClass>
+		<label>cryptizip</label>
+		<description>This subject has become dependant on cryptizip.</description>
+		<listPriority>45</listPriority>
+		<fallPerDay>0.05</fallPerDay>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+	</NeedDef>
+
+	<HediffDef ParentName="AddictionBase">
+		<defName>XMT_CryptizipAddiction</defName>
+		<label>cryptizip addiction</label>
+		<description>A chemical addiction to cryptizip. Long-term presence of cryptizip has caused neurological adaptations at the cellular level, so the brain can no longer function properly without the drug.
+\nWithout regular doses of cryptizip, withdrawal symptoms will begin. However, extended abstinence will force the brain to adapt back to its normal state, resolving the addiction.</description>
+		<hediffClass>Hediff_Addiction</hediffClass>
+		<chemicalNeed>XMT_Chemical_Cryptizip</chemicalNeed>
+		<everCurableByItem>true</everCurableByItem>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.25</obsessionGain>
+			</li>
+	
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-0.045</severityPerDay>
+				<showDaysToRecover>true</showDaysToRecover>
+			</li>
+		</comps>
+		<stages>
+		  <li>
+		  </li>
+		  <li>
+			<label>withdrawal</label>
+			<painFactor>3</painFactor>
+			<hungerRateFactorOffset>0.5</hungerRateFactorOffset>
+			<statOffsets>
+				<RestFallRateFactor>0.3</RestFallRateFactor>
+			</statOffsets>
+			<capMods>
+			  <li>
+				<capacity>Consciousness</capacity>
+				<offset>-0.20</offset>
+			  </li>
+			  <li>
+				<capacity>Moving</capacity>
+				<offset>-0.50</offset>
+			  </li>
+			  <li>
+				<capacity>Sight</capacity>
+				<offset>-0.20</offset>
+			  </li>
+			  <li>
+				<capacity>BloodPumping</capacity>
+				<offset>-0.20</offset>
+			  </li>
+			  <li>
+				<capacity>Manipulation</capacity>
+				<offset>-0.10</offset>
+			  </li>
+			</capMods>
+			<mentalStateGivers>
+			  <li>
+				<mentalState>Binging_DrugExtreme</mentalState>
+				<mtbDays>40</mtbDays>
+			  </li>
+			  <li>
+				<mentalState>Wander_Psychotic</mentalState>
+				<mtbDays>10</mtbDays>
+			  </li>
+			</mentalStateGivers>
+		  </li>
+		</stages>
+	</HediffDef>
+	
+	<ThoughtDef>
+		<defName>XMT_CryptizipHigh</defName>
+		<workerClass>ThoughtWorker_Hediff</workerClass>
+		<hediff>XMT_CryptizipHigh</hediff>
+		<validWhileDespawned>true</validWhileDespawned>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<stages>
+		  <li>
+			<label>high on cryptizip</label>
+			<description>I feel pumped but steady. I am the bullet in flight, ready to cut through you.</description>
+			<baseMoodEffect>10</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
+</Defs>

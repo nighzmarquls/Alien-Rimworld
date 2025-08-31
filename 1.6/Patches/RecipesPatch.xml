@@ -4,8 +4,30 @@
 		<xpath>Defs/ThingDef[defName="BiofuelRefinery"]/recipes
 		</xpath>
 		<value>
-			<li>Make_MakeNeutromineFromJelly</li>
+			<li>Make_NeutromineFromJelly</li>
 		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="DrugLab"]/recipes</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="DrugLab"]</xpath>
+			<value>
+				<recipes>
+					<li>Make_Ovamorph</li>
+					<li>Make_Cryptizip</li>
+					<li>Make_GlitterworldMedicine</li>
+				</recipes>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="DrugLab"]/recipes</xpath>
+			<value>
+				<li>Make_Ovamorph</li>
+				<li>Make_Cryptizip</li>
+				<li>Make_GlitterworldMedicine</li>
+			</value>
+		</match>
 	</Operation>
 	
 	<Operation Class="PatchOperationAdd">

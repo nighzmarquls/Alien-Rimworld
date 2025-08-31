@@ -41,9 +41,14 @@ namespace Xenomorphtype
                         }
                     }
 
-                    if (___recipe.defName == "ExtractHemogenPack")
+                    if (___recipe.Worker is Recipe_ExtractHemogen)
                     {
                         insufficientMedicine = true;
+                    }
+
+                    if(___recipe.Worker is Recipe_ExtractJelly || ___recipe.Worker is Recipe_ExtractResin)
+                    {
+                        insufficientMedicine = false;
                     }
 
                     if (insufficientMedicine)
@@ -61,10 +66,7 @@ namespace Xenomorphtype
                             return;
                         }
                     }
-
-
                 }
-
             }
         }
     }

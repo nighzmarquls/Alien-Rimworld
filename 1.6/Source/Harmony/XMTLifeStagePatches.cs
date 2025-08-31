@@ -32,6 +32,11 @@ namespace Xenomorphtype
                     return;
                 }
 
+                if(pawn.Faction == null)
+                {
+                    return;
+                }
+
                 if(Faction.OfPlayerSilentFail == pawn.Faction && XMTUtility.PlayerXenosOnMap(pawn.MapHeld))
                 {
                     CompPawnInfo info = pawn.GetComp<CompPawnInfo>();

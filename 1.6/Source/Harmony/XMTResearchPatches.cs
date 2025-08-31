@@ -15,7 +15,7 @@ namespace Xenomorphtype
         public static class Patch_ResearchManager_TabInfoVisible
         {
             [HarmonyPostfix]
-            public static void Postfix(ResearchTabDef tab, bool __result, ResearchManager __instance, DefMap<ResearchTabDef, bool> ___tabInfoVisibility)
+            public static void Postfix(ResearchTabDef tab, ref bool __result, ResearchManager __instance, DefMap<ResearchTabDef, bool> ___tabInfoVisibility)
             {
                 if(tab == XenoGeneDefOf.XMT_HumanResearchTab && !___tabInfoVisibility[XenoGeneDefOf.XMT_HumanResearchTab])
                 {

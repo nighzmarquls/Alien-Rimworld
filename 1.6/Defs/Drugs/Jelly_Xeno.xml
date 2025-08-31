@@ -114,7 +114,7 @@
 				<obsessionGain>0.01</obsessionGain>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
-				<probability>0.01</probability>
+				<probability>0.005</probability>
 			</li>
 			<li Class="HediffCompProperties_SeverityPerDay">
 				<severityPerDay>-4</severityPerDay>
@@ -135,7 +135,7 @@
 		<defName>XMT_Chemical_Essence</defName>
 		<needClass>Need_Chemical</needClass>
 		<label>Mutagenic Biopolymer</label>
-		<description>This person's body has become critically dependant on a foreign substance to sustain their immune system.</description>
+		<description>This subject's body has become critically dependant on a foreign substance to sustain their immune system.</description>
 		<listPriority>45</listPriority>
 		<fallPerDay>0.15</fallPerDay>
 		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
@@ -144,7 +144,7 @@
 	<HediffDef ParentName="AddictionBase">
 		<defName>XMT_EssenceAddiction</defName>
 		<label>immunological failure</label>
-		<description>This person's immune system has completely been suplanted by a mutagenic biopolymer which they must ingest to avoid lethal organ failure.</description>
+		<description>This sibject's immune system has completely been suplanted by a mutagenic biopolymer which they must ingest to avoid lethal organ failure.</description>
 		<hediffClass>Hediff_Addiction</hediffClass>
 		<chemicalNeed>XMT_Chemical_Essence</chemicalNeed>
 		<everCurableByItem>false</everCurableByItem>
@@ -187,7 +187,82 @@
 				<obsessionGain>0.25</obsessionGain>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
-				<probability>0.05</probability>
+				<probability>0.01</probability>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef>
+		<defName>XMT_Slowdown</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>metabolic slowdown</label>
+		<description>metabolic activity is slowing as the organism's life cycle begins to wind down.</description>
+		<everCurableByItem>true</everCurableByItem>
+		<initialSeverity>0.0001</initialSeverity>
+		<stages>
+			<li>
+				<label>onset</label>
+				
+				<lifeThreatening>false</lifeThreatening>
+				<statFactors>
+					<WorkSpeedGlobal>0.95</WorkSpeedGlobal>
+					<RestRateMultiplier>0.95</RestRateMultiplier>
+				</statFactors>
+			</li>
+			<li>
+				<label>minor</label>
+				<minSeverity>0.2</minSeverity>
+				<lifeThreatening>false</lifeThreatening>
+				<statFactors>
+					<WorkSpeedGlobal>0.85</WorkSpeedGlobal>
+					<RestRateMultiplier>0.85</RestRateMultiplier>
+				</statFactors>
+			</li>
+			<li>
+				<label>medium</label>
+				<minSeverity>0.3</minSeverity>
+				<lifeThreatening>false</lifeThreatening>
+				<statFactors>
+					<WorkSpeedGlobal>0.75</WorkSpeedGlobal>
+					<RestRateMultiplier>0.75</RestRateMultiplier>
+				</statFactors>
+			</li>
+			<li>
+				<label>severe</label>
+				<minSeverity>0.5</minSeverity>
+				<lifeThreatening>false</lifeThreatening>
+				<statFactors>
+					<WorkSpeedGlobal>0.5</WorkSpeedGlobal>
+					<RestRateMultiplier>0.5</RestRateMultiplier>
+				</statFactors>
+			</li>
+			<li>
+				<label>debilitating</label>
+				<minSeverity>0.75</minSeverity>
+				<lifeThreatening>false</lifeThreatening>
+				<statFactors>
+					<WorkSpeedGlobal>0.25</WorkSpeedGlobal>
+					<RestRateMultiplier>0.25</RestRateMultiplier>
+				</statFactors>
+			</li>
+			<li>
+				<label>debilitating</label>
+				<minSeverity>1</minSeverity>
+				<lifeThreatening>false</lifeThreatening>
+				<statFactors>
+					<WorkSpeedGlobal>0.1</WorkSpeedGlobal>
+					<RestRateMultiplier>0.1</RestRateMultiplier>
+				</statFactors>
+			</li>
+		</stages>
+		<comps>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<hediffs>
+					<li>XMT_RoyalJellyHigh</li>
+				</hediffs>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDayRange>0.1~0.2</severityPerDayRange>
 			</li>
 		</comps>
 	</HediffDef>

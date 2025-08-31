@@ -6,9 +6,37 @@
   
   <ResearchProjectDef>
     <defName>XMT_Starbeast_Genetics</defName>
-    <label>Novel Chemistry Genetics</label>
-    <description>Study of alternative chemistry for storing genetic alteration allowing the study of more exotic life forms.</description>
-    <techLevel>Industrial</techLevel>
+    <label>cryptimorphic genetics</label>
+    <description>Study of alternative chemistry for storing genetic alteration allowing the genetic study of exotic life forms.</description>
+    <techLevel>Spacer</techLevel>
+    <baseCost>5000</baseCost>
+    <researchViewX>0.00</researchViewX>
+    <researchViewY>0.75</researchViewY>
+    <requiredResearchFacilities>
+    </requiredResearchFacilities>
+    <prerequisites>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->gene processors</li>
+
+        <li>subject_story->extracted Glitterworld genes from a drifting derelict</li>
+        <li>subject_story->processed an entire village to create one set of higher genes</li>
+        <li>subject_story->began the slow process of uplift by implanting xenogerms into a primitive tribe</li>
+
+        <li>subject_gerund->constructing gene processors</li>
+        <li>subject_gerund->processing genes</li>
+
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_HumanResearchTab</tab>
+  </ResearchProjectDef>
+  
+  <ResearchProjectDef>
+    <defName>XMT_Jelly_Extraction</defName>
+    <label>cryptimorphic biochemistry</label>
+    <description>Study of alternative biochemistry and how it applies to the cryptimorph and derived specimens. Unique Polymers can be extracted.</description>
+    <techLevel>Spacer</techLevel>
     <baseCost>1500</baseCost>
     <researchViewX>0.00</researchViewX>
     <researchViewY>0.00</researchViewY>
@@ -27,6 +55,94 @@
         <li>subject_gerund->constructing gene processors</li>
         <li>subject_gerund->processing genes</li>
 
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_HumanResearchTab</tab>
+  </ResearchProjectDef>
+  
+  <ResearchProjectDef>
+    <defName>XMT_Jelly_Refinement</defName>
+    <label>cryptimorphic refinement</label>
+    <description>By studying the cryptimorphs genetic analogue and biochemistry deeply you have discoverd a unique non-newtonian fluid. Life in its most primal and unadulterated form. This microorganism can create the most virulent, mutagenic and destructive pathogen ever observed. But when acetylated, synthethized and contained it can be turned into a miracle cure.</description>
+    <techLevel>Spacer</techLevel>
+    <baseCost>5000</baseCost>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>0.50</researchViewY>
+    <requiredResearchFacilities>
+      <li>MultiAnalyzer</li>
+    </requiredResearchFacilities>
+    <prerequisites>
+		<li>XMT_Starbeast_Genetics</li>
+		<li>XMT_Jelly_Extraction</li>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->gene processors</li>
+
+        <li>subject_story->extracted Glitterworld genes from a drifting derelict</li>
+        <li>subject_story->processed an entire village to create one set of higher genes</li>
+        <li>subject_story->began the slow process of uplift by implanting xenogerms into a primitive tribe</li>
+
+        <li>subject_gerund->constructing gene processors</li>
+        <li>subject_gerund->processing genes</li>
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_HumanResearchTab</tab>
+  </ResearchProjectDef>
+  
+  <!--<ResearchProjectDef>
+    <defName>XMT_Mutation_Targeted</defName>
+    <label>targeted mutations</label>
+    <description>With care directed mutation expression can be achieved through application of A0X protofluid.</description>
+    <techLevel>Spacer</techLevel>
+    <baseCost>2000</baseCost>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>0.0</researchViewY>
+    <requiredResearchFacilities>
+      <li>MultiAnalyzer</li>
+    </requiredResearchFacilities>
+    <prerequisites>
+		<li>XMT_Jelly_Refinement</li>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->gene processors</li>
+
+        <li>subject_story->extracted Glitterworld genes from a drifting derelict</li>
+        <li>subject_story->processed an entire village to create one set of higher genes</li>
+        <li>subject_story->began the slow process of uplift by implanting xenogerms into a primitive tribe</li>
+
+        <li>subject_gerund->constructing gene processors</li>
+        <li>subject_gerund->processing genes</li>
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_HumanResearchTab</tab>
+  </ResearchProjectDef>-->
+  
+  <ResearchProjectDef>
+    <defName>XMT_Jelly_Drugs</defName>
+    <label>pharmocological applications</label>
+    <description>With further refinement the A0X protofluid can be manipulated into benign metabolic enhancers and healing aids without permanent mutagenic effects.</description>
+    <techLevel>Spacer</techLevel>
+    <baseCost>2000</baseCost>
+    <researchViewX>2.00</researchViewX>
+    <researchViewY>0.75</researchViewY>
+    <requiredResearchFacilities>
+      <li>MultiAnalyzer</li>
+    </requiredResearchFacilities>
+    <prerequisites>
+		<li>XMT_Jelly_Refinement</li>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->gene processors</li>
+
+        <li>subject_story->extracted Glitterworld genes from a drifting derelict</li>
+        <li>subject_story->processed an entire village to create one set of higher genes</li>
+        <li>subject_story->began the slow process of uplift by implanting xenogerms into a primitive tribe</li>
+
+        <li>subject_gerund->constructing gene processors</li>
+        <li>subject_gerund->processing genes</li>
       </rulesStrings>
     </generalRules>
 	<tab>XMT_HumanResearchTab</tab>

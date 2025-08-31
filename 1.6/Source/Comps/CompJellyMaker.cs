@@ -265,7 +265,11 @@ namespace Xenomorphtype
 
             if (XenoformingUtility.CellIsFertile(cell,currentmap))
             {
-                XenoformingUtility.DegradeTerrainOnCell(currentmap, cell);
+                TerrainDef terrain = cell.GetTerrain(currentmap);
+                if (!terrain.affordances.Contains(InternalDefOf.Resin))
+                {
+                    XenoformingUtility.DegradeTerrainOnCell(currentmap, cell);
+                }
             }
             if (geneProduct)
             {

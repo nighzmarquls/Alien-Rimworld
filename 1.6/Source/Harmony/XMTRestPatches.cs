@@ -39,22 +39,18 @@ namespace Xenomorphtype
                     if (totalExperience >= 4.0f)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 3);
-                        actor.needs.rest.CurLevel -= 0.5f;
                     }
                     else if (totalExperience >= 2.0f)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 2);
-                        actor.needs.rest.CurLevel -= 0.5f;
                     }
                     else if (totalExperience >= 1.0f)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 1);
-                        actor.needs.rest.CurLevel -= 0.25f;
                     }
                     else if (totalExperience > 0)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 0);
-                        actor.needs.rest.CurLevel -= 0.1f;
                     }
 
                     

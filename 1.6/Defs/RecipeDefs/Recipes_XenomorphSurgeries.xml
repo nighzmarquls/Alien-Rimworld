@@ -28,6 +28,48 @@
 		<removesHediff>XMT_LarvalEmbrace</removesHediff>
 	</RecipeDef>
 	
-
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractJellyFromCreature</defName>
+		<label>extract resinous jelly</label>
+		<description>Extract resinous jelly from the target. The operation will fail to produce a jelly if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractJelly</workerClass>
+		<jobString>Extracting resinous jelly.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+		  <ThingDef>Starbeast_Jelly</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>Starbeast_Jelly</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+		</researchPrerequisites>
+		<displayPriority>0</displayPriority>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractResinFromCreature</defName>
+		<label>extract resinous secreion</label>
+		<description>Extract resin from the target. The operation will fail to produce a material if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractResin</workerClass>
+		<jobString>extracting resinous secretion.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+		  <ThingDef>Starbeast_Resin</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>Starbeast_Resin</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+		</researchPrerequisites>
+		<displayPriority>1</displayPriority>
+	</RecipeDef>
 	
 </Defs>

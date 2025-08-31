@@ -328,7 +328,6 @@ namespace Xenomorphtype
         {
             if (pawn == null)
             {
-                
                 return true;
             }
 
@@ -337,7 +336,17 @@ namespace Xenomorphtype
                 return true;
             }
 
-            if(pawn.RaceProps.FleshType == ExternalDefOf.Asimov_Automaton)
+            if(pawn.RaceProps.BloodDef == ThingDefOf.Filth_MachineBits)
+            {
+                return true;
+            }
+
+            if (!pawn.RaceProps.hasMeat)
+            {
+                return true;
+            }
+
+            if (pawn.RaceProps.FleshType == ExternalDefOf.Asimov_Automaton)
             {
                 return true;
             }
@@ -355,8 +364,24 @@ namespace Xenomorphtype
             {
                 if (pawn.genes.HasActiveGene(ExternalDefOf.VREA_SyntheticBody))
                 {
-                    Log.Message(pawn + " is not flesh according VRE Androids");
                     return true;
+                }
+            }
+
+
+            if(pawn.health != null)
+            {
+                if (ModsConfig.IsActive("kentington.saveourship2"))
+                {
+                    foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+                    {
+                        if (hediff.def == ExternalDefOf.SoSHologram ||
+                            hediff.def == ExternalDefOf.SoSHologramMachine ||
+                            hediff.def == ExternalDefOf.SoSHologramMachine)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
 

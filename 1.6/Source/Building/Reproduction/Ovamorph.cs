@@ -24,7 +24,7 @@ namespace Xenomorphtype
         bool accelerated = false;
 
         private CompHatchingEgg HatchingEgg;
-        public bool Unhatched => (HatchingEgg == null)? false : HatchingEgg.UnHatched;
+        public bool Unhatched => (HatchingEgg == null)? true : HatchingEgg.UnHatched;
 
         public bool Ready => gestateProgress >= 1f;
 
@@ -52,6 +52,7 @@ namespace Xenomorphtype
                 SetFaction(mother.Faction);
                 SetParents(mother, father);
                 HatchingEgg.UnHatched = true;
+                StatDefOf.MarketValue.Worker.ClearCacheForThing(this);
             }
         }
 
@@ -233,6 +234,7 @@ namespace Xenomorphtype
             }
 
             HatchingEgg.UnHatched = false;
+            StatDefOf.MarketValue.Worker.ClearCacheForThing(this);
 
             if (!Spawned)
             {

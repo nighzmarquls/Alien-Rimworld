@@ -123,7 +123,7 @@ namespace Xenomorphtype
                 return;
             }
 
-
+            bool unwilling = true;
             if (target.Faction != null && !target.Faction.IsPlayer)
             {
                 int goodWill = -25;
@@ -132,9 +132,14 @@ namespace Xenomorphtype
                 {
                     if (target.Faction.ideos != null)
                     {
-                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation) ? 30 : 0;
-                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study) ? 15 : 0;
                         goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Worship) ? 20 : 0;
+                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Revered) ? 5 : 0;
+                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation) ? 30 : 0;
+                        if(goodWill >= 0)
+                        {
+                            unwilling = false;
+                        }
+                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study) ? 15 : 0;
                     }
                 }
 
@@ -151,7 +156,7 @@ namespace Xenomorphtype
                     target.Faction.TryAffectGoodwillWith(Faction.OfPlayer, goodWill, reason: XenoPreceptDefOf.XMT_Parasite_Attached);
                 }
 
-                if (target.mindState != null)
+                if (unwilling && target.mindState != null)
                 {
                     target.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee);
                 }
@@ -159,13 +164,13 @@ namespace Xenomorphtype
 
             XMTUtility.WitnessLarva(Parent.PositionHeld, Parent.MapHeld, 0.5f);
 
-            if (!XMTUtility.IsTargetImmobile(target) && !Parent.IsPsychologicallyInvisible())
+            if (unwilling && !XMTUtility.IsTargetImmobile(target) && !Parent.IsPsychologicallyInvisible())
             {
                 CompPawnInfo info = target.GetComp<CompPawnInfo>();
                 float bonusDodge = 0;
                 if (info != null)
                 {
-                    bonusDodge += info.LarvaAwareness / 4;
+                    bonusDodge += info.LarvaAwareness / 2;
                 }
 
                 if (Rand.Chance(XMTUtility.GetDodgeChance(target, true) + bonusDodge))
