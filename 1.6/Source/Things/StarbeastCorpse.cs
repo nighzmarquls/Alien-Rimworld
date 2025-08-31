@@ -1,15 +1,12 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace Xenomorphtype
 {
     public class StarbeastCorpse : Corpse
     {
+
         public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
         {
             Log.Message(butcher + " butcher a starbeast corpse");

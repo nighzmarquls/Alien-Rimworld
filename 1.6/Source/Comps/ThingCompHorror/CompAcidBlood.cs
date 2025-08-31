@@ -111,6 +111,11 @@ namespace Xenomorphtype
                 return;
             }
 
+            if(dinfo.Def == DamageDefOf.Stun)
+            {
+                return;
+            }
+
             if(dinfo.Def == DamageDefOf.Bite)
             {
                 if (dinfo.Instigator != null)

@@ -1012,7 +1012,12 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.GetComp<CompPawnInfo>();
                         if (info != null)
                         {
-                            bonus += info.AcidAwareness;
+                            float thisAwareness = info.AcidAwareness;
+                            if (thisAwareness > bonus)
+                            {
+                                bonus = thisAwareness;
+                            }
+                            
                             info.WitnessAcidHorror(strength, maxAwareness);
                         }
                     }
@@ -1174,7 +1179,11 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.GetComp<CompPawnInfo>();
                         if (info != null)
                         {
-                            bonus += info.LarvaAwareness / 8;
+                            float thisAwareness = info.LarvaAwareness;
+                            if (thisAwareness > bonus)
+                            {
+                                bonus = thisAwareness;
+                            }
                             info.WitnessLarvaHorror(strength, maxAwareness);
                             if (horror != null)
                             {

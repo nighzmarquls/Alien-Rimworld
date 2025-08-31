@@ -116,26 +116,28 @@ namespace Xenomorphtype
                 {
                     if (larvaBonus < 1)
                     {
-                        LarvaSqueeze(8f);
+                        LarvaSqueeze(4f);
                     }
                 }
             }
 
+            IntVec3 parentCell = Pawn.PositionHeld;
 
             if (LarvaRelease() is Pawn larvaPawn)
             {
-                if (larvaBonus > 0.5f)
+                if (Rand.Chance(larvaBonus))
                 {
                     larvaPawn.health.AddHediff(HediffDefOf.Anesthetic);
                 }
 
-                if (acidBonus < 1 )
+                if (Rand.Chance(1- acidBonus))
                 {
                     CompAcidBlood acid = larvaPawn.TryGetComp<CompAcidBlood>();
 
                     if (acid != null)
                     {
-                        acid.TrySplashAcid();
+                        IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(parentCell, 1.5f, true);
+                        acid.TrySplashAcidCell(cells.RandomElement());
                     }
                 }
 

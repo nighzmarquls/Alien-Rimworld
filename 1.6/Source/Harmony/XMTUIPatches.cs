@@ -29,8 +29,6 @@ namespace Xenomorphtype
                         }
                     }
                 }
-         
-
 
                 //DO REGULAR OVERLAY
                 return true;
@@ -248,6 +246,11 @@ namespace Xenomorphtype
                     }
 
                     if(pawn.Downed)
+                    {
+                        continue;
+                    }
+
+                    if(pawn.MapHeld == null)
                     {
                         continue;
                     }

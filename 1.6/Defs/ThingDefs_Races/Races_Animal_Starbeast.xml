@@ -165,6 +165,10 @@
 						<texPath>Things/Pawn/Animal/Larva/Larva</texPath>
 						<drawSize>1.5</drawSize>
 					</bodyGraphicData>
+					<dessicatedBodyGraphicData>
+						<texPath>Things/Pawn/Animal/Larva/Dessicated_Larva</texPath>
+						<drawSize>1</drawSize>
+					</dessicatedBodyGraphicData>
 				</li>
 		</lifeStages>
 		<modExtensions>

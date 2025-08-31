@@ -112,7 +112,8 @@ namespace Xenomorphtype
                     {
                         if (parent is Pawn pawn)
                         {
-                            IEnumerable<Thing> products = corpse.ButcherProducts(pawn, efficiency);
+
+                            IEnumerable<Thing> products = corpse.InnerPawn.ButcherProducts(pawn, efficiency);
                             foreach (Thing product in products)
                             {
                                 float nutrition = product.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * product.stackCount; ;
