@@ -19,7 +19,7 @@ namespace Xenomorphtype
             bool xenomorphCaster = XMTUtility.IsXenomorph(ability.pawn);
 
             Pawn queen = XMTUtility.GetQueen();
-            CompPawnInfo casterInfo = ability.pawn.GetComp<CompPawnInfo>();
+            CompPawnInfo casterInfo = ability.pawn.Info();
 
             foreach (GlobalTargetInfo targetInfo in targets)
             {
@@ -32,7 +32,7 @@ namespace Xenomorphtype
 
                 if (!xenomorphTarget && xenomorphCaster)
                 {
-                    CompPawnInfo subjectInfo = targetInfo.Pawn.GetComp<CompPawnInfo>();
+                    CompPawnInfo subjectInfo = targetInfo.Pawn.Info();
 
                     if (ability.pawn.genes != null)
                     {

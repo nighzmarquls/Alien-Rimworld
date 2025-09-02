@@ -30,7 +30,7 @@ namespace Xenomorphtype
         {
             public static void Postfix(ref Vector3 __result, Rot4 rotation, Pawn ___pawn)
             {
-                CompPawnInfo info = ___pawn.GetComp<CompPawnInfo>();
+                CompPawnInfo info = ___pawn.Info();
 
                 if (info != null)
                 {

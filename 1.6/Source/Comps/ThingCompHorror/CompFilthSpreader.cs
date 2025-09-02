@@ -17,7 +17,11 @@ namespace Xenomorphtype
         public override void CompTick()
         {
             base.CompTick();
-            if(Props.filth == null)
+            if (!parent.Spawned)
+            {
+                return;
+            }
+            if (Props.filth == null)
             {
                 return;
             }

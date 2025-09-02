@@ -16,7 +16,7 @@ namespace Xenomorphtype
         public override void CompPostPostAdd(DamageInfo? dinfo)
         {
             base.CompPostPostAdd(dinfo);
-            CompPawnInfo info = Pawn.GetComp<CompPawnInfo>();
+            CompPawnInfo info = Pawn.Info();
             if (info != null)
             {
                

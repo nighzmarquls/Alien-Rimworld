@@ -200,7 +200,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
+            CompPawnInfo info = aggressor.Info();
 
             if (info != null)
             {
@@ -553,7 +553,7 @@ namespace Xenomorphtype
                 }
                 int opinion = Parent.relations.OpinionOf(colonist);
 
-                CompPawnInfo info = Parent.GetComp<CompPawnInfo>();
+                CompPawnInfo info = Parent.Info();
 
                 if (opinion > bestOpinion)
                 {
@@ -911,7 +911,7 @@ namespace Xenomorphtype
                 Parent.needs.joy.GainJoy(0.12f, ExternalDefOf.Gaming_Dexterity);
             }
 
-            CompPawnInfo info = target.GetComp<CompPawnInfo>();
+            CompPawnInfo info = target.Info();
             if (info != null)
             {
                 if (info.IsObsessed())
@@ -987,7 +987,7 @@ namespace Xenomorphtype
                 }
             }
 
-            CompPawnInfo info = target.GetComp<CompPawnInfo>();
+            CompPawnInfo info = target.Info();
 
             if (info != null)
             {

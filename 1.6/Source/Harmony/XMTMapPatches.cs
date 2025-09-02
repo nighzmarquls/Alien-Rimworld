@@ -75,7 +75,7 @@ namespace Xenomorphtype
 
                     if (faction.leader != null)
                     {
-                        CompPawnInfo info = faction.leader.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = faction.leader.Info();
                         if(info != null)
                         {
                             if(info.IsObsessed())

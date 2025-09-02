@@ -16,7 +16,7 @@ namespace Xenomorphtype
         {
             if(!XMTUtility.IsXenomorph(caster))
             {
-                CompPawnInfo info = caster.GetComp<CompPawnInfo>();
+                CompPawnInfo info = caster.Info();
                 if (info != null)
                 {
                     info.WitnessPsychicHorror(0.1f);
@@ -42,7 +42,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        CompPawnInfo info = subject.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = subject.Info();
                         if (info != null)
                         {
                             info.WitnessPsychicHorror(0.1f);

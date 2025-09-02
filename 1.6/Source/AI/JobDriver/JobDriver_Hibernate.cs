@@ -27,7 +27,7 @@ namespace Xenomorphtype
 
         private Toil FormCocoon()
         {
-            pawnMorph = pawn.GetComp<CompMatureMorph>();
+            pawnMorph = pawn.GetMorphComp();
             Toil toil = ToilMaker.MakeToil("FormCocoon");
             toil.atomicWithPrevious = true;
             toil.tickAction = delegate

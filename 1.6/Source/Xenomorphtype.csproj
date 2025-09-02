@@ -138,6 +138,7 @@
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_Obsession.cs" />
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_PheromoneOpinion.cs" />
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_TraumatizedBy.cs" />
+    <Compile Include="BioHorror\AcidUtility.cs" />
     <Compile Include="BioHorror\BioUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />
@@ -152,7 +153,10 @@
     <Compile Include="Comps\BuildingComps\Architecture\CompRoofReplacer.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
     <Compile Include="Comps\HediffComps\HediffComp_Allergy.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_CarboSilicateMeat.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_GrowCocoon.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_GiveInjury.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_NoHeal.cs" />
     <Compile Include="Comps\ItemComps\CompTargetable_SingleCorpseOrPawn.cs" />
     <Compile Include="Comps\ItemComps\Comp_TargetEffectProtofluid.cs" />
     <Compile Include="Comps\PawnComps\CompClimber.cs" />
@@ -162,6 +166,7 @@
     <Compile Include="DefOfs\XenoMapDefOf.cs" />
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Harmony\XMTAnomalyPatches.cs" />
+    <Compile Include="Harmony\XMTButcheryPatches.cs" />
     <Compile Include="Harmony\XMTClimbPatches.cs" />
     <Compile Include="Harmony\XMTRecordsPatches.cs" />
     <Compile Include="Map\ClimbUtility.cs" />
@@ -312,6 +317,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Things\AcidBurnFilth.cs" />
     <Compile Include="Things\StarbeastCorpse.cs" />
+    <Compile Include="Things\PawnCache.cs" />
     <Compile Include="UI\Designators\Designator_Abduct.cs" />
     <Compile Include="UI\Designators\Designator_Art.cs" />
     <Compile Include="UI\Designators\Designator_ScentFoe.cs" />

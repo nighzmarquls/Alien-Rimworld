@@ -8,6 +8,15 @@ namespace Xenomorphtype
 {
     internal class XMTRecordsPatches
     {
+        [HarmonyPatch(typeof(Pawn), nameof(Pawn.Discard))]
+        public static class Patch_Pawn_Discard
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Pawn __instance)
+            {
+                PawnCacheWrapper.Cleanup(__instance);
+            }
+        }
         [HarmonyPatch(typeof(RecordsUtility), nameof(RecordsUtility.Notify_PawnKilled))]
         public static class Patch_RecordsUtility_Notify_PawnKilled
         {
@@ -33,7 +42,7 @@ namespace Xenomorphtype
                 }
                 else if(XMTUtility.IsXenomorph(killed))
                 {
-                    CompPawnInfo info = killer.GetComp<CompPawnInfo>();
+                    CompPawnInfo info = killer.Info();
 
                     if (info != null)
                     {

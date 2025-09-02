@@ -185,7 +185,7 @@ namespace Xenomorphtype
 
                     foreach (Pawn host in PossibleHosts)
                     {
-                        CompPawnInfo info = host.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = host.Info();
                         float bonusDodge = 0;
                         if (info != null)
                         {

@@ -10,7 +10,7 @@ namespace Xenomorphtype
 {
     public class DisplayHediff : Hediff
     {
-        CompPawnInfo pawnInfo => pawn.GetComp<CompPawnInfo>();
+        CompPawnInfo pawnInfo => pawn.Info();
 
         public override Color LabelColor => GetColor();
         public override bool Visible => ShoulldDisplay();

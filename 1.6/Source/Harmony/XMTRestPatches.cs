@@ -21,7 +21,7 @@ namespace Xenomorphtype
                     }
                 }
 
-                CompPawnInfo info = actor.GetComp<CompPawnInfo>();
+                CompPawnInfo info = actor.Info();
                 if (info != null)
                 {
                     if (info.IsObsessed())

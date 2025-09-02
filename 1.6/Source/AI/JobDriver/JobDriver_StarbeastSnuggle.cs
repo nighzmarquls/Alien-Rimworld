@@ -40,7 +40,7 @@ namespace Xenomorphtype
                 pawn.needs.joy.GainJoy(0.1f * Progress, ExternalDefOf.Social);
                 if (recipient.relations != null)
                 {
-                    CompPawnInfo pawnInfo = recipient.GetComp<CompPawnInfo>();
+                    CompPawnInfo pawnInfo = recipient.Info();
                     if (pawnInfo != null)
                     {
                         if (pawnInfo.IsObsessed() || recipient.relations.OpinionOf(pawn) > 0)
@@ -64,7 +64,7 @@ namespace Xenomorphtype
                 }
                 XMTUtility.GiveInteractionMemory(pawn, HorrorMoodDefOf.SnuggledVictim, recipient);
 
-                CompPawnInfo info = recipient.GetComp<CompPawnInfo>();
+                CompPawnInfo info = recipient.Info();
 
                 if (info != null)
                 {

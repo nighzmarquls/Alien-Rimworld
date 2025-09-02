@@ -62,7 +62,7 @@ namespace Xenomorphtype
             toil.atomicWithPrevious = true;
             toil.initAction = delegate
             {
-                CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                CompMatureMorph matureMorph = pawn.GetMorphComp();
                 if (matureMorph != null)
                 {
                     if (!matureMorph.InitiateGrabCheck(Victim))
@@ -83,7 +83,7 @@ namespace Xenomorphtype
             };
             toil.AddFinishAction(delegate
             {
-                CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                CompMatureMorph matureMorph = pawn.GetMorphComp();
                 if (matureMorph != null)
                 {
                     if (GrabProgress >= 1)
@@ -142,7 +142,7 @@ namespace Xenomorphtype
             {
                 if (CocoonProgress >= 1)
                 {
-                    CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                    CompMatureMorph matureMorph = pawn.GetMorphComp();
                     if (matureMorph != null)
                     {
                         matureMorph.TryCocooning(Victim);

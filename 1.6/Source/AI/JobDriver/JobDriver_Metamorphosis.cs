@@ -21,7 +21,7 @@ namespace Xenomorphtype
             yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch);
             yield return Toils_General.Do(delegate
             {
-                CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                CompMatureMorph matureMorph = pawn.GetMorphComp();
                 if (matureMorph != null)
                 {
                     matureMorph.TryMetamorphosis();

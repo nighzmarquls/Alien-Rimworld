@@ -142,11 +142,11 @@
 								<InitialAngle>0</InitialAngle>
 							</north>
 							<east>
-								<InitialPosition>(0.08, 0.02, -0.02)</InitialPosition>
+								<InitialPosition>(0.02, 0.02, -0.02)</InitialPosition>
 								<InitialAngle>0</InitialAngle>
 							</east>
 							<west>
-								<InitialPosition>(-0.08, 0.03, -0.02)</InitialPosition>
+								<InitialPosition>(-0.02, 0.03, -0.02)</InitialPosition>
 								<InitialAngle>0</InitialAngle>
 							</west>
 						</li>
@@ -176,7 +176,7 @@
 								<InitialAngle>0</InitialAngle>
 							</north>
 							<east>
-								<InitialPosition>(0.068, 0, -0.240)</InitialPosition>
+								<InitialPosition>(0.0, 0, -0.240)</InitialPosition>
 								<InitialAngle>0</InitialAngle>
 							</east>
 						</li>
@@ -191,7 +191,7 @@
 								<InitialAngle>0</InitialAngle>
 							</north>
 							<east>
-								<InitialPosition>(0.068, 0, -0.240)</InitialPosition>
+								<InitialPosition>(0.0, 0, -0.240)</InitialPosition>
 								<InitialAngle>0</InitialAngle>
 							</east>
 						</li>
@@ -221,7 +221,7 @@
 								<InitialAngle>0</InitialAngle>
 							</north>
 							<east>
-								<InitialPosition>(0.049, 0, -0.186)</InitialPosition>
+								<InitialPosition>(0.00, 0, -0.186)</InitialPosition>
 								<InitialAngle>0</InitialAngle>
 							</east>
 						</li>

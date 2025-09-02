@@ -232,17 +232,8 @@
 				<minSeverity>0.5</minSeverity>
 				<lifeThreatening>false</lifeThreatening>
 				<statFactors>
-					<WorkSpeedGlobal>0.5</WorkSpeedGlobal>
-					<RestRateMultiplier>0.5</RestRateMultiplier>
-				</statFactors>
-			</li>
-			<li>
-				<label>debilitating</label>
-				<minSeverity>0.75</minSeverity>
-				<lifeThreatening>false</lifeThreatening>
-				<statFactors>
-					<WorkSpeedGlobal>0.25</WorkSpeedGlobal>
-					<RestRateMultiplier>0.25</RestRateMultiplier>
+					<WorkSpeedGlobal>0.65</WorkSpeedGlobal>
+					<RestRateMultiplier>0.65</RestRateMultiplier>
 				</statFactors>
 			</li>
 			<li>
@@ -250,8 +241,8 @@
 				<minSeverity>1</minSeverity>
 				<lifeThreatening>false</lifeThreatening>
 				<statFactors>
-					<WorkSpeedGlobal>0.1</WorkSpeedGlobal>
-					<RestRateMultiplier>0.1</RestRateMultiplier>
+					<WorkSpeedGlobal>0.5</WorkSpeedGlobal>
+					<RestRateMultiplier>0.5</RestRateMultiplier>
 				</statFactors>
 			</li>
 		</stages>
@@ -262,7 +253,7 @@
 				</hediffs>
 			</li>
 			<li Class="HediffCompProperties_SeverityPerDay">
-				<severityPerDayRange>0.1~0.2</severityPerDayRange>
+				<severityPerDayRange>0.01~0.02</severityPerDayRange>
 			</li>
 		</comps>
 	</HediffDef>

@@ -25,7 +25,7 @@ namespace Xenomorphtype
             Need_Food food = pawn.needs.food;
             bool desperate = pawn.needs.food.CurCategory == HungerCategory.Starving;
 
-            CompMatureMorph compMatureMorph = pawn.GetComp<CompMatureMorph>();
+            CompMatureMorph compMatureMorph = pawn.GetMorphComp();
 
             bool shouldOvamorph = compMatureMorph.ShouldOvamorphCandidate();
             bool hasNest = HiveUtility.HasCocooned(pawn.Map);
@@ -291,7 +291,7 @@ namespace Xenomorphtype
                 return null;
             }
 
-            CompMatureMorph compMatureMorph = pawn.GetComp<CompMatureMorph>();
+            CompMatureMorph compMatureMorph = pawn.GetMorphComp();
             if (compMatureMorph != null)
             {
                 if (XMTSettings.LogJobGiver)

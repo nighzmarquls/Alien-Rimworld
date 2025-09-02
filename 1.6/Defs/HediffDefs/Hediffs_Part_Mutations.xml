@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<HediffDef Name="AddedXenomorphPart" ParentName="AddedBodyPartBase" Abstract="True">
+		<organicAddedBodypart>true</organicAddedBodypart>
+	</HediffDef>
+	
+	<HediffDef ParentName="AddedXenomorphPart">
+		<defName>XMT_ImprovedStomach</defName>
+		<label>carbo-silicate stomach</label>
+		<labelNoun>a carbo-silicate stomach</labelNoun>
+		<description>a complex new polymer has replaced the lining of the stomach. the acid within has developed a significantly greater strength while mucus membranes protect the rest of the tissues.</description>
+		<defaultInstallPart>Stomach</defaultInstallPart>
+		<stages>
+			<li>
+				<foodPoisoningChanceFactor>0</foodPoisoningChanceFactor>
+				<makeImmuneTo>
+					<li>GutWorms</li>
+				</makeImmuneTo>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.125</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+				<probability>0.01</probability>
+			</li>
+		</comps>
+	</HediffDef>
+	<!--
+  <HediffDef ParentName="AddedMutationBase">
+    <defName>FleshmassLung</defName>
+    <label>fleshmass lung</label>
+    <labelNoun>a fleshmass lung</labelNoun>
+    <description>A cancerous mass of semi-sentient flesh. The tissue constantly regrows and replaces itself, making it immune to effects like lung rot and asthma.\n\nThe organ has its own neural structures and may become dangerous if removed.</description>
+    <preventsLungRot>true</preventsLungRot>
+    <defaultInstallPart>Lung</defaultInstallPart>
+    <stages>
+      <li>
+        <painOffset>0.06</painOffset>
+        <statOffsets>
+          <ToxicEnvironmentResistance MayRequire="Ludeon.RimWorld.Biotech">0.3</ToxicEnvironmentResistance>
+        </statOffsets>
+      </li>
+    </stages>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+    <comps>
+      <li Class="HediffCompProperties_FleshbeastEmerge">
+        <letterLabel>Fleshmass operation</letterLabel>
+        <letterText>Attempting to remove {PAWN_nameDef}'s fleshmass lung has caused the twisting mass of flesh to attack. The fleshmass has detached from {PAWN_nameDef} and transformed into a fleshbeast!</letterText>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="AddedMutationBase">
+    <defName>Tentacle</defName>
+    <label>flesh tentacle</label>
+    <labelNoun>a flesh tentacle</labelNoun>
+    <description>A fleshy, muscled tentacle resembling a partial transformation into a fleshbeast. The tentacle is excellent at manipulation.\n\nThe flesh tentacle has its own neural structures and may become dangerous if removed.</description>
+    <defaultInstallPart>Shoulder</defaultInstallPart>
+    <stages>
+      <li>
+        <statOffsets>
+          <PawnBeauty>-1</PawnBeauty>
+        </statOffsets>
+      </li>
+    </stages>
+    <renderNodeProperties>
+      <li Class="PawnRenderNodeProperties_Spastic">
+        <texPaths>
+          <li>Things/Pawn/Humanlike/BodyAttachments/TentacleLimb/TentacleLimbA</li>
+          <li>Things/Pawn/Humanlike/BodyAttachments/TentacleLimb/TentacleLimbB</li>
+          <li>Things/Pawn/Humanlike/BodyAttachments/TentacleLimb/TentacleLimbC</li>
+        </texPaths>
+        <parentTagDef>Body</parentTagDef>
+        <overrideMeshSize>1</overrideMeshSize>
+        <drawSize>1.3</drawSize>
+        <colorType>Skin</colorType>
+        <rotDrawMode>Fresh, Rotting</rotDrawMode>
+        <useSkinShader>true</useSkinShader>
+        <useRottenColor>true</useRottenColor>
+        <rotationRange>-30~30</rotationRange>
+        <durationTicksRange>10~35</durationTicksRange>
+        <nextSpasmTicksRange>10~50</nextSpasmTicksRange>
+        <drawData>
+          <scaleOffsetByBodySize>true</scaleOffsetByBodySize>
+          <useHediffAnchor>true</useHediffAnchor>
+          <childScale>0.7</childScale>
+          <bodyTypeScales>
+            <Hulk>1.2</Hulk>
+            <Fat>1.4</Fat>
+            <Thin>0.8</Thin>
+          </bodyTypeScales>
+          <defaultData>
+            <layer>49</layer>
+          </defaultData>
+          <dataNorth>
+            <rotationOffset>310</rotationOffset>
+            <flip>true</flip>
+            <layer>0</layer>
+          </dataNorth>
+          <dataEast>
+            <rotationOffset>270</rotationOffset>
+            <flip>true</flip>
+          </dataEast>
+          <dataSouth>
+            <rotationOffset>220</rotationOffset>
+          </dataSouth>
+          <dataWest>
+            <rotationOffset>270</rotationOffset>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+    <addedPartProps>
+      <solid>true</solid>
+      <partEfficiency>1.20</partEfficiency>
+    </addedPartProps>
+    <comps>
+      <li Class="HediffCompProperties_FleshbeastEmerge">
+        <letterLabel>Fleshmass operation</letterLabel>
+        <letterText>Attempting to remove {PAWN_nameDef}'s tentacle has caused the twisting mass of flesh to attack. The fleshmass has detached from {PAWN_nameDef} and transformed into a fleshbeast!</letterText>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="AddedMutationBase">
+    <defName>FleshWhip</defName>
+    <label>flesh whip</label>
+    <labelNoun>a flesh whip</labelNoun>
+    <description>A fleshy, muscled tentacle with a blade at the end. The flesh whip makes an excellent melee weapon.\n\nIt has its own neural structures and may become dangerous if removed.</description>
+    <defaultInstallPart>Shoulder</defaultInstallPart>
+    <stages>
+      <li>
+        <statOffsets>
+          <PawnBeauty>-1</PawnBeauty>
+        </statOffsets>
+      </li>
+    </stages>
+    <renderNodeProperties>
+      <li Class="PawnRenderNodeProperties_Spastic">
+        <texPaths>
+          <li>Things/Pawn/Humanlike/BodyAttachments/FleshWhipLimb/FleshWhipLimbA</li>
+          <li>Things/Pawn/Humanlike/BodyAttachments/FleshWhipLimb/FleshWhipLimbB</li>
+          <li>Things/Pawn/Humanlike/BodyAttachments/FleshWhipLimb/FleshWhipLimbC</li>
+          <li>Things/Pawn/Humanlike/BodyAttachments/FleshWhipLimb/FleshWhipLimbD</li>
+        </texPaths>
+        <parentTagDef>Body</parentTagDef>
+        <overrideMeshSize>1</overrideMeshSize>
+        <drawSize>1.4</drawSize>
+        <colorType>Skin</colorType>
+        <rotDrawMode>Fresh, Rotting</rotDrawMode>
+        <useSkinShader>true</useSkinShader>
+        <useRottenColor>true</useRottenColor>
+        <rotationRange>-30~30</rotationRange>
+        <durationTicksRange>10~35</durationTicksRange>
+        <nextSpasmTicksRange>10~50</nextSpasmTicksRange>
+        <drawData>
+          <scaleOffsetByBodySize>true</scaleOffsetByBodySize>
+          <useHediffAnchor>true</useHediffAnchor>
+          <childScale>0.7</childScale>
+          <bodyTypeScales>
+            <Hulk>1.2</Hulk>
+            <Fat>1.4</Fat>
+            <Thin>0.8</Thin>
+          </bodyTypeScales>
+          <defaultData>
+            <layer>49</layer>
+          </defaultData>
+          <dataNorth>
+            <rotationOffset>310</rotationOffset>
+            <flip>true</flip>
+            <layer>0</layer>
+          </dataNorth>
+          <dataEast>
+            <rotationOffset>270</rotationOffset>
+            <flip>true</flip>
+          </dataEast>
+          <dataSouth>
+            <rotationOffset>220</rotationOffset>
+          </dataSouth>
+          <dataWest>
+            <rotationOffset>270</rotationOffset>
+          </dataWest>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+    <comps>
+      <li Class="HediffCompProperties_VerbGiver">
+        <tools>
+          <li>
+            <label>blade</label>
+            <capacities>
+              <li>Cut</li>
+            </capacities>
+            <armorPenetration>0.6</armorPenetration>
+            <power>20.5</power>
+            <cooldownTime>2</cooldownTime>
+          </li>
+        </tools>
+      </li>
+      <li Class="HediffCompProperties_FleshbeastEmerge">
+        <letterLabel>Fleshmass operation</letterLabel>
+        <letterText>Attempting to remove {PAWN_nameDef}'s flesh whip has caused the twisting mass of flesh to attack. The fleshmass has detached from {PAWN_nameDef} and transformed into a fleshbeast!</letterText>
+      </li>
+    </comps>
+    <addedPartProps>
+      <solid>true</solid>
+    </addedPartProps>
+  </HediffDef>
+	-->
+</Defs>

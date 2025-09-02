@@ -42,7 +42,7 @@ namespace Xenomorphtype
             }
             else
             {
-                CompPawnInfo info = targetPawn.GetComp<CompPawnInfo>();
+                CompPawnInfo info = targetPawn.Info();
                 if (info != null)
                 {
                     if (info.IsObsessed())

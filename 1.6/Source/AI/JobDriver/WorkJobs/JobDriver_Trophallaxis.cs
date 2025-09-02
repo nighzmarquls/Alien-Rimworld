@@ -78,7 +78,7 @@ namespace Xenomorphtype
                 {
                     if (recipient.relations != null)
                     {
-                        CompPawnInfo pawnInfo = recipient.GetComp<CompPawnInfo>();
+                        CompPawnInfo pawnInfo = recipient.Info();
                         if (pawnInfo != null)
                         {
                             if (pawnInfo.IsObsessed() || recipient.relations.OpinionOf(pawn) > 0)

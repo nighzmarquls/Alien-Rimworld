@@ -1685,7 +1685,7 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                CompPawnInfo info = colonist.GetComp<CompPawnInfo>();
+                CompPawnInfo info = colonist.Info();
                 if (info != null)
                 {
                     if (!info.IsObsessed())

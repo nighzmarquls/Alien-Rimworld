@@ -30,7 +30,7 @@ namespace Xenomorphtype
         {
             if (CanApplyEffects(pawn) && !pawn.Fogged())
             {
-                CompPawnInfo info = pawn.GetComp<CompPawnInfo>();
+                CompPawnInfo info = pawn.Info();
                 if (info != null)
                 {
                     if (!info.IsObsessed())
@@ -75,7 +75,7 @@ namespace Xenomorphtype
 
             if (!XMTUtility.IsXenomorph(caster))
             {
-                CompPawnInfo info = caster.GetComp<CompPawnInfo>();
+                CompPawnInfo info = caster.Info();
                 if (info != null)
                 {
                     info.WitnessPsychicHorror(0.1f);

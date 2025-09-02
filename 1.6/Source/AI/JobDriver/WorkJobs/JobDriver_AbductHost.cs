@@ -71,7 +71,7 @@ namespace Xenomorphtype
             toil.atomicWithPrevious = true;
             toil.initAction = delegate
             {
-                CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                CompMatureMorph matureMorph = pawn.GetMorphComp();
                 if (matureMorph != null)
                 {
                     if(!matureMorph.InitiateGrabCheck(Victim))
@@ -93,7 +93,7 @@ namespace Xenomorphtype
             toil.AddFinishAction(delegate
             {
                 
-                CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                CompMatureMorph matureMorph = pawn.GetMorphComp();
                 if (matureMorph != null)
                 {
                     if (GrabProgress >= 1 && !FailedGrab)
@@ -152,7 +152,7 @@ namespace Xenomorphtype
             {
                 if (CocoonProgress >= 1)
                 {
-                    CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                    CompMatureMorph matureMorph = pawn.GetMorphComp();
                     if (matureMorph != null)
                     {
                         Victim.MapHeld.designationManager.TryRemoveDesignationOn(Victim, XenoWorkDefOf.XMT_Abduct);

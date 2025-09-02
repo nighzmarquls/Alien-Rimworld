@@ -36,6 +36,11 @@ namespace Xenomorphtype
         {
             base.CompTick();
 
+            if (!parent.Spawned)
+            {
+                return;
+            }
+
             if (latched)
             {
 
@@ -166,7 +171,7 @@ namespace Xenomorphtype
 
             if (unwilling && !XMTUtility.IsTargetImmobile(target) && !Parent.IsPsychologicallyInvisible())
             {
-                CompPawnInfo info = target.GetComp<CompPawnInfo>();
+                CompPawnInfo info = target.Info();
                 float bonusDodge = 0;
                 if (info != null)
                 {
@@ -270,7 +275,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
+                CompPawnInfo info = aggressor.Info();
 
                 if (info != null)
                 {

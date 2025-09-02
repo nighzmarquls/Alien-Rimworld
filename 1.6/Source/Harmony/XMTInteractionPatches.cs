@@ -30,7 +30,7 @@ namespace Xenomorphtype
 
                 if (recipientXenomorph)
                 {
-                    CompPawnInfo info = ___pawn.GetComp<CompPawnInfo>();
+                    CompPawnInfo info = ___pawn.Info();
                     if (info != null)
                     {
                         float value = info.XenomorphPheromoneValue();
@@ -42,7 +42,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    CompPawnInfo info = recipient.GetComp<CompPawnInfo>();
+                    CompPawnInfo info = recipient.Info();
                     if (info != null)
                     {
                         float value = info.XenomorphPheromoneValue();

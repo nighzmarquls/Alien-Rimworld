@@ -77,7 +77,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        CompPawnInfo info = subject.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = subject.Info();
                         if (info != null)
                         {
                             
@@ -103,7 +103,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    CompPawnInfo casterInfo = caster.GetComp<CompPawnInfo>();
+                    CompPawnInfo casterInfo = caster.Info();
 
                     if (casterInfo != null)
                     {

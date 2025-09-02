@@ -55,7 +55,7 @@ namespace Xenomorphtype
                 {
                     bool xenomorphCaster = XMTUtility.IsXenomorph(caster);
                     bool xenomorphTarget = XMTUtility.IsXenomorph(subject);
-                    CompPawnInfo info = subject.GetComp<CompPawnInfo>();
+                    CompPawnInfo info = subject.Info();
 
                     if (xenomorphCaster)
                     {
@@ -115,7 +115,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        CompPawnInfo casterInfo = caster.GetComp<CompPawnInfo>();
+                        CompPawnInfo casterInfo = caster.Info();
 
                         if (casterInfo != null)
                         {

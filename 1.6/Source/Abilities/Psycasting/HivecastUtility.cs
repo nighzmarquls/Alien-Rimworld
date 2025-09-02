@@ -101,7 +101,7 @@ namespace Xenomorphtype
 
         internal static void EnactDominion(Pawn subject, Pawn caster, bool xenomorphTarget, bool xenomorphCaster)
         {
-            CompPawnInfo info = subject.GetComp<CompPawnInfo>();
+            CompPawnInfo info = subject.Info();
             if (xenomorphCaster)
             {
                 if (xenomorphTarget)
@@ -173,7 +173,7 @@ namespace Xenomorphtype
             }
             else
             {
-                CompPawnInfo casterInfo = caster.GetComp<CompPawnInfo>();
+                CompPawnInfo casterInfo = caster.Info();
 
                 if (casterInfo != null)
                 {

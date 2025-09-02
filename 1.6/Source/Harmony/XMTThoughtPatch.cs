@@ -24,7 +24,7 @@ namespace Xenomorphtype
                     //Log.Message(" patching SoakingWet Thought");
                     if (__instance.pawn != null)
                     {
-                        CompPawnInfo info = __instance.pawn.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = __instance.pawn.Info();
                         if(info != null)
                         {
                             info.CleanPheramones();

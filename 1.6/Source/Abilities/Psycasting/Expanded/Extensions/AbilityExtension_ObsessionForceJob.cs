@@ -44,7 +44,7 @@ namespace Xenomorphtype
             Pawn caster = ability.pawn;
             if (!xenomorphCaster)
             {
-                CompPawnInfo info = caster.GetComp<CompPawnInfo>();
+                CompPawnInfo info = caster.Info();
                 if (info != null)
                 {
                     if (info.IsObsessed())
@@ -67,7 +67,7 @@ namespace Xenomorphtype
                 }
 
                 float offsetChance = caster.GetPsylinkLevel() * 0.05f;
-                CompPawnInfo info = subject.GetComp<CompPawnInfo>();
+                CompPawnInfo info = subject.Info();
 
                 if (info.IsObsessed())
                 {

@@ -59,7 +59,7 @@ namespace Xenomorphtype
                 if (Progress >= 1)
                 {
                     Pawn prey = Prey;
-                    CompMatureMorph matureMorph = pawn.GetComp<CompMatureMorph>();
+                    CompMatureMorph matureMorph = pawn.GetMorphComp();
                     if (matureMorph != null)
                     {
                         matureMorph.TryLardering(prey);

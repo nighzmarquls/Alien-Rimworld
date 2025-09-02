@@ -256,7 +256,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                CompPawnInfo info = aggressor.GetComp<CompPawnInfo>();
+                CompPawnInfo info = aggressor.Info();
 
                 if (info != null)
                 {

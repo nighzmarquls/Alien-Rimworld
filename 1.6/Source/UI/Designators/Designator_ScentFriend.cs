@@ -99,7 +99,7 @@ namespace Xenomorphtype
 
             foreach (Pawn designated in justDesignated)
             {
-                CompPawnInfo info = designated.GetComp<CompPawnInfo>();
+                CompPawnInfo info = designated.Info();
 
                 if (info != null)
                 {

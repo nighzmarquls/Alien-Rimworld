@@ -77,6 +77,10 @@ namespace Xenomorphtype
         public override void CompTickInterval(int delta)
         {
             base.CompTickInterval(delta);
+            if (!parent.Spawned)
+            {
+                return;
+            }
 
             if (pawn != null)
             {

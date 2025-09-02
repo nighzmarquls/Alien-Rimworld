@@ -27,7 +27,7 @@ namespace Xenomorphtype
 
                 obsession *= 0.1f;
 
-                CompPawnInfo info = pawn.GetComp<CompPawnInfo>();
+                CompPawnInfo info = pawn.Info();
 
                 if (info != null)
                 {

@@ -66,6 +66,7 @@ namespace Xenomorphtype
         //Xenomorph Materials
         public static ThingDef              Starbeast_Resin;
         public static ThingDef              Starbeast_Chitin;
+        public static ThingDef              Starbeast_Flesh_Meat;
         public static ThingDef              Starbeast_Fabric;
         public static ThingDef              Starbeast_Jelly;
 

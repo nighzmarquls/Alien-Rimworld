@@ -53,7 +53,7 @@ namespace Xenomorphtype
                     Pawn actor = GetActor();
                     if (XMTUtility.TransformThingIntoThing(Target, InternalDefOf.XMT_JellyWell, out Thing result, actor))
                     {
-                        CompMatureMorph morph = actor.GetComp<CompMatureMorph>();
+                        CompMatureMorph morph = actor.GetMorphComp();
                         if (morph != null)
                         {
                             morph.DelayedDestroy(DestroyMode.Vanish);

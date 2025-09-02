@@ -1,11 +1,5 @@
-﻿using AlienRace;
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using static AlienRace.AlienPartGenerator;
@@ -144,6 +138,11 @@ namespace Xenomorphtype
 
         public override void CompTickInterval(int delta)
         {
+            if (!parent.Spawned)
+            {
+                return;
+            }
+
             if (parent.IsHashIntervalTick(2000))
             {
                 if (parent is Pawn Parent)

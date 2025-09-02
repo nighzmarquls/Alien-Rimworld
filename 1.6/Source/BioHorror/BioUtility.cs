@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
-using Verse.AI;
-using static UnityEngine.GraphicsBuffer;
+
 
 
 namespace Xenomorphtype
@@ -391,7 +390,7 @@ namespace Xenomorphtype
 
             if ((firstIsXenomorph) && !secondIsXenomorph && second != null)
             {
-                CompPawnInfo info = second.GetComp<CompPawnInfo>();
+                CompPawnInfo info = second.Info();
                 if (info != null)
                 {
                     info.ApplyLoverPheromone(first);
@@ -409,7 +408,7 @@ namespace Xenomorphtype
 
             if ((secondIsXenomorph) && !firstIsXenomorph)
             {
-                CompPawnInfo info = first.GetComp<CompPawnInfo>();
+                CompPawnInfo info = first.Info();
                 if (info != null)
                 {
                     info.ApplyLoverPheromone(second);

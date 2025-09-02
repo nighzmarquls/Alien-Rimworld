@@ -57,7 +57,6 @@ namespace Xenomorphtype
             base.CompPostMake();
 
             HiveUtility.RemoveHost(parent.pawn, parent.pawn.Map);
-            CompPawnInfo info = Pawn.GetComp<CompPawnInfo>();
             XMTUtility.WitnessLarva(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.25f, 1f);
         }
         public override void CompPostTick(ref float severityAdjustment)
@@ -132,7 +131,7 @@ namespace Xenomorphtype
 
                 if (Rand.Chance(1- acidBonus))
                 {
-                    CompAcidBlood acid = larvaPawn.TryGetComp<CompAcidBlood>();
+                    CompAcidBlood acid = larvaPawn.GetAcidBloodComp();
 
                     if (acid != null)
                     {

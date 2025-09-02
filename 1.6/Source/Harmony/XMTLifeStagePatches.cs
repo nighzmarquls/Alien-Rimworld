@@ -39,7 +39,7 @@ namespace Xenomorphtype
 
                 if(Faction.OfPlayerSilentFail == pawn.Faction && XMTUtility.PlayerXenosOnMap(pawn.MapHeld))
                 {
-                    CompPawnInfo info = pawn.GetComp<CompPawnInfo>();
+                    CompPawnInfo info = pawn.Info();
 
                     if (info != null)
                     {

@@ -95,7 +95,7 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                CompPawnInfo info = target.GetComp<CompPawnInfo>();
+                CompPawnInfo info = target.Info();
                 if (info != null)
                 {
                     float pheromone = info.XenomorphPheromoneValue();

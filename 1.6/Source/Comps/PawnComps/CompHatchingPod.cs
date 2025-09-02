@@ -41,6 +41,11 @@ namespace Xenomorphtype
         public override void CompTick()
         {
             base.CompTick();
+            if(!parent.Spawned)
+            {
+                return;
+            }
+
             if (initialized)
             {
                

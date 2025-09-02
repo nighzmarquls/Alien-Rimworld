@@ -35,10 +35,12 @@ namespace Xenomorphtype
             }
 
             ResearchProjectDef targetProjectDef = project;
+            bool stillSearching = true;
 
-            while (targetProjectDef.prerequisites.Count > 0)
+            while (targetProjectDef.prerequisites.Count > 0 && stillSearching)
             {
-                foreach(ResearchProjectDef prerequisite in targetProjectDef.prerequisites)
+                ResearchProjectDef lastProjectFound = targetProjectDef;
+                foreach (ResearchProjectDef prerequisite in targetProjectDef.prerequisites)
                 {
                     if (FinishedResearching(prerequisite, researchManager))
                     {
@@ -46,6 +48,10 @@ namespace Xenomorphtype
                     }
 
                     targetProjectDef = prerequisite;
+                }
+                if(lastProjectFound == targetProjectDef)
+                {
+                    stillSearching = false;
                 }
             }
 

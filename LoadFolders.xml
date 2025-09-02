@@ -15,8 +15,8 @@
 		<li IfModActive="Dubwise.Rimatomics">Compatibility\DubsRimatomics</li>
 		<li IfModActive="kentington.saveourship2">Compatibility\BaseSOS</li>
 
-		<!--<li IfModActive="rim.job.world">Compatibility\rjw</li>
-		<li IfModActive="otyoty.sizedapparel">Compatibility\SizedApparel</li>-->
+		<li IfModActive="rim.job.world">Compatibility\rjw</li>
+		<li IfModActive="otyoty.sizedapparel">Compatibility\SizedApparel</li>
 	</v1.6>
 	
 </loadFolders>

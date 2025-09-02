@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VEF.AnimalBehaviours;
 using Verse;
 using Verse.AI;
 
@@ -284,7 +285,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            CompMatureMorph perfect = pawn.GetComp<CompMatureMorph>();
+            CompMatureMorph perfect = pawn.GetMorphComp();
 
             if (perfect != null)
             {
@@ -324,19 +325,19 @@ namespace Xenomorphtype
             return IsXenomorph(pawn);
         }
 
-        public static bool IsInorganic(Pawn pawn)
+        public static bool CacheIsInorganic(Pawn pawn)
         {
             if (pawn == null)
             {
                 return true;
             }
 
-            if(!pawn.RaceProps.IsFlesh)
+            if (!pawn.RaceProps.IsFlesh)
             {
                 return true;
             }
 
-            if(pawn.RaceProps.BloodDef == ThingDefOf.Filth_MachineBits)
+            if (pawn.RaceProps.BloodDef == ThingDefOf.Filth_MachineBits)
             {
                 return true;
             }
@@ -351,11 +352,11 @@ namespace Xenomorphtype
                 return true;
             }
 
-            if(pawn.def is ThingDef_AlienRace HARdef)
+            if (pawn.def is ThingDef_AlienRace HARdef)
             {
                 if (!HARdef.alienRace.compatibility.IsFleshPawn(pawn))
                 {
-                    
+
                     return true;
                 }
             }
@@ -369,7 +370,7 @@ namespace Xenomorphtype
             }
 
 
-            if(pawn.health != null)
+            if (pawn.health != null)
             {
                 if (ModsConfig.IsActive("kentington.saveourship2"))
                 {
@@ -386,6 +387,11 @@ namespace Xenomorphtype
             }
 
             return false;
+        }
+
+        public static bool IsInorganic(Pawn pawn)
+        {
+            return pawn.IsInorganic();
         }
 
         public static LifeStageDef GetLifeStageByEmbryoMaturity(float input, out float age)
@@ -882,6 +888,22 @@ namespace Xenomorphtype
                 return true;
             }
 
+            Pawn asPawn = thing as Pawn;
+            if (asPawn != null)
+            {
+                if(asPawn.IsAcidImmune())
+                {
+                    return true;
+                }
+
+                if (asPawn != null && asPawn.InBed())
+                {
+                    return IsAcidImmune(asPawn.CurrentBed());
+                }
+
+                return false;
+            }
+
             CompAcidBlood compAcid = thing.TryGetComp<CompAcidBlood>();
 
             if (compAcid != null)
@@ -934,13 +956,6 @@ namespace Xenomorphtype
                 return true;
             }
 
-            Pawn asPawn = thing as Pawn;
-
-            if (asPawn != null && asPawn.InBed())
-            {
-                return IsAcidImmune(asPawn.CurrentBed());
-            }
-
             return false;
         }
 
@@ -983,7 +998,7 @@ namespace Xenomorphtype
 
         public static bool IsXenomorphFriendly(Pawn target)
         {
-            CompPawnInfo info = target.GetComp<CompPawnInfo>();
+            CompPawnInfo info = target.Info();
 
             if (info == null)
             {
@@ -1009,7 +1024,7 @@ namespace Xenomorphtype
                 {
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
-                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
                             float thisAwareness = info.AcidAwareness;
@@ -1040,7 +1055,7 @@ namespace Xenomorphtype
                 {
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
-                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
                             info.WitnessAcidHorror(strength, maxAwareness);
@@ -1066,7 +1081,7 @@ namespace Xenomorphtype
                 {
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
-                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
                             info.WitnessHorror(strength, maxAwareness);
@@ -1098,7 +1113,7 @@ namespace Xenomorphtype
                 {
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
-                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
                             info.WitnessOvamorphHorror(strength, maxAwareness);
@@ -1135,7 +1150,7 @@ namespace Xenomorphtype
                 {
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
-                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                        CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
                             info.WitnessLarvaHorror(strength, maxAwareness);
@@ -1168,7 +1183,7 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                if (XMTUtility.IsXenomorph(witness))
+                if (IsXenomorph(witness))
                 {
                     XenomorphWitness = true;
                 }
@@ -1176,7 +1191,8 @@ namespace Xenomorphtype
                 {
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
-                        CompPawnInfo info = witness.GetComp<CompPawnInfo>();
+                       
+                        CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
                             float thisAwareness = info.LarvaAwareness;

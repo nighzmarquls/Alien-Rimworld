@@ -27,7 +27,7 @@ namespace Xenomorphtype
 
         private Toil HideInside()
         {
-            pawnMorph = pawn.GetComp<CompMatureMorph>();
+            pawnMorph = pawn.GetMorphComp();
             Toil toil = ToilMaker.MakeToil("HideInside");
             toil.atomicWithPrevious = true;
             toil.tickAction = delegate

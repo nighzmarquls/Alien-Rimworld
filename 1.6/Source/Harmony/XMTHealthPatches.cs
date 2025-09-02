@@ -85,7 +85,7 @@ namespace Xenomorphtype
                         }
                         perfectOrganism.RemoveImperfection(hediff);
                     }
-                    CompPawnInfo info = pawn.GetComp<CompPawnInfo>();
+                    CompPawnInfo info = pawn.Info();
 
                     if (info != null)
                     {
@@ -112,7 +112,7 @@ namespace Xenomorphtype
             {
                 if (___pawn != null)
                 {
-                    CompPawnInfo info = ___pawn.GetComp<CompPawnInfo>();
+                    CompPawnInfo info = ___pawn.Info();
 
                     if (info != null)
                     {
