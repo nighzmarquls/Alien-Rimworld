@@ -153,8 +153,10 @@
     <Compile Include="Comps\BuildingComps\Architecture\CompRoofReplacer.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
     <Compile Include="Comps\HediffComps\HediffComp_Allergy.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_AcidBloodGiver.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_CarboSilicateMeat.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_GrowCocoon.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_MesoSkeleton.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_GiveInjury.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_NoHeal.cs" />
     <Compile Include="Comps\ItemComps\CompTargetable_SingleCorpseOrPawn.cs" />
@@ -257,8 +259,10 @@
     <Compile Include="IdeoHorror\Ritual\StageAction\RitualStageAction_Metamorphosis.cs" />
     <Compile Include="IdeoHorror\Ritual\StageAction\RitualStageAction_OpenChrysalis.cs" />
     <Compile Include="IdeoHorror\Ritual\Target\RitualTargetFilter_MatureQueen.cs" />
+    <Compile Include="Rendering\Drawers\PawnMesoSkeletonDrawer.cs" />
     <Compile Include="Rendering\OffsetDefs.cs" />
     <Compile Include="Rendering\PawnRenderer\PawnRenderNodeWorker_HeadAttachment.cs" />
+    <Compile Include="Rendering\PawnRenderer\PawnRenderNodeWorker_OverlayMesoSkeleton.cs" />
     <Compile Include="Settings\XMTSettings.cs" />
     <Compile Include="Things\MutagenGooFilth.cs" />
     <Compile Include="Things\XMTGenePack.cs" />
@@ -327,6 +331,7 @@
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvamorph.cs" />
+    <Compile Include="UI\Tabs\ITab_CrypticEntity.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />

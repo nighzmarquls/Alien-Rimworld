@@ -16,7 +16,6 @@
 				<appliedHediff>AcidCorrosion</appliedHediff>
 				<splashRange>1.5</splashRange>
 				<cells>5</cells>
-				<damage>26</damage>
 				<acidFilth>Starbeast_Filth_AcidBlood</acidFilth>
 			</li>
 			<li Class="Xenomorphtype.CompStealthProperties">
@@ -129,7 +128,7 @@
 			 <MeleeDodgeChance>3.5</MeleeDodgeChance>
 			 <ToxicResistance>1.0</ToxicResistance>
 			 <ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
-			 <IncomingDamageFactor>0.50</IncomingDamageFactor>
+			 <IncomingDamageFactor>0.90</IncomingDamageFactor>
 			 <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">50</TerrorSource>
 			 <SlaveSuppressionFallRate MayRequire="Ludeon.RimWorld.Ideology">8</SlaveSuppressionFallRate>
 			 <MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">250</MinimumContainmentStrength>
@@ -665,6 +664,11 @@
 								</Not>
 							</conditions>
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<extendedGraphics>
+								<BodyType For="Child">
+									<path>Pawn/SkeletalTail/SkeletalTailChild</path>
+								</BodyType>
+							</extendedGraphics>
 							<offsets>
 							  <south>
 								<layerOffset>0.2</layerOffset>

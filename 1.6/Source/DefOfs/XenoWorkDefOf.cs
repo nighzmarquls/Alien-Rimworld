@@ -51,7 +51,7 @@ namespace Xenomorphtype
         public static JobDef XMT_GeneDevour;
         public static JobDef XMT_CorpseSculpture;
 
-
+        public static JobDef XMT_Protofluid;
 
         // Vanilla Work Types
 

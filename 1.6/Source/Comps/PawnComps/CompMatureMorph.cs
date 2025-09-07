@@ -17,11 +17,13 @@ namespace Xenomorphtype
         public IntVec3 NestPosition => HiveUtility.GetNestPosition(Parent.Map);
         public bool NeedEggs => HiveUtility.NeedEggs(Parent.Map);
 
+        bool chestbursted = false;
+        Color adultColor = Color.white;
         CompJellyMaker JellyMaker = null;
         CompMatureMorphProperties Props => props as CompMatureMorphProperties;
         Pawn Parent => parent as Pawn;
         public float abductRange => Props.abductRange;
-
+        
         int canNuzzleTick = 0;
         int canAbductTick = 0;
         int canOvamorphTick = 0;
@@ -77,9 +79,12 @@ namespace Xenomorphtype
             {
                 if (!XMTUtility.IsQueen(Parent))
                 {
-                    if (Rand.Chance(Props.slowDownDailyChance))
+                    if (Parent.ageTracker.Adult)
                     {
-                        Hediff slowDown = Parent.health.GetOrAddHediff(InternalDefOf.XMT_Slowdown);
+                        if (Rand.Chance(Props.slowDownDailyChance))
+                        {
+                            Hediff slowDown = Parent.health.GetOrAddHediff(InternalDefOf.XMT_Slowdown);
+                        }
                     }
                 }
             }
@@ -147,6 +152,59 @@ namespace Xenomorphtype
 
         }
 
+        public void UpdateSkinByAge()
+        {
+
+            if (Parent.ageTracker.Adult)
+            {
+                if (chestbursted)
+                {
+                    Parent.story.skinColorOverride = adultColor;
+                }
+                return;
+            }
+            else
+            {
+                chestbursted = true;
+                adultColor = Parent.story.SkinColor;
+
+                Parent.story.skinColorOverride = new Color(1, 0.85f, 0.65f);
+                
+            }
+        }
+
+        public override float GetStatOffset(StatDef stat)
+        {
+            if (Parent.ageTracker.Adult)
+            {
+                return 0;
+            }
+
+            if(stat == StatDefOf.Flammability)
+            {
+                return 2;
+            }
+
+            return 0;
+        }
+        public override float GetStatFactor(StatDef stat)
+        {
+            if (Parent.ageTracker.Adult)
+            {
+                return 1;
+            }
+
+            if(stat == StatDefOf.IncomingDamageFactor)
+            {
+                return 4;
+            }
+            if(stat == StatDefOf.MeleeDamageFactor)
+            {
+                return 0.25f;
+            }
+
+            return 1;
+        }
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.PostPostApplyDamage(dinfo, totalDamageDealt);
@@ -177,6 +235,11 @@ namespace Xenomorphtype
             }
 
             if (aggressor == Parent)
+            {
+                return;
+            }
+
+            if (!Parent.ageTracker.Adult)
             {
                 return;
             }
@@ -532,9 +595,10 @@ namespace Xenomorphtype
         }
         public Job GetCandidateFeedJob(Pawn candidate)
         {
-            if (Parent.needs.food == null || Parent.needs.food.CurCategory == HungerCategory.Fed)
+            if (Parent.needs.food == null || Parent.needs.food.CurLevelPercentage == 1)
             {
                 Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate);
+                Parent.Reserve(candidate, job);
                 return job;
             }
             return null;
@@ -1045,9 +1109,9 @@ namespace Xenomorphtype
         {
             job = null;
 
-            Ovamorph ovamorphCandidate = HiveUtility.GetOvamorph(Parent.Map, forPawn:Parent);
+            Ovamorph ovamorphCandidate = HiveUtility.GetOvamorph(Parent.Map, requireReady:true, forPawn:Parent);
             if (ovamorphCandidate != null)
-            {
+            { 
                 Pawn hostCandidate = HiveUtility.GetHost(Parent.Map);
 
                 if (hostCandidate != null)
@@ -1084,8 +1148,9 @@ namespace Xenomorphtype
                             
                             job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MoveOvamorph, ovamorphCandidate, clearSite);
                             job.count = 1;
-                            Parent.Map.reservationManager.Reserve(Parent, job, ovamorphCandidate);
-                            Parent.Map.reservationManager.Reserve(Parent, job, clearSite);
+                            Parent.Reserve(hostCandidate, job);
+                            Parent.Reserve(ovamorphCandidate, job);
+                            Parent.Reserve(clearSite, job);
                             return true;
                         }
                     }
@@ -1151,7 +1216,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        protected bool GetOvamorphJob(out Job job)
+        protected bool GetOvamorphingJob(out Job job)
         {
             job = null;
             if(!XMTUtility.NoQueenPresent())
@@ -1159,7 +1224,7 @@ namespace Xenomorphtype
                 return false;
             }
             //Log.Message(pawn + " thinks a candidate should be ovamorphed.");
-            Pawn candidate = HiveUtility.GetOvamorphCandidate(Parent.Map, forPawn: Parent);
+            Pawn candidate = HiveUtility.GetOvamorphingCandidate(Parent.Map, forPawn: Parent);
             if (candidate != null)
             {
                 if (XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.PawnLikesTarget(Parent, candidate))
@@ -1174,7 +1239,7 @@ namespace Xenomorphtype
                 else
                 {
                     job =  JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvamorphing, candidate);
-                    parent.Map.reservationManager.Reserve(Parent, job, candidate);
+                    Parent.Reserve(candidate, job);
                     return true;
                 }
             }
@@ -1199,7 +1264,7 @@ namespace Xenomorphtype
                     return false;
                 }
                 job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyLardering, candidate);
-                parent.Map.reservationManager.Reserve(Parent,job, candidate);
+                Parent.Reserve(candidate, job);
                 return true;
             }
 
@@ -1216,7 +1281,7 @@ namespace Xenomorphtype
                 if (PruningLarder.CanBePruned())
                 {
                     job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, PruningLarder);
-                    parent.Map.reservationManager.Reserve(Parent, job, PruningLarder);
+                    Parent.Reserve(PruningLarder, job);
                     return true;
                 }
             }
@@ -1482,7 +1547,7 @@ namespace Xenomorphtype
                     return true;
                 }
                 
-                if(GetOvamorphJob(out job))
+                if(GetOvamorphingJob(out job))
                 {
                     return true;
                 }
@@ -1491,7 +1556,7 @@ namespace Xenomorphtype
 
             if (workType == XenoWorkDefOf.Doctor)
             {
-                if (Parent.needs.food == null || Parent.needs.food.CurCategory == HungerCategory.Fed)
+                if (Parent.needs.food != null && Parent.needs.food.CurLevelPercentage == 1)
                 {
                     if (GetFeedJob(out job))
                     {
@@ -1523,7 +1588,7 @@ namespace Xenomorphtype
 
             if (workType == XenoWorkDefOf.Warden)
             {
-                if (Parent.needs.food.CurCategory == HungerCategory.Fed)
+                if (Parent.needs.food != null && Parent.needs.food.CurLevelPercentage == 1)
                 {
                     if (GetFeedJob(out job))
                     {
@@ -1617,7 +1682,7 @@ namespace Xenomorphtype
                     return job;
                 }
 
-                if (Parent.needs.food.CurCategory == HungerCategory.Fed)
+                if (Parent.needs.food != null && Parent.needs.food.CurLevelPercentage == 1)
                 {
                     if (GetFeedJob(out job))
                     {
@@ -1630,11 +1695,6 @@ namespace Xenomorphtype
                     {
                         return job;
                     }
-                }
-
-                if (GetLarderJob(out job))
-                {
-                    return job;
                 }
 
                 if (Parent.Faction == null && HiveUtility.ShouldBuildNest(Parent.Map))
@@ -1654,6 +1714,11 @@ namespace Xenomorphtype
                 }
 
                 if(GetJellyJob(out job))
+                {
+                    return job;
+                }
+
+                if (GetLarderJob(out job))
                 {
                     return job;
                 }
@@ -1792,7 +1857,7 @@ namespace Xenomorphtype
     {
         public float        abductRange = 3f;
         public float        IntervalHours = 0.1f;
-        public float        slowDownDailyChance = 0.5f;
+        public float        slowDownDailyChance = 0.25f;
         public HediffDef    grabHediff;
         public HediffDef    cocoonHediff;
         public HediffDef    ovamorphHediff;

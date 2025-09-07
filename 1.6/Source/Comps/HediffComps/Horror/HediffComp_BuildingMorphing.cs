@@ -77,9 +77,10 @@ namespace Xenomorphtype
 
             base.Pawn.health.Notify_HediffChanged(parent);
         }
-        public override void CompPostTick(ref float severityAdjustment)
+
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
-            base.CompPostTick(ref severityAdjustment);
+            base.CompPostTickInterval(ref severityAdjustment, delta);
 
             if(parent.Severity >= (Props.TriggerSeverity) && unMorphed)
             {

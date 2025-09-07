@@ -65,6 +65,8 @@ namespace Xenomorphtype
             if (parent.pawn.IsHashIntervalTick(tickInterval))
             {
                 TryLearning();
+
+                
                 FilthMaker.TryMakeFilth(Pawn.PositionHeld, Pawn.MapHeld, InternalDefOf.Starbeast_Filth_Resin);
                 if (XMTSettings.LogBiohorror)
                 {
@@ -97,14 +99,54 @@ namespace Xenomorphtype
 
         private void TryLearning()
         {
+            float boostFactor = 1;
+            float severityBoost = 0;
+            if (Pawn.CurrentBed() is CocoonBase cocoon)
+            {
+                if(cocoon.PowerComp is CompPowerTrader powerTrader)
+                {
+                    if (powerTrader.PowerNet != null)
+                    {
+                        if (powerTrader.PowerNet.CurrentStoredEnergy() >= 0 || powerTrader.PowerNet.CurrentEnergyGainRate() >= 0)
+                        {
+                            powerTrader.PowerOutput = -5000;
+                            severityBoost += 0.1f;
+                            boostFactor *= 2f;
+                        }
+                        else
+                        {
+                            powerTrader.PowerOutput = 0;
+                        }
+                    }
+                }
+
+                if(cocoon.JellyResource != null)
+                {
+                    if (cocoon.JellyResource.PipeNet != null)
+                    {
+                        if (cocoon.JellyResource.PipeNet.Stored >= 100)
+                        {
+                            severityBoost += 0.1f;
+                            boostFactor *= 2f;
+                            cocoon.JellyResource.PipeNet.DrawAmongStorage(100, cocoon.JellyResource.PipeNet.storages);
+                        }
+                    }
+                }
+            }
+
             if (parent.pawn.Faction != null && parent.pawn.Faction.IsPlayer)
             {
                 if (parent.pawn.skills != null && parent.pawn.skills.skills.Where((SkillRecord x) => !x.TotallyDisabled).TryRandomElement(out var result))
                 {
-                    result.Learn(8000f* GeneMaturationFactor(), direct: true);
+                    result.Learn(8000f* GeneMaturationFactor()* boostFactor, direct: true);
                     parent.pawn.needs.learning.Learn(1);
                     parent.pawn.ageTracker.growthPoints += 5.0f* GeneMaturationFactor();
                 }
+            }
+
+            if(severityBoost > 0)
+            {
+                parent.Severity += severityBoost;
             }
         }
         private void TryMatureNow()
@@ -140,13 +182,14 @@ namespace Xenomorphtype
                 Pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, "", forced: true, forceWake: true, false);
             }
 
+            parent.pawn.GetMorphComp().UpdateSkinByAge();
             int progress = 250;
             XMTResearch.ProgressEvolutionTech(progress, Pawn);
         }
 
         protected float GeneMaturationFactor()
         {
-            float complexityFactor = (1 / ((Genes.ComplexityTotal + 1) / 9));
+            float complexityFactor = 1.0f / ((Genes.ComplexityTotal + 1.0f) / 9.0f);
 
             return complexityFactor * XMTSettings.MaturationFactor;
         }

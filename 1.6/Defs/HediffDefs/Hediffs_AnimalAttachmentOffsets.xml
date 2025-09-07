@@ -25,6 +25,13 @@
 				<west>(-0.15, 0, 0.15)</west>
 			</li>
 			<li>
+				<race>Horse</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.24, 0, 0.05)</east>
+				<south>(0, 0, 0.15)</south>
+				<west>(-0.24, 0, 0.05)</west>
+			</li>
+			<li>
 				<race>Donkey</race>
 				<north>(0.0, 0.0, 0.0)</north>
 				<east>(0.25, 0, -0.15)</east>

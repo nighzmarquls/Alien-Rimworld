@@ -139,7 +139,7 @@
       <li>Heavy</li>
     </affordances>
     <statBases>
-      <Beauty>1</Beauty>
+      <Beauty>2</Beauty>
       <Cleanliness>0</Cleanliness>
       <FilthMultiplier>0.05</FilthMultiplier>
       <Flammability>0</Flammability>

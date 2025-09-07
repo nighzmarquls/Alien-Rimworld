@@ -24,7 +24,7 @@ namespace Xenomorphtype
         }
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(job.GetTarget(TargetIndex.A), job, 1, -1, null, errorOnFailed);
+            return true;
         }
 
         public bool IsNoLongerValidTarget()

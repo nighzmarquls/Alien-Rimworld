@@ -1935,6 +1935,11 @@ namespace Xenomorphtype
                             {
                                 continue;
                             }
+
+                            if (witness.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent))
+                            {
+                                continue;
+                            }
                         }
 
                         if (witness.Drafted)
@@ -1951,11 +1956,6 @@ namespace Xenomorphtype
                     }
                 }
             }
-        }
-
-        internal static void AcidBurn(Pawn pawn)
-        {
-            
         }
 
         internal static bool IsCocooned(Pawn pawn)

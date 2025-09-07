@@ -227,15 +227,15 @@
 		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
 		<constructEffect>ResinBuild</constructEffect>
 		<comps>
-		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
-			<spreadTerrain>HiveFloor</spreadTerrain>
-			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
-			<radius>1</radius>
-		  </li>
-		  <li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
-			<radius>1</radius>
-		  </li>
-		  <li Class="CompProperties_Refuelable">
+			<li Class="Xenomorphtype.CompSpreadTerrainProperties">
+				<spreadTerrain>HiveFloor</spreadTerrain>
+				<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+				<radius>1</radius>
+			</li>
+			<li Class="CompProperties_DestroyNearbyPlantsOnSpawn">
+				<radius>1</radius>
+			</li>
+			<li Class="CompProperties_Refuelable">
 				<fuelConsumptionRate>0.0</fuelConsumptionRate>
 				<fuelCapacity>75</fuelCapacity>
 				<fuelConsumptionPerTickInRain>0.000</fuelConsumptionPerTickInRain>

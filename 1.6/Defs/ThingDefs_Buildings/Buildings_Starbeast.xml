@@ -570,7 +570,7 @@
 		  <MaxHitPoints>1</MaxHitPoints>
 			<WorkToBuild>70</WorkToBuild>
 			<Flammability>0</Flammability>
-		  <Beauty>0</Beauty>
+			<Beauty>0</Beauty>
 		</statBases>
 		<building>
 			<isEdifice>false</isEdifice>
@@ -681,6 +681,11 @@
 			<ai_chillDestination>false</ai_chillDestination>
 			<bed_pawnDrawOffset>-0.75</bed_pawnDrawOffset>
 		</building>
+		<comps>
+			<li Class="PipeSystem.CompProperties_Resource">
+				<pipeNet>XMT_JellyNet</pipeNet>
+			</li>
+		</comps>
 	</ThingDef>
 	
 	<ThingDef ParentName="SleepingSpotBase">

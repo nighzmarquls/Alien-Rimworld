@@ -23,9 +23,11 @@ namespace Xenomorphtype
             base.CompExposeData();
             Scribe_Values.Look(ref nextDrainTick, "nextDrainTick", -1);
         }
-        public override void CompPostTick(ref float severityAdjustment)
+
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
-            base.CompPostTick(ref severityAdjustment);
+            base.CompPostTickInterval(ref severityAdjustment, delta);
+
             if (parent.pawn == null)
             {
                 return;

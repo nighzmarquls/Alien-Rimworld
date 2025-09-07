@@ -369,6 +369,7 @@
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>Maturation</defName>
     <label>chrysalis</label>
+	<initialSeverity>0.01</initialSeverity>
     <description>Has formed a disturbingly suggestive chrysalis for maturation.</description>
     <makesSickThought>false</makesSickThought>
     <comps>
@@ -403,7 +404,6 @@
     <label>helpless</label>
     <description>is completely incapable of taking care of itself.</description>
     <makesSickThought>false</makesSickThought>
-
     <comps>
     </comps>
     <stages>

@@ -225,4 +225,11 @@
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 	
+	<JobDef>
+		<defName>XMT_Protofluid</defName>
+		<driverClass>Xenomorphtype.JobDriver_Protofluid</driverClass>
+		<reportString>injecting TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+	</JobDef>
+	
 </Defs>

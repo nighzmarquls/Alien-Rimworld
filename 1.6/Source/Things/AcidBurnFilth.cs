@@ -33,21 +33,18 @@ namespace Xenomorphtype
         {
             if (GenTicks.IsTickInterval(60))
             {
-
-                Pawn pawn = this.Position.GetFirstPawn(this.Map);
-
-                if (pawn != null)
+                if(AcidUtility.TrySplashAcidCell(this, Map, Position))
                 {
-                    XMTUtility.AcidBurn(pawn);
                     burnTicks++;
+                    return;
                 }
 
                 sitTicks+= 60;
-                if (XMTUtility.DamageFloors(this.Position, this.Map))
+                if (XMTUtility.DamageFloors(Position, Map))
                 {
                     burnTicks++;
 
-                    FleckMaker.ThrowSmoke(DrawPos, base.Map, 1);
+                    FleckMaker.ThrowSmoke(DrawPos, Map, 1);
                     if(burnTicks >= maxBurnTicks)
                     {
                         DeSpawn();

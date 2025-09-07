@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Noise;
 
 
 namespace Xenomorphtype
@@ -88,9 +89,8 @@ namespace Xenomorphtype
 
                     if (ingredient != null)
                     {
-                        pawn.Map.reservationManager.ReleaseAllForTarget(ingredient);
                         job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, ingredient);
-                        pawn.Map.reservationManager.Reserve(pawn, job, ingredient);
+                        pawn.Reserve(ingredient, job);
                         return true;
                     }
                 }
@@ -178,6 +178,25 @@ namespace Xenomorphtype
             }
             return output;
         }
+
+        public int JellyFromCell(IntVec3 cell, float efficiency = 1f)
+        {
+            float jellyValue = 0;
+            Map currentMap = parent.Map;
+            if (currentMap != null)
+            {
+                Thing item = cell.GetFirstItem(currentMap);
+                if (item != null)
+                {
+                    jellyValue = JellyFromThing(item, efficiency);
+                }
+                
+                float TerrainFertility = XenoformingUtility.ValueOfTerrainOnCell(currentMap,cell, out TerrainDef degraded);
+
+                jellyValue += (TerrainFertility * 10);
+            }
+            return Mathf.CeilToInt(jellyValue);
+        }
         public int JellyFromThing(Thing ingredient, float efficiency = 1f)
         {
             float nutrition = GetNutritionFromThing(ingredient, efficiency);
@@ -188,6 +207,54 @@ namespace Xenomorphtype
 
             return Mathf.CeilToInt( jellyValue * efficiency * Props.conversionRate);
         }
+
+        public int ConvertTerrainToJelly(IntVec3 cell,Map currentMap, float efficiency = 1f)
+        {
+            int terrainStack = 0;
+            if (XenoformingUtility.CellIsFertile(cell, currentMap))
+            {
+                TerrainDef terrain = cell.GetTerrain(currentMap);
+                if (!terrain.affordances.Contains(InternalDefOf.Resin))
+                {
+                    XenoformingUtility.DegradeTerrainOnCell(currentMap, cell);
+                }
+            }
+            return terrainStack;
+        }
+
+        public int ConvertToJelly(IntVec3 cell, float efficiency = 1f)
+        {
+            int droppedJelly = 0;
+            Map currentMap = parent.Map;
+            if(currentMap != null)
+            {
+                Thing item = cell.GetFirstItem(currentMap);
+                if (item != null)
+                {
+                    return ConvertToJelly(item,efficiency);
+                }
+                else
+                {
+                    droppedJelly = ConvertTerrainToJelly(cell, currentMap, efficiency);
+                }
+            }
+
+            int totalJelly = droppedJelly;
+            if (network != null)
+            {
+                if (network.PipeNet.AvailableCapacity > 0)
+                {
+                    float stored = 0;
+                    network.PipeNet.DistributeAmongStorage(totalJelly, out stored);
+                    droppedJelly -= Mathf.CeilToInt(stored);
+                }
+            }
+
+            XMTResearch.ProgressEvolutionTech(totalJelly, parent);
+            DropJelly(droppedJelly, cell, currentMap);
+            return totalJelly;
+        }
+
         public int ConvertToJelly(Thing ingredient, float efficiency = 1f)
         {
             IntVec3 cell = ingredient.Position;
@@ -208,6 +275,7 @@ namespace Xenomorphtype
             }
 
             XMTResearch.ProgressEvolutionTech(totalJelly, parent);
+            droppedJelly += ConvertTerrainToJelly(cell, map, efficiency);
             DropJelly(droppedJelly, cell, map);
             return totalJelly;
         }
@@ -264,14 +332,6 @@ namespace Xenomorphtype
 
             bool geneProduct = Props.jellyProduct != Jelly;
 
-            if (XenoformingUtility.CellIsFertile(cell,currentmap))
-            {
-                TerrainDef terrain = cell.GetTerrain(currentmap);
-                if (!terrain.affordances.Contains(InternalDefOf.Resin))
-                {
-                    XenoformingUtility.DegradeTerrainOnCell(currentmap, cell);
-                }
-            }
             if (geneProduct)
             {
                 int halfstack = stackTotal / 2;

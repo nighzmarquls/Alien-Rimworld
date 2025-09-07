@@ -121,7 +121,7 @@ namespace Xenomorphtype
                 parent.HitPoints = parent.MaxHitPoints;
             }
 
-            if (tickCountUp >= 2500)
+            if (tickCountUp >= 500)
             {
                 tickCountUp = 0;
 

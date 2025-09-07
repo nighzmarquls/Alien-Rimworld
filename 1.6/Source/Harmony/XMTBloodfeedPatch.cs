@@ -14,10 +14,10 @@ namespace Xenomorphtype
             public static bool Prefix(Pawn biter, Pawn victim, float targetBloodLoss)
             {
 
-                CompAcidBlood acidBlood = victim.GetComp<CompAcidBlood>();
+                CompAcidBlood acidBlood = victim.GetAcidBloodComp();
                 if (acidBlood != null)
                 {
-                    CompAcidBlood biterAcidBlood = biter.GetComp<CompAcidBlood>();
+                    CompAcidBlood biterAcidBlood = biter.GetAcidBloodComp();
 
                     if(biterAcidBlood != null)
                     {

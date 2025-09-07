@@ -12,7 +12,21 @@ namespace Xenomorphtype
             Log.Message(butcher + " butcher a starbeast corpse");
             foreach (Thing item in InnerPawn.ButcherProducts(butcher, efficiency))
             {
-                yield return item;
+                if (InnerPawn.ageTracker.Adult)
+                {
+                    yield return item;
+                }
+                else
+                {
+                    if(item.def != InnerPawn.RaceProps.leatherDef)
+                    {
+                        yield return item;
+                    }
+                    else
+                    {
+                        item.Discard();
+                    }
+                }
             }
 
             if (InnerPawn.health != null)

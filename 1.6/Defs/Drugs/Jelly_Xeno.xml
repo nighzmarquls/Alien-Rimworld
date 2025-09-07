@@ -250,6 +250,7 @@
 			<li Class="HediffCompProperties_RemoveIfOtherHediff">
 				<hediffs>
 					<li>XMT_RoyalJellyHigh</li>
+					<li>Maturation</li>
 				</hediffs>
 			</li>
 			<li Class="HediffCompProperties_SeverityPerDay">

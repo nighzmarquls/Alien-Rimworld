@@ -12,7 +12,7 @@ namespace Xenomorphtype
         {
             if (user.IsColonistPlayerControlled)
             {
-                Job job = JobMaker.MakeJob(JobDefOf.Resurrect, target, parent);
+                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Protofluid, target, parent);
                 job.count = 1;
                 job.playerForced = true;
                 user.jobs.TryTakeOrderedJob(job, JobTag.Misc);

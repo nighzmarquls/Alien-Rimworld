@@ -203,11 +203,11 @@ namespace Xenomorphtype
                     
                     if (Map.terrainGrid.TerrainAt(Position).affordances.Contains(InternalDefOf.Resin))
                     {
-                        gestateProgress += (accelerated? 2f : 1f) / (XMTSettings.LaidEggMaturationTime * 60000f);
+                        gestateProgress += (accelerated? 2f : 1f) / (XMTSettings.LaidEggMaturationTime * 60000f)*delta;
                     }
                     else
                     {
-                        gestateProgress += (accelerated ? 0.2f : 0.1f) / (XMTSettings.LaidEggMaturationTime * 60000f);
+                        gestateProgress += (accelerated ? 0.2f : 0.1f) / (XMTSettings.LaidEggMaturationTime * 60000f)*delta;
                     }
                 }
             }

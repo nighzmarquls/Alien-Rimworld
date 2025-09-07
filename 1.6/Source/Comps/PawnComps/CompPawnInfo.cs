@@ -337,6 +337,14 @@ namespace Xenomorphtype
             bool hasSmell = false;
             if (IsPlayerXenomorph)
             {
+                if(parent is Pawn Parent)
+                {
+                    if(XMTUtility.IsInorganic(Parent))
+                    {
+                        output += "inorganic\n";
+                    }
+                }
+
                 if (pheromonesPresent)
                 {
                     switch (strongestPheromone)

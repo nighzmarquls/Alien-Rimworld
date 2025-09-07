@@ -37,6 +37,7 @@ namespace Xenomorphtype
         public static HediffDef             Overdeveloped;
         public static HediffDef             StarbeastStealthHostile;
         public static HediffDef             StarbeastStealthFriendly;
+        public static HediffDef             AcidCorrosion;
 
         public static HediffDef             StarbeastCocoon;
 

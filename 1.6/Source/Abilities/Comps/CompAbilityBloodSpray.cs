@@ -15,7 +15,7 @@ namespace Xenomorphtype
 
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
-            CompAcidBlood acidBlood = parent.pawn.GetComp<CompAcidBlood>();
+            CompAcidBlood acidBlood = parent.pawn.GetAcidBloodComp();
 
             if (acidBlood != null)
             {

@@ -47,8 +47,7 @@
 			<li Class="CompProperties_Usable">
 				<useJob>UseItem</useJob>
 				<useLabel>Use {0_label}</useLabel>
-				<useDuration>600</useDuration>
-				<warmupMote>Mote_ResurrectAbility</warmupMote>
+				<useDuration>60</useDuration>
 				<showUseGizmo>true</showUseGizmo>
 			</li>
 			<li Class="CompProperties_Targetable">

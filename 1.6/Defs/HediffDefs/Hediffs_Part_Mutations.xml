@@ -33,6 +33,189 @@
 			</li>
 		</comps>
 	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Mesoskeleton</defName>
+		<label>Meso Skeletonization</label>
+		<labelNoun>meso skeletonization</labelNoun>
+		<initialSeverity>0.01</initialSeverity>
+		<description>cells are slowly being replaced with polarized silicon in a reinforcing carbo-silicate matrix. Slowly saturating all external tissues. Giving a prolonged resistance to adverse environmental conditions.</description>
+		<stages>
+			<li>
+				<label>sparse</label>
+				<becomeVisible>true</becomeVisible>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<Flammability>-0.1</Flammability>
+					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>detrimental</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.2</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<ArmorRating_Sharp>0.2</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.1</ArmorRating_Blunt>
+					<Flammability>-0.2</Flammability>
+					<IncomingDamageFactor>-0.02</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>malformed</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.3</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<ArmorRating_Sharp>0.3</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.15</ArmorRating_Blunt>
+					<Flammability>-0.3</Flammability>
+					<IncomingDamageFactor>-0.03</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>integrated</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.75</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<ArmorRating_Sharp>0.4</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.2</ArmorRating_Blunt>
+					<Flammability>-0.5</Flammability>
+					<IncomingDamageFactor>-0.05</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>complete</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<ArmorRating_Sharp>0.8</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.6</ArmorRating_Blunt>
+					<Flammability>-0.8</Flammability>
+					<IncomingDamageFactor>-0.08</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_MesoSkeleton</compClass>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_GiveInjury">
+				<damageDef>Cut</damageDef>
+				<chancebySeverity>
+					<points>
+					  <li>(0.0, 0.1)</li>
+					  <li>(0.3, 1)</li>
+					  <li>(0.75, 0.0)</li>
+					</points>
+				</chancebySeverity>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.125</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+				<probability>0.01</probability>
+			</li>
+		</comps>
+		<renderNodeProperties>
+			<li Class="PawnRenderNodeProperties_Overlay">
+				<debugLabel>Meso Skeleton</debugLabel>
+				<workerClass>Xenomorphtype.PawnRenderNodeWorker_OverlayMesoSkeleton</workerClass>
+				<overlayLayer>Body</overlayLayer>
+				<baseLayer>20</baseLayer>
+				<pawnType>HumanlikeOnly</pawnType>
+			</li>
+			<li>
+				<debugLabel>Meso Skeleton</debugLabel>
+				<nodeClass>PawnRenderNode_AnimalPart</nodeClass>
+				<workerClass>Xenomorphtype.PawnRenderNodeWorker_OverlayMesoSkeleton</workerClass>
+				<overlayLayer>Body</overlayLayer>
+				<baseLayer>20</baseLayer>
+				<pawnType>NonHumanlikeOnly</pawnType>
+			</li>
+		</renderNodeProperties>
+	</HediffDef>
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_AcidbloodMarrow</defName>
+		<label>chlorofluoridic marrow</label>
+		<labelNoun>acidic marrow</labelNoun>
+		<initialSeverity>0.01</initialSeverity>
+		<description>the bone marrow has begun producing a chloroflouridic blood cell.</description>
+		<stages>
+			<li>
+				<label>initial</label>
+				<becomeVisible>false</becomeVisible>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+				</statOffsets>
+			</li>
+			<li>
+				<label>mild</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.2</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+				</statOffsets>
+			</li>
+			<li>
+				<label>saturating</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.3</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+				</statOffsets>
+			</li>
+			<li>
+				<label>concentrated</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.75</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+				</statOffsets>
+			</li>
+			<li>
+				<label>complete</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+				</statOffsets>
+			</li>
+			<li>
+				<label>hyperactive</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1.1</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_NoHeal</compClass>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_AcidBloodGiver">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.125</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+				<probability>0.01</probability>
+			</li>
+		</comps>
+	</HediffDef>
 	<!--
   <HediffDef ParentName="AddedMutationBase">
     <defName>FleshmassLung</defName>

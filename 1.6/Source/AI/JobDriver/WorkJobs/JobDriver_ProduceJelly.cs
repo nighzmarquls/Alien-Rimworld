@@ -15,16 +15,16 @@ namespace Xenomorphtype
         private float Progress = 0;
         private float TicksFinish = 300;
         protected float xpPerTick = 0.085f;
-        public Thing target
+        public IntVec3 target
         {
             get
             {
-                return job.GetTarget(TargetIndex.A).Thing;
+                return job.GetTarget(TargetIndex.A).Cell;
             }
         }
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(job.GetTarget(TargetIndex.A), job, 1, -1, null, errorOnFailed);
+            return true;
         }
 
         public bool IsNoLongerValidTarget()
@@ -44,7 +44,7 @@ namespace Xenomorphtype
             CompJellyMaker jellyMaker = pawn.GetComp<CompJellyMaker>();
             if (jellyMaker != null)
             {
-                TicksFinish = jellyMaker.JellyFromThing(target)*jellyMaker.WorkPerJelly;
+                TicksFinish = jellyMaker.JellyFromCell(target)*jellyMaker.WorkPerJelly;
             }
             Toil toil = ToilMaker.MakeToil("AttemptJellyMaking");
             toil.atomicWithPrevious = true;
@@ -68,12 +68,10 @@ namespace Xenomorphtype
             };
             toil.AddFinishAction(delegate
             {
-                Thing ingredient = target;
-                
                 CompJellyMaker jellyMaker = pawn.GetComp<CompJellyMaker>();
                 if (jellyMaker != null)
                 {
-                    jellyMaker.ConvertToJelly(ingredient, Progress);
+                    jellyMaker.ConvertToJelly(target, Progress);
                     
                 }
             });

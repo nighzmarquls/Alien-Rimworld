@@ -142,8 +142,9 @@ namespace Xenomorphtype
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForEggMaturation());
             listingStandard.Gap(5f);
-
             listingStandard.End();
+            viewRect.height += 25;
+
             Widgets.EndScrollView();
         }
 

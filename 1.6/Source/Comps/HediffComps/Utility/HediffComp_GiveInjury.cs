@@ -37,7 +37,7 @@ namespace Xenomorphtype
     public class HediffCompProperties_GiveInjury : HediffCompProperties
     {
         public SimpleCurve chancebySeverity;
-        public float maxDamage = 0.1f;
+        public float maxDamage = 3f;
         public float hourIntervalToInflict = 1;
         public bool injureIfDowned = false;
         public bool injureWithoutMoving = false;

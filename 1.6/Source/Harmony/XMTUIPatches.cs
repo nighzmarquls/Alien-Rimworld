@@ -52,6 +52,8 @@ namespace Xenomorphtype
                         {
 
                             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, targetItem);
+                            targetItem.Map.reservationManager.ReleaseAllForTarget(targetItem);
+                            pawn.Reserve(targetItem, job);
                             if (pawn.jobs.curDriver is JobDriver_ProduceJelly)
                             {
                                 //pawn.jobs//jobQueue.AddItem(new QueuedJob(job, JobTag.Misc));

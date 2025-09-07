@@ -345,6 +345,8 @@ namespace Xenomorphtype
             int progress = 250;
             XMTResearch.ProgressEvolutionTech(progress, child);
 
+            child.GetMorphComp().UpdateSkinByAge();
+
             Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
 
 
@@ -368,7 +370,7 @@ namespace Xenomorphtype
         {
             if(genes != null)
             {
-                return (Props.severityPerDay / ((genes.ComplexityTotal + 1) / 9)) * XMTSettings.MaturationFactor;
+                return (Props.severityPerDay / ((genes.ComplexityTotal + 1.0f) / 9.0f)) * XMTSettings.MaturationFactor;
             }
 
             return (Props.severityPerDay) * XMTSettings.MaturationFactor;

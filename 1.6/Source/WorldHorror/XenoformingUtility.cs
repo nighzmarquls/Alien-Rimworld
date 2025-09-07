@@ -124,26 +124,30 @@ namespace Xenomorphtype
             return InternalDefOf.BarrenDust;
 
         }
-        public static float DegradeTerrainOnCell(Map map, IntVec3 cell, TerrainDef startingTerrain = null)
+
+        public static float ValueOfTerrainOnCell(Map map,IntVec3 cell, out TerrainDef degraded, TerrainDef startingTerrain = null)
         {
             if (startingTerrain == null)
             {
                 startingTerrain = map.terrainGrid.TerrainAt(cell);
             }
-
-            if(startingTerrain == InternalDefOf.HiveFloor)
+            degraded = DegradeTerrain(startingTerrain);
+            return startingTerrain.fertility - degraded.fertility;
+        }
+        public static float DegradeTerrainOnCell(Map map, IntVec3 cell, TerrainDef startingTerrain = null)
+        {
+            if (startingTerrain == InternalDefOf.HiveFloor)
             {
                 map.terrainGrid.RemoveTopLayer(cell);
                 return 0.5f;
             }
-            else if(startingTerrain == InternalDefOf.HeavyHiveFloor)
+            else if (startingTerrain == InternalDefOf.HeavyHiveFloor)
             {
                 map.terrainGrid.RemoveTopLayer(cell);
                 return 1;
             }
 
-            TerrainDef degraded = DegradeTerrain(startingTerrain);
-            float drainedFertility = startingTerrain.fertility - degraded.fertility;
+            float drainedFertility = ValueOfTerrainOnCell(map, cell, out TerrainDef degraded ,startingTerrain);
             map.terrainGrid.SetTerrain(cell, degraded);
             return drainedFertility;
         }

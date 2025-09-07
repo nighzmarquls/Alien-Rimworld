@@ -20,7 +20,7 @@ namespace Xenomorphtype
                     pawn = corpse.InnerPawn;
                 }
 
-                CompAcidBlood acidBlood = pawn.GetComp<CompAcidBlood>();
+                CompAcidBlood acidBlood = pawn.GetAcidBloodComp();
 
 
                 if (___recipe.Worker is Recipe_Surgery recipe_Surgery)

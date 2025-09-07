@@ -14,12 +14,17 @@ namespace Xenomorphtype
     {
         public int mutateTick = -1;
         HediffCompProperties_Mutator Props => props as HediffCompProperties_Mutator;
-        public override void CompPostTick(ref float severityAdjustment)
+
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
-            base.CompPostTick(ref severityAdjustment);
             int currentTick = Find.TickManager.TicksGame;
             if (currentTick > mutateTick)
             {
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message(parent + " is trying to mutate " + Pawn);
+                }
+               
                 mutateTick = currentTick + Mathf.CeilToInt(Props.mutateHourInterval * 2500);
                 if (Rand.Chance(Props.probability))
                 {

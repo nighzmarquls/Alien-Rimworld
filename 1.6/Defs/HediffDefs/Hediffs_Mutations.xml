@@ -155,28 +155,28 @@
 				<randomBodypart>true</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.45</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_SilicateEssence</horror>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.5</probability>
 				<essenceMinimum>0.5</essenceMinimum>
-				<essenceMaximum>0.75</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_MildEssence</horror>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.5</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.45</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_BoostingEssence</horror>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.5</essenceMinimum>
-				<essenceMaximum>0.75</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</mutations>
 	</Xenomorphtype.XMT_MutationsHealthSet>
@@ -238,30 +238,64 @@
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_Protofluid</defName>
 		<label>discoloration</label>
-		<description>A discoloration laces the tissue.</description>
-		<makesSickThought>false</makesSickThought>
-		<makesAlert>false</makesAlert>
-		<minSeverity>0.000</minSeverity>
+		<description>A discoloration spreads out from an injection site.</description>
+		<makesSickThought>true</makesSickThought>
+		<hediffClass>Hediff_Injury</hediffClass>
+		<makesAlert>true</makesAlert>
+		<minSeverity>0.001</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<initialSeverity>1</initialSeverity>
 		<stages>
 			<li>
-				<label>benign</label>
-				<becomeVisible>false</becomeVisible>
-				<minSeverity>0.1</minSeverity>
-				<partEfficiencyOffset>-0.05</partEfficiencyOffset>
+				<label>faded</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.4</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+			</li>
+			<li>
+				<label>dissipating</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.7</minSeverity>
+				<hungerRateFactorOffset>0.2</hungerRateFactorOffset>
+			</li>
+			<li>
+				<label>metabolizing</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.8</minSeverity>
+				<hungerRateFactorOffset>1</hungerRateFactorOffset>
+			</li>
+			<li>
+				<label>spreading</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.9</minSeverity>
+				<hungerRateFactorOffset>0.2</hungerRateFactorOffset>
+			</li>
+			<li>
+				<label>initial</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1.0</minSeverity>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
 		</stages>
 		<comps>
+		    <li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1</severityPerDay>
+			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
 				<obsessionGain>0.125</obsessionGain>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
-				<probability>0.5</probability>
+				<probability>0.75</probability>
+				<mutateHourInterval>0.25</mutateHourInterval>
 				<customMutationSet>XMT_ProtofluidMutationSet</customMutationSet>
 			</li>
 		</comps>
+		<injuryProps>
+		  <painPerSeverity>0.1</painPerSeverity>
+		  <bleedRate>0.0</bleedRate>
+		  <canMerge>true</canMerge>
+		  <destroyedLabel>Dissolved</destroyedLabel>
+		</injuryProps>
 	</HediffDef>
 	
 	
@@ -270,12 +304,12 @@
 		<label>foreign tissue</label>
 		<description>A foreign growth of discoloration laces the tissue.</description>
 		<makesSickThought>false</makesSickThought>
-		<makesAlert>true</makesAlert>
+		<makesAlert>false</makesAlert>
 		<minSeverity>0.000</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<hediffClass>Hediff_Injury</hediffClass>
 		<displayWound>true</displayWound>
-		<initialSeverity>0.01</initialSeverity>
+		<initialSeverity>0.1</initialSeverity>
 		<stages>
 			<li>
 				<label>benign</label>
@@ -285,7 +319,7 @@
 			</li>
 			<li>
 				<label>benign</label>
-				<becomeVisible>true</becomeVisible>
+				<becomeVisible>false</becomeVisible>
 				<minSeverity>0.1</minSeverity>
 				<partEfficiencyOffset>-0.05</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
@@ -295,10 +329,27 @@
 			<li>
 				<compClass>Xenomorphtype.HediffComp_NoHeal</compClass>
 			</li>
-			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.125</obsessionGain>
-			</li>
 			<li Class="HediffCompProperties_GetsPermanent">
+				<permanentLabel>foreign tissue</permanentLabel>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.001</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_PerPartPromoter">
+				<HediffPromotionsByPart>
+					<li>
+						<chance>0.1</chance>
+						<increaseSeverity>0.1</increaseSeverity>
+						<hediffDef>XMT_Mesoskeleton</hediffDef>
+					</li>
+					<li>
+						<chance>0.1</chance>
+						<increaseSeverity>0.1</increaseSeverity>
+						<hediffDef>XMT_AcidbloodMarrow</hediffDef>
+						<onlyTargetSolid>true</onlyTargetSolid>
+						<removePromoter>false</removePromoter>
+					</li>
+				</HediffPromotionsByPart>
 			</li>
 		</comps>
 		<injuryProps>
@@ -306,6 +357,7 @@
 		  <bleedRate>0.0</bleedRate>
 		  <canMerge>true</canMerge>
 		  <destroyedLabel>Dissolved</destroyedLabel>
+		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent>
 		</injuryProps>
 	</HediffDef>
 	
@@ -313,7 +365,7 @@
 		<defName>XMT_DebuffEssence</defName>
 		<label>foreign tissue</label>
 		<description>A foreign growth of discoloration laces the tissue.</description>
-		<makesSickThought>false</makesSickThought>
+		<makesSickThought>true</makesSickThought>
 		<makesAlert>true</makesAlert>
 		<minSeverity>0.000</minSeverity>
 		<maxSeverity>1</maxSeverity>
@@ -323,13 +375,13 @@
 		<stages>
 			<li>
 				<label>benign</label>
-				<becomeVisible>true</becomeVisible>
+				<becomeVisible>false</becomeVisible>
 				<partEfficiencyOffset>-0.05</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>detrimental</label>
-				<becomeVisible>true</becomeVisible>
+				<becomeVisible>false</becomeVisible>
 				<minSeverity>0.2</minSeverity>
 				<partEfficiencyOffset>-0.15</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
@@ -360,11 +412,26 @@
 			<li>
 				<compClass>Xenomorphtype.HediffComp_NoHeal</compClass>
 			</li>
+			<li Class="HediffCompProperties_GetsPermanent">
+				<permanentLabel>foreign tissue</permanentLabel>
+			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
 				<obsessionGain>0.001</obsessionGain>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_PerPartPromoter">
 				<HediffPromotionsByPart>
+					<li>
+						<chance>0.1</chance>
+						<increaseSeverity>0.1</increaseSeverity>
+						<hediffDef>XMT_AcidbloodMarrow</hediffDef>
+						<onlyTargetSolid>true</onlyTargetSolid>
+						<removePromoter>false</removePromoter>
+					</li>
+					<li>
+						<chance>0.1</chance>
+						<increaseSeverity>0.1</increaseSeverity>
+						<hediffDef>XMT_Mesoskeleton</hediffDef>
+					</li>
 					<li>
 						<hediffDef>XMT_ImprovedStomach</hediffDef>
 						<bodyPartDef>Stomach</bodyPartDef>
@@ -377,6 +444,7 @@
 		  <bleedRate>0.0</bleedRate>
 		  <canMerge>true</canMerge>
 		  <destroyedLabel>Dissolved</destroyedLabel>
+		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent>
 		</injuryProps>
 	</HediffDef>
 	
@@ -385,7 +453,7 @@
 		<label>silicate tissue</label>
 		<description>A foreign growths of silicate crystals lace the tissue.</description>
 		<makesSickThought>false</makesSickThought>
-		<makesAlert>true</makesAlert>
+		<makesAlert>false</makesAlert>
 		<minSeverity>0.000</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<initialSeverity>0.1</initialSeverity>
@@ -394,32 +462,31 @@
 		<stages>
 			<li>
 				<label>sparse</label>
-				<becomeVisible>true</becomeVisible>
+				<becomeVisible>false</becomeVisible>
 				<partEfficiencyOffset>-0.1</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>detrimental</label>
-				<becomeVisible>true</becomeVisible>
+				<becomeVisible>false</becomeVisible>
 				<minSeverity>0.2</minSeverity>
-				<partEfficiencyOffset>-0.5</partEfficiencyOffset>
+				<partEfficiencyOffset>-0.15</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>malformed</label>
 				<becomeVisible>true</becomeVisible>
 				<minSeverity>0.3</minSeverity>
-				<partEfficiencyOffset>-0.75</partEfficiencyOffset>
+				<partEfficiencyOffset>0.05</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>integrated</label>
 				<becomeVisible>true</becomeVisible>
 				<minSeverity>0.75</minSeverity>
-				<partEfficiencyOffset>0</partEfficiencyOffset>
+				<partEfficiencyOffset>0.15</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
-
 		</stages>
 		<comps>
 			<li>
@@ -428,12 +495,15 @@
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>
+			<li Class="HediffCompProperties_GetsPermanent">
+				<permanentLabel>silicate tissue</permanentLabel>
+			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_GiveInjury">
 				<damageDef>Cut</damageDef>
 				<chancebySeverity>
 					<points>
-					  <li>(0.0, 0.1)</li>
-					  <li>(0.3, 1)</li>
+					  <li>(0.0, 0.01)</li>
+					  <li>(0.3, 0.5)</li>
 					  <li>(0.75, 0.0)</li>
 					</points>
 				</chancebySeverity>
@@ -447,6 +517,19 @@
 						<hediffDef>XMT_ImprovedStomach</hediffDef>
 						<bodyPartDef>Stomach</bodyPartDef>
 					</li>
+					<li>
+						<chance>1</chance>
+						<increaseSeverity>0.2</increaseSeverity>
+						<hediffDef>XMT_Mesoskeleton</hediffDef>
+						<removePromoter>false</removePromoter>
+					</li>
+					<li>
+						<chance>0.5</chance>
+						<increaseSeverity>0.1</increaseSeverity>
+						<hediffDef>XMT_AcidbloodMarrow</hediffDef>
+						<onlyTargetSolid>true</onlyTargetSolid>
+						<removePromoter>false</removePromoter>
+					</li>
 				</HediffPromotionsByPart>
 			</li>
 		</comps>
@@ -454,7 +537,8 @@
 		  <painPerSeverity>0.0</painPerSeverity>
 		  <bleedRate>0.0</bleedRate>
 		  <canMerge>true</canMerge>
-		  <destroyedLabel>Dissolved</destroyedLabel>
+		  <destroyedLabel>Shreded</destroyedLabel>
+		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent> 
 		</injuryProps>
 	</HediffDef>
 	
@@ -463,23 +547,23 @@
 		<label>foreign tissue</label>
 		<description>A foreign growth of discoloration laces the tissue.</description>
 		<makesSickThought>false</makesSickThought>
-		<makesAlert>true</makesAlert>
-		<minSeverity>0.000</minSeverity>
+		<makesAlert>false</makesAlert>
+		<minSeverity>0.001</minSeverity>
 		<maxSeverity>1</maxSeverity>
-		<initialSeverity>0.01</initialSeverity>
+		<initialSeverity>0.1</initialSeverity>
 		<hediffClass>Hediff_Injury</hediffClass>
 		<displayWound>true</displayWound>
 		<stages>
 			<li>
 				<label>benign</label>
-				<becomeVisible>true</becomeVisible>
+				<becomeVisible>false</becomeVisible>
 				<partEfficiencyOffset>0.15</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.0</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>beneficial</label>
-				<becomeVisible>true</becomeVisible>
-				<minSeverity>0.1</minSeverity>
+				<becomeVisible>false</becomeVisible>
+				<minSeverity>0.5</minSeverity>
 				<partEfficiencyOffset>0.15</partEfficiencyOffset>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
@@ -491,11 +575,27 @@
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
 				<obsessionGain>0.001</obsessionGain>
 			</li>
+			<li Class="HediffCompProperties_GetsPermanent">
+				<permanentLabel>foreign tissue</permanentLabel>
+			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_PerPartPromoter">
 				<HediffPromotionsByPart>
 					<li>
 						<hediffDef>XMT_ImprovedStomach</hediffDef>
 						<bodyPartDef>Stomach</bodyPartDef>
+					</li>
+					<li>
+						<chance>1</chance>
+						<increaseSeverity>0.2</increaseSeverity>
+						<hediffDef>XMT_Mesoskeleton</hediffDef>
+						<removePromoter>false</removePromoter>
+					</li>
+					<li>
+						<chance>0.1</chance>
+						<increaseSeverity>0.1</increaseSeverity>
+						<hediffDef>XMT_AcidbloodMarrow</hediffDef>
+						<onlyTargetSolid>true</onlyTargetSolid>
+						<removePromoter>false</removePromoter>
 					</li>
 				</HediffPromotionsByPart>
 			</li>
@@ -505,6 +605,7 @@
 		  <bleedRate>0.0</bleedRate>
 		  <canMerge>true</canMerge>
 		  <destroyedLabel>Dissolved</destroyedLabel>
+		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent> 
 		</injuryProps>
 	</HediffDef>
 

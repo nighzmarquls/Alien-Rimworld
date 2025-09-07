@@ -168,6 +168,18 @@ namespace Xenomorphtype
                 
                 if (Rand.Chance(health.probability))
                 {
+                    foreach(Hediff hediff in pawn.health.hediffSet.hediffs)
+                    {
+                        if (hediff.def == health.horror)
+                        {
+                            if (hediff.Severity < health.horror.maxSeverity)
+                            {
+                                hediff.Severity += health.horror.initialSeverity;
+                                return;
+                            }
+                        }
+                    }
+
                     if (health.randomBodypart)
                     {
                         IEnumerable<BodyPartRecord> parts = pawn.health.hediffSet.GetNotMissingParts();

@@ -1038,6 +1038,11 @@ namespace Xenomorphtype
 
             foreach (Ovamorph ova in localNest.Ovamorphs)
             {
+                if(!ova.Spawned)
+                {
+                    continue;
+                }
+
                 if(forPawn != null)
                 {
                     if (ForbidUtility.CaresAboutForbidden(forPawn, false))
@@ -1165,7 +1170,7 @@ namespace Xenomorphtype
             }
             return true;
         }
-        internal static Pawn GetOvamorphCandidate(Map map, Pawn forPawn = null)
+        internal static Pawn GetOvamorphingCandidate(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
             foreach (Pawn candidate in localNest.Cocooned)

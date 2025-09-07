@@ -90,7 +90,7 @@ namespace Xenomorphtype
                         {
                             Log.Message(pawn + " thinks a candidate should be ovamorphed.");
                         }
-                        Pawn target = HiveUtility.GetOvamorphCandidate(pawn.Map);
+                        Pawn target = HiveUtility.GetOvamorphingCandidate(pawn.Map);
                         if (target != null)
                         {
                             pawn.Map.reservationManager.ReleaseAllForTarget(target);

@@ -1,12 +1,8 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verse.AI;
 using Verse;
 using UnityEngine;
+using PipeSystem;
 
 namespace Xenomorphtype
 {
@@ -37,6 +33,7 @@ namespace Xenomorphtype
         }
         public Pawn LastOccupant;
 
+        public CompResource JellyResource;
         protected override void TickInterval(int delta)
         {
             base.TickInterval(delta);
