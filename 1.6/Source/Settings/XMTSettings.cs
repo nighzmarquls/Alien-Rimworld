@@ -7,7 +7,6 @@ namespace Xenomorphtype
     internal class XMTSettings : ModSettings
     {
         static private XMTSettings instance;
-
         public static bool LogJobGiver => instance != null ? instance._logJobGiver : false;
         public static bool LogBiohorror => instance != null ? instance._logBiohorror : false;
         public static bool LogRituals => instance != null ? instance._logRituals : false;
@@ -36,7 +35,7 @@ namespace Xenomorphtype
         private float _initialXenoforming = 0f;
 
         private static Vector2 scrollPosition;
-        private static float height_modifier = 100f;
+        private static float height_modifier = 1.5f;
 
         public static int MinimumOpinionForHiveFriend = instance != null ? instance._minimumOpinionForHiveFriend : 80;
 
@@ -83,7 +82,7 @@ namespace Xenomorphtype
         public void DoWindowContents(Rect inRect)
         {
             Rect outRect = new Rect(0f, 30f, inRect.width, inRect.height - 30f);
-            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, inRect.height + height_modifier);
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, inRect.height * height_modifier);
 
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect); 
 

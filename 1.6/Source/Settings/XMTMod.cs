@@ -21,8 +21,6 @@ namespace Xenomorphtype
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            base.DoSettingsWindowContents(inRect);
-           
             Settings.DoWindowContents(inRect);
             Settings.Write();
         }

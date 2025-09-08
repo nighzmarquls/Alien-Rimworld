@@ -32,7 +32,7 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
-                TryBloodLoss(pawnBleeder, severity);
+                TryBloodLoss(pawnBleeder, severity*0.001f);
             }
 
             float modifiedSplashRange = splashRange * severity;
