@@ -704,7 +704,10 @@ namespace Xenomorphtype
         }
         public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker)
         {
-
+            if(pawn == null)
+            {
+                return null;
+            }
             TraverseParms traverseParams = TraverseParms.For(pawn);
             RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParams, isDestination: false);
             Thing found = null;

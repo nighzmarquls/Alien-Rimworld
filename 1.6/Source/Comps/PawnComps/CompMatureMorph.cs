@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using AlienRace;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,10 @@ namespace Xenomorphtype
 {
     public class CompMatureMorph : ThingComp
     {
+        public static Color nymphSkinColor = new Color(1, 0.85f, 0.65f);
         public IntVec3 NestPosition => HiveUtility.GetNestPosition(Parent.Map);
         public bool NeedEggs => HiveUtility.NeedEggs(Parent.Map);
 
-        bool chestbursted = false;
-        Color adultColor = Color.white;
         CompJellyMaker JellyMaker = null;
         CompMatureMorphProperties Props => props as CompMatureMorphProperties;
         Pawn Parent => parent as Pawn;
@@ -154,22 +154,42 @@ namespace Xenomorphtype
 
         public void UpdateSkinByAge()
         {
+            
 
-            if (Parent.ageTracker.Adult)
+            if (Parent.ageTracker.Adult && Parent.story.SkinColor == nymphSkinColor)
             {
-                if (chestbursted)
+                if (Parent.def is ThingDef_AlienRace alien)
                 {
-                    Parent.story.skinColorOverride = adultColor;
+                    if (alien.alienRace.generalSettings.alienPartGenerator.colorChannels[0].entries[0].first is ColorGenerator_Options Options)
+                    {
+                        Parent.story.skinColorOverride = Options.NewRandomizedColor();
+                    }
                 }
+
+                if (Parent.genes != null)
+                {
+                    foreach(Gene gene in Parent.genes.GenesListForReading)
+                    {
+                        if (!gene.Active)
+                        {
+                            continue;
+                        }
+                        if(gene.def.skinColorOverride != null)
+                        {
+                            Log.Message(Parent + " has active gene for skincolor " + gene.def);
+                            Parent.story.skinColorOverride = gene.def.skinColorOverride;
+                        }
+                    }
+                }
+                
+               
+               
                 return;
             }
-            else
+            else if(!Parent.ageTracker.Adult && Parent.story.skinColorOverride != nymphSkinColor)
             {
-                chestbursted = true;
-                adultColor = Parent.story.SkinColor;
-
-                Parent.story.skinColorOverride = new Color(1, 0.85f, 0.65f);
                 
+                Parent.story.skinColorOverride = nymphSkinColor;
             }
         }
 
@@ -196,7 +216,7 @@ namespace Xenomorphtype
 
             if(stat == StatDefOf.IncomingDamageFactor)
             {
-                return 4;
+                return 2;
             }
             if(stat == StatDefOf.MeleeDamageFactor)
             {
@@ -1000,6 +1020,10 @@ namespace Xenomorphtype
                 {
                     if (target.Faction != null)
                     {
+                        if(target.Faction.RelationWith(Parent.Faction, true) == null)
+                        {
+                            target.Faction.TryMakeInitialRelationsWith(Parent.Faction);
+                        }
                         //TODO: Ideology check if they venerate xenomorphs.
                         target.Faction.TryAffectGoodwillWith(Parent.Faction, -75, reason: HistoryEventDefOf.AttackedMember);
                     }

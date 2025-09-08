@@ -134,6 +134,10 @@ namespace Xenomorphtype
                 }
             }
 
+            if(parent.pawn.needs.rest != null)
+            {
+                parent.pawn.needs.rest.CurLevelPercentage = 1;
+            }    
             if (parent.pawn.Faction != null && parent.pawn.Faction.IsPlayer)
             {
                 if (parent.pawn.skills != null && parent.pawn.skills.skills.Where((SkillRecord x) => !x.TotallyDisabled).TryRandomElement(out var result))
@@ -153,6 +157,11 @@ namespace Xenomorphtype
         {
             parent.pawn.health.hediffSet.hediffs.RemoveWhere(x => x.def == InternalDefOf.Undeveloped || x.def == InternalDefOf.Overdeveloped);
             float ageTarget = 0;
+
+            if (parent.pawn.needs.rest != null)
+            {
+                parent.pawn.needs.rest.CurLevelPercentage = 1;
+            }
 
             for (int i = 0; i < InternalDefOf.XMT_Starbeast_AlienRace.race.lifeStageAges.Count; i++)
             {
