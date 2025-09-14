@@ -257,7 +257,14 @@ namespace Xenomorphtype
                    
                     growth = bodySize > 1 ? growth / bodySize : growth;
 
-       
+                    if (corpse.IsDessicated())
+                    {
+                        if (corpse.MapHeld is Map map)
+                        {
+                            map.reservationManager.ReleaseAllForTarget(corpse);
+                        }
+                    }
+
                     corpse.Destroy();
 
                     if (parent.HitPoints < parent.MaxHitPoints)

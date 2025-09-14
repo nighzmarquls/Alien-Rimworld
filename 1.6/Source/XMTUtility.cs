@@ -852,6 +852,7 @@ namespace Xenomorphtype
                 return false;
             }
 
+            //If you are friendly you're not a host.
             if (IsXenomorphFriendly(pawn))
             {
                 return false;
@@ -871,12 +872,6 @@ namespace Xenomorphtype
 
             //If you have a larva on your face or an embryo in your body you're not a host.
             if (HasEmbryo(pawn))
-            {
-                return false;
-            }
-
-            //If you are morphing you are not a host.
-            if (IsMorphing(pawn))
             {
                 return false;
             }
@@ -1062,6 +1057,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessAcidHorror(strength, maxAwareness);
+                            XMTResearch.ProgressCryptobioTech(1, witness);
                         }
                     }
                 }
@@ -1088,8 +1084,8 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessHorror(strength, maxAwareness);
-
-                            if(horror != null)
+                            XMTResearch.ProgressCryptobioTech(1, witness);
+                            if (horror != null)
                             {
                                 TraumaResponse(horror, info);
                             }
@@ -1120,6 +1116,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessOvamorphHorror(strength, maxAwareness);
+                            XMTResearch.ProgressCryptobioTech(1, witness);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1154,6 +1151,7 @@ namespace Xenomorphtype
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
                         CompPawnInfo info = witness.Info();
+                        XMTResearch.ProgressCryptobioTech(1, witness);
                         if (info != null)
                         {
                             info.WitnessLarvaHorror(strength, maxAwareness);
@@ -1194,8 +1192,8 @@ namespace Xenomorphtype
                 {
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
-                       
                         CompPawnInfo info = witness.Info();
+                        XMTResearch.ProgressCryptobioTech(1, witness);
                         if (info != null)
                         {
                             float thisAwareness = info.LarvaAwareness;

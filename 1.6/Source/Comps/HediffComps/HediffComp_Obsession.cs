@@ -15,13 +15,23 @@ namespace Xenomorphtype
 
         public override void CompPostPostAdd(DamageInfo? dinfo)
         {
-            base.CompPostPostAdd(dinfo);
             CompPawnInfo info = Pawn.Info();
             if (info != null)
             {
                
                 info.GainObsession(Props.obsessionGain);
                 
+            }
+        }
+
+        public override void CompPostPostRemoved()
+        {
+            CompPawnInfo info = Pawn.Info();
+            if (info != null)
+            {
+
+                info.GainObsession(-Props.obsessionGain);
+
             }
         }
     }

@@ -29,6 +29,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>1</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="GeneImmunityBase">
@@ -51,6 +56,11 @@
 				<li><symbol>stout</symbol></li>
 			</prefixSymbols>
 		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="GeneBeautyBase">
@@ -77,6 +87,11 @@
 				<li><symbol>smooth</symbol></li>
 			</prefixSymbols>
 		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="CellInstabilityBase">
@@ -94,6 +109,11 @@
 			<CancerRate>5</CancerRate>
 			<ImmunityGainSpeed>2</ImmunityGainSpeed>
 		</statFactors>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="FertilityBase">
@@ -109,6 +129,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>1</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="GeneImmunityBase">
@@ -134,6 +159,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>1</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef>
@@ -171,6 +201,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>1</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<!-- XMT_UnknownGenes -->
@@ -195,6 +230,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>3</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
@@ -207,6 +247,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>3</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
@@ -219,6 +264,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>3</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
@@ -231,6 +281,11 @@
 		<selectionWeight>0</selectionWeight>
 		<biostatCpx>3</biostatCpx>
 		<biostatMet>-2</biostatMet>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 

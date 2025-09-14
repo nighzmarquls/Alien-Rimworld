@@ -4,19 +4,19 @@
 	<v1.6>
 		<li>Common</li>
 		<li>1.6</li>
-		<li IfModNotActive="VanillaExpanded.VPsycastsE" IfModActive="Ludeon.RimWorld.Royalty">Compatibility\NoVPE</li>
-		<li IfModActive="VanillaExpanded.VPsycastsE">Compatibility\VPE</li>
-		<li IfModActive="VanillaExpanded.VPE.Puppeteer">Compatibility\VPE_Puppeteer</li>
-		<li IfModActive="VanillaExpanded.VGeneticsE">Compatibility\GeneticsExpanded</li>
+		<li IfModNotActive="VanillaExpanded.VPsycastsE" IfModActive="Ludeon.RimWorld.Royalty">Compatibility/NoVPE</li>
+		<li IfModActive="VanillaExpanded.VPsycastsE">Compatibility/VPE</li>
+		<li IfModActive="VanillaExpanded.VPE.Puppeteer">Compatibility/VPE_Puppeteer</li>
+		<li IfModActive="VanillaExpanded.VGeneticsE">Compatibility/GeneticsExpanded</li>
 		
-		<li IfModActive="RimEffectRenegade.AsariReapers">Compatibility\Asari</li>
+		<li IfModActive="RimEffectRenegade.AsariReapers">Compatibility/Asari</li>
 				
-		<li IfModActive="Dubwise.DubsBadHygiene">Compatibility\DubsBadHygiene</li>
-		<li IfModActive="Dubwise.Rimatomics">Compatibility\DubsRimatomics</li>
-		<li IfModActive="kentington.saveourship2">Compatibility\BaseSOS</li>
+		<li IfModActive="Dubwise.DubsBadHygiene">Compatibility/DubsBadHygiene</li>
+		<li IfModActive="Dubwise.Rimatomics">Compatibility/DubsRimatomics</li>
+		<li IfModActive="kentington.saveourship2">Compatibility/BaseSOS</li>
 
-		<li IfModActive="rim.job.world">Compatibility\rjw</li>
-		<li IfModActive="otyoty.sizedapparel">Compatibility\SizedApparel</li>
+		<li IfModActive="rim.job.world">Compatibility/rjw</li>
+		<li IfModActive="otyoty.sizedapparel">Compatibility/SizedApparel</li>
 	</v1.6>
 	
 </loadFolders>

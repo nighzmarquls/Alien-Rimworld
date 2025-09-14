@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.064</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.065</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -39,6 +39,7 @@
 		<li>Nera.SpawnThoseGenes</li>
 		<li>me.samboycoding.betterloading.dev</li>
 		<li>Zeracronius.Unpatcher</li>
+		<li>UnlimitedHugs.HugsLib</li>
 	</incompatibleWith>
 	<loadAfter>
 		<li>Ludeon.RimWorld</li>

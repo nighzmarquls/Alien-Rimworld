@@ -159,6 +159,8 @@
     <Compile Include="Comps\HediffComps\Horror\HediffComp_MesoSkeleton.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_GiveInjury.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_NoHeal.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_PheromonePump.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_RemoveGenes.cs" />
     <Compile Include="Comps\ItemComps\CompTargetable_SingleCorpseOrPawn.cs" />
     <Compile Include="Comps\ItemComps\Comp_TargetEffectProtofluid.cs" />
     <Compile Include="Comps\PawnComps\CompClimber.cs" />

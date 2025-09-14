@@ -24,6 +24,12 @@
     <lethalSeverity>1</lethalSeverity>
     <tendable>true</tendable>
     <comps>
+	  <li Class="HediffCompProperties_RemoveIfOtherHediff">
+		<hediffs>
+			<li>XMT_Embryo</li>
+			<li>XMT_LarvalEmbrace</li>
+		</hediffs>
+	  </li>
       <li Class="HediffCompProperties_TendDuration">
         <baseTendDurationHours>12</baseTendDurationHours>
         <severityPerDayTended>-0.0773</severityPerDayTended>
@@ -249,6 +255,12 @@
       </li>
     </stages>
     <comps>
+		<li Class="HediffCompProperties_RemoveIfOtherHediff">
+			<hediffs>
+				<li>XMT_Embryo</li>
+				<li>XMT_LarvalEmbrace</li>
+			</hediffs>
+		</li>
 	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">
 			<MorphedBuilding>XMT_MeatballLarder</MorphedBuilding>
 			<SeverityPerDay>0.25</SeverityPerDay>
@@ -317,6 +329,12 @@
       </li>
     </stages>
     <comps>
+		<li Class="HediffCompProperties_RemoveIfOtherHediff">
+			<hediffs>
+				<li>XMT_Embryo</li>
+				<li>XMT_LarvalEmbrace</li>
+			</hediffs>
+		</li>
 	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">
 			<MorphedBuilding>XMT_Ovamorph</MorphedBuilding>
 			<SeverityPerDay>0.25</SeverityPerDay>

@@ -36,6 +36,11 @@
 				<li><symbol>slayer</symbol></li>
 			</suffixSymbols>
 		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef>
@@ -50,6 +55,11 @@
 		<biostatCpx>6</biostatCpx>
 		<biostatMet>8</biostatMet>
 		<biostatArc>2</biostatArc>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 
 </Defs>

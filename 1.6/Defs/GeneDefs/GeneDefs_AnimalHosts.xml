@@ -16,6 +16,11 @@
 				<li><symbol>booma</symbol></li>
 			</prefixSymbols>
 		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
   
 	<GeneDef>
@@ -37,6 +42,11 @@
 		<exclusionTags>
 			<li MayRequire="ludeon.rimworld.biotech">Headbone</li>
 		</exclusionTags>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef>
@@ -55,6 +65,11 @@
 				<li><symbol>muff</symbol></li>
 			</prefixSymbols>
 		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 	<GeneDef ParentName="GeneSkinColorOverride">
@@ -80,6 +95,11 @@
 			<li>SkinColorOverride</li>
 		</exclusionTags>
 		<randomBrightnessFactor>0.18</randomBrightnessFactor>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	
 </Defs>

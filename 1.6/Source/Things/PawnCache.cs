@@ -37,6 +37,7 @@ namespace Xenomorphtype
 
             public CompHoldingPlatformTarget HoldingPlatformTarget => _holdingPlatformTarget;
 
+            public float XenoSocial = 0;
             public float CarboSilicate = 0;
             public float MesoSkeletalValue = 0;
 
@@ -143,6 +144,30 @@ namespace Xenomorphtype
             }
             PawnCache newCache = new PawnCache(pawn);
             newCache.AcidBloodValue = value;
+            PawnCache.cache.Add(pawn.thingIDNumber, newCache);
+
+        }
+
+
+        public static float XenoSocial(this Pawn pawn)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                return PawnCache.cache[pawn.thingIDNumber].XenoSocial;
+            }
+
+            return 0;
+        }
+
+        public static void UpdateXenoSocial(this Pawn pawn, float value)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                PawnCache.cache[pawn.thingIDNumber].XenoSocial = value;
+                return;
+            }
+            PawnCache newCache = new PawnCache(pawn);
+            newCache.XenoSocial = value;
             PawnCache.cache.Add(pawn.thingIDNumber, newCache);
 
         }

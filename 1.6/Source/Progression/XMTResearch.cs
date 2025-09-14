@@ -56,7 +56,25 @@ namespace Xenomorphtype
             }
 
             Pawn pawn = actor as Pawn;
-            researchManager.AddProgress(targetProjectDef, progress, pawn);
+            float researchedProgress = researchManager.GetProgress(targetProjectDef);
+
+            if (progress + researchedProgress <= project.Cost)
+            {
+                researchManager.AddProgress(targetProjectDef, progress, pawn);
+            }
+            else
+            {
+                researchManager.AddProgress(targetProjectDef, targetProjectDef.Cost - researchedProgress, pawn);
+            }
+
+            Log.Message(progress + " being added to " + targetProjectDef + " by " + actor);
+            researchedProgress = researchManager.GetProgress(targetProjectDef);
+            Log.Message( targetProjectDef + " has progress of " + researchedProgress);
+            if (researchedProgress < 0)
+            {
+                researchManager.AddProgress(targetProjectDef ,(-researchedProgress) + targetProjectDef.Cost);
+            }
+
             return true;
         }
         internal static void ProgressMimicTech(int progress, Thing actor)
@@ -86,15 +104,16 @@ namespace Xenomorphtype
 
         internal static void ProgressCryptobioTech(int progress, Pawn actor)
         {
+            Log.Message(progress + " being added to cryptobiotech by " + actor);
             if (ProgressTechProjectOrPrerequisites(progress, actor, XenoGeneDefOf.XMT_Jelly_Drugs))
             {
                 return;
             }
 
-            /*if (ProgressTechProjectOrPrerequisites(progress, actor, XenoGeneDefOf.XMT_Mutation_Targeted))
+            if (ProgressTechProjectOrPrerequisites(progress, actor, XenoGeneDefOf.XMT_Mutation_Targeted))
             {
                 return;
-            }*/
+            }
         }
     }
 }

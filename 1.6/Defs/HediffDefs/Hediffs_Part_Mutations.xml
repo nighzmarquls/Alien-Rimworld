@@ -16,6 +16,531 @@
 				<makeImmuneTo>
 					<li>GutWorms</li>
 				</makeImmuneTo>
+				<capMods>
+				  <li>
+					<capacity>Metabolism</capacity>
+					<offset>0.5</offset>
+				  </li>
+				</capMods>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	
+	<HediffDef ParentName="AddedXenomorphPart">
+		<defName>XMT_SpikeTongue</defName>
+		<label>spiked tongue</label>
+		<labelNoun>spiked tongue</labelNoun>
+		<description>chitinous reinforcement has reinforced and sharpened the tongue.</description>
+		<defaultInstallPart>Tongue</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+				  <li>
+					<capacity>Talking</capacity>
+					<offset>-0.25</offset>
+				  </li>
+				  <li>
+					<capacity>Eating</capacity>
+					<offset>0.25</offset>
+				  </li>
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<Flammability>-0.1</Flammability>
+					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+		<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+				  <li>
+					<label>tongue</label>
+					<capacities>
+					  <li>Stab</li>
+					</capacities>
+					<power>10</power>
+					<cooldownTime>2</cooldownTime>
+					<chanceFactor>0.75</chanceFactor>
+					<surpriseAttack>
+					  <extraMeleeDamages>
+						<li>
+						  <def>Stab</def>
+						  <amount>10</amount>
+						</li>
+					  </extraMeleeDamages>
+					</surpriseAttack>
+					<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+					<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+				  </li>
+				</tools>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="AddedXenomorphPart">
+		<defName>XMT_SecondJaw</defName>
+		<label>pharyngeal jaw</label>
+		<labelNoun>pharyngeal jaws</labelNoun>
+		<description>a secondary set of jaws within the oral cavity of the first.</description>
+		<defaultInstallPart>Jaw</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+				  <li>
+					<capacity>Talking</capacity>
+					<offset>-0.25</offset>
+				  </li>
+				  <li>
+					<capacity>Eating</capacity>
+					<offset>0.5</offset>
+				  </li>
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<Flammability>-0.1</Flammability>
+					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+		<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+				  <li>
+					<label>teeth</label>
+					<capacities>
+					  <li>Bite</li>
+					</capacities>
+					<power>15</power>
+					<cooldownTime>2</cooldownTime>
+					<chanceFactor>0.75</chanceFactor>
+					<surpriseAttack>
+					  <extraMeleeDamages>
+						<li>
+						  <def>Bite</def>
+						  <amount>15</amount>
+						</li>
+					  </extraMeleeDamages>
+					</surpriseAttack>
+					<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+					<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+				  </li>
+				  <li>
+					<label>inner teeth</label>
+					<capacities>
+					  <li>Bite</li>
+					  <li>Stab</li>
+					</capacities>
+					<power>15</power>
+					<cooldownTime>2</cooldownTime>
+					<chanceFactor>0.75</chanceFactor>
+					<surpriseAttack>
+					  <extraMeleeDamages>
+						<li>
+						  <def>Bite</def>
+						  <amount>15</amount>
+						</li>
+					  </extraMeleeDamages>
+					</surpriseAttack>
+					<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+					<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+				  </li>
+				</tools>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_HostileGland</defName>
+		<label>hostile pheromones</label>
+		<labelNoun>hostile pheromones</labelNoun>
+		<description>the organism is releasing cryptimorphic threat pheromones.</description>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_PheromonePump">
+				<threatPheromone>0.25</threatPheromone>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_FriendlyGland</defName>
+		<label>friendly pheromones</label>
+		<labelNoun>friendly pheromones</labelNoun>
+		<description>the organism is releasing cryptimorphic pheromones with a comforting effect.</description>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_PheromonePump">
+				<friendPheromone>0.25</friendPheromone>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_LoverGland</defName>
+		<label>sexual pheromones</label>
+		<labelNoun>sexual pheromones</labelNoun>
+		<description>the organism is releasing cryptimorphic pheromones with an arousing effect.</description>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_PheromonePump">
+				<loverPheromone>0.25</loverPheromone>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_BladedTail</defName>
+		<label>bladed tail</label>
+		<labelNoun>bladed tail</labelNoun>
+		<description>the vertebrae have been extended into a dextrous tail ending in a scything blade.</description>
+		<defaultInstallPart>Pelvis</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+				  <li>
+					<capacity>Moving</capacity>
+					<offset>0.15</offset>
+				  </li>
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<Flammability>-0.1</Flammability>
+					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_RemoveGenes">
+				<removedCategoryTags>
+					<li>Tail</li>
+				</removedCategoryTags>
+			</li>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+				 <li>
+					<label>tail</label>
+					<capacities>
+						<li>Scratch</li>
+						<li>Stab</li>
+					</capacities>
+					<power>15</power>
+					<cooldownTime>4</cooldownTime>
+					<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+					<chanceFactor>0.12</chanceFactor>
+					<surpriseAttack>
+					  <extraMeleeDamages>
+						<li>
+						  <def>Stab</def>
+						  <amount>15</amount>
+						</li>
+					  </extraMeleeDamages>
+					</surpriseAttack>
+					<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+					<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+				  </li>
+				</tools>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_BreathingTubes</defName>
+		<label>respiratory tubes</label>
+		<labelNoun>respiratory tube</labelNoun>
+		<description>hollow tubes have extended from the dorsal side of the ribcage.</description>
+		<defaultInstallPart>Spine</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+				  <li>
+					<capacity>Breathing</capacity>
+					<offset>0.5</offset>
+				  </li>
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<Flammability>-0.1</Flammability>
+					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+					<HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="AddedXenomorphPart">
+		<defName>XMT_BreathingWafers</defName>
+		<label>respiratory wafers</label>
+		<labelNoun>respiratory wafers</labelNoun>
+		<description>The lungs have been replaced by multiple fibrous wafers which constrict and expand to respirate, however the effort to do so through a single airway is increased.</description>
+		<defaultInstallPart>Lung</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+				  <li>
+					<capacity>Breathing</capacity>
+					<offset>-0.25</offset>
+				  </li>
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<Flammability>-0.1</Flammability>
+					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+					<HypoxiaResistance MayRequire="kentington.saveourship2">0.125</HypoxiaResistance>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_WarpedNeck</defName>
+		<label>warped larynx</label>
+		<labelNoun>warped larynx</labelNoun>
+		<description>The throat is altered, causing vocalizations to take on a rasping, hissing quality that sounds unhealthy at best and alien at worst.</description>
+		<defaultInstallPart>Neck</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+				  <li>
+					<capacity>Talking</capacity>
+					<offset>-0.25</offset>
+				  </li>
+				  <li>
+					<capacity>Breathing</capacity>
+					<offset>0.25</offset>
+				  </li>
+				  <li>
+					<capacity>Eating</capacity>
+					<offset>0.25</offset>
+				  </li>
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<Flammability>-0.1</Flammability>
+					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+					<HypoxiaResistance MayRequire="kentington.saveourship2">0.25</HypoxiaResistance>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef ParentName="AddedXenomorphPart">
+		<defName>XMT_InternalNose</defName>
+		<label>internalized</label>
+		<labelNoun>internalized</labelNoun>
+		<description>the nost has completely internalized and its profile smoothed away into the face, no definition or visible nostrils are present.</description>
+		<defaultInstallPart>Nose</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.05</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.025</ArmorRating_Blunt>
+					<Flammability>-0.05</Flammability>
+					<IncomingDamageFactor>-0.005</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="AddedXenomorphPart">
+		<defName>XMT_InternalEar</defName>
+		<label>internalized</label>
+		<labelNoun>internalized</labelNoun>
+		<description>the ear canal has been completely sealed into the head, however function does not appear to be impaired.</description>
+		<defaultInstallPart>Ear</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.05</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.025</ArmorRating_Blunt>
+					<Flammability>-0.05</Flammability>
+					<IncomingDamageFactor>-0.005</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="AddedXenomorphPart">
+		<defName>XMT_InternalEye</defName>
+		<label>internalized</label>
+		<labelNoun>internalized</labelNoun>
+		<description>the retina, lens and all other functioning anatomy of the eye has been internalized and greatly altered, the precise means by which it still functions are unknown.</description>
+		<defaultInstallPart>Eye</defaultInstallPart>
+		<stages>
+			<li>
+				<capMods>
+
+				</capMods>
+				<statOffsets>
+					<ArmorRating_Sharp>0.05</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.025</ArmorRating_Blunt>
+					<Flammability>-0.05</Flammability>
+					<IncomingDamageFactor>-0.005</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+		<renderNodeProperties>
+		  <li Class="PawnRenderNodeProperties_Eye">
+			<workerClass>PawnRenderNodeWorker_HediffEye</workerClass>
+			<texPath>Things/Pawn/Wounds/Internalized_Eye</texPath>
+			<parentTagDef>Head</parentTagDef>
+			<drawSize>0.15</drawSize>
+			<colorType>Skin</colorType>
+			<useSkinShader>true</useSkinShader>
+			<drawData>
+			  <defaultData>
+				<layer>56</layer>
+				<offset>(0, 0, -0.25)</offset>
+			  </defaultData>
+			  <dataWest>
+				<flip>true</flip>
+			  </dataWest>
+			</drawData>
+		  </li>
+		</renderNodeProperties>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_AcidFat</defName>
+		<label>chloroflourine Adipose</label>
+		<labelNoun>chloroflourine Adipose</labelNoun>
+		<initialSeverity>0.01</initialSeverity>
+		<description>the adipose cells and lipids in the organism are now based on a chloroflourine biology. Greatly improving energy storage capacity at risk of more volatile biochemistry.</description>
+		<stages>
+			<li>
+				<label>sparse</label>
+				<becomeVisible>true</becomeVisible>
+				<hungerRateFactorOffset>-0.1</hungerRateFactorOffset>
+
+			</li>
+			<li>
+				<label>marbled</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.2</minSeverity>
+				<hungerRateFactorOffset>-0.2</hungerRateFactorOffset>
+
+			</li>
+			<li>
+				<label>saturated</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.3</minSeverity>
+				<hungerRateFactorOffset>-0.4</hungerRateFactorOffset>
+			</li>
+			<li>
+				<label>integrated</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.75</minSeverity>
+				<hungerRateFactorOffset>-0.5</hungerRateFactorOffset>
+	
+			</li>
+			<li>
+				<label>complete</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1</minSeverity>
+				<hungerRateFactorOffset>-0.75</hungerRateFactorOffset>
 			</li>
 		</stages>
 		<addedPartProps>
@@ -25,18 +550,95 @@
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>
-			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.125</obsessionGain>
+			<li Class="Xenomorphtype.HediffCompProperties_AcidBloodGiver">
+				<appliedHediff>AcidCorrosion</appliedHediff>
 			</li>
-			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
-				<probability>0.01</probability>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_MuscleRestructure</defName>
+		<label>musculare restructuring</label>
+		<labelNoun>musculare restructuring</labelNoun>
+		<initialSeverity>0.01</initialSeverity>
+		<description>musclegroups across the body are restructuring into a new form. Some adaptation will be required</description>
+		<stages>
+			<li>
+				<label>scattered</label>
+				<becomeVisible>true</becomeVisible>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<MeleeDodgeChance>-0.1</MeleeDodgeChance>
+					<MeleeCooldownFactor>1.5</MeleeCooldownFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>detrimental</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.2</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<MeleeDodgeChance>-0.5</MeleeDodgeChance>
+					<MeleeCooldownFactor>2.00</MeleeCooldownFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>malformed</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.3</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<MeleeDodgeChance>-0.1</MeleeDodgeChance>
+					<MeleeCooldownFactor>1.25</MeleeCooldownFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>integrated</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.75</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<MeleeDodgeChance>0.5</MeleeDodgeChance>
+					<MeleeCooldownFactor>0.85</MeleeCooldownFactor>
+				</statOffsets>
+			</li>
+			<li>
+				<label>complete</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1</minSeverity>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<statOffsets>
+					<MeleeDodgeChance>1</MeleeDodgeChance>
+					<MeleeCooldownFactor>0.75</MeleeCooldownFactor>
+				</statOffsets>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_GiveInjury">
+				<maxDamage>1</maxDamage>
+				<damageDef>Blunt</damageDef>
+				<hourIntervalToInflict>3</hourIntervalToInflict>
+				<chancebySeverity>
+					<points>
+					  <li>(0.0, 0.0)</li>
+					  <li>(0.2, 0.0)</li>
+					  <li>(0.5, 1)</li>
+					  <li>(0.75, 0.0)</li>
+					</points>
+				</chancebySeverity>
 			</li>
 		</comps>
 	</HediffDef>
 	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_Mesoskeleton</defName>
-		<label>Meso Skeletonization</label>
+		<label>meso skeletonization</label>
 		<labelNoun>meso skeletonization</labelNoun>
 		<initialSeverity>0.01</initialSeverity>
 		<description>cells are slowly being replaced with polarized silicon in a reinforcing carbo-silicate matrix. Slowly saturating all external tissues. Giving a prolonged resistance to adverse environmental conditions.</description>
@@ -50,6 +652,8 @@
 					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
 				</statOffsets>
 			</li>
 			<li>
@@ -62,6 +666,8 @@
 					<ArmorRating_Blunt>0.1</ArmorRating_Blunt>
 					<Flammability>-0.2</Flammability>
 					<IncomingDamageFactor>-0.02</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.2</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.2</VacuumResistance>
 				</statOffsets>
 			</li>
 			<li>
@@ -74,6 +680,8 @@
 					<ArmorRating_Blunt>0.15</ArmorRating_Blunt>
 					<Flammability>-0.3</Flammability>
 					<IncomingDamageFactor>-0.03</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.3</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.3</VacuumResistance>
 				</statOffsets>
 			</li>
 			<li>
@@ -86,6 +694,8 @@
 					<ArmorRating_Blunt>0.2</ArmorRating_Blunt>
 					<Flammability>-0.5</Flammability>
 					<IncomingDamageFactor>-0.05</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.4</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.4</VacuumResistance>
 				</statOffsets>
 			</li>
 			<li>
@@ -98,6 +708,8 @@
 					<ArmorRating_Blunt>0.6</ArmorRating_Blunt>
 					<Flammability>-0.8</Flammability>
 					<IncomingDamageFactor>-0.08</IncomingDamageFactor>
+					<DecompressionResistance MayRequire="kentington.saveourship2">0.6</DecompressionResistance>
+					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.6</VacuumResistance>
 				</statOffsets>
 			</li>
 		</stages>
@@ -107,6 +719,9 @@
 		<comps>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_MesoSkeleton</compClass>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_GiveInjury">
 				<damageDef>Cut</damageDef>
@@ -143,12 +758,13 @@
 			</li>
 		</renderNodeProperties>
 	</HediffDef>
+	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_AcidbloodMarrow</defName>
 		<label>chlorofluoridic marrow</label>
 		<labelNoun>acidic marrow</labelNoun>
 		<initialSeverity>0.01</initialSeverity>
-		<description>the bone marrow has begun producing a chloroflouridic blood cell.</description>
+		<description>the bone marrow has begun producing a chloroflouridic fluid instead of plasma.</description>
 		<stages>
 			<li>
 				<label>initial</label>
@@ -208,14 +824,273 @@
 			<li Class="Xenomorphtype.HediffCompProperties_AcidBloodGiver">
 				<appliedHediff>AcidCorrosion</appliedHediff>
 			</li>
-			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.125</obsessionGain>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_SoftBone</defName>
+		<label>osteomalacia</label>
+		<labelNoun>osteomalacia</labelNoun>
+		<initialSeverity>0.01</initialSeverity>
+		<description>the bone is losing mineralization and stability, becoming soft, less rigid.</description>
+		<stages>
+			<li>
+				<label>initial</label>
+				<becomeVisible>false</becomeVisible>
+				<partEfficiencyOffset>-0.1</partEfficiencyOffset>
+				<damageFactors>
+					<Blunt>0.9</Blunt>
+				</damageFactors>
 			</li>
-			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
-				<probability>0.01</probability>
+			<li>
+				<label>mild</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.2</minSeverity>
+				<partEfficiencyOffset>-0.2</partEfficiencyOffset>
+				<damageFactors>
+					<Blunt>0.8</Blunt>
+				</damageFactors>
+			</li>
+			<li>
+				<label>saturating</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.3</minSeverity>
+				<partEfficiencyOffset>-0.5</partEfficiencyOffset>
+				<painOffset>0.1</painOffset>
+				<damageFactors>
+					<Blunt>0.7</Blunt>
+				</damageFactors>
+			</li>
+			<li>
+				<label>concentrated</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>0.75</minSeverity>
+				<partEfficiencyOffset>-0.6</partEfficiencyOffset>
+				<painOffset>0.1</painOffset>
+				<damageFactors>
+					<Blunt>0.7</Blunt>
+				</damageFactors>
+			</li>
+			<li>
+				<label>complete</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1</minSeverity>
+				<partEfficiencyOffset>-0.8</partEfficiencyOffset>
+				<painOffset>0.1</painOffset>
+				<damageFactors>
+					<Blunt>0.7</Blunt>
+				</damageFactors>
+			</li>
+			<li>
+				<label>hyperactive</label>
+				<becomeVisible>true</becomeVisible>
+				<minSeverity>1.1</minSeverity>
+				<partEfficiencyOffset>-1</partEfficiencyOffset>
+				<painOffset>0.25</painOffset>
+				<damageFactors>
+					<Blunt>0.5</Blunt>
+				</damageFactors>
+			</li>
+		</stages>
+		<addedPartProps>
+			<solid>true</solid>
+		</addedPartProps>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_NoHeal</compClass>
 			</li>
 		</comps>
 	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Narcoleptic</defName>
+		<label>narcoleptic synapses</label>
+		<labelNoun>narcoleptic synapse</labelNoun>
+		<description>the synaptic network of the brain has restructured in favor of a circadian rythm prefering periods of deep torpor.</description>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<stages>
+			<li>
+				<painFactor>0.5</painFactor>
+				<hediffGivers>
+					<li Class="HediffGiver_Random">
+						<hediff>XMT_TorporComa</hediff>
+						<mtbDays>2</mtbDays>
+						<partsToAffect>
+							<li>Brain</li>
+						</partsToAffect>
+					</li>
+				</hediffGivers>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.25</obsessionGain>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Predatory</defName>
+		<label>predatory synapses</label>
+		<labelNoun>predatory synapse</labelNoun>
+		<description>the synaptic network of the brain has restructured in favor of a more predatory mindset.</description>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<stages>
+			<li>
+				<painFactor>0.95</painFactor>
+				<statOffsets>
+					<MeleeDodgeChance>0.25</MeleeDodgeChance>
+					<MeleeCooldownFactor>0.95</MeleeCooldownFactor>
+					<Wildness>1</Wildness>
+				</statOffsets>
+				<enablesNeeds>
+					<li>KillThirst</li>
+				</enablesNeeds>
+				<mentalStateGivers>
+					<li>
+						<mentalState>SadisticRage</mentalState>
+						<mtbDays>2</mtbDays>
+					</li>
+					<li>
+						<mentalState>CorpseObsession</mentalState>
+						<mtbDays>2</mtbDays>
+					</li>
+					<li>
+						<mentalState>MurderousRage</mentalState>
+						<mtbDays>2</mtbDays>
+					</li>
+					<li>
+						<mentalState>Slaughterer</mentalState>
+						<mtbDays>2</mtbDays>
+					</li>
+				</mentalStateGivers>
+				<disabledWorkTags>
+					<li>Caring</li>
+					<li>Intellectual</li>
+					<li>ManualSkilled</li>
+				</disabledWorkTags>
+			</li>
+		</stages>
+		<comps>
+			<li Class="HediffCompProperties_RemoveIfOtherHediff">
+				<hediffs>
+					<li>XMT_Docile</li>
+				</hediffs>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.25</obsessionGain>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Unasthetic</defName>
+		<label>stunted aesthetics</label>
+		<labelNoun>stunted aesthetics</labelNoun>
+		<description>the pattern recognition mechanisms of the brain have been dulled to the point that there is no longer a need for or capacity of novelty, beauty or creativity.</description>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<stages>
+			<li>
+				<disablesNeeds>
+					<li>Joy</li>
+					<li>Beauty</li>
+				</disablesNeeds>
+				<disabledWorkTags>
+					<li>Crafting</li>
+					<li>Artistic</li>
+					<li>Constructing</li>
+					<li>Intellectual</li>
+				</disabledWorkTags>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.25</obsessionGain>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Docile</defName>
+		<label>docile synapses</label>
+		<labelNoun>docile synapses</labelNoun>
+		<description>aggressive impulses are completely absent from the brain at not just a chemical level, but also a neurological and cognitive one.</description>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<stages>
+			<li>
+				<disablesNeeds>
+					<li>KillThirst</li>
+				</disablesNeeds>
+				<disabledWorkTags>
+					<li>Violent</li>
+				</disabledWorkTags>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.25</obsessionGain>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Enthralled</defName>
+		<label>hearing voices</label>
+		<labelNoun>hearing voices</labelNoun>
+		<description>Auditory hallucinations of voices are occuring consistently in the brain. They however appear to be prove soothing</description>
+		<defaultInstallPart>Brain</defaultInstallPart>
+		<stages>
+			<li>
+				<overrideMoodBase>0.5</overrideMoodBase>
+				<statOffsets>
+					<Wildness>-1</Wildness>
+					<PsychicSensitivity>0.5</PsychicSensitivity>
+				</statOffsets>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>0.5</obsessionGain>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="DiseaseBase">
+    <defName>XMT_TorporComa</defName>
+    <label>torpor coma</label>
+    <labelNoun>a torper coma</labelNoun>
+    <description>A form of benign coma during which the brain recovers from a psychic overload.</description>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>7500~7500</disappearsAfterTicks>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
 	<!--
   <HediffDef ParentName="AddedMutationBase">
     <defName>FleshmassLung</defName>

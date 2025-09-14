@@ -89,7 +89,16 @@ namespace Xenomorphtype
             bool partAdded = false;
             if (useParentPart)
             {
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message(parent + " promoting to part " + parent.Part.customLabel);
+                }
                 Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, parent.Part);
+                if(promoted.Part != parent.Part)
+                {
+                    promoted = parent.pawn.health.AddHediff(hediffDef, parent.Part);
+                }
+
                 if (promoted != null)
                 {
                     promoted.Severity += severityIncrease;

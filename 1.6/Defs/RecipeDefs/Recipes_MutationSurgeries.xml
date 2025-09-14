@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<RecipeDef Abstract="True" Name="XMT_Mutation_Surgery" ParentName="SurgeryInstallBodyPartArtificialBase">
+		<effectWorking>Surgery</effectWorking>
+		<soundWorking>Recipe_Surgery</soundWorking>
+		<workSpeedStat>MedicalOperationSpeed</workSpeedStat>
+		<workSkill>Medicine</workSkill>
+		<workSkillLearnFactor>16</workSkillLearnFactor>
+		<descriptionHyperlinks>
+			<ThingDef>XMT_Protofluid</ThingDef>
+		</descriptionHyperlinks>
+		<jobString>Inducing targeted mutation.</jobString>
+		<ingredients>
+		  <li>
+			<filter>
+			  <thingDefs>
+				<li>XMT_Protofluid</li>
+			  </thingDefs>
+			</filter>
+			<count>1</count>
+		  </li>
+		</ingredients>
+		<fixedIngredientFilter>
+		  <thingDefs>
+			<li>XMT_Protofluid</li>
+		  </thingDefs>
+		</fixedIngredientFilter>
+		<researchPrerequisites>
+			<li>XMT_Mutation_Targeted</li>
+		</researchPrerequisites>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+		<skillRequirements>
+			<Medicine>8</Medicine>
+		</skillRequirements>
+		<addsHediffOnFailure>XMT_Protofluid</addsHediffOnFailure>
+	</RecipeDef>
+
+
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Eye</defName>
+		<label>mutate eye</label>
+		<description>perform a controlled mutation through targeted injection into the eye.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_InternalEye</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Eye</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_InternalEye</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Ear</defName>
+		<label>mutate ear</label>
+		<description>perform a controlled mutation through targeted injection into the ear canal.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_InternalEar</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Ear</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_InternalEar</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Nose</defName>
+		<label>mutate nose</label>
+		<description>perform a controlled mutation through targeted injection into the nasal cavity.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_InternalEar</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Nose</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_InternalNose</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Neck</defName>
+		<label>mutate larynx</label>
+		<description>perform a controlled mutation through targeted injection into the larynx.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_WarpedNeck</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Neck</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_WarpedNeck</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Lung</defName>
+		<label>mutate larynx</label>
+		<description>perform a controlled mutation through targeted injection into the lung.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_BreathingWafers</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Lung</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_BreathingWafers</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Back</defName>
+		<label>mutate back</label>
+		<description>perform a controlled mutation through targeted injections into the back.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_BreathingTubes</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Spine</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_BreathingTubes</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Tail</defName>
+		<label>mutate sacrum</label>
+		<description>perform a controlled mutation through targeted injections into the sacrum of the pelvis.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_BladedTail</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Pelvis</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_BladedTail</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Stomach</defName>
+		<label>mutate stomach</label>
+		<description>perform a controlled mutation through targeted injections into the stomach.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_ImprovedStomach</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Stomach</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_ImprovedStomach</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Tongue</defName>
+		<label>mutate stomach</label>
+		<description>perform a controlled mutation through targeted injection into the tongue.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_SpikeTongue</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Tongue</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_SpikeTongue</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Jaw</defName>
+		<label>mutate jaw</label>
+		<description>perform a controlled mutation through targeted injections into the jaw, pallete and throat.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_SecondJaw</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Jaw</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_SecondJaw</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_FriendSmell</defName>
+		<label>mutate sweat glands</label>
+		<description>perform a controlled mutation through targeted injections into the endocrine system to cause calming cryptimorph pheromones.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_FriendlyGland</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Torso</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_FriendlyGland</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_ThreatSmell</defName>
+		<label>mutate sweat glands</label>
+		<description>perform a controlled mutation through targeted injections into the endocrine system to cause agitating cryptimorph pheromones.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_HostileGland</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Torso</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_HostileGland</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Fat</defName>
+		<label>mutate adipose tissue</label>
+		<description>perform a controlled mutation through targeted injections throughout the body directly into the adipose tissue.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_AcidFat</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Torso</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_AcidFat</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Muscle</defName>
+		<label>mutate muscle tissue</label>
+		<description>perform a controlled mutation through targeted injections throughout the body directly into the muscular tissue.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_MuscleRestructure</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Torso</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_MuscleInjection</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Skeleton</defName>
+		<label>mutate muscle tissue</label>
+		<description>perform a controlled mutation through targeted injections throughout the body directly into the epidermis and skeletal tissue.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_Mesoskeleton</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Torso</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_SkeletonInjection</addsHediff>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="XMT_Mutation_Surgery">
+		<defName>XMT_Mutate_Marrow</defName>
+		<label>mutate bone marrow</label>
+		<description>perform a controlled mutation through targeted injections directly into the bone marrow.</description>
+		<descriptionHyperlinks>
+		  <HediffDef>XMT_AcidbloodMarrow</HediffDef>
+		</descriptionHyperlinks>
+		<appliedOnFixedBodyParts>
+		  <li>Ribcage</li>
+		  <li>Spine</li>
+		  <li>Clavicle</li>
+		  <li>Sternum</li>
+		  <li>Humerus</li>
+		  <li>Radius</li>
+		  <li>Pelvis</li>
+		  <li>Femur</li>
+		  <li>Tibia</li>
+		</appliedOnFixedBodyParts>
+		<addsHediff>XMT_MarrowInjection</addsHediff>
+	</RecipeDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_MarrowInjection</defName>
+		<label>discoloration</label>
+		<description>A discoloration spreads out from the injection site.</description>
+		<makesSickThought>true</makesSickThought>
+		<maxSeverity>1</maxSeverity>
+		<initialSeverity>1</initialSeverity>
+		<stages>
+			<li>
+				
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_PerPartPromoter">
+				<HediffPromotionsByPart>
+					<li>
+						<increaseSeverity>1</increaseSeverity>
+						<hediffDef>XMT_AcidbloodMarrow</hediffDef>
+					</li>
+				</HediffPromotionsByPart>
+			</li>
+		</comps>
+	</HediffDef>
+
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_SkeletonInjection</defName>
+		<label>discoloration</label>
+		<description>A discoloration spreads out from multiple injection sites on the body.</description>
+		<makesSickThought>true</makesSickThought>
+		<maxSeverity>1</maxSeverity>
+		<initialSeverity>1</initialSeverity>
+		<stages>
+			<li>
+				
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_PerPartPromoter">
+				<HediffPromotionsByPart>
+					<li>
+						<increaseSeverity>1</increaseSeverity>
+						<hediffDef>XMT_Mesoskeleton</hediffDef>
+					</li>
+				</HediffPromotionsByPart>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_MuscleInjection</defName>
+		<label>discoloration</label>
+		<description>A discoloration spreads out from multiple injection sites on the body.</description>
+		<makesSickThought>true</makesSickThought>
+		<maxSeverity>1</maxSeverity>
+		<initialSeverity>1</initialSeverity>
+		<stages>
+			<li>
+				
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_PerPartPromoter">
+				<HediffPromotionsByPart>
+					<li>
+						<increaseSeverity>1</increaseSeverity>
+						<hediffDef>XMT_MuscleRestructure</hediffDef>
+					</li>
+				</HediffPromotionsByPart>
+			</li>
+		</comps>
+	</HediffDef>
+</Defs>

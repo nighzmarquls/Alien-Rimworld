@@ -801,17 +801,17 @@
 					<li MayRequire="det.stoneborn">DV_BushyEyebrows</li>
 				</blackGeneList>
 				<blackGeneTags> 
-					<li MayRequire="Ludeon.RimWorld.Biotech">EyeColor</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Furskin</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Tail</li>	
-					<li MayRequire="Ludeon.RimWorld.Biotech">HairColor</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">HairStyle</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">BeardStyle</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Ears</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Nose</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Jaw</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Addiction</li>	
-					<li MayRequire="vanillaracesexpanded.insector">InsectorEye</li>
+					<li>EyeColor</li>
+					<li>Furskin</li>
+					<li>Tail</li>	
+					<li>HairColor</li>
+					<li>HairStyle</li>
+					<li>BeardStyle</li>
+					<li>Ears</li>
+					<li>Nose</li>
+					<li>Jaw</li>
+					<li>Addiction</li>	
+					<li>InsectorEye</li>
 					<li>Fur</li>
 					<li>Headeyes</li>
 					<li>AG_Heads</li>
@@ -835,6 +835,15 @@
 					<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_HatLadies</li>
 					<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Beret</li>
 					<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_HatTop</li>
+					
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricUniformWorker</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricUniformLeader</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricFrillWorker</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricFrillCombat</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApronHalf</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApron</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApronTech</li>
+					
 				</whiteApparelList>
 				<onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
 				

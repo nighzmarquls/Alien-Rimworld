@@ -40,6 +40,11 @@
 			<li><symbol>vil</symbol></li>
 		  </suffixSymbols>
 		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 	<GeneDef ParentName="GeneHeadboneBase">
 		<defName>XMT_Royal_CenterHorn</defName>
@@ -79,5 +84,10 @@
 			<li><symbol>spike</symbol></li>
 		  </suffixSymbols>
 		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
 	</GeneDef>
 </Defs>

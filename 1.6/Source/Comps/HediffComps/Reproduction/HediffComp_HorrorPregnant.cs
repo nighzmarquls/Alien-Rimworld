@@ -1,7 +1,9 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
@@ -19,6 +21,7 @@ namespace Xenomorphtype
     }
     public class HediffComp_HorrorPregnant : HediffComp_SeverityModifierBase
     {
+        private readonly static Type SexPartDefType = AccessTools.TypeByName("HediffDef_SexPart");
         HediffCompProperties_Comp_HorrorPregnant Props => props as HediffCompProperties_Comp_HorrorPregnant;
         PawnKindDef childKind;
         bool birthed = false;
@@ -47,7 +50,6 @@ namespace Xenomorphtype
                     Pawn.health.RemoveHediff(pregnancy);
                 }
             }
-
         }
 
         protected float GetMotherEssence()
@@ -96,6 +98,43 @@ namespace Xenomorphtype
             {
                 Log.Error("No Child Kind when birthing.");
                 return;
+            }
+
+            if (ModsConfig.IsActive("rim.job.world"))
+            {
+                bool makeBirthCanal = true;
+
+                foreach(Hediff hediff in Pawn.health.hediffSet.hediffs)
+                {
+                    if(hediff.def.GetType() == SexPartDefType)
+                    {
+                        if(hediff.def == ExternalDefOf.XMT_Vagina)
+                        {
+                            makeBirthCanal = false;
+                            break;
+                        }
+                        if (hediff.def.label.Contains("vagina".Translate()))
+                        {
+                            makeBirthCanal = false;
+                            break;
+                        }
+
+                    }
+                }
+
+                if (makeBirthCanal)
+                {
+                    BodyPartRecord newPart = Pawn.def.race.body.AllParts.FirstOrDefault(part => part.Label == "genitals");
+                    if (newPart != null)
+                    {
+                        Hediff newHediff = Pawn.health.GetOrAddHediff(ExternalDefOf.XMT_Vagina, newPart);
+                        Pawn.health.AddHediff(newHediff, newHediff.Part);
+                    }
+                }
+            }
+            else if (Pawn.gender != Gender.Female)
+            {
+                Pawn.gender = Gender.Female;
             }
 
             PawnGenerationRequest request = new PawnGenerationRequest(childKind, Pawn.Faction);

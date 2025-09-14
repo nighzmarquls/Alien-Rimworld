@@ -164,7 +164,6 @@ namespace Xenomorphtype
                     CompRottable rottable = corpse.TryGetComp<CompRottable>();
                     if (rottable != null)
                     {
-                        
                         float remaining = 1-((float)rottable.RotProgress / (float)rottable.PropsRot.TicksToDessicated);
 
                         output *= remaining;
@@ -288,6 +287,15 @@ namespace Xenomorphtype
                 if(rottable != null)
                 {
                     rottable.RotProgress += (rottable.PropsRot.TicksToDessicated) * efficiency;
+
+                    
+                }
+                if (corpse.IsDessicated())
+                {
+                    if(corpse.MapHeld is Map map)
+                    {
+                        map.reservationManager.ReleaseAllForTarget(corpse);
+                    }
                 }
                 return;
             }

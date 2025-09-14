@@ -215,6 +215,17 @@ namespace Xenomorphtype
         //Bodyparts
         [MayRequire("rim.job.world")]
         public static BodyPartDef Anus;
-        
+
+        [MayRequire("rim.job.world")]
+        public static HediffDef XMT_Vagina;
+
+        [MayRequire("rim.job.world")]
+        public static HediffDef GenericVagina;
+ 
+        [MayRequire("rim.job.world")]
+        public static HediffDef Vagina;
+    
+      
+
     }
 }

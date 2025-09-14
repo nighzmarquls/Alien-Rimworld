@@ -45,6 +45,22 @@
 		<value>
 			<li>XMT_Remove_LarvalEmbrace</li>
 			<li>XMT_RemoveEmbryo</li>
+			<li>XMT_Mutate_Marrow</li>
+			<li>XMT_Mutate_Skeleton</li>
+			<li>XMT_Mutate_Muscle</li>
+			<li>XMT_Mutate_Fat</li>
+			<li>XMT_Mutate_ThreatSmell</li>
+			<li>XMT_Mutate_FriendSmell</li>
+			<li>XMT_Mutate_Jaw</li>
+			<li>XMT_Mutate_Tongue</li>
+			<li>XMT_Mutate_Stomach</li>
+			<li>XMT_Mutate_Tail</li>
+			<li>XMT_Mutate_Back</li>
+			<li>XMT_Mutate_Lung</li>
+			<li>XMT_Mutate_Neck</li>
+			<li>XMT_Mutate_Nose</li>
+			<li>XMT_Mutate_Ear</li>
+			<li>XMT_Mutate_Eye</li>
 		</value>
 	</Operation>
 	

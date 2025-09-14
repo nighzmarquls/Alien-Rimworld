@@ -205,7 +205,7 @@
 		  <Flammability>0</Flammability>
 		  <Beauty>0</Beauty>
 		</statBases>
-		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<terrainAffordanceNeeded>LightResin</terrainAffordanceNeeded>
 		<researchPrerequisites>
 			<li>XMT_Starbeast_Reinforcement</li>
 		</researchPrerequisites>

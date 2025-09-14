@@ -90,7 +90,7 @@
 	<tab>XMT_HumanResearchTab</tab>
   </ResearchProjectDef>
   
-  <!--<ResearchProjectDef>
+  <ResearchProjectDef>
     <defName>XMT_Mutation_Targeted</defName>
     <label>targeted mutations</label>
     <description>With care directed mutation expression can be achieved through application of A0X protofluid.</description>
@@ -117,7 +117,7 @@
       </rulesStrings>
     </generalRules>
 	<tab>XMT_HumanResearchTab</tab>
-  </ResearchProjectDef>-->
+  </ResearchProjectDef>
   
   <ResearchProjectDef>
     <defName>XMT_Jelly_Drugs</defName>
