@@ -193,7 +193,7 @@ namespace Xenomorphtype
 
             parent.pawn.GetMorphComp().UpdateSkinByAge();
             int progress = 250;
-            XMTResearch.ProgressEvolutionTech(progress, Pawn);
+            ResearchUtility.ProgressEvolutionTech(progress, Pawn);
         }
 
         protected float GeneMaturationFactor()

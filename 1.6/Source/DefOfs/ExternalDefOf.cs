@@ -18,6 +18,15 @@ namespace Xenomorphtype
 
         //Vanilla Defs
 
+        //backstories
+        public static BackstoryDef SpaceMerchant97;
+        public static BackstoryDef BusinessGangster58;
+        public static BackstoryDef UrbworldEntrepreneur14;
+        public static BackstoryDef MafiaBoss17;
+        public static BackstoryDef Taxonomist0;
+        public static BackstoryDef ConArtist80;
+        public static BackstoryDef CorporateManager76;
+
         //traits
         public static TraitDef Tough;
         public static TraitDef Nimble;

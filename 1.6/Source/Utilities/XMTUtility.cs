@@ -1,12 +1,9 @@
 ﻿using AlienRace;
-using PipeSystem;
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using VEF.AnimalBehaviours;
 using Verse;
 using Verse.AI;
 
@@ -1057,7 +1054,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessAcidHorror(strength, maxAwareness);
-                            XMTResearch.ProgressCryptobioTech(1, witness);
+                            ResearchUtility.ProgressCryptobioTech(1, witness);
                         }
                     }
                 }
@@ -1084,7 +1081,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessHorror(strength, maxAwareness);
-                            XMTResearch.ProgressCryptobioTech(1, witness);
+                            ResearchUtility.ProgressCryptobioTech(1, witness);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1116,7 +1113,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessOvamorphHorror(strength, maxAwareness);
-                            XMTResearch.ProgressCryptobioTech(1, witness);
+                            ResearchUtility.ProgressCryptobioTech(1, witness);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1151,7 +1148,7 @@ namespace Xenomorphtype
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
                         CompPawnInfo info = witness.Info();
-                        XMTResearch.ProgressCryptobioTech(1, witness);
+                        ResearchUtility.ProgressCryptobioTech(1, witness);
                         if (info != null)
                         {
                             info.WitnessLarvaHorror(strength, maxAwareness);
@@ -1193,7 +1190,7 @@ namespace Xenomorphtype
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
                         CompPawnInfo info = witness.Info();
-                        XMTResearch.ProgressCryptobioTech(1, witness);
+                        ResearchUtility.ProgressCryptobioTech(1, witness);
                         if (info != null)
                         {
                             float thisAwareness = info.LarvaAwareness;

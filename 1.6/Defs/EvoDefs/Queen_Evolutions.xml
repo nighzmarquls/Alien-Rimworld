@@ -104,6 +104,16 @@
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_MutantExpression</defName>
+		<label>mutation expression</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Unlocks the ability to access genes on crypimorph mutated organisms and enhance or suppress their expression.</description>
+		<prerequisites>
+			<li>Evo_GeneControl</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_JellyWellSerum</defName>
 		<label>Jelly Wells</label>
 		<evoPointCost>2</evoPointCost>

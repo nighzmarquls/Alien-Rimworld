@@ -1630,6 +1630,26 @@ namespace Xenomorphtype
             }
             return true;
         }
+
+        public static List<Pawn> GetHiveMembersOnMap(Map localMap)
+        {
+            List<Pawn> returnList = new List<Pawn>();
+
+            if (localMap == null)
+            {
+                return returnList;
+            }
+
+            NestSite localNest = GetLocalNest(localMap);
+
+            if (localNest == null)
+            {
+                return returnList;
+            }
+            localNest.HiveMates.CopyToList(localNest.HiveMates);
+
+            return returnList;
+        }
         public static bool PlayerXenosOnMap(Map localMap)
         {
             if (localMap == null)
@@ -1653,6 +1673,16 @@ namespace Xenomorphtype
             {
                 if(hiveMate.Faction != null)
                 {
+                    if(hiveMate.GuestStatus == GuestStatus.Slave || hiveMate.GuestStatus == GuestStatus.Prisoner)
+                    {
+                        continue;
+                    }
+
+                    if(!hiveMate.GetMorphComp().Integrated)
+                    {
+                        continue;
+                    }
+
                     if(hiveMate.Faction.IsPlayer)
                     {
                         return true;

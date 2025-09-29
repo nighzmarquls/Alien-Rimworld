@@ -37,6 +37,7 @@ namespace Xenomorphtype
         public static ThoughtDef VictimNightmareMood;
 
         //Starbeasts
+        public static ThoughtDef XMT_ImpureUrge;
         public static ThoughtDef TooMuchNestWork;
         public static ThoughtDef HostImpregnated;
         public static ThoughtDef CapturedHost;

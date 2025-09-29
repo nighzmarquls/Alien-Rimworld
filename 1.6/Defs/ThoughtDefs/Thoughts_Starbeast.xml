@@ -262,6 +262,7 @@
 		  </li>
 		</stages>
 	</ThoughtDef>
+	
 	<ThoughtDef>
 		<defName>StarbeastImprisoned</defName>
 		<durationDays>240</durationDays>
@@ -402,6 +403,24 @@
 		  <li>
 			<label>imprisoned mockery</label>
 			<baseOpinionOffset>-2</baseOpinionOffset>
+		  </li>
+		</stages>
+	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>XMT_ImpureUrge</defName>
+		<durationDays>1</durationDays>
+		<stackLimit>10</stackLimit>
+		<stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<nullifyingHediffs>
+		  <li MayRequire="Ludeon.RimWorld.Anomaly">Inhumanized</li>
+		</nullifyingHediffs>
+		<stages>
+		  <li>
+			<label>impure urge</label>
+			<description>I wanted to take them in the dark but it is wrong!</description>
+			<baseMoodEffect>-10</baseMoodEffect>
 		  </li>
 		</stages>
 	</ThoughtDef>

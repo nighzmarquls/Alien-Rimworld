@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.065</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.066</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -70,7 +70,7 @@
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Alphatest version 0.064.
+	<description>Alphatest version 0.066.
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?
@@ -80,7 +80,7 @@ https://discord.gg/YgarzpUhhV
 Design Assistance Credit: ohluit, RGM-89 Jegan, BreadAndWheat, DucoteProductions, Type Writer, Ballisticwaffles, King Baddabing, isaias_0395, Stealth and Lavi.
 Technical Assistance Credit: Erdelf, Bradson, Elire and Abraxas
 Testing Credit:Dinoman, Vectrix, Type Writer, Laurient, Ballisticwaffles, BlueExe0511, Elire, grimace, Shadoweater25 and Thekillergreece,
-Art Credit: H.M Hellfire for base hulk and male bodytype textures.
+Art Credit: H.M Hellfire for base hulk and male bodytype textures. darko4050 for furniture/inorganic sprite work.
 Thanks to Stardust for moral support, hopefully they will get a modlist working some day.
 </description>
 </ModMetaData>

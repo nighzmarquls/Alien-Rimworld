@@ -1,16 +1,14 @@
-﻿using RimWorld;
-using System;
+﻿
+using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verse.AI;
-using Verse;
 using UnityEngine;
+using Verse;
+using Verse.AI;
+using static Xenomorphtype.CompPawnInfo;
 
 namespace Xenomorphtype
 {
-    internal class JobDriver_AlterGenes : JobDriver
+    internal class JobDriver_MutateTarget : JobDriver
     {
 
         private float TicksFinish = 350;
@@ -64,11 +62,23 @@ namespace Xenomorphtype
             {
                 if (Progress >= 1)
                 {
-                    Thing prey = Target;
-                    CompGeneManipulator manipulator = pawn.GetComp<CompGeneManipulator>();
-                    if(manipulator != null)
+                    if(Target is Pawn prey)
                     {
-                        manipulator.AlterGenes(prey);
+                        switch(prey.Info().StrongestPheromone)
+                        {
+                            case PheromoneType.Lover:
+                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_LovinMutationSet);
+                                break;
+                            case PheromoneType.Friend:
+                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_AscendanceMutationSet);
+                                break;
+                            case PheromoneType.Threat:
+                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_HostMeatMutationSet);
+                                break;
+                            default:
+                                BioUtility.TryMutatingPawn(ref prey);
+                                break;
+                        }
                     }
 
                 }

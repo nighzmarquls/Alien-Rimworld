@@ -17,6 +17,8 @@ namespace Xenomorphtype
         }
         public static PreceptDef XMT_QueenAscension;
 
+        public static InteractionDef XMT_AdvancedTameAttempt;
+
         // xeno research tab
         public static ResearchTabDef XMT_StarbeastResearchTab;
 

@@ -13,6 +13,9 @@ namespace Xenomorphtype
     public class BioUtility
     {
         private static float maxEssence = 4;
+        private const float MetabolicLossSeverity = 0.45f;
+
+        private const float MinMetabolicLossSeverity = 0.45f;
 
         private static bool CheckTransformation(TransformationHorror candidate, float Essence, ref PawnKindDef pawnForm, ref ThingDef thingForm)
         {
@@ -787,11 +790,35 @@ namespace Xenomorphtype
 
             return false;
         }
+
+        public static bool HasMutations(Pawn pawn, bool checkXeno = true)
+        {
+            if(pawn == null)
+            {
+                return false;
+            }
+
+            if(XMTUtility.IsXenomorph(pawn) && checkXeno)
+            {
+                return false;
+            }
+            return GetXenomorphInfluence(pawn) > 0;
+        }
         internal static bool HasAlterableGenes(Thing thing)
         {
-            if(XMTUtility.IsXenomorph(thing))
+            if (thing is Pawn pawn)
             {
-                return true;
+                if (XMTUtility.IsXenomorph(thing))
+                {
+                    return true;
+                }
+                else if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_MutantExpression))
+                {
+                    if(HasMutations(pawn, false))
+                    {
+                        return true;
+                    }
+                }
             }
 
             CompHiveGeneHolder geneHolder = thing.TryGetComp<CompHiveGeneHolder>();
@@ -921,6 +948,34 @@ namespace Xenomorphtype
                     Log.Message("applied altered genes to " + target);
                 }
             }
+        }
+
+        public static void ExtractMetabolicCostFromPawn(Pawn pawn)
+        {
+            if (pawn.needs != null && pawn.needs.food != null)
+            {
+                pawn.needs.food.CurLevel -= MetabolicLossSeverity;
+            }
+            else
+            {
+                Hediff hediff = HediffMaker.MakeHediff(HediffDefOf.BloodLoss, pawn);
+                hediff.Severity = MetabolicLossSeverity;
+                pawn.health.AddHediff(hediff);
+            }
+        }
+        internal static bool PawnHasEnoughForExtraction(Pawn pawn)
+        {
+            if (pawn.needs != null && pawn.needs.food != null)
+            {
+                return pawn.needs.food.CurLevel > MinMetabolicLossSeverity;
+            }
+            Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss);
+            if (firstHediffOfDef != null)
+            {
+                return firstHediffOfDef.Severity < MinMetabolicLossSeverity;
+            }
+
+            return true;
         }
 
         internal static bool PerformBioconstructionCost(Pawn pawn)

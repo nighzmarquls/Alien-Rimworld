@@ -43,7 +43,7 @@ namespace Xenomorphtype
         public Vector3 headOffset_south;
         public Vector3 headOffset_east;
         public Vector3 headOffset_west;
-        protected enum PheromoneType
+        public enum PheromoneType
         {
             Lover = 0,
             Friend,
@@ -62,7 +62,9 @@ namespace Xenomorphtype
         float FriendlyPheromone => _friendlyPheromone;
         float ThreatPheromone => _threatPheromone;
 
-        protected PheromoneType strongestPheromone
+        public bool extractJelly;
+        public bool extractResin;
+        public PheromoneType StrongestPheromone
         {
             get
             {
@@ -172,7 +174,7 @@ namespace Xenomorphtype
 
                     if (_traumaRelief > 0)
                     {
-                        Log.Message(Parent + " still has " + _traumaRelief + " relief");
+                        //Log.Message(Parent + " still has " + _traumaRelief + " relief");
                         _traumaRelief -= 0.01f;
                     }
                 }
@@ -235,6 +237,54 @@ namespace Xenomorphtype
             float modifier = 0;
             if (parent is Pawn Parent)
             {
+                if (Parent.story is Pawn_StoryTracker story)
+                {
+                    if (story.traits.HasTrait(TraitDefOf.Greedy))
+                    {
+                        modifier += 0.5f;
+                    }
+
+                    foreach(BackstoryDef backstory in story.AllBackstories)
+                    {
+                        if(backstory == ExternalDefOf.SpaceMerchant97)
+                        {
+                            modifier += 0.1f;
+                        }
+
+                        if (backstory == ExternalDefOf.BusinessGangster58)
+                        {
+                            modifier += 0.25f;
+                        }
+
+                        if (backstory == ExternalDefOf.UrbworldEntrepreneur14)
+                        {
+                            modifier += 0.5f;
+                        }
+
+                        if (backstory == ExternalDefOf.MafiaBoss17)
+                        {
+                            modifier += 0.1f;
+                        }
+
+                        if (backstory == ExternalDefOf.Taxonomist0)
+                        {
+                            modifier += 0.1f;
+                        }
+
+                        if (backstory == ExternalDefOf.ConArtist80)
+                        {
+                            modifier += 0.1f;
+                        }
+
+                        if (backstory == ExternalDefOf.CorporateManager76)
+                        {
+                            modifier += 0.25f;
+                        }
+                    }
+                }
+                
+            
+               
                 if (ModsConfig.IdeologyActive)
                 {
                     if (Parent.Ideo is Ideo PawnIdeo)
@@ -293,6 +343,9 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref acidAwareness, "AcidAwareness", 0);
             Scribe_Values.Look(ref psychicAwareness, "psychicAwareness", 0);
             Scribe_Values.Look(ref obsession, "HorrorObsession", 0);
+
+            Scribe_Values.Look(ref extractJelly, "extractJelly", false);
+            Scribe_Values.Look(ref extractResin, "extractResin", false);
         }
 
         public bool ShouldDisplay()
@@ -317,7 +370,7 @@ namespace Xenomorphtype
             {
                 if (pheromonesPresent)
                 {
-                    switch (strongestPheromone)
+                    switch (StrongestPheromone)
                     {
                         case PheromoneType.Lover:
                             return Color.magenta;
@@ -347,7 +400,7 @@ namespace Xenomorphtype
 
                 if (pheromonesPresent)
                 {
-                    switch (strongestPheromone)
+                    switch (StrongestPheromone)
                     {
                         case PheromoneType.Lover:
                             output += "marked hive lover";

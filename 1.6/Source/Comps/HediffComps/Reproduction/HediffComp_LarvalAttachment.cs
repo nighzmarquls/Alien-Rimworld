@@ -57,7 +57,6 @@ namespace Xenomorphtype
             base.CompPostMake();
 
             HiveUtility.RemoveHost(parent.pawn, parent.pawn.Map);
-            XMTUtility.WitnessLarva(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.25f, 1f);
         }
         public override void CompPostTick(ref float severityAdjustment)
         {
@@ -336,7 +335,7 @@ namespace Xenomorphtype
                 }
             }
             int progress = 250;
-            XMTResearch.ProgressEvolutionTech(progress, Pawn);
+            ResearchUtility.ProgressEvolutionTech(progress, Pawn);
             Pawn.health.hediffSet.AddDirect(hediff);
             spent = true;
 

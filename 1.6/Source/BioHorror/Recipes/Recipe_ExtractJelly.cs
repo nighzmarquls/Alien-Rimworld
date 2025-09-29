@@ -7,9 +7,7 @@ namespace Xenomorphtype
 {
     internal class Recipe_ExtractJelly : Recipe_Surgery
     {
-        private const float MetabolicLossSeverity = 0.45f;
 
-        private const float MinMetabolicLossSeverity = 0.45f;
 
         public override bool AvailableOnNow(Thing thing, BodyPartRecord part = null)
         {
@@ -31,7 +29,7 @@ namespace Xenomorphtype
         {
             if (base.CompletableEver(surgeryTarget))
             {
-                return PawnHasEnoughForExtraction(surgeryTarget);
+                return BioUtility.PawnHasEnoughForExtraction(surgeryTarget);
             }
 
             return false;
@@ -40,7 +38,7 @@ namespace Xenomorphtype
         public override void CheckForWarnings(Pawn medPawn)
         {
             base.CheckForWarnings(medPawn);
-            if (!PawnHasEnoughForExtraction(medPawn))
+            if (!BioUtility.PawnHasEnoughForExtraction(medPawn))
             {
                 Messages.Message("XMT_MessageCannotStartJellyExtraction".Translate(medPawn.Named("PAWN")), medPawn, MessageTypeDefOf.NeutralEvent, historical: false);
             }
@@ -48,22 +46,13 @@ namespace Xenomorphtype
 
         public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
         {
-            if (!PawnHasEnoughForExtraction(pawn))
+            if (!BioUtility.PawnHasEnoughForExtraction(pawn))
             {
                 Messages.Message("XMT_MessagePawnHadNotEnoughToProduceJelly".Translate(pawn.Named("PAWN")), pawn, MessageTypeDefOf.NeutralEvent);
                 return;
             }
 
-            if (pawn.needs != null && pawn.needs.food != null)
-            {
-                pawn.needs.food.CurLevel -= MetabolicLossSeverity;
-            }
-            else
-            {
-                Hediff hediff = HediffMaker.MakeHediff(HediffDefOf.BloodLoss, pawn);
-                hediff.Severity = MetabolicLossSeverity;
-                pawn.health.AddHediff(hediff);
-            }
+            BioUtility.ExtractMetabolicCostFromPawn(pawn);
 
             OnSurgerySuccess(pawn, part, billDoer, ingredients, bill);
             if (IsViolationOnPawn(pawn, part, Faction.OfPlayer))
@@ -76,28 +65,13 @@ namespace Xenomorphtype
         {
             Thing jelly = ThingMaker.MakeThing(InternalDefOf.Starbeast_Jelly);
             jelly.stackCount = 5;
-
-            XMTResearch.ProgressCryptobioTech(5, billDoer);
+            XMTUtility.GiveInteractionMemory(pawn, ThoughtDefOf.HarmedMe, billDoer);
+            ResearchUtility.ProgressCryptobioTech(5, billDoer);
 
             if (!GenPlace.TryPlaceThing(jelly, pawn.PositionHeld, pawn.MapHeld, ThingPlaceMode.Near))
             {
                 Log.Error("Could not drop jelly near " + pawn.PositionHeld.ToString());
             }
-        }
-
-        private bool PawnHasEnoughForExtraction(Pawn pawn)
-        {
-            if(pawn.needs != null && pawn.needs.food != null)
-            {
-                return pawn.needs.food.CurLevel > MinMetabolicLossSeverity;
-            }
-            Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss);
-            if (firstHediffOfDef != null)
-            {
-                return firstHediffOfDef.Severity < MinMetabolicLossSeverity;
-            }
-
-            return true;
         }
     }
 }

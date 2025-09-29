@@ -116,6 +116,16 @@
 	</JobDef>
 	
 	<JobDef>
+		<defName>XMT_MutateTarget</defName>
+		<driverClass>Xenomorphtype.JobDriver_MutateTarget</driverClass>
+		<reportString>altering TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
+	
+	<JobDef>
 		<defName>XMT_CopyGenes</defName>
 		<driverClass>Xenomorphtype.JobDriver_CopyGenesFrom</driverClass>
 		<reportString>acquiring genes from TargetA.</reportString>
@@ -223,13 +233,6 @@
 		<driverClass>Xenomorphtype.JobDriver_ConsumeGenes</driverClass>
 		<reportString>consuming genes.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
-	</JobDef>
-	
-	<JobDef>
-		<defName>XMT_Protofluid</defName>
-		<driverClass>Xenomorphtype.JobDriver_Protofluid</driverClass>
-		<reportString>injecting TargetA.</reportString>
-		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
 	
 </Defs>

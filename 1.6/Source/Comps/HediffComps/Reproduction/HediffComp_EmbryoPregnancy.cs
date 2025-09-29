@@ -343,7 +343,7 @@ namespace Xenomorphtype
             XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f);
 
             int progress = 250;
-            XMTResearch.ProgressEvolutionTech(progress, child);
+            ResearchUtility.ProgressEvolutionTech(progress, child);
 
             child.GetMorphComp().UpdateSkinByAge();
 

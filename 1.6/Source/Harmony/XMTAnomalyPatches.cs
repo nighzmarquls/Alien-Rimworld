@@ -16,7 +16,7 @@ namespace Xenomorphtype
             [HarmonyPostfix]
             static void Postfix(ITab_Entity __instance, ref bool __result)
             {
-                /*
+                
                 if(!__result)
                 {
                     return;
@@ -33,7 +33,7 @@ namespace Xenomorphtype
                 {
                     __result = false;
                 }
-                */
+                
             }
         }
 

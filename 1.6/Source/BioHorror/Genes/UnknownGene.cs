@@ -16,7 +16,7 @@ namespace Xenomorphtype
             BioUtility.AddHybridGene(pawn);
             if(XenoGeneDefOf.XMT_Starbeast_Genetics.IsHidden)
             {
-                XMTResearch.ProgressCryptobioTech(100, pawn);
+                ResearchUtility.ProgressCryptobioTech(100, pawn);
             }
 
             if(pawn.genes != null) {

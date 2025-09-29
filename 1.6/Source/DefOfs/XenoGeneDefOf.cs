@@ -45,8 +45,10 @@ namespace Xenomorphtype
         public static GeneDef       XMT_Muffalo_Ruff;
 
         // mutation set
-        public static XMT_MutationsHealthSet   XMT_MutationsSet;
-        public static XMT_MutationsHealthSet   XMT_LovinMutationSet;
+        public static XMT_MutationsHealthSet    XMT_MutationsSet;
+        public static XMT_MutationsHealthSet    XMT_LovinMutationSet;
+        public static XMT_MutationsHealthSet    XMT_HostMeatMutationSet;
+        public static XMT_MutationsHealthSet    XMT_AscendanceMutationSet;
 
         // health set
         public static XMT_InfluenceHealthSet   XMT_InfluencesSet;

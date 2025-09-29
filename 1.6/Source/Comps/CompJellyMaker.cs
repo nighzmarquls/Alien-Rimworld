@@ -249,7 +249,7 @@ namespace Xenomorphtype
                 }
             }
 
-            XMTResearch.ProgressEvolutionTech(totalJelly, parent);
+            ResearchUtility.ProgressEvolutionTech(totalJelly, parent);
             DropJelly(droppedJelly, cell, currentMap);
             return totalJelly;
         }
@@ -273,7 +273,7 @@ namespace Xenomorphtype
                 }
             }
 
-            XMTResearch.ProgressEvolutionTech(totalJelly, parent);
+            ResearchUtility.ProgressEvolutionTech(totalJelly, parent);
             droppedJelly += ConvertTerrainToJelly(cell, map, efficiency);
             DropJelly(droppedJelly, cell, map);
             return totalJelly;

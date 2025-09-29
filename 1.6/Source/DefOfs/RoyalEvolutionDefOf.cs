@@ -21,6 +21,7 @@ namespace Xenomorphtype
         public static RoyalEvolutionDef Evo_GeneStorage;
         public static RoyalEvolutionDef Evo_GeneDigestion;
         public static RoyalEvolutionDef Evo_GeneSelfExpression;
+        public static RoyalEvolutionDef Evo_MutantExpression;
 
         public static HediffDef XMT_Fertility;
        

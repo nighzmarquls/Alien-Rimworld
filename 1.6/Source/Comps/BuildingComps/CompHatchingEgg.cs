@@ -48,7 +48,7 @@ namespace Xenomorphtype
             {
                 
                 int progress = 250;
-                XMTResearch.ProgressEvolutionTech(progress, pawn);
+                ResearchUtility.ProgressEvolutionTech(progress, pawn);
                 Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Hatched, pawn.Named(HistoryEventArgsNames.Doer)));
             }
         }

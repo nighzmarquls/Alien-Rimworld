@@ -29,13 +29,67 @@ namespace Xenomorphtype
         int canOvamorphTick = 0;
         int canMatureTick = 0;
         int canMischiefTick = 0;
-
         int canHuntTick = 0;
-
         int canTendLairTick = 0;
-
         int canTunnelTick = 0;
 
+        //Taming mechanics
+
+        public bool ShouldTameSocial = false;
+        public bool ShouldTameCondition = false;
+        public bool ShouldTamePheromone = false;
+        public bool ShouldTameBribe = false;
+        public bool ShouldTameHostage = false;
+
+        public bool AnyTamingDesired => !Tamed && (ShouldTameSocial || ShouldTameCondition || ShouldTamePheromone || ShouldTameBribe || ShouldTameHostage);
+        public bool Tamed
+        {
+            get
+            {
+                return Taming > 0.5f;
+            }
+        }
+
+        public bool Integrated
+        {
+            get
+            {
+
+                if(XMTUtility.QueenIsPlayer())
+                {
+                    return true;
+                }
+
+                if(Faction.OfPlayer.def == InternalDefOf.XMT_PlayerHive)
+                {
+                    return true;
+                }
+
+                return Loyalty >= 1f;
+            }
+        }
+
+        public float Loyalty
+        {
+            get
+            {
+                return (tamingSocializing + tamingPheromones) - (tamingHostage + tamingConditioning);
+            }
+        }
+        public float Taming
+        {
+            get
+            {
+                return tamingSocializing + tamingConditioning + tamingPheromones + tamingBribes + tamingHostage;
+            }
+        }
+        public float tamingSocializing = 0;
+        public float tamingConditioning = 0;
+        public float tamingPheromones = 0;
+        public float tamingBribes = 0;
+        public float tamingHostage = 0;
+
+        //taming mechanics done
         int IntervalCheck => Mathf.CeilToInt(Props.IntervalHours * 2500);
 
         int DailyCheck => 60000;
@@ -50,6 +104,18 @@ namespace Xenomorphtype
         public override void PostExposeData()
         {
             base.PostExposeData();
+
+            Scribe_Values.Look(ref ShouldTameSocial, "ShouldTameSocial", false);
+            Scribe_Values.Look(ref tamingSocializing, "tamingSocializing", 0);
+            Scribe_Values.Look(ref ShouldTameCondition, "ShouldTameCondition", false);
+            Scribe_Values.Look(ref tamingConditioning, "tamingConditioning", 0);
+            Scribe_Values.Look(ref ShouldTamePheromone, "ShouldTamePheromone", false);
+            Scribe_Values.Look(ref tamingPheromones, "tamingPheromones", 0);
+            Scribe_Values.Look(ref ShouldTameBribe, "ShouldTameBribe", false);
+            Scribe_Values.Look(ref tamingBribes, "tamingBribes", 0);
+            Scribe_Values.Look(ref ShouldTameHostage, "ShouldTameHostage", false);
+            Scribe_Values.Look(ref tamingHostage, "tamingHostage", 0);
+
             Scribe_Values.Look(ref destroyNextTick, "destroyNextTick", false);
             Scribe_Values.Look(ref delayedDestroyMode, "delayedDestroyMode", DestroyMode.Vanish);
 
@@ -144,8 +210,52 @@ namespace Xenomorphtype
                 {
                     if (!HiveUtility.PlayerXenosOnMap(Parent.MapHeld))
                     {
-                        Parent.guest.SetGuestStatus(null);
-                        Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                        if (Taming > 0)
+                        {
+                            if (Rand.Chance(1 - Taming))
+                            {
+                                Parent.guest.SetGuestStatus(null);
+                                Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if(Tamed)
+                    {
+                        if(!TamingUtility.CanTameConditioning(Parent))
+                        {
+                            tamingConditioning = 0;
+                        }
+                        else
+                        {
+                            tamingConditioning -= 0.01f;
+                        }
+
+                        if (!TamingUtility.CanTamePheromones(Parent))
+                        {
+                            tamingPheromones = 0;
+                        }
+
+                        if (!TamingUtility.CanTameThreat(Parent))
+                        {
+                            tamingHostage = 0;
+                        }
+
+                        if (Parent.needs != null && Parent.needs.food != null)
+                        {
+                            if(Parent.needs.food.Starving)
+                            {
+                                tamingBribes = 0;
+                            }
+                        }
+
+                        if (!Tamed)
+                        {
+                            Parent.SetFaction(null);
+                            Parent.guest.SetGuestStatus(null);
+                        }
                     }
                 }
             }
@@ -209,6 +319,11 @@ namespace Xenomorphtype
         }
         public override float GetStatFactor(StatDef stat)
         {
+            if (stat == StatDefOf.MinimumContainmentStrength)
+            {
+                return Mathf.Max(0 , 1 + tamingConditioning + (tamingHostage*2)) - (tamingSocializing + tamingPheromones + (tamingBribes*0.5f));
+            }
+
             if (Parent.ageTracker.Adult)
             {
                 return 1;
@@ -545,6 +660,19 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if(Parent.ideo != null && Parent.ideo.Ideo is Ideo PawnIdeo)
+            {
+                if (Parent.IsFreeNonSlaveColonist)
+                {
+                    if (PawnIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Abhorrent))
+                    {
+                        XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.XMT_ImpureUrge);
+                        canAbductTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
+                        return false;
+                    }
+                }
+            }
+
             if (HiveUtility.NeedAbductions(Parent.Map))
             {
                 canAbductTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
@@ -746,6 +874,16 @@ namespace Xenomorphtype
                 return null;
             }
 
+            bool onlyOtherFactionAbduct = false;
+
+            if (Parent.ideo != null && Parent.ideo.Ideo is Ideo PawnIdeo)
+            {
+                if(PawnIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_OtherFaction))
+                {
+                    onlyOtherFactionAbduct = true;
+                }
+            }
+
             foreach (Pawn candidate in candidates)
             {
                 if (XMTUtility.NotPrey(candidate))
@@ -777,6 +915,20 @@ namespace Xenomorphtype
 
                 if (score > bestScore)
                 {
+                    if (candidate.IsColonist || candidate.IsColonyAnimal)
+                    {
+                        if (onlyOtherFactionAbduct)
+                        {
+                            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.XMT_ImpureUrge);
+                            continue;
+                        }
+
+                        if(Integrated)
+                        {
+                            continue;
+                        }
+                    }
+
                     bestCandidate = candidate;
                     bestScore = score;
                 }
@@ -979,7 +1131,7 @@ namespace Xenomorphtype
             }
 
             int progress = 250;
-            XMTResearch.ProgressEvolutionTech(progress, Parent);
+            ResearchUtility.ProgressEvolutionTech(progress, Parent);
             target.health.AddHediff(hediff);
         }
 

@@ -3,6 +3,9 @@
 	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
 	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
 	
+	<XMT_AlterMutationsLabel>Induce Mutations</XMT_AlterMutationsLabel>
+	<XMT_AlterMutationsDescription>Encourage mutated tissues to spread.</XMT_AlterMutationsDescription>
+	
 	<XMT_ConsumeGenesLabel>Consume Genes</XMT_ConsumeGenesLabel>
 	<XMT_ConsumeGenesDescription>Extract Genes into a Gene Ovamorph.</XMT_ConsumeGenesDescription>
 	
@@ -82,9 +85,41 @@
 	<XMT_HumanRebellionLetterTitle>Prey Resists!</XMT_HumanRebellionLetterTitle>
 	<XMT_HumanRebellionLetterDescription>The prey are not yet docile! Some have turned violent in the face of your ascendency and must be repelled or contained!</XMT_HumanRebellionLetterDescription>
 	
+	
+	
+	<XMT_RequiresJellyExtraction>Requires cryptimorphic biochemistry.</XMT_RequiresJellyExtraction>
+	<XMT_JellyExtraction>Extract Jelly</XMT_JellyExtraction>
+	<XMT_JellyExtractionDescription>Doctors will extract Resinous Jelly from the captured entity whenever possible. This extraction method is simple, but inefficient. Can't be done if the entity is too metabolically taxed.</XMT_JellyExtractionDescription>
+	<XMT_ResinExtraction>Extract Resin</XMT_ResinExtraction>
+	<XMT_ResinExtractionDescription>Doctors will milk cryptimorphic resin from the captured entity whenever possible. This extraction method is simple, but inefficient. Can't be done if the entity is too metabolically taxed.</XMT_ResinExtractionDescription>
+	
 	<XMT_MessageCannotStartJellyExtraction>{PAWN_nameDef}'s metabolism cannot yet produce more jelly.</XMT_MessageCannotStartJellyExtraction>
 	<XMT_MessagePawnHadNotEnoughToProduceJelly>{PAWN_nameDef}'s metabolism is not recovered enough to produce jelly. </XMT_MessagePawnHadNotEnoughToProduceJelly>
 	
 	<XMT_MessageCannotStartResinExtraction>{PAWN_nameDef}'s metabolism cannot yet produce more resin.</XMT_MessageCannotStartResinExtraction>
 	<XMT_MessagePawnHadNotEnoughToProduceResin>{PAWN_nameDef}'s metabolism is not recovered enough to produce resin. </XMT_MessagePawnHadNotEnoughToProduceResin>
+	
+	<XMT_Tame>Taming</XMT_Tame>
+	
+	<XMT_TameChance>Taming Chance: </XMT_TameChance>
+	
+	<XMT_TameSocial>Socialize</XMT_TameSocial>
+	<XMT_TameSocialDescription>Attempt to socialize the organism through communication in multi-spectrum infra and ultra sound vocalizations.</XMT_TameSocialDescription>
+	<XMT_TameSocialDisabled>No Colonist capable of required vocalizations.</XMT_TameSocialDisabled>
+	
+	<XMT_TameCondition>Opperant Condition</XMT_TameCondition>
+	<XMT_TameConditionDescription>Attempt to condition away from unwanted behaviors with operant conditioning.</XMT_TameConditionDescription>
+	<XMT_TameConditionDisabled>No Colonist capable of violence equipped with weapon.</XMT_TameConditionDisabled>
+	
+	<XMT_TameBribery>Bribery</XMT_TameBribery>
+	<XMT_TameBriberyDescription>Attempt to train desired  behaviors with food as a motivator.</XMT_TameBriberyDescription>
+	<XMT_TameBriberyDisabled>No Colonist capable of animal handling.</XMT_TameBriberyDisabled>
+	
+	<XMT_TameSmell>Pheromones</XMT_TameSmell>
+	<XMT_TameSmellDescription>Acclimate and guide behavior using pheromone conditioning.</XMT_TameSmellDescription>
+	<XMT_TameSmellDisabled>No suitable Pheromone marked individuals available.</XMT_TameSmellDisabled>
+	
+	<XMT_TameThreat>Threaten Hostage</XMT_TameThreat>
+	<XMT_TameThreatDescription>Attempt to train by holding Ovamorphs or the Egglaying Caste Hostage.</XMT_TameThreatDescription>
+	<XMT_TameThreatDisabled>No suitable hostage available.</XMT_TameThreatDisabled>
 </LanguageData>

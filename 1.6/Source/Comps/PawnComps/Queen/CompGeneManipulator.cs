@@ -16,6 +16,7 @@ namespace Xenomorphtype
     public class CompGeneManipulator : ThingComp
     {
         static private Texture2D geneticTexture => ContentFinder<Texture2D>.Get("UI/Abilities/AlterGenes");
+        static private Texture2D mutantTexture => ContentFinder<Texture2D>.Get("UI/GeneIcons/XMT_Gene_Unknown");
 
         static private Texture2D consumeTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ConsumeGenes");
         static private Texture2D selfTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ExpressGenes");
@@ -67,9 +68,35 @@ namespace Xenomorphtype
 
             yield return GeneControl_Action;
 
-            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneDigestion))
+            TargetingParameters MutantTargetParameters = new TargetingParameters();
+
+            MutantTargetParameters.validator = delegate (TargetInfo target)
             {
-                yield break;
+                if (target.Thing == Parent)
+                {
+                    return false;
+                }
+                return BioUtility.HasMutations(target.Thing as Pawn);
+            };
+
+            Command_Action MutantControl_Action = new Command_Action();
+            MutantControl_Action.defaultLabel = "XMT_AlterMutationsLabel".Translate();
+            MutantControl_Action.defaultDesc = "XMT_AlterMutationsDescription".Translate();
+            MutantControl_Action.icon = mutantTexture;
+            MutantControl_Action.action = delegate
+            {
+                Find.Targeter.BeginTargeting(MutantTargetParameters, delegate (LocalTargetInfo target)
+                {
+                    Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MutateTarget, target);
+                    job.count = 1;
+                    Parent.jobs.StartJob(job, JobCondition.InterruptForced);
+                });
+            };
+
+            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_MutantExpression))
+            {
+                yield return MutantControl_Action;
             }
 
             TargetingParameters CorpseParameters = new TargetingParameters();

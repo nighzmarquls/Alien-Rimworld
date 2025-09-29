@@ -45,7 +45,7 @@ namespace Xenomorphtype
                 TaleRecorder.RecordTale(TaleDefOf.ButcheredHumanlikeCorpse, butcher);
             }
 
-            XMTResearch.ProgressCryptobioTech(10, butcher);
+            ResearchUtility.ProgressCryptobioTech(10, butcher);
         }
     }
 }

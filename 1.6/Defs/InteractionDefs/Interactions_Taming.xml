@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <InteractionDef>
+    <defName>XMT_AdvancedTameAttempt</defName>
+    <label>taming attempt</label>
+    <symbolSource>InitiatorFaction</symbolSource>
+    <workerClass>Xenomorphtype.InteractionWorker_AdvancedTameAttempt</workerClass>
+    <initiatorXpGainSkill>Social</initiatorXpGainSkill>
+    <initiatorXpGainAmount>230</initiatorXpGainAmount>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] asked [RECIPIENT_nameDef] to join.</li>
+        <li>r_logentry->[INITIATOR_nameDef] promised [goodthing] to [RECIPIENT_nameDef], and asked [RECIPIENT_objective] to join.</li>
+
+        <li>goodthing(p=15)->[ConceptPositive]</li>
+        <li>goodthing->free, fresh [Vegetable]s</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+</Defs>

@@ -64,7 +64,7 @@ namespace Xenomorphtype
         {
             Comp_TargetEffectProtofluid compTargetEffect_Protofluid = Item.TryGetComp<Comp_TargetEffectProtofluid>();
 
-            XMTResearch.ProgressCryptobioTech(500, pawn);
+            ResearchUtility.ProgressCryptobioTech(500, pawn);
 
             if (targetPawn != null)
             {

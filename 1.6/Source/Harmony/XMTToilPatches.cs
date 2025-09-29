@@ -34,7 +34,7 @@ namespace Xenomorphtype
                         {
                            
                             int progress = Mathf.CeilToInt(building.HitPoints / 100);
-                            XMTResearch.ProgressMimicTech(progress, actor);
+                            ResearchUtility.ProgressMimicTech(progress, actor);
                             
                         }
                     }
@@ -79,7 +79,7 @@ namespace Xenomorphtype
                                     {
                                         actor.skills.Learn(SkillDefOf.Construction, 0.25f);
                                         int progress = 1;
-                                        XMTResearch.ProgressResinTech(progress, actor);
+                                        ResearchUtility.ProgressResinTech(progress, actor);
                                     }
 
                                     if (!BioUtility.PerformBioconstructionCost(actor))

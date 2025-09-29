@@ -22,6 +22,7 @@ namespace Xenomorphtype
         public static PreceptDef XMT_Parasite_Revered;
         public static PreceptDef XMT_Parasite_Reincarnation;
         public static PreceptDef XMT_Parasite_Abhorrent;
+        public static PreceptDef XMT_Parasite_OtherFaction;
 
         public static PreceptDef XMT_Biomorph_Hunt;
         public static PreceptDef XMT_Biomorph_Study;

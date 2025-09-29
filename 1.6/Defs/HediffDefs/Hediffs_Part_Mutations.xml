@@ -67,6 +67,9 @@
 			<betterThanNatural>true</betterThanNatural>
 		</addedPartProps>
 		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_XenoSocialGiver">
+				<socialInfluence>0.25</socialInfluence>
+			</li>
 			<li Class="HediffCompProperties_VerbGiver">
 				<tools>
 				  <li>
@@ -127,6 +130,9 @@
 			<betterThanNatural>true</betterThanNatural>
 		</addedPartProps>
 		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_XenoSocialGiver">
+				<socialInfluence>0.25</socialInfluence>
+			</li>
 			<li Class="HediffCompProperties_VerbGiver">
 				<tools>
 				  <li>
@@ -187,6 +193,9 @@
 			</li>
 		</stages>
 		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_XenoSocialGiver">
+				<socialInfluence>-1.0</socialInfluence>
+			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_PheromonePump">
 				<threatPheromone>0.25</threatPheromone>
 			</li>
@@ -382,6 +391,9 @@
 			</li>
 		</stages>
 		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_XenoSocialGiver">
+				<socialInfluence>1.0</socialInfluence>
+			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>
@@ -414,6 +426,9 @@
 			<betterThanNatural>true</betterThanNatural>
 		</addedPartProps>
 		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_XenoSocialGiver">
+				<socialInfluence>0.25</socialInfluence>
+			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>
@@ -446,6 +461,9 @@
 			<betterThanNatural>true</betterThanNatural>
 		</addedPartProps>
 		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_XenoSocialGiver">
+				<socialInfluence>0.125</socialInfluence>
+			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>
@@ -478,6 +496,9 @@
 			<betterThanNatural>true</betterThanNatural>
 		</addedPartProps>
 		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_XenoSocialGiver">
+				<socialInfluence>0.125</socialInfluence>
+			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>

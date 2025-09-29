@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/comps/li[@Class="Xenomorphtype.CompPerfectOrganismProperties"]/ImpossibleHediffs</xpath>
+		<value>
+				<li>RJW_Cocoon</li>
+				<li>RJW_Restraints</li>
+				<li>BoundHands</li>
+				<li>BoundLegs</li>
+		</value>
+	</Operation>
+
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/comps/li[@Class="Xenomorphtype.CompPerfectOrganismProperties"]/ImpossibleHediffs</xpath>
+		<value>
+				<li>RJW_Cocoon</li>
+				<li>RJW_Restraints</li>
+				<li>BoundHands</li>
+				<li>BoundLegs</li>
+		</value>
+	</Operation>
+
+ </Patch>

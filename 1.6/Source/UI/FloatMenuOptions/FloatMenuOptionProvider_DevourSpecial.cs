@@ -3,7 +3,7 @@
 
 namespace Xenomorphtype
 {
-  public class FloatMenuOptionProvider_Arrest : FloatMenuOptionProvider
+  public class FloatMenuOptionProvider_DevourSpecial : FloatMenuOptionProvider
   {
       protected override bool Drafted => true;
 

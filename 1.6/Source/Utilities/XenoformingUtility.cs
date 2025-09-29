@@ -331,7 +331,7 @@ namespace Xenomorphtype
 
         internal static float ChanceByXenoforming(float chance)
         {
-            return chance + (gameComponent.Xenoforming / 100);
+            return chance * (gameComponent.Xenoforming / 100);
         }
 
         internal static void IncreaseXenoforming(float v)

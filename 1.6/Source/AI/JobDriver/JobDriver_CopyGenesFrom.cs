@@ -65,6 +65,7 @@ namespace Xenomorphtype
                         Log.Message(toil.finishActions.Count + " total finishActions on toil");
                         Log.Message("finished activating gene copy " + actor);
                     }
+
                     CompHiveGeneHolder geneHolder = Target.TryGetComp<CompHiveGeneHolder>();
                     if (geneHolder != null)
                     {

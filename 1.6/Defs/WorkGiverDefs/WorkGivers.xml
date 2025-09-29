@@ -1,20 +1,63 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <!-- Genetics -->
+	<!-- Taming -->
 
-  <WorkGiverDef>
-    <defName>XMTHaulToGeneBank</defName>
-    <label>bank genepack</label>
-    <giverClass>Xenomorphtype.WorkGiver_XMT_HaulToGeneBank</giverClass>
-    <workType>Hauling</workType>
-    <verb>bank</verb>
-    <gerund>banking</gerund>
-    <priorityInType>111</priorityInType>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-  </WorkGiverDef>
+	<WorkGiverDef>
+		<defName>XMT_AdvancedTame</defName>
+		<label>tame cryptimorph</label>
+		<giverClass>Xenomorphtype.WorkGiver_AdvancedTame</giverClass>
+		<workType>Handling</workType>
+		<verb>tame</verb>
+		<gerund>taming</gerund>
+		<priorityInType>120</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+	<!-- Genetics -->
+
+	<WorkGiverDef>
+		<defName>XMT_HaulToGeneBank</defName>
+		<label>bank genepack</label>
+		<giverClass>Xenomorphtype.WorkGiver_XMT_HaulToGeneBank</giverClass>
+		<workType>Hauling</workType>
+		<verb>bank</verb>
+		<gerund>banking</gerund>
+		<priorityInType>111</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>XMT_ExtractJelly</defName>
+		<label>extract jelly from cryptimorphs</label>
+		<giverClass>Xenomorphtype.WorkGiver_ExtractJelly</giverClass>
+		<workType>Doctor</workType>
+		<verb>extract from</verb>
+		<gerund>extracting from</gerund>
+		<priorityInType>10</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<prioritizeSustains>true</prioritizeSustains>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>XMT_ExtractResin</defName>
+		<label>extract jelly from cryptimorphs</label>
+		<giverClass>Xenomorphtype.WorkGiver_ExtractResin</giverClass>
+		<workType>Doctor</workType>
+		<verb>extract from</verb>
+		<gerund>extracting from</gerund>
+		<priorityInType>10</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<prioritizeSustains>true</prioritizeSustains>
+	</WorkGiverDef>
 
 
 </Defs>

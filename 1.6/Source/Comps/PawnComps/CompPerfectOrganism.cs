@@ -11,6 +11,7 @@ namespace Xenomorphtype
 {
     public class CompPerfectOrganism : ThingComp
     {
+
         CompPerfectOrganismProperties Props => props as CompPerfectOrganismProperties;
         Pawn pawn => parent as Pawn;
 
@@ -18,7 +19,7 @@ namespace Xenomorphtype
 
         public override void PostExposeData()
         {
-            base.PostExposeData();
+
 
         }
         public override float GetStatFactor(StatDef stat)

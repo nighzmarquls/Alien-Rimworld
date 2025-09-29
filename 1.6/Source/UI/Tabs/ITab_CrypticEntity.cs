@@ -6,13 +6,15 @@ using Verse;
 
 namespace Xenomorphtype
 {
+    [StaticConstructorOnStartup]
     public class ITab_Xeno : ITab
     {
+        private static float optionHeight = 28f;
+        private static float spacer = 5f;
         public override bool IsVisible
         {
             get
             {
-                
                 if (!ModsConfig.AnomalyActive)
                 {
                     return false;
@@ -20,12 +22,12 @@ namespace Xenomorphtype
 
                 if (base.SelThing is Building_HoldingPlatform building_HoldingPlatform)
                 {
-                    return building_HoldingPlatform.HeldPawn != null;
+                    return building_HoldingPlatform.HeldPawn != null && XMTUtility.IsXenomorph(building_HoldingPlatform.HeldPawn);
                 }
 
                 if (base.SelThing is Pawn && base.SelThing.IsOnHoldingPlatform)
                 {
-                    return true;
+                    return XMTUtility.IsXenomorph(SelThing);
                 }
 
                 return false;
@@ -51,11 +53,25 @@ namespace Xenomorphtype
             }
         }
 
+        static ITab_Xeno()
+        {
+            foreach (var def in DefDatabase<ThingDef>.AllDefs)
+                if (def == InternalDefOf.XMT_Starbeast_AlienRace ||
+                    def == InternalDefOf.XMT_Larva ||
+                    def == InternalDefOf.XMT_Royal_AlienRace ||
+                    def.thingClass == typeof(Building_HoldingPlatform))
+                {
+                    def.inspectorTabs?.Add(typeof(ITab_Xeno));
+                    def.inspectorTabsResolved?.Add(InspectTabManager.GetSharedInstance(typeof(ITab_Xeno)));
+                }
+        }
+
         public ITab_Xeno()
         {
             size = new Vector2(280f, 0f);
             labelKey = "TabEntity";
             tutorTag = "Entity";
+
         }
 
         public override void OnOpen()
@@ -135,34 +151,34 @@ namespace Xenomorphtype
                 float height = 132f;
                 Rect rect5 = listing_Standard.GetRect(height).Rounded();
                 Widgets.DrawMenuSection(rect5);
-                Rect rect6 = rect5.ContractedBy(10f);
-                Widgets.BeginGroup(rect6);
-                Rect rect7 = new Rect(0f, 0f, rect6.width, 28f);
-                if (Widgets.RadioButtonLabeled(rect7, "EntityStudyMode_MaintainOnly".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.MaintainOnly))
+                Rect internalExtractionRect = rect5.ContractedBy(10f);
+                Widgets.BeginGroup(internalExtractionRect);
+                Rect EntityOptions = new Rect(0f, 0f, internalExtractionRect.width, 28f);
+                if (Widgets.RadioButtonLabeled(EntityOptions, "EntityStudyMode_MaintainOnly".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.MaintainOnly))
                 {
                     compHoldingPlatformTarget.containmentMode = EntityContainmentMode.MaintainOnly;
                 }
 
-                Widgets.DrawHighlightIfMouseover(rect7);
-                TooltipHandler.TipRegion(rect7, "EntityStudyMode_MaintainOnlyDesc".Translate());
-                rect7.y += 28f;
-                if (Widgets.RadioButtonLabeled(rect7, "EntityStudyMode_Study".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.Study))
+                Widgets.DrawHighlightIfMouseover(EntityOptions);
+                TooltipHandler.TipRegion(EntityOptions, "EntityStudyMode_MaintainOnlyDesc".Translate());
+                EntityOptions.y += 28f;
+                if (Widgets.RadioButtonLabeled(EntityOptions, "EntityStudyMode_Study".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.Study))
                 {
                     compHoldingPlatformTarget.containmentMode = EntityContainmentMode.Study;
                 }
 
-                Widgets.DrawHighlightIfMouseover(rect7);
-                TooltipHandler.TipRegion(rect7, "EntityStudyMode_StudyDesc".Translate());
-                rect7.y += 28f;
-                if (Widgets.RadioButtonLabeled(rect7, "EntityStudyMode_Release".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.Release))
+                Widgets.DrawHighlightIfMouseover(EntityOptions);
+                TooltipHandler.TipRegion(EntityOptions, "EntityStudyMode_StudyDesc".Translate());
+                EntityOptions.y += 28f;
+                if (Widgets.RadioButtonLabeled(EntityOptions, "EntityStudyMode_Release".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.Release))
                 {
                     compHoldingPlatformTarget.containmentMode = EntityContainmentMode.Release;
                 }
 
-                Widgets.DrawHighlightIfMouseover(rect7);
-                TooltipHandler.TipRegion(rect7, "EntityStudyMode_ReleaseDesc".Translate());
-                rect7.y += 28f;
-                if (Widgets.RadioButtonLabeled(rect7, "EntityStudyMode_Execute".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.Execute, !compHoldingPlatformTarget.Props.canBeExecuted))
+                Widgets.DrawHighlightIfMouseover(EntityOptions);
+                TooltipHandler.TipRegion(EntityOptions, "EntityStudyMode_ReleaseDesc".Translate());
+                EntityOptions.y += 28f;
+                if (Widgets.RadioButtonLabeled(EntityOptions, "EntityStudyMode_Execute".Translate(), compHoldingPlatformTarget.containmentMode == EntityContainmentMode.Execute, !compHoldingPlatformTarget.Props.canBeExecuted))
                 {
                     if (!compHoldingPlatformTarget.Props.canBeExecuted)
                     {
@@ -174,42 +190,62 @@ namespace Xenomorphtype
                     }
                 }
 
-                Widgets.DrawHighlightIfMouseover(rect7);
-                TooltipHandler.TipRegion(rect7, "EntityStudyMode_ExecuteDesc".Translate() + (compHoldingPlatformTarget.Props.canBeExecuted ? "" : ("\n\n" + "CantBeExecuted".Translate().ToString())));
-                rect7.y += 28f;
+                Widgets.DrawHighlightIfMouseover(EntityOptions);
+                TooltipHandler.TipRegion(EntityOptions, "EntityStudyMode_ExecuteDesc".Translate() + (compHoldingPlatformTarget.Props.canBeExecuted ? "" : ("\n\n" + "CantBeExecuted".Translate().ToString())));
+                EntityOptions.y += 28f;
                 Widgets.EndGroup();
                 listing_Standard.Gap();
-                height = 48f;
-                Rect rect8 = listing_Standard.GetRect(height).Rounded();
-                Widgets.DrawMenuSection(rect8);
-                rect6 = rect8.ContractedBy(10f);
-                Widgets.BeginGroup(rect6);
-                string text3 = null;
-                if (!ResearchProjectDefOf.BioferriteExtraction.IsFinished)
+
+                height = (optionHeight + spacer)*3;
+
+                Rect ExtractionOptions = listing_Standard.GetRect(height).Rounded();
+                Widgets.DrawMenuSection(ExtractionOptions);
+                internalExtractionRect = ExtractionOptions.ContractedBy(10f);
+                Widgets.BeginGroup(internalExtractionRect);
+                string disabledText = null;
+                if (!XenoGeneDefOf.XMT_Jelly_Extraction.IsFinished)
                 {
-                    text3 = "RequiresBioferriteExtraction".Translate();
+                    disabledText = "XMT_RequiresJellyExtraction".Translate();
                 }
                 else
                 {
                     Building_HoldingPlatform heldPlatform = compHoldingPlatformTarget.HeldPlatform;
                     if (heldPlatform != null && heldPlatform.HasAttachedBioferriteHarvester)
                     {
-                        text3 = "BioferriteHarvesterAttached".Translate();
+                        disabledText = "BioferriteHarvesterAttached".Translate();
                     }
                 }
 
-                Rect rect9 = new Rect(0f, 0f, rect6.width, 28f);
-                Widgets.CheckboxLabeled(rect9, "EntityStudyMode_Extract".Translate(), ref compHoldingPlatformTarget.extractBioferrite, text3 != null);
-                Widgets.DrawHighlightIfMouseover(rect9);
-                TaggedString taggedString2 = "EntityStudyMode_ExtractDesc".Translate();
-                if (text3 != null)
+                float yoffset = 0f;
+                Rect jellyRect = new Rect(0f, yoffset, internalExtractionRect.width, 28f);
+                Widgets.CheckboxLabeled(jellyRect, "XMT_JellyExtraction".Translate(), ref SelPawn.Info().extractJelly, disabledText != null);
+                Widgets.DrawHighlightIfMouseover(jellyRect);
+                TaggedString jellyDescription = "XMT_JellyExtractionDescription".Translate();
+                if (disabledText != null)
                 {
-                    taggedString2 += "\n\n" + text3.Colorize(ColoredText.WarningColor);
+                    jellyDescription += "\n\n" + disabledText.Colorize(ColoredText.WarningColor);
                 }
 
-                TooltipHandler.TipRegion(rect9, taggedString2);
+                TooltipHandler.TipRegion(jellyRect, jellyDescription);
+
+                yoffset += spacer + jellyRect.height;
+
+                Rect resinRect = new Rect(0f, yoffset, internalExtractionRect.width, 28f);
+                Widgets.CheckboxLabeled(resinRect, "XMT_ResinExtraction".Translate(), ref SelPawn.Info().extractResin, disabledText != null);
+                Widgets.DrawHighlightIfMouseover(resinRect);
+                TaggedString resinDescription = "XMT_ResinExtractionDescription".Translate();
+                if (disabledText != null)
+                {
+                    resinDescription += "\n\n" + disabledText.Colorize(ColoredText.WarningColor);
+                }
+
+                TooltipHandler.TipRegion(resinRect, resinDescription);
+
+
                 Widgets.EndGroup();
             }
+
+            
 
             listing_Standard.End();
             size = new Vector2(280f, listing_Standard.CurHeight + 10f + 24f);

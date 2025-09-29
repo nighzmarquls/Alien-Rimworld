@@ -79,14 +79,10 @@ namespace Xenomorphtype
                                 continue;
                             }
 
-                            Log.Message(victim + " in radius of howl");
-
                             if (victim.Downed)
                             {
                                 continue;
                             }
-
-                            Log.Message(victim + " not downed");
 
                             if (victim?.health?.capacities != null)
                             {
@@ -96,8 +92,6 @@ namespace Xenomorphtype
                                 }
                             }
 
-                            Log.Message(victim + " heard howl");
-
                             if (!victim.Awake())
                             {
                                 XMTUtility.GiveMemory(victim, ThoughtDefOf.SleepDisturbed);
@@ -105,13 +99,12 @@ namespace Xenomorphtype
 
                             if(victim.NonHumanlikeOrWildMan())
                             {
-                                Log.Message(victim + " is not humanlike ");
                                 CompHowler howler = victim.GetComp<CompHowler>();
                                 if (howler != null)
                                 {
                                     continue;
                                 }
-                                Log.Message(victim + " is not a howler ");
+
                                 if (Rand.Chance(0.5f))
                                 {
                                     victim.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, "terrible howling", forced: true, forceWake: true, false);

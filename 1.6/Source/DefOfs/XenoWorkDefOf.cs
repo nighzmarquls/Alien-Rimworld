@@ -46,6 +46,7 @@ namespace Xenomorphtype
         public static JobDef XMT_WallClimb;
         public static JobDef XMT_ProduceJelly;
         public static JobDef XMT_AlterGenes;
+        public static JobDef XMT_MutateTarget;
         public static JobDef XMT_CopyGenes;
         public static JobDef XMT_LayOvamorph;
         public static JobDef XMT_GeneDevour;
@@ -53,6 +54,10 @@ namespace Xenomorphtype
 
         public static JobDef XMT_Protofluid;
 
+        public static JobDef XMT_AdvancedTameWithFood;
+        public static JobDef XMT_AdvancedTame;
+        public static JobDef XMT_ExtractJelly;
+        public static JobDef XMT_ExtractResin;
         // Vanilla Work Types
 
 
