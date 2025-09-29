@@ -64,6 +64,11 @@
 				<replacementGeneDef>XMT_NaturalBiotic</replacementGeneDef>
 			</li>
 			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>XMT_AsariRoyalCrestGene</targetGeneDef>
+				<replacementGeneDef>XMT_AsariCrestGene</replacementGeneDef>
+			</li>
+			<li>
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>RE_NaturalBiotic</targetGeneDef>
 				<replacementGeneDef>XMT_NaturalBiotic</replacementGeneDef>

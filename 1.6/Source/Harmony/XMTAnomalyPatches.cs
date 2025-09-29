@@ -10,6 +10,29 @@ namespace Xenomorphtype
 {
     internal class XMTAnomalyPatches
     {
+        [HarmonyPatch(typeof(ITab_Pawn_Social), "IsVisible", MethodType.Getter)]
+        static class Patch_ITab_Pawn_Social_IsVisible
+        {
+            [HarmonyPostfix]
+            static void Postfix(ITab_Entity __instance, ref bool __result)
+            {
+
+                if (__result)
+                {
+                    return;
+                }
+                Thing selected = Find.Selector.SingleSelectedThing;
+
+                Pawn selPawn = selected as Pawn;
+
+                if (XMTUtility.IsXenomorph(selPawn))
+                {
+                    __result = true;
+                }
+
+            }
+        }
+
         [HarmonyPatch(typeof(ITab_Entity), "IsVisible", MethodType.Getter)]
         static class Patch_ITab_Entity_IsVisible
         {
