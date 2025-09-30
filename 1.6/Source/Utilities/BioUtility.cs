@@ -234,31 +234,13 @@ namespace Xenomorphtype
 
             if (pawn.genes != null)
             {
-                List<GeneDef> blacklistGenes = (pawn.def as ThingDef_AlienRace)?.alienRace?.raceRestriction?.blackGeneList;
-                List<string> blacklistTags = (pawn.def as ThingDef_AlienRace)?.alienRace?.raceRestriction?.blackGeneTags;
-
+                
                 foreach (GeneDef gene in geneset.GenesListForReading)
                 {
                     GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(pawn.def, gene);
                     if (forbidUnknown && remappedGene.geneClass == typeof(UnknownGene))
                     {
                         continue;
-                    }
-
-                    if (blacklistGenes.Contains(remappedGene))
-                    {
-                        continue;
-                    }
-
-                    foreach (string tag in blacklistTags)
-                    {
-                        if (remappedGene.exclusionTags != null)
-                        {
-                            if (remappedGene.exclusionTags.Contains(tag))
-                            {
-                                continue;
-                            }
-                        }
                     }
 
                     pawn.genes.AddGene(remappedGene, xenogene);
@@ -595,8 +577,6 @@ namespace Xenomorphtype
         internal static List<GeneDef> GetGeneForExpressionList(Thing target, bool forbidUnknown = true)
         {
             List<GeneDef> genes = new List<GeneDef>();
-            List<GeneDef> blacklistGenes = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneList;
-            List<String> blacklistTags = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneTags;
 
             CompHiveGeneHolder hiveGeneHolder = target.TryGetComp<CompHiveGeneHolder>();
             
@@ -636,20 +616,9 @@ namespace Xenomorphtype
                             continue;
                         }
 
-                        if (blacklistGenes.Contains(gene.def))
+                        if(!RaceRestrictionSettings.CanHaveGene(gene.def, InternalDefOf.XMT_Starbeast_AlienRace, false))
                         {
                             continue;
-                        }
-
-                        foreach (String tag in blacklistTags)
-                        {
-                            if (gene.def.exclusionTags != null)
-                            {
-                                if (gene.def.exclusionTags.Contains(tag))
-                                {
-                                    continue;
-                                }
-                            }
                         }
 
                         if (genes.Contains(gene.def))

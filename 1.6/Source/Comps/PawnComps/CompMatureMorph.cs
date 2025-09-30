@@ -60,7 +60,7 @@ namespace Xenomorphtype
                     return true;
                 }
 
-                if(Faction.OfPlayer.def == InternalDefOf.XMT_PlayerHive)
+                if(Faction.OfPlayer.def.defName == InternalDefOf.XMT_PlayerHive.defName)
                 {
                     return true;
                 }

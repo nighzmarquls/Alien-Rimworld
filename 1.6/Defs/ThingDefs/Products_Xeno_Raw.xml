@@ -80,7 +80,6 @@
 			<Starbeast_Flesh_Meat>10</Starbeast_Flesh_Meat>
 		</costList>
 		<ingestible>
-			<drugCategory>Social</drugCategory>
 			<foodType>AnimalProduct</foodType>
 			<preferability>MealFine</preferability>
 			<joy>0.08</joy>
@@ -164,7 +163,6 @@
 			<WorkToMake>300</WorkToMake>
 		</statBases>
 		<ingestible>
-			<drugCategory>Social</drugCategory>
 			<foodType>AnimalProduct</foodType>
 			<preferability>MealFine</preferability>
 			<joy>0.08</joy>

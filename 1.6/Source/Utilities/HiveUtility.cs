@@ -1652,6 +1652,16 @@ namespace Xenomorphtype
         }
         public static bool PlayerXenosOnMap(Map localMap)
         {
+            if (XMTUtility.QueenIsPlayer())
+            {
+                return true;
+            }
+
+            if (Faction.OfPlayer.def.defName == InternalDefOf.XMT_PlayerHive.defName)
+            {
+                return true;
+            }
+
             if (localMap == null)
             {
                 return false;
