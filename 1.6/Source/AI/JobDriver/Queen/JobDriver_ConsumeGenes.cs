@@ -21,7 +21,7 @@ namespace Xenomorphtype
         }
 
         float workDone;
-        CompOvamorphLayer ovamorphLayer;
+        CompOvomorphLayer OvomorphLayer;
         List<GeneDef> consumedGenes = new List<GeneDef>();
 
         private float ChewDurationMultiplier
@@ -44,31 +44,31 @@ namespace Xenomorphtype
 
         protected Toil GeneDigestion()
         {
-            ovamorphLayer = pawn.GetComp<CompOvamorphLayer>();
+            OvomorphLayer = pawn.GetComp<CompOvomorphLayer>();
 
             consumedGenes = BioUtility.GetGeneForForConsumptionList(Target);
-            Toil toil = ToilMaker.MakeToil("DigestGenesToOvamorph");
+            Toil toil = ToilMaker.MakeToil("DigestGenesToOvomorph");
             toil.atomicWithPrevious = true;
             toil.handlingFacing = true;
             toil.initAction = delegate
             {
-                pawn.Rotation = ovamorphLayer.GetLayingFacing(pawn.Position);
+                pawn.Rotation = OvomorphLayer.GetLayingFacing(pawn.Position);
             };
             toil.tickAction = delegate
             {
-                pawn.Rotation = ovamorphLayer.GetLayingFacing(pawn.Position);
+                pawn.Rotation = OvomorphLayer.GetLayingFacing(pawn.Position);
                 workDone += 0.0017f;
                 if (workDone > 1)
                 {
-                    ovamorphLayer.SetNextOvamorphAsGene();  
-                    Thing ovamorph = ovamorphLayer.LayOvamorph(pawn.Position);
+                    OvomorphLayer.SetNextOvomorphAsGene();  
+                    Thing Ovomorph = OvomorphLayer.LayOvomorph(pawn.Position);
 
-                    CompHiveGeneHolder geneHolder = ovamorph.TryGetComp<CompHiveGeneHolder>();
+                    CompHiveGeneHolder geneHolder = Ovomorph.TryGetComp<CompHiveGeneHolder>();
                     if (geneHolder != null && consumedGenes != null && consumedGenes.Count() > 0)
                     {
                         if (XMTSettings.LogBiohorror)
                         {
-                            Log.Message(ovamorph + " getting " + consumedGenes.Count() + " genes!");
+                            Log.Message(Ovomorph + " getting " + consumedGenes.Count() + " genes!");
                         }
                         geneHolder.genes = new GeneSet();
                         BioUtility.ExtractGenesToGeneset(ref geneHolder.genes, consumedGenes);
@@ -81,7 +81,7 @@ namespace Xenomorphtype
                                 
                             }
                         }
-                        Find.WindowStack.Add(new Dialogue_GeneExpression(ovamorph));
+                        Find.WindowStack.Add(new Dialogue_GeneExpression(Ovomorph));
 
 
                     }

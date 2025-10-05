@@ -19,7 +19,7 @@ namespace Xenomorphtype
                 return null;
             }
 
-            return HiveUtility.GetOvamorph(pawn.Map, false);
+            return HiveUtility.GetOvomorph(pawn.Map, false);
         }
         public static Pawn FindXenoToKill(Pawn pawn)
         {

@@ -26,8 +26,8 @@ namespace Xenomorphtype
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
-            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: true);
+            //Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
+            //Scribe_References.Look(ref mother, "mother", saveDestroyedThings: true);
             Scribe_Values.Look(ref latched, "latched", defaultValue: false);
             Scribe_Values.Look(ref spent, "spent", defaultValue: false);
             Scribe_Values.Look(ref hoursSpent, "hoursSpent", defaultValue: 0);

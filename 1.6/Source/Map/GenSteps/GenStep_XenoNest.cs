@@ -121,14 +121,14 @@ namespace Xenomorphtype
 
                                 if(eggCell != nestCell && spawnedEggs < eggCount)
                                 {
-                                    Ovamorph egg = GenSpawn.Spawn(InternalDefOf.XMT_Ovamorph, eggCell, map) as Ovamorph;
+                                    Ovomorph egg = GenSpawn.Spawn(InternalDefOf.XMT_Ovomorph, eggCell, map) as Ovomorph;
                                     egg.ForceProgress(Rand.Range(0.8f,1f));
                                     spawnedEggs++;
                                 }
                             }
                             else if (spawnedEggs < eggCount)
                             {
-                                Ovamorph egg = GenSpawn.Spawn(InternalDefOf.XMT_Ovamorph, nestCell, map) as Ovamorph;
+                                Ovomorph egg = GenSpawn.Spawn(InternalDefOf.XMT_Ovomorph, nestCell, map) as Ovomorph;
                                 egg.ForceProgress();
                                 spawnedEggs++;
                             }

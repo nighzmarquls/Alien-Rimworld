@@ -143,16 +143,16 @@ namespace Xenomorphtype
 
                 if (targetPawn.Downed && HiveUtility.IsMorphingCandidate(targetPawn))
                 {
-                    FloatMenuOption OvamorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Ovamorph", delegate
+                    FloatMenuOption OvomorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Ovomorph", delegate
                     {
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvamorphing, targetPawn);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvomorphing, targetPawn);
                         job.count = 1;
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
                     }, priority: MenuOptionPriority.Default), pawn, targetPawn);
 
-                    __result.Add(OvamorphOption);
+                    __result.Add(OvomorphOption);
 
                     if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_LarderSerum))
                     {
@@ -188,6 +188,31 @@ namespace Xenomorphtype
 
                     __result.Add(PruneLarderOption);
 
+                }
+
+                if (targetBuilding is EggSack eggSack && eggSack.Occupant != null)
+                {
+                    FloatMenuOption TrophallaxisOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Trophallaxis", delegate
+                    {
+
+                        pawn.Map.reservationManager.ReleaseAllForTarget(eggSack);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, eggSack.Occupant, eggSack);
+                        pawn.jobs.StartJob(job, JobCondition.InterruptForced);
+
+
+                    }, priority: MenuOptionPriority.Default), pawn, eggSack);
+
+                    if (pawn.Starving())
+                    {
+                        TrophallaxisOption.Disabled = true;
+                        TrophallaxisOption.tooltip = pawn + " is too hungry to perform Trophallaxis.";
+                    }
+                    else if (eggSack.Occupant.needs.food.CurLevel >= eggSack.Occupant.needs.food.MaxLevel)
+                    {
+                        TrophallaxisOption.Disabled = true;
+                        TrophallaxisOption.tooltip = eggSack.Occupant + " is too full to recieve Trophallaxis.";
+                    }
+                    __result.Add(TrophallaxisOption);
                 }
             }
 

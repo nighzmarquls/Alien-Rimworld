@@ -19,7 +19,7 @@ namespace Xenomorphtype
             [HarmonyPostfix]
             public static void Postfix(Pawn workerPawn, ref Thing createdThing)
             {
-                if(createdThing is Ovamorph egg)
+                if(createdThing is Ovomorph egg)
                 {
                     if (XMTUtility.IsXenomorph(workerPawn))
                     {
@@ -36,7 +36,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        bool cannotPlaceOvamorphs = true;
+                        bool cannotPlaceOvomorphs = true;
 
                         if (ModsConfig.IdeologyActive)
                         {
@@ -46,7 +46,7 @@ namespace Xenomorphtype
                                 {
                                     if(workerIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation))
                                     {
-                                        cannotPlaceOvamorphs = false;
+                                        cannotPlaceOvomorphs = false;
                                     }
                                 }
                             }
@@ -54,12 +54,12 @@ namespace Xenomorphtype
                             {
                                 if (workerIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation))
                                 {
-                                    cannotPlaceOvamorphs = false;
+                                    cannotPlaceOvomorphs = false;
                                 }
                             }
                         }
 
-                        if (cannotPlaceOvamorphs)
+                        if (cannotPlaceOvomorphs)
                         {
                             egg.SetFaction(null);
                         }

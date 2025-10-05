@@ -26,7 +26,7 @@ namespace Xenomorphtype
         
         int canNuzzleTick = 0;
         int canAbductTick = 0;
-        int canOvamorphTick = 0;
+        int canOvomorphTick = 0;
         int canMatureTick = 0;
         int canMischiefTick = 0;
         int canHuntTick = 0;
@@ -121,7 +121,7 @@ namespace Xenomorphtype
 
             Scribe_Values.Look(ref canNuzzleTick, "canNuzzleTick", 0);
             Scribe_Values.Look(ref canAbductTick, "canAbductTick", 0);
-            Scribe_Values.Look(ref canOvamorphTick, "canOvamorphTick", 0);
+            Scribe_Values.Look(ref canOvomorphTick, "canOvomorphTick", 0);
 
             Scribe_Values.Look(ref canMatureTick, "canMatureTick", 0);
 
@@ -577,9 +577,9 @@ namespace Xenomorphtype
             return false;
         }
 
-        public bool ShouldOvamorphCandidate()
+        public bool ShouldOvomorphCandidate()
         {
-            if (Find.TickManager.TicksGame < canOvamorphTick)
+            if (Find.TickManager.TicksGame < canOvomorphTick)
             {
                 return false;
             }
@@ -596,7 +596,7 @@ namespace Xenomorphtype
 
             if (NeedEggs)
             {
-                canOvamorphTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
+                canOvomorphTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
                 return true;
             }
 
@@ -745,8 +745,17 @@ namespace Xenomorphtype
         {
             if (Parent.needs.food == null || Parent.needs.food.CurLevelPercentage == 1)
             {
-                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate);
-                Parent.Reserve(candidate, job);
+                Job job = null;
+                if (candidate.ParentHolder is EggSack eggSack)
+                {
+                    job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate,eggSack);
+                    Parent.Reserve(eggSack, job);
+                }
+                else
+                {
+                    job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate);
+                    Parent.Reserve(candidate, job);
+                }
                 return job;
             }
             return null;
@@ -1080,8 +1089,8 @@ namespace Xenomorphtype
                 hediff.SetVisible();
             }
 
-            XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.Ovamorphed, Parent);
-            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.OvamorphedVictim);
+            XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.Ovomorphed, Parent);
+            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.OvomorphedVictim);
 
             if (Parent.needs.joy != null)
             {
@@ -1097,7 +1106,7 @@ namespace Xenomorphtype
 
             target.health.AddHediff(hediff);
         }
-        public void TryOvamorphing(Pawn target)
+        public void TryOvomorphing(Pawn target)
         {
             if (!XMTUtility.IsTargetImmobile(target))
             {
@@ -1109,10 +1118,10 @@ namespace Xenomorphtype
             }
 
 
-            Hediff hediff = HediffMaker.MakeHediff(Props.ovamorphHediff, target);
+            Hediff hediff = HediffMaker.MakeHediff(Props.OvomorphHediff, target);
 
-            XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.Ovamorphed, Parent);
-            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.OvamorphedVictim);
+            XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.Ovomorphed, Parent);
+            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.OvomorphedVictim);
 
             if (Parent.needs.joy != null)
             {
@@ -1281,12 +1290,12 @@ namespace Xenomorphtype
             return false;
         }
 
-        protected bool GetOvamorphMoveJob(out Job job)
+        protected bool GetOvomorphMoveJob(out Job job)
         {
             job = null;
 
-            Ovamorph ovamorphCandidate = HiveUtility.GetOvamorph(Parent.Map, requireReady:true, forPawn:Parent);
-            if (ovamorphCandidate != null)
+            Ovomorph OvomorphCandidate = HiveUtility.GetOvomorph(Parent.Map, requireReady:true, forPawn:Parent);
+            if (OvomorphCandidate != null)
             { 
                 Pawn hostCandidate = HiveUtility.GetHost(Parent.Map);
 
@@ -1322,10 +1331,10 @@ namespace Xenomorphtype
                             }
                             
                             
-                            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MoveOvamorph, ovamorphCandidate, clearSite);
+                            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MoveOvomorph, OvomorphCandidate, clearSite);
                             job.count = 1;
                             Parent.Reserve(hostCandidate, job);
-                            Parent.Reserve(ovamorphCandidate, job);
+                            Parent.Reserve(OvomorphCandidate, job);
                             Parent.Reserve(clearSite, job);
                             return true;
                         }
@@ -1360,7 +1369,7 @@ namespace Xenomorphtype
                 {
                     HiveUtility.RemoveHost(FeedCandidate, Parent.Map);
                     HiveUtility.RemoveCocooned(FeedCandidate, Parent.Map);
-                    HiveUtility.RemoveOvamorphing(FeedCandidate, Parent.Map);
+                    HiveUtility.RemoveOvomorphing(FeedCandidate, Parent.Map);
                 }
                 else
                 {
@@ -1392,29 +1401,29 @@ namespace Xenomorphtype
             return false;
         }
 
-        protected bool GetOvamorphingJob(out Job job)
+        protected bool GetOvomorphingJob(out Job job)
         {
             job = null;
             if(!XMTUtility.NoQueenPresent())
             {
                 return false;
             }
-            //Log.Message(pawn + " thinks a candidate should be ovamorphed.");
-            Pawn candidate = HiveUtility.GetOvamorphingCandidate(Parent.Map, forPawn: Parent);
+            //Log.Message(pawn + " thinks a candidate should be Ovomorphed.");
+            Pawn candidate = HiveUtility.GetOvomorphingCandidate(Parent.Map, forPawn: Parent);
             if (candidate != null)
             {
                 if (XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.PawnLikesTarget(Parent, candidate))
                 {
                     return false;
                 }
-                //Log.Message(pawn + " is going to ovamorph " + target);
+                //Log.Message(pawn + " is going to Ovomorph " + target);
                 if (!candidate.Spawned)
                 {
                     HiveUtility.RemoveHost(candidate, Parent.Map);
                 }
                 else
                 {
-                    job =  JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvamorphing, candidate);
+                    job =  JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvomorphing, candidate);
                     Parent.Reserve(candidate, job);
                     return true;
                 }
@@ -1718,12 +1727,12 @@ namespace Xenomorphtype
            
             if(workType == XenoWorkDefOf.Childcare)
             {
-                if (GetOvamorphMoveJob(out job))
+                if (GetOvomorphMoveJob(out job))
                 {
                     return true;
                 }
                 
-                if(GetOvamorphingJob(out job))
+                if(GetOvomorphingJob(out job))
                 {
                     return true;
                 }
@@ -1853,7 +1862,7 @@ namespace Xenomorphtype
             }
             else
             {
-                if (GetOvamorphMoveJob(out job))
+                if (GetOvomorphMoveJob(out job))
                 {
                     return job;
                 }
@@ -1987,7 +1996,7 @@ namespace Xenomorphtype
         {
             canNuzzleTick = 0;
             canAbductTick = 0;
-            canOvamorphTick = 0;
+            canOvomorphTick = 0;
             canMatureTick = 0;
             canMischiefTick = 0;
             canHuntTick = 0;
@@ -2036,7 +2045,7 @@ namespace Xenomorphtype
         public float        slowDownDailyChance = 0.25f;
         public HediffDef    grabHediff;
         public HediffDef    cocoonHediff;
-        public HediffDef    ovamorphHediff;
+        public HediffDef    OvomorphHediff;
         public HediffDef    larderHediff;
         public HediffDef    maturingHediff;
         public ThingDef     hibernationCocoon;

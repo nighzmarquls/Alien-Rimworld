@@ -2,7 +2,7 @@
 
 <Defs>
 	<RecipeDef>
-		<defName>Make_Ovamorph</defName>
+		<defName>Make_Ovomorph</defName>
 		<label>catalyze ovum with protofluid</label>
 		<description>inject A0X Protofluid into a viable ovum in order to catalyze a transformation.</description>
 		<jobString>catalyzing ovum with protofluid.</jobString>
@@ -46,7 +46,7 @@
 			</thingDefs>
 		</fixedIngredientFilter>
 		<products>
-			<XMT_Ovamorph>1</XMT_Ovamorph>
+			<XMT_Ovomorph>1</XMT_Ovomorph>
 		</products>
 		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
 	</RecipeDef>

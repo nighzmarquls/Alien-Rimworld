@@ -275,7 +275,7 @@
   </HediffDef>
   
    <HediffDef ParentName="XenomorphtypeBase">
-    <defName>XMT_Ovamorphing</defName>
+    <defName>XMT_Ovomorphing</defName>
     <label>metamorphosis</label>
     <description>Subject's body is metamorphizing into something else.</description>
     <hediffClass>Xenomorphtype.RevealedHediff</hediffClass>
@@ -336,7 +336,7 @@
 			</hediffs>
 		</li>
 	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">
-			<MorphedBuilding>XMT_Ovamorph</MorphedBuilding>
+			<MorphedBuilding>XMT_Ovomorph</MorphedBuilding>
 			<SeverityPerDay>0.25</SeverityPerDay>
 			<DeathTriggerSeverity>0.75</DeathTriggerSeverity>
 		</li>

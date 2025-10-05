@@ -59,7 +59,7 @@ namespace Xenomorphtype
             }
             else
             {
-                researchManager.AddProgress(targetProjectDef, targetProjectDef.Cost - researchedProgress, pawn);
+                researchManager.AddProgress(targetProjectDef, targetProjectDef.Cost - researchedProgress, null);
             }
 
             //Log.Message(progress + " being added to " + targetProjectDef + " by " + actor);

@@ -19,9 +19,9 @@ namespace Xenomorphtype
 
             IntVec3 SpawnPosition = parent.Position;
             Thing spawnedThing = GenSpawn.Spawn(Props.spawnThing, SpawnPosition, previousMap);
-            if (spawnedThing is Ovamorph spawnedOvamorph)
+            if (spawnedThing is Ovomorph spawnedOvomorph)
             {
-                spawnedOvamorph.ForceProgress();
+                spawnedOvomorph.ForceProgress();
             }
             FilthMaker.TryMakeFilth(SpawnPosition, previousMap, InternalDefOf.Starbeast_Filth_Resin);
         }

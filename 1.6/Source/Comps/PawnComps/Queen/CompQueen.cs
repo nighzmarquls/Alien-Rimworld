@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -178,6 +179,15 @@ namespace Xenomorphtype
                 yield break;
             }
 
+            if (Parent.Downed)
+            {
+                yield break;
+            }
+
+            if (Parent.health.hediffSet.GetFirstHediffOfDef(RoyalEvolutionDefOf.XMT_TornEggSack) is Hediff EggSackTorn)
+            {
+                yield break;
+            }
 
             Command Command_Evolution = new Command_Evolution
             {

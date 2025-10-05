@@ -23,9 +23,9 @@ namespace Xenomorphtype
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
-            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: true);
-            Scribe_References.Look(ref Host, "mother", saveDestroyedThings: true);
+            //Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
+            //Scribe_References.Look(ref mother, "mother", saveDestroyedThings: true);
+            Scribe_References.Look(ref Host, "host", saveDestroyedThings: true);
             Scribe_Deep.Look(ref genes, "genes");
             Scribe_Values.Look(ref unbirthed, "unbirthed", defaultValue: true);
             Scribe_Values.Look(ref damageDealt, "chestburstDamage", defaultValue: 0);

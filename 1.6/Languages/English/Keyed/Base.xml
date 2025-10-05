@@ -7,7 +7,7 @@
 	<XMT_AlterMutationsDescription>Encourage mutated tissues to spread.</XMT_AlterMutationsDescription>
 	
 	<XMT_ConsumeGenesLabel>Consume Genes</XMT_ConsumeGenesLabel>
-	<XMT_ConsumeGenesDescription>Extract Genes into a Gene Ovamorph.</XMT_ConsumeGenesDescription>
+	<XMT_ConsumeGenesDescription>Extract Genes into a Gene Ovomorph.</XMT_ConsumeGenesDescription>
 	
 	<XMT_AlterSelfLabel>Alter Self</XMT_AlterSelfLabel>
 	<XMT_AlterSelfDescription>Alter Gene Expression in self.</XMT_AlterSelfDescription> 
@@ -15,11 +15,11 @@
 	<XMT_EvolutionLabel>Choose Traits</XMT_EvolutionLabel>
 	<XMT_EvolutionDescription>express different morphological traits.</XMT_EvolutionDescription>
 	
-	<XMT_LayOvamorphLabel>Lay {0}</XMT_LayOvamorphLabel>
-	<XMT_LayOvamorphDescription>Lay {0} at the designated location.</XMT_LayOvamorphDescription>
+	<XMT_LayOvomorphLabel>Lay {0}</XMT_LayOvomorphLabel>
+	<XMT_LayOvomorphDescription>Lay {0} at the designated location.</XMT_LayOvomorphDescription>
 	<XMT_InsufficientNutrition>Insufficient nutrition to lay {0}.</XMT_InsufficientNutrition>
 
-	<XMT_MotherEggHatch>{0}'s ovamorph has hatched!</XMT_MotherEggHatch>
+	<XMT_MotherEggHatch>{0}'s Ovomorph has hatched!</XMT_MotherEggHatch>
 	<XMT_ParasiteCrushing>The Parasite is crushing {0} to stay secured!</XMT_ParasiteCrushing>
 
 	<XMT_CannotHatch>cannot hatch, still gestating."</XMT_CannotHatch>
@@ -38,7 +38,7 @@
 	<XMT_ReadyIn>Ready in</XMT_ReadyIn>
 	<XMT_EggNeedResin>Needs resin to help mature.</XMT_EggNeedResin>
 	
-	<XMT_MustPlaceOnEmptyOvamorph>Must place on empty Ovamorph.</XMT_MustPlaceOnEmptyOvamorph>
+	<XMT_MustPlaceOnEmptyOvomorph>Must place on empty Ovomorph.</XMT_MustPlaceOnEmptyOvomorph>
 	
 	<XMT_LetterLabelQueenDefendersArrived>Defenders have arrived</XMT_LetterLabelQueenDefendersArrived>
 	<XMT_QueenDefendersArrived>A pack of {0} have come to defend their mother! They will hunt down all enemies who dared to harm her!</XMT_QueenDefendersArrived>
@@ -120,6 +120,6 @@
 	<XMT_TameSmellDisabled>No suitable Pheromone marked individuals available.</XMT_TameSmellDisabled>
 	
 	<XMT_TameThreat>Threaten Hostage</XMT_TameThreat>
-	<XMT_TameThreatDescription>Attempt to train by holding Ovamorphs or the Egglaying Caste Hostage.</XMT_TameThreatDescription>
+	<XMT_TameThreatDescription>Attempt to train by holding Ovomorphs or the Egglaying Caste Hostage.</XMT_TameThreatDescription>
 	<XMT_TameThreatDisabled>No suitable hostage available.</XMT_TameThreatDisabled>
 </LanguageData>

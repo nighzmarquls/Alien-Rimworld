@@ -51,19 +51,19 @@
 				<thingSpawns>
 					<li>
 						<probability>1</probability>
-						<spawnThing>XMT_Ovamorph</spawnThing>
+						<spawnThing>XMT_Ovomorph</spawnThing>
 					</li>
 					<li>
 						<probability>0.25</probability>
-						<spawnThing>XMT_Ovamorph</spawnThing>
+						<spawnThing>XMT_Ovomorph</spawnThing>
 					</li>
 					<li>
 						<probability>0.25</probability>
-						<spawnThing>XMT_Ovamorph</spawnThing>
+						<spawnThing>XMT_Ovomorph</spawnThing>
 					</li>
 					<li>
 						<probability>0.25</probability>
-						<spawnThing>XMT_Ovamorph</spawnThing>
+						<spawnThing>XMT_Ovomorph</spawnThing>
 					</li>
 				</thingSpawns>
 			</li>

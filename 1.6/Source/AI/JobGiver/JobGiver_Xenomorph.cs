@@ -20,14 +20,14 @@ namespace Xenomorphtype
             {
                 Log.Message(pawn + " is getting Feral Job");
             }
-            IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => !XMTUtility.IsMorphing(x) && !XMTUtility.HasEmbryo(x));
-            IEnumerable<Pawn> hostPawns = pawn.Map.mapPawns.AllPawnsSpawned.Where(x => XMTUtility.IsHost(x));
+            IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => XMTUtility.TriggersOvomorph(x));
+            IEnumerable<Pawn> hostPawns = pawn.Map.mapPawns.AllPawnsSpawned.Where(x => XMTUtility.TriggersOvomorph(x));
             Need_Food food = pawn.needs.food;
             bool desperate = pawn.needs.food.CurCategory == HungerCategory.Starving;
 
             CompMatureMorph compMatureMorph = pawn.GetMorphComp();
 
-            bool shouldOvamorph = compMatureMorph.ShouldOvamorphCandidate();
+            bool shouldOvomorph = compMatureMorph.ShouldOvomorphCandidate();
             bool hasNest = HiveUtility.HasCocooned(pawn.Map);
 
             if (food.CurCategory == HungerCategory.Fed)
@@ -40,7 +40,7 @@ namespace Xenomorphtype
                 {
                     if (compMatureMorph != null)
                     {
-                        if (compMatureMorph.ShouldAbductHost() && !(shouldOvamorph && hasNest) )
+                        if (compMatureMorph.ShouldAbductHost() && !(shouldOvomorph && hasNest) )
                         {
                             if (XMTSettings.LogJobGiver)
                             {
@@ -84,19 +84,19 @@ namespace Xenomorphtype
 
                 if (HiveUtility.IsInsideNest(pawn.Position,pawn.Map) && HiveUtility.IsCloseToNest(pawn.Position, pawn.Map))
                 {
-                    if (shouldOvamorph)
+                    if (shouldOvomorph)
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " thinks a candidate should be ovamorphed.");
+                            Log.Message(pawn + " thinks a candidate should be Ovomorphed.");
                         }
-                        Pawn target = HiveUtility.GetOvamorphingCandidate(pawn.Map);
+                        Pawn target = HiveUtility.GetOvomorphingCandidate(pawn.Map);
                         if (target != null)
                         {
                             pawn.Map.reservationManager.ReleaseAllForTarget(target);
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is going to ovamorph " + target);
+                                Log.Message(pawn + " is going to Ovomorph " + target);
                             }
                             if (!target.Spawned)
                             {
@@ -104,7 +104,7 @@ namespace Xenomorphtype
                             }
                             else
                             {
-                                return JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvamorphing, target);
+                                return JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvomorphing, target);
                             }
                         }
                     }
@@ -307,8 +307,11 @@ namespace Xenomorphtype
                     }
                     Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, rage.target);
                     job.killIncappedTarget = true;
-                    pawn.Map.designationManager.RemoveAllDesignationsOn(rage.target);
-                    pawn.Map.designationManager.AddDesignation(new Designation(rage.target, DesignationDefOf.Hunt));
+                    if (rage.target.IsAnimal && pawn.IsPlayerControlled)
+                    {
+                        pawn.Map.designationManager.RemoveAllDesignationsOn(rage.target);
+                        pawn.Map.designationManager.AddDesignation(new Designation(rage.target, DesignationDefOf.Hunt));
+                    }
                     return job;
                 }
 
@@ -531,7 +534,7 @@ namespace Xenomorphtype
                     }
 
                     IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compLarvalGenes.LeapRange, true).OfType<Pawn>()
-                        .Where(x => XMTUtility.IsHost(x));
+                        .Where(x => XMTUtility.TriggersOvomorph(x));
 
                     if (pawns.Any())
                     {

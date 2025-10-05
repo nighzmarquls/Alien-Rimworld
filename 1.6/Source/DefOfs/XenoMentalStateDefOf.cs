@@ -21,7 +21,7 @@ namespace Xenomorphtype
         public static MentalStateDef XMT_SadisticRage;
 
         // Non-Xenomorph Only
-        public static MentalStateDef XMT_DestroyOvamorph;
+        public static MentalStateDef XMT_DestroyOvomorph;
 
     }
 }

@@ -26,8 +26,8 @@ namespace Xenomorphtype
         public static ThoughtDef Cocooned;
         public static ThoughtDef Grabbed;
         public static ThoughtDef GrabbedObsessed;
-        public static ThoughtDef Ovamorphed;
-        public static ThoughtDef OvamorphedAdvancedMood;
+        public static ThoughtDef Ovomorphed;
+        public static ThoughtDef OvomorphedAdvancedMood;
         public static ThoughtDef ParasiteLatchedMood;
         public static ThoughtDef Chestburst;
         public static ThoughtDef VictimSnuggledHappy;
@@ -42,7 +42,7 @@ namespace Xenomorphtype
         public static ThoughtDef HostImpregnated;
         public static ThoughtDef CapturedHost;
         public static ThoughtDef GrabbedPrey;
-        public static ThoughtDef OvamorphedVictim;
+        public static ThoughtDef OvomorphedVictim;
         public static ThoughtDef SnuggledVictim;
         public static ThoughtDef GaveTrophallaxis;
         public static ThoughtDef RecievedTrophallaxis;

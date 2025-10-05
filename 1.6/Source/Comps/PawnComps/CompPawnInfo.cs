@@ -89,10 +89,10 @@ namespace Xenomorphtype
         float totalPheromone => LoverPheromone + FriendlyPheromone + ThreatPheromone;
         bool pheromonesPresent => LoverPheromone != 0 || FriendlyPheromone != 0 || ThreatPheromone != 0;
 
-        bool isAware => ovamorphAwareness != 0 || larvaAwareness != 0 || horrorAwareness != 0 || Obsession != 0;
+        bool isAware => OvomorphAwareness != 0 || larvaAwareness != 0 || horrorAwareness != 0 || Obsession != 0;
 
         // Xenomorph Naivety System
-        float ovamorphAwareness = 0;
+        float ovomorphAwareness = 0;
         float larvaAwareness = 0;
         float horrorAwareness = 0;
         float acidAwareness = 0;
@@ -100,7 +100,7 @@ namespace Xenomorphtype
         float obsession = 0;
         float Obsession => obsession + TraitObsessionModifier();
 
-        public float OvamorphAwareness => ovamorphAwareness + TraitAwarenessModifier() + IdeoReproductionModifier();
+        public float OvomorphAwareness => ovomorphAwareness + TraitAwarenessModifier() + IdeoReproductionModifier();
         public float LarvaAwareness => larvaAwareness + TraitAwarenessModifier() + IdeoReproductionModifier();
         public float HorrorAwareness => horrorAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
         public float AcidAwareness => acidAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
@@ -337,7 +337,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _traumaRelief, "TraumaRelief", 0);
             
 
-            Scribe_Values.Look(ref ovamorphAwareness, "OvamorphAwareness", 0);
+            Scribe_Values.Look(ref ovomorphAwareness, "OvomorphAwareness", 0);
             Scribe_Values.Look(ref larvaAwareness, "LarvaAwareness", 0);
             Scribe_Values.Look(ref horrorAwareness, "HorrorAwareness", 0);
             Scribe_Values.Look(ref acidAwareness, "AcidAwareness", 0);
@@ -523,9 +523,9 @@ namespace Xenomorphtype
             if (isAware)
             {
                 bool obsessed = IsObsessed();
-                if (OvamorphAwareness > 0)
+                if (OvomorphAwareness > 0)
                 {
-                    output += obsessed ? "Is fascinated by the life cycle of Ovamorphs. \n" : "Has witnessed what comes from Ovamorphs. \n";
+                    output += obsessed ? "Is fascinated by the life cycle of Ovomorphs. \n" : "Has witnessed what comes from Ovomorphs. \n";
                 }
                 if (LarvaAwareness > 0)
                 {
@@ -551,6 +551,11 @@ namespace Xenomorphtype
 
         public void TryApplyDisplayHediff()
         {
+            if (!parent.Spawned)
+            {
+                return;
+            }
+
             Pawn Parent = parent as Pawn;
             if (parent != null)
             {
@@ -558,6 +563,7 @@ namespace Xenomorphtype
                 {
                     return;
                 }
+
 
                 if (parent.Faction.IsPlayer)
                 {
@@ -625,9 +631,9 @@ namespace Xenomorphtype
                 WitnessLarvaHorror(psychicBleed, maxPsychicBleed);
             }
 
-            if (OvamorphAwareness < maxPsychicBleed)
+            if (OvomorphAwareness < maxPsychicBleed)
             {
-                WitnessOvamorphHorror(psychicBleed, maxPsychicBleed);
+                WitnessOvomorphHorror(psychicBleed, maxPsychicBleed);
             }
 
             TryApplyDisplayHediff();
@@ -643,9 +649,9 @@ namespace Xenomorphtype
 
             acidAwareness = Mathf.Min(acidAwareness + strength, maxAwareness);
 
-            if (OvamorphAwareness > 0)
+            if (OvomorphAwareness > 0)
             {
-                WitnessOvamorphHorror(strength, maxAwareness);
+                WitnessOvomorphHorror(strength, maxAwareness);
             }
             if (LarvaAwareness > 0)
             {
@@ -659,14 +665,14 @@ namespace Xenomorphtype
             TryApplyDisplayHediff();
 
         }
-        public void WitnessOvamorphHorror(float strength, float maxAwareness = 1.0f)
+        public void WitnessOvomorphHorror(float strength, float maxAwareness = 1.0f)
         {
-            if (OvamorphAwareness >= maxAwareness)
+            if (OvomorphAwareness >= maxAwareness)
             {
                 return;
             }
 
-            ovamorphAwareness = Mathf.Min(ovamorphAwareness + strength, maxAwareness);
+            ovomorphAwareness = Mathf.Min(OvomorphAwareness + strength, maxAwareness);
 
             TryApplyDisplayHediff();
 
@@ -680,9 +686,9 @@ namespace Xenomorphtype
             }
 
             larvaAwareness = Mathf.Min(larvaAwareness + strength, maxAwareness);
-            if (OvamorphAwareness > 0)
+            if (OvomorphAwareness > 0)
             {
-                WitnessOvamorphHorror(strength, maxAwareness);
+                WitnessOvomorphHorror(strength, maxAwareness);
             }
             TryApplyDisplayHediff();
         }
@@ -721,7 +727,7 @@ namespace Xenomorphtype
 
         public float TotalHorrorExperience()
         {
-            return ovamorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() - _traumaRelief;
+            return OvomorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() - _traumaRelief;
         }
         public float TotalHorrorAwareness()
         {

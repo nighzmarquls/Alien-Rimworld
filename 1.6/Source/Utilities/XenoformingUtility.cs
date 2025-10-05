@@ -236,18 +236,18 @@ namespace Xenomorphtype
 
 
         }
-        public static void HandleXenoformingImpact(Ovamorph ovamorph)
+        public static void HandleXenoformingImpact(Ovomorph Ovomorph)
         {
 
-            if (ovamorph != null)
+            if (Ovomorph != null)
             {
-                if (ovamorph.Unhatched)
+                if (Ovomorph.Unhatched)
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(ovamorph + " is viable ovamorph");
+                        Log.Message(Ovomorph + " is viable Ovomorph");
                     }
-                    gameComponent.ReleaseOvamorphOnWorld(ovamorph);
+                    gameComponent.ReleaseOvomorphOnWorld(Ovomorph);
                     return;
                 }
             }
@@ -279,17 +279,17 @@ namespace Xenomorphtype
                 return;
             }
 
-            Ovamorph ovamorph = thing as Ovamorph;
+            Ovomorph Ovomorph = thing as Ovomorph;
 
-            if (ovamorph != null)
+            if (Ovomorph != null)
             {
-                if (ovamorph.Unhatched)
+                if (Ovomorph.Unhatched)
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(thing + " is viable ovamorph");
+                        Log.Message(thing + " is viable Ovomorph");
                     }
-                    gameComponent.ReleaseOvamorphOnWorld(ovamorph);
+                    gameComponent.ReleaseOvomorphOnWorld(Ovomorph);
                     return;
                 }
             }

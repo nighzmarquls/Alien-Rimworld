@@ -147,7 +147,7 @@
 	</ThoughtDef>
 	
 	<ThoughtDef>
-		<defName>Ovamorphed</defName>
+		<defName>Ovomorphed</defName>
 		<thoughtClass>Thought_MemorySocial</thoughtClass>
 		<durationDays>20</durationDays>
 		<stackLimit>300</stackLimit>
@@ -167,11 +167,11 @@
 			<baseOpinionOffset>-5</baseOpinionOffset>
 		  </li>
 		</stages>
-		<thoughtToMake>OvamorphedMood</thoughtToMake>
+		<thoughtToMake>OvomorphedMood</thoughtToMake>
 	</ThoughtDef>
 
 	<ThoughtDef>
-		<defName>OvamorphedMood</defName>
+		<defName>OvomorphedMood</defName>
 		<durationDays>2</durationDays>
 		<stackLimit>10</stackLimit>
 		<stackedEffectMultiplier>0.9</stackedEffectMultiplier>
@@ -192,7 +192,7 @@
 	</ThoughtDef>
 	
 	<ThoughtDef>
-		<defName>OvamorphedAdvancedMood</defName>
+		<defName>OvomorphedAdvancedMood</defName>
 		<thoughtClass>Thought_Memory</thoughtClass>
 		<durationDays>2</durationDays>
 		<stackLimit>10</stackLimit>

@@ -30,13 +30,13 @@ namespace Xenomorphtype
         public static PreceptDef XMT_Biomorph_Abhorrent;
 
         public static HistoryEventDef XMT_Larvae_Killed;
-        public static HistoryEventDef XMT_Ovamorph_Destroyed;
+        public static HistoryEventDef XMT_Ovomorph_Destroyed;
         public static HistoryEventDef XMT_Parasite_Attached;
         public static HistoryEventDef XMT_Parasite_Birth;
 
         public static HistoryEventDef XMT_Cryptobio_Killed;
-        public static HistoryEventDef XMT_Ovamorph_Hatched;
-        public static HistoryEventDef XMT_Ovamorph_Laid;
+        public static HistoryEventDef XMT_Ovomorph_Hatched;
+        public static HistoryEventDef XMT_Ovomorph_Laid;
 
 
     }

@@ -137,7 +137,7 @@ namespace Xenomorphtype
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", _minimumOpinionForHiveFriend.ToString());
             listingStandard.Gap(5f);
-            _laidEggMaturationTime = listingStandard.SliderLabeled("Time for Laid Ovamorphs to Incubate", _laidEggMaturationTime, 0, 10f, tooltip: TooltipForEggMaturation());
+            _laidEggMaturationTime = listingStandard.SliderLabeled("Time for Laid Ovomorphs to Incubate", _laidEggMaturationTime, 0, 10f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForEggMaturation());
             listingStandard.Gap(5f);

@@ -381,6 +381,9 @@
 		<li Class="Xenomorphtype.HediffCompProperties_GrowCocoon">
 			<activateOnAffordance>Resin</activateOnAffordance>
 		</li>
+		<li Class="Xenomorphtype.HediffCompProperties_RemoveOnCarryStatus">
+			<RemoveIfCarried>true</RemoveIfCarried>
+		</li>
     </comps>
     <stages>
       <li>
@@ -423,5 +426,51 @@
     </stages>
   </HediffDef>
 
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Enthroned</defName>
+    <label>enthroned</label>
+    <description>is enshrined in resin</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <label>estatic</label>
+	    <becomeVisible>false</becomeVisible>
+		<overrideMoodBase>1.0</overrideMoodBase>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_TornEggSack</defName>
+		<label>torn ovipositor</label>
+		<description>has had their ovipositor torn out.</description>
+		<hediffClass>Hediff_Injury</hediffClass>
+		<makesSickThought>false</makesSickThought>
+		<makesAlert>false</makesAlert>
+		<tendable>false</tendable>
+		<defaultInstallPart>Pelvis</defaultInstallPart>
+		<initialSeverity>1</initialSeverity>
+		<stages>
+		  <li>
+			<label>recovering</label>
+			<becomeVisible>true</becomeVisible>
+		  </li>
+		</stages>
+		<comps>
+		    <li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-1</severityPerDay>
+			</li>
+		</comps>
+		<injuryProps>
+		  <painPerSeverity>0.1</painPerSeverity>
+		  <bleedRate>0.0</bleedRate>
+		  <canMerge>true</canMerge>
+		  <destroyedLabel>torn apart</destroyedLabel>
+		</injuryProps>
+  </HediffDef>
 
 </Defs>

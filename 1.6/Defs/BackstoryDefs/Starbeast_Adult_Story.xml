@@ -352,7 +352,7 @@
 			<SpeedOffset>1</SpeedOffset>
 		</forcedTraits>
 		<forcedItems>
-			<XMT_Ovamorph>2</XMT_Ovamorph>
+			<XMT_Ovomorph>2</XMT_Ovomorph>
 		</forcedItems>
 	</AlienRace.AlienBackstoryDef>
 	

@@ -6,7 +6,7 @@
   <IssueDef>
     <defName>XMT_Reproduction</defName>
     <label>parasitic reproduction</label>
-    <iconPath>UI/Issues/Ovamorph</iconPath>
+    <iconPath>UI/Issues/Ovomorph</iconPath>
   </IssueDef>
 
   <!-- History Event -->
@@ -16,8 +16,8 @@
   </HistoryEventDef>
   
   <HistoryEventDef>
-    <defName>XMT_Ovamorph_Destroyed</defName>
-    <label>ovamorph killed</label>
+    <defName>XMT_Ovomorph_Destroyed</defName>
+    <label>Ovomorph killed</label>
   </HistoryEventDef>
   
   <HistoryEventDef>
@@ -31,13 +31,13 @@
   </HistoryEventDef>
   
   <HistoryEventDef>
-    <defName>XMT_Ovamorph_Hatched</defName>
-    <label>ovamorph hatched</label>
+    <defName>XMT_Ovomorph_Hatched</defName>
+    <label>Ovomorph hatched</label>
   </HistoryEventDef>
   
   <HistoryEventDef>
-    <defName>XMT_Ovamorph_Laid</defName>
-    <label>ovamorph laid</label>
+    <defName>XMT_Ovomorph_Laid</defName>
+    <label>Ovomorph laid</label>
   </HistoryEventDef>
   
   
@@ -68,11 +68,11 @@
         <thought>XMT_Killed_Parasite_Know_Abhorrent</thought>
       </li>
 	  <li Class="PreceptComp_SelfTookMemoryThought">
-        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <eventDef>XMT_Ovomorph_Destroyed</eventDef>
         <thought>XMT_Killed_Parasite_Abhorrent</thought>
       </li>
       <li Class="PreceptComp_KnowsMemoryThought">
-        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <eventDef>XMT_Ovomorph_Destroyed</eventDef>
         <thought>XMT_Killed_Parasite_Know_Abhorrent</thought>
       </li>
 	  <li Class="PreceptComp_SelfTookMemoryThought">
@@ -101,7 +101,7 @@
         <thought>XMT_EggsPresent_Abhorrent</thought>
       </li>
 	  <li Class="Xenomorphtype.PreceptComp_WitnessedAction">
-        <eventDef>XMT_Ovamorph_Hatched</eventDef>
+        <eventDef>XMT_Ovomorph_Hatched</eventDef>
         <thought>XMT_WitnessParasiteHatched_Abhorrent</thought>
       </li>
 	  <li Class="Xenomorphtype.PreceptComp_WitnessedAction">
@@ -136,11 +136,11 @@
         <thought>XMT_Killed_Parasite_Know_Reincarnation</thought>
       </li>
 	  <li Class="PreceptComp_SelfTookMemoryThought">
-        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <eventDef>XMT_Ovomorph_Destroyed</eventDef>
         <thought>XMT_Killed_Parasite_Reincarnation</thought>
       </li>
       <li Class="PreceptComp_KnowsMemoryThought">
-        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <eventDef>XMT_Ovomorph_Destroyed</eventDef>
         <thought>XMT_Killed_Parasite_Know_Reincarnation</thought>
       </li>
 	  <li Class="PreceptComp_SelfTookMemoryThought">
@@ -169,7 +169,7 @@
         <thought>XMT_EggsPresent_Reincarnation</thought>
       </li>
 	  <li Class="Xenomorphtype.PreceptComp_WitnessedAction">
-        <eventDef>XMT_Ovamorph_Hatched</eventDef>
+        <eventDef>XMT_Ovomorph_Hatched</eventDef>
         <thought>XMT_WitnessParasiteHatched_Reincarnation</thought>
       </li>
 	  <li Class="Xenomorphtype.PreceptComp_WitnessedAction">
@@ -204,11 +204,11 @@
         <thought>XMT_Killed_Parasite_Know_Revered</thought>
       </li>
 	  <li Class="PreceptComp_SelfTookMemoryThought">
-        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <eventDef>XMT_Ovomorph_Destroyed</eventDef>
         <thought>XMT_Killed_Parasite_Revered</thought>
       </li>
       <li Class="PreceptComp_KnowsMemoryThought">
-        <eventDef>XMT_Ovamorph_Destroyed</eventDef>
+        <eventDef>XMT_Ovomorph_Destroyed</eventDef>
         <thought>XMT_Killed_Parasite_Know_Revered</thought>
       </li>
 	  <li Class="PreceptComp_SelfTookMemoryThought">
@@ -237,7 +237,7 @@
         <thought>XMT_EggsPresent_Revered</thought>
       </li>
 	  <li Class="Xenomorphtype.PreceptComp_WitnessedAction">
-        <eventDef>XMT_Ovamorph_Hatched</eventDef>
+        <eventDef>XMT_Ovomorph_Hatched</eventDef>
         <thought>XMT_WitnessParasiteHatched_Revered</thought>
       </li>
 	  <li Class="Xenomorphtype.PreceptComp_WitnessedAction">
@@ -825,12 +825,12 @@
     </nullifyingTraits>
     <stages>
       <li>
-        <label>no ovamorph!</label>
+        <label>no Ovomorph!</label>
         <description>how can we make our sacrifice without the divine egg?</description>
         <baseMoodEffect>-5</baseMoodEffect>
       </li>
       <li>
-        <label>ovamorph present.</label>
+        <label>Ovomorph present.</label>
         <description>a sacrifice can now be made.</description>
         <baseMoodEffect>5</baseMoodEffect>
       </li>
@@ -1033,12 +1033,12 @@
     </nullifyingTraits>
     <stages>
       <li>
-        <label>no ovamorph!</label>
-        <description>how can we be reborn without the ovamorph?!</description>
+        <label>no Ovomorph!</label>
+        <description>how can we be reborn without the Ovomorph?!</description>
         <baseMoodEffect>-10</baseMoodEffect>
       </li>
       <li>
-        <label>ovamorph present.</label>
+        <label>Ovomorph present.</label>
         <description>Some of us will be able to be reborn.</description>
         <baseMoodEffect>5</baseMoodEffect>
       </li>
@@ -1241,12 +1241,12 @@
     </nullifyingTraits>
     <stages>
       <li>
-        <label>no ovamorph.</label>
+        <label>no Ovomorph.</label>
         <description>but there could be more...</description>
         <baseMoodEffect>0</baseMoodEffect>
       </li>
       <li>
-        <label>ovamorph present!</label>
+        <label>Ovomorph present!</label>
         <description>We have to wipe them out before they hatch!</description>
         <baseMoodEffect>-15</baseMoodEffect>
       </li>

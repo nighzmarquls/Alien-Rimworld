@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 	<ThingDef ParentName="BuildingBase">
-		<defName>XMT_Ovamorph</defName>
-		<thingClass>Xenomorphtype.Ovamorph</thingClass>
-		<label>Ovamorph</label>
+		<defName>XMT_Ovomorph</defName>
+		<thingClass>Xenomorphtype.Ovomorph</thingClass>
+		<label>Ovomorph</label>
 		<comps>
 			<li Class="Xenomorphtype.CompHatchingEggProperties">
 				<hatchedPawnKind>XMT_Larva</hatchedPawnKind>
@@ -14,7 +14,7 @@
 		</comps>
 		<description>Strange leathery object like an egg or something.</description>
 		<graphicData>
-			<texPath>Things/Building/Ovamorph</texPath>
+			<texPath>Things/Building/Ovomorph</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 			<shadowData>
 				<volume>(0.3, 0.6, 0.3)</volume>
@@ -67,9 +67,9 @@
 	</ThingDef>
 	
 	<ThingDef ParentName="BuildingBase">
-		<defName>XMT_GeneOvamorph</defName>
-		<thingClass>Xenomorphtype.GeneOvamorph</thingClass>
-		<label>Gene Ovamorph</label>
+		<defName>XMT_GeneOvomorph</defName>
+		<thingClass>Xenomorphtype.GeneOvomorph</thingClass>
+		<label>Gene Ovomorph</label>
 		<comps>
 			<li>
 				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
@@ -80,7 +80,7 @@
 		</comps>
 		<description>Strange leathery object like an egg or something.</description>
 		<graphicData>
-			<texPath>Things/Building/GeneOvamorph</texPath>
+			<texPath>Things/Building/GeneOvomorph</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 			<shadowData>
 				<volume>(0.3, 0.6, 0.3)</volume>
@@ -135,7 +135,7 @@
 	<ThingDef ParentName="SleepingSpotBase">
 		<defName>HiveSleepingCocoonBuildable</defName>
 		<label>sleeping cocoon</label>
-		<description>a resinous fleshy cocoon, sized to fit a single occupant, made out of hatched ovamorphs.</description>
+		<description>a resinous fleshy cocoon, sized to fit a single occupant, made out of hatched Ovomorphs.</description>
 		<graphicData>
 		  <texPath>Things/Building/SleepingNest/SleepingNest</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
@@ -182,7 +182,7 @@
 		<constructEffect>ResinBuild</constructEffect>
 		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
 		<placeWorkers>
-			<li>Xenomorphtype.Placeworker_EmptyOvamorph</li>
+			<li>Xenomorphtype.Placeworker_EmptyOvomorph</li>
 		</placeWorkers>
 	</ThingDef>
 
@@ -262,7 +262,7 @@
   <ThingDef ParentName="SleepingSpotBase">
 		<defName>XMT_ExplosivePodBuildable</defName>
 		<label>explosive pod</label>
-		<description>Fill a ovamorph with a potent mix of resin, acid and volatile chemicals.</description>
+		<description>Fill a Ovomorph with a potent mix of resin, acid and volatile chemicals.</description>
 		<graphicData>
 		  <texPath>Things/Building/Security/ExplosivePod</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
@@ -310,14 +310,14 @@
 		<constructEffect>ResinBuild</constructEffect>
 		<terrainAffordanceNeeded></terrainAffordanceNeeded>
 		<placeWorkers>
-			<li>Xenomorphtype.Placeworker_EmptyOvamorph</li>
+			<li>Xenomorphtype.Placeworker_EmptyOvomorph</li>
 		</placeWorkers>
 		<specialDisplayRadius>4.9</specialDisplayRadius>
 	</ThingDef>
   
   <ThingDef ParentName="TrapIEDBase">
     <defName>XMT_ExplosivePod</defName>
-    <label>ovamorph</label>
+    <label>Ovomorph</label>
     <description>Strange leathery object like an egg or something.</description>
     <graphicData>
       <texPath>Things/Building/Security/ExplosivePod</texPath>

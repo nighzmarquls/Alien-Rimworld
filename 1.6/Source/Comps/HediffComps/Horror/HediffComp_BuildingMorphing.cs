@@ -45,9 +45,9 @@ namespace Xenomorphtype
                 if (Props.MorphedBuilding != null)
                 {
                     HiveUtility.RemoveHost(parent.pawn, parent.pawn.MapHeld);
-                    if (Props.MorphedBuilding == InternalDefOf.XMT_Ovamorph)
+                    if (Props.MorphedBuilding == InternalDefOf.XMT_Ovomorph)
                     {
-                        HiveUtility.AddOvamorphing(parent.pawn, parent.pawn.MapHeld);
+                        HiveUtility.AddOvomorphing(parent.pawn, parent.pawn.MapHeld);
                         Host = parent.pawn;
                     }
                 }
@@ -58,7 +58,7 @@ namespace Xenomorphtype
             base.CompPostPostRemoved();
             if (Host != null)
             {
-                HiveUtility.RemoveOvamorphing(Host, Host.MapHeld);
+                HiveUtility.RemoveOvomorphing(Host, Host.MapHeld);
                 Host = null;
             }
         }
@@ -88,7 +88,7 @@ namespace Xenomorphtype
             }
             else if(Pawn.IsHashIntervalTick(2500) && parent.Severity > Props.ApparantMorphingSeverity)
             {
-                XMTUtility.GiveMemory(Pawn, HorrorMoodDefOf.OvamorphedAdvancedMood);
+                XMTUtility.GiveMemory(Pawn, HorrorMoodDefOf.OvomorphedAdvancedMood);
                 FilthMaker.TryMakeFilth(Pawn.Position, Pawn.Map, InternalDefOf.Starbeast_Filth_Resin);
                 
                 if(Props.forcedBodyType != null)

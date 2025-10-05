@@ -35,7 +35,7 @@
 		<evoPointCost>1</evoPointCost>
 		<evolutionHediff>XMT_Fertility</evolutionHediff>
 		<targetBodyPart>Torso</targetBodyPart>
-		<description>All internal organs and abdomen are altered to maximize Egg Production efficiency.</description>
+		<description>All internal organs and abdomen are altered to maximize Ovomorph Production efficiency.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef>
@@ -62,6 +62,19 @@
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<!-- 2nd tier -->
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_OvoThrone</defName>
+		<label>Hypertrophied Ovipositor</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Reproductive system is shifted entirely to an extruded abdomenal sack, allows extreme ovomorph production at cost of mobility. Renders body sterile without reproductive sack</description>
+		<replaces>
+			<li>Evo_FertileBelly</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_FertileBelly</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX2</defName>
@@ -97,7 +110,7 @@
 		<defName>Evo_GeneStorage</defName>
 		<label>Genetic Storage</label>
 		<evoPointCost>2</evoPointCost>
-		<description>Unlocks the ability to store genes in specially altered Ovamorphs.</description>
+		<description>Unlocks the ability to store genes in specially altered Ovomorphs.</description>
 		<prerequisites>
 			<li>Evo_GeneControl</li>
 		</prerequisites>

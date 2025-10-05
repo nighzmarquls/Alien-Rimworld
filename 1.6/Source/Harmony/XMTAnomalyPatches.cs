@@ -2,8 +2,6 @@
 
 using HarmonyLib;
 using RimWorld;
-using System.Text;
-using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype

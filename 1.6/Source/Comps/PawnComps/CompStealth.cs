@@ -167,6 +167,10 @@ namespace Xenomorphtype
             }
         }
 
+        public void ForceVisible()
+        {
+            TryVisible();
+        }
         protected void TryVisible()
         {
             if (Invisibility.PsychologicallyVisible)

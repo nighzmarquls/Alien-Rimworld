@@ -28,10 +28,10 @@ namespace Xenomorphtype
             {
                 if (Rand.Chance(things[0].probability) && XenoformingUtility.XenoformingMeets(things[0].minXenoforming))
                 {
-                    Thing spawnedThing = GenSpawn.Spawn(things[0].spawnThing, parent.Position, previousMap);
-                    if(spawnedThing is Ovamorph spawnedOvamorph)
+                    Thing spawnedThing = GenSpawn.Spawn(things[0].spawnThing, parent.Position, previousMap, parent.Rotation);
+                    if(spawnedThing is Ovomorph spawnedOvomorph)
                     {
-                        spawnedOvamorph.ForceProgress();
+                        spawnedOvomorph.ForceProgress();
                     }
                     FilthMaker.TryMakeFilth(parent.Position, previousMap, InternalDefOf.Starbeast_Filth_Resin);
                 }
@@ -46,10 +46,10 @@ namespace Xenomorphtype
                     if (Rand.Chance(things[i].probability) && XenoformingUtility.XenoformingMeets(things[i].minXenoforming))
                     {
                         IntVec3 SpawnPosition = spawnpoints[i];
-                        Thing spawnedThing = GenSpawn.Spawn(things[i].spawnThing, SpawnPosition, previousMap);
-                        if (spawnedThing is Ovamorph spawnedOvamorph)
+                        Thing spawnedThing = GenSpawn.Spawn(things[i].spawnThing, SpawnPosition, previousMap, parent.Rotation);
+                        if (spawnedThing is Ovomorph spawnedOvomorph)
                         {
-                            spawnedOvamorph.ForceProgress();
+                            spawnedOvomorph.ForceProgress();
                         }
                         FilthMaker.TryMakeFilth(SpawnPosition, previousMap, InternalDefOf.Starbeast_Filth_Resin);
                     }

@@ -100,7 +100,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
-						<thingDef>XMT_Ovamorph</thingDef>
+						<thingDef>XMT_Ovomorph</thingDef>
 						<hatchTime>1</hatchTime>
 						<probability>0.5</probability>
 					</li>

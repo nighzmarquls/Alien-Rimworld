@@ -18,6 +18,7 @@ namespace Xenomorphtype
     {
         protected float initialFoodPercentage;
 
+        protected bool recipientStored => recipient.Map != pawn.Map;
         protected Pawn recipient => (Pawn)base.TargetThingA;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
@@ -112,9 +113,9 @@ namespace Xenomorphtype
                 }
 
             });
-            toil.WithProgressBar(TargetIndex.A, () => recipient.needs.food.CurLevelPercentage);
+            toil.WithProgressBar((recipientStored) ? TargetIndex.B : TargetIndex.A, () => recipient.needs.food.CurLevelPercentage);
             toil.defaultCompleteMode = ToilCompleteMode.Never;
-            toil.WithEffect(EffecterDefOf.Breastfeeding, TargetIndex.A);
+            toil.WithEffect(EffecterDefOf.Breastfeeding, (recipientStored) ? TargetIndex.B : TargetIndex.A);
             return toil;
         }
 
@@ -129,7 +130,7 @@ namespace Xenomorphtype
             }
 
             Toil firstFeedingToil = feedRecipientEnumerator.Current;
-            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+            yield return Toils_Goto.GotoThing( (recipientStored)? TargetIndex.B : TargetIndex.A, (recipientStored) ? PathEndMode.InteractionCell : PathEndMode.OnCell).FailOnDestroyedNullOrForbidden((recipientStored) ? TargetIndex.B : TargetIndex.A).FailOnSomeonePhysicallyInteracting((recipientStored) ? TargetIndex.B : TargetIndex.A);
             yield return firstFeedingToil;
             while (feedRecipientEnumerator.MoveNext())
             {

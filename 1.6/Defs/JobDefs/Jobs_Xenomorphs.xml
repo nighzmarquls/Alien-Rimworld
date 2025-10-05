@@ -54,7 +54,7 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>XMT_MoveOvamorph</defName>
+		<defName>XMT_MoveOvomorph</defName>
 		<driverClass>Xenomorphtype.JobDriver_MoveBuilding</driverClass>
 		<reportString>moving TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
@@ -86,9 +86,9 @@
 	</JobDef>
 
 	<JobDef>
-		<defName>XMT_ApplyOvamorphing</defName>
-		<driverClass>Xenomorphtype.JobDriver_ApplyOvamorph</driverClass>
-		<reportString>ovamorphing TargetA.</reportString>
+		<defName>XMT_ApplyOvomorphing</defName>
+		<driverClass>Xenomorphtype.JobDriver_ApplyOvomorph</driverClass>
+		<reportString>Ovomorphing TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
 		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
@@ -222,9 +222,9 @@
 	</JobDef>
 	
 	<JobDef>
-		<defName>XMT_LayOvamorph</defName>
-		<driverClass>Xenomorphtype.JobDriver_LayOvamorph</driverClass>
-		<reportString>laying ovamorph.</reportString>
+		<defName>XMT_LayOvomorph</defName>
+		<driverClass>Xenomorphtype.JobDriver_LayOvomorph</driverClass>
+		<reportString>laying Ovomorph.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 	

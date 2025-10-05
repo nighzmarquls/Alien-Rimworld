@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
-using Verse.Noise;
 
 namespace Xenomorphtype
 {
@@ -16,6 +15,8 @@ namespace Xenomorphtype
         int attempts = 2;
 
         int CheckInterval = 480;
+
+        public override bool CanOpen => false;
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
@@ -79,7 +80,7 @@ namespace Xenomorphtype
                             {
                                 pawn.jobs.curJob.Clear();
                             }
-                            Find.Selector.Select(pawn, playSound: false, forceDesignatorDeselect: false);
+                            Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
                             return;
                         }
                     }
@@ -111,7 +112,7 @@ namespace Xenomorphtype
                     {
                         gaurdian.jobs.curJob.Clear();
                     }
-                    Find.Selector.Select(gaurdian, playSound: false, forceDesignatorDeselect: false);
+                    Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
                     return;
                 }
             }

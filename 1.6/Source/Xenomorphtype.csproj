@@ -103,12 +103,12 @@
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractJelly.cs" />
     <Compile Include="AI\JobDriver\JobDriver_CopyGenesFrom.cs" />
     <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
-    <Compile Include="AI\JobDriver\JobDriver_Protofluid.cs" />
+    <Compile Include="AI\JobDriver\HumanJobs\JobDriver_Protofluid.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_MutateTarget.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
-    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyOvamorph.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyOvomorph.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_BuildXenomorphStructure.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_CocoonTarget.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Hibernate.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="AI\JobDriver\JobDriver_StarbeastSnuggle.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_Trophallaxis.cs" />
     <Compile Include="AI\JobDriver\JobDriver_ClimbToPosition.cs" />
-    <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvamorph.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvomorph.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Metamorphosis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_MurderXenomorph.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
@@ -135,9 +135,9 @@
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Morph.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Traumatized.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Obsession.cs" />
-    <Compile Include="AI\MentalState\States\MentalState_XMT_DestroyOvamorph.cs" />
+    <Compile Include="AI\MentalState\States\MentalState_XMT_DestroyOvomorph.cs" />
     <Compile Include="AI\MentalState\States\MentalState_XMT_MurderousRage.cs" />
-    <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_DestroyOvamorph.cs" />
+    <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_DestroyOvomorph.cs" />
     <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_MurderousRage.cs" />
     <Compile Include="AI\MentalState\XMTMentalStateUtility.cs" />
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_Obsession.cs" />
@@ -146,6 +146,7 @@
     <Compile Include="AI\WorkGiver\WorkGiver_AdvancedTame.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractResin.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractJelly.cs" />
+    <Compile Include="Building\Royalty\EggSack.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_XenoSocialGiver.cs" />
     <Compile Include="SocialHorror\Interactions\InteractionWorker_AdvancedTameAttempt.cs" />
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
@@ -190,8 +191,8 @@
     <Compile Include="Building\Fillable\FillableChrysalis.cs" />
     <Compile Include="Building\Horrors\Petrolsump.cs" />
     <Compile Include="Building\Horrors\Slumberer.cs" />
-    <Compile Include="Building\QueenBed.cs" />
-    <Compile Include="Building\Reproduction\GeneOvamorph.cs" />
+    <Compile Include="Building\Royalty\QueenBed.cs" />
+    <Compile Include="Building\Reproduction\GeneOvomorph.cs" />
     <Compile Include="Building\XMTBase_Building.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompPetrolsump.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompSlumberer.cs" />
@@ -221,7 +222,7 @@
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompSmotherer.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompSpawner.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompSpore.cs" />
-    <Compile Include="Comps\PawnComps\Queen\CompOvamorphLayer.cs" />
+    <Compile Include="Comps\PawnComps\Queen\CompOvomorphLayer.cs" />
     <Compile Include="Comps\ThingCompHorror\CompFilthSpreader.cs" />
     <Compile Include="Comps\ThingCompHorror\CompStackMaturing.cs" />
     <Compile Include="DefOfs\XenoSocialDefOf.cs" />
@@ -283,7 +284,7 @@
     <Compile Include="Building\Horrors\MeatballLarder.cs" />
     <Compile Include="Building\NestSpot.cs" />
     <Compile Include="Building\CocoonBase.cs" />
-    <Compile Include="Building\Reproduction\Ovamorph.cs" />
+    <Compile Include="Building\Reproduction\Ovomorph.cs" />
     <Compile Include="Building\PassableRoomborder.cs" />
     <Compile Include="Comps\BuildingComps\CompAtmosphericPylon.cs" />
     <Compile Include="Comps\BuildingComps\CompChanceSpawnOnDestroy.cs" />
@@ -343,7 +344,7 @@
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_DevourSpecial.cs" />
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
-    <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvamorph.cs" />
+    <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvomorph.cs" />
     <Compile Include="UI\Tabs\ITab_CrypticEntity.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />

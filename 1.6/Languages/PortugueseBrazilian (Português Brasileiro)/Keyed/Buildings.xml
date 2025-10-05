@@ -30,23 +30,23 @@
     <HiveMimicWallBuildable.label>Parede</HiveMimicWallBuildable.label>
     <HiveMimicWallBuildable.description>Uma parede intransponível. Inicialmente parece ter sido construída convencionalmente, mas em uma inspeção mais próxima, na verdade é uma peça única. Capaz de sustentar um teto.</HiveMimicWallBuildable.description>
     
-    <!-- Buildings_OvamorphCrafts -->
-    <Xenomorphtype.Ovamorph.label>Ovamorph</Xenomorphtype.Ovamorph.label>
-    <Xenomorphtype.Ovamorph.description>Objeto estranho de couro, como um ovo ou algo assim.</Xenomorphtype.Ovamorph.description>
+    <!-- Buildings_OvomorphCrafts -->
+    <Xenomorphtype.Ovomorph.label>Ovomorph</Xenomorphtype.Ovomorph.label>
+    <Xenomorphtype.Ovomorph.description>Objeto estranho de couro, como um ovo ou algo assim.</Xenomorphtype.Ovomorph.description>
 
-    <Xenomorphtype.GeneOvamorph.label>Ovamorph com Gene</Xenomorphtype.GeneOvamorph.label>
-    <Xenomorphtype.GeneOvamorph.description>Objeto estranho de couro, como um ovo ou algo assim.</Xenomorphtype.GeneOvamorph.description>
+    <Xenomorphtype.GeneOvomorph.label>Ovomorph com Gene</Xenomorphtype.GeneOvomorph.label>
+    <Xenomorphtype.GeneOvomorph.description>Objeto estranho de couro, como um ovo ou algo assim.</Xenomorphtype.GeneOvomorph.description>
     
     <HiveSleepingCocoonBuildable.label>casulo adormecido</HiveSleepingCocoonBuildable.label>
-    <HiveSleepingCocoonBuildable.description>um casulo carnudo e resinoso, dimensionado para caber um único ocupante, feito de Ovamorphs que foram chocados.</HiveSleepingCocoonBuildable.description>
+    <HiveSleepingCocoonBuildable.description>um casulo carnudo e resinoso, dimensionado para caber um único ocupante, feito de Ovomorphs que foram chocados.</HiveSleepingCocoonBuildable.description>
     
     <HiveSleepingCocoon.label>casulo adormecido</HiveSleepingCocoon.label>
-    <HiveSleepingCocoon.description>um casulo carnudo e resinoso, dimensionado para caber um único ocupante, feito de Ovamorphs que foram chocados.</HiveSleepingCocoon.description>
+    <HiveSleepingCocoon.description>um casulo carnudo e resinoso, dimensionado para caber um único ocupante, feito de Ovomorphs que foram chocados.</HiveSleepingCocoon.description>
 
     <XMT_ExplosivePodBuildable.label>cápsula explosiva</XMT_ExplosivePodBuildable.label>
-    <XMT_ExplosivePodBuildable.description>Encher um Ovamorph com uma mistura potente de resina, ácido e produtos químicos voláteis.</XMT_ExplosivePodBuildable.description>
+    <XMT_ExplosivePodBuildable.description>Encher um Ovomorph com uma mistura potente de resina, ácido e produtos químicos voláteis.</XMT_ExplosivePodBuildable.description>
 
-    <XMT_ExplosivePod.label>Ovamorph</XMT_ExplosivePod.label>
+    <XMT_ExplosivePod.label>Ovomorph</XMT_ExplosivePod.label>
     <XMT_ExplosivePod.description>Objeto estranho de couro, como um ovo ou algo assim.</XMT_ExplosivePod.description>
 
     <!-- Buildings_Royalty -->

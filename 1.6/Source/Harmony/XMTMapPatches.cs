@@ -189,9 +189,9 @@ namespace Xenomorphtype
 
                 foreach(Thing thing in sitePart.site.Map.spawnedThings)
                 {
-                    if(thing is Ovamorph ovamorph)
+                    if(thing is Ovomorph Ovomorph)
                     {
-                        XenoformingUtility.HandleXenoformingImpact(ovamorph);
+                        XenoformingUtility.HandleXenoformingImpact(Ovomorph);
                     }
                     if(thing is HibernationCocoon hibernationCocoon)
                     {

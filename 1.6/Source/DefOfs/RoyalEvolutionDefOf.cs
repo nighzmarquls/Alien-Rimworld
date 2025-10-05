@@ -22,8 +22,13 @@ namespace Xenomorphtype
         public static RoyalEvolutionDef Evo_GeneDigestion;
         public static RoyalEvolutionDef Evo_GeneSelfExpression;
         public static RoyalEvolutionDef Evo_MutantExpression;
+        public static RoyalEvolutionDef Evo_OvoThrone;
+        
 
         public static HediffDef XMT_Fertility;
-       
+
+        public static HediffDef XMT_TornEggSack;
+
+
     }
 }

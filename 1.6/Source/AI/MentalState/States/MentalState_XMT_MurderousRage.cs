@@ -58,7 +58,7 @@ namespace Xenomorphtype
         }
         private bool TryFindNewTarget()
         {
-            if (XMTUtility.IsXenomorph(pawn))
+            if (XMTUtility.IsXenomorph(pawn) || pawn.Info().IsObsessed())
             {
                 target = XMTMentalStateUtility.FindXenoEnemyToKill(pawn);
                 return target != null;

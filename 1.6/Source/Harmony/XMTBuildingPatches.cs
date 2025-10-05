@@ -1,10 +1,11 @@
-﻿using HarmonyLib;
+﻿using AlienRace;
+using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Verse;
 using UnityEngine;
+using Verse;
 using Verse.Sound;
 
 
@@ -16,6 +17,40 @@ namespace Xenomorphtype
          postfix: new HarmonyMethod(patchType, nameof(CanConstructPostfix)));
      */
     internal class XMTBuildingPatches {
+
+        [HarmonyPatch(typeof(RaceRestrictionSettings), nameof(RaceRestrictionSettings.CanColonyBuild))]
+        public static class Patch_RaceRestrictionSettings_CanColonyBuild
+        {
+            [HarmonyPostfix]
+            public static void Postfix(BuildableDef building, ref bool __result)
+            {
+                if (building == InternalDefOf.XMT_Ovothrone)
+                {
+                    if (!__result)
+                    {
+                        return;
+                    }
+
+                    if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_OvoThrone))
+                    {
+                        __result = false;
+                        return;
+                    }
+                    else
+                    {
+                        if (XMTUtility.GetQueen() is Pawn queen)
+                        {
+                            if (queen.health.hediffSet.GetFirstHediffOfDef(RoyalEvolutionDefOf.XMT_TornEggSack) is Hediff EggSackTorn)
+                            {
+                                __result = false;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
 
         [HarmonyPatch(typeof(ThingOwner), nameof(ThingOwner.TryTransferToContainer), new Type[] { typeof(Thing), typeof(ThingOwner), typeof(int), typeof(bool) })]
         public static class Patch_ThingOwner_TryTransferToContainer

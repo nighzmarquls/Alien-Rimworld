@@ -192,7 +192,7 @@
 		</stages>
 	</ThoughtDef>
 	<ThoughtDef>
-		<defName>OvamorphedVictim</defName>
+		<defName>OvomorphedVictim</defName>
 		<thoughtClass>Thought_Memory</thoughtClass>
 		<durationDays>2</durationDays>
 		<stackLimit>5</stackLimit>
@@ -200,7 +200,7 @@
 		<stages>
 			<li>
 				<label>forming egg</label>
-				<description>I have began incubating a new ovamorph.</description>
+				<description>I have began incubating a new Ovomorph.</description>
 				<baseMoodEffect>5</baseMoodEffect>
 			</li>
 		</stages>

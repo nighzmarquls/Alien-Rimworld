@@ -116,4 +116,137 @@
 		<tickerType>Normal</tickerType>
 		<terrainAffordanceNeeded></terrainAffordanceNeeded>
 	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_Ovothrone</defName>
+		<label>egg laying throne</label>
+		<thingClass>Xenomorphtype.EggSack</thingClass>
+		<description>A looming figure with a bloated eggsack constantly churning to produce more ovomorphs.</description>
+		<size>(3,4)</size>
+		<interactionCellOffset>(0,0,3)</interactionCellOffset>
+		<hasInteractionCell>true</hasInteractionCell>
+		<tickerType>Normal</tickerType>
+		<statBases>
+		  <MaxHitPoints>350</MaxHitPoints>
+		  <WorkToBuild>600</WorkToBuild>
+		  <Mass>100</Mass>
+		  <Flammability>1.0</Flammability>
+		  <Beauty>30</Beauty>
+		</statBases>
+		<costStuffCount>0</costStuffCount>
+		<building>
+		  <buildingSizeCategory>Medium</buildingSizeCategory>
+		  <gibbetCageTopGraphicData>
+			<drawSize>(5,5)</drawSize>
+			<texPath>Things/Building/Royalty/EggSack/ThroneTop</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+		  </gibbetCageTopGraphicData>
+		</building>
+		<uiIconOffset>(0, 0.04)</uiIconOffset>
+		<uiIconScale>1</uiIconScale>
+		<graphicData>
+		  <drawSize>(5,5)</drawSize>
+		  <texPath>Things/Building/Royalty/EggSack/Throne</texPath>
+		  <graphicClass>Graphic_Multi</graphicClass>
+		  <shaderType>CutoutComplex</shaderType>
+		  <damageData>
+			<rect>(0.1,0.1,2.8,1.8)</rect>
+		  </damageData>
+		</graphicData>
+		<holdsRoof>true</holdsRoof>
+		<drawerType>RealtimeOnly</drawerType>
+		<pathCost>80</pathCost>
+		<fillPercent>0.75</fillPercent>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<constructEffect>ResinBuild</constructEffect>
+		<designationCategory>XMT_Hive</designationCategory>
+		<comps>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>0.0</fuelConsumptionRate>
+				<fuelCapacity>100.0</fuelCapacity>
+				<fuelConsumptionPerTickInRain>0.000</fuelConsumptionPerTickInRain>
+				<fuelFilter>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
+				</fuelFilter>
+				<initialFuelPercent>0</initialFuelPercent>
+				<showAllowAutoRefuelToggle>false</showAllowAutoRefuelToggle>
+				<showFuelGizmo>false</showFuelGizmo>
+				<targetFuelLevelConfigurable>false</targetFuelLevelConfigurable>
+				<drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+				<minimumFueledThreshold>600</minimumFueledThreshold>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+				<autoRefuelPercent>1</autoRefuelPercent>
+				<fuelLabel>Jelly</fuelLabel>
+			</li>
+			<li Class="Xenomorphtype.CompChanceSpawnOnDestroyProperties">
+				<thingSpawns>
+					<li>
+						<probability>1</probability>
+						<spawnThing>XMT_Ruined_Ovothrone</spawnThing>
+					</li>
+				</thingSpawns>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_Ruined_Ovothrone</defName>
+		<label>discarded resinous sack</label>
+		<description>an abandoned eggsack.</description>
+		<size>(3,4)</size>
+		<hasInteractionCell>false</hasInteractionCell>
+		<tickerType>Normal</tickerType>
+		<statBases>
+		  <MaxHitPoints>150</MaxHitPoints>
+		  <Mass>100</Mass>
+		  <Flammability>1.0</Flammability>
+		  <Beauty>-30</Beauty>
+		</statBases>
+		<building>
+		  <buildingSizeCategory>Medium</buildingSizeCategory>
+		</building>
+		<uiIconOffset>(0, 0.04)</uiIconOffset>
+		<uiIconScale>1</uiIconScale>
+		<graphicData>
+		  <drawSize>(5,5)</drawSize>
+		  <texPath>Things/Building/Royalty/EggSack/RuinedThrone</texPath>
+		  <graphicClass>Graphic_Multi</graphicClass>
+		  <shaderType>CutoutComplex</shaderType>
+		  <damageData>
+			<rect>(0.1,0.1,2.8,1.8)</rect>
+		  </damageData>
+		</graphicData>
+		<holdsRoof>true</holdsRoof>
+		<drawerType>RealtimeOnly</drawerType>
+		<pathCost>80</pathCost>
+		<fillPercent>0.25</fillPercent>
+		<costList>
+			<Starbeast_Resin>25</Starbeast_Resin>
+			<Starbeast_Flesh_Meat>50</Starbeast_Flesh_Meat>
+			<Starbeast_Jelly>20</Starbeast_Jelly>
+			<Starbeast_RoyalJelly>10</Starbeast_RoyalJelly>
+		</costList>
+		<killedLeavings>
+			<Starbeast_Resin>25</Starbeast_Resin>
+			<Starbeast_Flesh_Meat>50</Starbeast_Flesh_Meat>
+			<Starbeast_Jelly>20</Starbeast_Jelly>
+			<Starbeast_RoyalJelly>10</Starbeast_RoyalJelly>
+		</killedLeavings>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<constructEffect>ResinBuild</constructEffect>
+		<comps>
+			<li Class="Xenomorphtype.CompChanceSpawnOnDestroyProperties">
+				<thingSpawns>
+					<li>
+						<probability>0.25</probability>
+						<spawnThing>XMT_Ovomorph</spawnThing>
+					</li>
+				</thingSpawns>
+			</li>
+		</comps>
+	</ThingDef>
 </Defs>

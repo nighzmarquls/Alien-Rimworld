@@ -7,7 +7,7 @@
 			<li Class="Xenomorphtype.CompMatureMorphProperties">
 				<grabHediff>StarbeastGrab</grabHediff>
 				<cocoonHediff>StarbeastCocoon</cocoonHediff>
-				<ovamorphHediff>XMT_Ovamorphing</ovamorphHediff>
+				<OvomorphHediff>XMT_Ovomorphing</OvomorphHediff>
 				<larderHediff>XMT_Lardering</larderHediff>
 				<maturingHediff>Maturation</maturingHediff>
 				<hibernationCocoon>XMT_HibernationCocoon</hibernationCocoon>
@@ -874,7 +874,7 @@
 				  <li>XMT_JellyStorage</li>
 				  <li>XMT_JellyDrain</li>
 				  <li>XMT_JellyPool</li>
-				  <!-- Ovamorph Crafts -->
+				  <!-- Ovomorph Crafts -->
 				  <li>HiveSleepingCocoonBuildable</li>
 				  <li>XMT_ExplosivePodBuildable</li>
 				</buildingList>
@@ -891,9 +891,9 @@
 					<li>SculptureLarge</li>
 					<li>SculptureSmall</li>
 					<li>Urn</li>
-					<li>XMT_Ovamorph</li>
+					<li>XMT_Ovomorph</li>
 					<li>XMT_ExplosivePod</li>
-					<li>XMT_GeneOvamorph</li>
+					<li>XMT_GeneOvomorph</li>
 					<li>XMT_MeatballLarder</li>
 					<li>XMT_JellyWell</li>
 					<li>XMT_HibernationCocoon</li>
@@ -1059,7 +1059,7 @@
 					<li>HostImpregnated</li>
 					<li>CapturedHost</li>
 					<li>GrabbedPrey</li>
-					<li>OvamorphedVictim</li>
+					<li>OvomorphedVictim</li>
 				</restrictedThoughts>
 				<cannotReceiveThoughts>
 					<li MayRequire="kentington.saveourship2">SpaceThoughts</li>
@@ -1217,7 +1217,7 @@
 			<li Class="Xenomorphtype.CompMatureMorphProperties">
 				<grabHediff>StarbeastGrab</grabHediff>
 				<cocoonHediff>StarbeastCocoon</cocoonHediff>
-				<ovamorphHediff>XMT_Ovamorphing</ovamorphHediff>
+				<OvomorphHediff>XMT_Ovomorphing</OvomorphHediff>
 				<larderHediff>XMT_Lardering</larderHediff>
 				<maturingHediff>Maturation</maturingHediff>
 				<hibernationCocoon>XMT_HibernationCocoon</hibernationCocoon>
@@ -1262,10 +1262,10 @@
 			</li>
 			<li Class="Xenomorphtype.CompGeneManipulatorProperties">
 			</li>
-			<li Class="Xenomorphtype.CompOvamorphLayerProperties">
+			<li Class="Xenomorphtype.CompOvomorphLayerProperties">
 				<foodCost>2</foodCost>
-				<ovamorphDef>XMT_Ovamorph</ovamorphDef>
-				<geneOvamorphDef>XMT_GeneOvamorph</geneOvamorphDef>
+				<OvomorphDef>XMT_Ovomorph</OvomorphDef>
+				<geneOvomorphDef>XMT_GeneOvomorph</geneOvomorphDef>
 			</li>
 			<li MayRequire="otyoty.sizedapparel">
 				<compClass>SizedApparel.ApparelRecorderComp</compClass>
@@ -1910,6 +1910,47 @@
 								</offsets>
 							</li>
 							<li>
+								<name>TailWithSack</name>
+								<path>Pawn/SkeletalTail/RoyalSackSkeletalTail</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<drawSize>(1.25,1.25)</drawSize>
+								<drawSizePortrait>(1.25,1.25)</drawSizePortrait>
+								<conditions>
+									<BodyPart>
+										<bodyPart>StarbeastTail</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Hediff>XMT_Enthroned</Hediff>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>0.2</layerOffset>
+									<offset>( -0.052, -0.37)</offset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+									<offset>( 0.048, -0.9)</offset>
+								  </north>
+								  <east>
+									<layerOffset>0.25</layerOffset>
+									<offset>(0.85, -0.58)</offset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
 								<name>tail</name>
 								<path>Pawn/SkeletalTail/RoyalSkeletalTail</path>
 								<userCustomizable>false</userCustomizable>
@@ -1931,6 +1972,10 @@
 									</Not>
 									<Not>
 										<Hediff>Maturation</Hediff>
+									</Not>
+									<Not>
+										
+										<Hediff>XMT_Enthroned</Hediff>
 									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
@@ -1958,6 +2003,7 @@
 			<raceRestriction>
 				<buildingList>
 					<li>XMT_QueenSleepingSpot</li>
+					<li>XMT_Ovothrone</li>
 				</buildingList>
 				<blackGeneList>
 					<li MayRequire="Ludeon.RimWorld.Biotech">PsychicAbility_Deaf</li>

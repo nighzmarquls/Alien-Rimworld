@@ -43,29 +43,29 @@ namespace Xenomorphtype
                 }
             }
 
-            protected List<Ovamorph> ovamorphs;
-            public  List<Ovamorph> Ovamorphs
+            protected List<Ovomorph> ovomorphs;
+            public  List<Ovomorph> Ovomorphs
             {
                 get
                 {
-                    if (ovamorphs == null)
+                    if (ovomorphs == null)
                     {
-                        ovamorphs = new List<Ovamorph>();
+                        ovomorphs = new List<Ovomorph>();
                     }
-                    return ovamorphs;
+                    return ovomorphs;
                 }
             }
 
-            protected List<GeneOvamorph> geneOvamorphs;
-            public List<GeneOvamorph> GeneOvamorphs
+            protected List<GeneOvomorph> geneOvomorphs;
+            public List<GeneOvomorph> GeneOvomorphs
             {
                 get
                 {
-                    if (geneOvamorphs == null)
+                    if (geneOvomorphs == null)
                     {
-                        geneOvamorphs = new List<GeneOvamorph>();
+                        geneOvomorphs = new List<GeneOvomorph>();
                     }
-                    return geneOvamorphs;
+                    return geneOvomorphs;
                 }
             }
 
@@ -110,17 +110,17 @@ namespace Xenomorphtype
                 }
             }
 
-            protected List<Pawn> ovamorphingPawns;
+            protected List<Pawn> ovomorphingPawns;
 
-            public List<Pawn> OvamorphingPawns
+            public List<Pawn> OvomorphingPawns
             {
                 get
                 {
-                    if (ovamorphingPawns == null)
+                    if (ovomorphingPawns == null)
                     {
-                        ovamorphingPawns = new List<Pawn>();
+                        ovomorphingPawns = new List<Pawn>();
                     }
-                    return ovamorphingPawns;
+                    return ovomorphingPawns;
                 }
             }
 
@@ -152,11 +152,11 @@ namespace Xenomorphtype
                 }
             }
 
-            public int EggCount => Ovamorphs.Count + OvamorphingPawns.Count;
+            public int EggCount => Ovomorphs.Count + OvomorphingPawns.Count;
 
             public bool HaveHosts => AvailableHosts.Count > 0;
 
-            public bool HaveEggs => Ovamorphs.Count > 0;
+            public bool HaveEggs => Ovomorphs.Count > 0;
 
             public bool NeedEggs => XMTUtility.NoQueenPresent()? EggCount <= AvailableHosts.Count : false;
 
@@ -488,8 +488,8 @@ namespace Xenomorphtype
                 return result;
             }
 
-            result.AddRange(localNest.Ovamorphs);
-            result.AddRange(localNest.GeneOvamorphs);
+            result.AddRange(localNest.Ovomorphs);
+            result.AddRange(localNest.GeneOvomorphs);
 
             foreach(Pawn pawn in map.mapPawns.AllPawnsSpawned)
             {
@@ -671,20 +671,20 @@ namespace Xenomorphtype
 
             Room space = cell.GetRoomOrAdjacent(map);
 
-            IEnumerable<Ovamorph> ovamorphs = space.ContainedThings<Ovamorph>();
+            IEnumerable<Ovomorph> Ovomorphs = space.ContainedThings<Ovomorph>();
             IEnumerable<CocoonBase> cocoonBases = space.ContainedThings<CocoonBase>();
 
 
-            if(ovamorphs != null && ovamorphs.Any())
+            if(Ovomorphs != null && Ovomorphs.Any())
             {
                 
-                foreach (Ovamorph ovamorph in ovamorphs)
+                foreach (Ovomorph Ovomorph in Ovomorphs)
                 {
-                    if(cell == ovamorph.Position)
+                    if(cell == Ovomorph.Position)
                     {
                         return false;
                     }
-                    if(cell.AdjacentToCardinal(ovamorph.Position))
+                    if(cell.AdjacentToCardinal(Ovomorph.Position))
                     {
                         return false;
                     }
@@ -919,8 +919,8 @@ namespace Xenomorphtype
                 return -100;
             }
 
-            IEnumerable<Ovamorph> ovamorphs = space.ContainedThings<Ovamorph>();
-            score += ovamorphs.Count()*10;
+            IEnumerable<Ovomorph> Ovomorphs = space.ContainedThings<Ovomorph>();
+            score += Ovomorphs.Count()*10;
             IEnumerable<CocoonBase> cocoons = space.ContainedThings<CocoonBase>();
             score += cocoons.Count()*20;
 
@@ -1028,15 +1028,15 @@ namespace Xenomorphtype
             return false;
         }
 
-        internal static Ovamorph GetOvamorph(Map map , bool requireReady = true, Pawn forPawn = null)
+        internal static Ovomorph GetOvomorph(Map map , bool requireReady = true, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
-            if (localNest == null || localNest.Ovamorphs.Count == 0)
+            if (localNest == null || localNest.Ovomorphs.Count == 0)
             {
                 return null;
             }
 
-            foreach (Ovamorph ova in localNest.Ovamorphs)
+            foreach (Ovomorph ova in localNest.Ovomorphs)
             {
                 if(!ova.Spawned)
                 {
@@ -1116,7 +1116,7 @@ namespace Xenomorphtype
             {
                 return false;
             }
-            return localNest.Ovamorphs.Count() > 0;
+            return localNest.Ovomorphs.Count() > 0;
         }
         internal static bool NeedEggs(Map map)
         {
@@ -1170,7 +1170,7 @@ namespace Xenomorphtype
             }
             return true;
         }
-        internal static Pawn GetOvamorphingCandidate(Map map, Pawn forPawn = null)
+        internal static Pawn GetOvomorphingCandidate(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
             foreach (Pawn candidate in localNest.Cocooned)
@@ -1251,6 +1251,7 @@ namespace Xenomorphtype
             if (CurrentNest != null)
             {
                 float lowestFoodNeed = float.MaxValue;
+
                 foreach (Pawn candidate in CurrentNest.HiveMates)
                 {
                     if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
@@ -1435,7 +1436,7 @@ namespace Xenomorphtype
             return hungryCandidate;
         }
 
-        internal static void AddOvamorph(Ovamorph ovamorph, Map map)
+        internal static void AddOvomorph(Ovomorph Ovomorph, Map map)
         {
             NestSite localNest = GetLocalNest(map);
 
@@ -1444,19 +1445,19 @@ namespace Xenomorphtype
                 FindGoodNestSite(map);
                 localNest = GetLocalNest(map);
             }
-            if(localNest.Ovamorphs.Contains(ovamorph))
+            if(localNest.Ovomorphs.Contains(Ovomorph))
             {
                 return;
             }
             
-            if (ovamorph.Unhatched)
+            if (Ovomorph.Unhatched)
             {
-                localNest.Ovamorphs.Add(ovamorph);
+                localNest.Ovomorphs.Add(Ovomorph);
             }
 
         }
 
-        internal static void RemoveOvamorph(Ovamorph ovamorph, Map map)
+        internal static void RemoveOvomorph(Ovomorph Ovomorph, Map map)
         {
             NestSite localNest = GetLocalNest(map);
 
@@ -1465,7 +1466,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            localNest.Ovamorphs.Remove(ovamorph);
+            localNest.Ovomorphs.Remove(Ovomorph);
             
         }
 
@@ -1499,7 +1500,7 @@ namespace Xenomorphtype
 
         }
 
-        internal static void AddOvamorphing(Pawn pawn, Map map)
+        internal static void AddOvomorphing(Pawn pawn, Map map)
         {
             NestSite localNest = GetLocalNest(map);
 
@@ -1508,14 +1509,14 @@ namespace Xenomorphtype
                 FindGoodNestSite(map);
                 localNest = GetLocalNest(map);
             }
-            if (localNest.OvamorphingPawns.Contains(pawn))
+            if (localNest.OvomorphingPawns.Contains(pawn))
             {
                 return;
             }
-            localNest.OvamorphingPawns.Add(pawn);
+            localNest.OvomorphingPawns.Add(pawn);
         }
 
-        internal static void RemoveOvamorphing(Pawn host, Map map)
+        internal static void RemoveOvomorphing(Pawn host, Map map)
         {
             NestSite localNest = GetLocalNest(map);
 
@@ -1523,7 +1524,7 @@ namespace Xenomorphtype
             {
                 return;
             }
-            localNest.OvamorphingPawns.Remove(host);
+            localNest.OvomorphingPawns.Remove(host);
         }
 
         internal static void RemoveHost(Pawn pawn, Map map)
@@ -1580,7 +1581,7 @@ namespace Xenomorphtype
             return nestSite.GetFirstBuilding(map);
         }
 
-        internal static void AddGeneOvamorph(GeneOvamorph geneOvamorph, Map map)
+        internal static void AddGeneOvomorph(GeneOvomorph geneOvomorph, Map map)
         {
             NestSite localNest = GetLocalNest(map);
 
@@ -1590,15 +1591,15 @@ namespace Xenomorphtype
                 localNest = GetLocalNest(map);
             }
 
-            if (localNest.GeneOvamorphs.Contains(geneOvamorph))
+            if (localNest.GeneOvomorphs.Contains(geneOvomorph))
             {
                 return;
             }
-            localNest.GeneOvamorphs.Add(geneOvamorph);
+            localNest.GeneOvomorphs.Add(geneOvomorph);
             
         }
 
-        internal static void RemoveGeneOvamorph(GeneOvamorph geneOvamorph, Map map)
+        internal static void RemoveGeneOvomorph(GeneOvomorph geneOvomorph, Map map)
         {
             NestSite localNest = GetLocalNest(map);
 
@@ -1607,7 +1608,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            localNest.GeneOvamorphs.Remove(geneOvamorph);
+            localNest.GeneOvomorphs.Remove(geneOvomorph);
         }
 
         public static bool XenosOnMap(Map localMap)

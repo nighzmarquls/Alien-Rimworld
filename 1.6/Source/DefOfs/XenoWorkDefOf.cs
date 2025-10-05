@@ -30,9 +30,9 @@ namespace Xenomorphtype
         public static JobDef XMT_StealthHunt;
         public static JobDef XMT_AbductHost;
         public static JobDef XMT_CocoonTarget;
-        public static JobDef XMT_ApplyOvamorphing;
+        public static JobDef XMT_ApplyOvomorphing;
         public static JobDef XMT_ApplyLardering;
-        public static JobDef XMT_MoveOvamorph;
+        public static JobDef XMT_MoveOvomorph;
         public static JobDef XMT_Snuggle;
         public static JobDef XMT_Seduce;
         public static JobDef XMT_Mature;
@@ -48,7 +48,7 @@ namespace Xenomorphtype
         public static JobDef XMT_AlterGenes;
         public static JobDef XMT_MutateTarget;
         public static JobDef XMT_CopyGenes;
-        public static JobDef XMT_LayOvamorph;
+        public static JobDef XMT_LayOvomorph;
         public static JobDef XMT_GeneDevour;
         public static JobDef XMT_CorpseSculpture;
 

@@ -18,9 +18,9 @@ namespace Xenomorphtype
 
         bool PlayerEmbryoInWorld = false;
         bool PlayerXenomorphInWorld = false;
-        bool PlayerOvamorphInWorld = false;
+        bool PlayerOvomorphInWorld = false;
 
-        int XenoformingCheckInterval = 60000;
+        const int XenoformingCheckInterval = 60000;
         public bool QueenInWorld
         {
             get
@@ -66,8 +66,8 @@ namespace Xenomorphtype
         int nextXenoformingTick = -1;
 
         private const float XenomorphImpact = 1f;
-        private const float OvamorphSaturationLimit = 5;
-        private const float OvamorphImpact = 0.1f;
+        private const float OvomorphSaturationLimit = 5;
+        private const float OvomorphImpact = 0.1f;
         private const float EmbryoSaturationLimit = 10;
         private const float EmbryoImpact = 0.5f;
         private const float QueenAidImpact = 2f;
@@ -92,6 +92,7 @@ namespace Xenomorphtype
             {
                 return;
             }
+
             int tick = Find.TickManager.TicksGame;
             if (tick >= nextXenoformingTick)
             {
@@ -120,6 +121,20 @@ namespace Xenomorphtype
                 BiomeXenoformingImpact();
             }
 
+           /* if(tick > nextBuildingTechTick)
+            {
+                nextBuildingTechTick = tick + BuildingCheckInterval;
+
+                if(XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_OvoThrone))
+                {
+
+                }
+                else
+                {
+                    InternalDefOf.XMT_Ovothrone.BuildableByPlayer
+                }
+            }
+           */
         }
 
         private void GetCandidateNeighbors(PlanetTile origin)
@@ -251,7 +266,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref MutationProliferation, "MutationProliferation", 0);
             Scribe_Values.Look(ref PlayerEmbryoInWorld, "PlayerEmbryoInWorld", false);
             Scribe_Values.Look(ref PlayerXenomorphInWorld, "PlayerXenomorphInWorld", false);
-            Scribe_Values.Look(ref PlayerOvamorphInWorld, "PlayerOvamorphInWorld", false);
+            Scribe_Values.Look(ref PlayerOvomorphInWorld, "PlayerOvomorphInWorld", false);
             Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
         }
 
@@ -265,13 +280,13 @@ namespace Xenomorphtype
             }
             EvaluateXenoforming();
         }
-        public void ReleaseOvamorphOnWorld(Ovamorph ovamorph)
+        public void ReleaseOvomorphOnWorld(Ovomorph Ovomorph)
         {
-            ovamorph.HatchNow();
-            _xenoforming = Mathf.Min(OvamorphSaturationLimit, _xenoforming + (OvamorphImpact*ovamorph.stackCount));
+            Ovomorph.HatchNow();
+            _xenoforming = Mathf.Min(OvomorphSaturationLimit, _xenoforming + (OvomorphImpact*Ovomorph.stackCount));
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting Xenoforming for " + ovamorph + " leaving the map. total: " + _xenoforming);
+                Log.Message("Adjusting Xenoforming for " + Ovomorph + " leaving the map. total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }

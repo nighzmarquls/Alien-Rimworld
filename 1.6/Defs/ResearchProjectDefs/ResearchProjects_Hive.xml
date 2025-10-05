@@ -83,7 +83,7 @@
   <ResearchProjectDef>
     <defName>XMT_Starbeast_Chrysalis</defName>
     <label>Metamorphosis</label>
-    <description>Conversion of hosts into ovamorphs and creating resinous jelly has revealed a new stage of development.</description>
+    <description>Conversion of hosts into Ovomorphs and creating resinous jelly has revealed a new stage of development.</description>
     <techLevel>Neolithic</techLevel>
     <baseCost>3000</baseCost>
     <researchViewX>0.00</researchViewX>
@@ -134,8 +134,8 @@
   
   <ResearchProjectDef>
     <defName>XMT_Starbeast_Eggs</defName>
-    <label>Ovamorph Utilization</label>
-    <description>the hive finds more ways to utilize ovamorphs, spent and otherwise.</description>
+    <label>Ovomorph Utilization</label>
+    <description>the hive finds more ways to utilize Ovomorphs, spent and otherwise.</description>
     <techLevel>Neolithic</techLevel>
     <baseCost>3000</baseCost>
     <researchViewX>2.00</researchViewX>

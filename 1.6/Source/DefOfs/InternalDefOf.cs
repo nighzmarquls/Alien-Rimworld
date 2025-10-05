@@ -40,14 +40,14 @@ namespace Xenomorphtype
         public static HediffDef             AcidCorrosion;
 
         public static HediffDef             StarbeastCocoon;
-
         public static HediffDef             PawnInfoHediff;
-
         public static HediffDef             XMT_Ambushed;
+        public static HediffDef             XMT_Enthroned;
 
         //Xenomorph bodyparts
         public static BodyPartGroupDef      StarbeastTailAttackTool;
         public static BodyPartDef           StarbeastBrain;
+        public static BodyPartDef           StarbeastHeart;
         public static BodyPartDef           StarbeastTail;
         public static BodyPartDef           StarbeastSkull;
         public static BodyPartDef           StarbeastCrest;
@@ -75,7 +75,7 @@ namespace Xenomorphtype
 
         //Xenomorph buildings
         public static ThingDef              XMT_JellyWell;
-        public static ThingDef              XMT_Ovamorph;
+        public static ThingDef              XMT_Ovomorph;
         public static ThingDef              XMT_CocoonBase;
         public static ThingDef              XMT_CocoonBaseAnimal;
         public static ThingDef              XMT_HiddenNestSpot;
@@ -84,6 +84,7 @@ namespace Xenomorphtype
         public static ThingDef              HiveWebbing;
         public static ThingDef              Hivemass;
         public static ThingDef              AtmospherePylon;
+        public static ThingDef              XMT_Ovothrone;
 
         //Xenomorph related structures
         public static ThingDef              ShipChunkWithEgg;

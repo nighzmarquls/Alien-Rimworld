@@ -117,33 +117,33 @@
 				</offsets>
 			</li>
 			<li>
-				<path>Pawn/Conditions/OvamorphingZero</path>
+				<path>Pawn/Conditions/OvomorphingZero</path>
 				<userCustomizable>false</userCustomizable>
 				<colorChannel>base</colorChannel>
 				<conditions>
-					<Hediff>XMT_Ovamorphing</Hediff>
+					<Hediff>XMT_Ovomorphing</Hediff>
 				</conditions>
 				<extendedGraphics>
-					<Hediff For="XMT_Ovamorphing">
-						<path>Pawn/Conditions/OvamorphingZero</path>
+					<Hediff For="XMT_Ovomorphing">
+						<path>Pawn/Conditions/OvomorphingZero</path>
 						<extendedGraphics>
 							<BodyType For="Hulk">
 								<extendedGraphics>
-									<Severity For="0.75">Pawn/Conditions/OvamorphingThree_Hulk</Severity>
-									<Severity For="0.5">Pawn/Conditions/OvamorphingTwo_Hulk</Severity>
-									<Severity For="0.25">Pawn/Conditions/OvamorphingOne_Hulk</Severity>
+									<Severity For="0.75">Pawn/Conditions/OvomorphingThree_Hulk</Severity>
+									<Severity For="0.5">Pawn/Conditions/OvomorphingTwo_Hulk</Severity>
+									<Severity For="0.25">Pawn/Conditions/OvomorphingOne_Hulk</Severity>
 								</extendedGraphics>
 							</BodyType>
 							<BodyType For="Fat">
 								<extendedGraphics>
-									<Severity For="0.75">Pawn/Conditions/OvamorphingThree_Fat</Severity>
-									<Severity For="0.5">Pawn/Conditions/OvamorphingTwo_Fat</Severity>
-									<Severity For="0.25">Pawn/Conditions/OvamorphingOne_Fat</Severity>
+									<Severity For="0.75">Pawn/Conditions/OvomorphingThree_Fat</Severity>
+									<Severity For="0.5">Pawn/Conditions/OvomorphingTwo_Fat</Severity>
+									<Severity For="0.25">Pawn/Conditions/OvomorphingOne_Fat</Severity>
 								</extendedGraphics>
 							</BodyType>
-							<Severity For="0.75">Pawn/Conditions/OvamorphingThree</Severity>
-							<Severity For="0.5">Pawn/Conditions/OvamorphingTwo</Severity>
-							<Severity For="0.25">Pawn/Conditions/OvamorphingOne</Severity>
+							<Severity For="0.75">Pawn/Conditions/OvomorphingThree</Severity>
+							<Severity For="0.5">Pawn/Conditions/OvomorphingTwo</Severity>
+							<Severity For="0.25">Pawn/Conditions/OvomorphingOne</Severity>
 							
 						</extendedGraphics>
 					</Hediff>

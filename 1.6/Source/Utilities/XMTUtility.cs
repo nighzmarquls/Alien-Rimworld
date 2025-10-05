@@ -310,9 +310,9 @@ namespace Xenomorphtype
         }
         public static bool IsXenomorph(Thing thing)
         {
-            Ovamorph ovamorph = thing as Ovamorph;
+            Ovomorph Ovomorph = thing as Ovomorph;
 
-            if (ovamorph != null)
+            if (Ovomorph != null)
             {
                 return true;
             }
@@ -816,6 +816,16 @@ namespace Xenomorphtype
 
             return false;
         }
+
+        public static bool TriggersOvomorph(Pawn pawn)
+        {
+            if(IsMorphing(pawn))
+            {
+                return false;
+            }
+
+            return IsHost(pawn);
+        }
         public static bool IsHost(Thing thing)
         {
             Pawn pawn = thing as Pawn;
@@ -1092,7 +1102,7 @@ namespace Xenomorphtype
             }
             return XenomorphWitness;
         }
-        public static bool WitnessOvamorph(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
+        public static bool WitnessOvomorph(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
@@ -1112,7 +1122,7 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            info.WitnessOvamorphHorror(strength, maxAwareness);
+                            info.WitnessOvomorphHorror(strength, maxAwareness);
                             ResearchUtility.ProgressCryptobioTech(1, witness);
                             if (horror != null)
                             {

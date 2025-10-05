@@ -49,7 +49,7 @@ namespace Xenomorphtype
                 
                 int progress = 250;
                 ResearchUtility.ProgressEvolutionTech(progress, pawn);
-                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Hatched, pawn.Named(HistoryEventArgsNames.Doer)));
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovomorph_Hatched, pawn.Named(HistoryEventArgsNames.Doer)));
             }
         }
 
@@ -94,7 +94,7 @@ namespace Xenomorphtype
                     Thing instigator = dinfo.Value.Instigator;
                     if (instigator != null)
                     {
-                        Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovamorph_Destroyed, instigator.Named(HistoryEventArgsNames.Doer), parent.Named(HistoryEventArgsNames.Victim)), true);
+                        Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovomorph_Destroyed, instigator.Named(HistoryEventArgsNames.Doer), parent.Named(HistoryEventArgsNames.Victim)), true);
                     }
                 }
             }
@@ -118,8 +118,8 @@ namespace Xenomorphtype
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_References.Look(ref mother, "mother", saveDestroyedThings:true);
-            Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
+            //Scribe_References.Look(ref mother, "mother", saveDestroyedThings:true);
+            //Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
 
             Scribe_Values.Look(ref UnHatched, "UnHatched", defaultValue: true);
         }
@@ -145,17 +145,17 @@ namespace Xenomorphtype
             {
                 yield break;
             }
-            Ovamorph ovamorph = parent as Ovamorph;
-            if (ovamorph != null)
+            Ovomorph Ovomorph = parent as Ovomorph;
+            if (Ovomorph != null)
             {
-                if (ovamorph.Unhatched)
+                if (Ovomorph.Unhatched)
                 {
-                    bool ready = ovamorph.Ready;
+                    bool ready = Ovomorph.Ready;
                     FloatMenuOption HatchOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hatch", delegate
                     {
                         if (ready)
                         {
-                            ovamorph.HatchNow();
+                            Ovomorph.HatchNow();
                         }
                     }, priority: MenuOptionPriority.Default), myPawn, parent);
 

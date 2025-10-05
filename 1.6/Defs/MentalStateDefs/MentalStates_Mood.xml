@@ -103,18 +103,18 @@
   </MentalStateDef>
 
   <MentalBreakDef>
-    <defName>XMT_DestroyOvamorph</defName>
+    <defName>XMT_DestroyOvomorph</defName>
     <label>destroy eggs</label>
     <baseCommonality>2</baseCommonality>
     <intensity>Major</intensity>
     <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
-	<mentalState>XMT_DestroyOvamorph</mentalState>
+	<mentalState>XMT_DestroyOvomorph</mentalState>
   </MentalBreakDef>
   
   <MentalStateDef ParentName="Tantrum">
-    <defName>XMT_DestroyOvamorph</defName>
-    <stateClass>Xenomorphtype.MentalState_XMT_DestroyOvamorph</stateClass>
-    <workerClass>Xenomorphtype.MentalStateWorker_XMT_DestroyOvamorph</workerClass>
+    <defName>XMT_DestroyOvomorph</defName>
+    <stateClass>Xenomorphtype.MentalState_XMT_DestroyOvomorph</stateClass>
+    <workerClass>Xenomorphtype.MentalStateWorker_XMT_DestroyOvomorph</workerClass>
     <minTicksBeforeRecovery>40000</minTicksBeforeRecovery>
     <maxTicksBeforeRecovery>60000</maxTicksBeforeRecovery>
     <recoveryMtbDays>0.166</recoveryMtbDays>

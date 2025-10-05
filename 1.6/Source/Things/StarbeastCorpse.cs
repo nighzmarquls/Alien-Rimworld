@@ -6,10 +6,112 @@ namespace Xenomorphtype
 {
     public class StarbeastCorpse : Corpse
     {
+        bool _initialized = false;
+        bool _notActuallyDead = false;
 
+        int reviveInterval = 2500*5;
+
+        int nextRevivalTick = -1;
+
+        bool NotActuallyDead
+        {
+            get
+            {
+                if(_initialized)
+                {
+                    return _notActuallyDead;
+                }
+
+                _notActuallyDead = NotActuallyDeadInit();
+                _initialized = true;
+                return _notActuallyDead;
+            }
+        }
+        private bool NotActuallyDeadInit()
+        {
+            if(InnerPawn == null)
+            {
+                return false;
+            }
+
+            if(InnerPawn.GetMorphComp() == null)
+            {
+                return false;
+            }
+
+            IEnumerable <BodyPartRecord> Parts  = InnerPawn.health.hediffSet.GetNotMissingParts();
+
+            int foundparts = 0;
+            foreach (BodyPartRecord part in Parts)
+            {
+                if(part.def == InternalDefOf.StarbeastBrain || part.def == InternalDefOf.StarbeastHeart)
+                {
+                    foundparts++;
+                }
+            }
+
+            return foundparts >= 2;
+
+        }
+
+        protected bool TryRevive()
+        {
+            if (!ResurrectionUtility.TryResurrect(InnerPawn, new ResurrectionParams { restoreMissingParts = false, gettingScarsChance = 0.75f }))
+            {
+                _notActuallyDead = false;
+                return false;
+            }
+
+            return true;
+        }
+
+        public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
+        {
+            base.PostApplyDamage(dinfo, totalDamageDealt);
+            if (NotActuallyDead)
+            {
+                TryRevive();
+            }
+        }
+
+        public override void TickRare()
+        {
+            if(NotActuallyDead)
+            {
+                int tick = Find.TickManager.TicksGame;
+                if (nextRevivalTick < 0)
+                {
+                    nextRevivalTick = tick + reviveInterval;
+                }
+
+                if(nextRevivalTick < tick)
+                {
+                    TryRevive();
+                    return;
+                }
+            }
+            base.TickRare();
+        }
+
+        public override bool IngestibleNow {
+            get
+            {
+                if(base.IngestibleNow)
+                {
+                    return !NotActuallyDead;
+                }
+                return false;
+            }
+        }
         public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
         {
-            Log.Message(butcher + " butcher a starbeast corpse");
+            if(NotActuallyDead)
+            {
+                if (TryRevive())
+                {
+                    yield break;
+                }
+            }
             foreach (Thing item in InnerPawn.ButcherProducts(butcher, efficiency))
             {
                 if (InnerPawn.ageTracker.Adult)

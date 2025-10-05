@@ -14,7 +14,7 @@
 			<xpath>Defs/ThingDef[defName="DrugLab"]</xpath>
 			<value>
 				<recipes>
-					<li>Make_Ovamorph</li>
+					<li>Make_Ovomorph</li>
 					<li>Make_Cryptizip</li>
 					<li>Make_GlitterworldMedicine</li>
 				</recipes>
@@ -23,7 +23,7 @@
 		<match Class="PatchOperationAdd">
 			<xpath>Defs/ThingDef[defName="DrugLab"]/recipes</xpath>
 			<value>
-				<li>Make_Ovamorph</li>
+				<li>Make_Ovomorph</li>
 				<li>Make_Cryptizip</li>
 				<li>Make_GlitterworldMedicine</li>
 			</value>
