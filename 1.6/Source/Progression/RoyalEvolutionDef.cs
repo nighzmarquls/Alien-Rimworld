@@ -41,4 +41,10 @@ namespace Xenomorphtype
             return false;
         }
     }
+
+
+    public class RoyalEvolutionSet : Def
+    {
+        public List<RoyalEvolutionDef> evolutions;
+    }
 }

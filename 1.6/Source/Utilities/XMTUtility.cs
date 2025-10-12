@@ -38,11 +38,6 @@ namespace Xenomorphtype
 
                     if (gameComp.Queen.Dead)
                     {
-                        if (gameComp.Queen.Corpse.Spawned)
-                        {
-                            gameComp.Queen.Corpse.Destroy();
-                        }
-                        gameComp.Queen.Destroy();
                         gameComp.Queen = null;
                     }
                 }
@@ -1937,6 +1932,11 @@ namespace Xenomorphtype
 
                     if (IsXenomorph(witness))
                     {
+                        if (witness.def == InternalDefOf.XMT_Larva)
+                        {
+                            continue;
+                        }
+
                         if(witness.jobs.curJob != null && aggressorInfo.XenomorphPheromoneValue() > -5f)
                         {
                             if(witness.jobs.curJob.def == XenoWorkDefOf.XMT_AbductHost)
@@ -1944,7 +1944,7 @@ namespace Xenomorphtype
                                 continue;
                             }
 
-                            if (witness.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent))
+                            if (witness.story != null && witness.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent))
                             {
                                 continue;
                             }

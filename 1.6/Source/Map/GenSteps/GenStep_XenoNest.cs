@@ -3,10 +3,8 @@ using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
-using Verse.AI;
 using Verse.Noise;
-using static HarmonyLib.Code;
-using static UnityEngine.GraphicsBuffer;
+
 
 namespace Xenomorphtype
 {
@@ -34,6 +32,7 @@ namespace Xenomorphtype
 
         public override void Generate(Map map, GenStepParams parms)
         {
+            Log.Message("generating cryptimorph nest on " + map);
             Perlin perlin = new Perlin(nestFrequency, 2.0, 0.5, noiseOctaves, normalized: true, invert: true, seed: Rand.Int, quality: QualityMode.Medium);
 
             int spawnedHosts = 0;
@@ -134,16 +133,7 @@ namespace Xenomorphtype
                             }
                             else if (spawnedGuardians < gaurdians)
                             {
-                                PawnGenerationRequest request = new PawnGenerationRequest(
-                                InternalDefOf.XMT_FeralStarbeastKind, faction: null, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, fixedGender: Gender.Female);
-
-                                request.ForceNoIdeo = true;
-                                request.ForceNoBackstory = true;
-                                request.ForceNoGear = true;
-                                request.ForceBaselinerChance = 100;
-                                request.ForcedXenotype = XenotypeDefOf.Baseliner;
-
-                                Pawn gaurdian = PawnGenerator.GeneratePawn(request);
+                                Pawn gaurdian = XenoformingUtility.GenerateFeralXenomorph();
                                 GenSpawn.Spawn(gaurdian, nestCell, map);
                                 spawnedGuardians++;
                             }

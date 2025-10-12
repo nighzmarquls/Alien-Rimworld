@@ -418,7 +418,7 @@ namespace Xenomorphtype
 
         internal void AddEvolution(RoyalEvolutionDef evolution)
         {
-            if(chosenEvolutions.Contains(evolution))
+            if(ChosenEvolutions.Contains(evolution))
             {
                 return;
             }
@@ -429,7 +429,7 @@ namespace Xenomorphtype
 
         internal void RemoveEvolution(RoyalEvolutionDef evolution)
         {
-            if (!chosenEvolutions.Contains(evolution))
+            if (!ChosenEvolutions.Contains(evolution))
             {
                 return;
             }

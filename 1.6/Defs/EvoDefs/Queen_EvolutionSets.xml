@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!-- default -->
+
+	<Xenomorphtype.RoyalEvolutionSet>
+		<defName>BaseQueenSet</defName>
+		<evolutions>
+			<li>Evo_MaternalCrest</li>
+			<li>Evo_DelicateHands</li>
+			<li>Evo_RendingClaws</li>
+			<li>Evo_FertileBelly</li>
+			<li>Evo_OvoThrone</li>
+		</evolutions>
+	</Xenomorphtype.RoyalEvolutionSet>
+	
+</Defs>

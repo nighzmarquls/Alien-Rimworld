@@ -26,5 +26,24 @@
 			<Nimble />
 		</forcedTraits>
 	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildBotanist01</defName>
+		<title>Mining Colony Botanist</title>
+		<titleShort>Botanist</titleShort>
+		<description>[PAWN_nameDef] grew up on a partially terraformed mining colony. Both of[PAWN_possessive] parents died working the mines for the company while [PAWN_nameDef] grey up working in agriculture with her adopted brother.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Plants>4</Plants>
+			<Construction>4</Construction>
+			<Social>-2</Social>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+
+	</BackstoryDef>
 
 </Defs>

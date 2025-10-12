@@ -14,7 +14,7 @@ namespace Xenomorphtype
 
         int attempts = 2;
 
-        int CheckInterval = 480;
+        int CheckInterval = 120;
 
         public override bool CanOpen => false;
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -76,6 +76,7 @@ namespace Xenomorphtype
                         bool flag = pawn.DeSpawnOrDeselect();
                         if (TryAcceptThing(pawn) && flag)
                         {
+                            containedMorph = ContainedThing.TryGetComp<CompMatureMorph>();
                             if (pawn.jobs.curJob != null)
                             {
                                 pawn.jobs.curJob.Clear();
@@ -94,16 +95,11 @@ namespace Xenomorphtype
             }
             else
             {
-                PawnGenerationRequest request = new PawnGenerationRequest(
-                               InternalDefOf.XMT_FeralStarbeastKind, faction: null, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, fixedGender: Gender.Female);
-
-                request.ForceNoIdeo = true;
-                request.ForceNoBackstory = true;
-                request.ForceNoGear = true;
-                request.ForceBaselinerChance = 100;
-                request.ForcedXenotype = XenotypeDefOf.Baseliner;
-
-                Pawn gaurdian = PawnGenerator.GeneratePawn(request);
+                Pawn gaurdian = XenoformingUtility.GenerateFeralXenomorph();
+                if (gaurdian.Faction != Faction)
+                {
+                    gaurdian.SetFaction(Faction);
+                }
                 GenSpawn.Spawn(gaurdian, Position, Map);
                 bool flag = gaurdian.DeSpawnOrDeselect();
                 if (TryAcceptThing(gaurdian) && flag)
@@ -112,7 +108,6 @@ namespace Xenomorphtype
                     {
                         gaurdian.jobs.curJob.Clear();
                     }
-                    Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
                     return;
                 }
             }
@@ -128,44 +123,58 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (!this.IsHashIntervalTick(CheckInterval))
+            if (this.IsHashIntervalTick(CheckInterval))
             {
-                return;
-            }
-            IEnumerable<Pawn> targets = GenRadial.RadialDistinctThingsAround(Position, Map, def.specialDisplayRadius, true).OfType<Pawn>();
-            foreach (Pawn pawn in targets)
-            {
-                if (ContainedThing.Faction != null)
+                IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(Position, def.specialDisplayRadius, true);
+
+                List<Pawn> targets = new List<Pawn>();
+                foreach (IntVec3 cell in cells)
                 {
-                    if (!pawn.HostileTo(ContainedThing))
+                    
+                    foreach (Thing thing in cell.GetThingList(Map))
+                    {
+
+                        if(thing is Pawn pawn)
+                        {
+                            targets.Add(pawn);
+                        }
+                    }
+                }
+
+                foreach (Pawn pawn in targets)
+                {
+                    if (ContainedThing.Faction != null)
+                    {
+                        if (!pawn.HostileTo(ContainedThing))
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (XMTUtility.IsXenomorph(pawn))
                     {
                         continue;
                     }
-                }
 
-                if (XMTUtility.IsXenomorph(pawn))
-                {
-                    continue;
-                }
-
-                if (Rand.Chance(SpringChance(pawn)))
-                {
-                    if (XMTUtility.IsHost(pawn))
+                    if (Rand.Chance(SpringChance(pawn)))
                     {
-                        EjectContents();
-                        containedMorph.TryAmbushAbduct(pawn);
-                        Destroy();
-                        break;
+                        if (XMTUtility.IsHost(pawn))
+                        {
+                            EjectContents();
+                            containedMorph.TryAmbushAbduct(pawn);
+                            Destroy();
+                            break;
 
+                        }
+                        else
+                        {
+                            EjectContents();
+                            containedMorph.TryAmbushAttack(pawn);
+                            Destroy();
+                            break;
+                        }
                     }
-                    else
-                    {
-                        EjectContents();
-                        containedMorph.TryAmbushAttack(pawn);
-                        Destroy();
-                        break;
-                    }
-                } 
+                }
             }
         }
 
@@ -178,6 +187,7 @@ namespace Xenomorphtype
             }
 
             num *= (this.GetStatValue(StatDefOf.TrapSpringChance) * p.GetStatValue(StatDefOf.PawnTrapSpringChance));
+            Log.Message("spring chance of " + p + " is " + num);
             return Mathf.Clamp01(num);
         }
     }

@@ -261,6 +261,41 @@ namespace Xenomorphtype
                 geneset.AddGene(gene);
             }
         }
+
+        public static void ExtractCryptimorphGenesToGeneset(ref GeneSet geneset, List<GeneDef> genes)
+        {
+            if (geneset == null || genes == null)
+            {
+                Log.Warning("Invalid arguments on ExtractGenestoGeneset");
+                return;
+            }
+
+            List<GeneDef> blacklistGenes = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneList;
+            List<String> blacklistTags = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneTags;
+
+            foreach (var gene in genes)
+            {
+                GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(InternalDefOf.XMT_Starbeast_AlienRace, gene);
+
+                if (blacklistGenes.Contains(remappedGene))
+                {
+                    continue;
+                }
+
+                foreach (string tag in blacklistTags)
+                {
+                    if (remappedGene.exclusionTags != null)
+                    {
+                        if (remappedGene.exclusionTags.Contains(tag))
+                        {
+                            continue;
+                        }
+                    }
+                }
+
+                geneset.AddGene(remappedGene);
+            }
+        }
         public static void ExtractCryptimorphGenesToGeneset(ref GeneSet geneset, List<Gene> genes)
         {
             if (geneset == null || genes == null)
@@ -969,6 +1004,12 @@ namespace Xenomorphtype
             return true;
         }
 
+        public static XenotypeDef GetWorldAppropriateXenotype(Faction faction = null)
+        {
+            XenotypeDef returnType = XenotypeDefOf.Baseliner;
+            return returnType;
+        }
+
         internal static void InheritNonGenes(Pawn source, ref Pawn child)
         {
             if (source.story != null && source.story.traits != null)
@@ -1032,6 +1073,17 @@ namespace Xenomorphtype
                     {
                         child.GetPsylinkLevel();
                     }
+                }
+            }
+        }
+
+        internal static void ClearGenes(ref Pawn pawn)
+        {
+            if (pawn.genes != null)
+            {
+                foreach (Gene gene in pawn.genes.GenesListForReading)
+                {
+                    pawn.genes.RemoveGene(gene);
                 }
             }
         }

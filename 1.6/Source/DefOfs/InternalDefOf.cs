@@ -85,6 +85,7 @@ namespace Xenomorphtype
         public static ThingDef              Hivemass;
         public static ThingDef              AtmospherePylon;
         public static ThingDef              XMT_Ovothrone;
+        public static ThingDef              XMT_AmbushSpot;
 
         //Xenomorph related structures
         public static ThingDef              ShipChunkWithEgg;

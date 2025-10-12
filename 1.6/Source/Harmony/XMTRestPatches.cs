@@ -7,9 +7,26 @@ namespace Xenomorphtype
 {
     internal class XMTRestPatches
     {
+        [HarmonyPatch(typeof(ChildcareUtility), nameof(ChildcareUtility.ShouldWakeUpToAutofeedUrgent))]
+        static class Toils_ChildcareUtility_ShouldWakeUpToAutofeedUrgent
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(bool __result, Pawn feeder)
+            {
+                if(feeder == null || feeder.Faction == null)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         [HarmonyPatch(typeof(Toils_LayDown), "ApplyBedThoughts")]
         static class Toils_LayDown_ApplyBedThoughts
         {
+            [HarmonyPostfix]
             public static void Postfix(Pawn actor, Building_Bed bed)
             {
 

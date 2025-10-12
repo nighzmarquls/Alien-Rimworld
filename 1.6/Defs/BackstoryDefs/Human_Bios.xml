@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_RomulusGirl00</defName>
+	  <childhood>XMT_ChildBotanist01</childhood>
+	  <adulthood>XMT_AdultSalvageSurvivor01</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Rain</first>
+		<nick>Rain</nick>
+		<last>Carradine</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedItems>
+		<XMT_Protofluid>3</XMT_Protofluid>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	<!--
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_IsolationGirl01</defName>
+	  <childhood>Custom_OrphanRecruit</childhood>
+	  <adulthood>Custom_LegendaryHitman</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Amanda</first>
+		<nick>Ripley</nick>
+		<last>Ripley</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedItems>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	-->
+</Defs>

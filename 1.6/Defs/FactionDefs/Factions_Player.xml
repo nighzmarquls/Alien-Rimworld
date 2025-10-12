@@ -12,7 +12,7 @@
 
   <FactionDef ParentName="StarbeastPlayerFactionBase">
     <defName>XMT_PlayerHive</defName>
-    <label>New Hive</label>
+    <label>New Cryptimorph Hive</label>
     <description>A small hive.</description>
     <isPlayer>true</isPlayer>
     <categoryTag>Tribal</categoryTag>

@@ -233,11 +233,11 @@ namespace Xenomorphtype
                 genes = new GeneSet();
             }
 
-            child.genes.ClearXenogenes();
+            BioUtility.ClearGenes(ref child);
             child.genes.SetXenotype(XenotypeDefOf.Baseliner);
-
+            BioUtility.ExtractGenesToGeneset(ref genes, InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.geneList);
             BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetExtraHostGenes(Pawn));
-
+           
             if (Pawn.genes != null)
             {
                 if(Pawn.genes.xenotypeName != null)

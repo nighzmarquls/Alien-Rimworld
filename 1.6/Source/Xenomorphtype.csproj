@@ -148,6 +148,9 @@
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractJelly.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_XenoSocialGiver.cs" />
+    <Compile Include="Map\GenSteps\GenStep_QueenSpawn.cs" />
+    <Compile Include="Progression\Quests\QuestNode_RequiresQueenNotPlayer.cs" />
+    <Compile Include="Progression\Records\HistoryAutoRecorderWorker_Xenoforming.cs" />
     <Compile Include="SocialHorror\Interactions\InteractionWorker_AdvancedTameAttempt.cs" />
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
@@ -249,7 +252,7 @@
     <Compile Include="Harmony\XMTBloodfeedPatch.cs" />
     <Compile Include="Hediffs\DisplayHediff.cs" />
     <Compile Include="Hediffs\RevealedHediff.cs" />
-    <Compile Include="SocialHorror\ArtUtility.cs" />
+    <Compile Include="Utilities\ArtUtility.cs" />
     <Compile Include="SocialHorror\Precept\Comp\PreceptComp_WitnessedAction.cs" />
     <Compile Include="SocialHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_Biomorph.cs" />
     <Compile Include="SocialHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_Biomorph_Social.cs" />

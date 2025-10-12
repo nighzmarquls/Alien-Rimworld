@@ -17,7 +17,12 @@ namespace Xenomorphtype
         {
             public static void Postfix(ref Vector3 __result, Pawn ___pawn)
             {
-                if (___pawn.jobs?.curDriver != null)
+                if(___pawn == null)
+                {
+                    return;
+                }
+
+                if (___pawn.jobs?.curDriver?.ForcedBodyOffset != null)
                 {
                     __result.y += ___pawn.jobs.curDriver.ForcedBodyOffset.y;
                 }

@@ -99,6 +99,11 @@ namespace Xenomorphtype
         public static bool TrySplashAcidThing(Thing bleeder, float severity, Thing thing, float damage = 1, HediffDef appliedHediff = null, float damageToSeverity = 1)
         {
 
+            if (bleeder == null)
+            {
+                return false;
+            }
+
             if (bleeder is Pawn pawnBleeder)
             {
                 if (pawnBleeder.Dead)

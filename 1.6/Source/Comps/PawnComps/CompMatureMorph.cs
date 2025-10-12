@@ -1170,7 +1170,7 @@ namespace Xenomorphtype
                 return true;
             }
 
-            XMTUtility.WitnessHorror(Parent.PositionHeld, Parent.MapHeld, 0.25f);
+            XMTUtility.WitnessHorror(target.PositionHeld, target.MapHeld, 0.25f);
 
             if (Parent.Faction != null && Parent.Faction != target.Faction && !Parent.IsPsychologicallyInvisible())
             {
@@ -1362,6 +1362,10 @@ namespace Xenomorphtype
         protected bool GetFeedJob(out Job job)
         {
             job = null;
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message(Parent + " is trying to get feeding job.");
+            }
             Pawn FeedCandidate = HiveUtility.GetHungriestCocooned(Parent.Map, forPawn: Parent);
             if (FeedCandidate != null)
             {
@@ -2015,7 +2019,10 @@ namespace Xenomorphtype
             targetPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 8));
             if (InitiateGrabCheck(targetPawn))
             {
-                Parent.playerSettings.hostilityResponse = HostilityResponseMode.Ignore;
+                if (Parent.playerSettings != null)
+                {
+                    Parent.playerSettings.hostilityResponse = HostilityResponseMode.Ignore;
+                }
                 Hediff hediff = HediffMaker.MakeHediff(InternalDefOf.XMT_Ambushed, targetPawn);
                 targetPawn.health.AddHediff(hediff);
                 Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, HiveUtility.GetNestPosition(targetPawn.Map));
@@ -2024,13 +2031,19 @@ namespace Xenomorphtype
             }
             else
             {
-                Parent.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+                if (Parent.playerSettings != null)
+                {
+                    Parent.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+                }
             }
         }
 
         public void TryAmbushAttack(Pawn targetPawn)
         {
-            Parent.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+            if(Parent.playerSettings != null)
+            {
+                Parent.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+            }
             targetPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 8));
             Parent.Map.reservationManager.ReleaseAllForTarget(targetPawn);
             Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, targetPawn);

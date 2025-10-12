@@ -98,6 +98,48 @@ namespace Xenomorphtype
             yield return command_Action;
         }
 
+        public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
+        {
+            base.PostApplyDamage(dinfo, totalDamageDealt);
+            Pawn aggressor = dinfo.Instigator as Pawn;
+
+            if (aggressor != null)
+            {
+                if (aggressor.Dead)
+                {
+                    return;
+                }
+
+
+                if (XMTUtility.IsXenomorph(aggressor))
+                {
+                    return;
+                }
+
+                CompPawnInfo info = aggressor.Info();
+
+                if (info != null)
+                {
+                    info.ApplyThreatPheromone(this, 1, 10);
+
+                    if (XenoformingUtility.XenoformingMeets(10))
+                    {
+                        IncidentParms parms = new IncidentParms();
+                        parms.forced = true;
+                        parms.target = Map;
+                        if (XenoIncidentDefOf.XMT_HuntingPack.Worker.TryExecute(parms))
+                        {
+                            XenoformingUtility.QueenCalledForAid();
+                            if (ModsConfig.RoyaltyActive)
+                            {
+                                FleckMaker.Static(Position, Map, FleckDefOf.PsycastAreaEffect, 10f);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
         public override void EjectContents()
         {
             if (Occupant != null)
@@ -144,6 +186,22 @@ namespace Xenomorphtype
                 if (attempts > 0)
                 {
                     attempts--;
+                }
+                else
+                {
+                    Pawn Queen = XenoformingUtility.GenerateFeralQueen();
+                    Queen.SetFaction(Faction);
+                    GenSpawn.Spawn(Queen, Position, Map);
+                    bool flag = Queen.DeSpawnOrDeselect();
+                    if (TryAcceptThing(Queen) && flag)
+                    {
+                        if (Queen.jobs.curJob != null)
+                        {
+                            Queen.jobs.curJob.Clear();
+                        }
+                        Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
+                        return;
+                    }
                 }
             }
 

@@ -13,6 +13,11 @@ namespace Xenomorphtype
         {
             base.CompPostTickInterval(ref severityAdjustment, delta);
 
+            if(!Pawn.Spawned)
+            {
+                return;
+            }
+
             if(Pawn.IsHashIntervalTick(Props.intervalCheck))
             {
                 if(Pawn.InBed())

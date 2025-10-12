@@ -365,7 +365,7 @@
 		<pathCost>0</pathCost>
 		<researchPrerequisites Inherit="False" />
 		<hasInteractionCell>false</hasInteractionCell>
-		<specialDisplayRadius>1</specialDisplayRadius>
+		<specialDisplayRadius>1.5</specialDisplayRadius>
 		<statBases>
 			<WorkToBuild>60</WorkToBuild>
 			<MaxHitPoints>60</MaxHitPoints>

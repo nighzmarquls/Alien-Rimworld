@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <!-- Bridge can be built here -->
   <TerrainAffordanceDef>
     <defName>Resin</defName>
     <label>resin</label>
@@ -10,14 +9,14 @@
   
     <TerrainAffordanceDef>
     <defName>LightResin</defName>
-    <label>reinforced resin</label>
-    <order>3000</order>
+    <label>resin</label>
+    <order>3001</order>
   </TerrainAffordanceDef>
   
   <TerrainAffordanceDef>
     <defName>HeavyResin</defName>
     <label>reinforced resin</label>
-    <order>3000</order>
+    <order>3002</order>
   </TerrainAffordanceDef>
 
 </Defs>

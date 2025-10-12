@@ -3,7 +3,7 @@
 
 	<!-- Human Adult-->
 	<BackstoryDef>
-		<defName>AdultModder00</defName>
+		<defName>XMT_AdultModder00</defName>
 		<title>Game Modder</title>
 		<titleShort>modder</titleShort>
 		<description>[PAWN_nameDef] spent [PAWN_possessive] off-time building quality of life mods for a popular computer colony survival game. [PAWN_possessive] story seemed to come to an end, but unknown parties intervened and preserved [PAWN_nameDef] for the future.</description>
@@ -20,6 +20,28 @@
 			<li>Offworld</li>
 			<li>Outlander</li>
 		</spawnCategories>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultSalvageSurvivor01</defName>
+		<title>salvage survivor</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] and several of [PAWN_possessive] friends and brother attempted to secure material for crytpopods from a deorbiting derelict over their home world. But they found horrible monsters, only [PAWN_nameDef] and [PAWN_possessive] escaped alive.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Shooting>1</Shooting>
+			<Plants>2</Plants>
+			<Social>2</Social>
+			<Crafting>2</Crafting>
+			<Intellectual>4</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+		</forcedTraits>
 	</BackstoryDef>
 
 </Defs>

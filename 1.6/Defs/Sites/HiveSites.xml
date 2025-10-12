@@ -15,9 +15,6 @@
     <wantsThreatPoints>true</wantsThreatPoints>
     <minThreatPoints>350</minThreatPoints>
     <gravShipsCanLandOn>true</gravShipsCanLandOn>
-    <tags>
-      <li>HiveNest</li>
-    </tags>
 	<excludesTags>
       <li>MechCluster</li>
       <li>MechClusterForceNoConditionCauser</li>
@@ -27,16 +24,40 @@
   </SitePartDef>
 
   <SitePartDef ParentName="HiveSiteBase">
-    <defName>Hivesite_Small</defName>
+    <defName>XMT_Hivesite_Small</defName>
     <label>strange hill</label>
     <workerClass>SitePartWorker</workerClass>
     <selectionWeight>1</selectionWeight>
+	<tags>
+      <li>HiveNest</li>
+    </tags>
+  </SitePartDef>
+  
+  <SitePartDef ParentName="HiveSiteBase">
+    <defName>XMT_Hivesite_Large</defName>
+    <label>sprawling resinous structures</label>
+    <workerClass>SitePartWorker</workerClass>
+    <selectionWeight>1</selectionWeight>
+	<tags>
+      <li>HiveComplext</li>
+    </tags>
+  </SitePartDef>
+  
+  <SitePartDef ParentName="HiveSiteBase">
+    <defName>XMT_Hivesite_Queen</defName>
+    <label>queen nest</label>
+	<defaultHidden>true</defaultHidden>
+    <workerClass>SitePartWorker</workerClass>
+    <selectionWeight>1</selectionWeight>
+	<tags>
+      <li>QueenNest</li>
+    </tags>
   </SitePartDef>
 
   <GenStepDef>
     <defName>XMT_SmallHive</defName>
-	<linkWithSite>Hivesite_Small</linkWithSite>
-    <order>413</order>
+	<linkWithSite>XMT_Hivesite_Small</linkWithSite>
+    <order>414</order>
     <genStep Class="Xenomorphtype.GenStep_XenoNest">
 	  <nestFrequency>0.2</nestFrequency>
       <nestThreshold>0.3</nestThreshold>
@@ -47,6 +68,36 @@
 	  <eggCount>3</eggCount>
 	  <hostCount>2</hostCount>
 	  <gaurdians>3</gaurdians>
+    </genStep>
+  </GenStepDef>
+  
+    <GenStepDef>
+    <defName>XMT_LargeHive</defName>
+	<linkWithSite>XMT_Hivesite_Large</linkWithSite>
+    <order>413</order>
+    <genStep Class="Xenomorphtype.GenStep_XenoNest">
+	  <nestFrequency>0.3</nestFrequency>
+      <nestThreshold>0.4</nestThreshold>
+	  <entranceChance>0.2</entranceChance>
+      <nestRadius>70</nestRadius>
+	  <eggRadius>8</eggRadius>
+      <noiseOctaves>3</noiseOctaves>
+	  <eggCount>0</eggCount>
+	  <hostCount>0</hostCount>
+	  <gaurdians>6</gaurdians>
+    </genStep>
+  </GenStepDef>
+  
+  <GenStepDef>
+    <defName>XMT_QueenPresent</defName>
+	<linkWithSite>XMT_Hivesite_Queen</linkWithSite>
+    <order>415</order>
+    <genStep Class="Xenomorphtype.GenStep_QueenSpawn">
+	  <eggCount>3</eggCount>
+	  <hostCount>2</hostCount>
+	  <gaurdians>6</gaurdians>
+	  <chamberRadius>10</chamberRadius>
+	  <entrances>3</entrances>
     </genStep>
   </GenStepDef>
 

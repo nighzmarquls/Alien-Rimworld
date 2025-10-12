@@ -593,8 +593,13 @@ namespace Xenomorphtype
                     {
                         continue;
                     }
-                    lairSpot = plant.Position;
-                    break;
+
+                    Room plantRoom = plant.Position.GetRoom(map);
+                    if (IsRoomValidForNest(plantRoom))
+                    {
+                        lairSpot = plant.Position;
+                        break;
+                    }
                 }
             }
 
@@ -607,9 +612,38 @@ namespace Xenomorphtype
                     {
                         continue;
                     }
-                    lairSpot = Geyser.Position;
-                    break;
+
+                    Room geyserRoom = Geyser.Position.GetRoom(map);
+                    if (IsRoomValidForNest(geyserRoom))
+                    {
+                        lairSpot = Geyser.Position;
+                        break;
+                    }
                 }
+            }
+
+            if(lairSpot == IntVec3.Invalid)
+            {
+                for(int i = 0; i < 10; i++)
+                {
+                    IntVec3 cell = CellFinder.RandomCell(map);
+
+                    if (cell.CloseToEdge(map, 10))
+                    {
+                        continue;
+                    }
+                    Room geyserRoom = cell.GetRoom(map);
+                    if (IsRoomValidForNest(geyserRoom))
+                    {
+                        lairSpot = cell;
+                        break;
+                    }
+                }
+            }
+
+            if(lairSpot == IntVec3.Invalid)
+            {
+                lairSpot = map.Center;
             }
 
             Hive.Add(InitializeNest(lairSpot, map));
@@ -1363,6 +1397,11 @@ namespace Xenomorphtype
             if (CurrentNest != null)
             {
                 float lowestFoodNeed = float.MaxValue;
+
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message(forPawn + " is searching " + CurrentNest.Cocooned.Count + " cocooned candidates for feeding.");
+                }
                 foreach (Pawn candidate in CurrentNest.Cocooned)
                 {
                     if(candidate.needs == null)

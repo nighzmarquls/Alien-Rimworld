@@ -138,7 +138,10 @@ namespace Xenomorphtype
 
             };
 
-            yield return GeneConsume_Action;
+            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneDigestion))
+            {
+                yield return GeneConsume_Action;
+            }
 
             if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
             {
