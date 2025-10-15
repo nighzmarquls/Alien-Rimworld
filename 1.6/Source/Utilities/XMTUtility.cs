@@ -205,8 +205,17 @@ namespace Xenomorphtype
             * might be simpler to write
             * you can also do if(target is Pawn TargetPawn) to do the test and cast in one shot
             */
+
+            
             if (TargetPawn != null)
             {
+                if (TargetPawn.IsWorldPawn())
+                {
+
+                    Find.WorldPawns.PassToWorld(pawn);
+                    return pawn;
+                }
+
                 Pawn Carrier = TargetPawn.CarriedBy;
                 if (Carrier != null)
                 {
@@ -224,6 +233,8 @@ namespace Xenomorphtype
                     return null;
                 }
             }
+
+           
 
             return GenSpawn.Spawn(pawn, ValidSpawnTarget.Position, ValidSpawnTarget.Map);
         }

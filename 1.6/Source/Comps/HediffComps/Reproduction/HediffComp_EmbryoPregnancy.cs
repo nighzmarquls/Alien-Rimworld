@@ -340,7 +340,10 @@ namespace Xenomorphtype
 
             XMTUtility.TrySpawnPawnFromTarget(child, Pawn);
 
-            XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f);
+            if (child.Map != null)
+            {
+                XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f);
+            }
 
             int progress = 250;
             ResearchUtility.ProgressEvolutionTech(progress, child);

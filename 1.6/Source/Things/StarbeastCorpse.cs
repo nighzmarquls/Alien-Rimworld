@@ -39,6 +39,14 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if(InnerPawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss) is Hediff bloodloss)
+            {
+                if(bloodloss.Severity > 0.5f)
+                {
+                    return false;
+                }
+            }
+
             IEnumerable <BodyPartRecord> Parts  = InnerPawn.health.hediffSet.GetNotMissingParts();
 
             int foundparts = 0;

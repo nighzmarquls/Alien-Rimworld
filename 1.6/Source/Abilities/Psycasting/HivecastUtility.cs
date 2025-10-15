@@ -118,6 +118,7 @@ namespace Xenomorphtype
                     {
                         subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, caster);
                     }
+                    subject.GetMorphComp().tamingSocializing = 1f;
                     XMTUtility.GiveMemory(subject, HorrorMoodDefOf.XMT_CommuneWithQueen);
                 }
                 else
@@ -186,6 +187,8 @@ namespace Xenomorphtype
                             {
                                 subject.ideo.SetIdeo(caster.ideo.Ideo);
                             }
+
+                            subject.GetMorphComp().tamingSocializing += 0.25f;
                         }
                         else
                         {

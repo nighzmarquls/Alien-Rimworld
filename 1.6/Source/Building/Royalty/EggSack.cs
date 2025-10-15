@@ -171,37 +171,38 @@ namespace Xenomorphtype
                         }
 
                         bool flag = pawn.DeSpawnOrDeselect();
-                        if (TryAcceptThing(pawn) && flag)
+                        if (TryAcceptThing(pawn, allowSpecialEffects: false) && flag)
                         {
                             if (Occupant.jobs.curJob != null)
                             {
                                 Occupant.jobs.curJob.Clear();
                             }
                             Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
-                            return;
+                            
                         }
+                        return;
                     }
 
                 }
-                if (attempts > 0)
+            }
+
+            if (attempts > 0)
+            {
+                attempts--;
+            }
+            else
+            {
+                Pawn Queen = XenoformingUtility.GenerateFeralQueen();
+                Queen.SetFaction(Faction);
+                GenSpawn.Spawn(Queen, Position, Map);
+                bool flag = Queen.DeSpawnOrDeselect();
+                if (TryAcceptThing(Queen, allowSpecialEffects: false) && flag)
                 {
-                    attempts--;
-                }
-                else
-                {
-                    Pawn Queen = XenoformingUtility.GenerateFeralQueen();
-                    Queen.SetFaction(Faction);
-                    GenSpawn.Spawn(Queen, Position, Map);
-                    bool flag = Queen.DeSpawnOrDeselect();
-                    if (TryAcceptThing(Queen) && flag)
+                    if (Queen.jobs.curJob != null)
                     {
-                        if (Queen.jobs.curJob != null)
-                        {
-                            Queen.jobs.curJob.Clear();
-                        }
-                        Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
-                        return;
+                        Queen.jobs.curJob.Clear();
                     }
+                    return;
                 }
             }
 

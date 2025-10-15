@@ -53,6 +53,10 @@ namespace Xenomorphtype
                     {
                         pawn.needs.joy.GainJoy(0.12f, InternalDefOf.Communion);
                     }
+                    if(pawn.GetMorphComp() is CompMatureMorph morph)
+                    {
+                        morph.tamingSocializing += 0.1f;
+                    }
                 }
 
                 Job job = JobMaker.MakeJob(Props.jobDef, new LocalTargetInfo(GetDestination(target).Cell));

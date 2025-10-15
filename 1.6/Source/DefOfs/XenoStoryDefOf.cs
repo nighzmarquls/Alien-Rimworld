@@ -1,10 +1,6 @@
 ﻿using RimWorld;
 using AlienRace;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Xenomorphtype
 {
@@ -15,6 +11,8 @@ namespace Xenomorphtype
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(XenoStoryDefOf));
         }
+
+        public static XMT_BackstorySet XMT_ObsessedBackstories;
 
         public static AlienBackstoryDef StarbeastChildDeveloped10;
         public static AlienBackstoryDef StarbeastChildPremature15;

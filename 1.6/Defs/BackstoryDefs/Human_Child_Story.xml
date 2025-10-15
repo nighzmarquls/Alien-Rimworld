@@ -40,10 +40,42 @@
 		</skillGains>
 		<spawnCategories>
 			<li>Offworld</li>
-			<li>Outlander</li>
 			<li>ImperialCommon</li>
 		</spawnCategories>
-
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildCorpo02</defName>
+		<title>orphaned dependant</title>
+		<titleShort>orphan</titleShort>
+		<description>[PAWN_nameDef] lost [PAWN_possessive] mother on a long haul mission with an interstellar corporation. [PAWN_nameDef] grey up on the employee insurance payout with [PAWN_possessive] stepfather but relations were strained and [PAWN_pronoun] ran away. During [PAWN_possessive] teen years, [PAWN_nameDef] developed a great talent for engineering and used that skill to get by.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Crafting>6</Crafting>
+			<Construction>4</Construction>
+			<Intellectual>4</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildCorpo03</defName>
+		<title>corporate training</title>
+		<titleShort>corporate</titleShort>
+		<description>[PAWN_nameDef] was raised by a training program in a interstellar corporation.[PAWN_possessive] aptitude was tested on knowledge of art, etiquette and scientific research.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Artistic>4</Artistic>
+			<Social>6</Social>
+			<Intellectual>6</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
 	</BackstoryDef>
 
 </Defs>

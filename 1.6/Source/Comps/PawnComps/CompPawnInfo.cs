@@ -243,48 +243,15 @@ namespace Xenomorphtype
                     {
                         modifier += 0.5f;
                     }
-
-                    foreach(BackstoryDef backstory in story.AllBackstories)
+                    foreach(BackstoryHorror horror in XenoStoryDefOf.XMT_ObsessedBackstories.backstories)
                     {
-                        if(backstory == ExternalDefOf.SpaceMerchant97)
+                        if(story.AllBackstories.Contains(horror.backstory))
                         {
-                            modifier += 0.1f;
-                        }
-
-                        if (backstory == ExternalDefOf.BusinessGangster58)
-                        {
-                            modifier += 0.25f;
-                        }
-
-                        if (backstory == ExternalDefOf.UrbworldEntrepreneur14)
-                        {
-                            modifier += 0.5f;
-                        }
-
-                        if (backstory == ExternalDefOf.MafiaBoss17)
-                        {
-                            modifier += 0.1f;
-                        }
-
-                        if (backstory == ExternalDefOf.Taxonomist0)
-                        {
-                            modifier += 0.1f;
-                        }
-
-                        if (backstory == ExternalDefOf.ConArtist80)
-                        {
-                            modifier += 0.1f;
-                        }
-
-                        if (backstory == ExternalDefOf.CorporateManager76)
-                        {
-                            modifier += 0.25f;
+                            modifier += horror.obsession;
                         }
                     }
                 }
                 
-            
-               
                 if (ModsConfig.IdeologyActive)
                 {
                     if (Parent.Ideo is Ideo PawnIdeo)

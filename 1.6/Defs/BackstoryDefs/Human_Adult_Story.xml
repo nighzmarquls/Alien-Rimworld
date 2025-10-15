@@ -43,5 +43,48 @@
 			<XMT_Survivor />
 		</forcedTraits>
 	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultSalvageSurvivor02</defName>
+		<title>mechanic survivor</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] followed a lead on [PAWN_possessive] mother's dissipearance to a flight recorder on a trade station. [PAWN_pronoun] joined the station as a service engineer, there [PAWN_pronoun] encountered a cryptimorph infestation and only barely escaped alive.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Shooting>6</Shooting>
+			<Crafting>4</Crafting>
+			<Construction>8</Construction>
+			<Intellectual>4</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+		</forcedTraits>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultMissionAdjunct03</defName>
+		<title>archeological survivor</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] was assigned to [PAWN_possessive] first mission for an archeological mission to a distant world, there were no other survivors.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Artistic>6</Artistic>
+			<Social>6</Social>
+			<Medicine>8</Medicine>
+			<Construction>2</Construction>
+			<Intellectual>6</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+		</forcedTraits>
+	</BackstoryDef>
 
 </Defs>

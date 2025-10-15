@@ -74,7 +74,7 @@ namespace Xenomorphtype
                         }
 
                         bool flag = pawn.DeSpawnOrDeselect();
-                        if (TryAcceptThing(pawn) && flag)
+                        if (TryAcceptThing(pawn, allowSpecialEffects: false) && flag)
                         {
                             containedMorph = ContainedThing.TryGetComp<CompMatureMorph>();
                             if (pawn.jobs.curJob != null)
@@ -102,7 +102,7 @@ namespace Xenomorphtype
                 }
                 GenSpawn.Spawn(gaurdian, Position, Map);
                 bool flag = gaurdian.DeSpawnOrDeselect();
-                if (TryAcceptThing(gaurdian) && flag)
+                if (TryAcceptThing(gaurdian, allowSpecialEffects: false) && flag)
                 {
                     if (gaurdian.jobs.curJob != null)
                     {

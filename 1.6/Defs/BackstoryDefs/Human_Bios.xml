@@ -15,18 +15,18 @@
 		<li>Human</li>
 	  </validRaces>
 	  <forcedItems>
-		<XMT_Protofluid>3</XMT_Protofluid>
+		<XMT_Protofluid>1</XMT_Protofluid>
 	  </forcedItems>
 	</AlienRace.PawnBioDef>
-	<!--
+	
 	<AlienRace.PawnBioDef>
 	  <defName>XMT_IsolationGirl01</defName>
-	  <childhood>Custom_OrphanRecruit</childhood>
-	  <adulthood>Custom_LegendaryHitman</adulthood>
+	  <childhood>XMT_ChildCorpo02</childhood>
+	  <adulthood>XMT_AdultSalvageSurvivor02</adulthood>
 	  <gender>Female</gender>
 	  <name>
 		<first>Amanda</first>
-		<nick>Ripley</nick>
+		<nick>Amy</nick>
 		<last>Ripley</last>
 	  </name>
 	  <validRaces>
@@ -35,5 +35,27 @@
 	  <forcedItems>
 	  </forcedItems>
 	</AlienRace.PawnBioDef>
-	-->
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_PrometheusGuy02</defName>
+	  <childhood>XMT_ChildCorpo03</childhood>
+	  <adulthood>XMT_AdultMissionAdjunct03</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>David</first>
+		<nick>David</nick>
+		<last>8</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+		<li MayRequire="vanillaracesexpanded.android">XMT_ConvertHumanToSynthetic</li>
+	  </forcedHediffs>
+	  <forcedItems>
+		<XMT_Protofluid>10</XMT_Protofluid>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	
+
 </Defs>

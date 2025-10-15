@@ -75,6 +75,10 @@ namespace Xenomorphtype
                         casterInfo.WitnessPsychicHorror(psychicHorrorGain);
                         casterInfo.GainObsession(obsessionGain);
                     }
+                    else
+                    {
+                        targetInfo.Pawn.GetMorphComp().tamingSocializing += 0.1f;
+                    }
                 }
             }
 

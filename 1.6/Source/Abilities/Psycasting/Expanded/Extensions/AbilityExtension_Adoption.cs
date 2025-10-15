@@ -124,6 +124,7 @@ namespace Xenomorphtype
                                 {
                                     subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, caster);
                                 }
+                                subject.GetMorphComp().tamingSocializing += 0.25f;
                             }
                             else
                             {

@@ -477,16 +477,19 @@ namespace Xenomorphtype
             HediffDef pregnancy = XenoGeneDefOf.XMT_HorrorPregnant;
             if (target != null)
             {
-                foreach (DefModExtension modExt in target.def.modExtensions)
+                if (target.def.modExtensions != null)
                 {
-                    AnimalMutateForms animalMutateForms = modExt as AnimalMutateForms;
-                    if (animalMutateForms != null)
+                    foreach (DefModExtension modExt in target.def.modExtensions)
                     {
-                        if (animalMutateForms.horrorPregnancy != null)
+                        AnimalMutateForms animalMutateForms = modExt as AnimalMutateForms;
+                        if (animalMutateForms != null)
                         {
-                            pregnancy = animalMutateForms.horrorPregnancy;
+                            if (animalMutateForms.horrorPregnancy != null)
+                            {
+                                pregnancy = animalMutateForms.horrorPregnancy;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             }

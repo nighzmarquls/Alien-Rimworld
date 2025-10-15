@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
 	<Operation Class="PatchOperationConditional">
-		<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart" or defName="ShuttleCrashed"]/comps</xpath>
+		<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart"]/comps</xpath>
 		<nomatch Class="PatchOperationAdd">
-			<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart" or defName="ShuttleCrashed"]</xpath>
+			<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart"]</xpath>
 			<value>
 				<comps />
 			</value>
@@ -11,13 +11,13 @@
 	</Operation>
   
 	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart" or defName="ShuttleCrashed"]/comps
+		<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart"]/comps
 		</xpath>
 		<value>
 			<li Class="Xenomorphtype.CompChanceSpawnOnDestroyProperties">
 				<thingSpawns>
 					<li>
-						<probability>0.25</probability>
+						<probability>0.1</probability>
 						<spawnThing>XMT_Ovomorph</spawnThing>
 					</li>
 				</thingSpawns>

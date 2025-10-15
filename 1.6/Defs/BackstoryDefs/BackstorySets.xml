@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<Xenomorphtype.XMT_BackstorySet>
+		<defName>XMT_ObsessedBackstories</defName>
+		<backstories>
+			<li>
+				<backstory>SpaceMerchant97</backstory>
+				<obsession>0.1</obsession>
+			</li>
+			<li>
+				<backstory>BusinessGangster58</backstory>
+				<obsession>0.25</obsession>
+			</li>
+			<li>
+				<backstory>UrbworldEntrepreneur14</backstory>
+				<obsession>0.5</obsession>
+			</li>
+			<li>
+				<backstory>MafiaBoss17</backstory>
+				<obsession>0.1</obsession>
+			</li>
+			<li>
+				<backstory>Taxonomist0</backstory>
+				<obsession>0.1</obsession>
+			</li>
+			<li>
+				<backstory>ConArtist80</backstory>
+				<obsession>0.1</obsession>
+			</li>
+			<li>
+				<backstory>CorporateManager76</backstory>
+				<obsession>0.25</obsession>
+			</li>
+			<li>
+				<backstory>XMT_AdultMissionAdjunct03</backstory>
+				<obsession>1</obsession>
+			</li>
+		</backstories>
+	</Xenomorphtype.XMT_BackstorySet>
+</Defs>

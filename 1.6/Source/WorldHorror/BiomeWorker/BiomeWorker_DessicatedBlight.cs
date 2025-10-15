@@ -13,7 +13,7 @@ namespace Xenomorphtype {
                 return -100f;
             }
 
-            if(!XenoformingUtility.XenoformingMeets(15))
+            if(!XenoformingUtility.XenoformingMeets(10))
             {
                 return 0f;
             }

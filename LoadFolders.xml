@@ -4,8 +4,11 @@
 	<v1.6>
 		<li>Common</li>
 		<li>1.6</li>
+		<li IfModActive="Ludeon.RimWorld.Odyssey">Compatibility/Odyssey</li>
+		
 		<li IfModNotActive="VanillaExpanded.VPsycastsE" IfModActive="Ludeon.RimWorld.Royalty">Compatibility/NoVPE</li>
 		<li IfModActive="VanillaExpanded.VPsycastsE">Compatibility/VPE</li>
+		<li IfModActive="vanillaracesexpanded.android">Compatibility/VRE_Android</li>
 		<li IfModActive="VanillaExpanded.VPE.Puppeteer">Compatibility/VPE_Puppeteer</li>
 		<li IfModActive="VanillaExpanded.VGeneticsE">Compatibility/GeneticsExpanded</li>
 		

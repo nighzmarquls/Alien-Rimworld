@@ -154,7 +154,7 @@ namespace Xenomorphtype
 
         public void BiomeXenoformingImpact()
         {
-            if (_xenoforming >= 15)
+            if (_xenoforming >= 10)
             {
                 if (XMTSettings.LogWorld)
                 {
@@ -174,8 +174,15 @@ namespace Xenomorphtype
 
                 }
 
-                PlanetTile target = PlanetTile.Invalid;
-                foreach(PlanetTile candidate in CandidateTiles)
+                int candidatesPicked = 0;
+                int maxCandidatesForXenoforming = Mathf.FloorToInt( (Xenoforming * Xenoforming) / 30);
+                List<PlanetTile> targetTiles = new List<PlanetTile>();
+                List<PlanetTile> safeCandidateList = new List<PlanetTile>();
+
+                CandidateTiles.CopyToList(safeCandidateList);
+                safeCandidateList.Shuffle();
+
+                foreach (PlanetTile candidate in safeCandidateList)
                 {
                     float score = XenoMapDefOf.XMT_DessicatedBlight.Worker.GetScore(XenoMapDefOf.XMT_DessicatedBlight, candidate.Tile, candidate);
 
@@ -187,18 +194,24 @@ namespace Xenomorphtype
                     if (score > 1)
                     {
                         GetCandidateNeighbors(candidate);
-                        target = candidate;
+                        targetTiles.Add(candidate);
+                        candidatesPicked += 1;
 
-                        
-                        break;
+                        if (candidatesPicked > maxCandidatesForXenoforming)
+                        {
+                            break;
+                        }
                     }
                 }
 
-                if (target != PlanetTile.Invalid)
+                foreach(PlanetTile target in targetTiles)
                 {
-                    
                     target.Tile.PrimaryBiome = XenoMapDefOf.XMT_DessicatedBlight;
                     CandidateTiles.Remove(target);
+                }
+
+                if (targetTiles.Count > 0)
+                {
                     List<WorldDrawLayer> drawLayers = Find.WorldGrid.Surface.WorldDrawLayers;
                     foreach (WorldDrawLayer layer in drawLayers)
                     {

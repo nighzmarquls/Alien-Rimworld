@@ -136,7 +136,7 @@ namespace Xenomorphtype
                                     {
                                         subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, caster);
                                     }
-
+                                    subject.GetMorphComp().tamingSocializing += 0.25f;
                                     casterInfo.WitnessPsychicHorror(0.25f);
                                     casterInfo.GainObsession(0.125f);
                                 }
