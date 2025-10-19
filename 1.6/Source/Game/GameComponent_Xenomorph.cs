@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace Xenomorphtype
 {
@@ -74,6 +75,10 @@ namespace Xenomorphtype
 
         private int _xenoformingStartTick = -1;
 
+        //countdown
+        private const float ScreenFadeSeconds = 6f;
+        private static float timeLeft = -1f;
+        public static bool CountdownActivated => timeLeft > 0f;
 
         public GameComponent_Xenomorph(Game game)
         {
@@ -84,11 +89,58 @@ namespace Xenomorphtype
             }
         }
 
+        private void BeginCountDown()
+        {
+            timeLeft = ScreenFadeSeconds;
+
+            SoundDefOf.PlanetkillerImpact.PlayOneShot(Queen);
+            ScreenFader.StartFade(Color.black, 6f);
+
+   
+        }
+
+        private void EndGame()
+        {
+            if(Queen == null)
+            {
+                return;
+            }
+
+            StringBuilder stringBuilder = new StringBuilder();
+            List<Pawn> list = (from p in Queen.MapHeld.mapPawns.PawnsInFaction(Faction.OfPlayer)
+                               where p.GetMorphComp() != null
+                               select p).ToList();
+            foreach (Pawn item in list)
+            {
+                if (!item.Dead && !item.IsQuestLodger())
+                {
+                    stringBuilder.AppendLine("   " + item.LabelCap);
+                    Find.StoryWatcher.statsRecord.colonistsLaunched++;
+                }
+            }
+
+            GameVictoryUtility.ShowCredits(GameVictoryUtility.MakeEndCredits("XMT_GameOverXenoformedIntro".Translate(), "XMT_GameOverXenoformedEnding".Translate(), stringBuilder.ToString(), "XMT_GameOverChildren", list), SongDefOf.EndCreditsSong, exitToMainMenu: true, 2.5f);
+        }
+
+        public override void GameComponentUpdate()
+        {
+            base.GameComponentUpdate();
+            if (CountdownActivated)
+            {
+                timeLeft -= Time.deltaTime;
+                if (timeLeft <= 0f)
+                {
+                    EndGame();
+                }
+                return;
+            }
+
+        }
         public override void GameComponentTick()
         {
             base.GameComponentTick();
 
-            if(_xenoforming <= 0)
+            if (_xenoforming <= 0)
             {
                 return;
             }
@@ -120,21 +172,6 @@ namespace Xenomorphtype
                 EvaluateXenoforming();
                 BiomeXenoformingImpact();
             }
-
-           /* if(tick > nextBuildingTechTick)
-            {
-                nextBuildingTechTick = tick + BuildingCheckInterval;
-
-                if(XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_OvoThrone))
-                {
-
-                }
-                else
-                {
-                    InternalDefOf.XMT_Ovothrone.BuildableByPlayer
-                }
-            }
-           */
         }
 
         private void GetCandidateNeighbors(PlanetTile origin)
@@ -257,6 +294,19 @@ namespace Xenomorphtype
                 }
             }
             _lastxenoforming = _xenoforming;
+
+            if(Queen == null)
+            {
+                return;
+            }
+
+            if(Queen.Faction == Faction.OfPlayerSilentFail)
+            {
+                if(_lastxenoforming >= 100)
+                {
+                    BeginCountDown();
+                }
+            }
         }
 
         public override void LoadedGame()

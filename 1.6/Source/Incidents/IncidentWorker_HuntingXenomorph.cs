@@ -84,7 +84,7 @@ namespace Xenomorphtype
                 Pawn pawn = list[i];
                 IntVec3 loc = CellFinder.RandomClosewalkCellNear(result, map, 10);
                 QuestUtility.AddQuestTag(GenSpawn.Spawn(pawn, loc, map, rot), parms.questTag);
-                pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent);
+                pawn.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage);
                 pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + Rand.Range(AnimalsStayDurationMin, AnimalsStayDurationMax);
             }
 

@@ -243,6 +243,7 @@
 			</categories>
 			<commonality>0.001</commonality>
 			<color>(46,49,54)</color>
+			<allowedInStuffGeneration>false</allowedInStuffGeneration>
 			<constructEffect>ConstructWood</constructEffect>
 			<appearance>Planks</appearance>
 			<soundImpactBullet>BulletImpact_Wood</soundImpactBullet>
@@ -320,6 +321,7 @@
 				<li>Metallic</li>
 			</categories>
 			<commonality>0.01</commonality>
+			<allowedInStuffGeneration>false</allowedInStuffGeneration>
 			<color>(46,49,54)</color>
 			<constructEffect>ConstructWood</constructEffect>
 			<appearance>Planks</appearance>

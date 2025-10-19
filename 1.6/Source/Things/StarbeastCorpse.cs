@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using System.Data;
 using Verse;
 
 namespace Xenomorphtype
@@ -9,7 +10,7 @@ namespace Xenomorphtype
         bool _initialized = false;
         bool _notActuallyDead = false;
 
-        int reviveInterval = 2500*5;
+        const int reviveInterval = 2500*24;
 
         int nextRevivalTick = -1;
 
@@ -17,6 +18,13 @@ namespace Xenomorphtype
         {
             get
             {
+                if(_notActuallyDead && this.IsDessicated())
+                {
+                    _notActuallyDead = false;
+                    XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
+                    return _notActuallyDead;
+                }
+
                 if(_initialized)
                 {
                     return _notActuallyDead;
@@ -24,6 +32,7 @@ namespace Xenomorphtype
 
                 _notActuallyDead = NotActuallyDeadInit();
                 _initialized = true;
+
                 return _notActuallyDead;
             }
         }
@@ -43,6 +52,7 @@ namespace Xenomorphtype
             {
                 if(bloodloss.Severity > 0.5f)
                 {
+                    XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
                     return false;
                 }
             }
@@ -52,13 +62,26 @@ namespace Xenomorphtype
             int foundparts = 0;
             foreach (BodyPartRecord part in Parts)
             {
-                if(part.def == InternalDefOf.StarbeastBrain || part.def == InternalDefOf.StarbeastHeart)
+                if( part.def == InternalDefOf.StarbeastBrain ||
+                    part.def == InternalDefOf.StarbeastHeart ||
+                    part.def == BodyPartDefOf.Torso
+                   )
                 {
-                    foundparts++;
+                    float health = InnerPawn.health.hediffSet.GetPartHealth(part);
+                    float maxHealth = part.def.GetMaxHealth(InnerPawn);
+                    if (health / maxHealth > 0.5f)
+                    {
+                        foundparts++;
+                    }
                 }
             }
 
-            return foundparts >= 2;
+            if(foundparts < 3)
+            {
+                XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
+                return false;
+            }
+            return true;
 
         }
 
@@ -73,12 +96,33 @@ namespace Xenomorphtype
             return true;
         }
 
+        protected override void PrePostIngested(Pawn ingester)
+        {
+            base.PrePostIngested(ingester);
+            if (NotActuallyDead)
+            {
+                _notActuallyDead = NotActuallyDeadInit();
+
+                if (NotActuallyDead)
+                {
+                    TryRevive();
+                }
+            }
+        }
         public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.PostApplyDamage(dinfo, totalDamageDealt);
-            if (NotActuallyDead)
+            if (NotActuallyDead && nextRevivalTick > 0)
             {
-                TryRevive();
+                if (HitPoints > MaxHitPoints / 2)
+                {
+                    TryRevive();
+                }
+                else
+                {
+                    XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
+                    _notActuallyDead = false;
+                }
             }
         }
 

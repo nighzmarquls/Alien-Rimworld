@@ -14,4 +14,22 @@
 		<pawnKind>XMT_FeralStarbeastKind</pawnKind>
 	</IncidentDef>
 	
+	<IncidentDef ParentName="GiveQuestBase">
+		<defName>XMT_GiveQuest_smallNest</defName>
+		<questScriptDef>XMT_OpportunitySite_StrangeStructure</questScriptDef>
+		<baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+	</IncidentDef>
+	
+	<IncidentDef ParentName="GiveQuestBase">
+		<defName>XMT_GiveQuest_largeNest</defName>
+		<questScriptDef>XMT_OpportunitySite_ComplexNest</questScriptDef>
+		<baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+	</IncidentDef>
+	
+	<IncidentDef ParentName="GiveQuestBase">
+		<defName>XMT_GiveQuest_queenNest</defName>
+		<questScriptDef>XMT_OpportunitySite_QueenNest</questScriptDef>
+		<baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+	</IncidentDef>
+	
 </Defs>

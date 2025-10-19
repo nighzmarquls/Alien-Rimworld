@@ -77,5 +77,26 @@
 			<li>ImperialCommon</li>
 		</spawnCategories>
 	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildCadet04</defName>  
+		<slot>Childhood</slot>  
+		<title>officer cadet</title>  
+		<titleShort>cadet</titleShort>  
+		<description>From a young age, [PAWN_nameDef] trained to be a special operative. [PAWN_pronoun] enrolled in a Defense College when [PAWN_pronoun] was a boy and became proficient with a range of weapons and survival techniques.</description>  
+		<skillGains>
+		  <Plants>1</Plants>    
+		  <Shooting>3</Shooting>    
+		  <Melee>3</Melee>    
+		  <Social>1</Social>    
+		  <Medicine>1</Medicine>
+		</skillGains>  
+		<workDisables>Artistic</workDisables>  
+		<requiredWorkTags>None</requiredWorkTags>  
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
 
 </Defs>

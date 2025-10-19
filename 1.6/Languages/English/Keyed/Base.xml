@@ -85,8 +85,6 @@
 	<XMT_HumanRebellionLetterTitle>Prey Resists!</XMT_HumanRebellionLetterTitle>
 	<XMT_HumanRebellionLetterDescription>The prey are not yet docile! Some have turned violent in the face of your ascendency and must be repelled or contained!</XMT_HumanRebellionLetterDescription>
 	
-	
-	
 	<XMT_RequiresJellyExtraction>Requires cryptimorphic biochemistry.</XMT_RequiresJellyExtraction>
 	<XMT_JellyExtraction>Extract Jelly</XMT_JellyExtraction>
 	<XMT_JellyExtractionDescription>Doctors will extract Resinous Jelly from the captured entity whenever possible. This extraction method is simple, but inefficient. Can't be done if the entity is too metabolically taxed.</XMT_JellyExtractionDescription>
@@ -122,4 +120,12 @@
 	<XMT_TameThreat>Threaten Hostage</XMT_TameThreat>
 	<XMT_TameThreatDescription>Attempt to train by holding Ovomorphs or the Egglaying Caste Hostage.</XMT_TameThreatDescription>
 	<XMT_TameThreatDisabled>No suitable hostage available.</XMT_TameThreatDisabled>
+	
+	<XMT_GameOverXenoformedIntro>You've overwhelmed all resistance on this world.\n\n</XMT_GameOverXenoformedIntro>
+	<XMT_GameOverXenoformedEnding>You have struggled against the prey but now all the world sings with the voice of your children. \n\nYou may now do with this world as you wish, to ravage or preserve as you see fit until you deem it necessary to rest and await new hosts...</XMT_GameOverXenoformedEnding>
+	<XMT_GameOverChildren>These offspring survived to see your apotheosis:\n\n{0}</XMT_GameOverChildren>
+	
+	<XMT_ReleasePioneer>Release Pioneer</XMT_ReleasePioneer>
+	<XMT_ReleasePioneerDescription>Send this child into the world to spread the family.</XMT_ReleasePioneerDescription>
+	
 </LanguageData>

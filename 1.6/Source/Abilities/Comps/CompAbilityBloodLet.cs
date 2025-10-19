@@ -15,7 +15,7 @@ namespace Xenomorphtype
 
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
-            parent.pawn.TakeDamage(new DamageInfo(DamageDefOf.Cut, 5, 9999, -1, parent.pawn));
+            parent.pawn.TakeDamage(new DamageInfo(DamageDefOf.Cut, 10, 9999, -1, parent.pawn));
             base.Apply(target, dest);
         }
 

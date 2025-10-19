@@ -209,11 +209,9 @@ namespace Xenomorphtype
             
             if (TargetPawn != null)
             {
-                if (TargetPawn.IsWorldPawn())
+                if (TargetPawn.Dead)
                 {
-
-                    Find.WorldPawns.PassToWorld(pawn);
-                    return pawn;
+                    ValidSpawnTarget = TargetPawn.Corpse;
                 }
 
                 Pawn Carrier = TargetPawn.CarriedBy;
@@ -222,19 +220,19 @@ namespace Xenomorphtype
                     ValidSpawnTarget = Carrier;
                 }
 
-                if (TargetPawn.Dead)
-                {
-                    ValidSpawnTarget = TargetPawn.Corpse;
-                }
-
                 if (TargetPawn.IsPlayerControlledCaravanMember())
                 {
                     TargetPawn.GetCaravan().AddPawn(pawn, true);
-                    return null;
+                    return pawn;
                 }
+
             }
 
-           
+           if(ValidSpawnTarget.MapHeld == null)
+            {
+                Find.WorldPawns.PassToWorld(pawn);
+                return pawn;
+            }
 
             return GenSpawn.Spawn(pawn, ValidSpawnTarget.Position, ValidSpawnTarget.Map);
         }
@@ -432,66 +430,7 @@ namespace Xenomorphtype
             return Lifestage;
         }
 
-        public static bool DamageFloors(IntVec3 location, Map map, float Damage = 1.0f)
-        {
-            if (map != null)
-            {
-                Building HitStructure = location.GetEdifice(map);
-                if (HitStructure != null)
-                {
-                    if(!IsAcidImmune(HitStructure))
-                    {
-                        HitStructure.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, HitStructure.HitPoints * 0.1f, 1));
-                        return true;
-                    }
-                }
-
-                TerrainDef terrainAt = map.terrainGrid.TerrainAt(location);
-                if (terrainAt != InternalDefOf.AcidBurned &&
-                    terrainAt != InternalDefOf.HiveFloor &&
-                    terrainAt != InternalDefOf.HeavyHiveFloor &&
-                    terrainAt != InternalDefOf.SmoothHiveFloor &&
-                    terrainAt != ExternalDefOf.EmptySpace &&
-                    terrainAt != TerrainDefOf.Space)
-                {
-                    if (map.terrainGrid.CanRemoveTopLayerAt(location))
-                    {
-                        //map.terrainGrid.SetUnderTerrain(location, InternalDefOf.AcidBurned);
-                        map.terrainGrid.RemoveTopLayer(location, false);
-                    }
-                    else
-                    {
-                        if(ExternalDefOf.ShipHullTile != null)
-                        {
-                            List<Thing> burnableThings = location.GetThingList(map);
-                            foreach (Thing thing in burnableThings)
-                            {
-                                if(thing.def == ExternalDefOf.ShipHullTile)
-                                {
-                                    thing.Destroy();
-                                    return true;
-                                }
-                            }
-                        }
-                        if (map.terrainGrid.TerrainAt(location) == InternalDefOf.MediumAcidBurned)
-                        {
-                            map.terrainGrid.SetTerrain(location, InternalDefOf.AcidBurned);
-                        }
-                        else if (map.terrainGrid.TerrainAt(location) == InternalDefOf.LightAcidBurned)
-                        {
-                            map.terrainGrid.SetTerrain(location, InternalDefOf.MediumAcidBurned);
-                        }
-                        else
-                        {
-                            map.terrainGrid.SetTerrain(location, InternalDefOf.LightAcidBurned);
-                        }
-                    }
-
-                    return true;
-                }
-            }
-            return false;
-        }
+        
 
         //TODO: implement environmental damagelogs.
         public static LogEntry_DamageResult CreateEnvironmentalDamageLogEntry()
@@ -892,83 +831,7 @@ namespace Xenomorphtype
             return true;
         }
 
-        public static bool IsAcidImmune(Thing thing)
-        {
-            if (thing == null)
-            {
-                return true;
-            }
-
-            Pawn asPawn = thing as Pawn;
-            if (asPawn != null)
-            {
-                if(asPawn.IsAcidImmune())
-                {
-                    return true;
-                }
-
-                if (asPawn != null && asPawn.InBed())
-                {
-                    return IsAcidImmune(asPawn.CurrentBed());
-                }
-
-                return false;
-            }
-
-            CompAcidBlood compAcid = thing.TryGetComp<CompAcidBlood>();
-
-            if (compAcid != null)
-            {
-                return true;
-            }
-
-            if (thing.Stuff != null)
-            {
-                if (thing.Stuff == InternalDefOf.Starbeast_Resin || thing.Stuff == InternalDefOf.Starbeast_Chitin || thing.Stuff == InternalDefOf.Starbeast_Fabric)
-                {
-                    return true;
-                }
-            }
-
-            if (thing.def.designationCategory == InternalDefOf.XMT_Hive)
-            {
-                return true;
-            }
-
-            if (thing.def == ExternalDefOf.ShipHullTile ||
-                thing.def == ExternalDefOf.ShipHullTileMech ||
-                thing.def == ExternalDefOf.ShipHullTileArchotech ||
-                thing.def == ExternalDefOf.ShipHullfoamTile)
-            {
-                TerrainDef terrain = thing.PositionHeld.GetTerrain(thing.MapHeld);
-                if (terrain.affordances.Contains(InternalDefOf.Resin))
-                {
-                    return true;
-                }
-            }
-
-            if (thing.def == InternalDefOf.Hivemass)
-            {
-                return true;
-            }
-
-            if (thing.def == InternalDefOf.HiveWebbing)
-            {
-                return true;
-            }
-
-            if (thing.def == InternalDefOf.AtmospherePylon)
-            {
-                return true;
-            }
-
-            if (thing.def == InternalDefOf.XMT_CocoonBase || thing.def == InternalDefOf.XMT_CocoonBaseAnimal)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        
 
         internal static Color GetSkinColorFrom(Pawn pawn)
         {

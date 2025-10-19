@@ -30,14 +30,7 @@ namespace Xenomorphtype
 
         public override void ExposeData()
         {
-            /*
-            Scribe_Collections.Look(ref InfiltrationEntries, "InfiltrationEntries", LookMode.Reference);
-            Scribe_Collections.Look(ref Vents, "Vents", LookMode.Reference);
-            Scribe_Collections.Look(ref VEPipeEntries, "VEPipeEntries", LookMode.Reference);
-            Scribe_Collections.Look(ref DubPipeEntries, "DubPipeEntries", LookMode.Reference);
-            Scribe_Values.Look(ref lastNonColonistBuildings, "lastNonColonistBuildings", 0);
-            Scribe_Values.Look(ref lastColonistBuildings, "lastColonistBuildings", 0);
-            */
+
         }
 
         

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	
+	<Operation Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>/Defs/StorytellerDef[@Name="BaseStoryteller"]/comps</xpath>
+		<value>
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<incident>XMT_GiveQuest_smallNest</incident>
+				<onDays>5</onDays>
+				<offDays>5</offDays>
+				<numIncidentsRange>1~3</numIncidentsRange>
+				<allowedTargetTags>
+				  <li>World</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<incident>XMT_GiveQuest_largeNest</incident>
+				<onDays>10</onDays>
+				<offDays>10</offDays>
+				<numIncidentsRange>1~2</numIncidentsRange>
+				<allowedTargetTags>
+				  <li>World</li>
+				</allowedTargetTags>
+			</li>
+			<li Class="StorytellerCompProperties_OnOffCycle">
+				<incident>XMT_GiveQuest_queenNest</incident>
+				<onDays>15</onDays>
+				<offDays>15</offDays>
+				<numIncidentsRange>1</numIncidentsRange>
+				<allowedTargetTags>
+				  <li>World</li>
+				</allowedTargetTags>
+			</li>
+		</value>
+	</Operation>
+
+</Patch>

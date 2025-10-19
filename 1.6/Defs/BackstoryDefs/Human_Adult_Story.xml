@@ -86,5 +86,30 @@
 			<XMT_Survivor />
 		</forcedTraits>
 	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultMercenary04</defName>
+		<title>glitterworld mercenary</title>
+		<titleShort>major</titleShort>
+		<description>Though glitterworlds are peaceful places, they often remain prepared for war. [PAWN_nameDef]'s original unit rarely saw any real action.\n\nSo [PAWN_pronoun] pursued [PAWN_possessive] work as an offworld mercenary, [PAWN_possessive] career has been a storied and extensive one since leaving the relative peace of [PAWN_possessive] homeworld.</description>
+		<slot>Adulthood</slot>
+		<workDisables>
+		</workDisables>
+		<requiredWorkTags>
+		  <li>Violent</li>
+		</requiredWorkTags>
+		<skillGains>
+		  <Melee>6</Melee>
+		  <Shooting>6</Shooting>
+		  <Medicine>4</Medicine>
+		</skillGains>
+		<spawnCategories>
+		  <li>Offworld</li>
+		  <li>Pirate</li>
+		  <li>Researcher</li>
+		</spawnCategories>
+		<bodyTypeMale>Hulk</bodyTypeMale>
+		<bodyTypeFemale>Hulk</bodyTypeFemale>
+	</BackstoryDef>
 
 </Defs>

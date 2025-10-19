@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.068</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.069</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -40,6 +40,7 @@
 		<li>me.samboycoding.betterloading.dev</li>
 		<li>Zeracronius.Unpatcher</li>
 		<li>UnlimitedHugs.HugsLib</li>
+		<li>imranfish.xmlextensions</li>
 	</incompatibleWith>
 	<loadAfter>
 		<li>Ludeon.RimWorld</li>
@@ -70,7 +71,7 @@
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Alphatest version 0.068.
+	<description>Alphatest version 0.069.
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?

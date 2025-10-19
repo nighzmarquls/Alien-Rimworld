@@ -57,5 +57,25 @@
 	  </forcedItems>
 	</AlienRace.PawnBioDef>
 	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_PredatorGuy03</defName>
+	  <childhood>XMT_ChildCadet04</childhood>
+	  <adulthood>XMT_AdultMercenary04</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>Alan</first>
+		<nick>Dutch</nick>
+		<last>Schaefer</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+	  </forcedHediffs>
+	  <forcedItems>
+		<Gun_Minigun>1</Gun_Minigun>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	
 
 </Defs>

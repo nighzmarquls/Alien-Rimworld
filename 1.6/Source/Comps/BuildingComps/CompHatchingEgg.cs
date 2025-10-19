@@ -23,10 +23,15 @@ namespace Xenomorphtype
 
         public void TrySpawnPawn(IntVec3 position, float age)
         {
-            TrySpawnPawn(position,age,parent.Map);
+            TrySpawnPawn(position,age,parent.MapHeld);
         }
         public void TrySpawnPawn(IntVec3 position, float age, Map map)
         {
+            if(map == null)
+            {
+                return;
+            }
+
             PawnGenerationRequest request = new PawnGenerationRequest(hatchedPawnKind, parent.Faction);
             request.FixedBiologicalAge = age;
             Pawn pawn = PawnGenerator.GeneratePawn(request);

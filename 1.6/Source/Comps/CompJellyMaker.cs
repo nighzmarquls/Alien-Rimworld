@@ -36,14 +36,14 @@ namespace Xenomorphtype
 
         public bool CanMakeIntoJelly(Thing thing)
         {
-            if(thing == null)
+            if (thing == null)
             {
                 return false;
             }
 
-            if(thing is Corpse corpse)
+            if (thing is Corpse corpse)
             {
-                if(corpse.GetRotStage() == RotStage.Dessicated)
+                if (corpse.GetRotStage() == RotStage.Dessicated)
                 {
                     return false;
                 }
@@ -60,7 +60,7 @@ namespace Xenomorphtype
                 {
                     if (pawn.genes.HasActiveGene(XenoGeneDefOf.XMT_Chemfuel_Metabolism))
                     {
-                        if(ThingDefOf.Chemfuel == thing)
+                        if (ThingDefOf.Chemfuel == thing)
                         {
                             return true;
                         }
@@ -102,7 +102,7 @@ namespace Xenomorphtype
         public float GetNutritionFromThing(Thing ingredient, float efficiency = 1f)
         {
             float output = ingredient.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * ingredient.stackCount;
-            float ingredientMass = ingredient.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency * ingredient.stackCount; 
+            float ingredientMass = ingredient.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency * ingredient.stackCount;
             if (ingredient is Corpse corpse)
             {
                 output = 0;
@@ -145,7 +145,7 @@ namespace Xenomorphtype
                                         output += JellyFromDef(leatherDef, corpse.InnerPawn.def.GetStatValueAbstract(StatDefOf.LeatherAmount));
                                     }
                                 }
-                                
+
                                 if (corpse.InnerPawn.def.butcherProducts != null)
                                 {
                                     foreach (ThingDefCountClass thingCount in corpse.InnerPawn.def.butcherProducts)
@@ -164,14 +164,14 @@ namespace Xenomorphtype
                     CompRottable rottable = corpse.TryGetComp<CompRottable>();
                     if (rottable != null)
                     {
-                        float remaining = 1-((float)rottable.RotProgress / (float)rottable.PropsRot.TicksToDessicated);
+                        float remaining = 1 - ((float)rottable.RotProgress / (float)rottable.PropsRot.TicksToDessicated);
 
                         output *= remaining;
                     }
                 }
             }
 
-            if(output == 0)
+            if (output == 0)
             {
                 output = ingredientMass;
             }
@@ -189,8 +189,8 @@ namespace Xenomorphtype
                 {
                     jellyValue = JellyFromThing(item, efficiency);
                 }
-                
-                float TerrainFertility = XenoformingUtility.ValueOfTerrainOnCell(currentMap,cell, out TerrainDef degraded);
+
+                float TerrainFertility = XenoformingUtility.ValueOfTerrainOnCell(currentMap, cell, out TerrainDef degraded);
 
                 jellyValue += (TerrainFertility * 10);
             }
@@ -204,10 +204,10 @@ namespace Xenomorphtype
 
             float jellyValue = nutrition / jellyNutrition;
 
-            return Mathf.CeilToInt( jellyValue * efficiency * Props.conversionRate);
+            return Mathf.CeilToInt(jellyValue * efficiency * Props.conversionRate);
         }
 
-        public int ConvertTerrainToJelly(IntVec3 cell,Map currentMap, float efficiency = 1f)
+        public int ConvertTerrainToJelly(IntVec3 cell, Map currentMap, float efficiency = 1f)
         {
             int terrainStack = 0;
             if (XenoformingUtility.CellIsFertile(cell, currentMap))
@@ -225,12 +225,12 @@ namespace Xenomorphtype
         {
             int droppedJelly = 0;
             Map currentMap = parent.Map;
-            if(currentMap != null)
+            if (currentMap != null)
             {
                 Thing item = cell.GetFirstItem(currentMap);
                 if (item != null)
                 {
-                    return ConvertToJelly(item,efficiency);
+                    return ConvertToJelly(item, efficiency);
                 }
                 else
                 {
@@ -256,16 +256,21 @@ namespace Xenomorphtype
 
         public int ConvertToJelly(Thing ingredient, float efficiency = 1f)
         {
+            
             IntVec3 cell = ingredient.Position;
             Map map = ingredient.Map;
 
+            if(ingredient.stackCount * efficiency < 1.0)
+            {
+                efficiency = 1f / ingredient.stackCount;
+            }
             int droppedJelly = JellyFromThing(ingredient, efficiency);
             CleanUpConvertedAmount(ingredient, efficiency);
 
             int totalJelly = droppedJelly;
-            if(network != null)
+            if (network != null)
             {
-                if(network.PipeNet.AvailableCapacity > 0)
+                if (network.PipeNet.AvailableCapacity > 0)
                 {
                     float stored = 0;
                     network.PipeNet.DistributeAmongStorage(totalJelly, out stored);
@@ -281,18 +286,18 @@ namespace Xenomorphtype
 
         private void CleanUpConvertedAmount(Thing ingredient, float efficiency)
         {
-            if(ingredient is Corpse corpse)
+            if (ingredient is Corpse corpse)
             {
                 CompRottable rottable = corpse.TryGetComp<CompRottable>();
-                if(rottable != null)
+                if (rottable != null)
                 {
                     rottable.RotProgress += (rottable.PropsRot.TicksToDessicated) * efficiency;
 
-                    
+
                 }
                 if (corpse.IsDessicated())
                 {
-                    if(corpse.MapHeld is Map map)
+                    if (corpse.MapHeld is Map map)
                     {
                         map.reservationManager.ReleaseAllForTarget(corpse);
                     }
@@ -300,7 +305,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (efficiency >= 1f)
+            if (efficiency >= 1f )
             {
                 ingredient.Destroy();
                 return;

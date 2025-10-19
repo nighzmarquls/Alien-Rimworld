@@ -236,6 +236,8 @@ namespace Xenomorphtype
             HatchingEgg.UnHatched = false;
             StatDefOf.MarketValue.Worker.ClearCacheForThing(this);
 
+            
+
             if (!Spawned)
             {
                 return;
@@ -252,11 +254,12 @@ namespace Xenomorphtype
                 Messages.Message("XMT_MotherEggHatch".Translate(HatchingEgg.mother.LabelShort), MessageTypeDefOf.PositiveEvent);
             }
 
-            HiveUtility.RemoveOvomorph(this, Map);
+            HiveUtility.RemoveOvomorph(this, MapHeld);
 
-            XMTUtility.WitnessOvomorph(Position, Map, 0.1f, 0.1f);
+            XMTUtility.WitnessOvomorph(PositionHeld, MapHeld, 0.1f, 0.1f);
             
-            HatchingEgg.TrySpawnPawn(Position, HatchingEgg.hatchedPawnKind.race.race.lifeStageAges[0].minAge);
+
+            HatchingEgg.TrySpawnPawn(PositionHeld, HatchingEgg.hatchedPawnKind.race.race.lifeStageAges[0].minAge);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
@@ -281,7 +284,7 @@ namespace Xenomorphtype
             string description = base.GetInspectString(); ;
             string text = description;
 
-            if (XMTUtility.PlayerXenosOnMap(Map) || DebugSettings.ShowDevGizmos)
+            if (XMTUtility.PlayerXenosOnMap(MapHeld) || DebugSettings.ShowDevGizmos)
             {
                 if (gestateProgress < 1)
                 {

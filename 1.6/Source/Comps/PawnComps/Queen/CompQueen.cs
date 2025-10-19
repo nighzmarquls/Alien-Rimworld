@@ -274,15 +274,18 @@ namespace Xenomorphtype
 
                     if(XenoformingUtility.XenoformingMeets(10))
                     {
-                        IncidentParms parms = new IncidentParms();
-                        parms.forced = true;
-                        parms.target = parent.Map;
-                        if (XenoIncidentDefOf.XMT_HuntingPack.Worker.TryExecute(parms))
+                        if (Parent.health.hediffSet.BleedRateTotal > 0.1f)
                         {
-                            XenoformingUtility.QueenCalledForAid();
-                            if (ModsConfig.RoyaltyActive)
+                            IncidentParms parms = new IncidentParms();
+                            parms.forced = true;
+                            parms.target = parent.Map;
+                            if (XenoIncidentDefOf.XMT_HuntingPack.Worker.TryExecute(parms))
                             {
-                                FleckMaker.Static(Parent.Position, parent.Map, FleckDefOf.PsycastAreaEffect, 10f);
+                                XenoformingUtility.QueenCalledForAid();
+                                if (ModsConfig.RoyaltyActive)
+                                {
+                                    FleckMaker.Static(Parent.Position, parent.Map, FleckDefOf.PsycastAreaEffect, 10f);
+                                }
                             }
                         }
                     }

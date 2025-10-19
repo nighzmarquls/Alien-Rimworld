@@ -178,7 +178,6 @@ namespace Xenomorphtype
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_LayOvomorph, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
-
                 });
 
             };

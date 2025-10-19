@@ -40,7 +40,7 @@ namespace Xenomorphtype
                 }
 
                 sitTicks+= 60;
-                if (XMTUtility.DamageFloors(Position, Map))
+                if (AcidUtility.DamageFloors(Position, Map))
                 {
                     burnTicks++;
 

@@ -204,7 +204,7 @@ namespace Xenomorphtype
             
         }
 
-        protected Job GetFoodJob(Pawn pawn, bool desperate)
+        protected Job GetFoodJob(Pawn pawn, bool desperate, float maximumLight = 1.0f)
         {
             if (XMTSettings.LogJobGiver)
             {
@@ -274,6 +274,16 @@ namespace Xenomorphtype
                 return job2;
             }
 
+            if (maximumLight < 1)
+            {
+                float brightness = foodSource.MapHeld.glowGrid.GroundGlowAt(foodSource.Position);
+
+                if(brightness > maximumLight)
+                {
+                    return null;
+                }
+            }
+
             Job job3 = JobMaker.MakeJob(JobDefOf.Ingest, foodSource);
             job3.count = FoodUtility.WillIngestStackCountOf(pawn, foodDef, nutrition);
             return job3;
@@ -332,11 +342,20 @@ namespace Xenomorphtype
                     {
                         Log.Message(pawn + " is gorging");
                     }
-                    Job foodJob = GetFoodJob(pawn, true);
+                    Job foodJob = GetFoodJob(pawn, true, 0.45f);
 
                     if (foodJob != null)
                     {
                         return foodJob;
+                    }
+                    else if(pawn.Faction == null)
+                    {
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message(pawn + " is leaving the map");
+                        }
+                        Job leaveJob = JobMaker.MakeJob(JobDefOf.Flee);
+                        return leaveJob;
                     }
 
                 }

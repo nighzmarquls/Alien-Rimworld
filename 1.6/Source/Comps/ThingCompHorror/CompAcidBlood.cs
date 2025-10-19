@@ -174,7 +174,7 @@ namespace Xenomorphtype
 
                         if (attacker.equipment != null)
                         {
-                            if (!XMTUtility.IsAcidImmune(attacker?.equipment?.Primary))
+                            if (!AcidUtility.IsAcidImmune(attacker?.equipment?.Primary))
                             {
                                 attacker.equipment.Primary.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, Props.damage + totalDamageDealt, 9, -1, parent));
                             }

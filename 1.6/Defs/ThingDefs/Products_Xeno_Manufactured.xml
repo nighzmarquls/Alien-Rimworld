@@ -95,6 +95,7 @@
 			</categories>
 			<color>(46,49,54)</color>
 			<commonality>0.1</commonality>
+			<allowedInStuffGeneration>false</allowedInStuffGeneration>
 			<statFactors Inherit="false">
 				<MarketValue>3</MarketValue>
 				<MaxHitPoints>1.3</MaxHitPoints>

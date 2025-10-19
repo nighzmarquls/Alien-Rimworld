@@ -46,8 +46,10 @@ namespace Xenomorphtype
 
             foreach (IntVec3 cell in Cells)
             {
-                TrySplashAcidCell(bleeder, bleeder.MapHeld, cell, severity, appliedHediff, damageToSeverity, damage);
-                hitCells++;
+                if (TrySplashAcidCell(bleeder, bleeder.MapHeld, cell, severity, appliedHediff, damageToSeverity, damage))
+                {
+                    hitCells++;
+                }
                 if (hitCells >= modifiedCells)
                 {
                     break;
@@ -117,7 +119,7 @@ namespace Xenomorphtype
             if (thing != bleeder && thing != null)
             {
 
-                if (!XMTUtility.IsAcidImmune(thing))
+                if (!IsAcidImmune(thing))
                 {
                     IntVec3 SplashCell = thing.PositionHeld;
 
@@ -157,7 +159,7 @@ namespace Xenomorphtype
                                     {
                                         if (w.def.apparel.CoversBodyPart(hitPart))
                                         {
-                                            if (XMTUtility.IsAcidImmune(w))
+                                            if (AcidUtility.IsAcidImmune(w))
                                             {
                                                 if (w.Stuff == InternalDefOf.Starbeast_Fabric)
                                                 {
@@ -213,5 +215,135 @@ namespace Xenomorphtype
             }
             return false;
         }
+
+        public static bool IsAcidImmune(Thing thing)
+        {
+            if (thing == null)
+            {
+                return true;
+            }
+
+            Pawn asPawn = thing as Pawn;
+            if (asPawn != null)
+            {
+                if (asPawn.IsAcidImmune())
+                {
+                    return true;
+                }
+
+                if (asPawn != null && asPawn.InBed())
+                {
+                    return IsAcidImmune(asPawn.CurrentBed());
+                }
+
+                return false;
+            }
+
+            if (thing.def == InternalDefOf.Hivemass ||
+                thing.def == InternalDefOf.HiveWebbing ||
+                thing.def == InternalDefOf.AtmospherePylon ||
+                thing.def == InternalDefOf.XMT_CocoonBase ||
+                thing.def == InternalDefOf.XMT_CocoonBaseAnimal
+               )
+            {
+                return true;
+            }
+
+            CompAcidBlood compAcid = thing.TryGetComp<CompAcidBlood>();
+
+            if (compAcid != null)
+            {
+                return true;
+            }
+
+            if (thing.Stuff != null)
+            {
+                if (thing.Stuff == InternalDefOf.Starbeast_Resin || thing.Stuff == InternalDefOf.Starbeast_Chitin || thing.Stuff == InternalDefOf.Starbeast_Fabric)
+                {
+                    return true;
+                }
+            }
+
+            if (thing.def.designationCategory == InternalDefOf.XMT_Hive)
+            {
+                return true;
+            }
+
+            if (thing.def == ExternalDefOf.ShipHullTile ||
+                thing.def == ExternalDefOf.ShipHullTileMech ||
+                thing.def == ExternalDefOf.ShipHullTileArchotech ||
+                thing.def == ExternalDefOf.ShipHullfoamTile)
+            {
+                TerrainDef terrain = thing.PositionHeld.GetTerrain(thing.MapHeld);
+                if (terrain.affordances.Contains(InternalDefOf.Resin))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public static bool DamageFloors(IntVec3 location, Map map, float Damage = 1.0f)
+        {
+            if (map != null)
+            {
+                Building HitStructure = location.GetEdifice(map);
+                if (HitStructure != null)
+                {
+                    if (!IsAcidImmune(HitStructure))
+                    {
+                        HitStructure.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, HitStructure.HitPoints * 0.1f, 1));
+                        return true;
+                    }
+                }
+
+                TerrainDef terrainAt = map.terrainGrid.TerrainAt(location);
+                if (terrainAt != InternalDefOf.AcidBurned &&
+                    terrainAt != InternalDefOf.HiveFloor &&
+                    terrainAt != InternalDefOf.HeavyHiveFloor &&
+                    terrainAt != InternalDefOf.SmoothHiveFloor &&
+                    terrainAt != ExternalDefOf.EmptySpace &&
+                    terrainAt != TerrainDefOf.Space)
+                {
+                    if (map.terrainGrid.CanRemoveTopLayerAt(location))
+                    {
+                        //map.terrainGrid.SetUnderTerrain(location, InternalDefOf.AcidBurned);
+                        map.terrainGrid.RemoveTopLayer(location, false);
+                    }
+                    else
+                    {
+                        if (ExternalDefOf.ShipHullTile != null)
+                        {
+                            List<Thing> burnableThings = location.GetThingList(map);
+                            foreach (Thing thing in burnableThings)
+                            {
+                                if (thing.def == ExternalDefOf.ShipHullTile)
+                                {
+                                    thing.Destroy();
+                                    return true;
+                                }
+                            }
+                        }
+                        if (map.terrainGrid.TerrainAt(location) == InternalDefOf.MediumAcidBurned)
+                        {
+                            map.terrainGrid.SetTerrain(location, InternalDefOf.AcidBurned);
+                        }
+                        else if (map.terrainGrid.TerrainAt(location) == InternalDefOf.LightAcidBurned)
+                        {
+                            map.terrainGrid.SetTerrain(location, InternalDefOf.MediumAcidBurned);
+                        }
+                        else
+                        {
+                            map.terrainGrid.SetTerrain(location, InternalDefOf.LightAcidBurned);
+                        }
+                    }
+
+                    return true;
+                }
+            }
+            return false;
+        }
     }
+
+
 }

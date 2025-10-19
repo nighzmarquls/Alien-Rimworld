@@ -15,6 +15,7 @@ namespace Xenomorphtype
 {
     public class CompMatureMorph : ThingComp
     {
+        static private Texture2D ReleaseTexture => ContentFinder<Texture2D>.Get("UI/Designators/ReleasePioneer");
         public static Color nymphSkinColor = new Color(1, 0.85f, 0.65f);
         public IntVec3 NestPosition => HiveUtility.GetNestPosition(Parent.Map);
         public bool NeedEggs => HiveUtility.NeedEggs(Parent.Map);
@@ -131,6 +132,48 @@ namespace Xenomorphtype
 
             Scribe_Values.Look(ref canTendLairTick, "canTendLairTick", 0);
             Scribe_Values.Look(ref canTunnelTick, "canTunnelTick", 0);
+        }
+
+        public override IEnumerable<Gizmo> CompGetGizmosExtra()
+        {
+            if (Parent.Downed)
+            {
+                yield break;
+            }
+
+            if (Parent.Faction == null || !Parent.Faction.IsPlayer)
+            {
+                yield break;
+            }
+
+            if (!Parent.ageTracker.Adult)
+            {
+                yield break;
+            }
+
+            if (!XMTUtility.QueenIsPlayer())
+            {
+                yield break;
+            }
+
+            if (XMTUtility.IsQueen(Parent))
+            {
+                yield break;
+            }
+
+           
+
+            Command_Action releaseAction = new Command_Action();
+            releaseAction.defaultLabel = "XMT_ReleasePioneer".Translate();
+            releaseAction.defaultDesc = "XMT_ReleasePioneerDescription".Translate();
+            releaseAction.icon = ReleaseTexture;
+            releaseAction.action = delegate
+            {
+                PawnBanishUtility.Banish(Parent, false);
+                Parent.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, "", forced: true, forceWake: true, false);
+            };
+
+            yield return releaseAction; 
         }
 
         public override void CompTickInterval(int delta)
@@ -720,6 +763,14 @@ namespace Xenomorphtype
                 return false;
             }
 
+            float brightness = Parent.MapHeld.glowGrid.GroundGlowAt(HiveUtility.GetNestSpot(Parent.Map).Cell);
+
+            if (brightness > 0.5f)
+            {
+                
+                return false;
+            }
+
             canMatureTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
             return true;
         }
@@ -955,7 +1006,6 @@ namespace Xenomorphtype
             }
 
             base.Notify_Killed(prevMap, dinfo);
-            XenoformingUtility.HandleMatureMorphDeath(Parent);
         }
 
         public override void PostSpawnSetup(bool respawningAfterLoad)

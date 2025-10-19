@@ -2,7 +2,7 @@
 <Defs>
   <QuestScriptDef>
     <defName>XMT_OpportunitySite_StrangeStructure</defName>
-    <rootSelectionWeight>1.0</rootSelectionWeight>
+    <rootSelectionWeight>0.0</rootSelectionWeight>
     <rootMinPoints>0</rootMinPoints>
     <autoAccept>true</autoAccept>
     <questNameRules>
@@ -172,7 +172,7 @@
   
   <QuestScriptDef>
     <defName>XMT_OpportunitySite_ComplexNest</defName>
-    <rootSelectionWeight>0.95</rootSelectionWeight>
+    <rootSelectionWeight>0.0</rootSelectionWeight>
     <rootMinPoints>0</rootMinPoints>
     <autoAccept>true</autoAccept>
     <questNameRules>
@@ -345,7 +345,7 @@
   
   <QuestScriptDef>
     <defName>XMT_OpportunitySite_QueenNest</defName>
-    <rootSelectionWeight>1.0</rootSelectionWeight>
+    <rootSelectionWeight>0.0</rootSelectionWeight>
     <rootMinPoints>0</rootMinPoints>
     <autoAccept>true</autoAccept>
     <questNameRules>
