@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<HeadTypeDef ParentName="AverageBase">
+		<defName>XMT_Skull_Head_Normal</defName>
+		<graphicPath>Pawn/StarBeast/VariantHeads/Skull</graphicPath>
+		<randomChosen>false</randomChosen>
+		<selectionWeight>0.25</selectionWeight>
+	</HeadTypeDef>
+	
+	<GeneDef ParentName="GeneHeadboneBase">
+		<defName>XMT_VisibleSkull</defName>
+		<label>visible skull</label>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<description>Carriers of this gene have a genetic predisposition to a translucent carapace showing a skull beneath it.</description>
+		<iconPath>UI/Icons/Genes/Gene_GauntHead</iconPath>
+		<displayOrderInCategory>500</displayOrderInCategory>
+		<forcedHeadTypes>
+			<li>XMT_Skull_Head_Normal</li>
+		</forcedHeadTypes>
+	</GeneDef>
+	
+	<GeneDef ParentName="GeneHeadboneBase">
+		<defName>XMT_RoyalVisibleSkull</defName>
+		<label>dormant visible skull</label>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<description>Carriers of this gene have a genetic predisposition to a translucent carapace showing a skull beneath it.</description>
+		<iconPath>UI/Icons/Genes/Gene_GauntHead</iconPath>
+		<displayOrderInCategory>500</displayOrderInCategory>
+	</GeneDef>
+
+	<Xenomorphtype.XMT_GeneRemapListDef>
+		<defName>XMT_GauntRemap</defName>
+		<geneRemaps>
+			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>Head_Gaunt</targetGeneDef>
+				<replacementGeneDef>XMT_VisibleSkull</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>XMT_RoyalVisibleSkull</targetGeneDef>
+				<replacementGeneDef>XMT_VisibleSkull</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>XMT_VisibleSkull</targetGeneDef>
+				<replacementGeneDef>XMT_RoyalVisibleSkull</replacementGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>Head_Gaunt</targetGeneDef>
+				<replacementGeneDef>XMT_RoyalVisibleSkull</replacementGeneDef>
+			</li>
+		</geneRemaps>
+	</Xenomorphtype.XMT_GeneRemapListDef>
+	
+</Defs>

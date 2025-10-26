@@ -101,12 +101,9 @@ namespace Xenomorphtype
                     int lights = 0;
                     foreach (CompPowerTrader powerUser in net.powerComps)
                     {
-                        if (ForbidUtility.CaresAboutForbidden(pawn, false))
-                        { 
-                            if (!powerUser.parent.PositionHeld.InAllowedArea(pawn))
-                            {
-                                continue;
-                            }
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(pawn,powerUser.parent))
+                        {
+                            continue;
                         }
                         
                         CompGlower glow = powerUser.parent.GetComp<CompGlower>();
@@ -661,25 +658,9 @@ namespace Xenomorphtype
                 {
                     Thing thing = list[i];
 
-                    if (pawn.Map.reservationManager.IsReserved(thing))
+                    if (jellyMaker.CanMakeIntoJelly(thing) && FeralJobUtility.IsThingAvailableForJobBy(pawn, thing))
                     {
-                        continue;
-                    }
-
-                    if (ForbidUtility.CaresAboutForbidden(pawn, false))
-                    {
-                        if (thing.IsForbidden(pawn))
-                        {
-                            continue;
-                        }
-                        if (!thing.PositionHeld.InAllowedArea(pawn))
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (jellyMaker.CanMakeIntoJelly(thing))
-                    {
+                        
                         found = thing;
                         return true;
                     }
@@ -983,6 +964,7 @@ namespace Xenomorphtype
                 if (XMTUtility.IsXenomorph(witness))
                 {
                     XenomorphWitness = true;
+                    GiveMemory(witness, ThoughtDefOf.BabyBorn);
                 }
                 else
                 {
@@ -1018,9 +1000,10 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                if (XMTUtility.IsXenomorph(witness))
+                if (IsXenomorph(witness))
                 {
                     XenomorphWitness = true;
+                    GiveMemory(witness, ThoughtDefOf.BabyGiggledSocial);
                 }
                 else
                 {
@@ -1789,7 +1772,7 @@ namespace Xenomorphtype
                 {
                     Pawn witness = cell.GetFirstPawn(aggressorInfo.parent.MapHeld);
 
-                    if(witness == null)
+                    if(witness == null || witness == victim)
                     {
                         continue;
                     }

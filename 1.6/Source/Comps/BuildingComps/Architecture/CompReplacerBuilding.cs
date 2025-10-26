@@ -34,7 +34,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        Thing spawned = GenSpawn.Spawn(Props.replacedWith, position, map, WipeMode.VanishOrMoveAside);
+                        Thing spawned = GenSpawn.Spawn(Props.replacedWith, position, map, parent.Rotation, WipeMode.VanishOrMoveAside);
                         if (spawned != null)
                         {
                             if (faction != null)

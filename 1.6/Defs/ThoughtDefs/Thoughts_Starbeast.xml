@@ -461,4 +461,15 @@
 		  </li>
 		</stages>
 	</ThoughtDef>
+	
+	<ThoughtDef ParentName="DeathMemoryFamily">
+		<defName>StarbeastChildDied</defName>
+		<stages>
+		  <li>
+			<label>my child {0} died</label>
+			<description>My child died. She's gone forever.</description>
+			<baseMoodEffect>-2</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
 </Defs>

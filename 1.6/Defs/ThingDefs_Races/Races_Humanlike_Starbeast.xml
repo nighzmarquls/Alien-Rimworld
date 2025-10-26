@@ -327,6 +327,7 @@
 					<headTypes Inherit="False">
 						<li>Male_AverageNormal</li>
 						<li>Female_AverageNormal</li>
+						<li>XMT_Skull_Head_Normal</li>
 					</headTypes>
 					<bodyTypes Inherit="False">
 					  <li>Female</li>
@@ -1038,9 +1039,14 @@
 					<replacer>StarbeastLostMyQueen</replacer> 
 				  </li>
 				  <li>
-					<original>MyMotherDied</original>
-					<replacer>StarbeastQueenDied</replacer> 
+					<original>MyDaughterDied</original>
+					<replacer>StarbeastChildDied</replacer> 
 				  </li>
+				  <li>
+					<original>MySonDied</original>
+					<replacer>StarbeastChildDied</replacer> 
+				  </li>
+				  
 				</replacerList>
 				<restrictedThoughts>
 					<li>StarbeastDark</li>
@@ -1145,6 +1151,7 @@
 					<li>AteInsectMeatAsIngredient</li>
 					<li>BondedAnimalDied</li>
 					<li>PawnWithGoodOpinionDied</li>
+					<li>NeedComfort</li>
 					<li>MyHusbandDied</li>
 					<li>MyWifeDied</li>
 					<li>MyFianceDied</li>
@@ -1153,8 +1160,17 @@
 					<li>MyFatherDied</li>
 					<li>MyUncleDied</li>
 					<li>MyGrandparentDied</li>
-					<li>NeedComfort</li>
-					
+					<li>MyBrotherDied</li>
+					<li>MySisterDied</li>
+					<li>MyNieceDied</li>
+					<li>MyNephewDied</li>
+					<li>MyGrandchildDied</li>
+					<li>MyHalfSiblingDied</li>
+					<li>MyAuntDied</li>
+					<li>MyUncleDied</li>
+					<li>MyGrandparentDied</li>
+					<li>MyCousinDied</li>
+					<li>MyKinDied</li>
 					<li>ApparelDamaged</li>
 					<li>WrongApparelGender</li>
 					<li>DeadMansApparel</li>
@@ -1164,7 +1180,6 @@
 					<li MayRequire="Ludeon.RimWorld.Ideology">LookChangeDesired</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">WearingDesiredApparel_Strong</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">WearingDesiredApparel_Soft</li>
-
 					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartCovered_Disapproved_Male</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartCovered_Disapproved_Female</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartCovered_Disapproved_Memory</li>
@@ -1189,7 +1204,6 @@
 					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestHairOrFaceUncovered_Disapproved_Female</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestHairOrFaceUncovered_Disapproved_Social_Male</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestHairOrFaceUncovered_Disapproved_Social_Female</li>
-
 					<li MayRequire="Ludeon.RimWorld.Ideology">InnocentPrisonerDied_Abhorrent</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">KnowPrisonerDiedInnocent</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">InnocentPrisonerDied_Know_Abhorrent_Mood</li>

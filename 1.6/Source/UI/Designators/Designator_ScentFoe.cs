@@ -16,6 +16,8 @@ namespace Xenomorphtype
         public override bool DragDrawMeasurements => true;
         public override DrawStyleCategoryDef DrawStyleCategory => DrawStyleCategoryDefOf.Areas;
         private List<Pawn> justDesignated = new List<Pawn>();
+
+        protected override DesignationDef Designation => XenoWorkDefOf.XMT_Enemy;
         public Designator_ScentFoe()
         {
             defaultLabel = "XMT_CommandMarkEnemy".Translate();
@@ -82,6 +84,11 @@ namespace Xenomorphtype
         {
             if (t is Pawn pawn)
             {
+                if (XMTUtility.IsXenomorph(pawn))
+                {
+                    return false;
+                }
+
                 return true;
             }
 
@@ -90,8 +97,8 @@ namespace Xenomorphtype
 
         public override void DesignateThing(Thing t)
         {
-            //base.Map.designationManager.RemoveAllDesignationsOn(t);
-            //Map.designationManager.AddDesignation(new Designation(t, Designation));
+            Map.designationManager.RemoveAllDesignationsOn(t);
+            Map.designationManager.AddDesignation(new Designation(t, Designation));
             justDesignated.Add((Pawn)t);
         }
 
@@ -99,15 +106,6 @@ namespace Xenomorphtype
         {
             base.FinalizeDesignationSucceeded();
 
-            foreach (Pawn designated in justDesignated)
-            {
-                CompPawnInfo info = designated.Info();
-
-                if (info != null)
-                {
-                    info.ApplyThreatPheromone(XMTUtility.GetQueen(), 0.25f, 1.5f);
-                }
-            }
             justDesignated.Clear();
         }
 

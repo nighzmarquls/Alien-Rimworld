@@ -89,7 +89,7 @@ namespace Xenomorphtype
         float totalPheromone => LoverPheromone + FriendlyPheromone + ThreatPheromone;
         bool pheromonesPresent => LoverPheromone != 0 || FriendlyPheromone != 0 || ThreatPheromone != 0;
 
-        bool isAware => OvomorphAwareness != 0 || larvaAwareness != 0 || horrorAwareness != 0 || Obsession != 0;
+        bool isAware => OvomorphAwareness != 0 || larvaAwareness != 0 || horrorAwareness != 0;
 
         // Xenomorph Naivety System
         float ovomorphAwareness = 0;
@@ -354,6 +354,7 @@ namespace Xenomorphtype
         {
             bool IsPlayerXenomorph = XMTUtility.PlayerXenosOnMap(parent.MapHeld);
             string output = "";
+
             bool hasSmell = false;
             if (IsPlayerXenomorph)
             {
@@ -361,7 +362,7 @@ namespace Xenomorphtype
                 {
                     if(XMTUtility.IsInorganic(Parent))
                     {
-                        output += "inorganic\n";
+                        output += "XMT_Info_Inorganic".Translate();
                     }
                 }
 
@@ -370,13 +371,13 @@ namespace Xenomorphtype
                     switch (StrongestPheromone)
                     {
                         case PheromoneType.Lover:
-                            output += "marked hive lover";
+                            output += "XMT_Info_HiveLover".Translate();
                             break;
                         case PheromoneType.Friend:
-                            output += "marked hive friend";
+                            output += "XMT_Info_HiveFriend".Translate();
                             break;
                         case PheromoneType.Threat:
-                            output += "marked hive enemy";
+                            output += "XMT_Info_HiveEnemy".Translate();
                             break;
                     }
                     hasSmell = true;
@@ -389,36 +390,36 @@ namespace Xenomorphtype
                 if (severity >= 1)
                 {
                     hasSmell = true;
-                    output += "drenched in stink";
+                    output += "XMT_Info_Stinky".Translate();
                 }
                 else if (severity >= 0.75f)
                 {
                     hasSmell = true;
-                    output += "overpowering smell";
+                    output += "XMT_Info_Smelly".Translate();
                 }
                 else if (severity >= 0.25f)
                 {
                     hasSmell = true;
-                    output += "cloying scent";
+                    output += "";
                 }
                 else if (severity >= 0.1f)
                 {
                     hasSmell = true;
-                    output += "strange odor";
+                    output += "XMT_Info_Odor".Translate();
                 }
 
             }
 
-            if (hasSmell)
+            if (hasSmell && isAware)
             {
-                output += " & ";
+                output += "XMT_Info_And".Translate();
             }
 
             if (isAware)
             {
                 if (IsObsessed())
                 {
-                    output += "obsessed";
+                    output += "XMT_Obsessed".Translate();
                 }
                 else
                 {
@@ -426,19 +427,19 @@ namespace Xenomorphtype
 
                     if (awareness >= 1)
                     {
-                        output += "traumatized";
+                        output += "XMT_Info_Traumatized".Translate();
                     }
                     else if (awareness >= 0.5f)
                     {
-                        output += "paranoid";
+                        output += "XMT_Info_Paranoid".Translate();
                     }
                     else if (awareness >= 0.25f)
                     {
-                        output += "anxious";
+                        output += "XMT_Info_Anxious".Translate();
                     }
                     else
                     {
-                        output += "concerned";
+                        output += "XMT_Info_Concern".Translate();
                     }
                 }
             }
@@ -453,15 +454,15 @@ namespace Xenomorphtype
             {
                 if (LoverPheromone > 0)
                 {
-                    output += "Has been marked as a lover of the hive. \n";
+                    output += "XMT_Info_Desc_HiveLover".Translate();
                 }
                 if (FriendlyPheromone > 0)
                 {
-                    output += "Has been marked as an ally and friend of the hive. \n";
+                    output += "XMT_Info_Desc_HiveFriend".Translate();
                 }
                 if (ThreatPheromone > 0)
                 {
-                    output += "Has been marked as a threat to the hive \n";
+                    output += "XMT_Info_Desc_HiveEnemy".Translate();
                 }
             }
             else
@@ -470,19 +471,19 @@ namespace Xenomorphtype
 
                 if (severity >= 1)
                 {
-                    output += "Covered in a sticky clear goop with an overwhelmingly pungant scent. \n";
+                    output += "XMT_Info_Desc_Stinky".Translate();
                 }
                 else if (severity >= 0.75f)
                 {
-                    output += "An overwhelming scent of smokey spices and sharp accents suffuces chokingly. \n";
+                    output += "XMT_Info_Desc_Smelly".Translate();
                 }
                 else if (severity >= 0.25f)
                 {
-                    output += "There is a deep sweetly savory smell filling the air. \n";
+                    output += "XMT_Info_Desc_Cloying".Translate();
                 }
                 else if (severity >= 0.1f)
                 {
-                    output += "A strange scent of spice lingers. \n";
+                    output += "XMT_Info_Desc_Odor".Translate();
                 }
 
             }
@@ -492,24 +493,24 @@ namespace Xenomorphtype
                 bool obsessed = IsObsessed();
                 if (OvomorphAwareness > 0)
                 {
-                    output += obsessed ? "Is fascinated by the life cycle of Ovomorphs. \n" : "Has witnessed what comes from Ovomorphs. \n";
+                    output += obsessed ? "XMT_Info_Ovomorph_Obsessed".Translate() : "XMT_Info_Ovomorph".Translate();
                 }
                 if (LarvaAwareness > 0)
                 {
-                    output += obsessed ? "Admires the parasitic lifecycle of the facehugger. \n" : "Knows to be wary of skittering spider like things that leap for your face. \n";
+                    output += obsessed ? "XMT_Info_Larva_Obsessed".Translate() : "XMT_Info_Larva".Translate();
                 }
                 if (HorrorAwareness > 0)
                 {
-                    output += obsessed ? "Adores the purity of the perfect organism. \n" : "Has seen the brutality and horror in the dark. \n";
+                    output += obsessed ? "XMT_Info_Horror_Obsessed".Translate() : "XMT_Info_Horror".Translate();
                 }
                 if (AcidAwareness > 0)
                 {
-                    output += obsessed ? "Is amazed by the strength of acidic blood. \n" : "Has experienced how dangerous acidic blood is. \n";
+                    output += obsessed ? "XMT_Info_Acid_Obsessed".Translate() : "XMT_Info_Acid".Translate();
                 }
 
                 if (PsychicAwareness > 0)
                 {
-                    output += obsessed ? "Hears voices whispering, calling to them. \n" : "Is haunted by strange whispers just outside the audibility. \n";
+                    output += obsessed ? "XMT_Info_Psychic_Obsessed".Translate() : "XMT_Info_Psychic".Translate();
                 }
 
             }
@@ -524,18 +525,20 @@ namespace Xenomorphtype
             }
 
             Pawn Parent = parent as Pawn;
-            if (parent != null)
+            if (Parent != null)
             {
-                if (parent.Faction == null)
+                if (!XMTUtility.PlayerXenosOnMap(Parent.MapHeld))
                 {
-                    return;
+                    if (parent.Faction == null)
+                    {
+                        return;
+                    }
+                    if (parent.Faction.IsPlayer)
+                    {
+                        Parent.health.GetOrAddHediff(InternalDefOf.PawnInfoHediff);
+                    }
                 }
-
-
-                if (parent.Faction.IsPlayer)
-                {
-                    Parent.health.GetOrAddHediff(InternalDefOf.PawnInfoHediff);
-                }
+                Parent.health.GetOrAddHediff(InternalDefOf.PawnInfoHediff);
             }
         }
 

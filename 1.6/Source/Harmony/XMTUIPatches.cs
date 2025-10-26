@@ -39,36 +39,6 @@ namespace Xenomorphtype
         [HarmonyPatch(typeof(FloatMenuMakerMap), nameof(FloatMenuMakerMap.GetOptions))]
         public static class Patch_FloatMenuMakerMap_GetOptions
         {
-            private static void ItemOptions(Pawn pawn, Thing targetItem, ref List<FloatMenuOption> __result)
-            {
-                CompJellyMaker jellyMaker = pawn.GetComp<CompJellyMaker>();
-
-                if (jellyMaker != null)
-                {
-                    if(jellyMaker.CanMakeIntoJelly(targetItem))
-                    {
-                        string JellyName = jellyMaker.GetJellyProduct()?.label;
-                        FloatMenuOption JellyOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Make " + JellyName, delegate
-                        {
-
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, targetItem);
-                            targetItem.Map.reservationManager.ReleaseAllForTarget(targetItem);
-                            pawn.Reserve(targetItem, job);
-                            if (pawn.jobs.curDriver is JobDriver_ProduceJelly)
-                            {
-                                //pawn.jobs//jobQueue.AddItem(new QueuedJob(job, JobTag.Misc));
-                            }
-                            else
-                            {
-                                pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-                            }
-
-                        }, priority: MenuOptionPriority.Default), pawn, targetItem);
-
-                        __result.Add(JellyOption);
-                    }
-                }
-            }
             private static void PawnOptions(Pawn pawn, Pawn targetPawn, ref List<FloatMenuOption> __result)
             {
                 if (!XMTUtility.IsXenomorph(targetPawn))
@@ -300,13 +270,7 @@ namespace Xenomorphtype
                         BuildingOptions(pawn, targetBuilding, ref __result);
                     }
 
-                    Thing targetItem = cell.GetFirstItem(pawn.Map);
-                    if (targetItem != null)
-                    {
-                        ItemOptions(pawn, targetItem, ref __result);
-                    }
-
-                    if (cell.Standable(pawn.Map) && targetBuilding == null && targetPawn == null && targetItem == null)
+                    if (cell.Standable(pawn.Map) && targetBuilding == null && targetPawn == null)
                     {
                         CellOptions(pawn, cell, ref __result);
                     }

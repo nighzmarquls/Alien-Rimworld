@@ -114,6 +114,7 @@
     <Compile Include="AI\JobDriver\JobDriver_Hibernate.cs" />
     <Compile Include="AI\JobDriver\JobDriver_HideInside.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_CorpseSculpture.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_EnemyMark.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_MoveBuilding.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ProduceJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_PruneLarder.cs" />
@@ -124,7 +125,7 @@
     <Compile Include="AI\JobDriver\JobDriver_LarvaImplant.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Metamorphosis.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Sabotage.cs" />
-    <Compile Include="AI\JobDriver\JobDriver_StarbeastSnuggle.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_StarbeastSnuggle.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_Trophallaxis.cs" />
     <Compile Include="AI\JobDriver\JobDriver_ClimbToPosition.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvomorph.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Progression\Records\HistoryAutoRecorderWorker_Xenoforming.cs" />
     <Compile Include="SocialHorror\Interactions\InteractionWorker_AdvancedTameAttempt.cs" />
     <Compile Include="SocialHorror\SocialHorrorDefs.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Harmony\XMTClimbPatches.cs" />
     <Compile Include="Harmony\XMTRecordsPatches.cs" />
     <Compile Include="Utilities\ClimbUtility.cs" />
+    <Compile Include="Utilities\FeralJobUtility.cs" />
     <Compile Include="Utilities\ResearchUtility.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
     <Compile Include="Building\Fillable\FillableChrysalis.cs" />

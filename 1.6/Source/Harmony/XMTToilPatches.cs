@@ -15,10 +15,79 @@ namespace Xenomorphtype
 {
     internal class XMTToilPatches
     {
+        private static Toil ReserveFood(Pawn pawn, Job job, JobDriver_Ingest source)
+        {
+            Toil toil = ToilMaker.MakeToil("ReserveFood");
+            toil.initAction = delegate
+            {
+                if (pawn.Faction != null)
+                {
+                    Thing thing = job.GetTarget(TargetIndex.A).Thing;
+                    if (pawn.carryTracker.CarriedThing != thing)
+                    {
+                        int maxAmountToPickup = FoodUtility.GetMaxAmountToPickup(thing, pawn, job.count);
+                        if (maxAmountToPickup != 0)
+                        {
+                            if (!pawn.Reserve(thing, job, 10, maxAmountToPickup))
+                            {
+                                Log.Error("Pawn food reservation for " + pawn?.ToString() + " on job " + source?.ToString() + " failed, because it could not register food from " + thing?.ToString() + " - amount: " + maxAmountToPickup);
+                                pawn.jobs.EndCurrentJob(JobCondition.Errored);
+                            }
+
+                            job.count = maxAmountToPickup;
+                        }
+                    }
+                }
+            };
+            toil.defaultCompleteMode = ToilCompleteMode.Instant;
+            toil.atomicWithPrevious = true;
+            return toil;
+        }
+
+        [HarmonyPatch(typeof(JobDriver_Ingest), "PrepareToIngestToils")]
+        public static class Patch_JobDriver_Ingest_PrepareToIngestToils
+        {
+
+            [HarmonyPrefix]
+            public static bool Prefix(JobDriver_Ingest __instance, ref IEnumerable<Toil> __result, bool ___usingNutrientPasteDispenser, bool ___eatingFromInventory)
+            {
+                if(___usingNutrientPasteDispenser)
+                {
+                    return true;
+                }
+
+                Pawn actor = __instance.pawn;
+
+                if(actor == null)
+                {
+                    return true;
+                }
+
+                if (!XMTUtility.IsXenomorph(actor) )
+                {
+                    return true;
+                }
+                List<Toil> toils = new List<Toil>();
+                if (___eatingFromInventory)
+                {
+                    toils.Add(Toils_Misc.TakeItemFromInventoryToCarrier(actor, TargetIndex.A));
+                }
+                else
+                {
+                    toils.Add(ReserveFood(actor, __instance.job, __instance));
+                    toils.Add(Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.A));
+                }
+
+                toils.Add(Toils_Ingest.FindAdjacentEatSurface(TargetIndex.B, TargetIndex.A));
+
+                __result = toils;
+                return false;
+            }
+        }
+
         [HarmonyPatch(typeof(JobDriver_Deconstruct), "FinishedRemoving")]
         public static class Patch_JobDriver_Deconstruct_FinishedRemoving
         {
-
 
             [HarmonyPrefix]
             public static void Prefix(JobDriver_Deconstruct __instance)
@@ -29,7 +98,6 @@ namespace Xenomorphtype
                 {
                     if (__instance.job.GetTarget(TargetIndex.A).Thing is Building building)
                     {
-                        Log.Message(actor + " deconstructing " +  building);
                         if (!XMTUtility.IsHiveBuilding(building.def))
                         {
                            

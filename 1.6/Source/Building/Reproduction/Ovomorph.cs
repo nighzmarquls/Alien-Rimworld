@@ -47,11 +47,10 @@ namespace Xenomorphtype
 
         public void LayEgg(Pawn mother, Pawn father = null)
         {
-            if (HatchingEgg.mother == null)
+            if (HatchingEgg.mother == null && Unhatched)
             {
                 SetFaction(mother.Faction);
                 SetParents(mother, father);
-                HatchingEgg.UnHatched = true;
                 StatDefOf.MarketValue.Worker.ClearCacheForThing(this);
             }
         }
@@ -235,8 +234,6 @@ namespace Xenomorphtype
 
             HatchingEgg.UnHatched = false;
             StatDefOf.MarketValue.Worker.ClearCacheForThing(this);
-
-            
 
             if (!Spawned)
             {

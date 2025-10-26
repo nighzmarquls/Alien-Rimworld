@@ -49,7 +49,7 @@
 	<XMT_CommandMarkEnemy>Mark Enemy</XMT_CommandMarkEnemy>
 	<XMT_CommandMarkEnemyDescription>Mark as enemies of the family!</XMT_CommandMarkEnemyDescription>
 	
-	<XMT_MessageMustDesignateAlive>Must designate a living target.</XMT_MessageMustDesignateAlive>
+	<XMT_MessageMustDesignateAlive>Must designate a living non-cryptimorph target.</XMT_MessageMustDesignateAlive>
 	
 	<XMT_CommandAbduct>Abduct</XMT_CommandAbduct>
 	<XMT_CommandAbductDescription>Designate targets for Abduction.</XMT_CommandAbductDescription>
@@ -127,5 +127,48 @@
 	
 	<XMT_ReleasePioneer>Release Pioneer</XMT_ReleasePioneer>
 	<XMT_ReleasePioneerDescription>Send this child into the world to spread the family.</XMT_ReleasePioneerDescription>
+	
+	<XMT_Info_Inorganic>inorganic\n</XMT_Info_Inorganic>
+	
+	<XMT_Info_HiveLover>marked hive lover</XMT_Info_HiveLover>
+	<XMT_Info_HiveFriend>marked hive friend</XMT_Info_HiveFriend>
+	<XMT_Info_HiveEnemy>marked hive enemy</XMT_Info_HiveEnemy>
+	
+	<XMT_Info_Stinky>drenched in stink</XMT_Info_Stinky>
+	<XMT_Info_Smelly>overpowering smell</XMT_Info_Smelly>
+	<XMT_Info_Cloying>cloying scent</XMT_Info_Cloying>
+	<XMT_Info_Odor>strange odor</XMT_Info_Odor>
+	
+	<XMT_Info_And> and </XMT_Info_And>
+	<XMT_Obsessed>obsessed</XMT_Obsessed>
+	
+	<XMT_Info_Traumatized>traumatized</XMT_Info_Traumatized>
+	<XMT_Info_Paranoid>paranoid</XMT_Info_Paranoid>
+	<XMT_Info_Anxious>anxious</XMT_Info_Anxious>
+	<XMT_Info_Concern>concerned</XMT_Info_Concern>
+	
+	<XMT_Info_Desc_HiveLover>Has been marked as a lover of the hive. \n</XMT_Info_Desc_HiveLover>
+	<XMT_Info_Desc_HiveFriend>Has been marked as an ally and friend of the hive. \n</XMT_Info_Desc_HiveFriend>
+	<XMT_Info_Desc_HiveEnemy>Has been marked as a threat to the hive \n</XMT_Info_Desc_HiveEnemy>
+	
+	<XMT_Info_Desc_Stinky>Covered in a sticky clear goop with an overwhelmingly pungant scent. \n</XMT_Info_Desc_Stinky>
+	<XMT_Info_Desc_Smelly>An overwhelming scent of smokey spices and sharp accents suffuces chokingly. \n</XMT_Info_Desc_Smelly>
+	<XMT_Info_Desc_Cloying>There is a deep sweetly savory smell filling the air around them. \n</XMT_Info_Desc_Cloying>
+	<XMT_Info_Desc_Odor>A strange scent of spice lingers. \n</XMT_Info_Desc_Odor>
+	
+	<XMT_Info_Ovomorph>Has witnessed what comes from Ovomorphs. \n</XMT_Info_Ovomorph>
+	<XMT_Info_Ovomorph_Obsessed>Is fascinated by the life cycle of Ovomorphs. \n</XMT_Info_Ovomorph_Obsessed>
+
+	<XMT_Info_Larva>Knows to be wary of skittering spider like things that leap for your face. \n</XMT_Info_Larva>
+	<XMT_Info_Larva_Obsessed>Admires the parasitic larva of the Cryptimorphic lifecycle. \n</XMT_Info_Larva_Obsessed>
+	
+	<XMT_Info_Horror>Has seen the brutality and horror in the dark. \n</XMT_Info_Horror>
+	<XMT_Info_Horror_Obsessed>Adores the purity of the perfect organism. \n</XMT_Info_Horror_Obsessed>
+	
+	<XMT_Info_Acid>Has experienced how dangerous acidic blood is. \n</XMT_Info_Acid>
+	<XMT_Info_Acid_Obsessed>Is amazed by the strength of cryptimorph acidic blood. \n</XMT_Info_Acid_Obsessed>
+	
+	<XMT_Info_Psychic>Is haunted by strange whispers just outside the legibility. \n</XMT_Info_Psychic>
+	<XMT_Info_Psychic_Obsessed>Hears beautiful voices whispering, calling out. \n</XMT_Info_Psychic_Obsessed>
 	
 </LanguageData>

@@ -800,12 +800,13 @@ namespace Xenomorphtype
                 if (candidate.ParentHolder is EggSack eggSack)
                 {
                     job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate,eggSack);
-                    Parent.Reserve(eggSack, job);
+                    
+                    FeralJobUtility.ReserveThingForJob(Parent, job, eggSack);
                 }
                 else
                 {
                     job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, candidate);
-                    Parent.Reserve(candidate, job);
+                    FeralJobUtility.ReserveThingForJob(Parent, job, candidate);
                 }
                 return job;
             }
@@ -966,7 +967,7 @@ namespace Xenomorphtype
                     }
                 }
 
-                if (Parent.Map.reservationManager.IsReserved(candidate))
+                if (!FeralJobUtility.IsThingAvailableForJobBy(Parent, candidate))
                 {
                     continue;
                 }
@@ -1084,8 +1085,6 @@ namespace Xenomorphtype
             target.health.AddHediff(hediff);
             XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.Cocooned, Parent);
             XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.CapturedHost);
-
-            
 
             if (Parent.Faction != null && Parent.Faction != target.Faction)
             {
@@ -1347,7 +1346,7 @@ namespace Xenomorphtype
             Ovomorph OvomorphCandidate = HiveUtility.GetOvomorph(Parent.Map, requireReady:true, forPawn:Parent);
             if (OvomorphCandidate != null)
             { 
-                Pawn hostCandidate = HiveUtility.GetHost(Parent.Map);
+                Pawn hostCandidate = HiveUtility.GetHost(Parent.Map, forPawn:Parent);
 
                 if (hostCandidate != null)
                 {
@@ -1366,7 +1365,7 @@ namespace Xenomorphtype
                         IntVec3 clearSite = IntVec3.Invalid;
                         foreach (IntVec3 eggSite in eggSites)
                         {
-                            if (eggSite.GetEdifice(Parent.Map) == null && !Parent.Map.reservationManager.IsReserved(eggSite))
+                            if (eggSite.GetEdifice(Parent.Map) == null && FeralJobUtility.IsPlaceAvailableForJobBy(Parent, eggSite))
                             {
                                 clearSite = eggSite;
                                 break;
@@ -1380,12 +1379,13 @@ namespace Xenomorphtype
                                 Parent.needs.joy.GainJoy(0.12f, InternalDefOf.NestTending);
                             }
                             
-                            
                             job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MoveOvomorph, OvomorphCandidate, clearSite);
                             job.count = 1;
-                            Parent.Reserve(hostCandidate, job);
-                            Parent.Reserve(OvomorphCandidate, job);
-                            Parent.Reserve(clearSite, job);
+
+                            FeralJobUtility.ReserveThingForJob(Parent, job, hostCandidate);
+                            FeralJobUtility.ReserveThingForJob(Parent, job, OvomorphCandidate);
+                            FeralJobUtility.ReservePlaceForJob(Parent, job, clearSite);
+                            
                             return true;
                         }
                     }
@@ -1478,7 +1478,7 @@ namespace Xenomorphtype
                 else
                 {
                     job =  JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvomorphing, candidate);
-                    Parent.Reserve(candidate, job);
+                    FeralJobUtility.ReserveThingForJob(Parent, job, candidate);
                     return true;
                 }
             }
@@ -1503,7 +1503,7 @@ namespace Xenomorphtype
                     return false;
                 }
                 job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyLardering, candidate);
-                Parent.Reserve(candidate, job);
+                FeralJobUtility.ReserveThingForJob(Parent, job, candidate);
                 return true;
             }
 
@@ -1520,7 +1520,7 @@ namespace Xenomorphtype
                 if (PruningLarder.CanBePruned())
                 {
                     job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, PruningLarder);
-                    Parent.Reserve(PruningLarder, job);
+                    FeralJobUtility.ReserveThingForJob(Parent, job, PruningLarder);
                     return true;
                 }
             }
@@ -1600,29 +1600,19 @@ namespace Xenomorphtype
                 {
                     if (hunt.target.TryGetPawn(out Pawn prey))
                     {
-                        if (ForbidUtility.CaresAboutForbidden(Parent, false))
-                        {
-                            if (prey.IsForbidden(Parent))
-                            {
-                                continue;
-                            }
-                            if (!prey.PositionHeld.InAllowedArea(Parent))
-                            {
-                                continue;
-                            }
-                        }
-                        if (Parent.Map.reservationManager.IsReserved(prey))
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(Parent,prey))
                         {
                             continue;
                         }
+
                         if (XMTUtility.IsXenomorphFriendly(prey) || XMTUtility.PawnLikesTarget(Parent, prey))
                         {
                             continue;
                         }
                         job = JobMaker.MakeJob(JobDefOf.PredatorHunt, prey);
                         job.killIncappedTarget = true;
-                        parent.Map.reservationManager.Reserve(Parent, job, prey);
                         Parent.needs.joy.GainJoy(0.12f, ExternalDefOf.Gaming_Dexterity);
+                        FeralJobUtility.ReserveThingForJob(Parent, job, prey);
                         return true;
 
                     }
@@ -1632,6 +1622,77 @@ namespace Xenomorphtype
             return false;
         }
 
+        public bool GetEnemyJob(out Job job)
+        {
+            job = null;
+
+            IEnumerable<Designation> enemyTargets = Parent.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_Enemy);
+
+            if (enemyTargets.Any())
+            {
+                List<Designation> materials = enemyTargets.ToList();
+                materials.Shuffle();
+
+                foreach (Designation material in materials)
+                {
+                    if (material.target.Thing is Pawn pawn)
+                    {
+                        if (pawn.Info().XenomorphPheromoneValue() < 0)
+                        {
+                            continue;
+                        }
+
+                        if (!FeralJobUtility.IsThingAvailableForJobBy(Parent, pawn))
+                        {
+                            continue;
+                        }
+
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MarkEnemy, pawn);
+                        FeralJobUtility.ReserveThingForJob(Parent, job, pawn);
+                        return true;
+
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool GetBefriendJob(out Job job)
+        {
+            job = null;
+
+            IEnumerable<Designation> friendTargets = Parent.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_Friend);
+
+            if (friendTargets.Any())
+            {
+                List<Designation> materials = friendTargets.ToList();
+                materials.Shuffle();
+
+                foreach (Designation material in materials)
+                {
+                    if (material.target.Thing is Pawn pawn)
+                    {
+                        if (XMTUtility.IsXenomorphFriendly(pawn))
+                        {
+                            continue;
+                        }
+
+                        if (!FeralJobUtility.IsThingAvailableForJobBy(Parent, pawn))
+                        {
+                            continue;
+                        }
+
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Snuggle, pawn);
+                        FeralJobUtility.ReserveThingForJob(Parent, job, pawn);
+                        return true;
+
+                    }
+                }
+            }
+
+            return false;
+        }
         public bool GetArtJob(out Job job)
         {
             job = null;
@@ -1647,24 +1708,13 @@ namespace Xenomorphtype
                 {
                     if (material.target.Thing is Corpse corpse)
                     {
-                        if (ForbidUtility.CaresAboutForbidden(Parent, false))
-                        {
-                            if (corpse.IsForbidden(Parent))
-                            {
-                                continue;
-                            }
-                            if (!corpse.PositionHeld.InAllowedArea(Parent))
-                            {
-                                continue;
-                            }
-                        }
-
-                        if (Parent.Map.reservationManager.IsReserved(corpse))
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(Parent,corpse))
                         {
                             continue;
                         }
+                        
                         job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CorpseSculpture, corpse);
-                        parent.Map.reservationManager.Reserve(Parent, job, corpse);
+                        FeralJobUtility.ReserveThingForJob(Parent, job, corpse);
                         return true;
 
                     }
@@ -1689,30 +1739,19 @@ namespace Xenomorphtype
                 {
                     if (hunt.target.TryGetPawn(out Pawn prey))
                     {
-                        if (ForbidUtility.CaresAboutForbidden(Parent, false))
-                        {
-                            if (prey.IsForbidden(Parent))
-                            {
-                                continue;
-                            }
-                            if (!prey.PositionHeld.InAllowedArea(Parent))
-                            {
-                                continue;
-                            }
-                        }
-
-                        if (Parent.Map.reservationManager.IsReserved(prey))
+                        if (!FeralJobUtility.IsThingAvailableForJobBy(Parent, prey))
                         {
                             continue;
                         }
 
-                        if(XMTUtility.GetDefendGrappleChance(Parent,prey) >= 0.25f)
+                        if (XMTUtility.GetDefendGrappleChance(Parent,prey) >= 0.25f)
                         {
                             continue;
                         }
+
                         job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, NestPosition);
                         job.count = 1;
-                        parent.Map.reservationManager.Reserve(Parent, job, prey);
+                        FeralJobUtility.ReserveThingForJob(Parent, job, prey);
                         return true;
 
                     }
@@ -1733,19 +1772,14 @@ namespace Xenomorphtype
 
             foreach (Pawn prisoner in prisoners)
             {
-                if (ForbidUtility.CaresAboutForbidden(Parent, false))
-                {
-                    if (prisoner.IsForbidden(Parent))
-                    {
-                        continue;
-                    }
+                if (FeralJobUtility.IsThingAvailableForJobBy(Parent, prisoner))
+                { 
                     if (!prisoner.PositionHeld.InAllowedArea(Parent))
                     {
                         continue;
                     }
                 }
-
-                if (Parent.Map.reservationManager.IsReserved(prisoner))
+                else
                 {
                     continue;
                 }
@@ -1767,7 +1801,7 @@ namespace Xenomorphtype
 
                 job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CocoonTarget, prisoner);
                 job.count = 1;
-                parent.Map.reservationManager.Reserve(Parent, job, prisoner);
+                FeralJobUtility.ReserveThingForJob(Parent, job, prisoner);
                 return true;
             }
             
@@ -1807,16 +1841,25 @@ namespace Xenomorphtype
 
             if (workType == XenoWorkDefOf.Hunting)
             {
-             
-                if(GetHuntJob(out job))
+                if (GetEnemyJob(out job))
                 {
                     return true;
                 }
+
+                if (GetHuntJob(out job))
+                {
+                    return true;
+                }
+
                 return false;
             }
 
             if (workType == XenoWorkDefOf.Handling)
             {
+                if(GetBefriendJob(out job))
+                {
+                    return true;
+                }
 
                 if(GetAbductJob(out job))
                 {
@@ -1921,6 +1964,16 @@ namespace Xenomorphtype
                     return job;
                 }
 
+                if (GetBefriendJob(out job))
+                {
+                    return job;
+                }
+
+                if (GetAbductJob(out job))
+                {
+                    return job;
+                }
+
                 if (Parent.needs.food != null && Parent.needs.food.CurLevelPercentage == 1)
                 {
                     if (GetFeedJob(out job))
@@ -1958,6 +2011,11 @@ namespace Xenomorphtype
                 }
 
                 if (GetLarderJob(out job))
+                {
+                    return job;
+                }
+
+                if (GetEnemyJob(out job))
                 {
                     return job;
                 }

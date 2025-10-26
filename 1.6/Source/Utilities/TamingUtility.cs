@@ -328,6 +328,13 @@ namespace Xenomorphtype
                 }
             }
 
+            if(pawn.MapHeld != null)
+            {
+                if(pawn.MapHeld.resourceCounter.GetCount(InternalDefOf.XMT_Ovomorph) > 0)
+                {
+                    return true;
+                }
+            }
 
             return false;
         }

@@ -151,6 +151,7 @@
 		<tickerType>Normal</tickerType>
 		<designationCategory>XMT_Hive</designationCategory>
 		<uiOrder>2002</uiOrder>
+		<rotatable>false</rotatable>
 		<wipesPlants>true</wipesPlants>
 		<selectable>true</selectable>
 		<useHitPoints>true</useHitPoints>
@@ -200,6 +201,7 @@
 		</graphicData>
 		<altitudeLayer>Building</altitudeLayer>
 		<size>(1,1)</size>
+		<rotatable>true</rotatable>
 		<statBases>
 			<MaxHitPoints>100</MaxHitPoints>
 			<Flammability>0</Flammability>
@@ -211,16 +213,18 @@
 			<expandHomeArea>true</expandHomeArea>
 			<isInert>true</isInert>
 			<canPlaceOverWall>false</canPlaceOverWall>
-			<bed_showSleeperBody>False</bed_showSleeperBody>
+			<bed_showSleeperBody>false</bed_showSleeperBody>
 			<bed_healPerDay>4</bed_healPerDay>
 			<blueprintGraphicData>
 				<texPath>Things/Building/SleepingNest/SleepingNest_blueprint</texPath>
 			</blueprintGraphicData>
-			<bed_pawnDrawOffset>0.45</bed_pawnDrawOffset>
+			<bed_humanlike>true</bed_humanlike>
+			<bed_pawnDrawOffset>-0.35</bed_pawnDrawOffset>
 			<relatedBuildCommands>
 				<li>HiveSleepingCocoonBuildable</li>
 			</relatedBuildCommands>
 		</building>
+		<tickerType>Normal</tickerType>
 		<killedLeavings>
 			<Starbeast_Resin>300</Starbeast_Resin>
 		</killedLeavings>

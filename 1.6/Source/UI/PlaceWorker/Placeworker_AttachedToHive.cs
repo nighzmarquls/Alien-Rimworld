@@ -32,7 +32,7 @@ namespace Xenomorphtype
                 }
             }
 
-            foreach(IntVec3 direction in GenAdj.CardinalDirections)
+            foreach (IntVec3 direction in GenAdj.CardinalDirections)
             {
                 IntVec3 c = loc + direction;
 
@@ -42,27 +42,23 @@ namespace Xenomorphtype
                 }
 
                 thingList = c.GetThingList(map);
-                if (ValidHiveWall(thingList, out bool flag))
+                if (ValidHiveWall(thingList))
                 {
                     return true;
                 }
+                
             }
             
             return "MustPlaceOnWall".Translate();
         }
 
-        private bool ValidHiveWall(List<Thing> thingList, out bool flag)
+        private bool ValidHiveWall(List<Thing> thingList)
         {
-            flag = false;
             for (int j = 0; j < thingList.Count; j++)
             {
-                if (GenConstruct.BuiltDefOf(thingList[j].def) is ThingDef wall && wall.building != null)
+                if (thingList[j].def is ThingDef wall && wall.building != null)
                 {
-                    if (!wall.building.supportsWallAttachments)
-                    {
-                        flag = true;
-                    }
-                    else if (wall.Fillage == FillCategory.Full)
+                    if (wall.building.supportsWallAttachments)
                     {
                         return true;
                     }

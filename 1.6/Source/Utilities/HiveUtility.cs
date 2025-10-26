@@ -1079,13 +1079,11 @@ namespace Xenomorphtype
 
                 if(forPawn != null)
                 {
-                    if (ForbidUtility.CaresAboutForbidden(forPawn, false))
+                   if(!FeralJobUtility.IsThingAvailableForJobBy(forPawn,ova))
                     {
-                        if (!ova.PositionHeld.InAllowedArea(forPawn))
-                        {
-                            continue;
-                        }
+                        continue;
                     }
+
                 }
 
                 if (requireReady)
@@ -1120,7 +1118,7 @@ namespace Xenomorphtype
             return null;
         }
 
-        internal static Pawn GetHost(Map map)
+        internal static Pawn GetHost(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
             if (localNest == null || localNest.AvailableHosts.Count == 0)
@@ -1131,10 +1129,14 @@ namespace Xenomorphtype
             {
                 foreach (Pawn hostCandidate in localNest.AvailableHosts)
                 {
-                    if(map.reservationManager.IsReserved(hostCandidate))
+                    if(forPawn != null)
                     {
-                        continue;
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(forPawn,hostCandidate))
+                        {
+                            continue;
+                        }
                     }
+             
 
                     return hostCandidate;
                 }
@@ -1209,13 +1211,9 @@ namespace Xenomorphtype
             NestSite localNest = GetLocalNest(map);
             foreach (Pawn candidate in localNest.Cocooned)
             {
-                if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                if (forPawn != null)
                 {
-                    if (candidate.IsForbidden(forPawn))
-                    {
-                        continue;
-                    }
-                    if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                    if(!FeralJobUtility.IsThingAvailableForJobBy(forPawn,candidate))
                     {
                         continue;
                     }
@@ -1244,19 +1242,7 @@ namespace Xenomorphtype
             {
                 foreach (MeatballLarder candidate in CurrentNest.MeatballThings)
                 {
-                    if (ForbidUtility.CaresAboutForbidden(pawn, false))
-                    {
-                        if (candidate.IsForbidden(pawn))
-                        {
-                            continue;
-                        }
-                        if (!candidate.PositionHeld.InAllowedArea(pawn))
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (map.reservationManager.IsReserved(candidate))
+                    if(!FeralJobUtility.IsThingAvailableForJobBy(pawn, candidate))
                     {
                         continue;
                     }
@@ -1288,13 +1274,9 @@ namespace Xenomorphtype
 
                 foreach (Pawn candidate in CurrentNest.HiveMates)
                 {
-                    if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                    if (forPawn != null)
                     {
-                        if (candidate.IsForbidden(forPawn))
-                        {
-                            continue;
-                        }
-                        if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(forPawn,candidate))
                         {
                             continue;
                         }
@@ -1344,18 +1326,13 @@ namespace Xenomorphtype
             {
                 foreach (Pawn candidate in CurrentNest.Cocooned)
                 {
-                    if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                    if (forPawn != null)
                     {
-                        if (candidate.IsForbidden(forPawn))
-                        {
-                            continue;
-                        }
-                        if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(forPawn, candidate))
                         {
                             continue;
                         }
                     }
-
                     if (XMTUtility.IsInorganic(candidate))
                     {
                         continue;
@@ -1366,10 +1343,6 @@ namespace Xenomorphtype
                         continue;
                     }
 
-                    if (map.reservationManager.IsReserved(candidate))
-                    {
-                        continue;
-                    }
 
                     int Score = 0;
                     if (XMTUtility.IsHost(candidate))
@@ -1409,13 +1382,9 @@ namespace Xenomorphtype
                         continue;
                     }
 
-                    if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
+                    if (forPawn != null)
                     {
-                        if (candidate.IsForbidden(forPawn))
-                        {
-                            continue;
-                        }
-                        if (!candidate.PositionHeld.InAllowedArea(forPawn))
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(forPawn,candidate))
                         {
                             continue;
                         }
@@ -1593,13 +1562,10 @@ namespace Xenomorphtype
 
             foreach (IntVec3 cell in nestRoom.Cells)
             {
+                
                 if (forPawn != null && ForbidUtility.CaresAboutForbidden(forPawn, false))
                 {
-                    if (cell.IsForbidden(forPawn))
-                    {
-                        continue;
-                    }
-                    if (!cell.InAllowedArea(forPawn))
+                    if (!FeralJobUtility.IsPlaceAvailableForJobBy(forPawn, cell))
                     {
                         continue;
                     }

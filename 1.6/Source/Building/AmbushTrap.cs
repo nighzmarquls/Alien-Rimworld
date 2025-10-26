@@ -34,7 +34,12 @@ namespace Xenomorphtype
         }
         public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
         {
-            if(base.TryAcceptThing(thing, allowSpecialEffects))
+            if (ContainedThing != null)
+            {
+                return false;
+            }
+
+            if (base.TryAcceptThing(thing, allowSpecialEffects))
             {
                 containedMorph = thing.TryGetComp<CompMatureMorph>();
                 return true;

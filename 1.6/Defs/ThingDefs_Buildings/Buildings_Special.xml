@@ -377,5 +377,8 @@
 		<comps Inherit="False"/>
 		<constructEffect>ResinBuild</constructEffect>
 		<designationCategory>XMT_Hive</designationCategory>
+		<placeWorkers Inherit="False">
+			<li>Xenomorphtype.Placeworker_AttachedToHive</li>
+		</placeWorkers>
 	</ThingDef>
 </Defs>

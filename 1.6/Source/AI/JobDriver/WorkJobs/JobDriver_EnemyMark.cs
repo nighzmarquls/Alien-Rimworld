@@ -1,15 +1,11 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Verse.AI;
 using Verse;
+using Verse.AI;
 
 namespace Xenomorphtype
 {
-    public class JobDriver_StarbeastSnuggle : JobDriver
+    public class JobDriver_EnemyMark : JobDriver
     {
         private float TicksFinish = 120;
         private float Ticks = 0;
@@ -19,7 +15,7 @@ namespace Xenomorphtype
             return true;
         }
 
-        private Toil AttemptSnuggle()
+        private Toil AttemptMark()
         {
             Toil toil = ToilMaker.MakeToil("AttemptGrab");
             toil.atomicWithPrevious = true;
@@ -35,21 +31,44 @@ namespace Xenomorphtype
             };
             toil.AddFinishAction(delegate
             {
+                if (pawn.CurJob == null || pawn.CurJob.targetA == null)
+                {
+                    return;
+                }
+
                 Pawn recipient = (Pawn)pawn.CurJob.targetA.Thing;
+               
+                if (recipient == null)
+                {
+                    return;
+                }
 
                 pawn.needs.joy.GainJoy(0.1f * Progress, ExternalDefOf.Social);
+                XMTUtility.GiveInteractionMemory(pawn, HorrorMoodDefOf.SnuggledVictim, recipient);
+
+                CompPawnInfo info = recipient.Info();
+
+                if (info != null)
+                {
+                    info.ApplyThreatPheromone(pawn, 0.25f * Progress);
+                }
+
                 if (recipient.relations != null)
                 {
-                    CompPawnInfo pawnInfo = recipient.Info();
-                    if (pawnInfo != null)
+                    if(recipient.needs == null)
                     {
-                        if (pawnInfo.IsObsessed() || recipient.relations.OpinionOf(pawn) > 0)
+                        return;
+                    }
+
+                    if (info != null)
+                    {
+                        if (info.IsObsessed() || recipient.relations.OpinionOf(pawn) > 0)
                         {
-                            XMTUtility.GiveInteractionMemory(recipient, HorrorMoodDefOf.VictimTrophallaxisHappy, pawn);
+                            XMTUtility.GiveInteractionMemory(recipient, HorrorMoodDefOf.VictimSnuggledHappy, pawn);
                             if (recipient.needs.joy != null)
                             {
-                                recipient.needs.joy.GainJoy(0.12f, JoyKindDefOf.Gluttonous);
-                                pawnInfo.GainObsession(0.12f);
+                                recipient.needs.joy.GainJoy(0.12f, JoyKindDefOf.Social);
+                                info.GainObsession(0.12f);
                             }
                         }
                         else
@@ -61,14 +80,6 @@ namespace Xenomorphtype
                     {
                         XMTUtility.GiveInteractionMemory(recipient, HorrorMoodDefOf.VictimSnuggledScared, pawn);
                     }
-                }
-                XMTUtility.GiveInteractionMemory(pawn, HorrorMoodDefOf.SnuggledVictim, recipient);
-
-                CompPawnInfo info = recipient.Info();
-
-                if (info != null)
-                {
-                    info.ApplyFriendlyPheromone(pawn, 0.25f*Progress);
                 }
 
             });
@@ -84,7 +95,7 @@ namespace Xenomorphtype
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
             yield return Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
             Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).socialMode = RandomSocialMode.Off;
-            yield return AttemptSnuggle();
+            yield return AttemptMark();
         }
     }
 }

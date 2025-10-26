@@ -378,7 +378,7 @@
 			<claimable>true</claimable>
 			<canBuildNonEdificesUnder>true</canBuildNonEdificesUnder>
 			<deconstructible>true</deconstructible>
-			<quickTargetable>true</quickTargetable>
+			<quickTargetable>false</quickTargetable>
 			<supportsWallAttachments>true</supportsWallAttachments>
 			<isTargetable>true</isTargetable>
 			<destroyShakeAmount>0</destroyShakeAmount>
@@ -517,7 +517,7 @@
 			<claimable>true</claimable>
 			<canBuildNonEdificesUnder>true</canBuildNonEdificesUnder>
 			<deconstructible>true</deconstructible>
-			<quickTargetable>true</quickTargetable>
+			<quickTargetable>false</quickTargetable>
 			<supportsWallAttachments>false</supportsWallAttachments>
 			<isTargetable>true</isTargetable>
 			<destroyShakeAmount>0</destroyShakeAmount>

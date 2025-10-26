@@ -90,7 +90,7 @@ namespace Xenomorphtype
                     if (ingredient != null)
                     {
                         job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, ingredient);
-                        pawn.Reserve(ingredient, job);
+                        FeralJobUtility.ReserveThingForJob(pawn, job, ingredient);
                         return true;
                     }
                 }

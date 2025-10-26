@@ -6,8 +6,8 @@
 	<HediffDef>
 		<defName>XMT_RoyalJellyHigh</defName>
 		<hediffClass>Hediff_High</hediffClass>
-		<label>jelly high</label>
-		<description>the body is being boosted by trace presence of a mutagenic biopolymer.</description>
+		<label>royal high</label>
+		<description>the body is being boosted by trace presence of a powerful mutagenic biopolymer.</description>
 		<scenarioCanAdd>false</scenarioCanAdd>
 		<maxSeverity>1.0</maxSeverity>
 		<isBad>false</isBad>

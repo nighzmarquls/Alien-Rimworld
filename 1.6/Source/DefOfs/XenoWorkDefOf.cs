@@ -23,6 +23,8 @@ namespace Xenomorphtype
         public static DesignationDef XMT_Abduct;
         public static DesignationDef XMT_Release;
         public static DesignationDef XMT_CorpseArt;
+        public static DesignationDef XMT_Friend;
+        public static DesignationDef XMT_Enemy;
 
         public static JobDef XMT_Ritual_Metamorphosis;
 
@@ -34,6 +36,7 @@ namespace Xenomorphtype
         public static JobDef XMT_ApplyLardering;
         public static JobDef XMT_MoveOvomorph;
         public static JobDef XMT_Snuggle;
+        public static JobDef XMT_MarkEnemy;
         public static JobDef XMT_Seduce;
         public static JobDef XMT_Mature;
         public static JobDef XMT_Sabotage;

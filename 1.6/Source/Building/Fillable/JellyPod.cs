@@ -22,6 +22,28 @@ namespace Xenomorphtype
             }
         }
 
+        public Pawn CurOccupant
+        {
+            get
+            {
+                List<Thing> list = Map.thingGrid.ThingsListAt(this.Position);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Pawn pawn = list[i] as Pawn;
+                    if (pawn != null && pawn.pather.MovingNow is false)
+                    {
+                        return pawn;
+                    }
+                }
+                return null;
+            }
+        }
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            Rotation = Rot4.South;
+        }
+
         private Graphic _fullGraphic;
         public override Graphic Graphic
         {

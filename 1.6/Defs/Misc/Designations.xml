@@ -17,5 +17,18 @@
     <texturePath>Designations/Art</texturePath>
     <targetType>Thing</targetType>
   </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_Friend</defName>
+    <texturePath>Designations/Friend</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_Enemy</defName>
+    <texturePath>Designations/Enemy</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
 
 </Defs>
