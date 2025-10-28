@@ -777,17 +777,6 @@ namespace Xenomorphtype
                 return false;
             }
 
-            IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts()
-                                                 where
-                                                    IsPartHead(x)
-                                                 select x;
-
-            //If you have no head you're not a host.
-            if (!source.Any())
-            {
-                return false;
-            }
-
             //If you are friendly you're not a host.
             if (IsXenomorphFriendly(pawn))
             {
@@ -796,6 +785,17 @@ namespace Xenomorphtype
 
             //If your a xenomorph you're not a host.
             if (IsXenomorph(thing))
+            {
+                return false;
+            }
+
+            IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts()
+                                                 where
+                                                    IsPartHead(x)
+                                                 select x;
+
+            //If you have no head you're not a host.
+            if (!source.Any())
             {
                 return false;
             }
@@ -1658,7 +1658,8 @@ namespace Xenomorphtype
         {
             return x.def == BodyPartDefOf.Head
             || x.def == ExternalDefOf.InsectHead
-            || x.def == ExternalDefOf.SnakeHead;
+            || x.def == ExternalDefOf.SnakeHead
+            || x.def == ExternalDefOf.HeadWithEarHoles;
         }
 
         internal static void SabotageThing(Thing target, Pawn pawn)

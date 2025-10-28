@@ -58,10 +58,15 @@ namespace Xenomorphtype
 
             HiveUtility.RemoveHost(parent.pawn, parent.pawn.Map);
         }
-        public override void CompPostTick(ref float severityAdjustment)
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
-            base.CompPostTick(ref severityAdjustment);
-         
+            base.CompPostTickInterval(ref severityAdjustment, delta);
+
+            if(XMTUtility.IsXenomorphFriendly(parent.pawn))
+            {
+                LarvaRelease();
+            }
+
             if (parent.Severity >= 0.75f && !spent)
             {
                 ImplantEmbryo();

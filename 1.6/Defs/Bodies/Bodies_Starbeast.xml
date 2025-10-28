@@ -1353,6 +1353,7 @@
       <def>Shell</def>
       <height>Middle</height>
       <depth>Outside</depth>
+	  <coverage>0.25</coverage>
       <parts>
 		<li>
           <def>StarbeastTail</def>
