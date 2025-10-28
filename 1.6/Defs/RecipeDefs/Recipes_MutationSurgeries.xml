@@ -91,7 +91,7 @@
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery">
 		<defName>XMT_Mutate_Lung</defName>
-		<label>mutate larynx</label>
+		<label>mutate lung</label>
 		<description>perform a controlled mutation through targeted injection into the lung.</description>
 		<descriptionHyperlinks>
 		  <HediffDef>XMT_BreathingWafers</HediffDef>
@@ -143,7 +143,7 @@
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery">
 		<defName>XMT_Mutate_Tongue</defName>
-		<label>mutate stomach</label>
+		<label>mutate tongue</label>
 		<description>perform a controlled mutation through targeted injection into the tongue.</description>
 		<descriptionHyperlinks>
 		  <HediffDef>XMT_SpikeTongue</HediffDef>
@@ -169,7 +169,7 @@
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery">
 		<defName>XMT_Mutate_FriendSmell</defName>
-		<label>mutate sweat glands</label>
+		<label>mutate sweet sweat glands</label>
 		<description>perform a controlled mutation through targeted injections into the endocrine system to cause calming cryptimorph pheromones.</description>
 		<descriptionHyperlinks>
 		  <HediffDef>XMT_FriendlyGland</HediffDef>
@@ -182,7 +182,7 @@
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery">
 		<defName>XMT_Mutate_ThreatSmell</defName>
-		<label>mutate sweat glands</label>
+		<label>mutate sour sweat glands</label>
 		<description>perform a controlled mutation through targeted injections into the endocrine system to cause agitating cryptimorph pheromones.</description>
 		<descriptionHyperlinks>
 		  <HediffDef>XMT_HostileGland</HediffDef>
@@ -221,7 +221,7 @@
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery">
 		<defName>XMT_Mutate_Skeleton</defName>
-		<label>mutate muscle tissue</label>
+		<label>mutate skeletal tissue</label>
 		<description>perform a controlled mutation through targeted injections throughout the body directly into the epidermis and skeletal tissue.</description>
 		<descriptionHyperlinks>
 		  <HediffDef>XMT_Mesoskeleton</HediffDef>

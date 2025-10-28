@@ -648,6 +648,9 @@ namespace Xenomorphtype
                 return null;
             }
             TraverseParms traverseParams = TraverseParms.For(pawn);
+
+            traverseParams.maxDanger = Danger.Deadly;
+            traverseParams.mode = TraverseMode.PassDoors;
             RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParams, isDestination: false);
             Thing found = null;
             RegionProcessor regionProcessor = delegate (Region r)

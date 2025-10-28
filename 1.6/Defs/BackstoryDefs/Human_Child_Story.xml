@@ -48,7 +48,7 @@
 		<defName>XMT_ChildCorpo02</defName>
 		<title>orphaned dependant</title>
 		<titleShort>orphan</titleShort>
-		<description>[PAWN_nameDef] lost [PAWN_possessive] mother on a long haul mission with an interstellar corporation. [PAWN_nameDef] grey up on the employee insurance payout with [PAWN_possessive] stepfather but relations were strained and [PAWN_pronoun] ran away. During [PAWN_possessive] teen years, [PAWN_nameDef] developed a great talent for engineering and used that skill to get by.</description>
+		<description>[PAWN_nameDef] lost [PAWN_possessive] mother on a long haul mission with an interstellar corporation. [PAWN_nameDef] grew up on the employee insurance payout with [PAWN_possessive] stepfather but relations were strained and [PAWN_pronoun] ran away. During [PAWN_possessive] teen years, [PAWN_nameDef] developed a great talent for engineering and used that skill to get by.</description>
 		<slot>Childhood</slot>
 		<skillGains>
 			<Crafting>6</Crafting>

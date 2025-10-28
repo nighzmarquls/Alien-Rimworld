@@ -30,10 +30,10 @@ namespace Xenomorphtype
         {
             base.CompExposeData();
 
-            Scribe_References.Look(ref instigator, "instigator", saveDestroyedThings: true);
+            Scribe_References.Look(ref instigator, "instigator", saveDestroyedThings: false);
             Scribe_Values.Look(ref unMorphed, "unMorphed", defaultValue: true);
             Scribe_Values.Look(ref appliedBodyType, "appliedBodyType", defaultValue: false);
-            Scribe_References.Look(ref Host, "mother", saveDestroyedThings: true);
+            Scribe_References.Look(ref Host, "mother", saveDestroyedThings: false);
 
         }
 

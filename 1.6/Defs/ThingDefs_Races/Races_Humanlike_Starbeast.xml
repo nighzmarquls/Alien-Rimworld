@@ -63,10 +63,6 @@
 			</li>
 			<li Class="Xenomorphtype.CompClimberProperties">
 			</li>
-			<li Class="CompProperties_HoldingPlatformTarget" MayRequire="Ludeon.RimWorld.Anomaly">
-				<baseEscapeIntervalMtbDays>0.1</baseEscapeIntervalMtbDays>
-				<getsColdContainmentBonus>true</getsColdContainmentBonus>
-			</li>
 			<li Class="CompProperties_Studiable" MayRequire="Ludeon.RimWorld.Anomaly">
 				<frequencyTicks>120000</frequencyTicks>
 				<knowledgeCategory>Advanced</knowledgeCategory>

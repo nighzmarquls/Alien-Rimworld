@@ -212,7 +212,7 @@ namespace Xenomorphtype
                 }
 
                 int candidatesPicked = 0;
-                int maxCandidatesForXenoforming = Mathf.FloorToInt( (Xenoforming * Xenoforming) / 30);
+                int maxCandidatesForXenoforming = Mathf.FloorToInt( (Xenoforming * Xenoforming) * XMTSettings.BiomeSpreadFactor);
                 List<PlanetTile> targetTiles = new List<PlanetTile>();
                 List<PlanetTile> safeCandidateList = new List<PlanetTile>();
 

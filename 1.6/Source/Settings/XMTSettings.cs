@@ -52,6 +52,9 @@ namespace Xenomorphtype
         public static float LaidEggMaturationTime => instance != null ? instance._laidEggMaturationTime : 1f;
         private float _laidEggMaturationTime = 1;
 
+        public static float BiomeSpreadFactor => instance != null ? instance._biomeSpreadFactor : 0.01f;
+        private float _biomeSpreadFactor = 0.01f;
+
         private string TooltipForEggMaturation()
         {
             return Mathf.Floor(_laidEggMaturationTime * 24) + " hours";
@@ -140,6 +143,10 @@ namespace Xenomorphtype
             _laidEggMaturationTime = listingStandard.SliderLabeled("Time for Laid Ovomorphs to Incubate", _laidEggMaturationTime, 0, 10f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForEggMaturation());
+            listingStandard.Gap(5f);
+            _biomeSpreadFactor = listingStandard.SliderLabeled("Xenoform Biome Spread Factor", _biomeSpreadFactor, 0, 1f, tooltip: TooltipForEggMaturation());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForPercent(_biomeSpreadFactor));
             listingStandard.Gap(5f);
             listingStandard.End();
             viewRect.height += 25;

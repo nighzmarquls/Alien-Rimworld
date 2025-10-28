@@ -452,17 +452,17 @@ namespace Xenomorphtype
             bool IsPlayerXenomorph = XMTUtility.PlayerXenosOnMap(parent.MapHeld);
             if (IsPlayerXenomorph)
             {
-                if (LoverPheromone > 0)
+                switch (StrongestPheromone)
                 {
-                    output += "XMT_Info_Desc_HiveLover".Translate();
-                }
-                if (FriendlyPheromone > 0)
-                {
-                    output += "XMT_Info_Desc_HiveFriend".Translate();
-                }
-                if (ThreatPheromone > 0)
-                {
-                    output += "XMT_Info_Desc_HiveEnemy".Translate();
+                    case PheromoneType.Lover:
+                        output += "XMT_Info_Desc_HiveLover".Translate();
+                        break;
+                    case PheromoneType.Friend:
+                        output += "XMT_Info_Desc_HiveFriend".Translate();
+                        break;
+                    case PheromoneType.Threat:
+                        output += "XMT_Info_Desc_HiveEnemy".Translate();
+                        break;
                 }
             }
             else

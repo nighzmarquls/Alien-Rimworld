@@ -55,7 +55,7 @@ namespace Xenomorphtype
 
                     __result.Add(AdbuctOption);
 
-                    FloatMenuOption CocoonOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Cocoon", delegate
+                    /*FloatMenuOption CocoonOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Cocoon", delegate
                     {
 
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CocoonTarget, targetPawn, HiveUtility.GetNestPosition(pawn.Map));
@@ -64,6 +64,7 @@ namespace Xenomorphtype
                     }, priority: MenuOptionPriority.Default), pawn, targetPawn);
 
                     __result.Add(CocoonOption);
+                    */
                 }
 
                 if (!XMTUtility.NotPrey(targetPawn))
