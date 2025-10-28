@@ -32,6 +32,13 @@
 				<west>(-0.23, 0, 0.1)</west>
 			</li>
 			<li>
+				<race>Panther</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.72, 0, 0.2)</east>
+				<south>(0, 0, -0.15)</south>
+				<west>(-0.72, 0, 0.2)</west>
+			</li>
+			<li>
 				<race>Alpaca</race>
 				<north>(0.0, 0.0, 0.0)</north>
 				<east>(0.15, 0, 0.15)</east>
