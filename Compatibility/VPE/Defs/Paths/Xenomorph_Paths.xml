@@ -2,11 +2,11 @@
 <Defs>
   <VanillaPsycastsExpanded.PsycasterPathDef>
     <defName>XMT_Hivemother</defName>
-    <label>cryptomorphipath</label>
+    <label>cryptipath</label>
     <description>A path that only cryptobiomorphs, the naive or the insane persue. For it comes with risks of permenant alterations to the user's mind.</description>
-    <background>UI/Backgrounds/NecropathPath</background>
-    <altBackground>UI/AlternativeBackgrounds/PathBG_Necropath</altBackground>
+    <background>UI/Backgrounds/CryptipathPath</background>
+    <altBackground>UI/Backgrounds/CryptipathPath</altBackground>
     <tab>Psycasts</tab>
-    <tooltip>Cryptomorphipaths reaches out to the unique nature of cryptobiological life forms for abilities many deem unatural.</tooltip>
+    <tooltip>Cryptipaths reach out to the unique nature of cryptobiological life forms for abilities many deem unatural.</tooltip>
   </VanillaPsycastsExpanded.PsycasterPathDef>
 </Defs>
