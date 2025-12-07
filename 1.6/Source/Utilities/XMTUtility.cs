@@ -1,6 +1,7 @@
 ﻿using AlienRace;
 using RimWorld;
 using RimWorld.Planet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -1516,6 +1517,10 @@ namespace Xenomorphtype
         {
             if(Queen == p)
             {
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("Queen reported as dead: " + p);
+                }
                 Queen = null;
             }
         }
@@ -1776,9 +1781,17 @@ namespace Xenomorphtype
                 {
                     Pawn witness = cell.GetFirstPawn(aggressorInfo.parent.MapHeld);
 
-                    if(witness == null || witness == victim)
+                    if(witness == null)
                     {
                         continue;
+                    }
+
+                    if(witness == victim)
+                    {
+                        if(victim.Faction != null)
+                        {
+                            continue;
+                        }
                     }
                     
                     if (witness.mindState.mentalStateHandler.InMentalState)
@@ -1835,6 +1848,40 @@ namespace Xenomorphtype
             }
 
             return pawn.health.hediffSet.HasHediff(InternalDefOf.StarbeastCocoon);
+        }
+
+        internal static Job ClimberFleeJob(Pawn pawn)
+        {
+            RCellFinder.TryFindRandomExitSpot(pawn, out IntVec3 cell, TraverseMode.PassAllDestroyableThings);
+            Job job = JobMaker.MakeJob(JobDefOf.Flee, cell);
+            job.exitMapOnArrival = true;
+            return job;
+        }
+
+        internal static bool IsHostileAndAwareOf(Thing a, Thing b)
+        {
+            if(a is Building_TurretGun)
+            {
+                return true;
+            }
+
+            if(a is Pawn observer)
+            {
+                CompPawnInfo info = observer.Info();
+                if(info.IsObsessed())
+                {
+                    return false;
+                }
+
+                if(a.Faction == b.Faction)
+                {
+                    return info.TotalHorrorAwareness() > 0.5f;
+                }
+
+                return info.TotalHorrorAwareness() > 0.25f;
+
+            }
+            return false;
         }
     }
 }

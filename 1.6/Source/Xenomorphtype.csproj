@@ -150,11 +150,13 @@
     <Compile Include="Building\Royalty\EggSack.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ReplaceGenes.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_XenoSocialGiver.cs" />
+    <Compile Include="Harmony\XMTHostilityPatch.cs" />
     <Compile Include="Map\GenSteps\GenStep_QueenSpawn.cs" />
     <Compile Include="Progression\Quests\QuestNode_RequiresQueenNotPlayer.cs" />
     <Compile Include="Progression\Records\HistoryAutoRecorderWorker_Xenoforming.cs" />
     <Compile Include="SocialHorror\Interactions\InteractionWorker_AdvancedTameAttempt.cs" />
     <Compile Include="SocialHorror\SocialHorrorDefs.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_Abduct.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
@@ -237,7 +239,7 @@
     <Compile Include="DefOfs\RoyalEvolutionDefOf.cs" />
     <Compile Include="DefOfs\XenoPreceptDefOf.cs" />
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
-    <Compile Include="Game\GameComponent_Xenomorph.cs" />
+    <Compile Include="Comps\GameComps\GameComponent_Xenomorph.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
     <Compile Include="Harmony\XMTEnderPatches.cs" />
     <Compile Include="Harmony\XMTExplosivePatches.cs" />

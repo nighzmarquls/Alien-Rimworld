@@ -116,10 +116,7 @@ namespace Xenomorphtype
 
                     if (XMTUtility.IsQueen(targetPawn))
                     {
-                        if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
 
                     return BioUtility.HasAlterableGenes(target.Thing);

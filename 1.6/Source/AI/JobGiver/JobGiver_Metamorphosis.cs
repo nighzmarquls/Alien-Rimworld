@@ -11,9 +11,6 @@ namespace Xenomorphtype
 {
     public class JobGiver_Metamorphosis : ThinkNode_JobGiver
     {
-        public SoundDef soundDefMale;
-
-        public SoundDef soundDefFemale;
 
         protected override Job TryGiveJob(Pawn pawn)
         {
@@ -24,16 +21,12 @@ namespace Xenomorphtype
             }
 
             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Ritual_Metamorphosis, duty.focusSecond);
-            job.speechSoundMale = soundDefMale ?? SoundDefOf.Speech_Leader_Male;
-            job.speechSoundFemale = soundDefFemale ?? SoundDefOf.Speech_Leader_Female;
             return job;
         }
 
         public override ThinkNode DeepCopy(bool resolve = true)
         {
             JobGiver_Metamorphosis obj = (JobGiver_Metamorphosis)base.DeepCopy(resolve);
-            obj.soundDefMale = soundDefMale;
-            obj.soundDefFemale = soundDefFemale;
             return obj;
         }
     }

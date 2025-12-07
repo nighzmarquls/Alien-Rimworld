@@ -62,6 +62,11 @@ namespace Xenomorphtype
 
         protected static Dictionary<Map, InfiltrationCache> cache = new Dictionary<Map, InfiltrationCache>();
 
+
+        public static void ClearAllCaches()
+        {
+            cache.Clear();
+        }
         public static IntVec3 GetGoalOnOrAdjacentToFrom(IntVec3 start, Building building)
         {
             IntVec3 goal = building.Position;

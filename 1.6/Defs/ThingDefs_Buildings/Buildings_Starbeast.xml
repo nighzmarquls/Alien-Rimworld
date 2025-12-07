@@ -20,8 +20,8 @@
 		<description>A towering pylon of resin shaped such that it naturally circulates air in through its base to the outisde to regulate temperature.</description>
 		<category>Building</category>
 		<graphicData>
-		  <texPath>Things/Building/AtmospherePylon</texPath>
-		  <graphicClass>Graphic_Single</graphicClass>
+		  <texPath>Things/Building/Pylon</texPath>
+		  <graphicClass>Graphic_Random</graphicClass>
 		  <drawRotated>false</drawRotated>
 		  <allowFlip>false</allowFlip>
 		  <shadowData>
@@ -73,8 +73,8 @@
 		<description>A towering pylon of resin shaped such that it naturally circulates air in through its base to the outisde to regulate temperature.</description>
 		<category>Building</category>
 		<graphicData>
-		  <texPath>Things/Building/AtmospherePylon</texPath>
-		  <graphicClass>Graphic_Single</graphicClass>
+		  <texPath>Things/Building/Pylon</texPath>
+		  <graphicClass>Graphic_Random</graphicClass>
 		  <drawRotated>false</drawRotated>
 		  <allowFlip>false</allowFlip>
 		  <shadowData>

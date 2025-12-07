@@ -35,6 +35,10 @@
 		</skillRequirements>
 		<addsHediffOnFailure>XMT_Protofluid</addsHediffOnFailure>
 	</RecipeDef>
+	
+	<RecipeDef Abstract="True" Name="XMT_Mutation_Surgery_Add" ParentName="XMT_Mutation_Surgery">
+		<workerClass>Recipe_InstallImplant</workerClass>
+	</RecipeDef>
 
 
 	<RecipeDef ParentName="XMT_Mutation_Surgery">
@@ -76,7 +80,7 @@
 		<addsHediff>XMT_InternalNose</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Neck</defName>
 		<label>mutate larynx</label>
 		<description>perform a controlled mutation through targeted injection into the larynx.</description>
@@ -102,7 +106,7 @@
 		<addsHediff>XMT_BreathingWafers</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Back</defName>
 		<label>mutate back</label>
 		<description>perform a controlled mutation through targeted injections into the back.</description>
@@ -115,7 +119,7 @@
 		<addsHediff>XMT_BreathingTubes</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Tail</defName>
 		<label>mutate sacrum</label>
 		<description>perform a controlled mutation through targeted injections into the sacrum of the pelvis.</description>
@@ -141,7 +145,7 @@
 		<addsHediff>XMT_ImprovedStomach</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Tongue</defName>
 		<label>mutate tongue</label>
 		<description>perform a controlled mutation through targeted injection into the tongue.</description>
@@ -154,7 +158,7 @@
 		<addsHediff>XMT_SpikeTongue</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Jaw</defName>
 		<label>mutate jaw</label>
 		<description>perform a controlled mutation through targeted injections into the jaw, pallete and throat.</description>
@@ -167,7 +171,7 @@
 		<addsHediff>XMT_SecondJaw</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_FriendSmell</defName>
 		<label>mutate sweet sweat glands</label>
 		<description>perform a controlled mutation through targeted injections into the endocrine system to cause calming cryptimorph pheromones.</description>
@@ -180,7 +184,7 @@
 		<addsHediff>XMT_FriendlyGland</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_ThreatSmell</defName>
 		<label>mutate sour sweat glands</label>
 		<description>perform a controlled mutation through targeted injections into the endocrine system to cause agitating cryptimorph pheromones.</description>
@@ -193,7 +197,7 @@
 		<addsHediff>XMT_HostileGland</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Fat</defName>
 		<label>mutate adipose tissue</label>
 		<description>perform a controlled mutation through targeted injections throughout the body directly into the adipose tissue.</description>
@@ -206,7 +210,7 @@
 		<addsHediff>XMT_AcidFat</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Muscle</defName>
 		<label>mutate muscle tissue</label>
 		<description>perform a controlled mutation through targeted injections throughout the body directly into the muscular tissue.</description>
@@ -219,7 +223,7 @@
 		<addsHediff>XMT_MuscleInjection</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Skeleton</defName>
 		<label>mutate skeletal tissue</label>
 		<description>perform a controlled mutation through targeted injections throughout the body directly into the epidermis and skeletal tissue.</description>
@@ -232,7 +236,7 @@
 		<addsHediff>XMT_SkeletonInjection</addsHediff>
 	</RecipeDef>
 	
-	<RecipeDef ParentName="XMT_Mutation_Surgery">
+	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_Marrow</defName>
 		<label>mutate bone marrow</label>
 		<description>perform a controlled mutation through targeted injections directly into the bone marrow.</description>
@@ -242,13 +246,7 @@
 		<appliedOnFixedBodyParts>
 		  <li>Ribcage</li>
 		  <li>Spine</li>
-		  <li>Clavicle</li>
-		  <li>Sternum</li>
-		  <li>Humerus</li>
-		  <li>Radius</li>
 		  <li>Pelvis</li>
-		  <li>Femur</li>
-		  <li>Tibia</li>
 		</appliedOnFixedBodyParts>
 		<addsHediff>XMT_MarrowInjection</addsHediff>
 	</RecipeDef>

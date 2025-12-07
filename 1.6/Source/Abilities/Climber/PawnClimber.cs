@@ -164,7 +164,6 @@ namespace Xenomorphtype
 
             if (preClimbJob != null)
             {
-                Log.Message(pawn + " is being assigned " + preClimbJob);
                 pawn.jobs.curJob = preClimbJob;
                 pawn.jobs.curDriver = preJobDriver;
             }
@@ -209,6 +208,7 @@ namespace Xenomorphtype
                {
                     Map.roofGrid.SetRoof(Position, RoofDefOf.RoofRockThin);
                }
+
                RoofCollapserImmediate.DropRoofInCells(Position, Map);
             }
         }

@@ -151,24 +151,23 @@
 				<mentalStateGivers>
 					<li>
 						<mentalState>Berserk</mentalState>
-						<mtbDays>1</mtbDays>
+						<mtbDays>0.01</mtbDays>
 					</li>
 					<li>
 						<mentalState>Slaughterer</mentalState>
-						<mtbDays>1</mtbDays>
+						<mtbDays>0.01</mtbDays>
 					</li>
 				</mentalStateGivers>
 				<hediffGivers>
 					<li Class="HediffGiver_Random">
 						<hediff>HeartAttack</hediff>
-						<mtbDays>1.5</mtbDays>
+						<mtbDays>0.05</mtbDays>
 						<partsToAffect>
 							<li>Heart</li>
 						</partsToAffect>
 					</li>
 				</hediffGivers>
 			</li>
-	
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">

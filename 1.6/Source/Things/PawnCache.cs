@@ -11,6 +11,10 @@ namespace Xenomorphtype
     [StaticConstructorOnStartup]
     public static class PawnCacheWrapper
     {
+        public static void ClearAllPawnCaches()
+        {
+            PawnCache.cache.Clear();
+        }
         protected class PawnCache
         {
             public static Dictionary<int, PawnCache> cache = new Dictionary<int, PawnCache>();

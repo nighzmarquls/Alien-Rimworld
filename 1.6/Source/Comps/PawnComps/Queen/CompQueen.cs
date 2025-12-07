@@ -234,7 +234,7 @@ namespace Xenomorphtype
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
         {
             base.Notify_Killed(prevMap, dinfo);
-
+           
             XMTUtility.QueenDied(Parent);
         }
 

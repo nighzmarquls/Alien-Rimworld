@@ -41,32 +41,6 @@ namespace Xenomorphtype
         {
             private static void PawnOptions(Pawn pawn, Pawn targetPawn, ref List<FloatMenuOption> __result)
             {
-                if (!XMTUtility.IsXenomorph(targetPawn))
-                {
-                    FloatMenuOption AdbuctOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Abduct", delegate
-                    {
-
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, HiveUtility.GetNestPosition(pawn.Map));
-                        job.count = 1;
-                        pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-
-
-                    }, priority: MenuOptionPriority.Default), pawn, targetPawn);
-
-                    __result.Add(AdbuctOption);
-
-                    /*FloatMenuOption CocoonOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Cocoon", delegate
-                    {
-
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CocoonTarget, targetPawn, HiveUtility.GetNestPosition(pawn.Map));
-                        job.count = 1;
-                        pawn.jobs.StartJob(job, JobCondition.InterruptForced);
-                    }, priority: MenuOptionPriority.Default), pawn, targetPawn);
-
-                    __result.Add(CocoonOption);
-                    */
-                }
-
                 if (!XMTUtility.NotPrey(targetPawn))
                 {
                     FloatMenuOption HuntOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hunt", delegate

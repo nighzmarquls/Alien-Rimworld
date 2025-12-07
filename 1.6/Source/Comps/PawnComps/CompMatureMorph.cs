@@ -402,7 +402,15 @@ namespace Xenomorphtype
                     {
                         return;
                     }
-                    Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
+                    Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage,reason: "", forced: true, forceWake: true, false);
+                }
+                else
+                {
+                    if (Parent.mindState.mentalStateHandler.InMentalState)
+                    {
+                        return;
+                    }
+                    Parent.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, reason: "", forced: true, forceWake: true);
                 }
                 return;
             }
@@ -520,7 +528,11 @@ namespace Xenomorphtype
 
             if (parent.MapHeld.skyManager.CurSkyGlow > 0.45f)
             {
-                return true;
+                float brightness = Parent.MapHeld.glowGrid.GroundGlowAt(NestPosition);
+                if(brightness < 0.045)
+                {
+                    return true;
+                }
             }
             return false;
         }
@@ -1012,6 +1024,7 @@ namespace Xenomorphtype
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
+            Log.Message(Parent + " Registering with Hive on map " + Parent.MapHeld);
             HiveUtility.AddHiveMate(Parent, Parent.MapHeld);
         }
 
@@ -1113,8 +1126,6 @@ namespace Xenomorphtype
                     cocoonBase.ForPrisoners = true;
                 }
                 RestUtility.TuckIntoBed(cocoonBase, Parent, target, false);
-                HiveUtility.TryPlaceHiveMassSupport(cocoonBase.Position, Parent);
-
             }
 
             Parent.mindState.lastAttackedTarget = target;
@@ -1749,7 +1760,7 @@ namespace Xenomorphtype
                             continue;
                         }
 
-                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, NestPosition);
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, HiveUtility.GetValidCocoonCell(Parent.Map));
                         job.count = 1;
                         FeralJobUtility.ReserveThingForJob(Parent, job, prey);
                         return true;

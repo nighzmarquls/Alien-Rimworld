@@ -9,6 +9,7 @@ using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 using Verse.Noise;
+using static HarmonyLib.Code;
 using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.Scripting.GarbageCollector;
@@ -23,6 +24,14 @@ namespace Xenomorphtype
             public int Suitability;
             public IntVec3 Position;
             public Map map;
+
+            public Room Room
+            {
+                get
+                {
+                    return Position.GetRoom(map);
+                }
+            }
 
             protected List<Job> buildJobs;
 
@@ -201,6 +210,11 @@ namespace Xenomorphtype
             }
 
             List<Pawn> removeList = new List<Pawn>();
+        }
+
+        public static void ClearAllNestSites()
+        {
+            Hive.Clear();
         }
         protected static NestSite GetLocalNest(Map map)
         {
@@ -677,11 +691,12 @@ namespace Xenomorphtype
             return  (room.CellCount > 9) && canReach;
         }
 
-
-
         public static void TryPlaceResinFloor(IntVec3 cell, Map map)
         {
-            map.terrainGrid.SetTerrain(cell, InternalDefOf.HiveFloor);
+            if (map.terrainGrid.BaseTerrainAt(cell) != InternalDefOf.HeavyHiveFloor)
+            {
+                map.terrainGrid.SetTerrain(cell, InternalDefOf.HiveFloor);
+            }
         }
 
         private static bool IsCellValidCocoon(IntVec3 cell, Map map)
@@ -703,43 +718,35 @@ namespace Xenomorphtype
                 return false;
             }
 
-            Room space = cell.GetRoomOrAdjacent(map);
+            Building support = null;
 
-            IEnumerable<Ovomorph> Ovomorphs = space.ContainedThings<Ovomorph>();
-            IEnumerable<CocoonBase> cocoonBases = space.ContainedThings<CocoonBase>();
+            IEnumerable<IntVec3> Adjacents = GenRadial.RadialCellsAround(cell, 1f, false);
 
-
-            if(Ovomorphs != null && Ovomorphs.Any())
+            foreach (IntVec3 adjacent in Adjacents)
             {
-                
-                foreach (Ovomorph Ovomorph in Ovomorphs)
+                IEnumerable<Building> things = adjacent.GetThingList(map).OfType<Building>();
+
+                if (things.Any())
                 {
-                    if(cell == Ovomorph.Position)
+                    foreach (Building thing in things)
                     {
-                        return false;
-                    }
-                    if(cell.AdjacentToCardinal(Ovomorph.Position))
-                    {
-                        return false;
+                        if(thing is CocoonBase || thing is Ovomorph)
+                        {
+                            return false;
+                        }
+
+                        if (thing.def.holdsRoof)
+                        {
+                            support = thing;
+                            break;
+                        }
                     }
                 }
             }
 
-            if(cocoonBases != null && cocoonBases.Any())
+            if (support == null)
             {
-
-                foreach(CocoonBase cocoonBase in cocoonBases)
-                {
-                    if(cell == cocoonBase.Position)
-                    {
-                        return false;
-                    }
-
-                    if(cell.AdjacentToCardinal(cocoonBase.Position))
-                    {
-                        return false;
-                    }
-                }
+                return false;
             }
 
             return true;
@@ -886,7 +893,32 @@ namespace Xenomorphtype
             }
             return job;
         }
-        public static Building TryPlaceCocoonBase(IntVec3 startingPosition, Pawn target, float radius = 6f)
+
+        public static IntVec3 GetValidCocoonCell(Map map)
+        {
+            NestSite localNest = GetLocalNest(map);
+            if (localNest == null)
+            {
+                FindGoodNestSite(map);
+                localNest = GetLocalNest(map);
+            }
+
+            Room nestRoom = localNest.Room;
+
+            List<IntVec3> cellsToSearch = nestRoom.BorderCellsCached.ToList();
+
+            cellsToSearch.Shuffle();
+
+            foreach (IntVec3 cell in nestRoom.Cells)
+            {
+                if(IsCellValidCocoon(cell, map))
+                {
+                    return cell;
+                }
+            }
+            return IntVec3.Invalid;
+        }
+        public static Building TryPlaceCocoonBase(IntVec3 startingPosition, Pawn target, float radius = 1.5f)
         {
             if(target == null)
             {
@@ -897,19 +929,6 @@ namespace Xenomorphtype
             IntVec3 AvailableCell = startingPosition;
             Map map = target.MapHeld;
 
-            if(!IsCellValidCocoon(AvailableCell, map))
-            {
-                IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(startingPosition, radius, false);
-                foreach(IntVec3 cell in cells)
-                {
-                    if(IsCellValidCocoon(cell, map))
-                    {
-                        AvailableCell = cell;
-                        break;
-                    }
-                }
-
-            }
             Building occupying = AvailableCell.GetEdifice(map);
             if (occupying != null)
             {
@@ -1652,7 +1671,7 @@ namespace Xenomorphtype
             {
                 return returnList;
             }
-            localNest.HiveMates.CopyToList(localNest.HiveMates);
+            localNest.HiveMates.CopyToList(returnList);
 
             return returnList;
         }

@@ -86,7 +86,7 @@ namespace Xenomorphtype
             {
                 climber.pawnClimber.underground = climber.climbParameters.Tunneling;
                 GenSpawn.Spawn(climber.pawnClimber, cell, map);
-                Log.Message(actor + " started climbing.");
+
                 climber.startedClimb = true;
                 if (isSelected)
                 {
@@ -98,7 +98,7 @@ namespace Xenomorphtype
                     RoofDef roof = climber.climbParameters.StartClimbCell.GetRoof(map);
                     if(roof == RoofDefOf.RoofRockThick)
                     {
-                        roof = RoofDefOf.RoofRockThin;
+                        map.roofGrid.SetRoof(climber.climbParameters.StartClimbCell, RoofDefOf.RoofRockThin);
                     }
                     RoofCollapserImmediate.DropRoofInCells(climber.climbParameters.StartClimbCell, map);
                 }

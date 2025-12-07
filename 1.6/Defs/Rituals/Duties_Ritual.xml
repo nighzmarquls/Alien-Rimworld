@@ -17,8 +17,6 @@
         <li Class="ThinkNode_ConditionalAtDutyLocation">
           <subNodes>
             <li Class="Xenomorphtype.JobGiver_Metamorphosis">
-              <soundDefMale>Speech_Throne_Male</soundDefMale>
-              <soundDefFemale>Speech_Throne_Female</soundDefFemale>
             </li>
           </subNodes>
         </li>

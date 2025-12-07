@@ -26,7 +26,7 @@ namespace Xenomorphtype
                     if (FeralJobUtility.IsThingAvailableForJobBy(context.FirstSelectedPawn, clickedThing))
                     {
                         string JellyName = jellyMaker.GetJellyProduct()?.label;
-                        FloatMenuOption JellyOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Make " + JellyName, delegate
+                        FloatMenuOption JellyOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Make".Translate() + JellyName, delegate
                         {
                             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, clickedThing);
                             context.FirstSelectedPawn.jobs.TryTakeOrderedJob(job, JobTag.MiscWork);

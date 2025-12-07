@@ -79,6 +79,11 @@ namespace Xenomorphtype
             {
                 LarvaRelease();
             }
+
+            if(parent.pawn.needs.food != null)
+            {
+                parent.pawn.needs.food.CurLevel = parent.pawn.needs.food.MaxLevel;
+            }
         }
 
         public override float SeverityChangePerDay()

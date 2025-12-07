@@ -152,6 +152,7 @@
 			<li>
 			</li>
 			<li>
+				<minSeverity>0.25</minSeverity>
 				<label>unmet</label>
 				<painOffset>0.4</painOffset>
 				<lifeThreatening>true</lifeThreatening>

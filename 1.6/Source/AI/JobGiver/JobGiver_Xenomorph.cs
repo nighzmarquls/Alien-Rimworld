@@ -20,6 +20,15 @@ namespace Xenomorphtype
             {
                 Log.Message(pawn + " is getting Feral Job");
             }
+
+            if(!pawn.ageTracker.Adult)
+            {
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message(pawn + " is fleeing the map due to age");
+                    return XMTUtility.ClimberFleeJob(pawn);
+                }
+            }
             IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => XMTUtility.TriggersOvomorph(x));
             IEnumerable<Pawn> hostPawns = pawn.Map.mapPawns.AllPawnsSpawned.Where(x => XMTUtility.TriggersOvomorph(x));
             Need_Food food = pawn.needs.food;
@@ -210,7 +219,9 @@ namespace Xenomorphtype
             {
                 Log.Message(pawn + " is getting food Job");
             }
+
             bool caresAboutForbidden = ForbidUtility.CaresAboutForbidden(pawn, false);
+
             if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn, desperate,
                 out Thing foodSource, out var foodDef,
                 canRefillDispenser: false, canUseInventory: true, canUsePackAnimalInventory: false,
@@ -333,6 +344,18 @@ namespace Xenomorphtype
                     {
                         Log.Message(pawn + " is trying to mature.");
                     }
+
+                    float brightness = pawn.MapHeld.glowGrid.GroundGlowAt(compMatureMorph.NestPosition);
+
+                    if(brightness > 0.45 && pawn.Faction == null)
+                    {
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message(pawn + " is leaving the map");
+                        }
+                        return XMTUtility.ClimberFleeJob(pawn);
+                    }
+
                     return JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, compMatureMorph.NestPosition);
                 }
 
@@ -342,20 +365,20 @@ namespace Xenomorphtype
                     {
                         Log.Message(pawn + " is gorging");
                     }
-                    Job foodJob = GetFoodJob(pawn, true, 0.45f);
+                    Job foodJob = !pawn.ageTracker.Adult? GetFoodJob(pawn, true, 0.45f) : GetFoodJob(pawn, true);
 
                     if (foodJob != null)
                     {
                         return foodJob;
                     }
-                    else if(pawn.Faction == null)
+                    else if(pawn.Faction == null && !pawn.ageTracker.Adult)
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is leaving the map");
+                            Log.Message(pawn + " is leaving the map for safe food");
                         }
-                        Job leaveJob = JobMaker.MakeJob(JobDefOf.Flee);
-                        return leaveJob;
+
+                        return XMTUtility.ClimberFleeJob(pawn);
                     }
 
                 }

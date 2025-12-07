@@ -333,6 +333,7 @@
 			<hediffs>
 				<li>XMT_Embryo</li>
 				<li>XMT_LarvalEmbrace</li>
+				<li>XMT_BecomingMutant</li>
 			</hediffs>
 		</li>
 	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">

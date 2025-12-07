@@ -36,7 +36,7 @@
 	</HediffDef>
 	
 	
-	<HediffDef ParentName="AddedXenomorphPart">
+	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_SpikeTongue</defName>
 		<label>spiked tongue</label>
 		<labelNoun>spiked tongue</labelNoun>
@@ -99,10 +99,11 @@
 		</comps>
 	</HediffDef>
 	
-	<HediffDef ParentName="AddedXenomorphPart">
+	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_SecondJaw</defName>
 		<label>pharyngeal jaw</label>
 		<labelNoun>pharyngeal jaws</labelNoun>
+		<isBad>false</isBad>
 		<description>a secondary set of jaws within the oral cavity of the first.</description>
 		<defaultInstallPart>Jaw</defaultInstallPart>
 		<stages>
@@ -186,6 +187,7 @@
 		<defName>XMT_HostileGland</defName>
 		<label>hostile pheromones</label>
 		<labelNoun>hostile pheromones</labelNoun>
+		<isBad>false</isBad>
 		<description>the organism is releasing cryptimorphic threat pheromones.</description>
 		<stages>
 			<li>
@@ -206,6 +208,7 @@
 		<defName>XMT_FriendlyGland</defName>
 		<label>friendly pheromones</label>
 		<labelNoun>friendly pheromones</labelNoun>
+		<isBad>false</isBad>
 		<description>the organism is releasing cryptimorphic pheromones with a comforting effect.</description>
 		<stages>
 			<li>
@@ -223,6 +226,7 @@
 		<defName>XMT_LoverGland</defName>
 		<label>sexual pheromones</label>
 		<labelNoun>sexual pheromones</labelNoun>
+		<isBad>false</isBad>
 		<description>the organism is releasing cryptimorphic pheromones with an arousing effect.</description>
 		<stages>
 			<li>
@@ -240,6 +244,7 @@
 		<defName>XMT_BladedTail</defName>
 		<label>bladed tail</label>
 		<labelNoun>bladed tail</labelNoun>
+		<isBad>false</isBad>
 		<description>the vertebrae have been extended into a dextrous tail ending in a scything blade.</description>
 		<defaultInstallPart>Pelvis</defaultInstallPart>
 		<stages>
@@ -590,7 +595,7 @@
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
 					<MeleeDodgeChance>-0.1</MeleeDodgeChance>
-					<MeleeCooldownFactor>1.5</MeleeCooldownFactor>
+					<MeleeCooldownFactor>0.5</MeleeCooldownFactor>
 				</statOffsets>
 			</li>
 			<li>
@@ -600,7 +605,7 @@
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
 					<MeleeDodgeChance>-0.5</MeleeDodgeChance>
-					<MeleeCooldownFactor>2.00</MeleeCooldownFactor>
+					<MeleeCooldownFactor>1.00</MeleeCooldownFactor>
 				</statOffsets>
 			</li>
 			<li>
@@ -610,7 +615,7 @@
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
 					<MeleeDodgeChance>-0.1</MeleeDodgeChance>
-					<MeleeCooldownFactor>1.25</MeleeCooldownFactor>
+					<MeleeCooldownFactor>0.25</MeleeCooldownFactor>
 				</statOffsets>
 			</li>
 			<li>
@@ -620,7 +625,9 @@
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
 					<MeleeDodgeChance>0.5</MeleeDodgeChance>
-					<MeleeCooldownFactor>0.85</MeleeCooldownFactor>
+					<MeleeCooldownFactor>-0.15</MeleeCooldownFactor>
+					<ComfyTemperatureMin>-5</ComfyTemperatureMin>
+					<ComfyTemperatureMax>5</ComfyTemperatureMax>
 				</statOffsets>
 			</li>
 			<li>
@@ -630,7 +637,9 @@
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
 					<MeleeDodgeChance>1</MeleeDodgeChance>
-					<MeleeCooldownFactor>0.75</MeleeCooldownFactor>
+					<MeleeCooldownFactor>-0.25</MeleeCooldownFactor>
+					<ComfyTemperatureMin>-10</ComfyTemperatureMin>
+					<ComfyTemperatureMax>10</ComfyTemperatureMax>
 				</statOffsets>
 			</li>
 		</stages>
@@ -717,6 +726,8 @@
 					<IncomingDamageFactor>-0.05</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.4</DecompressionResistance>
 					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.4</VacuumResistance>
+					<ComfyTemperatureMin>-5</ComfyTemperatureMin>
+					<ComfyTemperatureMax>5</ComfyTemperatureMax>
 				</statOffsets>
 			</li>
 			<li>
@@ -731,6 +742,9 @@
 					<IncomingDamageFactor>-0.08</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.6</DecompressionResistance>
 					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.6</VacuumResistance>
+					<ArmorRating_Sharp>0.8</ArmorRating_Sharp>
+					<ComfyTemperatureMin>-10</ComfyTemperatureMin>
+					<ComfyTemperatureMax>10</ComfyTemperatureMax>
 				</statOffsets>
 			</li>
 		</stages>
@@ -785,6 +799,7 @@
 		<label>chlorofluoridic marrow</label>
 		<labelNoun>acidic marrow</labelNoun>
 		<initialSeverity>0.01</initialSeverity>
+		
 		<description>the bone marrow has begun producing a chloroflouridic fluid instead of plasma.</description>
 		<stages>
 			<li>

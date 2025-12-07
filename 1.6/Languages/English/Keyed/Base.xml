@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
+	<XMT_FMO_Abduct>Abduct</XMT_FMO_Abduct>
+	<XMT_FMO_Make>Make </XMT_FMO_Make>
+	
 	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
 	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
 	

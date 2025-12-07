@@ -32,6 +32,18 @@ namespace Xenomorphtype
         public float HeldPawnBodyAngle => Rotation.AsAngle;
         public PawnPosture HeldPawnPosture => PawnPosture.Standing;
 
+        public override string LabelCapNoCount
+        {
+            get
+            {
+                if(Occupant == null)
+                {
+                    return base.LabelCapNoCount;
+                }
+
+                return Occupant.LabelCapNoCount;
+            }
+        }
         public override void ExposeData()
         {
             base.ExposeData();
@@ -69,6 +81,8 @@ namespace Xenomorphtype
                 {
                     compStealth.ForceVisible();
                 }
+
+                XMTUtility.DeclareQueen(Occupant);
             }
         }
         public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
