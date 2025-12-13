@@ -97,7 +97,7 @@ namespace Xenomorphtype
                     {
                         compQueen.RecieveProgress(Mathf.Max(1, quality * 3f));
                     }
-                    HiveUtility.PlayerJoinXenomorphs(queen.MapHeld);
+                    XMTHiveUtility.PlayerJoinXenomorphs(queen.MapHeld);
                 }
             }
             if (progress >= 0.25f)

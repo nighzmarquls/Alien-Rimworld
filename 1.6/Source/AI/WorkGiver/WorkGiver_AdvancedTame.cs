@@ -72,7 +72,7 @@ namespace Xenomorphtype
         }
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
-            foreach (Pawn candidate in HiveUtility.GetHiveMembersOnMap(pawn.Map))
+            foreach (Pawn candidate in XMTHiveUtility.GetHiveMembersOnMap(pawn.Map))
             {
                 if(candidate.IsAdvancedTameable())
                 {

@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.074</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.075</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -64,12 +64,13 @@
 		<li>RedMattis.BetterPrerequisites</li>
 		<li>bs.performance</li>
 		<li>vanillaracesexpanded.insector</li>
+		<li>CETeam.CombatExtended</li>
 	</loadAfter>
 	<loadBefore>
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Release Candidate version 0.074.
+	<description>Release Candidate version 0.075.
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?

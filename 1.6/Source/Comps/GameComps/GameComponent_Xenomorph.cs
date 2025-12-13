@@ -323,7 +323,7 @@ namespace Xenomorphtype
         public override void StartedNewGame()
         {
             Log.Message("Clearing Caches");
-            HiveUtility.ClearAllNestSites();
+            XMTHiveUtility.ClearAllNestSites();
             InfiltrationUtility.ClearAllCaches();
             PawnCacheWrapper.ClearAllPawnCaches();
         }
@@ -344,7 +344,7 @@ namespace Xenomorphtype
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 Log.Message("Clearing Caches");
-                HiveUtility.ClearAllNestSites();
+                XMTHiveUtility.ClearAllNestSites();
                 InfiltrationUtility.ClearAllCaches();
                 PawnCacheWrapper.ClearAllPawnCaches();
             }

@@ -41,7 +41,7 @@ namespace Xenomorphtype
 
             if (HatchingEgg != null && Unhatched)
             {
-                HiveUtility.AddOvomorph(this, map);
+                XMTHiveUtility.AddOvomorph(this, map);
             }
         }
 
@@ -251,7 +251,7 @@ namespace Xenomorphtype
                 Messages.Message("XMT_MotherEggHatch".Translate(HatchingEgg.mother.LabelShort), MessageTypeDefOf.PositiveEvent);
             }
 
-            HiveUtility.RemoveOvomorph(this, MapHeld);
+            XMTHiveUtility.RemoveOvomorph(this, MapHeld);
 
             XMTUtility.WitnessOvomorph(PositionHeld, MapHeld, 0.1f, 0.1f);
             

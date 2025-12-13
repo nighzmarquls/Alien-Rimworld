@@ -14,6 +14,7 @@ namespace Xenomorphtype
 
         int attempts = 2;
 
+        bool empty = true;
         int CheckInterval = 120;
 
         public override bool CanOpen => false;
@@ -69,18 +70,24 @@ namespace Xenomorphtype
             IEnumerable<Thing> possibleMaker = GenRadial.RadialDistinctThingsAround(Position, Map, 1.5f, true);
             foreach (Thing thing in possibleMaker)
             {
+                if(!empty)
+                {
+                    return;
+                }
                 if (thing is Pawn pawn)
                 {
+
                     if (XMTUtility.IsXenomorph(pawn))
                     {
                         if (XMTUtility.IsQueen(pawn))
                         {
                             continue;
                         }
-
+                        empty = false;
                         bool flag = pawn.DeSpawnOrDeselect();
                         if (TryAcceptThing(pawn, allowSpecialEffects: false) && flag)
                         {
+
                             containedMorph = ContainedThing.TryGetComp<CompMatureMorph>();
                             if (pawn.jobs.curJob != null)
                             {
@@ -122,7 +129,7 @@ namespace Xenomorphtype
         {
             base.TickInterval(delta);
 
-            if(ContainedThing == null)
+            if(ContainedThing == null && empty)
             {
                 Initialize();
                 return;

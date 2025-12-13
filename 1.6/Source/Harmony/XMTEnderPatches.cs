@@ -23,7 +23,7 @@ namespace Xenomorphtype
                 {
                     if (playerHomeMap.Tile.Layer.IsRootSurface)
                     {
-                        if (HiveUtility.XenosOnMap(playerHomeMap))
+                        if (XMTHiveUtility.XenosOnMap(playerHomeMap))
                         {
                             FoundXeno = true;
                             playermap = playerHomeMap;
@@ -39,7 +39,7 @@ namespace Xenomorphtype
                     {
                         action = delegate
                         {
-                            HiveUtility.PlayerJoinXenomorphs(playermap);
+                            XMTHiveUtility.PlayerJoinXenomorphs(playermap);
                         },
                         resolveTree = true
                     };

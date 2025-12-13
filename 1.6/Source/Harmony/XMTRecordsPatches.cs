@@ -40,21 +40,24 @@ namespace Xenomorphtype
                         killer.needs.joy.GainJoy(0.15f, ExternalDefOf.Gaming_Dexterity);
                     }
                 }
-                else if(XMTUtility.IsXenomorph(killed))
+                else 
                 {
-                    CompPawnInfo info = killer.Info();
-
-                    if (info != null)
+                    if (XMTUtility.IsXenomorph(killed))
                     {
-                        float relief = 1;
+                        CompPawnInfo info = killer.Info();
 
-                        if(XMTUtility.IsQueen(killed))
+                        if (info != null)
                         {
-                            relief += 4;
+                            float relief = 1;
+
+                            if (XMTUtility.IsQueen(killed))
+                            {
+                                relief += 4;
+                            }
+
+                            info.GainRelief(relief);
+
                         }
-
-                        info.GainRelief(relief);
-
                     }
                 }
             }

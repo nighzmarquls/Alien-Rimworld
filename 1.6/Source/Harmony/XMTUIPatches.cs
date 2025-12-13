@@ -86,7 +86,7 @@ namespace Xenomorphtype
                     __result.Add(TrophallaxisOption);
                 }
 
-                if (targetPawn.Downed && HiveUtility.IsMorphingCandidate(targetPawn))
+                if (targetPawn.Downed && XMTHiveUtility.IsMorphingCandidate(targetPawn))
                 {
                     FloatMenuOption OvomorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Ovomorph", delegate
                     {

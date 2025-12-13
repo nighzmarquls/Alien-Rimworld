@@ -36,7 +36,7 @@ namespace Xenomorphtype
                 }
 
             }
-            HiveUtility.ForceNestPosition(this.Position, map);
+            XMTHiveUtility.ForceNestPosition(this.Position, map);
 
         }
     }

@@ -108,12 +108,12 @@ namespace Xenomorphtype
             {
                 meatBall = this.GetComp<CompMeatBall>();
             }
-            HiveUtility.AddLarder(this, map);
+            XMTHiveUtility.AddLarder(this, map);
         }
 
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
-            HiveUtility.RemoveLarder(this, this.Map);
+            XMTHiveUtility.RemoveLarder(this, this.Map);
             base.DeSpawn(mode);
         }
         

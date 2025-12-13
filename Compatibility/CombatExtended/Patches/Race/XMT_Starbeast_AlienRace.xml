@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="PatchOperationReplace">
+          <xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/statBases</xpath>
+          <value>
+            <statBases>
+              <Mass>60</Mass>
+              <Flammability>0</Flammability>
+              <MeleeDodgeChance>3.5</MeleeDodgeChance>
+              <MeleeCritChance>1</MeleeCritChance>
+              <MeleeParryChance>1</MeleeParryChance>
+              <MarketValue>58330</MarketValue>
+              <MoveSpeed>9.2</MoveSpeed>
+              <ComfyTemperatureMin>-270</ComfyTemperatureMin>
+              <ComfyTemperatureMax>310</ComfyTemperatureMax>
+              <LeatherAmount>25</LeatherAmount>
+              <Wildness>1</Wildness>
+              <ArmorRating_Sharp>27</ArmorRating_Sharp>
+              <ArmorRating_Blunt>70</ArmorRating_Blunt>
+              <ArmorRating_Heat>0.2</ArmorRating_Heat>
+              <CrawlSpeed>18.4</CrawlSpeed>
+              <ToxicResistance>1</ToxicResistance>
+              <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+              <IncomingDamageFactor>0.9</IncomingDamageFactor>
+              <TerrorSource>50</TerrorSource>
+              <SlaveSuppressionFallRate>8</SlaveSuppressionFallRate>
+              <PawnTrapSpringChance>0</PawnTrapSpringChance>
+              <MeatAmount>15</MeatAmount>
+              <StaggerDurationFactor>0.025</StaggerDurationFactor>
+              <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
+			  <Suppressability>0</Suppressability>
+			  <SmokeSensitivity>0</SmokeSensitivity>
+			  <NightVisionEfficiency>1</NightVisionEfficiency>
+            </statBases>
+          </value>
+	</Operation>
+	<Operation Class="PatchOperationReplace">
+          <xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/tools</xpath>
+          <value>
+            <tools>
+              <li Class="CombatExtended.ToolCE">
+                <label>left claw</label>
+                <capacities>
+                  <li>Scratch</li>
+                  <li>Stab</li>
+                </capacities>
+                <surpriseAttack>
+                  <extraMeleeDamages />
+                </surpriseAttack>
+                <extraMeleeDamages />
+                <armorPenetrationBlunt>50</armorPenetrationBlunt>
+                <armorPenetrationSharp>30</armorPenetrationSharp>
+                <power>16</power>
+                <cooldownTime>2</cooldownTime>
+                <chanceFactor>0.5</chanceFactor>
+                <linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+              </li>
+              <li Class="CombatExtended.ToolCE">
+                <label>right claw</label>
+                <capacities>
+                  <li>Scratch</li>
+                  <li>Stab</li>
+                </capacities>
+                <surpriseAttack>
+                  <extraMeleeDamages />
+                </surpriseAttack>
+                <extraMeleeDamages />
+                <armorPenetrationBlunt>50</armorPenetrationBlunt>
+                <armorPenetrationSharp>30</armorPenetrationSharp>
+                <power>16</power>
+                <cooldownTime>2</cooldownTime>
+                <chanceFactor>0.5</chanceFactor>
+                <linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+              </li>
+              <li Class="CombatExtended.ToolCE">
+                <label>tail</label>
+                <capacities>
+                  <li>Stab</li>
+                  <li>Cut</li>
+                </capacities>
+                <surpriseAttack>
+                  <extraMeleeDamages />
+                </surpriseAttack>
+                <extraMeleeDamages />
+                <armorPenetrationBlunt>50</armorPenetrationBlunt>
+                <armorPenetrationSharp>30</armorPenetrationSharp>
+                <power>16</power>
+                <cooldownTime>2</cooldownTime>
+                <chanceFactor>0.5</chanceFactor>
+                <linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+              </li>
+              <li Class="CombatExtended.ToolCE">
+                <label>inner mouth</label>
+                <capacities>
+                  <li>Bite</li>
+                </capacities>
+                <surpriseAttack>
+                  <extraMeleeDamages />
+                </surpriseAttack>
+                <extraMeleeDamages />
+                <armorPenetrationBlunt>50</armorPenetrationBlunt>
+                <armorPenetrationSharp>30</armorPenetrationSharp>
+                <power>16</power>
+                <cooldownTime>2</cooldownTime>
+                <chanceFactor>0.5</chanceFactor>
+                <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+              </li>
+              <li Class="CombatExtended.ToolCE">
+                <label>outer mouth</label>
+                <capacities>
+                  <li>Bite</li>
+                </capacities>
+                <surpriseAttack>
+                  <extraMeleeDamages />
+                </surpriseAttack>
+                <extraMeleeDamages />
+                <armorPenetrationBlunt>50</armorPenetrationBlunt>
+                <armorPenetrationSharp>30</armorPenetrationSharp>
+                <power>16</power>
+                <cooldownTime>2</cooldownTime>
+                <chanceFactor>0.5</chanceFactor>
+                <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+              </li>
+            </tools>
+          </value>
+    </Operation>
+    <Operation Class="PatchOperationConditional">
+          <xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/comps/li[@Class="CombatExtended.CompProperties_ArmorDurability"]</xpath>
+          <match Class="PatchOperationRemove">
+			<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/comps/li[@Class="CombatExtended.CompProperties_ArmorDurability"]</xpath>
+		  </match>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/comps</xpath>
+		<value>
+			<li Class="CombatExtended.CompProperties_ArmorDurability">
+				<Durability>3660</Durability>
+				<Regenerates>true</Regenerates>
+				<RegenInterval>100</RegenInterval>
+				<RegenValue>1220</RegenValue>
+				<MinArmorPct>0.5</MinArmorPct>
+				<MinArmorValueSharp>27</MinArmorValueSharp>
+				<MinArmorValueBlunt>70</MinArmorValueBlunt>
+			</li>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/comps</xpath>
+		<value>
+			<li>
+				<compClass>CombatExtended.CompAmmoGiver</compClass>
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]</xpath>
+		<value>
+			<li Class="CombatExtended.PartialArmorExt">
+			  <stats />
+			</li>
+		</value>
+	</Operation>
+	
+</Patch>

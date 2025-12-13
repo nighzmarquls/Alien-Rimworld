@@ -1441,7 +1441,7 @@ namespace Xenomorphtype
         }
         public static bool PlayerXenosOnMap(Map localMap)
         {
-            return HiveUtility.PlayerXenosOnMap(localMap);
+            return XMTHiveUtility.PlayerXenosOnMap(localMap);
         }
 
         public static void DropAmountThing(ThingDef thingDef, int stackTotal, IntVec3 position, Map targetMap, ThingDef Filth = null)
@@ -1581,7 +1581,7 @@ namespace Xenomorphtype
                 return XenoStoryDefOf.StarbeastChildPremature15;
             }
 
-            if(HiveUtility.TotalHivePopulation(map) < 1)
+            if(XMTHiveUtility.TotalHivePopulation(map) < 1)
             {
                 if(faction == null)
                 {
@@ -1860,11 +1860,6 @@ namespace Xenomorphtype
 
         internal static bool IsHostileAndAwareOf(Thing a, Thing b)
         {
-            if(a is Building_TurretGun)
-            {
-                return true;
-            }
-
             if(a is Pawn observer)
             {
                 CompPawnInfo info = observer.Info();

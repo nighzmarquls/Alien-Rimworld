@@ -44,7 +44,7 @@ namespace Xenomorphtype
                 if (LastOccupant == null)
                 {
                     LastOccupant = occupant;
-                    HiveUtility.AddCocooned(occupant, occupant.MapHeld);
+                    XMTHiveUtility.AddCocooned(occupant, occupant.MapHeld);
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace Xenomorphtype
             {
                 if (LastOccupant != null)
                 {
-                    HiveUtility.RemoveCocooned(LastOccupant,LastOccupant.MapHeld);
+                    XMTHiveUtility.RemoveCocooned(LastOccupant,LastOccupant.MapHeld);
                     LastOccupant = null;
                 }
 

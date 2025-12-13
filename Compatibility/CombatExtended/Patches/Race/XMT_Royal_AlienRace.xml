@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/statBases</xpath>
+		<value>
+			<statBases>
+			  <Mass>60</Mass>
+			  <Flammability>0</Flammability>
+			  <MeleeDodgeChance>1.25</MeleeDodgeChance>
+			  <MeleeCritChance>1</MeleeCritChance>
+			  <MeleeParryChance>1</MeleeParryChance>
+			  <MarketValue>291650</MarketValue>
+			  <MoveSpeed>7</MoveSpeed>
+			  <ComfyTemperatureMin>-270</ComfyTemperatureMin>
+			  <ComfyTemperatureMax>310</ComfyTemperatureMax>
+			  <LeatherAmount>25</LeatherAmount>
+			  <Wildness>1</Wildness>
+			  <ArmorRating_Sharp>27</ArmorRating_Sharp>
+              <ArmorRating_Blunt>70</ArmorRating_Blunt>
+              <ArmorRating_Heat>0.2</ArmorRating_Heat>
+			  <CrawlSpeed>8</CrawlSpeed>
+			  <ToxicResistance>1</ToxicResistance>
+			  <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
+			  <IncomingDamageFactor>0.9</IncomingDamageFactor>
+			  <TerrorSource>50</TerrorSource>
+			  <SlaveSuppressionFallRate>8</SlaveSuppressionFallRate>
+			  <PawnTrapSpringChance>0</PawnTrapSpringChance>
+			  <MeatAmount>15</MeatAmount>
+			  <StaggerDurationFactor>0.025</StaggerDurationFactor>
+			  <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
+			  <WorkSpeedGlobal>0.75</WorkSpeedGlobal>
+			  <PsychicSensitivity>1.25</PsychicSensitivity>
+			  <Suppressability>0</Suppressability>
+			  <SmokeSensitivity>0</SmokeSensitivity>
+			  <NightVisionEfficiency>1</NightVisionEfficiency>
+			</statBases>
+		</value>
+	</Operation>
+	<Operation Class="PatchOperationConditional">
+          <xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/comps/li[@Class="CombatExtended.CompProperties_ArmorDurability"]</xpath>
+          <match Class="PatchOperationRemove">
+			<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/comps/li[@Class="CombatExtended.CompProperties_ArmorDurability"]</xpath>
+		  </match>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/comps</xpath>
+		<value>
+			<li Class="CombatExtended.CompProperties_ArmorDurability">
+				<Durability>3660</Durability>
+				<Regenerates>true</Regenerates>
+				<RegenInterval>100</RegenInterval>
+				<RegenValue>1220</RegenValue>
+				<MinArmorPct>0.5</MinArmorPct>
+				<MinArmorValueSharp>27</MinArmorValueSharp>
+				<MinArmorValueBlunt>70</MinArmorValueBlunt>
+				<!-- <MinArmorValueHeat>0.2</MinArmorValueHeat>
+				<MinArmorValueElectric>0.1</MinArmorValueElectric> -->
+			</li>
+			<li Class="CombatExtended.CompProperties_Inventory" />
+			<li Class="CombatExtended.CompProperties_TacticalManager" />
+			<li>
+				<compClass>CombatExtended.CompAmmoGiver</compClass>
+			</li>
+			<li>
+				<compClass>CombatExtended.CompPawnGizmo</compClass>
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]</xpath>
+		<value>
+			<li Class="CombatExtended.PartialArmorExt">
+			  <stats />
+			</li>
+		</value>
+	</Operation>
+</Patch>

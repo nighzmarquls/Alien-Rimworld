@@ -263,7 +263,7 @@ namespace Xenomorphtype
 
         public static bool CanTameSocial(Pawn tameTarget)
         {
-            if(HiveUtility.PlayerXenosOnMap(tameTarget.MapHeld))
+            if(XMTHiveUtility.PlayerXenosOnMap(tameTarget.MapHeld))
             {
                 return true;
             }
@@ -340,7 +340,7 @@ namespace Xenomorphtype
         }
         public static bool CanTamePheromones(Pawn pawn)
         {
-            if (HiveUtility.PlayerXenosOnMap(pawn.MapHeld))
+            if (XMTHiveUtility.PlayerXenosOnMap(pawn.MapHeld))
             {
                 return true;
             }

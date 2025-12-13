@@ -17,22 +17,32 @@ namespace Xenomorphtype
         protected override bool RequiresManipulation => true;
         protected override FloatMenuOption GetSingleOptionFor(Thing clickedThing, FloatMenuContext context)
         {
+            if(!XMTUtility.IsXenomorph(context.FirstSelectedPawn) && context.FirstSelectedPawn.ageTracker.Adult)
+            {
+                return null;
+            }
 
             if (FeralJobUtility.IsThingAvailableForJobBy(context.FirstSelectedPawn, clickedThing) && clickedThing is Pawn clickedPawn)
             {
                 if (!XMTUtility.IsXenomorph(clickedPawn))
                 {
-                    FloatMenuOption AdbuctOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Abduct".Translate(), delegate
+                    FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Abduct".Translate(), delegate
                     {
 
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, clickedPawn, HiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map));
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, clickedPawn, XMTHiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map));
                         job.count = 1;
                         context.FirstSelectedPawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
 
                     }, priority: MenuOptionPriority.Default), context.FirstSelectedPawn, clickedPawn);
 
-                   return AdbuctOption;
+
+                    if(XMTHiveUtility.ShouldBuildNest(clickedThing.Map))
+                    {
+                        AbductOption.Disabled = true;
+                        AbductOption.tooltip = "XMT_FMO_NoNestEnclosed".Translate();
+                    }
+                   return AbductOption;
                 }
             }
 

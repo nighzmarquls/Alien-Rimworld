@@ -18,7 +18,7 @@ namespace Xenomorphtype
                 return null;
             }
 
-            if (mentalState_MurderousRage.target.IsPsychologicallyInvisible())
+            if (mentalState_MurderousRage.target is Pawn xeno && xeno.IsPsychologicallyInvisible())
             {
                 return null;
             }

@@ -37,7 +37,7 @@ namespace Xenomorphtype
             CompMatureMorph compMatureMorph = pawn.GetMorphComp();
 
             bool shouldOvomorph = compMatureMorph.ShouldOvomorphCandidate();
-            bool hasNest = HiveUtility.HasCocooned(pawn.Map);
+            bool hasNest = XMTHiveUtility.HasCocooned(pawn.Map);
 
             if (food.CurCategory == HungerCategory.Fed)
             {
@@ -91,7 +91,7 @@ namespace Xenomorphtype
                     Log.Message(pawn + " is doing Feral Activity");
                 }
 
-                if (HiveUtility.IsInsideNest(pawn.Position,pawn.Map) && HiveUtility.IsCloseToNest(pawn.Position, pawn.Map))
+                if (XMTHiveUtility.IsInsideNest(pawn.Position,pawn.Map) && XMTHiveUtility.IsCloseToNest(pawn.Position, pawn.Map))
                 {
                     if (shouldOvomorph)
                     {
@@ -99,7 +99,7 @@ namespace Xenomorphtype
                         {
                             Log.Message(pawn + " thinks a candidate should be Ovomorphed.");
                         }
-                        Pawn target = HiveUtility.GetOvomorphingCandidate(pawn.Map);
+                        Pawn target = XMTHiveUtility.GetOvomorphingCandidate(pawn.Map);
                         if (target != null)
                         {
                             pawn.Map.reservationManager.ReleaseAllForTarget(target);
@@ -109,7 +109,7 @@ namespace Xenomorphtype
                             }
                             if (!target.Spawned)
                             {
-                                HiveUtility.RemoveHost(target, pawn.Map);
+                                XMTHiveUtility.RemoveHost(target, pawn.Map);
                             }
                             else
                             {
@@ -326,17 +326,26 @@ namespace Xenomorphtype
                     {
                         Log.Message(pawn + " is seeking to hunt " + rage.target);
                     }
-                    Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, rage.target);
-                    job.killIncappedTarget = true;
-                    if (rage.target.IsAnimal && pawn.IsPlayerControlled)
+                    if (rage.target is Pawn living)
                     {
-                        pawn.Map.designationManager.RemoveAllDesignationsOn(rage.target);
-                        pawn.Map.designationManager.AddDesignation(new Designation(rage.target, DesignationDefOf.Hunt));
-                    }
-                    return job;
-                }
+                        Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, rage.target);
+                        job.killIncappedTarget = true;
 
-               
+                        if (living.IsAnimal && pawn.IsPlayerControlled)
+                        {
+                            pawn.Map.designationManager.RemoveAllDesignationsOn(rage.target);
+                            pawn.Map.designationManager.AddDesignation(new Designation(rage.target, DesignationDefOf.Hunt));
+                        }
+                        return job;
+                    }
+                    else
+                    {
+                        Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, rage.target);
+                        job.killIncappedTarget = true;
+
+                        return job;
+                    }
+                }
 
                 if (compMatureMorph.ShouldMature())
                 {
@@ -356,7 +365,7 @@ namespace Xenomorphtype
                         return XMTUtility.ClimberFleeJob(pawn);
                     }
 
-                    return JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, compMatureMorph.NestPosition);
+                    return JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, XMTHiveUtility.GetValidCocoonCell(pawn.Map));
                 }
 
                 if (compMatureMorph.ShouldGorge())
@@ -408,14 +417,14 @@ namespace Xenomorphtype
                         Log.Message(pawn + " thinks they should be in the nest.");
                     }
 
-                    if (HiveUtility.IsInsideNest(pawn.Position, pawn.Map))
+                    if (XMTHiveUtility.IsInsideNest(pawn.Position, pawn.Map))
                     {
                         if (XMTSettings.LogJobGiver)
                         {
                             Log.Message(pawn + " is inside the nest.");
                         }
 
-                        Thing offensiveThing = HiveUtility.GetMostOffensiveThingInNest(pawn.Position, pawn.Map);
+                        Thing offensiveThing = XMTHiveUtility.GetMostOffensiveThingInNest(pawn.Position, pawn.Map);
                         if (offensiveThing != null)
                         {
                             if (XMTSettings.LogJobGiver)
@@ -550,7 +559,7 @@ namespace Xenomorphtype
                                 {
                                     Log.Message(pawn + " is going to abduct " + target);
                                 }
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, XMTHiveUtility.GetValidCocoonCell(pawn.Map));
                                 job.count = 1;
 
                                 pawn.Reserve(target, job);

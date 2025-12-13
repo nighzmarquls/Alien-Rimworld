@@ -173,10 +173,10 @@ namespace Xenomorphtype
                         }
                     }
 
-                    if (_traumaRelief > 0)
+                    if (_traumaRelief > TotalHorrorExperience())
                     {
                         //Log.Message(Parent + " still has " + _traumaRelief + " relief");
-                        _traumaRelief -= 0.01f;
+                        _traumaRelief += 0.001f;
                     }
                 }
             }
@@ -465,28 +465,37 @@ namespace Xenomorphtype
                         output += "XMT_Info_Desc_HiveEnemy".Translate();
                         break;
                 }
+
+                if (DebugSettings.ShowDevGizmos)
+                {
+                    output += "\n DEV lover smell: " + LoverPheromone;
+                    output += "\n DEV friend smell: " + FriendlyPheromone;
+                    output += "\n DEV threat smell: " + ThreatPheromone + "\n";
+                }
             }
             else
             {
-                float severity = totalPheromone;
-
-                if (severity >= 1)
+                if (totalPheromone >= 1)
                 {
                     output += "XMT_Info_Desc_Stinky".Translate();
                 }
-                else if (severity >= 0.75f)
+                else if (totalPheromone >= 0.75f)
                 {
                     output += "XMT_Info_Desc_Smelly".Translate();
                 }
-                else if (severity >= 0.25f)
+                else if (totalPheromone >= 0.25f)
                 {
                     output += "XMT_Info_Desc_Cloying".Translate();
                 }
-                else if (severity >= 0.1f)
+                else if (totalPheromone >= 0.1f)
                 {
                     output += "XMT_Info_Desc_Odor".Translate();
                 }
+            }
 
+            if (DebugSettings.ShowDevGizmos)
+            {
+                output += "\nDEV total pheromone value: " + totalPheromone + "\n";
             }
 
             if (isAware)
@@ -495,25 +504,49 @@ namespace Xenomorphtype
                 if (OvomorphAwareness > 0)
                 {
                     output += obsessed ? "XMT_Info_Ovomorph_Obsessed".Translate() : "XMT_Info_Ovomorph".Translate();
+                    if (DebugSettings.ShowDevGizmos)
+                    {
+                        output += "\nDEV Ovomorph Awareness: " + OvomorphAwareness + "\n";
+                    }
                 }
                 if (LarvaAwareness > 0)
                 {
                     output += obsessed ? "XMT_Info_Larva_Obsessed".Translate() : "XMT_Info_Larva".Translate();
+                    if (DebugSettings.ShowDevGizmos)
+                    {
+                        output += "\nDEV Larva Awareness: " + LarvaAwareness + "\n";
+                    }
                 }
                 if (HorrorAwareness > 0)
                 {
                     output += obsessed ? "XMT_Info_Horror_Obsessed".Translate() : "XMT_Info_Horror".Translate();
+                    if (DebugSettings.ShowDevGizmos)
+                    {
+                        output += "\nDEV Cryptimorph Awareness: " + HorrorAwareness + "\n";
+                    }
                 }
                 if (AcidAwareness > 0)
                 {
                     output += obsessed ? "XMT_Info_Acid_Obsessed".Translate() : "XMT_Info_Acid".Translate();
+                    if (DebugSettings.ShowDevGizmos)
+                    {
+                        output += "\nDEV Acid Awareness: " + AcidAwareness + "\n";
+                    }
                 }
 
                 if (PsychicAwareness > 0)
                 {
                     output += obsessed ? "XMT_Info_Psychic_Obsessed".Translate() : "XMT_Info_Psychic".Translate();
+                    if (DebugSettings.ShowDevGizmos)
+                    {
+                        output += "\nDEV Psychic Awareness: " + PsychicAwareness +"\n";
+                    }
                 }
 
+                if(DebugSettings.ShowDevGizmos)
+                {
+                    output += "\n DEV Total Awareness: " + TotalHorrorAwareness();
+                }
             }
             return output;
         }
@@ -571,11 +604,12 @@ namespace Xenomorphtype
 
         public void WitnessPsychicHorror(float strength, float maxAwareness = 1.0f)
         {
+            _traumaRelief -= strength;
             if (PsychicAwareness >= maxAwareness)
             {
                 return;
             }
-
+            _traumaRelief = 0;
             psychicAwareness = Mathf.Min(psychicAwareness + strength, maxAwareness);
 
             if (!Rand.Chance(psychicAwareness))
@@ -617,7 +651,7 @@ namespace Xenomorphtype
             {
                 return;
             }
-
+            _traumaRelief = 0;
             acidAwareness = Mathf.Min(acidAwareness + strength, maxAwareness);
 
             if (OvomorphAwareness > 0)
@@ -638,11 +672,12 @@ namespace Xenomorphtype
         }
         public void WitnessOvomorphHorror(float strength, float maxAwareness = 1.0f)
         {
+            _traumaRelief -= strength;
             if (OvomorphAwareness >= maxAwareness)
             {
                 return;
             }
-
+            _traumaRelief = 0;
             ovomorphAwareness = Mathf.Min(OvomorphAwareness + strength, maxAwareness);
 
             TryApplyDisplayHediff();
@@ -651,11 +686,12 @@ namespace Xenomorphtype
 
         public void WitnessLarvaHorror(float strength, float maxAwareness = 1.0f)
         {
+            _traumaRelief -= strength;
             if (LarvaAwareness >= maxAwareness)
             {
                 return;
             }
-
+            _traumaRelief = 0;
             larvaAwareness = Mathf.Min(larvaAwareness + strength, maxAwareness);
             if (OvomorphAwareness > 0)
             {
@@ -666,11 +702,12 @@ namespace Xenomorphtype
 
         public void WitnessHorror(float strength, float maxAwareness = 1.0f)
         {
+            
             if (HorrorAwareness >= maxAwareness)
             {
                 return;
             }
-
+            _traumaRelief = 0;
             horrorAwareness = Mathf.Min(horrorAwareness + strength, maxAwareness);
 
             if (LarvaAwareness > 0)

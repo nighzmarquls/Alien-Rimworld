@@ -7,7 +7,7 @@ namespace Xenomorphtype
 {
     internal class MentalState_XMT_MurderousRage : MentalState
     {
-        public Pawn target;
+        public Thing target;
 
         private const int NoLongerValidTargetCheckInterval = 120;
 
@@ -30,7 +30,7 @@ namespace Xenomorphtype
 
         public override void MentalStateTick(int delta)
         {
-            if (target != null && target.Dead)
+            if (target == null || ( target is Pawn alive && alive.Dead) || target.Destroyed)
             {
                 RecoverFromState();
             }
@@ -53,7 +53,7 @@ namespace Xenomorphtype
                 Log.Error("No target. This should have been checked in this mental state's worker.");
                 return "";
             }
-            return def.beginLetter.Formatted(pawn.NameShortColored, target.NameShortColored, pawn.Named("PAWN"), target.Named("TARGET")).AdjustedFor(pawn).Resolve()
+            return def.beginLetter.Formatted(pawn.NameShortColored, target.Label, pawn.Named("PAWN"), target.Named("TARGET")).AdjustedFor(pawn).Resolve()
             .CapitalizeFirst();
         }
         private bool TryFindNewTarget()

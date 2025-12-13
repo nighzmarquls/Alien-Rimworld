@@ -12,7 +12,7 @@ namespace Xenomorphtype
     {
         protected override ThoughtState ShouldHaveThought(Pawn p)
         {
-               if(HiveUtility.HaveEggs(p.Map))
+               if(XMTHiveUtility.HaveEggs(p.Map))
                {
                     return ThoughtState.ActiveAtStage(1);
                }

@@ -21,7 +21,7 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if(info.TotalHorrorExperience() > 1f && HiveUtility.XenosOnMap(pawn.Map))
+                if(info.TotalHorrorExperience() > 1f && XMTHiveUtility.XenosOnMap(pawn.Map))
                 {
                     return base.BreakCanOccur(pawn);
                 }

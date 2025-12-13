@@ -1,22 +1,15 @@
 ﻿using RimWorld;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
-using Verse.Noise;
-using static HarmonyLib.Code;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.Scripting.GarbageCollector;
 
 namespace Xenomorphtype
 {
-    public class HiveUtility
+    public class XMTHiveUtility
     {
         public const float HiveHungerCostPerTick = 0.000085f;
         protected class NestSite
@@ -905,11 +898,11 @@ namespace Xenomorphtype
 
             Room nestRoom = localNest.Room;
 
-            List<IntVec3> cellsToSearch = nestRoom.BorderCellsCached.ToList();
+            List<IntVec3> cellsToSearch = nestRoom.Cells.ToList();
 
             cellsToSearch.Shuffle();
 
-            foreach (IntVec3 cell in nestRoom.Cells)
+            foreach (IntVec3 cell in cellsToSearch)
             {
                 if(IsCellValidCocoon(cell, map))
                 {

@@ -17,8 +17,8 @@ namespace Xenomorphtype
     {
         static private Texture2D ReleaseTexture => ContentFinder<Texture2D>.Get("UI/Designators/ReleasePioneer");
         public static Color nymphSkinColor = new Color(1, 0.85f, 0.65f);
-        public IntVec3 NestPosition => HiveUtility.GetNestPosition(Parent.Map);
-        public bool NeedEggs => HiveUtility.NeedEggs(Parent.Map);
+        public IntVec3 NestPosition => XMTHiveUtility.GetNestPosition(Parent.Map);
+        public bool NeedEggs => XMTHiveUtility.NeedEggs(Parent.Map);
 
         CompJellyMaker JellyMaker = null;
         CompMatureMorphProperties Props => props as CompMatureMorphProperties;
@@ -251,7 +251,7 @@ namespace Xenomorphtype
 
                 if (Parent.guest.IsPrisoner)
                 {
-                    if (!HiveUtility.PlayerXenosOnMap(Parent.MapHeld))
+                    if (!XMTHiveUtility.PlayerXenosOnMap(Parent.MapHeld))
                     {
                         if (Taming > 0)
                         {
@@ -385,16 +385,20 @@ namespace Xenomorphtype
         }
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
+            Log.Message("Initial damage on " + Parent);
+
             base.PostPostApplyDamage(dinfo, totalDamageDealt);
 
             Pawn aggressor = dinfo.Instigator as Pawn;
 
-            if (Parent.Downed)
+            if (Parent.Downed || Parent.Dead)
             {
                 return;
             }
 
-            if (aggressor == null)
+            Log.Message(Parent + " neither downed nor dead");
+
+            if (aggressor == null && dinfo.Instigator != null)
             {
                 if (Parent.Faction == null)
                 {
@@ -404,16 +408,10 @@ namespace Xenomorphtype
                     }
                     Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage,reason: "", forced: true, forceWake: true, false);
                 }
-                else
-                {
-                    if (Parent.mindState.mentalStateHandler.InMentalState)
-                    {
-                        return;
-                    }
-                    Parent.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, reason: "", forced: true, forceWake: true);
-                }
                 return;
             }
+
+            Log.Message(Parent + " aggressor not null or non-pawn");
 
             if (aggressor.Dead)
             {
@@ -474,7 +472,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            bool HiveNeedsTending = HiveUtility.ShouldTendNest(Parent.MapHeld) || HiveUtility.ShouldBuildNest(Parent.MapHeld);
+            bool HiveNeedsTending = XMTHiveUtility.ShouldTendNest(Parent.MapHeld) || XMTHiveUtility.ShouldBuildNest(Parent.MapHeld);
 
             if (Parent.Faction == null)
             {
@@ -490,7 +488,7 @@ namespace Xenomorphtype
             {
                 if (HiveNeedsTending)
                 {
-                    int hiveCount = HiveUtility.TotalHivePopulation(parent.Map);
+                    int hiveCount = XMTHiveUtility.TotalHivePopulation(parent.Map);
                     int stackLimit = HorrorMoodDefOf.TooMuchNestWork.stackLimit;
                     int maxOverwork = stackLimit - hiveCount;
 
@@ -521,7 +519,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (HiveUtility.NoNestOnMap(Parent.Map))
+            if (XMTHiveUtility.NoNestOnMap(Parent.Map))
             {
                 return false;
             }
@@ -639,7 +637,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (HiveUtility.NoNestOnMap(Parent.Map))
+            if (XMTHiveUtility.NoNestOnMap(Parent.Map))
             {
                 return false;
             }
@@ -715,6 +713,11 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if(XMTHiveUtility.ShouldBuildNest(Parent.Map))
+            {
+                return false;
+            }
+
             if(Parent.ideo != null && Parent.ideo.Ideo is Ideo PawnIdeo)
             {
                 if (Parent.IsFreeNonSlaveColonist)
@@ -728,7 +731,7 @@ namespace Xenomorphtype
                 }
             }
 
-            if (HiveUtility.NeedAbductions(Parent.Map))
+            if (XMTHiveUtility.NeedAbductions(Parent.Map))
             {
                 canAbductTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
                 return true;
@@ -760,7 +763,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (HiveUtility.NoNestOnMap(Parent.Map))
+            if (XMTHiveUtility.NoNestOnMap(Parent.Map))
             {
                 return false;
             }
@@ -775,7 +778,12 @@ namespace Xenomorphtype
                 return false;
             }
 
-            float brightness = Parent.MapHeld.glowGrid.GroundGlowAt(HiveUtility.GetNestSpot(Parent.Map).Cell);
+            if (XMTHiveUtility.ShouldBuildNest(Parent.Map))
+            {
+                return false;
+            }
+
+            float brightness = Parent.MapHeld.glowGrid.GroundGlowAt(XMTHiveUtility.GetNestSpot(Parent.Map).Cell);
 
             if (brightness > 0.5f)
             {
@@ -942,7 +950,7 @@ namespace Xenomorphtype
         {
             Pawn bestCandidate = null;
             int bestScore = int.MinValue;
-            if (HiveUtility.NoNestOnMap(Parent.Map))
+            if (XMTHiveUtility.NoNestOnMap(Parent.Map))
             {
                 return null;
             }
@@ -1025,20 +1033,20 @@ namespace Xenomorphtype
         {
             base.PostSpawnSetup(respawningAfterLoad);
             Log.Message(Parent + " Registering with Hive on map " + Parent.MapHeld);
-            HiveUtility.AddHiveMate(Parent, Parent.MapHeld);
+            XMTHiveUtility.AddHiveMate(Parent, Parent.MapHeld);
         }
 
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
             base.PostDeSpawn(map, mode);
    
-            HiveUtility.RemoveHiveMate(Parent, map);
+            XMTHiveUtility.RemoveHiveMate(Parent, map);
         }
         private void SeekNewLair()
         {
             if (Parent.CurrentBed() != null)
             {
-                HiveUtility.TryPlaceResinFloor(Parent.PositionHeld, Parent.MapHeld);
+                XMTHiveUtility.TryPlaceResinFloor(Parent.PositionHeld, Parent.MapHeld);
             }
         }
 
@@ -1050,7 +1058,7 @@ namespace Xenomorphtype
             }
             Hediff hediff = HediffMaker.MakeHediff(Props.maturingHediff, Parent);
 
-            CocoonBase cocoonBase = HiveUtility.TryPlaceCocoonBase(Parent.Position, Parent) as CocoonBase;
+            CocoonBase cocoonBase = XMTHiveUtility.TryPlaceCocoonBase(Parent.Position, Parent) as CocoonBase;
             if (cocoonBase != null)
             {
                 Parent.jobs.Notify_TuckedIntoBed(cocoonBase);
@@ -1113,7 +1121,7 @@ namespace Xenomorphtype
                     }
                 }
             }
-            CocoonBase cocoonBase = HiveUtility.TryPlaceCocoonBase(Parent.Position, target) as CocoonBase;
+            CocoonBase cocoonBase = XMTHiveUtility.TryPlaceCocoonBase(Parent.Position, target) as CocoonBase;
             if (cocoonBase != null)
             {
                 
@@ -1329,9 +1337,9 @@ namespace Xenomorphtype
         {
             michief = null;
 
-            if (HiveUtility.NestOnMap(Parent.Map))
+            if (XMTHiveUtility.NestOnMap(Parent.Map))
             {
-                Thing offensive = HiveUtility.GetMostOffensiveThingInNest(NestPosition, Parent.Map);
+                Thing offensive = XMTHiveUtility.GetMostOffensiveThingInNest(NestPosition, Parent.Map);
 
                 if (offensive != null )
                 {
@@ -1354,10 +1362,10 @@ namespace Xenomorphtype
         {
             job = null;
 
-            Ovomorph OvomorphCandidate = HiveUtility.GetOvomorph(Parent.Map, requireReady:true, forPawn:Parent);
+            Ovomorph OvomorphCandidate = XMTHiveUtility.GetOvomorph(Parent.Map, requireReady:true, forPawn:Parent);
             if (OvomorphCandidate != null)
             { 
-                Pawn hostCandidate = HiveUtility.GetHost(Parent.Map, forPawn:Parent);
+                Pawn hostCandidate = XMTHiveUtility.GetHost(Parent.Map, forPawn:Parent);
 
                 if (hostCandidate != null)
                 {
@@ -1367,8 +1375,8 @@ namespace Xenomorphtype
                     }
                     if (!hostCandidate.Spawned)
                     {
-                        HiveUtility.RemoveHost(hostCandidate, Parent.Map);
-                        HiveUtility.RemoveCocooned(hostCandidate, Parent.Map);
+                        XMTHiveUtility.RemoveHost(hostCandidate, Parent.Map);
+                        XMTHiveUtility.RemoveCocooned(hostCandidate, Parent.Map);
                     }
                     else
                     {
@@ -1427,14 +1435,14 @@ namespace Xenomorphtype
             {
                 Log.Message(Parent + " is trying to get feeding job.");
             }
-            Pawn FeedCandidate = HiveUtility.GetHungriestCocooned(Parent.Map, forPawn: Parent);
+            Pawn FeedCandidate = XMTHiveUtility.GetHungriestCocooned(Parent.Map, forPawn: Parent);
             if (FeedCandidate != null)
             {
                 if (!FeedCandidate.Spawned)
                 {
-                    HiveUtility.RemoveHost(FeedCandidate, Parent.Map);
-                    HiveUtility.RemoveCocooned(FeedCandidate, Parent.Map);
-                    HiveUtility.RemoveOvomorphing(FeedCandidate, Parent.Map);
+                    XMTHiveUtility.RemoveHost(FeedCandidate, Parent.Map);
+                    XMTHiveUtility.RemoveCocooned(FeedCandidate, Parent.Map);
+                    XMTHiveUtility.RemoveOvomorphing(FeedCandidate, Parent.Map);
                 }
                 else
                 {
@@ -1446,13 +1454,13 @@ namespace Xenomorphtype
                 }
             }
 
-            FeedCandidate = HiveUtility.GetHungriestHivemate(Parent.Map, forPawn: Parent);
+            FeedCandidate = XMTHiveUtility.GetHungriestHivemate(Parent.Map, forPawn: Parent);
 
             if (FeedCandidate != null)
             {
                 if (!FeedCandidate.Spawned)
                 {
-                    HiveUtility.RemoveHiveMate(FeedCandidate, Parent.Map);
+                    XMTHiveUtility.RemoveHiveMate(FeedCandidate, Parent.Map);
                 }
                 else
                 {
@@ -1474,7 +1482,7 @@ namespace Xenomorphtype
                 return false;
             }
             //Log.Message(pawn + " thinks a candidate should be Ovomorphed.");
-            Pawn candidate = HiveUtility.GetOvomorphingCandidate(Parent.Map, forPawn: Parent);
+            Pawn candidate = XMTHiveUtility.GetOvomorphingCandidate(Parent.Map, forPawn: Parent);
             if (candidate != null)
             {
                 if (XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.PawnLikesTarget(Parent, candidate))
@@ -1484,7 +1492,7 @@ namespace Xenomorphtype
                 //Log.Message(pawn + " is going to Ovomorph " + target);
                 if (!candidate.Spawned)
                 {
-                    HiveUtility.RemoveHost(candidate, Parent.Map);
+                    XMTHiveUtility.RemoveHost(candidate, Parent.Map);
                 }
                 else
                 {
@@ -1506,7 +1514,7 @@ namespace Xenomorphtype
                 return false;
             }
             
-            Pawn candidate = HiveUtility.GetBestLarderCandidate(Parent.Map, forPawn: Parent);
+            Pawn candidate = XMTHiveUtility.GetBestLarderCandidate(Parent.Map, forPawn: Parent);
             if (candidate != null)
             {
                 if (XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.PawnLikesTarget(Parent, candidate))
@@ -1525,7 +1533,7 @@ namespace Xenomorphtype
         {
             job = null;
             
-            MeatballLarder PruningLarder = HiveUtility.GetMostPrunableLarder(Parent.Map, Parent);
+            MeatballLarder PruningLarder = XMTHiveUtility.GetMostPrunableLarder(Parent.Map, Parent);
             if (PruningLarder != null)
             {
                 if (PruningLarder.CanBePruned())
@@ -1570,7 +1578,7 @@ namespace Xenomorphtype
                 }
             }
 
-            job = HiveUtility.GetNestBuildJob(Parent);
+            job = XMTHiveUtility.GetNestBuildJob(Parent);
 
             if (job != null)
             {
@@ -1582,7 +1590,7 @@ namespace Xenomorphtype
         protected bool GetNestCoolingJob(out Job job)
         {
             job = null;
-            IntVec3 cell = HiveUtility.GetClearNestCell(Parent.Map);
+            IntVec3 cell = XMTHiveUtility.GetClearNestCell(Parent.Map);
             if (cell.IsValid)
             {
                 ThingDef cooler = InternalDefOf.AtmospherePylon;
@@ -1760,7 +1768,7 @@ namespace Xenomorphtype
                             continue;
                         }
 
-                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, HiveUtility.GetValidCocoonCell(Parent.Map));
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, XMTHiveUtility.GetValidCocoonCell(Parent.Map));
                         job.count = 1;
                         FeralJobUtility.ReserveThingForJob(Parent, job, prey);
                         return true;
@@ -1909,7 +1917,7 @@ namespace Xenomorphtype
 
             if(workType == XenoWorkDefOf.Construction)
             {
-                if (HiveUtility.ShouldCoolNest(Parent.Map))
+                if (XMTHiveUtility.ShouldCoolNest(Parent.Map))
                 {
                     if (GetNestCoolingJob(out job))
                     {
@@ -2000,7 +2008,7 @@ namespace Xenomorphtype
                     }
                 }
 
-                if (Parent.Faction == null && HiveUtility.ShouldBuildNest(Parent.Map))
+                if (Parent.Faction == null && XMTHiveUtility.ShouldBuildNest(Parent.Map))
                 {
                     if (GetNestBuildJob(out job))
                     {
@@ -2008,7 +2016,7 @@ namespace Xenomorphtype
                     }
                 }
 
-                if (HiveUtility.ShouldCoolNest(Parent.Map))
+                if (XMTHiveUtility.ShouldCoolNest(Parent.Map))
                 {
                     if (GetNestCoolingJob(out job))
                     {
@@ -2144,7 +2152,7 @@ namespace Xenomorphtype
                 }
                 Hediff hediff = HediffMaker.MakeHediff(InternalDefOf.XMT_Ambushed, targetPawn);
                 targetPawn.health.AddHediff(hediff);
-                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, HiveUtility.GetNestPosition(targetPawn.Map));
+                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, XMTHiveUtility.GetNestPosition(targetPawn.Map));
                 job.count = 1;
                 Parent.jobs.StartJob(job, JobCondition.InterruptForced);
             }

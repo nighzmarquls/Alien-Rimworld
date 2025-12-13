@@ -3,6 +3,8 @@
 	<XMT_FMO_Abduct>Abduct</XMT_FMO_Abduct>
 	<XMT_FMO_Make>Make </XMT_FMO_Make>
 	
+	<XMT_FMO_NoNestEnclosed>Nest Spot is not Fully Enclosed.</XMT_FMO_NoNestEnclosed>
+	
 	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
 	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
 	
@@ -171,7 +173,8 @@
 	<XMT_Info_Acid>Has experienced how dangerous acidic blood is. \n</XMT_Info_Acid>
 	<XMT_Info_Acid_Obsessed>Is amazed by the strength of cryptimorph acidic blood. \n</XMT_Info_Acid_Obsessed>
 	
-	<XMT_Info_Psychic>Is haunted by strange whispers just outside the legibility. \n</XMT_Info_Psychic>
+	<XMT_Info_Psychic>Is haunted by strange whispers just outside of legibility. \n</XMT_Info_Psychic>
 	<XMT_Info_Psychic_Obsessed>Hears beautiful voices whispering, calling out. \n</XMT_Info_Psychic_Obsessed>
 	
+	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>

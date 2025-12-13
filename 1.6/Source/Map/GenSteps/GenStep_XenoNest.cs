@@ -61,7 +61,7 @@ namespace Xenomorphtype
                         edifice.Destroy();
                     }
                     nestCells.Add(allCell);
-                    HiveUtility.TryPlaceResinFloor(allCell, map);
+                    XMTHiveUtility.TryPlaceResinFloor(allCell, map);
                 }
             }
 
@@ -110,7 +110,7 @@ namespace Xenomorphtype
                                 Hediff hediff = HediffMaker.MakeHediff(InternalDefOf.StarbeastCocoon, host);
                                 host.health.AddHediff(hediff);
 
-                                CocoonBase cocoonBase = HiveUtility.TryPlaceCocoonBase(nestCell, host) as CocoonBase;
+                                CocoonBase cocoonBase = XMTHiveUtility.TryPlaceCocoonBase(nestCell, host) as CocoonBase;
                                 if (cocoonBase != null)
                                 {
                                     host.jobs.Notify_TuckedIntoBed(cocoonBase);
@@ -159,7 +159,7 @@ namespace Xenomorphtype
                 map.roofGrid.SetRoof(wallCell, RoofDefOf.RoofRockThin);
             }
 
-            HiveUtility.ForceNestPosition(map.Center, map);
+            XMTHiveUtility.ForceNestPosition(map.Center, map);
         }
     }
 }

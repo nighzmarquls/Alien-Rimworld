@@ -172,7 +172,7 @@ namespace Xenomorphtype
                     Hediff hediff = HediffMaker.MakeHediff(InternalDefOf.StarbeastCocoon, host);
                     host.health.AddHediff(hediff);
 
-                    CocoonBase cocoonBase = HiveUtility.TryPlaceCocoonBase(cell, host) as CocoonBase;
+                    CocoonBase cocoonBase = XMTHiveUtility.TryPlaceCocoonBase(cell, host) as CocoonBase;
                     if (cocoonBase != null)
                     {
                         host.jobs.Notify_TuckedIntoBed(cocoonBase);
@@ -184,7 +184,7 @@ namespace Xenomorphtype
             if (spawnThrone)
             {
                 GenSpawn.Spawn(InternalDefOf.XMT_Ovothrone, map.Center, map, Rot4.Random);
-                HiveUtility.ForceNestPosition(map.Center+(Rot4.Random.FacingCell*5), map);
+                XMTHiveUtility.ForceNestPosition(map.Center+(Rot4.Random.FacingCell*5), map);
             }
             GenSpawn.Spawn(queen, map.Center, map);
         }

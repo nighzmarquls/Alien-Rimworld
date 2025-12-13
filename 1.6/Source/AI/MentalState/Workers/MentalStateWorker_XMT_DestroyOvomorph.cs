@@ -18,7 +18,7 @@ namespace Xenomorphtype
             }
 
 
-            bool result = HiveUtility.GetOvomorph(pawn.MapHeld, false) != null;
+            bool result = XMTHiveUtility.GetOvomorph(pawn.MapHeld, false) != null;
         
             return result;
         }

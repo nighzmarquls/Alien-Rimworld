@@ -51,7 +51,7 @@ namespace Xenomorphtype
 
             if(cell.GetAffordances(Pawn.Map).Contains(Props.activateOnAffordance))
             {
-               CocoonBase cocoon = HiveUtility.TryPlaceCocoonBase(cell, Pawn) as CocoonBase;
+               CocoonBase cocoon = XMTHiveUtility.TryPlaceCocoonBase(cell, Pawn) as CocoonBase;
                 if (cocoon != null)
                 {
                     Pawn.jobs.Notify_TuckedIntoBed(cocoon);

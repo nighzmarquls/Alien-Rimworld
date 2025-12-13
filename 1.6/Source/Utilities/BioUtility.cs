@@ -750,7 +750,7 @@ namespace Xenomorphtype
         {
             List<GeneDef> genes = new List<GeneDef>();
 
-            List<Thing> GeneCarriers = HiveUtility.GetAllGeneCarriers(map);
+            List<Thing> GeneCarriers = XMTHiveUtility.GetAllGeneCarriers(map);
 
             foreach (Thing thing in GeneCarriers)
             {
@@ -989,7 +989,7 @@ namespace Xenomorphtype
         {
             if (pawn?.needs?.food != null)
             {
-                pawn.needs.food.CurLevel = pawn.needs.food.CurLevel - HiveUtility.HiveHungerCostPerTick;
+                pawn.needs.food.CurLevel = pawn.needs.food.CurLevel - XMTHiveUtility.HiveHungerCostPerTick;
 
                 if (pawn.needs.food.Starving)
                 {

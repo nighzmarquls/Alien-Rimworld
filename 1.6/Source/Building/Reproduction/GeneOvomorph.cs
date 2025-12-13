@@ -25,7 +25,7 @@ namespace Xenomorphtype
 
             if (geneHolder != null)
             {
-                HiveUtility.AddGeneOvomorph(this, map);
+                XMTHiveUtility.AddGeneOvomorph(this, map);
             }
         }
 
@@ -38,7 +38,7 @@ namespace Xenomorphtype
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
             base.DeSpawn(mode);
-            HiveUtility.RemoveGeneOvomorph(this, Map);
+            XMTHiveUtility.RemoveGeneOvomorph(this, Map);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

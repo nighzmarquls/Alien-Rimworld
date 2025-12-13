@@ -20,6 +20,8 @@
 
 		<li IfModActive="rim.job.world">Compatibility/rjw</li>
 		<li IfModActive="otyoty.sizedapparel">Compatibility/SizedApparel</li>
+		
+		<li IfModActive="CETeam.CombatExtended">Compatibility/CombatExtended</li>
 	</v1.6>
 	
 </loadFolders>

@@ -56,7 +56,7 @@ namespace Xenomorphtype
         {
             base.CompPostMake();
 
-            HiveUtility.RemoveHost(parent.pawn, parent.pawn.Map);
+            XMTHiveUtility.RemoveHost(parent.pawn, parent.pawn.Map);
         }
         public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {

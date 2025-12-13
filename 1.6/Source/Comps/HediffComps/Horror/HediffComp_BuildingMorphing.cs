@@ -44,10 +44,10 @@ namespace Xenomorphtype
             {
                 if (Props.MorphedBuilding != null)
                 {
-                    HiveUtility.RemoveHost(parent.pawn, parent.pawn.MapHeld);
+                    XMTHiveUtility.RemoveHost(parent.pawn, parent.pawn.MapHeld);
                     if (Props.MorphedBuilding == InternalDefOf.XMT_Ovomorph)
                     {
-                        HiveUtility.AddOvomorphing(parent.pawn, parent.pawn.MapHeld);
+                        XMTHiveUtility.AddOvomorphing(parent.pawn, parent.pawn.MapHeld);
                         Host = parent.pawn;
                     }
                 }
@@ -58,7 +58,7 @@ namespace Xenomorphtype
             base.CompPostPostRemoved();
             if (Host != null)
             {
-                HiveUtility.RemoveOvomorphing(Host, Host.MapHeld);
+                XMTHiveUtility.RemoveOvomorphing(Host, Host.MapHeld);
                 Host = null;
             }
         }

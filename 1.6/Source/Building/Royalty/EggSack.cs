@@ -14,7 +14,7 @@ namespace Xenomorphtype
         CompOvomorphLayer layer = null;
         CompRefuelable refuelable = null;
         public Pawn Occupant = null;
-
+        bool empty = true;
         int attempts = 2;
 
         const int maxBacklog = 6;
@@ -175,6 +175,10 @@ namespace Xenomorphtype
             IEnumerable<Thing> possibleMaker = GenRadial.RadialDistinctThingsAround(Position, Map, 5f, true);
             foreach (Thing thing in possibleMaker)
             {
+                if(!empty)
+                {
+                    return;
+                }
                 if (thing is Pawn pawn)
                 {
                     if (XMTUtility.IsXenomorph(pawn))
@@ -183,18 +187,18 @@ namespace Xenomorphtype
                         {
                             continue;
                         }
-
+                        empty = false;
                         bool flag = pawn.DeSpawnOrDeselect();
                         if (TryAcceptThing(pawn, allowSpecialEffects: false) && flag)
                         {
+                            
                             if (Occupant.jobs.curJob != null)
                             {
                                 Occupant.jobs.curJob.Clear();
                             }
                             Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
-                            
+                            return;
                         }
-                        return;
                     }
 
                 }
@@ -226,7 +230,7 @@ namespace Xenomorphtype
         {
             base.TickInterval(delta);
 
-            if (containedMorph == null)
+            if (containedMorph == null && empty)
             {
                 Initialize();
                 return;

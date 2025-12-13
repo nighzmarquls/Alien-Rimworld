@@ -20,7 +20,7 @@ namespace Xenomorphtype
         {
             base.MapRemoved();
 
-            HiveUtility.DeregisterNestMap(map);
+            XMTHiveUtility.DeregisterNestMap(map);
         }
 
         public override void MapComponentTick()

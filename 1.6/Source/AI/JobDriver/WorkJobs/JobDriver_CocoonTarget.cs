@@ -116,7 +116,7 @@ namespace Xenomorphtype
                 CocoonProgress = (CocoonTicks / CocoonTicksFinish);
                 if (actor?.needs?.food != null)
                 {
-                    actor.needs.food.CurLevel = actor.needs.food.CurLevel - HiveUtility.HiveHungerCostPerTick;
+                    actor.needs.food.CurLevel = actor.needs.food.CurLevel - XMTHiveUtility.HiveHungerCostPerTick;
 
                     if (actor.needs.food.Starving)
                     {

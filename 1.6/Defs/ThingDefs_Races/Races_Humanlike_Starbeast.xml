@@ -278,7 +278,7 @@
 			<baseHungerRate>0.01</baseHungerRate>
 			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
 			<manhunterOnDamageChance>1</manhunterOnDamageChance>
-			<predator>false</predator>
+			<predator>true</predator>
 			<canBePredatorPrey>false</canBePredatorPrey>
 			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
 			<leatherDef>Starbeast_Chitin</leatherDef>
@@ -1319,7 +1319,7 @@
 		</comps>
 		<statBases>
 			<MarketValue>291650</MarketValue>
-			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">500</RoyalFavorValue>
+			<RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">500</RoyalFavorValue>
 			<MeleeDodgeChance>1.25</MeleeDodgeChance>
 			<MoveSpeed>7.0</MoveSpeed>
 			<CrawlSpeed>8</CrawlSpeed>

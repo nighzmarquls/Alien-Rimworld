@@ -11,7 +11,7 @@ namespace Xenomorphtype
             {
                 if(pawn.MapHeld != null)
                 {
-                    if(HiveUtility.PlayerXenosOnMap(pawn.MapHeld))
+                    if(XMTHiveUtility.PlayerXenosOnMap(pawn.MapHeld))
                     {
                         return true;
                     }

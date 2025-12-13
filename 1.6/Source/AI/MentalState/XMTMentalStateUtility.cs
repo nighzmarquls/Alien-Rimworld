@@ -1,14 +1,16 @@
 ﻿
 
-using System.Collections.Generic;
-using Verse.AI;
-using Verse;
-using static UnityEngine.GraphicsBuffer;
+using AlienRace;
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
+using Verse;
+using Verse.AI;
+using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
 {
-    internal class XMTMentalStateUtility
+    public class XMTMentalStateUtility
     {
 
 
@@ -19,9 +21,9 @@ namespace Xenomorphtype
                 return null;
             }
 
-            return HiveUtility.GetOvomorph(pawn.Map, false);
+            return XMTHiveUtility.GetOvomorph(pawn.Map, false);
         }
-        public static Pawn FindXenoToKill(Pawn pawn)
+        public static Thing FindXenoToKill(Pawn pawn)
         {
             if (!pawn.Spawned)
             {
@@ -54,7 +56,7 @@ namespace Xenomorphtype
             tmpTargets.Clear();
             return result;
         }
-        public static Pawn FindXenoEnemyToKill(Pawn pawn)
+        public static Thing FindXenoEnemyToKill(Pawn pawn)
         {
             if (!pawn.Spawned)
             {
@@ -63,7 +65,7 @@ namespace Xenomorphtype
 
             bool KillerIsXenomorph = XMTUtility.IsXenomorph(pawn);
 
-            List<Pawn> tmpTargets = new List<Pawn>();
+            List<Thing> tmpTargets = new List<Thing>();
             IReadOnlyList<Pawn> allPawnsSpawned = pawn.Map.mapPawns.AllPawnsSpawned;
             for (int i = 0; i < allPawnsSpawned.Count; i++)
             {
@@ -79,51 +81,78 @@ namespace Xenomorphtype
                 }
             }
 
+            List<Building_TurretGun> turrets = pawn.Map.listerThings.GetThingsOfType<Building_TurretGun>().ToList();
+
+            for (int i = 0; i < turrets.Count;i++)
+            {
+                Building_TurretGun candidate = turrets[i];
+
+                if(!candidate.Active || candidate.IsMannable)
+                {
+                    continue;
+                }
+   
+                if (pawn.CanReach(candidate, PathEndMode.Touch, Danger.Deadly))
+                {
+                    tmpTargets.Add(candidate);
+                }
+            }
+
             if (!tmpTargets.Any())
             {
                 return null;
             }
 
-            Pawn result = tmpTargets[0];
+            Thing result = tmpTargets[0];
             int closest = int.MaxValue;
             float worstTarget = 0;
 
-            foreach (Pawn target in tmpTargets)
+            foreach (Thing target in tmpTargets)
             {
-                if (target.Downed)
+                float pheromone = -1;
+                if (target is Building_TurretGun turret)
                 {
-                    continue;
+                    if(turret.CurrentTarget == pawn)
+                    {
+                        return target;
+                    }
                 }
 
-                CompPawnInfo info = target.Info();
-                if (info != null)
+                if (target is Pawn targetPawn)
                 {
-                    float pheromone = info.XenomorphPheromoneValue();
-
-                    
-                    if(target.HostileTo(pawn))
+                    if (targetPawn.Downed)
                     {
-                        pheromone -= 0.5f;
+                        continue;
                     }
 
-                    int distance = target.Position.DistanceToSquared(pawn.Position);
+                    CompPawnInfo info = targetPawn.Info();
+                    if (info != null)
+                    {
 
-                    if (pheromone < -5 && pheromone < worstTarget)
-                    {
-                        result = target;
-                        worstTarget = pheromone;
-                        closest = distance;
+
+                        pheromone = info.XenomorphPheromoneValue();
+                        if (target.HostileTo(pawn))
+                        {
+                            pheromone -= 0.5f;
+                        }
                     }
-                    else if( worstTarget > -5 && distance < closest)
-                    {
-                        result = target;
-                        worstTarget = pheromone;
-                        closest = distance;
-                    }
-                    
+                }
+                int distance = target.Position.DistanceToSquared(pawn.Position);
+
+                if (pheromone < -5 && pheromone < worstTarget)
+                {
+                    result = target;
+                    worstTarget = pheromone;
+                    closest = distance;
+                }
+                else if (worstTarget > -5 && distance < closest)
+                {
+                    result = target;
+                    worstTarget = pheromone;
+                    closest = distance;
                 }
             }
-            
+
             tmpTargets.Clear();
             return result;
         }

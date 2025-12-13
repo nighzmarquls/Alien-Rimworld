@@ -78,7 +78,7 @@ namespace Xenomorphtype
                 if (parent.pawn.MapHeld != null)
                 {
                     
-                    HiveUtility.AddImplantedHosts(parent.pawn, parent.pawn.MapHeld);
+                    XMTHiveUtility.AddImplantedHosts(parent.pawn, parent.pawn.MapHeld);
                     Host = parent.pawn;
 
                 }
@@ -92,7 +92,7 @@ namespace Xenomorphtype
                 if (Host.MapHeld != null)
                 {
                    
-                    HiveUtility.RemoveImplantedHosts(Host, Host.MapHeld);
+                    XMTHiveUtility.RemoveImplantedHosts(Host, Host.MapHeld);
 
                     if(unbirthed)
                     {
@@ -132,11 +132,11 @@ namespace Xenomorphtype
 
             float relativeSize = (ChildKind.RaceProps.baseBodySize * ChildLifeStage.bodySizeFactor) / base.Pawn.BodySize;
 
-            float ChestBurstTarget = Props.burstDamage*40*base.Pawn.BodySize;
+            float ChestBurstTarget = Props.burstDamage*40*relativeSize;
 
             DamageDef damageType = DamageDefOf.Crush;
-            float ArmorPenetration = 2f;
-            DamageWorker.DamageResult result = base.Pawn.TakeDamage(new DamageInfo(damageType, ChestBurstTarget * relativeSize, ArmorPenetration, -1, null, coreparts.RandomElement<BodyPartRecord>()));
+            float ArmorPenetration = 9999f;
+            DamageWorker.DamageResult result = base.Pawn.TakeDamage(new DamageInfo(damageType, ChestBurstTarget, ArmorPenetration, -1, null, coreparts.RandomElement<BodyPartRecord>()));
             damageDealt += result.totalDamageDealt;
 
             if (!base.Pawn.Dead)
@@ -336,7 +336,7 @@ namespace Xenomorphtype
 
             BioUtility.InheritNonGenes(Pawn, ref child);
 
-            HiveUtility.ChestburstBirth(child, mother);
+            XMTHiveUtility.ChestburstBirth(child, mother);
 
             XMTUtility.TrySpawnPawnFromTarget(child, Pawn);
 
@@ -352,7 +352,6 @@ namespace Xenomorphtype
 
             Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
 
-
             if (Pawn.Dead)
             {
                 Pawn.health.RemoveHediff(parent);
@@ -366,6 +365,7 @@ namespace Xenomorphtype
 
         public float CalculateMaturity()
         {
+            
             return Math.Max(parent.pawn.BodySize * parent.Severity, 0.001f);
         }
 

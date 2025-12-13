@@ -3,19 +3,14 @@ using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.AI.Group;
-using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
 {
     internal class XMTHostilityPatch
     {
-        
+
         /*[HarmonyPatch(typeof(GenHostility), nameof(GenHostility.HostileTo), new Type[] { typeof(Thing), typeof(Faction) })]
         public static class Patch_GenHostility_HostileTo_Faction
         {
@@ -40,7 +35,7 @@ namespace Xenomorphtype
                 return true;
             }
         }
-
+        */
         [HarmonyPatch(typeof(PawnUtility), nameof(PawnUtility.IsPermanentCombatant))]
         public static class Patch_PawnUtility_IsPermanentCombatant
         {
@@ -51,6 +46,31 @@ namespace Xenomorphtype
                 {
                     __result = true;
                     return false;
+                }
+
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(Pawn), nameof(Pawn.ThreatDisabledBecauseNonAggressiveRoamer))]
+        public static class Patch_Pawn_ThreatDisabledBecauseNonAggressiveRoamer
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn otherPawn, Pawn __instance, ref bool __result)
+            {
+                CompPawnInfo info = __instance.Info();
+                if (XMTUtility.IsXenomorph(__instance) || info.IsObsessed())
+                {
+                    return true;
+                }
+
+                if(XMTUtility.IsXenomorph(__instance))
+                {
+                    if (XMTUtility.IsHostileAndAwareOf(__instance, otherPawn))
+                    {
+                        __result = false;
+                        return false;
+                    }
                 }
 
                 return true;
@@ -89,7 +109,7 @@ namespace Xenomorphtype
                 return true;
             }
         }
-        */
+       
 
         [HarmonyPatch(typeof(Building_TurretGun), nameof(Building_TurretGun.TryFindNewTarget))]
         public static class Patch_Building_TurretGun_TryFindNewTarget
@@ -99,7 +119,7 @@ namespace Xenomorphtype
                Thing ___gun, CompMannable ___mannableComp)
             {
                
-                if (HiveUtility.TotalHivePopulation(__instance.Map) > 0)
+                if (XMTHiveUtility.TotalHivePopulation(__instance.Map) > 0)
                 {
                     if (___mannableComp != null)
                     {
@@ -124,7 +144,7 @@ namespace Xenomorphtype
                     {
                         return true;
                     }
-                    Log.Message(" Checking for cryptimorphs for " + __instance);
+
                     float range = AttackVerb.EffectiveRange;
 
                     float maxDistSquared = range * range;
@@ -139,7 +159,7 @@ namespace Xenomorphtype
                     List<Pawn> viableTargets = new List<Pawn>();
 
                     float bestDistanceSquared = float.MaxValue;
-                    foreach (Pawn morph in HiveUtility.GetHiveMembersOnMap(__instance.Map))
+                    foreach (Pawn morph in XMTHiveUtility.GetHiveMembersOnMap(__instance.Map))
                     {
                         float adjustedMaxDistance = (morph.IsPsychologicallyInvisible()) ? maxDistSquared * 0.5f : maxDistSquared;
                         float squaredDistance = (__instance.Position - morph.Position).LengthHorizontalSquared;
@@ -165,7 +185,6 @@ namespace Xenomorphtype
 
                         if (bestDistanceSquared > squaredDistance)
                         {
-                            Log.Message(morph + " is best distance " + __instance);
                             bestDistanceSquared = squaredDistance;
                             __result = morph;
                             foundTargets = true;

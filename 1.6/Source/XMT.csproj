@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xenomorphtype</RootNamespace>
-    <AssemblyName>Xenomorphtype</AssemblyName>
+    <AssemblyName>XMT</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -339,7 +339,7 @@
     <Compile Include="Harmony\XMTThoughtPatch.cs" />
     <Compile Include="Harmony\XMTUIPatches.cs" />
     <Compile Include="Map\HiveMapComponent.cs" />
-    <Compile Include="Utilities\HiveUtility.cs" />
+    <Compile Include="Utilities\XMTHiveUtility.cs" />
     <Compile Include="Utilities\InfiltrationUtility.cs" />
     <Compile Include="ModExtensions\AnimalHostGenes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
