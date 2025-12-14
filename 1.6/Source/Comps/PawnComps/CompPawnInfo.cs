@@ -545,7 +545,7 @@ namespace Xenomorphtype
 
                 if(DebugSettings.ShowDevGizmos)
                 {
-                    output += "\n DEV Total Awareness: " + TotalHorrorAwareness();
+                    output += "\nDEV Total Awareness: " + TotalHorrorAwareness();
                 }
             }
             return output;

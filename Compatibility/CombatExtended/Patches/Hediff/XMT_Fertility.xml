@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationReplace">
+	<xpath>Defs/HediffDef[defName="XMT_Fertility"]/stages/li[1]/statOffsets</xpath>
+	<value>
+		<statOffsets>
+			  <SocialImpact>0.2500</SocialImpact>
+			  <ArmorRating_Blunt>-80.0000</ArmorRating_Blunt>
+			  <ArmorRating_Sharp>-30.0000</ArmorRating_Sharp>
+			  <WorkSpeedGlobal>-0.2250</WorkSpeedGlobal>
+		</statOffsets>
+	</value>
+  </Operation>
+</Patch>

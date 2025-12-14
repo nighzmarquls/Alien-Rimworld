@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationAttributeSet">
+			  <xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]</xpath>
+			  <attribute>Class</attribute>
+			  <value>CombatExtended.ToolCE</value>
+			</li>
+			<li Class="PatchOperationConditional">
+			  <xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]/armorPenetrationSharp</xpath>
+			  <match Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]/armorPenetrationSharp</xpath>
+				<value>
+				  <armorPenetrationSharp>60</armorPenetrationSharp>
+				</value>
+			  </match>
+			  <nomatch Class="PatchOperationAdd">
+				<xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]</xpath>
+				<value>
+				  <armorPenetrationSharp>60</armorPenetrationSharp>
+				</value>
+			  </nomatch>
+			</li>
+			<li Class="PatchOperationConditional">
+			  <xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]/armorPenetrationBlunt</xpath>
+			  <match Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]/armorPenetrationBlunt</xpath>
+				<value>
+				  <armorPenetrationBlunt>60</armorPenetrationBlunt>
+				</value>
+			  </match>
+			  <nomatch Class="PatchOperationAdd">
+				<xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]</xpath>
+				<value>
+				  <armorPenetrationBlunt>60</armorPenetrationBlunt>
+				</value>
+			  </nomatch>
+			</li>
+			<li Class="PatchOperationConditional">
+			  <xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]/power</xpath>
+			  <match Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]/power</xpath>
+				<value>
+				  <power>24</power>
+				</value>
+			  </match>
+			  <nomatch Class="PatchOperationAdd">
+				<xpath>Defs/HediffDef[defName="XMT_ScythingBlade"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools/li[1]</xpath>
+				<value>
+				  <power>24</power>
+				</value>
+			  </nomatch>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

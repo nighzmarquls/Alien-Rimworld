@@ -105,17 +105,6 @@ namespace Xenomorphtype
                     Job attackJob = JobMaker.MakeJob(JobDefOf.AttackMelee, Discoverer);
 
                     Parent.jobs.StartJob(attackJob, JobCondition.InterruptForced);
-                    if (Discoverer is Pawn Attacker)
-                    {
-                        if (XMTUtility.IsHostileAndAwareOf(Attacker, Parent))
-                        {
-                            if (Attacker.mindState.mentalStateHandler.InMentalState)
-                            {
-                                return;
-                            }
-                            Attacker.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, reason: "", forced: true, forceWake: true, false);
-                        }
-                    }
                     Parent.Map.attackTargetsCache.UpdateTarget(Parent);
 
                 }

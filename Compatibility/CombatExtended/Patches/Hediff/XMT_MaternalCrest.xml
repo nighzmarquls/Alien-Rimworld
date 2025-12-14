@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/HediffDef[defName="XMT_MaternalCrest"]/stages/li[1]/statOffsets</xpath>
+		<value>
+			<statOffsets>
+				  <PsychicSensitivity>1.2500</PsychicSensitivity>
+				  <SocialImpact>1.0000</SocialImpact>
+				  <ArmorRating_Blunt>80.0000</ArmorRating_Blunt>
+				  <ArmorRating_Sharp>28.0000</ArmorRating_Sharp>
+			</statOffsets>
+		</value>
+	</Operation>
+</Patch>

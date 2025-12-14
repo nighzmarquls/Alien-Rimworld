@@ -47,14 +47,15 @@
 		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/comps</xpath>
 		<value>
 			<li Class="CombatExtended.CompProperties_ArmorDurability">
-				<Durability>3660</Durability>
+				<Durability>14640</Durability>
 				<Regenerates>true</Regenerates>
-				<RegenInterval>100</RegenInterval>
+				<RegenInterval>120</RegenInterval>
 				<RegenValue>1220</RegenValue>
-				<MinArmorPct>0.5</MinArmorPct>
-				<MinArmorValueSharp>27</MinArmorValueSharp>
-				<MinArmorValueBlunt>70</MinArmorValueBlunt>
-				<!-- <MinArmorValueHeat>0.2</MinArmorValueHeat>
+				<MinArmorPct>0.25</MinArmorPct>
+
+				<!--
+				
+				<MinArmorValueHeat>0.2</MinArmorValueHeat>
 				<MinArmorValueElectric>0.1</MinArmorValueElectric> -->
 			</li>
 			<li Class="CombatExtended.CompProperties_Inventory" />
