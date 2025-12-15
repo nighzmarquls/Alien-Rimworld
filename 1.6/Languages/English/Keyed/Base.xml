@@ -5,6 +5,10 @@
 	
 	<XMT_FMO_NoNestEnclosed>Nest Spot is not Fully Enclosed.</XMT_FMO_NoNestEnclosed>
 	
+	<XMT_FMO_Tame>Advanced Tame</XMT_FMO_Tame>
+	
+	<XMT_FMO_TameNotEnabled>No Advanced Taming Selected.</XMT_FMO_TameNotEnabled>
+	
 	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
 	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
 	
@@ -104,7 +108,9 @@
 	
 	<XMT_Tame>Taming</XMT_Tame>
 	
-	<XMT_TameChance>Taming Chance: </XMT_TameChance>
+	<XMT_TameAmount>Taming Progress: </XMT_TameAmount>
+	
+	<XMT_TextMote_TameFail>Tame failed\n{0} progress</XMT_TextMote_TameFail>
 	
 	<XMT_TameSocial>Socialize</XMT_TameSocial>
 	<XMT_TameSocialDescription>Attempt to socialize the organism through communication in multi-spectrum infra and ultra sound vocalizations.</XMT_TameSocialDescription>

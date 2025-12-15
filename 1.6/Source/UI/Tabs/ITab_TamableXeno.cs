@@ -171,7 +171,7 @@ namespace Xenomorphtype
 
             TooltipHandler.TipRegion(socialRect, socialDescription);
             listing_Standard.Gap();
-            listing_Standard.Label("XMT_TameChance".Translate() + Mathf.Max(0, SelPawn.GetMorphComp().Taming - 0.25f).ToStringPercent());
+            listing_Standard.Label("XMT_TameAmount".Translate() + Mathf.Max(0, SelPawn.GetMorphComp().Taming*2).ToStringPercent());
 
             Widgets.EndGroup();
 

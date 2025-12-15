@@ -10,12 +10,9 @@ namespace XMT_CE
     {
         static XMT_CE()
         {
-            var harmony = new Harmony("XMT.XMTModCE");
-            LongEventHandler.QueueLongEvent(delegate
-            {
-                harmony.PatchAll();
-                Log.Message("[Alien|Rimworld] combat extended harmony Patching ");
-            }, "XMTCE_LoadPatching", doAsynchronously: true, null);
+            Harmony harmony = new Harmony("XMT.XMTModCE");
+            harmony.PatchAll();
+            Log.Message("[Alien|Rimworld] combat extended harmony Patching ");
         }
 
       

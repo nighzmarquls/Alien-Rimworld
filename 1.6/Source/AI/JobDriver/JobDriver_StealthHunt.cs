@@ -131,6 +131,8 @@ namespace Xenomorphtype
                     pawn.jobs.EndCurrentJob(JobCondition.Succeeded);
                 }
             };
+
+            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
             Toil toil = Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, hitAction).JumpIfDespawnedOrNull(TargetIndex.A, prepareToEatCorpse).JumpIf(() => Corpse != null, prepareToEatCorpse)
                 .FailOn(() => Find.TickManager.TicksGame > startTick + 5000 && (float)(job.GetTarget(TargetIndex.A).Cell - pawn.Position).LengthHorizontalSquared > 4f);
             yield return toil;

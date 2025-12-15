@@ -88,7 +88,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if(morph.ShouldTameCondition)
+            if (morph.ShouldTameCondition)
             {
                 if (!tamer.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent) && tamer.equipment.HasAnything())
                 {
@@ -101,7 +101,7 @@ namespace Xenomorphtype
                             if (platform.TryGetComp(out CompEntityHolder comp))
                             {
                                 float containment = recipient.GetStatValue(StatDefOf.MinimumContainmentStrength);
-                                if (comp.ContainmentStrength < containment * 1.5f && !recipient.Downed)
+                                if (comp.ContainmentStrength < containment && !recipient.Downed)
                                 {
                                     comp.EjectContents();
                                     recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
@@ -134,7 +134,7 @@ namespace Xenomorphtype
                             if (platform.TryGetComp(out CompEntityHolder comp))
                             {
                                 float containment = recipient.GetStatValue(StatDefOf.MinimumContainmentStrength);
-                                if (comp.ContainmentStrength < containment * 1.5f && !recipient.Downed)
+                                if (comp.ContainmentStrength < containment && !recipient.Downed)
                                 {
                                     comp.EjectContents();
                                 }
@@ -425,6 +425,39 @@ namespace Xenomorphtype
             }
 
             return true;
+        }
+
+        public static bool HasFoodToInteractAnimal(Pawn pawn, Pawn tamee)
+        {
+            ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
+            int num = 0;
+            float num2 = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee);
+            float num3 = 0f;
+            for (int i = 0; i < innerContainer.Count; i++)
+            {
+                Thing thing = innerContainer[i];
+                if (!tamee.WillEat(thing, pawn) || (int)thing.def.ingestible.preferability > 5 || thing.def.IsDrug)
+                {
+                    continue;
+                }
+
+                for (int j = 0; j < thing.stackCount; j++)
+                {
+                    num3 += thing.GetStatValue(StatDefOf.Nutrition);
+                    if (num3 >= num2)
+                    {
+                        num++;
+                        num3 = 0f;
+                    }
+
+                    if (num >= 2)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
     }

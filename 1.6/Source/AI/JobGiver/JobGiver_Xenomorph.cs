@@ -64,9 +64,10 @@ namespace Xenomorphtype
                                 }
                                 
                                
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, compMatureMorph.NestPosition);
+                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, XMTHiveUtility.GetValidCocoonCell(pawn.Map));
                                 job.count = 1;
-                                pawn.Reserve(target, job);
+
+                                FeralJobUtility.ReserveThingForJob(pawn, job, target);
                                 return job;
                                 
 
@@ -204,11 +205,7 @@ namespace Xenomorphtype
             {
                 Log.Message(pawn + " has no feral jobs valid.");
             }
-           
-            if(hasNest)
-            {
-                return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
-            }
+
             return null;
             
         }

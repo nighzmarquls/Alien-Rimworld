@@ -86,6 +86,7 @@ namespace Xenomorphtype
             }
         }
 
+       
         private void RecomputePosition()
         {
             if (positionLastComputedTick != ticksClimbing && ClimbingThing != null)
@@ -93,8 +94,21 @@ namespace Xenomorphtype
                 positionLastComputedTick = ticksClimbing;
                 float t = (float)ticksClimbing / (float)ticksFlightTime;
                 float t2 = def.pawnFlyer.Worker.AdjustedProgress(t);
-                effectiveHeight = underground? -1:def.pawnFlyer.Worker.GetHeight(t2);
+                float height = def.pawnFlyer.Worker.GetHeight(t2);
                 groundPos = Vector3.Lerp(startVec, DestinationPos, t2);
+
+                if (height < 0.75f)
+                {
+                    effectiveHeight = underground? -1: height;
+                    
+                }
+                else
+                {
+                    effectiveHeight = -100;
+                    groundPos += new Vector3(Mathf.Sin(groundPos.x), 0, Mathf.Cos(groundPos.z));
+                }
+
+                
                 Vector3 vector = Altitudes.AltIncVect * effectiveHeight;
                 Vector3 vector2 = Vector3.forward * (def.pawnFlyer.heightFactor * effectiveHeight);
                 effectivePos = groundPos + vector + vector2;

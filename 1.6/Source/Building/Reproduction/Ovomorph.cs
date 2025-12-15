@@ -338,7 +338,10 @@ namespace Xenomorphtype
             }
             else
             {
-                SetFaction(instigator.Faction);
+                if (!instigator.IsSlave)
+                {
+                    SetFaction(instigator.Faction);
+                }
                 SetParents(instigator, pawn);
             }
             gestateProgress = 1;

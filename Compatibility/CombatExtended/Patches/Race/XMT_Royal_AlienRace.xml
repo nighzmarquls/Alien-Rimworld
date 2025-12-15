@@ -5,35 +5,37 @@
 		<xpath>Defs/ThingDef[defName="XMT_Royal_AlienRace"]/statBases</xpath>
 		<value>
 			<statBases>
-			  <Mass>60</Mass>
-			  <Flammability>0</Flammability>
-			  <MeleeDodgeChance>1.25</MeleeDodgeChance>
-			  <MeleeCritChance>1</MeleeCritChance>
-			  <MeleeParryChance>1</MeleeParryChance>
-			  <MarketValue>291650</MarketValue>
-			  <MoveSpeed>7</MoveSpeed>
-			  <ComfyTemperatureMin>-270</ComfyTemperatureMin>
-			  <ComfyTemperatureMax>310</ComfyTemperatureMax>
-			  <LeatherAmount>25</LeatherAmount>
-			  <Wildness>1</Wildness>
-			  <ArmorRating_Sharp>27</ArmorRating_Sharp>
-              <ArmorRating_Blunt>70</ArmorRating_Blunt>
-              <ArmorRating_Heat>0.2</ArmorRating_Heat>
-			  <CrawlSpeed>8</CrawlSpeed>
-			  <ToxicResistance>1</ToxicResistance>
-			  <ToxicEnvironmentResistance>1</ToxicEnvironmentResistance>
-			  <IncomingDamageFactor>0.9</IncomingDamageFactor>
-			  <TerrorSource>50</TerrorSource>
-			  <SlaveSuppressionFallRate>8</SlaveSuppressionFallRate>
-			  <PawnTrapSpringChance>0</PawnTrapSpringChance>
-			  <MeatAmount>15</MeatAmount>
-			  <StaggerDurationFactor>0.025</StaggerDurationFactor>
-			  <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
-			  <WorkSpeedGlobal>0.75</WorkSpeedGlobal>
-			  <PsychicSensitivity>1.25</PsychicSensitivity>
-			  <Suppressability>0</Suppressability>
-			  <SmokeSensitivity>0</SmokeSensitivity>
-			  <NightVisionEfficiency>1</NightVisionEfficiency>
+				<ArmorRating_Sharp>27</ArmorRating_Sharp>
+				<ArmorRating_Blunt>70</ArmorRating_Blunt>
+				<ArmorRating_Heat>0.2</ArmorRating_Heat>
+				<Suppressability>0</Suppressability>
+				<SmokeSensitivity>0</SmokeSensitivity>
+				<NightVisionEfficiency>1</NightVisionEfficiency>
+				<ComfyTemperatureMin>-270</ComfyTemperatureMin>
+				<ComfyTemperatureMax>310</ComfyTemperatureMax>
+				<LeatherAmount>75</LeatherAmount>
+				<ToxicResistance>1.0</ToxicResistance>
+				<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+				<IncomingDamageFactor>0.90</IncomingDamageFactor>
+				<TerrorSource MayRequire="Ludeon.RimWorld.Ideology">100</TerrorSource>
+				<SlaveSuppressionFallRate MayRequire="Ludeon.RimWorld.Ideology">8</SlaveSuppressionFallRate>
+				<PawnTrapSpringChance>0</PawnTrapSpringChance>
+				<Flammability>0</Flammability>
+				<MeatAmount>15</MeatAmount>
+				<StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
+				<Wildness>1</Wildness>
+				<MeleeCooldownFactor>0.5</MeleeCooldownFactor>
+				<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+				<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
+				<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
+				<MarketValue>291650</MarketValue>
+				<RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">500</RoyalFavorValue>
+				<MeleeDodgeChance>1.25</MeleeDodgeChance>
+				<MoveSpeed>7.0</MoveSpeed>
+				<CrawlSpeed>8</CrawlSpeed>
+				<WorkSpeedGlobal>0.75</WorkSpeedGlobal>
+				<PsychicSensitivity>1.25</PsychicSensitivity>
+				<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">250</MinimumContainmentStrength>
 			</statBases>
 		</value>
 	</Operation>

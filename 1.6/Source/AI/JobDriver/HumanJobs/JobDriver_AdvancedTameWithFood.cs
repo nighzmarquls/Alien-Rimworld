@@ -195,6 +195,10 @@ namespace Xenomorphtype
                     actor.CurJob.SetTarget(TargetIndex.B, thing2);
                     float bribeNutrition = (float)thing2.stackCount * thing2.GetStatValue(StatDefOf.Nutrition);
                     ticksLeftThisToil = Mathf.CeilToInt(270f * (bribeNutrition / RequiredNutritionPerFeed(target)));
+
+                    float taming = bribeNutrition * Mathf.Min(actor.skills.GetSkill(SkillDefOf.Animals).Level * 0.01f, actor.skills.GetSkill(SkillDefOf.Social).Level * 0.01f);
+                    target.GetMorphComp().tamingBribes += taming;
+                    XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.RecievedTrophallaxis, actor);
                     if (num <= stackCount)
                     {
                         feedNutritionLeft = 0f;
@@ -202,9 +206,6 @@ namespace Xenomorphtype
                     else
                     {
                         feedNutritionLeft -= bribeNutrition;
-                        float taming = Mathf.Min( bribeNutrition , Mathf.Min(actor.skills.GetSkill(SkillDefOf.Animals).Level * 0.05f, actor.skills.GetSkill(SkillDefOf.Social).Level * 0.05f));
-                        target.GetMorphComp().tamingBribes += taming;
-                        XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.RecievedTrophallaxis, actor);
                         if (feedNutritionLeft < 0.001f)
                         {
                             feedNutritionLeft = 0f;
@@ -239,15 +240,17 @@ namespace Xenomorphtype
                     actor.CurJob.SetTarget(TargetIndex.B, thing2);
                     float bribeNutrition = (float)thing2.stackCount * thing2.GetStatValue(StatDefOf.Nutrition);
                     ticksLeftThisToil = Mathf.CeilToInt(270f * (bribeNutrition / RequiredNutritionPerFeed(target)));
+                    float taming = bribeNutrition * Mathf.Min(actor.skills.GetSkill(SkillDefOf.Animals).Level * 0.01f, actor.skills.GetSkill(SkillDefOf.Social).Level * 0.01f);
+                    target.GetMorphComp().tamingBribes += taming;
+                    XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.RecievedTrophallaxis, actor);
                     if (num <= stackCount)
                     {
+
                         feedNutritionLeft = 0f;
                     }
                     else
                     {
                         feedNutritionLeft -= bribeNutrition;
-                        float taming = bribeNutrition * Mathf.Min(actor.skills.GetSkill(SkillDefOf.Animals).Level * 0.1f, actor.skills.GetSkill(SkillDefOf.Social).Level * 0.1f);
-                        target.GetMorphComp().tamingBribes += taming;
                         if (feedNutritionLeft < 0.001f)
                         {
                             feedNutritionLeft = 0f;

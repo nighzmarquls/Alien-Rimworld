@@ -385,8 +385,6 @@ namespace Xenomorphtype
         }
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
-            Log.Message("Initial damage on " + Parent);
-
             base.PostPostApplyDamage(dinfo, totalDamageDealt);
 
             Pawn aggressor = dinfo.Instigator as Pawn;
@@ -395,8 +393,6 @@ namespace Xenomorphtype
             {
                 return;
             }
-
-            Log.Message(Parent + " neither downed nor dead");
 
             if (aggressor == null && dinfo.Instigator != null)
             {
@@ -410,8 +406,6 @@ namespace Xenomorphtype
                 }
                 return;
             }
-
-            Log.Message(Parent + " aggressor not null or non-pawn");
 
             if (aggressor.Dead)
             {
@@ -478,7 +472,7 @@ namespace Xenomorphtype
             {
                 if (HiveNeedsTending)
                 {
-                    canTendLairTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
+                    canTendLairTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 5000);
                     return true;
                 }
                 return false;
@@ -1200,6 +1194,8 @@ namespace Xenomorphtype
 
             if(Parent.Faction != null && Parent.Faction.IsPlayer)
             {
+                int progress = 250;
+                ResearchUtility.ProgressEvolutionTech(progress, Parent);
                 hediff.SetVisible();
             }
             if(building != null)
@@ -1207,8 +1203,6 @@ namespace Xenomorphtype
                 building.InheritFromInjector(Parent);
             }
 
-            int progress = 250;
-            ResearchUtility.ProgressEvolutionTech(progress, Parent);
             target.health.AddHediff(hediff);
         }
 
@@ -1569,11 +1563,11 @@ namespace Xenomorphtype
         {
             if (ShouldTunnelToNest())
             {
-                Log.Message(Parent + " thinks the nest is inaccessible.");
+                //Log.Message(Parent + " thinks the nest is inaccessible.");
                 job = GetTunnelJob(Parent, NestPosition);
                 if (job != null)
                 {
-                    Log.Message(Parent + " is clearing a path to the nest.");
+                   //Log.Message(Parent + " is clearing a path to the nest.");
                     return true;
                 }
             }

@@ -495,7 +495,7 @@ namespace Xenomorphtype
 
             if (DebugSettings.ShowDevGizmos)
             {
-                output += "\nDEV total pheromone value: " + totalPheromone + "\n";
+                output += "\nDEV total pheromone value: " + XenomorphPheromoneValue() + "\n";
             }
 
             if (isAware)

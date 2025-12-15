@@ -276,7 +276,7 @@ namespace Xenomorphtype
                     }
                 }
             }
-            Log.Message("No Valid Entry");
+            //Log.Message("No Valid Entry");
             return false;
         }
 
@@ -788,7 +788,7 @@ namespace Xenomorphtype
                         continue;
                     }
 
-                    if (cell.GetRoof(map) != RoofDefOf.RoofRockThick && cell.Standable(map))
+                    if (cell.Standable(map) && cell.Roofed(map))
                     {
                         openCell = cell;
                         return true;

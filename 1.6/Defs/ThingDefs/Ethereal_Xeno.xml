@@ -13,8 +13,8 @@
 		<pawnFlyer>
 		  <flightDurationMin>0.5</flightDurationMin>
 		  <flightSpeed>12</flightSpeed>
-		  <workerClass>PawnFlyerWorker</workerClass>
-		  <heightFactor>1</heightFactor>
+		  <workerClass>Xenomorphtype.PawnClimberWorker</workerClass>
+		  <heightFactor>2</heightFactor>
 		  <progressCurve>
 			<points>
 			  <li>(0, 0)</li>
@@ -36,8 +36,8 @@
 		<pawnFlyer>
 			<flightDurationMin>0.5</flightDurationMin>
 			<flightSpeed>6</flightSpeed>
-			<workerClass>PawnFlyerWorker</workerClass>
-			<heightFactor>1</heightFactor>
+			<workerClass>Xenomorphtype.PawnClimberWorker</workerClass>
+			<heightFactor>4</heightFactor>
 			<progressCurve>
 				<points>
 				  <li>(0, 0)</li>

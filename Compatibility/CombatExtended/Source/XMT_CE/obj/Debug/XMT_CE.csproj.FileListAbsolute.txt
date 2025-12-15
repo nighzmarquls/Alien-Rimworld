@@ -4,4 +4,3 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compa
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\CombatExtended\Source\XMT_CE\obj\Debug\XMT_CE.csproj.CoreCompileInputs.cache
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\CombatExtended\Source\XMT_CE\obj\Debug\XMT_CE.dll
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\CombatExtended\Source\XMT_CE\obj\Debug\XMT_CE.pdb
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\CombatExtended\Source\XMT_CE\obj\Debug\XMT_CE.csproj.Up2Date

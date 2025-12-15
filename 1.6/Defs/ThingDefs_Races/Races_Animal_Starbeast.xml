@@ -75,7 +75,7 @@
 			<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 			<Radiation MayRequire="Dubwise.Rimatomics">0</Radiation>
 			<Wildness>0.2</Wildness>
-			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">80</MinimumContainmentStrength>
+			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">40</MinimumContainmentStrength>
 		</statBases>
 		<uiIconScale>2</uiIconScale>
 		<tools>

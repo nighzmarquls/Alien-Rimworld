@@ -27,8 +27,6 @@ namespace Xenomorphtype
             int num = recipient.relations?.OpinionOf(initiator) ?? 0;
             bool inspired = initiator.InspirationDef == InspirationDefOf.Inspired_Recruitment;
 
-            float tameChance = 0;
-
             CompMatureMorph morph = recipient.GetMorphComp();
 
             if(morph == null)
@@ -39,27 +37,37 @@ namespace Xenomorphtype
                 return;
             }
 
-            float displayChance = morph.Taming - 0.25f;
+            float displayAmount = morph.Taming*2;
+
             if (morph.Tamed)
             {
-                tameChance = displayChance;
-            }
-
-            if (Rand.Chance(tameChance))
-            {
-                DoRecruit(initiator, recipient, out letterLabel, out letterText, useAudiovisualEffects: true, sendLetter: false);
-                if (!letterLabel.NullOrEmpty())
+                if (recipient.Faction != initiator.Faction && !recipient.IsSlave)
                 {
-                    letterDef = LetterDefOf.PositiveEvent;
+                    DoRecruit(initiator, recipient, out letterLabel, out letterText, useAudiovisualEffects: true, sendLetter: false);
+                    if (!letterLabel.NullOrEmpty())
+                    {
+                        letterDef = LetterDefOf.PositiveEvent;
+                    }
+
+                    lookTargets = new LookTargets(recipient, initiator);
+                    extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
                 }
 
-                lookTargets = new LookTargets(recipient, initiator);
-                extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
+                if (recipient.IsOnHoldingPlatform)
+                {
+                    if (recipient.ParentHolder is Building_HoldingPlatform platform)
+                    {
+                        if (platform.TryGetComp(out CompEntityHolder comp))
+                        {
+                            comp.EjectContents();
+                        }
+                    }
+                }
             }
             else
             {
-                TaggedString taggedString = "TextMote_TameFail".Translate(displayChance.ToStringPercent());
-                MoteMaker.ThrowText((initiator.DrawPos ), initiator.Map, taggedString, 8f);
+                TaggedString taggedString = "XMT_TextMote_TameFail".Translate(displayAmount.ToStringPercent());
+                MoteMaker.ThrowText((initiator.DrawPos), initiator.Map, taggedString, 8f);
                 extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptRejected);
             }
         }

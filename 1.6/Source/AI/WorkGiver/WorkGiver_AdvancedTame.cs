@@ -151,7 +151,7 @@ namespace Xenomorphtype
 
             if (tamable.GetMorphComp().ShouldTameBribe)
             {
-                if (tamable.RaceProps.EatsFood && tamable.needs?.food != null && !HasFoodToInteractAnimal(pawn, tamable))
+                if (tamable.RaceProps.EatsFood && tamable.needs?.food != null && !TamingUtility.HasFoodToInteractAnimal(pawn, tamable))
                 {
                     thing = FoodUtility.BestFoodSourceOnMap(pawn, tamable, desperate: false, out var foodDef, FoodPreferability.MealLavish , allowPlant: false, allowDrug: false, allowCorpse: false, allowDispenserFull: false, allowDispenserEmpty: false, allowForbidden: false, allowSociallyImproper: false, allowHarvest: false, forceScanWholeMap: false, ignoreReservations: false, calculateWantedStackCount: false, FoodPreferability.Undefined, JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamable) * 2f * 4f);
                     if (thing == null)

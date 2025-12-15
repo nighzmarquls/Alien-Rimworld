@@ -106,6 +106,8 @@ namespace Xenomorphtype
                         {
                             continue;
                         }
+
+                        
                         
                         CompGlower glow = powerUser.parent.GetComp<CompGlower>();
                         if (glow != null)
@@ -143,6 +145,7 @@ namespace Xenomorphtype
                 (x as CompPowerBattery == null) &&
                 (x as CompPowerTrader == null) &&
                 (map.glowGrid.GroundGlowAt(x.parent.Position) < 0.45f) &&
+                pawn.CanReach(x.parent.Position, PathEndMode.ClosestTouch, Danger.None) &&
                 pawn.CanReserve(x.parent));
 
                 if (cables.Any())

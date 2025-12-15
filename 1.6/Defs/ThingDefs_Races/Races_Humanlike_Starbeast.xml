@@ -127,7 +127,7 @@
 			 <IncomingDamageFactor>0.90</IncomingDamageFactor>
 			 <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">50</TerrorSource>
 			 <SlaveSuppressionFallRate MayRequire="Ludeon.RimWorld.Ideology">8</SlaveSuppressionFallRate>
-			 <MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">250</MinimumContainmentStrength>
+			 <MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">125</MinimumContainmentStrength>
 			 <PawnTrapSpringChance>0</PawnTrapSpringChance>
 			 <Flammability>0</Flammability>
 			 <MeatAmount>15</MeatAmount>
@@ -1325,6 +1325,8 @@
 			<CrawlSpeed>8</CrawlSpeed>
 			<WorkSpeedGlobal>0.75</WorkSpeedGlobal>
 			<PsychicSensitivity>1.25</PsychicSensitivity>
+			<LeatherAmount>75</LeatherAmount>
+			<TerrorSource MayRequire="Ludeon.RimWorld.Ideology">100</TerrorSource>
 			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">500</MinimumContainmentStrength>
 		</statBases>
 		<race>
