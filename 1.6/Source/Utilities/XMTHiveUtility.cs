@@ -894,7 +894,7 @@ namespace Xenomorphtype
             return job;
         }
 
-        public static IntVec3 GetValidCocoonCell(Map map)
+        public static IntVec3 GetValidCocoonCell(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
             if (localNest == null)
@@ -913,6 +913,13 @@ namespace Xenomorphtype
             {
                 if(IsCellValidCocoon(cell, map))
                 {
+                    if(forPawn != null)
+                    {
+                        if(!FeralJobUtility.IsPlaceAvailableForJobBy(forPawn,cell))
+                        {
+                            continue;
+                        }
+                    }
                     return cell;
                 }
             }

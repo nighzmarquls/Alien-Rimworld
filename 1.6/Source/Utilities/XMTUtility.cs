@@ -1866,6 +1866,11 @@ namespace Xenomorphtype
             if(a is Pawn observer)
             {
                 CompPawnInfo info = observer.Info();
+                if(observer.Downed)
+                {
+                    return false;
+                }
+
                 if(info.IsObsessed())
                 {
                     return false;
@@ -1873,10 +1878,10 @@ namespace Xenomorphtype
 
                 if(a.Faction == b.Faction)
                 {
-                    return info.TotalHorrorAwareness() > 0.5f;
+                    return false;
                 }
 
-                return info.TotalHorrorAwareness() > 0.25f;
+                return info.TotalHorrorAwareness() > XMTSettings.MinAwarenessAutoAggression;
 
             }
             return false;

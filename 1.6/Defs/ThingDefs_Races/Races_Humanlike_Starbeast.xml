@@ -288,7 +288,7 @@
 			<baseHungerRate>0.01</baseHungerRate>
 			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
 			<manhunterOnDamageChance>1</manhunterOnDamageChance>
-			<predator>true</predator>
+			<predator>false</predator>
 			<canBePredatorPrey>false</canBePredatorPrey>
 			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
 			<leatherDef>Starbeast_Chitin</leatherDef>

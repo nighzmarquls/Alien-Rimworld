@@ -58,6 +58,9 @@ namespace Xenomorphtype
         public static float XenoformingGrowthFactor => instance != null ? instance._xenoformingGrowthFactor : 1f;
         private float _xenoformingGrowthFactor = 1f;
 
+        public static float MinAwarenessAutoAggression => instance != null ? instance._minAutoAggression : 1f;
+        private float _minAutoAggression = 1f;
+
         private string TooltipForEggMaturation()
         {
             return Mathf.Floor(_laidEggMaturationTime * 24) + " hours";
@@ -154,6 +157,10 @@ namespace Xenomorphtype
             _biomeSpreadFactor = listingStandard.SliderLabeled("Xenoforming Growth Factor", _xenoformingGrowthFactor, 0, 10f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForPercent(_xenoformingGrowthFactor));
+            listingStandard.Gap(5f);
+            _minAutoAggression = listingStandard.SliderLabeled("Minimum Awareness for Auto Aggression", _minAutoAggression, 0, 10f, tooltip: TooltipForEggMaturation());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForPercent(_minAutoAggression));
             listingStandard.Gap(5f);
             listingStandard.End();
             viewRect.height += 25;

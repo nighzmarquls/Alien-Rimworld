@@ -1762,9 +1762,12 @@ namespace Xenomorphtype
                             continue;
                         }
 
-                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, XMTHiveUtility.GetValidCocoonCell(Parent.Map));
-                        job.count = 1;
+
+                        IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(Parent.Map, Parent);
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, cell);
+                        FeralJobUtility.ReservePlaceForJob(Parent, job, cell);
                         FeralJobUtility.ReserveThingForJob(Parent, job, prey);
+                        job.count = 1;
                         return true;
 
                     }

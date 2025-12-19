@@ -2,6 +2,7 @@
 using VEF.Graphics;
 using Verse;
 using Verse.AI;
+using static UnityEngine.GraphicsBuffer;
 
 
 namespace Xenomorphtype
@@ -28,11 +29,13 @@ namespace Xenomorphtype
                 {
                     FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Abduct".Translate(), delegate
                     {
-
-                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, clickedPawn, XMTHiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map));
+                        IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map, context.FirstSelectedPawn);
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, clickedPawn, cell);
+                        FeralJobUtility.ReservePlaceForJob(context.FirstSelectedPawn, job, cell);
+                        FeralJobUtility.ReserveThingForJob(context.FirstSelectedPawn, job, clickedPawn);
                         job.count = 1;
-                        context.FirstSelectedPawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
+                        context.FirstSelectedPawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
                     }, priority: MenuOptionPriority.Default), context.FirstSelectedPawn, clickedPawn);
 

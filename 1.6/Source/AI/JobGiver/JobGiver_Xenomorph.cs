@@ -14,6 +14,16 @@ namespace Xenomorphtype
 {
     public class JobGiver_Xenomorph : ThinkNode_JobGiver
     {
+        protected Job GetAbductJob(Pawn pawn, Pawn target)
+        {
+            IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(pawn.Map, pawn);
+            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, cell);
+            FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
+            FeralJobUtility.ReserveThingForJob(pawn, job, target);
+            job.count = 1;
+            pawn.Reserve(target, job);
+            return job;
+        }
         protected Job GetFeralJob(Pawn pawn)
         {
             if (XMTSettings.LogJobGiver)
@@ -63,14 +73,7 @@ namespace Xenomorphtype
                                     Log.Message(pawn + " thinks " + target + " should be abducted");
                                 }
                                 
-                               
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, XMTHiveUtility.GetValidCocoonCell(pawn.Map));
-                                job.count = 1;
-
-                                FeralJobUtility.ReserveThingForJob(pawn, job, target);
-                                return job;
-                                
-
+                                return GetAbductJob(pawn, target);
                             }
                         }
                     }
@@ -362,7 +365,10 @@ namespace Xenomorphtype
                         return XMTUtility.ClimberFleeJob(pawn);
                     }
 
-                    return JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, XMTHiveUtility.GetValidCocoonCell(pawn.Map));
+                    IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(pawn.Map, pawn);
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, cell);
+                    FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
+                    return job;
                 }
 
                 if (compMatureMorph.ShouldGorge())
@@ -556,11 +562,9 @@ namespace Xenomorphtype
                                 {
                                     Log.Message(pawn + " is going to abduct " + target);
                                 }
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, XMTHiveUtility.GetValidCocoonCell(pawn.Map));
-                                job.count = 1;
 
-                                pawn.Reserve(target, job);
-                                return job;
+
+                                return GetAbductJob(pawn, target);
                             }
                         }
                     }
