@@ -138,19 +138,19 @@ namespace Xenomorphtype
 
             float relativeSize = (ChildKind.RaceProps.baseBodySize * ChildLifeStage.bodySizeFactor) / Pawn.BodySize;
 
-            float ChestBurstTarget = 40*Pawn.BodySize;
+            float ChestBurstTarget = Props.burstDamage * 40 * base.Pawn.BodySize;
 
             DamageDef damageType = DamageDefOf.Crush;
             float ArmorPenetration = 9999f;
-            DamageWorker.DamageResult result = Pawn.TakeDamage(new DamageInfo(damageType, relativeSize*Props.burstDamage, ArmorPenetration, -1, null, coreparts.RandomElement<BodyPartRecord>()));
+            DamageWorker.DamageResult result = Pawn.TakeDamage(new DamageInfo(damageType, relativeSize*ChestBurstTarget, ArmorPenetration, -1, null, coreparts.RandomElement<BodyPartRecord>()));
             damageDealt += result.totalDamageDealt;
 
-            if (!base.Pawn.Dead)
+            if (!Pawn.Dead)
             {
                 XMTUtility.WitnessHorror(Pawn.PositionHeld, Pawn.MapHeld, 0.1f);
             }
 
-            if ((damageDealt >= ChestBurstTarget || base.Pawn.Dead || Pawn.health.hediffSet.PartIsMissing(result.LastHitPart)) && unbirthed)
+            if ((damageDealt >= ChestBurstTarget || Pawn.Dead || Pawn.health.hediffSet.PartIsMissing(result.LastHitPart)) && unbirthed)
             {
                 SpawnChild(childAge, maturity);
                 return true;
