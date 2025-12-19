@@ -244,6 +244,7 @@ namespace Xenomorphtype
                 if (network.PipeNet.AvailableCapacity > 0)
                 {
                     float stored = 0;
+                   
                     network.PipeNet.DistributeAmongStorage(totalJelly, out stored);
                     droppedJelly -= Mathf.CeilToInt(stored);
                 }

@@ -149,6 +149,7 @@
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractResin.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractJelly.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_DeAges.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ReplaceGenes.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_XenoSocialGiver.cs" />
     <Compile Include="Harmony\XMTDoorPatches.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
     <Compile Include="Utilities\TamingUtility.cs" />
+    <Compile Include="Utilities\XMTRoofUtility.cs" />
     <Compile Include="WorldHorror\BiomeWorker\BiomeWorker_DessicatedBlight.cs" />
     <Compile Include="WorldHorror\WorldDrawLayer_Xenoforming.cs" />
     <Compile Include="Utilities\XenoformingUtility.cs" />

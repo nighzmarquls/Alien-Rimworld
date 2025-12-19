@@ -43,6 +43,7 @@ namespace Xenomorphtype
         public static HediffDef             PawnInfoHediff;
         public static HediffDef             XMT_Ambushed;
         public static HediffDef             XMT_Enthroned;
+        public static HediffDef             XMT_Stabilize;
 
         //Xenomorph bodyparts
         public static BodyPartGroupDef      StarbeastTailAttackTool;
@@ -110,7 +111,6 @@ namespace Xenomorphtype
 
         //Xenomorph render Offsets
         public static OffsetListDef         XMT_HeadAttachmentOffsets;
-
         
     }
 }

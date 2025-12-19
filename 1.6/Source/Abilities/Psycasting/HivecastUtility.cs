@@ -188,6 +188,7 @@ namespace Xenomorphtype
                                 subject.ideo.SetIdeo(caster.ideo.Ideo);
                             }
 
+                            casterInfo.GainObsession(0.1f);
                             subject.GetMorphComp().tamingSocializing += 0.25f;
                         }
                         else
@@ -220,11 +221,16 @@ namespace Xenomorphtype
                                         caster.SetFaction(queen.Faction);
                                     }
                                 }
+                                else
+                                {
+                                    casterInfo.GainObsession(1f);
+                                }
                             }
                             else
                             {
                                 casterInfo.ApplyThreatPheromone(queen, 1, 2);
                                 caster.stances.stunner.StunFor(2f.SecondsToTicks(), queen, addBattleLog: false);
+                                casterInfo.GainObsession(0.1f);
                             }
                         }
                         else
@@ -243,6 +249,8 @@ namespace Xenomorphtype
                                 {
                                     subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, queen);
                                 }
+
+                                casterInfo.GainObsession(1f);
                             }
                             else
                             {

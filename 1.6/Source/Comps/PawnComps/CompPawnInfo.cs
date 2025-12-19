@@ -761,9 +761,22 @@ namespace Xenomorphtype
         }
         public bool IsXenomorphFriendly()
         {
-
             float TotalPositivePheromone = XenomorphPheromoneValue();
 
+            if (parent.MapHeld != null)
+            {
+                if (parent.MapHeld.designationManager.DesignationOn(parent) is Designation designation)
+                {
+                    if (designation.def == XenoWorkDefOf.XMT_Friend)
+                    {
+                        TotalPositivePheromone += 10;
+                    }
+                    else if (designation.def == XenoWorkDefOf.XMT_Enemy)
+                    {
+                        TotalPositivePheromone -= 10;
+                    }
+                }
+            }
             return TotalPositivePheromone > 0;
         }
 

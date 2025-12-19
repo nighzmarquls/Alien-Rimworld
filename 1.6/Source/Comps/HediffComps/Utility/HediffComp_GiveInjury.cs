@@ -29,7 +29,7 @@ namespace Xenomorphtype
                 }
                 if (Rand.Chance(Props.chancebySeverity.Evaluate(parent.Severity)))
                 {
-                    Pawn.TakeDamage(new DamageInfo(Props.damageDef, Props.maxDamage, 1000, hitPart: parent.Part,instigator:Pawn));
+                    Pawn.TakeDamage(new DamageInfo(Props.damageDef, Props.maxDamage, 1000, hitPart: parent.Part));
                 }
            }
         }

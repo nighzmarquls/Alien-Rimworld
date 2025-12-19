@@ -1,8 +1,8 @@
-﻿using RimWorld;
+﻿using PipeSystem;
+using RimWorld;
 using System.Collections.Generic;
-using Verse;
 using UnityEngine;
-using PipeSystem;
+using Verse;
 
 namespace Xenomorphtype
 {
@@ -34,6 +34,9 @@ namespace Xenomorphtype
         public Pawn LastOccupant;
 
         public CompResource JellyResource;
+
+        int feedingTick = -1;
+
         protected override void TickInterval(int delta)
         {
             base.TickInterval(delta);
@@ -66,6 +69,43 @@ namespace Xenomorphtype
                 {
                     ForOwnerType = BedOwnerType.Slave;
                     occupant.jobs.Notify_TuckedIntoBed(this);
+                }
+
+                int tick = Find.TickManager.TicksGame;
+                if (tick > feedingTick)
+                {
+                    feedingTick = tick + 2500;
+                    if (occupant.needs.food != null)
+                    {
+                        float nutritionToFull = occupant.needs.food.NutritionWanted;
+                        float JellyWanted = nutritionToFull * InternalDefOf.Starbeast_Jelly.statBases.GetStatValueFromList(StatDefOf.Nutrition, 1);
+                        float stored = JellyResource.PipeNet.CurrentStored();
+                        if (stored > JellyWanted)
+                        {
+                            JellyResource.PipeNet.DrawAmongStorage(JellyWanted, JellyResource.PipeNet.storages);
+                            occupant.needs.food.CurLevel += nutritionToFull;
+                            ThingDef jellyDef = InternalDefOf.Starbeast_Jelly;
+                            if (jellyDef.ingestible.outcomeDoers != null)
+                            {
+                                occupant.mindState.lastIngestTick = Find.TickManager.TicksGame;
+                                Thing jellyThing = ThingMaker.MakeThing(jellyDef);
+                                occupant.needs.drugsDesire?.Notify_IngestedDrug(jellyThing);
+
+                                List<Hediff> hediffs = occupant.health.hediffSet.hediffs;
+                                for (int k = 0; k < hediffs.Count; k++)
+                                {
+                                    hediffs[k].Notify_IngestedThing(jellyThing, Mathf.CeilToInt(JellyWanted));
+                                }
+
+                                for (int l = 0; l < jellyDef.ingestible.outcomeDoers.Count; l++)
+                                {
+                                    jellyDef.ingestible.outcomeDoers[l].DoIngestionOutcome(occupant, jellyThing, Mathf.CeilToInt(JellyWanted));
+                                }
+                                jellyThing.Discard();
+                            }
+
+                        }
+                    }
                 }
             }
             else

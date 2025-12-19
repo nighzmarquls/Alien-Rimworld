@@ -51,10 +51,24 @@
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.1</obsessionGain>
+				<obsessionGain>2</obsessionGain>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
 				<probability>0.01</probability>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_DeAges">
+				<curedAgeIllness>
+					<li>HeartAttack</li>
+					<li>Carcinoma</li>
+					<li>BadBack</li>
+					<li>Frail</li>
+					<li>Cataract</li>
+					<li>HearingLoss</li>
+					<li>Dementia</li>
+					<li>Alzheimers</li>
+					<li>Asthma</li>
+					<li>HeartArteryBlockage</li>
+				</curedAgeIllness>
 			</li>
 			<li Class="HediffCompProperties_SeverityPerDay">
 				<severityPerDay>-2</severityPerDay>
@@ -111,7 +125,7 @@
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.01</obsessionGain>
+				<obsessionGain>1</obsessionGain>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
 				<probability>0.005</probability>
@@ -185,7 +199,7 @@
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.25</obsessionGain>
+				<obsessionGain>1</obsessionGain>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
 				<probability>0.01</probability>

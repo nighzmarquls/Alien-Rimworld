@@ -49,6 +49,7 @@
 		  </li>
 		</comps>
 		<constructEffect>ResinBuild</constructEffect>
+		<drawStyleCategory>OrganicFill2D</drawStyleCategory>
 	</ThingDef>
 
 	<ThingDef ParentName="BuildingBase" Name="HiveMimicWallBuildable">
@@ -97,6 +98,7 @@
 		  </li>
 		</comps>
 		<constructEffect>ResinBuild</constructEffect>
+		<drawStyleCategory>Organic1D</drawStyleCategory>
 	</ThingDef>
 	
 </Defs>

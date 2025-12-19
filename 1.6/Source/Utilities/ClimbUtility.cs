@@ -1,15 +1,10 @@
 ﻿
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using static HarmonyLib.Code;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.Scripting.GarbageCollector;
 
 namespace Xenomorphtype
 {
@@ -17,13 +12,15 @@ namespace Xenomorphtype
     {
         public struct ClimbParameters
         {
-            public bool ClimbCellsRegistered => (StartClimbCell.IsValid && EndClimbCell.IsValid);
+            public bool ClimbCellsRegistered => (ClimbStarts != null && ClimbStarts.Count > 0 && ClimbEnds != null && ClimbEnds.Count > 0
+                && ClimbStarts[0].IsValid && ClimbEnds[0].IsValid);
 
-            public IntVec3 StartClimbCell;
-            public IntVec3 EndClimbCell;
             public IntVec3 FinalGoalCell;
             public bool NoWallToClimb ;
             public bool Tunneling;
+
+            public List<IntVec3> ClimbStarts;
+            public List<IntVec3> ClimbEnds;
         }
 
         protected static bool ShouldClimbTo(Pawn actor, TargetIndex ind)
@@ -49,9 +46,105 @@ namespace Xenomorphtype
             return false;
         }
 
+        private static bool OriginalCanReach(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
+        {
+            if (!pawn.Spawned)
+            {
+                return false;
+            }
+
+            return pawn.Map.reachability.CanReach(pawn.Position, dest, peMode, TraverseParms.For(pawn, maxDanger, mode, canBashDoors, alwaysUseAvoidGrid: false, canBashFences));
+
+        }
+
+        public static bool CanReachByInfiltration(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
+        {
+            if (InfiltrationUtility.GetInfiltrationEntry(pawn.Map, pawn.Position, dest.Cell, out Building entry))
+            {
+                if (InfiltrationUtility.GetInfiltrationExit(entry, dest.Cell, out Building exit))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static bool CanReachByClimb(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
+        {
+            if (!pawn.Spawned)
+            {
+                return false;
+            }
+
+            if(pawn.Map == null)
+            {
+                return false;
+            }
+
+            bool normalReach = OriginalCanReach(pawn, dest, peMode, maxDanger, canBashDoors, canBashFences, mode);
+
+            if (normalReach)
+            {
+                return normalReach;
+            }
+
+            Room destRoom = dest.Cell.GetRoom(pawn.Map);
+
+            Room pawnRoom = pawn.GetRoom();
+
+            if (destRoom == null || pawnRoom == null)
+            {
+                return false;
+            }
+
+            if(!(destRoom.PsychologicallyOutdoors && pawnRoom.PsychologicallyOutdoors))
+            {
+                if(CanReachByInfiltration(pawn,dest, peMode, maxDanger,canBashDoors,canBashFences,mode))
+                {
+                    return true;
+                }
+
+                bool noOpening = true;
+                foreach(IntVec3 roomCell in destRoom.Cells)
+                {
+                    if(XMTRoofUtility.RoofIsBreakable(roomCell.GetRoof(pawn.Map)))
+                    {
+                        noOpening = false;
+                        break;
+                    }
+                }
+
+                if(noOpening)
+                {
+                    return false;
+                }
+
+                noOpening = true;
+
+                foreach (IntVec3 roomCell in pawnRoom.Cells)
+                {
+                    if (XMTRoofUtility.RoofIsBreakable(roomCell.GetRoof(pawn.Map)))
+                    {
+                        noOpening = false;
+                        break;
+                    }
+                }
+
+                if (noOpening)
+                {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
         protected static bool ShouldClimbTo(Pawn actor, IntVec3 cell)
         {
             if (actor == null)
+            {
+                return false;
+            }
+
+            if(actor.jobs.curDriver is JobDriver_EnterPortal)
             {
                 return false;
             }
@@ -61,7 +154,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            bool canReach = actor.CanReach( cell, PathEndMode.ClosestTouch, Danger.Some);
+            bool canReach = OriginalCanReach(actor, cell, PathEndMode.ClosestTouch, Danger.Some); 
 
             if (!canReach)
             {
@@ -74,14 +167,14 @@ namespace Xenomorphtype
         protected static void BeginClimb(Pawn actor, ref CompClimber climber, Toil toil)
         {
             IntVec3 position = actor.Position;
-            IntVec3 cell = climber.climbParameters.EndClimbCell;
+            IntVec3 cell = climber.EndClimbCell;
             Map map = actor.Map;
     
 
             bool isSelected = Find.Selector.IsSelected(actor);
 
-            climber.pawnClimber = climber.climbParameters.Tunneling ? PawnClimber.MakeClimber(InternalDefOf.PawnClimbUnder, actor, cell, EffecterDefOf.ConstructDirt, SoundDefOf.Pawn_Melee_Punch_Miss, true, climber.climbParameters.StartClimbCell.ToVector3(), null, climber.climbParameters.EndClimbCell)
-            : PawnClimber.MakeClimber(InternalDefOf.PawnClimber, actor, cell, EffecterDefOf.ConstructDirt, SoundDefOf.Pawn_Melee_Punch_Miss, true, climber.climbParameters.StartClimbCell.ToVector3(), null, climber.climbParameters.EndClimbCell);
+            climber.pawnClimber = climber.climbParameters.Tunneling ? PawnClimber.MakeClimber(InternalDefOf.PawnClimbUnder, actor, cell, EffecterDefOf.ConstructDirt, SoundDefOf.Pawn_Melee_Punch_Miss, true, climber.StartClimbCell.ToVector3(), null, climber.EndClimbCell)
+            : PawnClimber.MakeClimber(InternalDefOf.PawnClimber, actor, cell, EffecterDefOf.ConstructDirt, SoundDefOf.Pawn_Melee_Punch_Miss, true, climber.StartClimbCell.ToVector3(), null, climber.EndClimbCell);
 
             if (climber.pawnClimber != null)
             {
@@ -96,25 +189,25 @@ namespace Xenomorphtype
 
                 if (!climber.climbParameters.Tunneling)
                 {
-                    RoofDef roof = climber.climbParameters.StartClimbCell.GetRoof(map);
+                    RoofDef roof = climber.StartClimbCell.GetRoof(map);
                     if(roof == RoofDefOf.RoofRockThick)
                     {
-                        map.roofGrid.SetRoof(climber.climbParameters.StartClimbCell, RoofDefOf.RoofRockThin);
+                        map.roofGrid.SetRoof(climber.StartClimbCell, RoofDefOf.RoofRockThin);
                     }
-                    RoofCollapserImmediate.DropRoofInCells(climber.climbParameters.StartClimbCell, map);
+                    RoofCollapserImmediate.DropRoofInCells(climber.StartClimbCell, map);
                 }
             }
         }
 
         protected static void InitClimbAction(Pawn actor, ref CompClimber climber, Toil toil, PathEndMode peMode = PathEndMode.OnCell)
         {
-            if (actor.Position == climber.climbParameters.StartClimbCell)
+            if (actor.Position == climber.StartClimbCell)
             {
                 BeginClimb(actor, ref climber, toil);
                 return;
             }
 
-            actor.pather.StartPath(climber.climbParameters.StartClimbCell, peMode);
+            actor.pather.StartPath(climber.StartClimbCell, peMode);
         }
 
         protected static void TickClimbIntervalAction(int interval, Pawn actor, ref CompClimber climber, Toil toil, PathEndMode peMode = PathEndMode.OnCell)
@@ -129,16 +222,28 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (climber.startedClimb && !climber.finishedClimb)
+            if (actor.pather.curPath == null || actor.pather.curPath.Finished)
             {
-                actor.pather.StartPath(climber.climbParameters.FinalGoalCell, peMode);
-                climber.finishedClimb = true;
-                return;
-            }
+                if (climber.startedClimb && !climber.finishedClimb)
+                {
+                    climber.finishedClimb = true;
 
-            if(actor.pather.curPath == null || actor.pather.curPath.Finished)
-            {
-                if (climber.finishedClimb && climber.startedClimb)
+                    if (climber.lastClimb)
+                    {
+                        //Log.Message(actor + " pathing too " + climber.climbParameters.FinalGoalCell);
+                        actor.pather.StartPath(climber.climbParameters.FinalGoalCell, peMode);
+                    }
+                    else
+                    {
+                        climber.startedClimb = false;
+                        climber.finishedClimb = false;
+                        //Log.Message(actor + " pathing too " + climber.StartClimbCell);
+                        actor.pather.StartPath(climber.StartClimbCell, peMode);
+                    }
+                    return;
+                }
+            
+                if (climber.lastClimb)
                 {
                     if (climber.climbParameters.FinalGoalCell.AdjacentTo8WayOrInside(actor.Position))
                     {
@@ -148,7 +253,8 @@ namespace Xenomorphtype
                 }
                 else if(!climber.startedClimb)
                 {
-                    if (climber.climbParameters.StartClimbCell.AdjacentTo8WayOrInside(actor.Position))
+                    //Log.Message(actor + " is checking if they are at " + climber.StartClimbCell);
+                    if (climber.StartClimbCell.AdjacentTo8WayOrInside(actor.Position))
                     {
                         BeginClimb(actor, ref climber, toil);
                     }
@@ -247,7 +353,7 @@ namespace Xenomorphtype
                 CompClimber climber = actor.GetComp<CompClimber>();
                 if (climber == null || !GetClimbParameters(actor, dest.Cell, ref climber))
                 {
-                    Log.Message(actor + " pathing too " + thing);
+                    //Log.Message(actor + " pathing too " + thing);
                     toil.actor.pather.StartPath(exactCell, PathEndMode.OnCell);
                     toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
                     return;
@@ -397,10 +503,10 @@ namespace Xenomorphtype
         }
 
 
-        protected static bool GetClimbCells(Pawn pawn, IntVec3 goal, out IntVec3 climbStart, out IntVec3 climbEnd)
+        protected static bool GetClimbCells(Pawn pawn, IntVec3 goal, out List<IntVec3> climbStart, out List<IntVec3> climbEnd)
         {
-            climbStart = IntVec3.Invalid;
-            climbEnd = IntVec3.Invalid;
+            climbStart = new List<IntVec3>();
+            climbEnd = new List<IntVec3>();
 
             IntVec3 start = pawn.Position;
             Map map = pawn.Map;
@@ -408,16 +514,17 @@ namespace Xenomorphtype
             List<IntVec3> line = GenSight.PointsOnLineOfSight(goal, start).ToList();
 
             bool wasBlocked = false;
-            
+            IntVec3 lastClear = IntVec3.Invalid;
             int i = 0;
             foreach (IntVec3 point in line)
             {
-                if(climbEnd == IntVec3.Invalid)
+                //Log.Message(pawn + " is checking " + point + ":" + i);
+                if(climbEnd.Count == 0)
                 {
                     if(point.Roofed(map))
                     {
-                        Log.Message(pawn + " has found a end point");
-                        climbEnd = point;
+                        //Log.Message(pawn + " has found a end point" + point + ":" + i);
+                        climbEnd.Add(point);
                     }
                     else
                     {
@@ -426,21 +533,26 @@ namespace Xenomorphtype
                         {
                             if (adj.Roofed(map) || (!adj.Walkable(map) && !adj.CanBeSeenOverFast(map)))
                             {
-                                climbEnd = point;
+                                //Log.Message(pawn + " has found a end point" + point + ":" + i);
+                                climbEnd.Add(point);
+                                break;
                             }
                         }
                     }
                 }
 
                 bool noLongerBlocked = false;
-                if(point.Walkable(map))
+                bool walkable = point.Walkable(map);
+               
+                if (walkable && !point.Roofed(map))
                 {
-                    if(wasBlocked)
+                    lastClear = point;
+                    if (wasBlocked)
                     {
                         noLongerBlocked = true;
                     }
                 }
-                else
+                else if(!walkable)
                 {
                     if (point.CanBeSeenOverFast(map))
                     {
@@ -449,27 +561,31 @@ namespace Xenomorphtype
                             noLongerBlocked = true;
                         }
                     }
-                    else
+                    else if(!wasBlocked)
                     {
-                        Log.Message(pawn + " has been found a spot blocked");
+                        climbEnd.Add(lastClear); 
                         wasBlocked = true;
                     }
                 }
 
-                if (noLongerBlocked)
+                if (noLongerBlocked && climbEnd.Count > climbStart.Count)
                 {
-                    if(pawn.CanReach(point,PathEndMode.OnCell,Danger.Some))
+                    //Log.Message(pawn + " has found a start point" + point + ":" + i);
+                    climbStart.Add(point);
+                    wasBlocked = false;
+
+                    if (OriginalCanReach(pawn, point, PathEndMode.OnCell, Danger.Some))
                     {
-                        Log.Message(pawn + " has found a start point");
-                        climbStart = point;
-                        return true;
+                        break;
                     }
                 }
 
                 i++;
             }
-
-            return false;
+            //Log.Message(climbEnd.Count + " ends and " + climbStart.Count + "starts");
+            climbStart.Reverse();
+            climbEnd.Reverse();
+            return climbStart.Count > 0 && climbEnd.Count > 0 && climbStart.Count == climbEnd.Count;
         }
         protected static bool GetClimbParameters(Pawn pawn, IntVec3 FinalGoalCell, ref CompClimber climber)
         {
@@ -486,25 +602,21 @@ namespace Xenomorphtype
             //Log.Message(pawn + " final goal valid");
             if (!ShouldClimbTo(pawn, FinalGoalCell))
             {
-                Log.Message(pawn + " should not climb!");
                 return false;
             }
-
-            Log.Message(pawn + " should climb!");
 
             bool ClimbOver = true;
             IntVec3 Start = pawn.Position;
 
-
             //Log.Message(pawn + " Trying infiltrate from Position: " + Start + " to " + FinalGoalCell);
             if (InfiltrationUtility.GetInfiltrationEntry(pawn.Map, Start, FinalGoalCell, out Building entry))
             {
-                climber.climbParameters.StartClimbCell = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(Start, entry);
+                climber.climbParameters.ClimbStarts.Add(InfiltrationUtility.GetGoalOnOrAdjacentToFrom(Start, entry));
                 //Log.Message(pawn + " Found Infiltration Target Entry: " + entry + " at " + climber.climbParameters.StartClimbCell);
                 if (InfiltrationUtility.GetInfiltrationExit(entry, FinalGoalCell, out Building exit))
                 {
 
-                    climber.climbParameters.EndClimbCell = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(FinalGoalCell, exit);
+                    climber.climbParameters.ClimbEnds.Add(InfiltrationUtility.GetGoalOnOrAdjacentToFrom(FinalGoalCell, exit));
                     //Log.Message(pawn + " Found Infiltration Target Exit: " + exit + " at " + climber.climbParameters.EndClimbCell);
                     climber.climbParameters.NoWallToClimb = false;
                     ClimbOver = false;
@@ -514,126 +626,13 @@ namespace Xenomorphtype
 
             if (ClimbOver)
             {
-                GetClimbCells(pawn, FinalGoalCell, out climber.climbParameters.StartClimbCell, out climber.climbParameters.EndClimbCell);
-                /*
-                TraverseMode climbTraverseMode = TraverseMode.ByPawn;
-                Danger climbDanger = pawn.Faction == Faction.OfPlayer ? Danger.Deadly : Danger.None;
-
-                if (InfiltrationUtility.IsCellTrapped(FinalGoalCell, pawn.Map, climbTraverseMode, climbDanger))
-                {
-                    climber.climbParameters.NoWallToClimb = false;
-                    Log.Message(FinalGoalCell + " is trapped for wall climbing check.");
-                    if (InfiltrationUtility.IsCellClimbAccessible(FinalGoalCell, pawn.Map, out IntVec3 accessCell))
-                    {
-                        IntVec3 cellBefore;
-                        PawnPath pathFromWall = pawn.Map.pathFinder.FindPathNow(FinalGoalCell, pawn.Position, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings));
-                        Thing secondThing = pathFromWall.FirstBlockingBuilding(out cellBefore, pawn);
-                        if (secondThing != null)
-                        {
-                            List<IntVec3> reversedPath = pathFromWall.NodesReversed;
-                            bool FoundBlocker = false;
-                            if (accessCell.IsValid)
-                            {
-                                climber.climbParameters.EndClimbCell = accessCell;
-                            }
-                            else
-                            {
-                                climber.climbParameters.EndClimbCell = cellBefore;
-                            }
-                            Log.Message(pawn + " has found climb end point at " + climber.climbParameters.EndClimbCell);
-
-
-                            for (int i = reversedPath.Count - 1; i >= 0; i--)
-                            {
-                                if (reversedPath[i].Standable(pawn.Map) && FoundBlocker)
-                                {
-                                    if (pawn.Map.reachability.CanReach(pawn.Position, reversedPath[i], PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn)))
-                                    {
-                                        climber.climbParameters.StartClimbCell = reversedPath[i];
-
-                                       Log.Message(pawn + " has found climb start point at " + climber.climbParameters.StartClimbCell);
-                                        break;
-                                    }
-                                }
-
-                                if (reversedPath[i] == cellBefore)
-                                {
-                                    FoundBlocker = true;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if(InfiltrationUtility.IsCellClimbAccessible(pawn.Position,pawn.Map,out cellBefore))
-                            {
-                                climber.climbParameters.StartClimbCell = cellBefore;
-                                climber.climbParameters.EndClimbCell = accessCell;
-                            }
-                        }
-                        pathFromWall.Dispose();
-                    }
-                }
-                else if (InfiltrationUtility.IsCellTrapped(pawn.Position, pawn.Map, climbTraverseMode, climbDanger))
-                {
-                    Log.Message(pawn + " is trapped for wall climbing check.");
-                    climber.climbParameters.NoWallToClimb = false;
-                    if (InfiltrationUtility.IsCellClimbAccessible(pawn.Position, pawn.Map, out IntVec3 accessCell))
-                    {
-                        IntVec3 cellBefore;
-                        PawnPath pathToWall = pawn.Map.pathFinder.FindPathNow(pawn.Position, FinalGoalCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.PassAllDestroyableThings));
-                        Thing firstThing = pathToWall.FirstBlockingBuilding(out cellBefore, pawn);
-                        if (firstThing != null)
-                        {
-                           
-                            if (accessCell.IsValid)
-                            {
-                                climber.climbParameters.StartClimbCell = accessCell;
-                            }
-                            else
-                            {
-                                climber.climbParameters.StartClimbCell = cellBefore;
-                            }
-                            Log.Message(pawn + " has found climb start point at " + cellBefore);
-
-                            List<IntVec3> reversedPath = pathToWall.NodesReversed;
-                            bool FoundBlocker = false;
-
-                            for (int i = reversedPath.Count - 1; i >= 0; i--)
-                            {
-                                if (reversedPath[i].Standable(pawn.Map) && FoundBlocker)
-                                {
-                                    if (pawn.Map.reachability.CanReach(FinalGoalCell, reversedPath[i], PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn)))
-                                    {
-                                        climber.climbParameters.EndClimbCell = reversedPath[i];
-                                        Log.Message(pawn + " found cell to end climb");
-                                        break;
-                                    }
-                                }
-
-                                if (reversedPath[i] == cellBefore)
-                                {
-                                    Log.Message(pawn + " has gotten too the start climb point at " + cellBefore);
-                                    FoundBlocker = true;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (InfiltrationUtility.IsCellClimbAccessible(FinalGoalCell, pawn.Map, out cellBefore))
-                            {
-                                climber.climbParameters.StartClimbCell = accessCell;
-                                climber.climbParameters.EndClimbCell = cellBefore;
-                            }
-                        }
-                        pathToWall.Dispose();
-                    }
-                }
-                */
+                GetClimbCells(pawn, FinalGoalCell, out climber.climbParameters.ClimbStarts, out climber.climbParameters.ClimbEnds);
+            
             }
 
             if (climber.climbParameters.ClimbCellsRegistered)
             {
-                Log.Message("Climb cells registered for " + pawn);
+                //Log.Message("Climb cells registered for " + pawn);
                 return true;
             }
 

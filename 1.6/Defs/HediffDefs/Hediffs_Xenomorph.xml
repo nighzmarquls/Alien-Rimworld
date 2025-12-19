@@ -266,6 +266,11 @@
 	  <li Class="Xenomorphtype.HediffCompProperties_CureOnSeverity">
 		    <cureSeverity>1</cureSeverity>
 	  </li>
+	  <li Class="HediffCompProperties_RemoveIfOtherHediff">
+			<hediffs>
+				<li>XMT_Protofluid</li>
+			</hediffs>
+	  </li>
     </comps>
     <stages>
       <li>

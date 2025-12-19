@@ -38,9 +38,11 @@ namespace Xenomorphtype
             }
             base.PostPreApplyDamage(ref dinfo, out absorbed);
         }
-        public override void CompTick()
+
+        public override void CompTickInterval(int delta)
         {
-            base.CompTick();
+            base.CompTickInterval(delta);
+   
             if (!parent.Spawned)
             {
                 return;
@@ -52,8 +54,14 @@ namespace Xenomorphtype
                     int currentTick = Find.TickManager.TicksGame;
                     if (Find.TickManager.TicksGame > nextPlantingTick)
                     {
+                        IEnumerable<Thing> planted = parent.MapHeld.listerThings.ThingsOfDef(Props.plantingResult);
+
                         nextPlantingTick = currentTick + Mathf.CeilToInt(Props.plantingIntervalHour * 2500);
 
+                        if (planted.Count() >= Props.maxCount)
+                        {
+                            return;
+                        }
                         IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(Parent.Position,Props.plantingRadius,true);
 
                         foreach (IntVec3 cell in cells)
@@ -79,6 +87,7 @@ namespace Xenomorphtype
         public float plantingRadius = 3;
         public float minimumFertility = 0.1f;
         public ThingDef plantingResult;
+        public int maxCount = 8;
         public CompSporeProperties()
         {
             this.compClass = typeof(CompSpore);

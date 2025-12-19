@@ -85,7 +85,7 @@ namespace Xenomorphtype
                                     if (bonding.CanBondToNewPawn)
                                     {
                                         caster.interactions.TryInteractWith(subject, InteractionDefOf.RomanceAttempt);
-                                        info.GainObsession(0.12f);
+                                        info.GainObsession(1f);
                                     }
                                 }
 
@@ -108,7 +108,7 @@ namespace Xenomorphtype
                                 else
                                 {
                                     info.WitnessPsychicHorror(0.1f);
-                                    info.GainObsession(0.05f);
+                                    info.GainObsession(0.1f);
                                 }
                             }
                         }

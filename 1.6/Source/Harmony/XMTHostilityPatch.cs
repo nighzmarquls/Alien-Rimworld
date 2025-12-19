@@ -64,7 +64,7 @@ namespace Xenomorphtype
                     return true;
                 }
 
-                if(XMTUtility.IsXenomorph(__instance))
+                if(XMTUtility.IsXenomorph(otherPawn))
                 {
                     if (XMTUtility.IsHostileAndAwareOf(__instance, otherPawn))
                     {

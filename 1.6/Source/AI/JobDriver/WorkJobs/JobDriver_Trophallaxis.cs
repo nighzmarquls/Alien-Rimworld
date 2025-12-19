@@ -1,14 +1,15 @@
 ﻿using RimWorld;
+using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Verse.AI;
-using Verse;
-using RimWorld.Planet;
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
+using Verse;
+using Verse.AI;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
@@ -65,6 +66,30 @@ namespace Xenomorphtype
                 if (pawn.needs.joy != null) {
                     pawn.needs.joy.GainJoy(0.12f, InternalDefOf.Communion);
                 }
+
+                if(pawn.GetComp<CompJellyMaker>() is CompJellyMaker jellyMaker)
+                {
+                    ThingDef jellyDef = jellyMaker.GetJellyProduct();
+                    if (jellyDef.ingestible.outcomeDoers != null)
+                    {
+                        recipient.mindState.lastIngestTick = Find.TickManager.TicksGame;
+                        Thing jellyThing = ThingMaker.MakeThing(jellyDef);
+                        recipient.needs.drugsDesire?.Notify_IngestedDrug(jellyThing);
+
+                        List<Hediff> hediffs = recipient.health.hediffSet.hediffs;
+                        for (int k = 0; k < hediffs.Count; k++)
+                        {
+                            hediffs[k].Notify_IngestedThing(jellyThing, 1);
+                        }
+
+                        for (int l = 0; l < jellyDef.ingestible.outcomeDoers.Count; l++)
+                        {
+                            jellyDef.ingestible.outcomeDoers[l].DoIngestionOutcome(recipient, jellyThing, 1);
+                        }
+                        jellyThing.Discard();
+                    }
+                }
+
                 if (XMTUtility.IsXenomorph(recipient))
                 {
                     if (recipient.needs.joy != null)

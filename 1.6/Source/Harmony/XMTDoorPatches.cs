@@ -22,6 +22,12 @@ namespace Xenomorphtype
                     return true;
                 }
 
+                if (__instance is PassableRoomborder)
+                {
+                    __result = true;
+                    return false;
+                }
+
                 if (p.Faction != null)
                 {
                     return true;

@@ -682,9 +682,6 @@
 			<bed_pawnDrawOffset>-0.75</bed_pawnDrawOffset>
 		</building>
 		<comps>
-			<li Class="PipeSystem.CompProperties_Resource">
-				<pipeNet>XMT_JellyNet</pipeNet>
-			</li>
 		</comps>
 	</ThingDef>
 	

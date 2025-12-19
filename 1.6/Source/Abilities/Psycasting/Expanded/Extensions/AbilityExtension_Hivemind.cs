@@ -42,7 +42,7 @@ namespace Xenomorphtype
                             if (bonding.CanBondToNewPawn)
                             {
                                 ability.pawn.interactions.TryInteractWith(targetInfo.Pawn, InteractionDefOf.RomanceAttempt);
-                                subjectInfo.GainObsession(0.12f);
+                                subjectInfo.GainObsession(1f);
                             }
                         }
                     }

@@ -25,6 +25,15 @@
 					<li>Anesthetic</li>
 					<li>XMT_EssenceAddiction</li>
 					<li>CryptosleepSickness</li>
+					<li>HeartAttack</li>
+					<li>Carcinoma</li>
+					<li>BadBack</li>
+					<li>Cataract</li>
+					<li>HearingLoss</li>
+					<li>Dementia</li>
+					<li>Alzheimers</li>
+					<li>Asthma</li>
+					<li>HeartArteryBlockage</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">DarknessExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">Digested</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermLossShock</li>
@@ -1246,12 +1255,24 @@
 				<ImpossibleHediffs>
 					<li>Anesthetic</li>
 					<li>CryptosleepSickness</li>
+					<li>XMT_RawJellyHigh</li>
+					<li>XMT_RoyalJellyHigh</li>
 					<li>XMT_EssenceAddiction</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">DarknessExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">Digested</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermLossShock</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
+					<li>HeartAttack</li>
+					<li>Carcinoma</li>
+					<li>BadBack</li>
+					<li>Frail</li>
+					<li>Cataract</li>
+					<li>HearingLoss</li>
+					<li>Dementia</li>
+					<li>Alzheimers</li>
+					<li>Asthma</li>
+					<li>HeartArteryBlockage</li>
 				</ImpossibleHediffs>
 			</li>
 			<li Class="Xenomorphtype.CompClimberProperties">

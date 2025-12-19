@@ -8,6 +8,22 @@ namespace Xenomorphtype
 {
     internal class XMTClimbPatches
     {
+        /*[HarmonyPatch(typeof(ReachabilityUtility), nameof(ReachabilityUtility.CanReach), new Type[] { typeof(Pawn), typeof(LocalTargetInfo), typeof(PathEndMode), typeof(Danger), typeof(bool), typeof(bool), typeof(TraverseMode) })]
+        public static class Patch_ReachabilityUtility_CanReach
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors, bool canBashFences, TraverseMode mode, ref bool __result)
+            {
+                if (!XMTUtility.IsXenomorph(pawn))
+                {
+                    return true;
+                }
+
+                __result = ClimbUtility.CanReachByClimb(pawn, dest,peMode, maxDanger, canBashDoors, canBashFences, mode);
+                return false;
+            }
+        }*/
+
         [HarmonyPatch(typeof(Toils_Goto), nameof(Toils_Goto.GotoThing), new Type[] { typeof(TargetIndex), typeof(PathEndMode), typeof(bool) })]
         public static class Patch_Toils_Goto_GotoThing
         {

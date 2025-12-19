@@ -121,6 +121,9 @@ namespace Xenomorphtype
             }
             else
             {
+                Hediff stabilizing = pawn.health.GetOrAddHediff(InternalDefOf.XMT_Stabilize);
+                stabilizing.Severity = 1.0f;
+
                 //TODO: Make the parts that are regrowing always Xenomorph Mutation limbs!
                 IEnumerable<Hediff> undeveloped = pawn.health.hediffSet.hediffs.Where(x => x.def == InternalDefOf.Undeveloped);
 

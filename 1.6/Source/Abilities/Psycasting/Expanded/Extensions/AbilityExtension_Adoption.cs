@@ -1,7 +1,8 @@
-﻿using RimWorld;
+﻿using AlienRace;
+using RimWorld;
 using RimWorld.Planet;
-using Verse;
 using VEF.Abilities;
+using Verse;
 using Ability = VEF.Abilities.Ability;
 
 namespace Xenomorphtype
@@ -80,7 +81,6 @@ namespace Xenomorphtype
                         CompPawnInfo info = subject.Info();
                         if (info != null)
                         {
-                            
 
                             if (info.IsObsessed())
                             {
@@ -97,6 +97,10 @@ namespace Xenomorphtype
                                     subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, caster);
                                 }
 
+                            }
+                            else
+                            {
+                                info.GainObsession(1f);
                             }
                         }
                     }
@@ -125,6 +129,7 @@ namespace Xenomorphtype
                                     subject.relations.AddDirectRelation(PawnRelationDefOf.Parent, caster);
                                 }
                                 subject.GetMorphComp().tamingSocializing += 0.25f;
+                                casterInfo.GainObsession(0.01f);
                             }
                             else
                             {

@@ -106,6 +106,11 @@ namespace Xenomorphtype
         {
             base.FinalizeDesignationSucceeded();
 
+            foreach(Pawn foe in justDesignated)
+            {
+
+            }
+
             justDesignated.Clear();
         }
 

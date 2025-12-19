@@ -544,7 +544,14 @@ namespace Xenomorphtype
                 CompGlower glower = building.GetComp<CompGlower>();
                 if (glower != null)
                 {
-                    currentOffense += glower.GlowRadius * (glower.GlowColor.r * 10);
+                    if (glower.GlowColor.r > 0.25f)
+                    {
+                        currentOffense += glower.GlowRadius * (glower.GlowColor.r * 10);
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
 
                 if (currentOffense > mostOffense)
@@ -723,7 +730,7 @@ namespace Xenomorphtype
                 {
                     foreach (Building thing in things)
                     {
-                        if(thing is CocoonBase || thing is Ovomorph)
+                        if(thing is CocoonBase || thing is Ovomorph || thing is Building_Door)
                         {
                             return false;
                         }

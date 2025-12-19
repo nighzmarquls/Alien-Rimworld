@@ -2,7 +2,9 @@
 
 using System;
 using Verse;
+using System.Collections.Generic;
 using static Xenomorphtype.ClimbUtility;
+using System.Linq;
 
 namespace Xenomorphtype
 {
@@ -11,7 +13,20 @@ namespace Xenomorphtype
         public ClimbUtility.ClimbParameters climbParameters;
         public PawnClimber pawnClimber = null;
         public bool startedClimb = false;
-        public bool finishedClimb = false;
+        bool _finishedClimb = false;
+        public bool finishedClimb
+        {
+            get { return _finishedClimb; }
+            set { 
+                _finishedClimb = value;
+                if (value)
+                {
+                    climbStep++;
+                }
+            }
+        }
+        public bool lastClimb => climbStep == climbParameters.ClimbStarts.Count;
+        int climbStep = 0;
 
         public bool climbing
         {
@@ -30,20 +45,25 @@ namespace Xenomorphtype
                 return false;
             }
         }
+
+        public IntVec3 EndClimbCell => lastClimb ? climbParameters.ClimbEnds.Last() : climbParameters.ClimbEnds[climbStep];
+        public IntVec3 StartClimbCell => lastClimb ? climbParameters.ClimbStarts.Last() : climbParameters.ClimbStarts[climbStep];
+
         public void ClearClimberData()
         {
             climbParameters = new ClimbParameters
             {
-                StartClimbCell = IntVec3.Invalid,
-                EndClimbCell = IntVec3.Invalid,
                 NoWallToClimb = true,
                 FinalGoalCell = IntVec3.Invalid,
+                ClimbStarts = new List<IntVec3>(),
+                ClimbEnds = new List<IntVec3>(),
                 Tunneling = false
             };
 
             pawnClimber = null;
             startedClimb = false;
-            finishedClimb = false;
+            _finishedClimb = false;
+            climbStep = 0;
         }
     }
 

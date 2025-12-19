@@ -794,6 +794,72 @@
 		</renderNodeProperties>
 	</HediffDef>
 	
+	<HediffDef>
+		<defName>XMT_Stabilize</defName>
+		<hediffClass>Hediff_High</hediffClass>
+		<label>jelly stabilization</label>
+		<description>the body is being boosted by a saturation of medicinal mutagenic biopolymer.</description>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<painFactor>0.8</painFactor>
+				<statOffsets>
+					<ImmunityGainSpeed>2</ImmunityGainSpeed>
+				</statOffsets>
+				<capMods>
+					<li>
+						<capacity>Consciousness</capacity>
+						<offset>0.1</offset>
+					</li>
+					<li>
+						<capacity>Moving</capacity>
+						<offset>0.05</offset>
+					</li>
+					<li>
+						<capacity>Sight</capacity>
+						<offset>0.1</offset>
+					</li>
+					<li>
+						<capacity>BloodFiltration</capacity>
+						<offset>1</offset>
+					</li>
+					<li>
+						<capacity>BloodPumping</capacity>
+						<offset>0.1</offset>
+					</li>
+					<li>
+						<capacity>Metabolism</capacity>
+						<offset>0.1</offset>
+					</li>
+					<li>
+						<capacity>Breathing</capacity>
+						<offset>0.1</offset>
+					</li>
+				</capMods>
+			</li>
+		</stages>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_MesoSkeleton</compClass>
+			</li>
+			<li>
+				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
+				<obsessionGain>1</obsessionGain>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+				<probability>0.005</probability>
+			</li>
+			<li Class="HediffCompProperties_SeverityPerDay">
+				<severityPerDay>-4</severityPerDay>
+				<showHoursToRecover>true</showHoursToRecover>
+			</li>
+		</comps>
+	</HediffDef>
+	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_AcidbloodMarrow</defName>
 		<label>chlorofluoridic marrow</label>

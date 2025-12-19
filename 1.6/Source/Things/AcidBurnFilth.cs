@@ -33,6 +33,11 @@ namespace Xenomorphtype
         {
             if (GenTicks.IsTickInterval(60))
             {
+                if(!Spawned)
+                {
+                    return;
+                }
+
                 if(AcidUtility.TrySplashAcidCell(this, Map, Position))
                 {
                     burnTicks++;
@@ -48,12 +53,14 @@ namespace Xenomorphtype
                     if(burnTicks >= maxBurnTicks)
                     {
                         DeSpawn();
+                        return;
                     }
                 }
 
                 if (sitTicks >= maxSitTicks)
                 {
                     DeSpawn();
+                    return;
                 }
             }
         }

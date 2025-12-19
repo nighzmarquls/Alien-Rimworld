@@ -52,6 +52,12 @@ namespace Xenomorphtype
         {
 
             base.CompPostTick(ref severityAdjustment);
+
+            if(parent.pawn.AmbientTemperature >= 24)
+            {
+                severityAdjustment *= 2f;
+            }
+
             if (parent.Severity >= 1.0f && unbirthed)
             {
                 if (parent.pawn.IsHashIntervalTick(60))

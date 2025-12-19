@@ -92,20 +92,22 @@ namespace Xenomorphtype
             if (positionLastComputedTick != ticksClimbing && ClimbingThing != null)
             {
                 positionLastComputedTick = ticksClimbing;
+                float totalTime = (float)ticksClimbing / (float)20;
                 float t = (float)ticksClimbing / (float)ticksFlightTime;
                 float t2 = def.pawnFlyer.Worker.AdjustedProgress(t);
                 float height = def.pawnFlyer.Worker.GetHeight(t2);
                 groundPos = Vector3.Lerp(startVec, DestinationPos, t2);
 
-                if (height < 0.75f)
+                if (height < 0.985f)
                 {
+
                     effectiveHeight = underground? -1: height;
-                    
+                    //groundPos += new Vector3(Mathf.Sin(totalTime), 0, 0);
                 }
                 else
                 {
                     effectiveHeight = -100;
-                    groundPos += new Vector3(Mathf.Sin(groundPos.x), 0, Mathf.Cos(groundPos.z));
+                    groundPos += new Vector3(Mathf.Sin(groundPos.x)*0.5f, 0, Mathf.Cos(groundPos.z)*0.5f);
                 }
 
                 
