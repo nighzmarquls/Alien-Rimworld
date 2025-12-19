@@ -8,7 +8,7 @@ namespace Xenomorphtype
     public class StarbeastCorpse : Corpse
     {
         bool _initialized = false;
-        bool _notActuallyDead = false;
+        bool _notActuallyDead = true;
 
         const int reviveInterval = 2500*24;
 
@@ -44,6 +44,11 @@ namespace Xenomorphtype
             }
 
             if(InnerPawn.GetMorphComp() == null)
+            {
+                return false;
+            }
+
+            if(!_notActuallyDead)
             {
                 return false;
             }

@@ -71,6 +71,13 @@ namespace Xenomorphtype
                 BloodFilth = pawnBleeder.RaceProps.BloodDef;
             }
 
+            Pawn target = cell.GetFirstPawn(map);
+
+            if(target != null)
+            {
+                return TrySplashAcidThing(bleeder, severity, target, damage, appliedHediff, damageToSeverity);
+            }
+
             Thing thing = cell.GetEdifice(bleeder.MapHeld);
 
             if (thing == null)

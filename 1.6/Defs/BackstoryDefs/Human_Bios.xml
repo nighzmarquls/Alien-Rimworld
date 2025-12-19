@@ -77,5 +77,26 @@
 	  </forcedItems>
 	</AlienRace.PawnBioDef>
 	
-
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_TheArtist04</defName>
+	  <childhood>XMT_ChildTerrors05</childhood>
+	  <adulthood>XMT_PhantasmagoricalArtist04</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>Hans Ruedi</first>
+		<nick>Giger</nick>
+		<last>Giger</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+		<li>XMT_FriendlyGland</li>
+		<li>XMT_LoverGland</li>
+		<li>XMT_WarpedNeck</li>
+	  </forcedHediffs>
+	  <forcedItems>
+		<XMT_Protofluid>10</XMT_Protofluid>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
 </Defs>

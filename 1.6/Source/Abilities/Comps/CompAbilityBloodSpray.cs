@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using Verse.Noise;
 
 namespace Xenomorphtype
 { 
@@ -15,13 +16,20 @@ namespace Xenomorphtype
 
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
-            CompAcidBlood acidBlood = parent.pawn.GetAcidBloodComp();
+            List<IntVec3> splashZone = GenRadial.RadialCellsAround(target.Cell, 1.5f, true).ToList();
 
-            if (acidBlood != null)
+            splashZone.Shuffle();
+            FilthMaker.TryMakeFilth(target.Cell, parent.pawn.Map, parent.pawn.RaceProps.BloodDef);
+            int max = 3;
+            foreach (IntVec3 splashCell in splashZone)
             {
-                acidBlood.TrySplashAcidCell(target.Cell);
+                if(max < 0)
+                {
+                    break;
+                }
+                FilthMaker.TryMakeFilth(splashCell, parent.pawn.Map, parent.pawn.RaceProps.BloodDef);
+                max--;
             }
-
             base.Apply(target, dest);
         }
     }

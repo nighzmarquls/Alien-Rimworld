@@ -240,7 +240,15 @@
 			<bed_pawnDrawOffset>-0.75</bed_pawnDrawOffset>
 		</building>
 		<comps>
-			
+			<li Class="PipeSystem.CompProperties_Resource">
+				<pipeNet>XMT_JellyNet</pipeNet>
+			</li>
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>0</basePowerConsumption>
+				<showPowerNeededIfOff>False</showPowerNeededIfOff>
+				<transmitsPower>False</transmitsPower>
+			</li>
 		</comps>
 	</ThingDef>
 

@@ -35,6 +35,10 @@
 				<backstory>XMT_AdultMissionAdjunct03</backstory>
 				<obsession>1</obsession>
 			</li>
+			<li>
+				<backstory>XMT_PhantasmagoricalArtist04</backstory>
+				<obsession>10</obsession>
+			</li>
 		</backstories>
 	</Xenomorphtype.XMT_BackstorySet>
 </Defs>

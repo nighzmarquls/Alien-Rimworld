@@ -98,5 +98,28 @@
 			<li>ImperialCommon</li>
 		</spawnCategories>
 	</BackstoryDef>
-
+	
+	<BackstoryDef>
+		<defName>XMT_ChildTerrors05</defName>
+		<title>Terrified Child</title>
+		<titleShort>terrified</titleShort>
+		<description>[PAWN_nameDef] grew up beset by night terrors, [PAWN_pronoun] wakes nearly every night from horrors which fill his nights with visions of monstrous biotechnological forms.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Construction>2</Construction>
+			<Social>-6</Social>
+			<Artistic>10</Artistic>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>ImperialCommon</li>
+			<li>Madman</li>
+			<li>Cult</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+			<Wimp />
+		</forcedTraits>
+	</BackstoryDef>
 </Defs>

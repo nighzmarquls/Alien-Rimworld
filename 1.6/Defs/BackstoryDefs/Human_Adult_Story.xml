@@ -26,7 +26,7 @@
 		<defName>XMT_AdultSalvageSurvivor01</defName>
 		<title>salvage survivor</title>
 		<titleShort>survivor</titleShort>
-		<description>[PAWN_nameDef] and several of [PAWN_possessive] friends and brother attempted to secure material for crytpopods from a deorbiting derelict over their home world. But they found horrible monsters, only [PAWN_nameDef] and [PAWN_possessive] escaped alive.</description>
+		<description>[PAWN_nameDef] and several of [PAWN_possessive] friends and brother attempted to secure material for crytpopods from a deorbiting derelict over their home world. But they found horrible monsters, only [PAWN_nameDef] and [PAWN_possessive] brother escaped alive.</description>
 		<slot>Adulthood</slot>
 		<skillGains>
 			<Shooting>1</Shooting>
@@ -110,6 +110,27 @@
 		</spawnCategories>
 		<bodyTypeMale>Hulk</bodyTypeMale>
 		<bodyTypeFemale>Hulk</bodyTypeFemale>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_PhantasmagoricalArtist04</defName>
+		<title>phantasmagorical artist</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] took [PAWN_possessive] nightmares and focused them into [PAWN_possessive] art, bringing the nightmares that had haunted [PAWN_possessive] childhood into visions which entranced and disturbed all who beheld [PAWN_possessive] work.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Artistic>10</Artistic>
+			<Social>6</Social>
+			<Construction>2</Construction>
+			<Intellectual>6</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>ImperialCommon</li>
+			<li>Madman</li>
+			<li>Cult</li>
+		</spawnCategories>
 	</BackstoryDef>
 
 </Defs>

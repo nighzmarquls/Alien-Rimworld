@@ -23,6 +23,7 @@
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
 				<ImpossibleHediffs>
 					<li>Anesthetic</li>
+					<li>PorcupineQuill</li>
 					<li>XMT_EssenceAddiction</li>
 					<li>CryptosleepSickness</li>
 					<li>HeartAttack</li>
@@ -435,6 +436,30 @@
 						</li>
 					</colorChannels>
 					<bodyAddons>
+						<!-- DRONE COSMETICS BEGIN -->
+						<li>
+							<path>Pawn/StarBeast/Customizable/Grid</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Hediff>XMT_GridScar</Hediff>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.76</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.76</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.76</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<!-- DRONE COSMETICS END -->
 						<li>
 							<path>Pawn/Teeth/Teeth</path>
 							<userCustomizable>false</userCustomizable>
@@ -1254,6 +1279,7 @@
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
 				<ImpossibleHediffs>
 					<li>Anesthetic</li>
+					<li>PorcupineQuill</li>
 					<li>CryptosleepSickness</li>
 					<li>XMT_RawJellyHigh</li>
 					<li>XMT_RoyalJellyHigh</li>

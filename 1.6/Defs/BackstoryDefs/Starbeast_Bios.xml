@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_GridAlien00</defName>
+	  <childhood>StarbeastChildHunted13</childhood>
+	  <adulthood>StarbeastMonster14</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Kainde</first>
+		<nick>Grid</nick>
+		<last>Amedha </last>
+	  </name>
+	  <validRaces>
+		<li>XMT_Starbeast_AlienRace</li>
+	  </validRaces>
+	  <forcedHediffs>
+		<li>XMT_GridScar</li>
+	  </forcedHediffs>
+	</AlienRace.PawnBioDef>
+
+</Defs>

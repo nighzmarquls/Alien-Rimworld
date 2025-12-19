@@ -21,6 +21,8 @@ namespace Xenomorphtype
         bool PlayerXenomorphInWorld = false;
         bool PlayerOvomorphInWorld = false;
 
+        private List<string> deadMorphs = new List<string>();
+
         const int XenoformingCheckInterval = 60000;
         public bool QueenInWorld
         {
@@ -71,7 +73,7 @@ namespace Xenomorphtype
         private const float OvomorphImpact = 0.1f;
         private const float EmbryoSaturationLimit = 10;
         private const float EmbryoImpact = 0.5f;
-        private const float QueenAidImpact = 2f;
+        private const float QueenAidImpact = 0f;
 
         private int _xenoformingStartTick = -1;
 
@@ -352,11 +354,23 @@ namespace Xenomorphtype
 
         public void HandleMatureMorphDeath(Pawn pawn)
         {
+            if (!pawn.ageTracker.Adult)
+            {
+                return;
+            }
+
+            if (deadMorphs.Contains(pawn.ToString()))
+            {
+                return;
+            }
+
+            deadMorphs.Add(pawn.ToString());
+
             _xenoforming = Mathf.Max(_xenoforming - XenomorphImpact, 0);
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting Xenoforming for death of " + pawn + " total: " + _xenoforming);
+                Log.Message("Adjusting Xenoforming for death of " + pawn.ToString() + " total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }

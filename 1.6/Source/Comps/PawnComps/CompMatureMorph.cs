@@ -1026,7 +1026,7 @@ namespace Xenomorphtype
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
-            Log.Message(Parent + " Registering with Hive on map " + Parent.MapHeld);
+
             XMTHiveUtility.AddHiveMate(Parent, Parent.MapHeld);
         }
 

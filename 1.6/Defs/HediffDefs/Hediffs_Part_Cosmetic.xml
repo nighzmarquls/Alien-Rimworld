@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_GridScar</defName>
+		<label>grid scars</label>
+		<labelNoun>scar</labelNoun>
+		<description>a deeply etched grid-pattern scars the carapace.</description>
+		<defaultInstallPart>StarbeastHead</defaultInstallPart>
+		<makesSickThought>false</makesSickThought>
+		<makesAlert>false</makesAlert>
+		<tendable>false</tendable>
+		<isInfection>false</isInfection>
+	</HediffDef>
+</Defs>

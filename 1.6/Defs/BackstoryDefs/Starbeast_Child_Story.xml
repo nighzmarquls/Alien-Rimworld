@@ -316,4 +316,19 @@
 		<slot>Childhood</slot>
 		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
 	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastChildHunted13</defName>
+		<title>sacrifice born</title>
+		<titleShort>weapon</titleShort>
+		<description>[PAWN_nameDef] was born into immediate violence, hunted for sport.</description>
+		<slot>Childhood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>8</Melee>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+	</AlienRace.AlienBackstoryDef>
 </Defs>

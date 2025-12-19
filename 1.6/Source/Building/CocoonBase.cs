@@ -33,7 +33,19 @@ namespace Xenomorphtype
         }
         public Pawn LastOccupant;
 
-        public CompResource JellyResource;
+        private CompResource _jellyResource;
+        public CompResource JellyResource
+        {
+            get
+            {
+                if (_jellyResource == null)
+                {
+                    _jellyResource = GetComp<CompResource>();
+                }
+
+                return _jellyResource;
+            }
+        }
 
         int feedingTick = -1;
 
@@ -79,8 +91,15 @@ namespace Xenomorphtype
                     {
                         float nutritionToFull = occupant.needs.food.NutritionWanted;
                         float JellyWanted = nutritionToFull * InternalDefOf.Starbeast_Jelly.statBases.GetStatValueFromList(StatDefOf.Nutrition, 1);
+                        
+                        if(JellyResource == null)
+                        {
+                            Log.Error("Cocoon has Null Jelly Resource");
+                            return;
+                        }
+                        
                         float stored = JellyResource.PipeNet.CurrentStored();
-                        if (stored > JellyWanted)
+                        if (JellyWanted > 0 && stored > JellyWanted)
                         {
                             JellyResource.PipeNet.DrawAmongStorage(JellyWanted, JellyResource.PipeNet.storages);
                             occupant.needs.food.CurLevel += nutritionToFull;
