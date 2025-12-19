@@ -9,13 +9,32 @@
 	  <name>
 		<first>Kainde</first>
 		<nick>Grid</nick>
-		<last>Amedha </last>
+		<last>Amedha</last>
 	  </name>
 	  <validRaces>
 		<li>XMT_Starbeast_AlienRace</li>
 	  </validRaces>
 	  <forcedHediffs>
 		<li>XMT_GridScar</li>
+	  </forcedHediffs>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_MonicaAlien01</defName>
+	  <childhood>StarbeastChildTestSubject01</childhood>
+	  <adulthood>StarbeastTormentor21</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Monica</first>
+		<nick>Monica</nick>
+		<last>Enright</last>
+	  </name>
+	  <validRaces>
+		<li>XMT_Starbeast_AlienRace</li>
+	  </validRaces>
+	  <forcedHediffs>
+		<li>XMT_Stripes</li>
+		<li>XMT_PaleSkullface</li>
 	  </forcedHediffs>
 	</AlienRace.PawnBioDef>
 

@@ -19,7 +19,7 @@ namespace Xenomorphtype
 
         int tempCheckTick = 0;
 
-        float gestateProgress = 0f;
+        float gestateProgress = 1f;
 
         bool accelerated = false;
 
@@ -353,9 +353,7 @@ namespace Xenomorphtype
 
                 if (remainingBody > 0)
                 {
-                    //List<Ovomorph> list = new List<Ovomorph>();
-
-                    IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(Position, remainingBody, false);
+                    IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(Position, remainingBody*10, false);
 
                     foreach(IntVec3 cell in cells)
                     {
@@ -363,6 +361,17 @@ namespace Xenomorphtype
                         {
                             break;
                         }
+
+                        if(!cell.Standable(Map))
+                        {
+                            continue;
+                        }
+
+                        if(!GenSight.LineOfSight(Position,cell,Map))
+                        {
+                            continue;
+                        }
+
                         Ovomorph egg = GenSpawn.Spawn(def, cell, Map, WipeMode.VanishOrMoveAside) as Ovomorph;
                         egg.gestateProgress = 1;
 

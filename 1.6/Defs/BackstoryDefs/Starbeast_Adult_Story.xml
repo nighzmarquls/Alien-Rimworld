@@ -298,7 +298,7 @@
 			<Tough>0</Tough>
 		</forcedTraits>
 	</AlienRace.AlienBackstoryDef>
-	
+
 	<AlienRace.AlienBackstoryDef>
 		<defName>StarbeastMaid15</defName>
 		<title>maid</title>
@@ -449,6 +449,34 @@
 			
 		<forcedItems>
 		</forcedItems>
+	</AlienRace.AlienBackstoryDef>
+	
+	<AlienRace.AlienBackstoryDef>
+		<defName>StarbeastTormentor21</defName>
+		<title>tormentor</title>
+		<titleShort>tormentor</titleShort>
+		<description>[PAWN_nameDef] delights in torturing and baiting [PAWN_possessive] prey. Enjoying drawing out [PAWN_possessive] hunts and seeking ways to prolong the cruelty.</description>
+		<slot>Adulthood</slot>
+		<spawnCategories><li>XMT_Starbeast</li></spawnCategories>
+		<skillGains>
+			<Melee>10</Melee>
+			<Animals>10</Animals>
+			<Social>8</Social>
+		</skillGains>
+		<passions>
+			<Melee>2</Melee>
+			<Social>2</Social>
+		</passions>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<forcedTraits>
+			<Psychopath />
+			<SpeedOffset>1</SpeedOffset>
+			<Nimble>0</Nimble>
+		</forcedTraits>
+		<bodyTypeMale>Male</bodyTypeMale>
+		<bodyTypeFemale>Female</bodyTypeFemale>
 	</AlienRace.AlienBackstoryDef>
 
 </Defs>

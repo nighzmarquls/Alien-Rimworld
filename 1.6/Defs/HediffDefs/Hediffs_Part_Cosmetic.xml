@@ -11,4 +11,45 @@
 		<tendable>false</tendable>
 		<isInfection>false</isInfection>
 	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_Stripes</defName>
+		<label>stripes</label>
+		<labelNoun>stripes</labelNoun>
+		<description>a striped discoloration</description>
+		<defaultInstallPart>StarbeastHead</defaultInstallPart>
+		<makesSickThought>false</makesSickThought>
+		<makesAlert>false</makesAlert>
+		<tendable>false</tendable>
+		<isInfection>false</isInfection>
+	</HediffDef>
+	
+	<HediffDef>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defName>XMT_PaleSkullface</defName>
+		<label>Convert To pale skinned with skull gene</label>
+		<description>DEV:converts the applied pawn  application.</description>
+		<isBad>false</isBad>
+		<stages>
+		  <li>
+			<label>hidden</label>
+			<becomeVisible>false</becomeVisible>
+		  </li>
+		</stages>
+		<comps>
+		  <li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
+			<genes>
+				<li>XMT_VisibleSkull</li>
+				<li>Skin_LightGray</li>
+				<li>FireTerror</li>
+				<li>XMT_Metabolism</li>
+				<li>XMT_KillThirst</li>
+				<li>Body_Standard</li>
+				<li>Aggression_HyperAggressive</li>
+				<li>Pain_Reduced</li>
+			</genes>
+			<xenotype>baseliner</xenotype>
+		  </li>
+		</comps>
+	</HediffDef>
 </Defs>

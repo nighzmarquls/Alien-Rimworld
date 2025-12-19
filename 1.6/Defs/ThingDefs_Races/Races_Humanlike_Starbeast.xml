@@ -438,6 +438,29 @@
 					<bodyAddons>
 						<!-- DRONE COSMETICS BEGIN -->
 						<li>
+							<path>Pawn/StarBeast/Customizable/Stripes</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<shaderType>Transparent</shaderType>
+							<conditions>
+								<Hediff>XMT_Stripes</Hediff>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.74</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.74</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.74</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
 							<path>Pawn/StarBeast/Customizable/Grid</path>
 							<userCustomizable>false</userCustomizable>
 							<colorChannel>base</colorChannel>
@@ -448,13 +471,13 @@
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 							<offsets>
 							  <south>
-								<layerOffset>-0.76</layerOffset>
+								<layerOffset>-0.74</layerOffset>
 							  </south>
 							  <north>
-								<layerOffset>0.76</layerOffset>
+								<layerOffset>0.74</layerOffset>
 							  </north>
 							  <east>
-								<layerOffset>-0.76</layerOffset>
+								<layerOffset>-0.74</layerOffset>
 							  </east>
 							</offsets>
 							<!--<inFrontOfBody>true</inFrontOfBody>-->

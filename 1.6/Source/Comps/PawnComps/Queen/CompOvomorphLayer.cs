@@ -232,6 +232,7 @@ namespace Xenomorphtype
                 if (Ovomorph != null)
                 {
                     Ovomorph.LayEgg(Parent, Parent);
+                    Ovomorph.ForceProgress(0);
                 }
 
                 if (Parent.needs.food != null)

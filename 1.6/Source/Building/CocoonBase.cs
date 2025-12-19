@@ -120,7 +120,7 @@ namespace Xenomorphtype
                                 {
                                     jellyDef.ingestible.outcomeDoers[l].DoIngestionOutcome(occupant, jellyThing, Mathf.CeilToInt(JellyWanted));
                                 }
-                                jellyThing.Discard();
+                                
                             }
 
                         }
