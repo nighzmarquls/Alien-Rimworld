@@ -33,7 +33,7 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_JellyPipe</defName>
 		<label>ridged tube</label>
-		<description>A ridged tube of dark resin.</description>
+		<description>A ridged tube of dark resin. (Transfers Resinous Jelly for the Network.)</description>
 		<thingClass>PipeSystem.Building_Pipe</thingClass>
 		<category>Building</category>
 		<tickerType>Rare</tickerType>
@@ -104,7 +104,7 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_JellyDrain</defName>
 		<label>dripping cavity</label>
-		<description>A suggestively shaped cavity which may allow passage but it would be quite the squeeze.</description>
+		<description>A suggestively shaped cavity which may allow passage but it would be quite the squeeze. (Outputs Resinous Jelly from the network.)</description>
 		<rotatable>true</rotatable>
 		<thingClass>Building_Storage</thingClass>
 		<graphicData>
@@ -160,8 +160,9 @@
 		  <li>Placeworker_AttachedToWall</li>
 		</placeWorkers>
 		<comps>
-			<li Class="PipeSystem.CompProperties_ConvertThingToResource">
+			<li Class="PipeSystem.CompProperties_ConvertResourceToThing">
 				<pipeNet>XMT_JellyNet</pipeNet>
+				<maxOutputStackSize>75</maxOutputStackSize>
 				<thing>Starbeast_Jelly</thing>
 			</li>
 		</comps>
@@ -176,7 +177,7 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_JellyPool</defName>
 		<label>resinous bowl</label>
-		<description>strange resinous hollow.</description>
+		<description>strange resinous hollow. (Input Resinous Jelly into the Network.)</description>
 		<rotatable>true</rotatable>
 		<thingClass>Building_Storage</thingClass>
 		<graphicData>
@@ -186,7 +187,6 @@
 			<enabled>false</enabled>
 		  </damageData>
 		</graphicData>
-		<!--<uiIconPath>Things/Building/Furniture/WallLamp/WallLamp_MenuIcon</uiIconPath>-->
 		<altitudeLayer>BuildingOnTop</altitudeLayer>
 		<costList>
 		</costList>
@@ -225,9 +225,8 @@
 			</defaultStorageSettings>
 		</building>
 		<comps>
-			<li Class="PipeSystem.CompProperties_ConvertResourceToThing">
+			<li Class="PipeSystem.CompProperties_ConvertThingToResource">
 				<pipeNet>XMT_JellyNet</pipeNet>
-				<maxOutputStackSize>75</maxOutputStackSize>
 				<thing>Starbeast_Jelly</thing>
 			</li>
 		</comps>
@@ -242,7 +241,7 @@
 	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_JellyStorage</defName>
 		<label>turgid structure</label>
-		<description>a large resinous structure, it gurgles, shifts and groans with fluids.</description>
+		<description>a large resinous structure, it gurgles, shifts and groans with fluids. (Stores Resinous Jelly for the Network.)</description>
 		<drawerType>MapMeshAndRealTime</drawerType>
 		<graphicData>
 		  <texPath>Things/Building/JellyStorage</texPath>

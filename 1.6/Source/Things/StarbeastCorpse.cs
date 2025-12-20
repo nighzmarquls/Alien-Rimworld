@@ -1,6 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
-using System.Data;
+using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
@@ -10,6 +10,7 @@ namespace Xenomorphtype
         bool _initialized = false;
         bool _notActuallyDead = true;
 
+        bool _notfixedSkinColor = true;
         const int reviveInterval = 2500*24;
 
         int nextRevivalTick = -1;
@@ -148,7 +149,21 @@ namespace Xenomorphtype
                 }
             }
             base.TickRare();
+
+            if(_notfixedSkinColor && this.GetRotStage() == RotStage.Dessicated)
+            {
+                if(InnerPawn != null)
+                {
+                    if(InnerPawn.story != null)
+                    {
+                        InnerPawn.story.skinColorOverride = Color.white;
+                    }
+                }
+                _notfixedSkinColor = false;
+            }
         }
+
+       
 
         public override bool IngestibleNow {
             get

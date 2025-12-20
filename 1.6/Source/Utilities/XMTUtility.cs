@@ -667,7 +667,10 @@ namespace Xenomorphtype
 
                     if (jellyMaker.CanMakeIntoJelly(thing) && FeralJobUtility.IsThingAvailableForJobBy(pawn, thing))
                     {
-                        
+                        if(!FeralJobUtility.IsThingAvailableForJobBy(pawn,thing))
+                        {
+                            continue;
+                        }
                         found = thing;
                         return true;
                     }
@@ -855,7 +858,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            return (IsMorphing(target) || HasEmbryo(target) || IsXenomorph(target) || IsXenomorphFriendly(target) || !target.RaceProps.canBePredatorPrey);
+            return (IsCocooned(target) || IsMorphing(target) || HasEmbryo(target) || IsXenomorph(target) || IsXenomorphFriendly(target) || !target.RaceProps.canBePredatorPrey);
         }
 
         public static bool IsXenomorphFriendly(Pawn target)
@@ -1010,7 +1013,7 @@ namespace Xenomorphtype
                 if (IsXenomorph(witness))
                 {
                     XenomorphWitness = true;
-                    GiveMemory(witness, ThoughtDefOf.BabyGiggledSocial);
+                    GiveMemory(witness, HorrorMoodDefOf.XMT_LarvaWitnessed);
                 }
                 else
                 {
@@ -1053,6 +1056,7 @@ namespace Xenomorphtype
                 if (IsXenomorph(witness))
                 {
                     XenomorphWitness = true;
+                    GiveMemory(witness, HorrorMoodDefOf.XMT_LarvaWitnessed);
                 }
                 else
                 {
@@ -1775,6 +1779,12 @@ namespace Xenomorphtype
             {
                 return;
             }
+
+            if(aggressorInfo.parent == null || aggressorInfo.parent.MapHeld == null)
+            {
+                return;
+            }
+
             if (!aggressorInfo.IsXenomorphFriendly())
             {
                 IntVec3 eventPosition = (victim != null) ? victim.PositionHeld : aggressorInfo.parent.PositionHeld;
@@ -1853,6 +1863,11 @@ namespace Xenomorphtype
             if(!pawn.Downed)
             {
                 return false;
+            }
+
+            if(pawn.InBed())
+            {
+                return pawn.CurrentBed() is CocoonBase;
             }
 
             return pawn.health.hediffSet.HasHediff(InternalDefOf.StarbeastCocoon);

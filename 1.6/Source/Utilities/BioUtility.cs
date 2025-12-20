@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using static UnityEngine.GraphicsBuffer;
 
 
 
@@ -243,6 +244,10 @@ namespace Xenomorphtype
                         continue;
                     }
 
+                    if (XMTSettings.LogBiohorror)
+                    {
+                        Log.Warning("Adding Gene " + remappedGene);
+                    }
                     pawn.genes.AddGene(remappedGene, xenogene);
                 }
             }
@@ -1089,6 +1094,22 @@ namespace Xenomorphtype
                     pawn.genes.RemoveGene(gene);
                 }
             }
+        }
+
+        internal static List<GeneDef> GetXenomorphGenes()
+        {
+            List<GeneDef> genes = new List<GeneDef>();
+
+            foreach( AlienChanceEntry<GeneDef> geneChance in InternalDefOf.XMT_Starbeast_AlienRace.alienRace.generalSettings.raceGenes)
+            {
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message("returning base gene: " + geneChance.entry);
+                }
+                genes.Add(geneChance.entry);
+            }
+
+            return genes;
         }
     }
 }

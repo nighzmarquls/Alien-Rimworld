@@ -207,6 +207,21 @@
 	</ThoughtDef>
 	
 	<ThoughtDef>
+		<defName>XMT_LarvaWitnessed</defName>
+		<thoughtClass>Thought_Memory</thoughtClass>
+		<durationDays>2</durationDays>
+		<stackLimit>5</stackLimit>
+		<stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+		<stages>
+			<li>
+				<label>adorable baby!</label>
+				<description>I saw an adorable skittering child! So cute!</description>
+				<baseMoodEffect>5</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+	
+	<ThoughtDef>
 		<defName>StarbeastDark</defName>
 		<workerClass>ThoughtWorker_Dark</workerClass>
 		<stages>

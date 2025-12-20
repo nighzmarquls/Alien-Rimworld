@@ -446,6 +446,7 @@
 							<shaderType>Transparent</shaderType>
 							<conditions>
 								<Hediff>XMT_Stripes</Hediff>
+								<RotStage>Fresh,Rotting</RotStage>
 							</conditions>
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 							<offsets>
@@ -468,6 +469,7 @@
 							<alignWithHead>true</alignWithHead>
 							<conditions>
 								<Hediff>XMT_GridScar</Hediff>
+								<RotStage>Fresh,Rotting</RotStage>
 							</conditions>
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 							<offsets>
@@ -562,6 +564,7 @@
 							<alignWithHead>false</alignWithHead>
 							<conditions>
 								<Gene>XMT_Muffalo_Ruff</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
 								<Not>
 									<Hediff>XMT_GeneIntegration</Hediff>
 								</Not>
@@ -593,6 +596,7 @@
 							<alignWithHead>true</alignWithHead>
 							<conditions>
 								<Gene>XMT_Chemfuel_Metabolism</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
 								<Not>
 									<Hediff>XMT_GeneIntegration</Hediff>
 								</Not>
@@ -768,6 +772,12 @@
 				<head>
 					<path>Pawn/StarBeast/Heads/</path>
 				</head>
+				<skeleton>
+					<path>Pawn/StarBeast/Bodies/Dessicated/Skeleton</path>
+				</skeleton>
+				<skull>
+					<path>Pawn/StarBeast/Heads/Skull/Skull</path>
+				</skull>
 			</graphicPaths>
 			<styleSettings>
 				<li>
@@ -1413,6 +1423,8 @@
 				<head>
 					<path>Pawn/Royalty/Heads/</path>
 				</head>
+				<skeleton>Pawn/Royalty/Bodies/Naked_Female</skeleton>
+				<skull>Pawn/Royalty/Heads/Skull/Skull</skull>
 			</graphicPaths>
 			<generalSettings>
 				<notXenophobistTowards>
@@ -1833,6 +1845,7 @@
 								<alignWithHead>false</alignWithHead>
 								<conditions>
 									<Gene>XMT_Muffalo_Ruff</Gene>
+									<RotStage>Fresh,Rotting</RotStage>
 									<Not>
 										<Hediff>XMT_GeneIntegration</Hediff>
 									</Not>
@@ -1864,6 +1877,7 @@
 								<colorChannel>base</colorChannel>
 								<alignWithHead>true</alignWithHead>
 								<conditions>
+									<RotStage>Fresh,Rotting</RotStage>
 									<Gene>XMT_Chemfuel_Metabolism</Gene>
 									<Not>
 										<Hediff>XMT_GeneIntegration</Hediff>

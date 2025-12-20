@@ -1584,11 +1584,13 @@ namespace Xenomorphtype
         protected bool GetNestCoolingJob(out Job job)
         {
             job = null;
-            IntVec3 cell = XMTHiveUtility.GetClearNestCell(Parent.Map);
+            IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(Parent.Map, Parent);
             if (cell.IsValid)
             {
                 ThingDef cooler = InternalDefOf.AtmospherePylon;
                 job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, cell);
+                FeralJobUtility.ReservePlaceForJob(Parent, job, cell);
+
                 job.plantDefToSow = cooler;
                 if (job != null)
                 {

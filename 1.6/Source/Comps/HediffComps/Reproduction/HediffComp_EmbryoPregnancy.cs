@@ -138,7 +138,7 @@ namespace Xenomorphtype
 
             float relativeSize = (ChildKind.RaceProps.baseBodySize * ChildLifeStage.bodySizeFactor) / Pawn.BodySize;
 
-            float ChestBurstTarget = Props.burstDamage * 40 * base.Pawn.BodySize;
+            float ChestBurstTarget = Props.burstDamage * 40 * (base.Pawn.BodySize*base.Pawn.BodySize);
 
             DamageDef damageType = DamageDefOf.Crush;
             float ArmorPenetration = 9999f;
@@ -234,14 +234,17 @@ namespace Xenomorphtype
 
             }
 
+            
+
             if (genes == null)
             {
                 genes = new GeneSet();
             }
 
             BioUtility.ClearGenes(ref child);
+
             child.genes.SetXenotype(XenotypeDefOf.Baseliner);
-            BioUtility.ExtractGenesToGeneset(ref genes, InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.geneList);
+            BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetXenomorphGenes()); 
             BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetExtraHostGenes(Pawn));
            
             if (Pawn.genes != null)

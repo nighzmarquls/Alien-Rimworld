@@ -43,7 +43,7 @@ namespace Xenomorphtype
             {
                 if (!XMTUtility.NotPrey(targetPawn))
                 {
-                    FloatMenuOption HuntOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hunt", delegate
+                    FloatMenuOption HuntOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Hunt".Translate(), delegate
                     {
 
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
@@ -56,14 +56,14 @@ namespace Xenomorphtype
                     if (pawn.needs.food.CurLevel >= pawn.needs.food.MaxLevel)
                     {
                         HuntOption.Disabled = true;
-                        HuntOption.tooltip = pawn + " is too full to hunt.";
+                        HuntOption.tooltip = "XMT_FMO_TooFull".Translate(pawn.LabelShort);
                     }
                     __result.Add(HuntOption);
                 }
 
                 if (targetPawn.needs != null && targetPawn.needs.food != null)
                 {
-                    FloatMenuOption TrophallaxisOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Trophallaxis", delegate
+                    FloatMenuOption TrophallaxisOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Feed".Translate(), delegate
                     {
 
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
@@ -76,19 +76,19 @@ namespace Xenomorphtype
                     if (pawn.Starving())
                     {
                         TrophallaxisOption.Disabled = true;
-                        TrophallaxisOption.tooltip = pawn + " is too hungry to perform Trophallaxis.";
+                        TrophallaxisOption.tooltip = "XMT_FMO_TooHungry".Translate(pawn.LabelShort);
                     }
                     else if(targetPawn.needs.food.CurLevel >= targetPawn.needs.food.MaxLevel)
                     {
                         TrophallaxisOption.Disabled = true;
-                        TrophallaxisOption.tooltip = targetPawn + " is too full to recieve Trophallaxis.";
+                        TrophallaxisOption.tooltip = "XMT_FMO_TooStuffed".Translate(targetPawn.LabelShort);
                     }
                     __result.Add(TrophallaxisOption);
                 }
 
                 if (targetPawn.Downed && XMTHiveUtility.IsMorphingCandidate(targetPawn))
                 {
-                    FloatMenuOption OvomorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Ovomorph", delegate
+                    FloatMenuOption OvomorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Ovomorph".Translate(), delegate
                     {
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvomorphing, targetPawn);
@@ -102,7 +102,7 @@ namespace Xenomorphtype
                     if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_LarderSerum))
                     {
                         
-                        FloatMenuOption LarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Larder", delegate
+                        FloatMenuOption LarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Larder".Translate(), delegate
                         {
 
                             pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
@@ -123,7 +123,7 @@ namespace Xenomorphtype
                 Petrolsump Larder = targetBuilding as Petrolsump;
                 if (Larder != null && Larder.bodySize > 1)
                 {
-                    FloatMenuOption PruneLarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Prune Larder", delegate
+                    FloatMenuOption PruneLarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_PruneLarder".Translate(), delegate
                     {
                         pawn.Map.reservationManager.ReleaseAllForTarget(targetBuilding);
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, targetBuilding);
@@ -137,7 +137,7 @@ namespace Xenomorphtype
 
                 if (targetBuilding is EggSack eggSack && eggSack.Occupant != null)
                 {
-                    FloatMenuOption TrophallaxisOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Trophallaxis", delegate
+                    FloatMenuOption TrophallaxisOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Feed".Translate(), delegate
                     {
 
                         pawn.Map.reservationManager.ReleaseAllForTarget(eggSack);
@@ -150,12 +150,12 @@ namespace Xenomorphtype
                     if (pawn.Starving())
                     {
                         TrophallaxisOption.Disabled = true;
-                        TrophallaxisOption.tooltip = pawn + " is too hungry to perform Trophallaxis.";
+                        TrophallaxisOption.tooltip = "XMT_FMO_TooHungry".Translate(pawn.LabelShort);
                     }
                     else if (eggSack.Occupant.needs.food.CurLevel >= eggSack.Occupant.needs.food.MaxLevel)
                     {
                         TrophallaxisOption.Disabled = true;
-                        TrophallaxisOption.tooltip = eggSack.Occupant + " is too full to recieve Trophallaxis.";
+                        TrophallaxisOption.tooltip = "XMT_FMO_TooStuffed".Translate(eggSack.Occupant.LabelShort);
                     }
                     __result.Add(TrophallaxisOption);
                 }
@@ -167,7 +167,7 @@ namespace Xenomorphtype
                 {
                     TargetingParameters HibernateParameters = TargetingParameters.ForCell();
 
-                    FloatMenuOption HibernateOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hibernate", delegate
+                    FloatMenuOption HibernateOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Hibernate".Translate(), delegate
                     {
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Hibernate, cell);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -179,7 +179,7 @@ namespace Xenomorphtype
 
                 if (!cell.Fogged(pawn.Map))
                 {
-                    FloatMenuOption ClimbOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Climb To", delegate
+                    FloatMenuOption ClimbOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_ClimbTo".Translate(), delegate
                     {
                         
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, cell);

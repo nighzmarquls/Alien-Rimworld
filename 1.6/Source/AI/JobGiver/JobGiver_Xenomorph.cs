@@ -267,6 +267,12 @@ namespace Xenomorphtype
                 }
             }
 
+
+            if(!FeralJobUtility.IsThingAvailableForJobBy(pawn, foodSource))
+            {
+                return null;
+            }
+
             if (foodSource is Pawn foodPawn)
             {
                 if (foodPawn.Dead)

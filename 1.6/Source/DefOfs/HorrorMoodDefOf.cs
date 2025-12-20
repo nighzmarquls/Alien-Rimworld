@@ -46,6 +46,7 @@ namespace Xenomorphtype
         public static ThoughtDef SnuggledVictim;
         public static ThoughtDef GaveTrophallaxis;
         public static ThoughtDef RecievedTrophallaxis;
-        
+
+        public static ThoughtDef XMT_LarvaWitnessed;
     }  
 }

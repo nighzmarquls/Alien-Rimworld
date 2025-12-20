@@ -9,6 +9,19 @@
 	
 	<XMT_FMO_TameNotEnabled>No Advanced Taming Selected.</XMT_FMO_TameNotEnabled>
 	
+	<XMT_FMO_Feed>Trophallaxis</XMT_FMO_Feed>
+	<XMT_FMO_TooHungry>{0} is too hungry to perform Trophallaxis.</XMT_FMO_TooHungry>
+	<XMT_FMO_TooStuffed>{0} is too full to recieve Trophallaxis.</XMT_FMO_TooStuffed>
+	
+	<XMT_FMO_Hunt>Hunt</XMT_FMO_Hunt>
+	<XMT_FMO_TooFull>{0} Is too full to hunt!</XMT_FMO_TooFull>
+	
+	<XMT_FMO_Ovomorph>Ovomorph</XMT_FMO_Ovomorph>
+	
+	<XMT_FMO_Larder>Larder</XMT_FMO_Larder>
+	
+	<XMT_FMO_PruneLarder>Prune Larder</XMT_FMO_PruneLarder>
+	
 	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
 	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
 	
