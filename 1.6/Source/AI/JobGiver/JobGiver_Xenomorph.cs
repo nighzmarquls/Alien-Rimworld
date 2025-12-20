@@ -17,6 +17,12 @@ namespace Xenomorphtype
         protected Job GetAbductJob(Pawn pawn, Pawn target)
         {
             IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(pawn.Map, pawn);
+            if(!cell.IsValid)
+            {
+                Messages.Message("XMT_NoRoomToCocoon".Translate(), MessageTypeDefOf.NegativeEvent);
+                return null;
+            }
+
             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, cell);
             FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
             FeralJobUtility.ReserveThingForJob(pawn, job, target);
@@ -366,9 +372,15 @@ namespace Xenomorphtype
                     }
 
                     IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(pawn.Map, pawn);
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, cell);
-                    FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
-                    return job;
+
+                    if (cell.IsValid)
+                    {
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, cell);
+                        FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
+                        return job;
+                    }
+
+                    Messages.Message("XMT_NoRoomToMature".Translate(), MessageTypeDefOf.NegativeEvent);
                 }
 
                 if (compMatureMorph.ShouldGorge())

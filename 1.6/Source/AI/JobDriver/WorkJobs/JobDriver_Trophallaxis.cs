@@ -86,7 +86,6 @@ namespace Xenomorphtype
                         {
                             jellyDef.ingestible.outcomeDoers[l].DoIngestionOutcome(recipient, jellyThing, 1);
                         }
-                        jellyThing.Discard();
                     }
                 }
 

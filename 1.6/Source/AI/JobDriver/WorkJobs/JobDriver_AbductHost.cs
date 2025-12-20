@@ -49,7 +49,15 @@ namespace Xenomorphtype
 
         public bool IsNoLongerValidTarget()
         {
-            return FailedGrab;
+            if (XMTHiveUtility.IsCellValidCocoon(FinalGoalCell, pawn.Map, fast:true))
+            {
+                return FailedGrab;
+            }
+            else
+            {
+                Messages.Message("XMT_NoRoomToCocoon".Translate(), MessageTypeDefOf.NegativeEvent);
+                return true;
+            }
         }
         protected override IEnumerable<Toil> MakeNewToils()
         {
@@ -57,6 +65,7 @@ namespace Xenomorphtype
 
             this.FailOnDestroyedOrNull(TargetIndex.A);
             this.FailOnAggroMentalState(TargetIndex.A);
+           
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
             yield return AttemptGrab();
             yield return Toils_Haul.StartCarryThing(TargetIndex.A);

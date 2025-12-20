@@ -31,6 +31,12 @@
 	<XMT_MotherEggHatch>{0}'s Ovomorph has hatched!</XMT_MotherEggHatch>
 	<XMT_ParasiteCrushing>The Parasite is crushing {0} to stay secured!</XMT_ParasiteCrushing>
 
+	<XMT_NoRoomToMature>Cannot Form a Chrystalis, no more room in nest!</XMT_NoRoomToMature>
+	<XMT_NoRoomToCocoon>Cannot Abduct more hosts, no more room in nest!</XMT_NoRoomToCocoon>
+	
+	
+	<XMT_DefendHive>{0} is defending the hive!</XMT_DefendHive>
+	
 	<XMT_CannotHatch>cannot hatch, still gestating."</XMT_CannotHatch>
 	<XMT_ForceHatch>Hatch Now</XMT_ForceHatch>
 	<XMT_Ready>Ready.</XMT_Ready>
@@ -45,7 +51,7 @@
 	<XMT_ImplantDescription>Attempt attachment to a host for embryo implantation.</XMT_ImplantDescription>
 	
 	<XMT_ReadyIn>Ready in</XMT_ReadyIn>
-	<XMT_EggNeedResin>Needs resin to help mature.</XMT_EggNeedResin>
+	<XMT_EggNeedResin>Needs resin floor to help mature.</XMT_EggNeedResin>
 	
 	<XMT_MustPlaceOnEmptyOvomorph>Must place on empty Ovomorph.</XMT_MustPlaceOnEmptyOvomorph>
 	

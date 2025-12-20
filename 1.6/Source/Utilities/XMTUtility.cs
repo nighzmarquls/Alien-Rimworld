@@ -1831,11 +1831,16 @@ namespace Xenomorphtype
                         {
                             if(aggressorInfo.parent.Faction == witness.Faction && aggressorInfo.XenomorphPheromoneValue() <= -1f)
                             {
+                                Messages.Message("XMT_DefendHive".Translate(witness.LabelShort), MessageTypeDefOf.PositiveEvent);
                                 witness.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
                             }
                         }
                         else
                         {
+                            if (witness.Faction == Faction.OfPlayer)
+                            {
+                                Messages.Message("XMT_DefendHive".Translate(witness.LabelShort), MessageTypeDefOf.PositiveEvent);
+                            }
                             witness.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
                         }
                     }

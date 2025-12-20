@@ -27,9 +27,10 @@ namespace Xenomorphtype
             {
                 if (!XMTUtility.IsXenomorph(clickedPawn))
                 {
+
+                    IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map, context.FirstSelectedPawn);
                     FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Abduct".Translate(), delegate
                     {
-                        IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map, context.FirstSelectedPawn);
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, clickedPawn, cell);
                         FeralJobUtility.ReservePlaceForJob(context.FirstSelectedPawn, job, cell);
                         FeralJobUtility.ReserveThingForJob(context.FirstSelectedPawn, job, clickedPawn);
@@ -40,12 +41,18 @@ namespace Xenomorphtype
                     }, priority: MenuOptionPriority.Default), context.FirstSelectedPawn, clickedPawn);
 
 
-                    if(XMTHiveUtility.ShouldBuildNest(clickedThing.Map))
+                    if (XMTHiveUtility.ShouldBuildNest(clickedThing.Map))
                     {
                         AbductOption.Disabled = true;
                         AbductOption.tooltip = "XMT_FMO_NoNestEnclosed".Translate();
                     }
-                   return AbductOption;
+                    else if (!cell.IsValid)
+                    {
+                        AbductOption.Disabled = true;
+                        AbductOption.tooltip = "XMT_NoRoomToCocoon".Translate();
+                    }
+
+                    return AbductOption;
                 }
             }
 

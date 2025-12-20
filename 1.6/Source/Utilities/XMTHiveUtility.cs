@@ -699,7 +699,7 @@ namespace Xenomorphtype
             }
         }
 
-        private static bool IsCellValidCocoon(IntVec3 cell, Map map)
+        public static bool IsCellValidCocoon(IntVec3 cell, Map map, bool fast = false)
         {
             if(cell == IntVec3.Invalid)
             {
@@ -716,6 +716,11 @@ namespace Xenomorphtype
             if (Edifice != null)
             {
                 return false;
+            }
+
+            if(fast)
+            {
+                return true;
             }
 
             Building support = null;

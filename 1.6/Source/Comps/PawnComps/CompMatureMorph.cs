@@ -265,7 +265,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    if(Tamed)
+                    if(Tamed && !Integrated)
                     {
                         if(!TamingUtility.CanTameConditioning(Parent))
                         {
