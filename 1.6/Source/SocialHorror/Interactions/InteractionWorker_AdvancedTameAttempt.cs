@@ -39,7 +39,7 @@ namespace Xenomorphtype
 
             float displayAmount = morph.Taming*2;
 
-            if (morph.Tamed)
+            if (morph.Tamed || inspired)
             {
                 if (recipient.Faction != initiator.Faction && !recipient.IsSlave)
                 {

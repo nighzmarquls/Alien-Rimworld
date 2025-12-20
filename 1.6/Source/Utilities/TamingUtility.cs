@@ -93,7 +93,7 @@ namespace Xenomorphtype
                 if (!tamer.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent) && tamer.equipment.HasAnything())
                 {
                     XMTUtility.GiveInteractionMemory(recipient, ThoughtDefOf.HarmedMe, tamer);
-                    morph.tamingConditioning += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.05f);
+                    morph.tamingConditioning += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.005f) * tamer.Info().TotalHorrorAwareness();
                     if (recipient.IsOnHoldingPlatform)
                     {
                         if (recipient.ParentHolder is Building_HoldingPlatform platform)
@@ -112,6 +112,8 @@ namespace Xenomorphtype
                     }
                     else if (!recipient.Downed)
                     {
+                        recipient.SetFaction(null);
+                        recipient.guest.SetGuestStatus(null);
                         recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
                     }
                 }
@@ -122,7 +124,7 @@ namespace Xenomorphtype
                 if (tamer.Info().XenomorphPheromoneValue() > 0f)
                 {
                     XMTUtility.GiveInteractionMemory(recipient, HorrorMoodDefOf.SnuggledVictim, tamer);
-                    morph.tamingPheromones += tamer.Info().XenomorphPheromoneValue() * 0.01f;
+                    morph.tamingPheromones += tamer.Info().XenomorphPheromoneValue() * 0.01f * tamer.Info().TotalHorrorAwareness();
                 }
                 else if(tamer.Info().XenomorphPheromoneValue() < 0f)
                 {
@@ -144,6 +146,8 @@ namespace Xenomorphtype
                     }
                     else if (!recipient.Downed)
                     {
+                        recipient.SetFaction(null);
+                        recipient.guest.SetGuestStatus(null);
                         recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
                     }
                 }
@@ -154,7 +158,7 @@ namespace Xenomorphtype
                 if (tamer.XenoSocial() >= 1 && !recipient.ageTracker.Adult)
                 {
                     XMTUtility.GiveInteractionMemory(recipient, HorrorMoodDefOf.SnuggledVictim, tamer);
-                    morph.tamingSocializing += tamer.XenoSocial() * tamer.skills.GetSkill(SkillDefOf.Social).Level * 0.05f;
+                    morph.tamingSocializing += tamer.XenoSocial() * tamer.skills.GetSkill(SkillDefOf.Social).Level * 0.01f * tamer.Info().TotalHorrorAwareness();
                 }
             }
 
@@ -163,7 +167,7 @@ namespace Xenomorphtype
                 if (!tamer.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent) && tamer.equipment.HasAnything())
                 {
                     XMTUtility.GiveInteractionMemory(recipient, ThoughtDefOf.HarmedMe, tamer);
-                    morph.tamingHostage += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.05f);
+                    morph.tamingHostage += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.0025f)*tamer.Info().TotalHorrorAwareness();
                     if (recipient.IsOnHoldingPlatform)
                     {
                         if (recipient.ParentHolder is Building_HoldingPlatform platform)
@@ -182,6 +186,8 @@ namespace Xenomorphtype
                     }
                     else if (!recipient.Downed)
                     {
+                        recipient.SetFaction(null);
+                        recipient.guest.SetGuestStatus(null);
                         recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
                     }
                 }
@@ -224,14 +230,13 @@ namespace Xenomorphtype
                 if (actor.CurJob.GetTarget(recruiteeInd).Thing is Building_HoldingPlatform platform)
                 {
                     Pawn recipient = platform.HeldPawn;
-                    if (recipient.Awake())
-                    {
-                        InteractionDef intDef = XenoSocialDefOf.XMT_AdvancedTameAttempt;
-                        ProcessTamingImpact(actor, recipient);
-                        TryPlatformInteraction(actor, recipient, intDef);
-                        recipient.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
-                        recipient.mindState.interactionsToday++;
-                    }
+                    
+                    InteractionDef intDef = XenoSocialDefOf.XMT_AdvancedTameAttempt;
+                    ProcessTamingImpact(actor, recipient);
+                    TryPlatformInteraction(actor, recipient, intDef);
+                    recipient.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
+                    recipient.mindState.interactionsToday++;
+                    
                 }
             };
             toil.socialMode = RandomSocialMode.Off;
@@ -248,7 +253,7 @@ namespace Xenomorphtype
             {
                 Pawn actor = toil.actor;
                 Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(recruiteeInd).Thing;
-                if (pawn.Spawned && pawn.Awake())
+                if (pawn.Spawned)
                 {
                     InteractionDef intDef =  XenoSocialDefOf.XMT_AdvancedTameAttempt;
                     actor.interactions.TryInteractWith(pawn, intDef);
@@ -275,7 +280,12 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                if(colonist.XenoSocial() >= 1)
+                if (colonist.skills.GetSkill(SkillDefOf.Social).Level == 0 )
+                {
+                    continue;
+                }
+
+                if (colonist.XenoSocial() >= 1)
                 {
                     return true;
                 }
@@ -289,6 +299,11 @@ namespace Xenomorphtype
             foreach(Pawn colonist in pawn.MapHeld.mapPawns.FreeAdultColonistsSpawned)
             {
                 if (colonist.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent))
+                {
+                    continue;
+                }
+
+                if(colonist.skills.GetSkill(SkillDefOf.Shooting).Level == 0 || colonist.skills.GetSkill(SkillDefOf.Melee).Level == 0)
                 {
                     continue;
                 }
@@ -308,6 +323,12 @@ namespace Xenomorphtype
                 {
                     continue;
                 }
+
+                if (colonist.skills.GetSkill(SkillDefOf.Animals).Level == 0)
+                {
+                    continue;
+                }
+
                 return true;
             }
             return false;
@@ -330,7 +351,7 @@ namespace Xenomorphtype
 
             if(pawn.MapHeld != null)
             {
-                if(pawn.MapHeld.resourceCounter.GetCount(InternalDefOf.XMT_Ovomorph) > 0)
+                if(pawn.MapHeld.listerThings.AnyThingWithDef(InternalDefOf.XMT_Ovomorph))
                 {
                     return true;
                 }
