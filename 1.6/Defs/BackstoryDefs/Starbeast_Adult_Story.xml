@@ -327,7 +327,7 @@
 		</forcedTraits>
 		<forcedItems>
 			<VAE_Apparel_Apron MayRequire="VanillaExpanded.VAPPE">1</VAE_Apparel_Apron>
-			<VBE_AmbrandyLegendary MayRequire="VanillaExpanded.VBrewE">2</VBE_AmbrandyLegendary>
+			<VBE_Ambrandy MayRequire="VanillaExpanded.VBrewE">2</VBE_Ambrandy>
 			<MealLavish>5</MealLavish>
 		</forcedItems>
 	</AlienRace.AlienBackstoryDef>

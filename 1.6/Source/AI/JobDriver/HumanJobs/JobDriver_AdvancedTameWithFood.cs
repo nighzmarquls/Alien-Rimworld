@@ -69,14 +69,10 @@ namespace Xenomorphtype
         IEnumerable<Toil> MakePawnToils()
         {
             this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-            this.FailOnDowned(TargetIndex.A);
-            this.FailOnNotCasualInterruptible(TargetIndex.A);
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-            yield return Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
             yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
             yield return TamingUtility.InteractWithTargetPawn(TargetIndex.A);
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-            yield return Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
             yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
             yield return TamingUtility.InteractWithTargetPawn(TargetIndex.A);
             if (CanFeedEver)
@@ -88,7 +84,6 @@ namespace Xenomorphtype
             }
 
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-            yield return Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
             yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
             yield return TamingUtility.InteractWithTargetPawn(TargetIndex.A);
             if (CanFeedEver)
@@ -101,7 +96,6 @@ namespace Xenomorphtype
 
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOn(() => !CanInteractNow);
             yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
-            yield return Toils_Interpersonal.WaitToBeAbleToInteract(pawn);
             yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
         }
 

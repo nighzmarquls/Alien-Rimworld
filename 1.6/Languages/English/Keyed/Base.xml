@@ -22,6 +22,10 @@
 	
 	<XMT_FMO_PruneLarder>Prune Larder</XMT_FMO_PruneLarder>
 	
+	<XMT_FMO_Hibernate>Hibernate</XMT_FMO_Hibernate>
+	
+	<XMT_FMO_ClimbTo>Climb To</XMT_FMO_ClimbTo>
+	
 	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
 	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
 	

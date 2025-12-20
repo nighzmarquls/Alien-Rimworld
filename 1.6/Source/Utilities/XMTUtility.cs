@@ -1457,7 +1457,7 @@ namespace Xenomorphtype
             int stackLimit = thingDef.stackLimit;
             int totalstacks = stackTotal / stackLimit;
 
-            List<Thing> DroppedMeat = new List<Thing>();
+            List<Thing> DroppedThing = new List<Thing>();
 
             for (int i = 0; i < totalstacks; i++)
             {
@@ -1465,27 +1465,33 @@ namespace Xenomorphtype
                 {
                     break;
                 }
-                Thing meat = ThingMaker.MakeThing(thingDef);
-                meat.stackCount = stackTotal > stackLimit ? stackLimit : totalstacks;
-                stackTotal -= meat.stackCount;
-                DroppedMeat.Add(meat);
+                Thing thing = ThingMaker.MakeThing(thingDef);
+                thing.stackCount = stackTotal > stackLimit ? stackLimit : totalstacks;
+                stackTotal -= thing.stackCount;
+                DroppedThing.Add(thing);
             }
 
             if (stackTotal > 0)
             {
-                Thing meat = ThingMaker.MakeThing(thingDef);
-                meat.stackCount = stackTotal;
-                DroppedMeat.Add(meat);
+                Thing thing = ThingMaker.MakeThing(thingDef);
+                thing.stackCount = stackTotal;
+                DroppedThing.Add(thing);
             }
 
-            List<IntVec3> dropRadial = GenRadial.RadialCellsAround(position, GenRadial.RadiusOfNumCells(DroppedMeat.Count + 1), false).ToList();
-            for (int i = 0; i < DroppedMeat.Count; i++)
+            List<IntVec3> dropRadial = GenRadial.RadialCellsAround(position, GenRadial.RadiusOfNumCells(DroppedThing.Count *2), false).ToList();
+
+            int totalDropped = 0;
+            for (int i = 0; i < DroppedThing.Count; i++)
             {
-                if (Filth != null)
+                if (dropRadial[i].Standable(targetMap))
                 {
-                    FilthMaker.TryMakeFilth(dropRadial[i], targetMap, Filth);
+                    if (Filth != null)
+                    {
+                        FilthMaker.TryMakeFilth(dropRadial[i], targetMap, Filth);
+                    }
+                    GenSpawn.Spawn(DroppedThing[totalDropped], dropRadial[i], targetMap, WipeMode.VanishOrMoveAside);
+                    totalDropped++;
                 }
-                GenSpawn.Spawn(DroppedMeat[i], dropRadial[i], targetMap,WipeMode.VanishOrMoveAside);
             }
         }
 
