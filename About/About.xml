@@ -65,6 +65,7 @@
 		<li>bs.performance</li>
 		<li>vanillaracesexpanded.insector</li>
 		<li>CETeam.CombatExtended</li>
+		<li>Neronix17.Asimov</li>
 	</loadAfter>
 	<loadBefore>
 		<li>rim.job.world</li>
