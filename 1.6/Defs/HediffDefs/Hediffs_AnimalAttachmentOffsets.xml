@@ -8,7 +8,7 @@
 				<north>(0.0, 0.0, 0.0)</north>
 				<east>(0.5, 0, 0.9)</east>
 				<south>(0, 0, 0.75)</south>
-				<west>(0.5, 0, 0.9)</west>
+				<west>(-0.5, 0, 0.9)</west>
 			</li>
 			<li>
 				<race>Elephant</race>
@@ -93,6 +93,20 @@
 				<east>(0.4, 0, 0.0)</east>
 				<south>(0, 0, -0.5)</south>
 				<west>(-0.4, 0, 0.0)</west>
+			</li>
+			<li>
+				<race>Bear_Grizzly</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.60, 0, 0.0)</east>
+				<south>(0, 0, -0.1)</south>
+				<west>(-0.60, 0, 0.0)</west>
+			</li>
+			<li>
+				<race>Bear_Polar</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.60, 0, 0.0)</east>
+				<south>(0, 0, -0.1)</south>
+				<west>(-0.60, 0, 0.0)</west>
 			</li>
 		</raceOffsets>
 	</Xenomorphtype.OffsetListDef>

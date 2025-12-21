@@ -23,7 +23,7 @@
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
 				<ImpossibleHediffs>
 					<li>Anesthetic</li>
-					<li>PorcupineQuill</li>
+					<li MayRequire="Ludeon.RimWorld.Odyssey">PorcupineQuill</li>
 					<li>CryptosleepSickness</li>
 					<li>XMT_RawJellyHigh</li>
 					<li>XMT_EssenceAddiction</li>
