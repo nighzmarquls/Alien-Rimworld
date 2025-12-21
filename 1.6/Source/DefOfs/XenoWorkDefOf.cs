@@ -58,6 +58,7 @@ namespace Xenomorphtype
         public static JobDef XMT_Protofluid;
 
         public static JobDef XMT_AdvancedTameWithFood;
+        public static JobDef XMT_AdvancedTameThreat;
         public static JobDef XMT_AdvancedTame;
         public static JobDef XMT_ExtractJelly;
         public static JobDef XMT_ExtractResin;

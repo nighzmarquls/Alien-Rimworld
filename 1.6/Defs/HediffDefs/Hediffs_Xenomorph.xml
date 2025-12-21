@@ -247,6 +247,11 @@
         <healAmount>1</healAmount>
       </li>
 	  <li Class="HediffCompProperties_DisappearsOnDeath" />
+	  <li Class="HediffCompProperties_RemoveIfOtherHediff">
+			<hediffs>
+				<li>StarbeastCocoon</li>
+			</hediffs>
+	  </li>
     </comps>
   </HediffDef>
 

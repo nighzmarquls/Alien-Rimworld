@@ -115,7 +115,7 @@ namespace Xenomorphtype
 
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            Log.Message("checking job for: " + pawn + " on thing " + t);
+            //Log.Message("checking job for: " + pawn + " on thing " + t);
 
             Pawn tamable;
             bool notPlatform = true;
@@ -133,7 +133,7 @@ namespace Xenomorphtype
             {
                 return null;
             }
-            Log.Message("checking job for: " + pawn + " on " + tamable);
+            //Log.Message("checking job for: " + pawn + " on " + tamable);
             if (!CanInteractWithTarget(pawn, t, forced) && notPlatform)
             {
                 return null;
@@ -168,6 +168,12 @@ namespace Xenomorphtype
                         job.count = count;
                     }
                 }
+            }
+            else if(tamable.GetMorphComp().ShouldTameCondition || tamable.GetMorphComp().ShouldTameHostage)
+            {
+                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AdvancedTameThreat, t, null);
+                job.count = 1;
+
             }
             else
             {

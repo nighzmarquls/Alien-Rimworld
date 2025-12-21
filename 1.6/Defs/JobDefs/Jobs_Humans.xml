@@ -16,6 +16,14 @@
 	</JobDef>
 	
 	<JobDef>
+		<defName>XMT_AdvancedTameThreat</defName>
+		<driverClass>Xenomorphtype.JobDriver_AdvancedTame</driverClass>
+		<reportString>taming TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+	</JobDef>
+	
+	<JobDef>
 		<defName>XMT_AdvancedTame</defName>
 		<driverClass>Xenomorphtype.JobDriver_AdvancedTame</driverClass>
 		<reportString>taming TargetA.</reportString>
