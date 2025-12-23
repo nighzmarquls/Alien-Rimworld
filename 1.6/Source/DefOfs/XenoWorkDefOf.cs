@@ -27,6 +27,7 @@ namespace Xenomorphtype
         public static DesignationDef XMT_Enemy;
 
         public static JobDef XMT_Ritual_Metamorphosis;
+        public static JobDef XMT_Ritual_PrepareJelly;
 
         public static JobDef XMT_ImplantHunt;
         public static JobDef XMT_StealthHunt;

@@ -106,6 +106,7 @@
     <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_Protofluid.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_MutateTarget.cs" />
+    <Compile Include="AI\JobDriver\Ritual\JobDriver_PrepareChrysalisWithJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvomorph.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Metamorphosis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_MurderXenomorph.cs" />
+    <Compile Include="AI\JobGiver\JobGiver_PrepareJellyForChrysalis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
     <Compile Include="AI\Lord\LordJob\LordJob_HumanRebellion.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Morph.cs" />

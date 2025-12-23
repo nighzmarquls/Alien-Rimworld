@@ -9,6 +9,13 @@
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 		<neverFleeFromEnemies>true</neverFleeFromEnemies>
 	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_Ritual_PrepareJelly</defName>
+		<driverClass>Xenomorphtype.JobDriver_PrepareChrysalisWithJelly</driverClass>
+		<reportString>offering jelly.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
 
 	<JobDef>
 		<defName>XMT_ImplantHunt</defName>

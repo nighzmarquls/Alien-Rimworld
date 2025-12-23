@@ -34,12 +34,12 @@
           <def>Starbeast_Jelly</def>
           <count>75</count>
         </li>
-        <li Class="JobGiver_PrepareSkylantern">
+        <li Class="Xenomorphtype.JobGiver_PrepareJellyForChrysalis">
           <locomotionUrgency>Jog</locomotionUrgency>
           <def>Starbeast_Jelly</def>
           <count>75</count>
           <allowUnroofed>false</allowUnroofed>
-          <desiredRadius>5</desiredRadius>
+          <desiredRadius>3</desiredRadius>
           <minDistanceToOtherReservedCell>3</minDistanceToOtherReservedCell>
         </li> 
       </subNodes>
