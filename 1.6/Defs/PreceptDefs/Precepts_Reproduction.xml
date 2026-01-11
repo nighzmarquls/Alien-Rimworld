@@ -43,7 +43,7 @@
   
   <!-- Precepts -->
 
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Abhorrent</defName>
     <issue>XMT_Reproduction</issue>
     <label>abhorrent</label>
@@ -111,7 +111,7 @@
     </comps>
   </PreceptDef>
   
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Reincarnation</defName>
     <issue>XMT_Reproduction</issue>
     <label>reincarnation</label>
@@ -179,7 +179,7 @@
     </comps>
   </PreceptDef>
   
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Revered</defName>
     <issue>XMT_Reproduction</issue>
     <label>revered</label>
@@ -247,7 +247,7 @@
     </comps>
   </PreceptDef>
   
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Animal</defName>
     <issue>XMT_Reproduction</issue>
     <label>animal Only</label>
@@ -296,7 +296,7 @@
     </comps>
   </PreceptDef>
   
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Guilty</defName>
     <issue>XMT_Reproduction</issue>
     <label>guilty Only</label>
@@ -348,7 +348,7 @@
     </comps>
   </PreceptDef>
   
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_OtherFaction</defName>
     <issue>XMT_Reproduction</issue>
     <label>other Factions Only</label>
@@ -397,7 +397,7 @@
   </PreceptDef>
   
   <!-- Thoughts: Guilty -->
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_OtherFaction_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -416,7 +416,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteBirth_OtherFaction_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -435,7 +435,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_OtherFaction_Good</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -454,7 +454,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteBirth_OtherFaction_Good</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -474,7 +474,7 @@
   </ThoughtDef>
   
   <!-- Thoughts: Guilty -->
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_Guilty_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -493,7 +493,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteBirth_Guilty_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -512,7 +512,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_Guilty_Good</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -531,7 +531,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteBirth_Guilty_Good</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -551,7 +551,7 @@
   </ThoughtDef>
   
   <!-- Thoughts: Animal -->
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_Animal_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -570,7 +570,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteBirth_Animal_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -589,7 +589,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_Animal_Good</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -608,7 +608,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteBirth_Animal_Good</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -628,7 +628,7 @@
   </ThoughtDef>
   
   <!-- Thoughts: Generic Bad Self Parasite -->
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Attached_Self_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -648,7 +648,7 @@
   </ThoughtDef>
   
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Birthed_Parasite_Self_Bad</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -669,7 +669,7 @@
 
   <!-- Thoughts: Revered -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Parasite_Revered</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -684,7 +684,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Parasite_Know_Revered</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -701,7 +701,7 @@
     </nullifyingTraits>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Attached_Revered</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -716,7 +716,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Attached_Know_Revered</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -733,7 +733,7 @@
     </nullifyingTraits>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Birthed_Parasite_Revered</defName>
     <durationDays>4</durationDays>
     <stages>
@@ -748,7 +748,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Birthed_Parasite_Know_Revered</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -765,7 +765,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsParasiteBorne_Revered</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -791,7 +791,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsParasiteBorne_Revered_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
@@ -817,7 +817,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_EggsPresent_Revered</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_ParasiteEggs</workerClass>
     <nullifyingTraits>
@@ -837,7 +837,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteHatched_Revered</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -856,7 +856,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_Revered</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -877,7 +877,7 @@
   
   <!-- Thoughts: Reincarnation -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Parasite_Reincarnation</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -892,7 +892,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Parasite_Know_Reincarnation</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -909,7 +909,7 @@
     </nullifyingTraits>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Attached_Reincarnation</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -924,7 +924,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Attached_Know_Reincarnation</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -941,7 +941,7 @@
     </nullifyingTraits>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Birthed_Parasite_Reincarnation</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -956,7 +956,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Birthed_Parasite_Know_Reincarnation</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -973,7 +973,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsParasiteBorne_Reincarnation</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -999,7 +999,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsParasiteBorne_Reincarnation_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
@@ -1025,7 +1025,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_EggsPresent_Reincarnation</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_ParasiteEggs</workerClass>
     <nullifyingTraits>
@@ -1045,7 +1045,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteHatched_Reincarnation</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -1064,7 +1064,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_Reincarnation</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -1085,7 +1085,7 @@
 
   <!-- Thoughts: Abhorrent -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Parasite_Abhorrent</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -1100,7 +1100,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Parasite_Know_Abhorrent</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -1117,7 +1117,7 @@
     </nullifyingTraits>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Attached_Abhorrent</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -1132,7 +1132,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Parasite_Attached_Know_Abhorrent</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -1149,7 +1149,7 @@
     </nullifyingTraits>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Birthed_Parasite_Abhorrent</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -1164,7 +1164,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Birthed_Parasite_Know_Abhorrent</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -1181,7 +1181,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsParasiteBorne_Abhorrent</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -1207,7 +1207,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsParasiteBorne_Abhorrent_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
@@ -1233,7 +1233,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_EggsPresent_Abhorrent</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_ParasiteEggs</workerClass>
     <nullifyingTraits>
@@ -1253,7 +1253,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteHatched_Abhorrent</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
@@ -1272,7 +1272,7 @@
     </stages>
   </ThoughtDef>
   
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_WitnessParasiteAttached_Abhorrent</defName>
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>

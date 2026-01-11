@@ -15,6 +15,7 @@ namespace Xenomorphtype
         {
             DefOfHelper.EnsureInitializedInCtor(typeof(XenoSocialDefOf));
         }
+
         public static PreceptDef XMT_QueenAscension;
 
         public static InteractionDef XMT_AdvancedTameAttempt;

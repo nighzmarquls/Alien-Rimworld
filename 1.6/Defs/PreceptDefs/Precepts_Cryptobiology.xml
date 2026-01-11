@@ -17,7 +17,7 @@
   
   <!-- Precepts -->
 
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Biomorph_Abhorrent</defName>
     <issue>XMT_Cryptobio</issue>
     <label>abhorrent</label>
@@ -50,7 +50,7 @@
     </comps>
   </PreceptDef>
 
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Biomorph_Disapproved</defName>
     <issue>XMT_Cryptobio</issue>
     <label>disapproved</label>
@@ -84,7 +84,7 @@
     </comps>
   </PreceptDef>
 
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Biomorph_Study</defName>
     <issue>XMT_Cryptobio</issue>
     <label>studied</label>
@@ -117,7 +117,7 @@
     </comps>
   </PreceptDef>
   
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Biomorph_Hunt</defName>
     <issue>XMT_Cryptobio</issue>
     <label>hunted</label>
@@ -150,7 +150,7 @@
     </comps>
   </PreceptDef>
   
-  <PreceptDef>
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Biomorph_Worship</defName>
     <issue>XMT_Cryptobio</issue>
     <label>venerated</label>
@@ -185,7 +185,7 @@
 
   <!-- Thoughts: Abhorrent -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Abhorrent</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -200,7 +200,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Know_Abhorrent</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -217,7 +217,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Abhorrent</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -243,7 +243,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Abhorrent_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
@@ -271,7 +271,7 @@
   
   <!-- Thoughts: Disapproved -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Disapproved</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -286,7 +286,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Know_Disapproved</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -303,7 +303,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Disapproved</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -329,7 +329,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Disapproved_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
@@ -357,7 +357,7 @@
   
   <!-- Thoughts: Study -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Study</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -372,7 +372,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Know_Study</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -389,7 +389,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Study</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -415,7 +415,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Study_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
@@ -443,7 +443,7 @@
   
   <!-- Thoughts: Hunted -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Hunted</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -458,7 +458,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Know_Hunted</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -475,7 +475,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Hunted</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -501,7 +501,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Hunted_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>
@@ -529,7 +529,7 @@
   
   <!-- Thoughts: Worshiped -->
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Worshiped</defName>
     <durationDays>6</durationDays>
     <stages>
@@ -544,7 +544,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_Killed_Biomorph_Know_Worshiped</defName>
     <thoughtClass>Thought_MemorySocial</thoughtClass>
     <durationDays>20</durationDays>
@@ -561,7 +561,7 @@
     </nullifyingTraits>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Worshiped</defName>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph</workerClass>
     <validWhileDespawned>true</validWhileDespawned>
@@ -587,7 +587,7 @@
     </stages>
   </ThoughtDef>
 
-  <ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>XMT_IsBiomorph_Worshiped_Social</defName>
     <thoughtClass>Thought_SituationalSocial</thoughtClass>
     <workerClass>Xenomorphtype.ThoughtWorker_Precept_Biomorph_Social</workerClass>

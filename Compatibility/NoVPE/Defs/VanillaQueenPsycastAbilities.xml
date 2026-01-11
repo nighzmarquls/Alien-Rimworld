@@ -156,15 +156,15 @@
 			<screenShakeIntensity>2</screenShakeIntensity>
 			<mesmerizedJobDef>GotoMindControlled</mesmerizedJobDef>
 			<friendlyPrecepts>
-				<li>XMT_Parasite_Reincarnation</li>
-				<li>XMT_Parasite_Revered</li>
-				<li>XMT_Biomorph_Worship</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Parasite_Reincarnation</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Parasite_Revered</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Biomorph_Worship</li>
 			</friendlyPrecepts>
 			<hostilePrecepts>
-				<li>XMT_Parasite_Abhorrent</li>
-				<li>XMT_Biomorph_Abhorrent</li>
-				<li>XMT_Biomorph_Study</li>
-				<li>XMT_Biomorph_Hunt</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Parasite_Abhorrent</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Biomorph_Abhorrent</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Biomorph_Study</li>
+				<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Biomorph_Hunt</li>
 			</hostilePrecepts>
 			<psychic>True</psychic>
 		  </li>

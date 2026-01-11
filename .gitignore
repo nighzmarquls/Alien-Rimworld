@@ -8,3 +8,6 @@ About/Preview.kra-autosave.kra
 /Compatibility/CombatExtended/Source/XMT_CE/obj/*
 /Compatibility/CombatExtended/Source/XMT_CE/obj/*
 /Compatibility/CombatExtended/Source/XMT_CE/obj/Debug/*
+*.cache
+/Compatibility/CombatExtended/Source/XMT_CE/obj
+/Compatibility/CombatExtended/Source/XMT_CE/obj/Debug
