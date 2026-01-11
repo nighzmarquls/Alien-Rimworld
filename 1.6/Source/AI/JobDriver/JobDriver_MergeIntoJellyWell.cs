@@ -51,7 +51,7 @@ namespace Xenomorphtype
                 {
                     Progress = float.MaxValue;
                     Pawn actor = GetActor();
-                    if (XMTUtility.TransformThingIntoThing(Target, InternalDefOf.XMT_JellyWell, out Thing result, actor))
+                    if (XMTUtility.TransformThingIntoThing(Target, XenoBuildingDefOf.XMT_JellyWell, out Thing result, actor))
                     {
                         CompMatureMorph morph = actor.GetMorphComp();
                         if (morph != null)

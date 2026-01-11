@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using static UnityEngine.GraphicsBuffer;
 
 
 
@@ -304,7 +305,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            CompPerfectOrganism perfect = pawn.GetComp<CompPerfectOrganism>();
+            CompPerfectOrganism perfect = pawn.GetPerfectComp();
 
             if (perfect != null)
             {
@@ -1911,6 +1912,16 @@ namespace Xenomorphtype
 
             }
             return false;
+        }
+
+        internal static bool IsSpace(Map map)
+        {
+            if(map == null)
+            {
+                return true;
+            }
+
+            return map.Biome.inVacuum || map.Biome == ExternalDefOf.OuterSpaceBiome;
         }
     }
 }

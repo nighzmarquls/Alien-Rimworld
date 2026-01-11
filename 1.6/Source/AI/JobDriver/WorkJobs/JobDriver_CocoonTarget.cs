@@ -104,9 +104,9 @@ namespace Xenomorphtype
             toil.atomicWithPrevious = true;
             toil.initAction = delegate
             {
-                if (pawn.Position.GetTerrain(pawn.Map) != InternalDefOf.HiveFloor)
+                if (pawn.Position.GetTerrain(pawn.Map) != XenoBuildingDefOf.HiveFloor)
                 {
-                    CocoonTicksFinish = InternalDefOf.Hivemass.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 10f);
+                    CocoonTicksFinish = XenoBuildingDefOf.Hivemass.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 10f);
                 }
             };
             toil.tickAction = delegate

@@ -865,7 +865,6 @@
 		<label>chlorofluoridic marrow</label>
 		<labelNoun>acidic marrow</labelNoun>
 		<initialSeverity>0.01</initialSeverity>
-		
 		<description>the bone marrow has begun producing a chloroflouridic fluid instead of plasma.</description>
 		<stages>
 			<li>

@@ -27,8 +27,14 @@ namespace Xenomorphtype
             protected bool _isInorganic;
             public bool IsInorganic => _isInorganic;
 
+            protected CompClimber _climber;
+            public CompClimber Climber => _climber;
+
             protected CompMatureMorph _matureMorph;
             public CompMatureMorph MatureMorph => _matureMorph;
+
+            protected CompPerfectOrganism _perfect;
+            public CompPerfectOrganism Perfect => _perfect;
 
             protected CompAcidBlood _acidBlood;
             public CompAcidBlood AcidBlood => _acidBlood;
@@ -83,7 +89,17 @@ namespace Xenomorphtype
                         _matureMorph = morph;
                         continue;
                     }
-                    if(comp is CompAcidBlood acid)
+                    if (comp is CompClimber climber)
+                    {
+                        _climber = climber;
+                        continue;
+                    }
+                    if (comp is CompPerfectOrganism perfect)
+                    {
+                        _perfect = perfect;
+                        continue;
+                    }
+                    if (comp is CompAcidBlood acid)
                     {
                         _acidBlood = acid;
                         continue;
@@ -95,7 +111,13 @@ namespace Xenomorphtype
                     }
                 }
 
+               
                 _isInorganic = XMTUtility.CacheIsInorganic(_pawn);
+
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message(_pawn + " is caching inorganic status  as " + _isInorganic);
+                }
             }
             public PawnCache(Pawn pawn)
             {
@@ -254,6 +276,18 @@ namespace Xenomorphtype
 
             return PawnCache.cache[pawn.thingIDNumber].AcidBlood;
         }
+
+        public static CompClimber GetClimberComp(this Pawn pawn)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                return PawnCache.cache[pawn.thingIDNumber].Climber;
+            }
+
+            PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
+
+            return PawnCache.cache[pawn.thingIDNumber].Climber;
+        }
         public static CompMatureMorph GetMorphComp(this Pawn pawn)
         {
             if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
@@ -264,6 +298,18 @@ namespace Xenomorphtype
             PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
 
             return PawnCache.cache[pawn.thingIDNumber].MatureMorph;
+        }
+
+        public static CompPerfectOrganism GetPerfectComp(this Pawn pawn)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                return PawnCache.cache[pawn.thingIDNumber].Perfect;
+            }
+
+            PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
+
+            return PawnCache.cache[pawn.thingIDNumber].Perfect;
         }
         public static bool IsInorganic(this Pawn pawn)
         {

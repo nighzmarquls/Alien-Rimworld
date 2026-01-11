@@ -39,6 +39,7 @@ namespace Xenomorphtype
             DubPlumbing,
             Rimatomics,
             Rimafeller,
+            SOS2,
             Max
         }
         protected struct InfiltrationEndPoint
@@ -176,6 +177,7 @@ namespace Xenomorphtype
             }
 
             InfiltrationCache infiltrationCache = cache[map];
+            int closestEntry = int.MaxValue;
 
             if (infiltrationCache.lastColonyBuildingCount == ColonyBuildingCount)
             {
@@ -197,8 +199,12 @@ namespace Xenomorphtype
                             bool Reachable = CheckReachable(map, startCell, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
                             if (Reachable)
                             {
-                                Entry = endpoint.building;
-                                break;
+                                int distance = startCell.DistanceToSquared(endpoint.building.Position);
+                                if (distance < closestEntry)
+                                {
+                                    closestEntry = distance;
+                                    Entry = endpoint.building;
+                                }
                             }
                         }
                     }
@@ -215,8 +221,12 @@ namespace Xenomorphtype
                             bool Reachable = CheckReachable(map, startCell, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
                             if (Reachable)
                             {
-                                Entry = endpoint.building;
-                                break;
+                                int distance = startCell.DistanceToSquared(endpoint.building.Position);
+                                if (distance < closestEntry)
+                                {
+                                    closestEntry = distance;
+                                    Entry = endpoint.building;
+                                }
                             }
                         }
                     }
@@ -255,10 +265,11 @@ namespace Xenomorphtype
                         {
 
                             bool Reachable = CheckReachable(map, startCell, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
-                            if (Reachable)
+                            int distance = startCell.DistanceToSquared(endpoint.building.Position);
+                            if (distance < closestEntry)
                             {
+                                closestEntry = distance;
                                 Entry = endpoint.building;
-                                return true;
                             }
                         }
                     }
@@ -267,12 +278,17 @@ namespace Xenomorphtype
                         foreach (InfiltrationEndPoint endpoint in network.endpoints)
                         {
                             bool Reachable = CheckReachable(map, startCell, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
-                            if (Reachable)
+                            int distance = startCell.DistanceToSquared(endpoint.building.Position);
+                            if (distance < closestEntry)
                             {
+                                closestEntry = distance;
                                 Entry = endpoint.building;
-                                break;
                             }
                         }
+                    }
+                    if (Entry != null)
+                    {
+                        return true;
                     }
                 }
             }
@@ -287,44 +303,39 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (thing == ExternalDefOf.CoolingTower)
+            if (ExternalDefOf.XMT_AtomicInfiltrationList == null)
             {
-                return true;
+                return false;
             }
 
-            if (thing == ExternalDefOf.CoolingWater)
+            foreach (ThingDef atomicThing in ExternalDefOf.XMT_AtomicInfiltrationList.things)
             {
-                return true;
+                if (thing == atomicThing)
+                {
+                    return true;
+                }
             }
 
-            if (thing == ExternalDefOf.ReactorCoreA)
+            return false;
+        }
+        protected static bool IsSOSEntry(ThingDef thing)
+        {
+            if (thing == null)
             {
-                return true;
+                return false;
             }
 
-            if (thing == ExternalDefOf.ReactorCoreB)
+            if (ExternalDefOf.XMT_SOS2InfiltrationList == null)
             {
-                return true;
+                return false;
             }
 
-            if (thing == ExternalDefOf.ReactorCoreC)
+            foreach (ThingDef shipThing in ExternalDefOf.XMT_SOS2InfiltrationList.things)
             {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.Turbine)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.BigTurbine)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.CoolingRadiator)
-            {
-                return true;
+                if (thing == shipThing)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -336,69 +347,17 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (thing == ExternalDefOf.BasinStuff)
+            if(ExternalDefOf.XMT_DBHInfiltrationList == null)
             {
-                return true;
+                return false;
             }
 
-            if (thing == ExternalDefOf.KitchenSink)
+            foreach(ThingDef plumbingThing in ExternalDefOf.XMT_DBHInfiltrationList.things)
             {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.ToiletStuff)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.BathtubStuff)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.WaterTowerS)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.WaterTowerL)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.SewageOutlet)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.SewageTreatment)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.SewageSepticTank)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.PitLatrine)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.DBHSwimmingPool)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.HotTub)
-            {
-                return true;
-            }
-
-            if (thing == ExternalDefOf.WaterTrough)
-            {
-                return true;
+                if (thing == plumbingThing)
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -415,10 +374,15 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                if (building is Building_Pipe || building.def == ExternalDefOf.sewagePipeStuff)
+                if (building is Building_Pipe
+                    || building.def == ExternalDefOf.sewagePipeStuff
+                    || building.def == ExternalDefOf.Ship_Beam
+                    || building.def == ExternalDefOf.ShipHeatConduit)
                 {
                     continue;
                 }
+
+
 
                 if (building is Building_Vent or Building_Cooler)
                 {
@@ -479,7 +443,35 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                
+                if(IsSOSEntry(building.def))
+                {
+                    InfiltrationNetwork newNetwork = new InfiltrationNetwork();
+                    newNetwork.connectedRooms = new List<Room>();
+                    newNetwork.connectedBuildings = new List<Building>();
+                    newNetwork.endpoints = new List<InfiltrationEndPoint>();
+                    newNetwork.type = EndPointType.SOS2;
+                    bool skip = false;
+                    foreach (InfiltrationNetwork network in cache.networks)
+                    {
+                        if (network.connectedBuildings.Contains(building))
+                        {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (skip)
+                    {
+                        break;
+                    }
+                    newNetwork.connectedRooms.Add(room);
+                    InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = building, type = EndPointType.DubPlumbing };
+
+                    AddAllEndpointsToNetwork(map, infiltrationEndPoint, ref newNetwork);
+                    cache.networks.Add(newNetwork);
+
+                    foundNetwork = true;
+                    continue;
+                }
         
                 if (IsPlumbingEntry(building.def))
                 {
@@ -562,7 +554,25 @@ namespace Xenomorphtype
                 case EndPointType.Rimatomics:
                     AddAllAtomicPointsToNetwork(map, endPoint, ref network);
                     return;
+                case EndPointType.SOS2:
+                    AddAllSOSPointsToNetwork(map, endPoint, ref network);
+                    return;
+            }
+        }
 
+        private static void AddAllSOSPointsToNetwork(Map map, InfiltrationEndPoint endPoint, ref InfiltrationNetwork network)
+        {
+            if (endPoint.type != EndPointType.SOS2)
+            {
+                Log.Error("Attempted to find Save our Ship 2 Network on a non-Save our Ship 2 Building. What did you do?!");
+            }
+            AddEndpointToNetwork(map, endPoint, ref network);
+            IEnumerable<Building> endpoints = GetAllConnectedEndPoints(map, endPoint.building, new ThingDef[] { ExternalDefOf.Ship_Beam, ExternalDefOf.ShipHeatConduit}, EndPointType.SOS2);
+            foreach (Building endpoint in endpoints)
+            {
+                Log.Message(endpoint + " being checked");
+                InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = endpoint as Building, type = EndPointType.SOS2 };
+                AddEndpointToNetwork(map, infiltrationEndPoint, ref network);
             }
         }
 
@@ -597,6 +607,17 @@ namespace Xenomorphtype
                             break;
                         case EndPointType.Rimatomics:
                             if (IsAtomicEntry(candidate.def))
+                            {
+                                if (ConnectedEndPoints.Contains(candidate))
+                                {
+                                    break;
+                                }
+                                ConnectedEndPoints.Add(candidate);
+                                connector = true;
+                            }
+                            break;
+                        case EndPointType.SOS2:
+                            if (IsSOSEntry(candidate.def))
                             {
                                 if (ConnectedEndPoints.Contains(candidate))
                                 {

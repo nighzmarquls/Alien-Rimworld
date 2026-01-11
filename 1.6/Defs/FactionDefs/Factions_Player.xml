@@ -16,14 +16,14 @@
     <description>A small hive.</description>
     <isPlayer>true</isPlayer>
     <categoryTag>Tribal</categoryTag>
-    <pawnSingular>tribesman</pawnSingular>
-    <pawnsPlural>tribespeople</pawnsPlural>
+    <pawnSingular>kin</pawnSingular>
+    <pawnsPlural>kin</pawnsPlural>
     <basicMemberKind>XMT_StarbeastKind</basicMemberKind>
     <techLevel>Neolithic</techLevel>
     <factionNameMaker>NamerFactionTribal</factionNameMaker>
     <settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
     <allowedCultures>
-      <li>Corunan</li>
+      <li>XMT_Cryptimorph</li>
     </allowedCultures>
     <disallowedMemes>
       <li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
@@ -35,7 +35,7 @@
     <backstoryFilters>
       <li>
         <categories>
-          <li>Tribal</li>
+          <li>XMT_Starbeast</li>
         </categories>
       </li>
     </backstoryFilters>

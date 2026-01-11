@@ -1,4 +1,6 @@
 ﻿
+using RimWorld;
+using System;
 using UnityEngine;
 using Verse;
 
@@ -7,12 +9,19 @@ namespace Xenomorphtype
     internal class XMTSettings : ModSettings
     {
         static private XMTSettings instance;
+
+        private static Vector2 scrollPosition;
+        private static float height_modifier = 2f;
+
+        //SETTINGS
         public static bool LogJobGiver => instance != null ? instance._logJobGiver : false;
+        public static bool LogClimbing => instance != null ? instance._logClimbing : false;
         public static bool LogBiohorror => instance != null ? instance._logBiohorror : false;
         public static bool LogRituals => instance != null ? instance._logRituals : false;
         public static bool LogWorld => instance != null ? instance._logWorld : false;
 
         private bool _logJobGiver = false;
+        private bool _logClimbing = false;
         private bool _logBiohorror = false;
         private bool _logRituals = false;
         private bool _logWorld = false;
@@ -34,11 +43,7 @@ namespace Xenomorphtype
         public static float InitialXenoforming => instance != null ? instance._initialXenoforming : 0f;
         private float _initialXenoforming = 0f;
 
-        private static Vector2 scrollPosition;
-        private static float height_modifier = 1.5f;
-
         public static int MinimumOpinionForHiveFriend = instance != null ? instance._minimumOpinionForHiveFriend : 80;
-
         private int _minimumOpinionForHiveFriend = 80;
 
         public static float WildEmbryoChance => instance != null ? instance._wildEmbryoChance : 0.25f;
@@ -61,6 +66,29 @@ namespace Xenomorphtype
         public static float MinAwarenessAutoAggression => instance != null ? instance._minAutoAggression : 1f;
         private float _minAutoAggression = 1f;
 
+        private void ResetToDefault()
+        {
+            _logJobGiver = false;
+            _logClimbing = false;
+            _logBiohorror = false;
+            _logRituals = false;
+            _logWorld = false;
+            _playerSabotage = true;
+            _horrorPregnancy = true;
+  
+            _jellyNutritionEfficiency = 0.5f;
+            _jellyMassEfficiency = 0.025f;
+            _maturationFactor = 1f;
+            _initialXenoforming = 0f;
+            _minimumOpinionForHiveFriend = 80;
+            _wildEmbryoChance = 0.25f;
+            _wildMorphHuntChance = 0.25f;
+            _siteAttackChance = 0.25f;
+            _laidEggMaturationTime = 1;
+            _biomeSpreadFactor = 0.01f;
+            _xenoformingGrowthFactor = 1f;
+            _minAutoAggression = 1f;
+        }
         private string TooltipForEggMaturation()
         {
             return Mathf.Floor(_laidEggMaturationTime * 24) + " hours";
@@ -101,6 +129,8 @@ namespace Xenomorphtype
             listingStandard.Begin(viewRect);
             listingStandard.Gap(4f);
             listingStandard.CheckboxLabeled("Log Job Giver", ref _logJobGiver, "Enable log reporting on job giver");
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("Log Climbing", ref _logClimbing, "Enable log reporting on climbing");
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("Log Rituals", ref _logRituals, "Enable log reporting on rituals");
             listingStandard.Gap(5f);
@@ -154,7 +184,7 @@ namespace Xenomorphtype
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForPercent(_biomeSpreadFactor));
             listingStandard.Gap(5f);
-            _biomeSpreadFactor = listingStandard.SliderLabeled("Xenoforming Growth Factor", _xenoformingGrowthFactor, 0, 10f, tooltip: TooltipForEggMaturation());
+            _xenoformingGrowthFactor = listingStandard.SliderLabeled("Xenoforming Growth Factor", _xenoformingGrowthFactor, 0, 10f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForPercent(_xenoformingGrowthFactor));
             listingStandard.Gap(5f);
@@ -162,9 +192,12 @@ namespace Xenomorphtype
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForPercent(_minAutoAggression));
             listingStandard.Gap(5f);
+            if (listingStandard.ButtonText("Reset To Default"))
+            {
+                ResetToDefault();
+            }
+            viewRect.height += 75;
             listingStandard.End();
-            viewRect.height += 25;
-
             Widgets.EndScrollView();
         }
 
@@ -179,10 +212,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
             Scribe_Values.Look(ref _horrorPregnancy, "horrorPregnancy", true, false);
 
-
-
             Scribe_Values.Look(ref _initialXenoforming, "initialXenoforming", 0f, false);
-
             Scribe_Values.Look(ref _maturationFactor, "maturationFactor", 1f, false);
 
             Scribe_Values.Look(ref _jellyNutritionEfficiency, "jellyNutritionEfficiency", 0.5f, false);
@@ -191,7 +221,11 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _wildMorphHuntChance, "wildMorphHuntChance", 0.25f, false);
             Scribe_Values.Look(ref _siteAttackChance, "siteAttackChance", 0.25f, false);
             Scribe_Values.Look(ref _minimumOpinionForHiveFriend, "minimumOpinionForHiveFriend", 80, false);
-            Scribe_Values.Look(ref _laidEggMaturationTime, "laidEggMaturationTime", 1, false); 
+            Scribe_Values.Look(ref _laidEggMaturationTime, "laidEggMaturationTime", 1, false);
+
+            Scribe_Values.Look(ref _biomeSpreadFactor, "biomeSpreadFactor", 0.01f, false);
+            Scribe_Values.Look(ref _xenoformingGrowthFactor, "xenoformingGrowthFactor", 1, false);
+            Scribe_Values.Look(ref _minAutoAggression, "minAutoAggression", 1, false);
             instance = this;
         }
         

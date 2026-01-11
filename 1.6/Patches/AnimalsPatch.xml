@@ -475,6 +475,33 @@
 			</li>
 		</value>
 	</Operation>
+
+<!-- Small Tough Animals Porcupine, Armadillo-->
+
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="Porcupine" or defName="Armadillo"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Weak</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
+						<pawnTransformationTarget></pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_RodentHorrorPregnant</horrorPregnancy>
+			</li>
+		</value>
+	</Operation>
 	
 <!-- Small Weak Animals  TODO: Porcupine, Armadillo-->
 
@@ -656,15 +683,44 @@
 		</value>
 	</Operation>
 	
-<!-- Reptiles -->
+<!-- Snake -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Iguana" or defName="Cobra" or defName="Tortoise" or defName="MonitorLizard" or defName="Alligator" or defName="Bullfrog" or defName="ColossusToad"]</xpath>
+		<xpath>Defs/ThingDef[defName="Cobra"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Slow</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Sleepy</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">AcidSpray</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Fleshtoad</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Fleshtoad</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_ReptileHorrorPregnant</horrorPregnancy>
+			</li>
+		</value>
+		
+	</Operation>
+	
+<!-- Reptiles -->
+
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="Iguana" or defName="Tortoise" or defName="MonitorLizard" or defName="Alligator" or defName="Bullfrog" or defName="ColossusToad"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Slow</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Sleepy</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">AcidSpray</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">

@@ -966,6 +966,8 @@
 					<li>XMT_CorpseSculptureSmall</li>
 					<li>XMT_CorpseSculptureLarge</li>
 					<li>XMT_CorpseSculptureGrand</li>
+					<li>XMT_dronePlushie</li>
+					<li>XMT_queenPlushie</li>
 				</whiteBuildingList>
 				
 				<!-- Xenomorph Recipes -->
@@ -2024,6 +2026,18 @@
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
 									</Posture>
+									<Not MayRequire="RedMattis.BetterPrerequisites">
+										<Hediff>XMT_SizeX1</Hediff>
+									</Not>
+									<Not MayRequire="RedMattis.BetterPrerequisites">
+										<Hediff>XMT_SizeX2</Hediff>
+									</Not>
+									<Not MayRequire="RedMattis.BetterPrerequisites">
+										<Hediff>XMT_SizeX3</Hediff>
+									</Not>
+									<Not MayRequire="RedMattis.BetterPrerequisites">
+										<Hediff>XMT_SizeX4</Hediff>
+									</Not>
 									<Not>
 										<Hediff>XMT_GeneIntegration</Hediff>
 									</Not>
@@ -2072,7 +2086,6 @@
 										<Hediff>Maturation</Hediff>
 									</Not>
 									<Not>
-										
 										<Hediff>XMT_Enthroned</Hediff>
 									</Not>
 								</conditions>

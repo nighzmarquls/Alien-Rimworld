@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<Xenomorphtype.XMT_ThingDefList>
+		<defName>XMT_AcidImmuneBuildings</defName>
+		<things>
+			<li>AtmospherePylon</li>
+			<li>XMT_Ovomorph</li>
+			<li>XMT_CocoonBase</li>
+			<li>XMT_CocoonBaseAnimal</li>
+			<li>XMT_HiddenNestSpot</li>
+			<li>HiveSleepingCocoon</li>
+			<li>HiveHidingSpot</li>
+			<li>HiveWebbing</li>
+			<li>Hivemass</li>
+			<li>XMT_Ovothrone</li>
+			<li>XMT_AmbushSpot</li>
+			<li>HiveReinforcement</li>
+			<li>XMT_Ruined_Ovothrone</li>
+			<li>XMT_QueenChrysalis</li>
+			<li>XMT_JellyPipe</li>
+			<li>XMT_JellyDrain</li>
+			<li>XMT_JellyPool</li>
+			<li>XMT_JellyStorage</li>
+			<li>XMT_GeneOvomorph</li>
+			<li>XMT_ExplosivePod</li>
+			<li>XMT_dronePlushie</li>
+			<li>XMT_queenPlushie</li>
+		</things>
+	</Xenomorphtype.XMT_ThingDefList>
+</Defs>

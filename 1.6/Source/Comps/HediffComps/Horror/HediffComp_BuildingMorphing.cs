@@ -45,7 +45,7 @@ namespace Xenomorphtype
                 if (Props.MorphedBuilding != null)
                 {
                     XMTHiveUtility.RemoveHost(parent.pawn, parent.pawn.MapHeld);
-                    if (Props.MorphedBuilding == InternalDefOf.XMT_Ovomorph)
+                    if (Props.MorphedBuilding == XenoBuildingDefOf.XMT_Ovomorph)
                     {
                         XMTHiveUtility.AddOvomorphing(parent.pawn, parent.pawn.MapHeld);
                         Host = parent.pawn;

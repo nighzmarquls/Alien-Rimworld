@@ -37,5 +37,50 @@
 		<li>XMT_PaleSkullface</li>
 	  </forcedHediffs>
 	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_MaidAlienHappy02</defName>
+	  <childhood>StarbeastChildTame04</childhood>
+	  <adulthood>StarbeastMaid15</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Elizabeth</first>
+		<nick>Liz</nick>
+		<last>Bathory</last>
+	  </name>
+	  <validRaces>
+		<li>XMT_Starbeast_AlienRace</li>
+	  </validRaces>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_MaidAlienAbused03</defName>
+	  <childhood>StarbeastChildAbused05</childhood>
+	  <adulthood>StarbeastMaid15</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Adelyne</first>
+		<nick>Ada</nick>
+		<last>Sucrose</last>
+	  </name>
+	  <validRaces>
+		<li>XMT_Starbeast_AlienRace</li>
+	  </validRaces>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_MaidAlienProduct04</defName>
+	  <childhood>StarbeastChildTestSubject01</childhood>
+	  <adulthood>StarbeastMaid15</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>LXM</first>
+		<nick>Lucy</nick>
+		<last>69</last>
+	  </name>
+	  <validRaces>
+		<li>XMT_Starbeast_AlienRace</li>
+	  </validRaces>
+	</AlienRace.PawnBioDef>
 
 </Defs>

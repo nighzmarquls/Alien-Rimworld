@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<Xenomorphtype.XMT_ThingDefList>
+		<defName>XMT_AtomicInfiltrationList</defName>
+		<things>
+			<li>CoolingTower</li>
+			<li>CoolingWater</li>
+			<li>ReactorCoreA</li>
+			<li>ReactorCoreB</li>
+			<li>ReactorCoreC</li>
+			<li>Turbine</li>
+			<li>BigTurbine</li>
+			<li>CoolingRadiator</li>
+		</things>
+	</Xenomorphtype.XMT_ThingDefList>
+</Defs>

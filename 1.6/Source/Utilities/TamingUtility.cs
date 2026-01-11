@@ -351,7 +351,7 @@ namespace Xenomorphtype
 
             if(pawn.MapHeld != null)
             {
-                if(pawn.MapHeld.listerThings.AnyThingWithDef(InternalDefOf.XMT_Ovomorph))
+                if(pawn.MapHeld.listerThings.AnyThingWithDef(XenoBuildingDefOf.XMT_Ovomorph))
                 {
                     return true;
                 }

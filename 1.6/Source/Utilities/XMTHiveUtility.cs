@@ -663,7 +663,7 @@ namespace Xenomorphtype
             Hive.Add(InitializeNest(lairSpot, map));
             if (lairSpot.InBounds(map))
             {
-                GenSpawn.Spawn(InternalDefOf.XMT_HiddenNestSpot, lairSpot, map, WipeMode.VanishOrMoveAside);
+                GenSpawn.Spawn(XenoBuildingDefOf.XMT_HiddenNestSpot, lairSpot, map, WipeMode.VanishOrMoveAside);
             }
 
         }
@@ -762,7 +762,7 @@ namespace Xenomorphtype
             {
                 return null;
             }
-            ThingDef newThingDef = InternalDefOf.Hivemass;
+            ThingDef newThingDef = XenoBuildingDefOf.Hivemass;
 
             IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(startingPosition, 1.5f, false);
 
@@ -822,8 +822,8 @@ namespace Xenomorphtype
                 {
                     //Log.Message("corners are in bounds");
                     Circle = GenRadial.RadialCellsAround(localNest.Position, Radius - 1, Radius).ToArray();
-                    ThingDef wallDef = InternalDefOf.Hivemass;
-                    ThingDef doorDef = InternalDefOf.HiveWebbing;
+                    ThingDef wallDef = XenoBuildingDefOf.Hivemass;
+                    ThingDef doorDef = XenoBuildingDefOf.HiveWebbing;
                     int divisionCount = Circle.Length / Rand.Range(3,8);
                     int countTilDoor = 0;
                     foreach (IntVec3 cell in Circle)
@@ -910,9 +910,16 @@ namespace Xenomorphtype
 
             Room nestRoom = localNest.Room;
 
+            
+
             List<IntVec3> cellsToSearch = nestRoom.Cells.ToList();
 
             cellsToSearch.Shuffle();
+
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message(forPawn + " found nest at room: " + nestRoom + " with cell count of: " + cellsToSearch.Count);
+            }
 
             foreach (IntVec3 cell in cellsToSearch)
             {
@@ -925,8 +932,17 @@ namespace Xenomorphtype
                             continue;
                         }
                     }
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(forPawn + " found nest cell for cocoon at: " + cell);
+                    }
                     return cell;
                 }
+            }
+
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message(forPawn + " found no valid cells in nest room.");
             }
             return IntVec3.Invalid;
         }
@@ -936,7 +952,7 @@ namespace Xenomorphtype
             {
                 return null;
             }
-            ThingDef newThingDef = target.IsAnimal? InternalDefOf.XMT_CocoonBaseAnimal : InternalDefOf.XMT_CocoonBase;
+            ThingDef newThingDef = target.IsAnimal? XenoBuildingDefOf.XMT_CocoonBaseAnimal : XenoBuildingDefOf.XMT_CocoonBase;
 
             IntVec3 AvailableCell = startingPosition;
             Map map = target.MapHeld;

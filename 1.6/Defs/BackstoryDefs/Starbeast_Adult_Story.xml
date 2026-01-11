@@ -326,10 +326,13 @@
 			<Nimble>0</Nimble>
 		</forcedTraits>
 		<forcedItems>
-			<VAE_Apparel_Apron MayRequire="VanillaExpanded.VAPPE">1</VAE_Apparel_Apron>
 			<VBE_Ambrandy MayRequire="VanillaExpanded.VBrewE">2</VBE_Ambrandy>
 			<MealLavish>5</MealLavish>
 		</forcedItems>
+		<forcedHediffs>
+			<li>XMT_forcewearMaid</li>
+			<li>XMT_maidgenes</li>
+		</forcedHediffs>
 	</AlienRace.AlienBackstoryDef>
 	
 	<AlienRace.AlienBackstoryDef>

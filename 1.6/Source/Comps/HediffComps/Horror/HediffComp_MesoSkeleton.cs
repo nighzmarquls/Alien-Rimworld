@@ -28,7 +28,7 @@ namespace Xenomorphtype
 
             LastUpdatedInfluence = Influence;
 
-            Influence = parent.Severity;
+            Influence = (parent.Severity*10);
 
             float InfluenceDelta = Influence - LastUpdatedInfluence;
 

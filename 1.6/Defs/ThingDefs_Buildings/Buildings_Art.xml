@@ -76,4 +76,75 @@
 		<recipeMaker Inherit="False" IsNull="True"></recipeMaker>
 	</ThingDef>
 	
+	
+	<ThingDef ParentName="SculptureBase">
+    <defName>XMT_dronePlushie</defName>
+    <label>small plushie</label>
+    <description>A torso-sized piece of slick and soft fabric shaped into an adorable if strange creature.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Plushie/drone</texPath>
+	  <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <fillPercent>0.35</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Mass>3</Mass>
+      <Beauty>50</Beauty>
+      <WorkToMake>18000</WorkToMake>
+      <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">10</StyleDominance>
+    </statBases>
+    <costList>
+      <Starbeast_Fabric>50</Starbeast_Fabric>
+    </costList>
+	<recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Tailor</effectWorking>
+      <soundWorking>Recipe_Tailor</soundWorking>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="SculptureBase">
+    <defName>XMT_queenPlushie</defName>
+    <label>large plushie</label>
+    <description>A person-sized piece soft fabric shaped into an adorable if strange creature.</description>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Plushie/Mimi</texPath>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <uiIconScale>0.666</uiIconScale>
+    <fillPercent>0.5</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Mass>7</Mass>
+      <Beauty>100</Beauty>
+      <WorkToMake>30000</WorkToMake>
+      <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">20</StyleDominance>
+    </statBases>
+    <costList>
+      <Starbeast_Fabric>100</Starbeast_Fabric>
+    </costList>
+	<recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Tailor</effectWorking>
+      <soundWorking>Recipe_Tailor</soundWorking>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+    </recipeMaker>
+  </ThingDef>
+  
 </Defs>

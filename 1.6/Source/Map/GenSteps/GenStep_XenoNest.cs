@@ -120,14 +120,14 @@ namespace Xenomorphtype
 
                                 if(eggCell != nestCell && spawnedEggs < eggCount)
                                 {
-                                    Ovomorph egg = GenSpawn.Spawn(InternalDefOf.XMT_Ovomorph, eggCell, map) as Ovomorph;
+                                    Ovomorph egg = GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovomorph, eggCell, map) as Ovomorph;
                                     egg.ForceProgress(Rand.Range(0.8f,1f));
                                     spawnedEggs++;
                                 }
                             }
                             else if (spawnedEggs < eggCount)
                             {
-                                Ovomorph egg = GenSpawn.Spawn(InternalDefOf.XMT_Ovomorph, nestCell, map) as Ovomorph;
+                                Ovomorph egg = GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovomorph, nestCell, map) as Ovomorph;
                                 egg.ForceProgress();
                                 spawnedEggs++;
                             }
@@ -150,11 +150,11 @@ namespace Xenomorphtype
             {
                 if (Rand.Chance(entranceChance))
                 {
-                    GenSpawn.Spawn(InternalDefOf.HiveWebbing, wallCell, map);
+                    GenSpawn.Spawn(XenoBuildingDefOf.HiveWebbing, wallCell, map);
                 }
                 else
                 {
-                    GenSpawn.Spawn(InternalDefOf.Hivemass, wallCell, map);
+                    GenSpawn.Spawn(XenoBuildingDefOf.Hivemass, wallCell, map);
                 }
                 map.roofGrid.SetRoof(wallCell, RoofDefOf.RoofRockThin);
             }

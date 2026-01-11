@@ -24,7 +24,7 @@ namespace Xenomorphtype
             [HarmonyPostfix]
             public static void Postfix(BuildableDef building, ref bool __result)
             {
-                if (building == InternalDefOf.XMT_Ovothrone)
+                if (building == XenoBuildingDefOf.XMT_Ovothrone)
                 {
                     if (!__result)
                     {

@@ -1,10 +1,5 @@
 ﻿using AlienRace;
 using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace Xenomorphtype
@@ -73,20 +68,6 @@ namespace Xenomorphtype
         public static ThingDef              Starbeast_Jelly;
 
         public static DesignationCategoryDef    XMT_Hive;
-
-        //Xenomorph buildings
-        public static ThingDef              XMT_JellyWell;
-        public static ThingDef              XMT_Ovomorph;
-        public static ThingDef              XMT_CocoonBase;
-        public static ThingDef              XMT_CocoonBaseAnimal;
-        public static ThingDef              XMT_HiddenNestSpot;
-        public static ThingDef              HiveSleepingCocoon;
-        public static ThingDef              HiveHidingSpot;
-        public static ThingDef              HiveWebbing;
-        public static ThingDef              Hivemass;
-        public static ThingDef              AtmospherePylon;
-        public static ThingDef              XMT_Ovothrone;
-        public static ThingDef              XMT_AmbushSpot;
 
         //Xenomorph related structures
         public static ThingDef              ShipChunkWithEgg;

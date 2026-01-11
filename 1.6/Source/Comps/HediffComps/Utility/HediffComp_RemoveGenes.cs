@@ -25,16 +25,23 @@ namespace Xenomorphtype
         {
             if (Pawn.genes != null)
             {
-                if (lastGeneCount == Pawn.genes.GenesListForReading.Count)
+                if (lastGeneCount == Pawn.genes.GenesListForReading.Count )
                 {
                     return;
                 }
+
+                if (Pawn.genes.GenesListForReading.Count == 0)
+                {
+                    lastGeneCount = 0;
+                    return;
+                }
+
                 List<Gene> genesToRemove = new List<Gene>();
 
                 foreach (Gene gene in Pawn.genes.GenesListForReading)
                 {
                     bool marked = false;
-                    if (Props.removedCategoryTags != null)
+                    if (Props.removedCategoryTags != null && gene.def.exclusionTags != null)
                     {
                         foreach (string tag in gene.def.exclusionTags)
                         {
@@ -56,6 +63,7 @@ namespace Xenomorphtype
                     {
                         continue;
                     }
+
                     foreach (GeneDef removeDef in Props.removedGenes)
                     {
                         if (gene.def == removeDef)
@@ -82,8 +90,8 @@ namespace Xenomorphtype
     public class HediffCompProperties_RemoveGenes : HediffCompProperties
     {
         public int checkInterval = 600;
-        public List<GeneDef> removedGenes;
-        public List<string>  removedCategoryTags;
+        public List<GeneDef> removedGenes = null;
+        public List<string>  removedCategoryTags = null;
 
         public HediffCompProperties_RemoveGenes()
         {

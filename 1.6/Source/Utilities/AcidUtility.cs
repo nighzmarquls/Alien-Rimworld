@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
-using static HarmonyLib.Code;
 
 namespace Xenomorphtype
 {
+    
     internal class AcidUtility
     {
         protected static ThingDef GetBloodDef(Pawn bleeder)
@@ -246,14 +246,12 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (thing.def == InternalDefOf.Hivemass ||
-                thing.def == InternalDefOf.HiveWebbing ||
-                thing.def == InternalDefOf.AtmospherePylon ||
-                thing.def == InternalDefOf.XMT_CocoonBase ||
-                thing.def == InternalDefOf.XMT_CocoonBaseAnimal
-               )
+            foreach(ThingDef acidproofDef in XenoBuildingDefOf.XMT_AcidImmuneBuildings.things)
             {
-                return true;
+                if (thing.def == acidproofDef)
+                {
+                    return true;
+                }
             }
 
             CompAcidBlood compAcid = thing.TryGetComp<CompAcidBlood>();

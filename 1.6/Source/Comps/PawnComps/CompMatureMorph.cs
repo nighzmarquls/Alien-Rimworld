@@ -307,8 +307,6 @@ namespace Xenomorphtype
 
         public void UpdateSkinByAge()
         {
-            
-
             if (Parent.ageTracker.Adult && Parent.story.SkinColor == nymphSkinColor)
             {
                 if (Parent.def is ThingDef_AlienRace alien)
@@ -974,8 +972,8 @@ namespace Xenomorphtype
                 CocoonBase cocoon = candidate.CurrentBed() as CocoonBase;
                 if (cocoon != null)
                 {
-                    if (cocoon.def == InternalDefOf.XMT_CocoonBase ||
-                        cocoon.def == InternalDefOf.XMT_CocoonBaseAnimal)
+                    if (cocoon.def == XenoBuildingDefOf.XMT_CocoonBase ||
+                        cocoon.def == XenoBuildingDefOf.XMT_CocoonBaseAnimal)
                     {
                         continue;
                     }
@@ -1548,9 +1546,9 @@ namespace Xenomorphtype
             Thing thing = path.FirstBlockingBuilding(out cellBefore, pawn);
             if (thing != null)
             {
-                ThingDef doorDef = InternalDefOf.HiveWebbing;
+                ThingDef doorDef = XenoBuildingDefOf.HiveWebbing;
                 Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, thing.Position);
-                job.plantDefToSow = InternalDefOf.HiveWebbing;
+                job.plantDefToSow = XenoBuildingDefOf.HiveWebbing;
                 if (job != null)
                 {
                     return job;
@@ -1587,7 +1585,7 @@ namespace Xenomorphtype
             IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(Parent.Map, Parent);
             if (cell.IsValid)
             {
-                ThingDef cooler = InternalDefOf.AtmospherePylon;
+                ThingDef cooler = XenoBuildingDefOf.AtmospherePylon;
                 job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, cell);
                 FeralJobUtility.ReservePlaceForJob(Parent, job, cell);
 
@@ -2043,7 +2041,7 @@ namespace Xenomorphtype
 
         public void EnterHidingSpot(IntVec3 hidingSpot)
         {
-            ThingDef cocoonDef = InternalDefOf.HiveHidingSpot;
+            ThingDef cocoonDef = XenoBuildingDefOf.HiveHidingSpot;
             if (cocoonDef == null)
             {
                 Log.Warning(Parent + " is trying to hide without HiveHidingSpot Defined");

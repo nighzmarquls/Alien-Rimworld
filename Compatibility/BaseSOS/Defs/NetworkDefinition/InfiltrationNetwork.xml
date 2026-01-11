@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<Xenomorphtype.XMT_ThingDefList>
+		<defName>XMT_SOS2InfiltrationList</defName>
+		<things>
+			<!--<li>ShipAirlock</li>
+			<li>ShipInside_SolarGenerator</li>
+			<li>ShipInside_PassiveVent</li>
+			<li>Ship_LifeSupport</li>
+			<li>Ship_LifeSupport_Small</li>
+			<li>Ship_Reactor</li>
+			<li>ShipShuttleBay</li>
+			<li>ShipShuttleBayLarge</li>
+			<li>ShipSalvageBay</li>
+			<li>HullFoamDistributor</li>
+			<li>ShipHeatsink</li>
+			<li>ShipHeatsinkLarge</li>
+			<li>ShipHeatManifold</li>
+			<li>ShipHeatBankLarge</li>
+			<li>ShipPurgePortLarge</li>
+			<li>ShipPurgePort</li>-->
+		</things>
+	</Xenomorphtype.XMT_ThingDefList>
+</Defs>

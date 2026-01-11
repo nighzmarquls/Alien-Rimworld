@@ -125,7 +125,7 @@ namespace Xenomorphtype
             {
                 if(pawn.Position.GetTerrain(pawn.Map) != InternalDefOf.HiveFloor)
                 {
-                    CocoonTicksFinish = InternalDefOf.Hivemass.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 10f);
+                    CocoonTicksFinish = XenoBuildingDefOf.Hivemass.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 10f);
                 }
             };
             toil.tickAction = delegate

@@ -178,6 +178,8 @@ namespace Xenomorphtype
 
             Faction     ChildFaction = (XMTUtility.PlayerXenosOnMap(parent.pawn.MapHeld)) ? Faction.OfPlayer : (mother != null) ? mother.Faction : null ;
 
+            bool childReincarnated = false;
+
             if (ModsConfig.IdeologyActive)
             {
                 if(Pawn.Ideo is Ideo hostIdeo)
@@ -185,6 +187,7 @@ namespace Xenomorphtype
                     if (hostIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation))
                     {
                         ChildFaction = Pawn.Faction;
+                        childReincarnated = true;
                     }
                 }
             }
@@ -200,8 +203,18 @@ namespace Xenomorphtype
 
             Pawn child = PawnGenerator.GeneratePawn(request);
 
+            if(childReincarnated)
+            {
+                child.Name = Pawn.Name;
+            }
+
             if(child.story != null)
             {
+                if(childReincarnated)
+                {
+                    child.story.birthLastName = Pawn.story.birthLastName;
+                }
+
                 child.story.Childhood = XMTUtility.GetChildBackstory(maturity, Pawn.MapHeld, ChildFaction);
             }
 

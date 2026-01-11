@@ -29,19 +29,19 @@ namespace Xenomorphtype
         {
             if (InternalDefOf.XMT_Starbeast_AlienRace != null)
             {
-                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Starbeast_AlienRace.race.corpseDef  + " on " + InternalDefOf.XMT_Starbeast_AlienRace.defName);
+                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Starbeast_AlienRace.race.corpseDef);
                 InternalDefOf.XMT_Starbeast_AlienRace.race.corpseDef.thingClass = typeof(StarbeastCorpse);
             }
 
-            if (InternalDefOf.XMT_Larva != null)
+            if (InternalDefOf.XMT_Royal_AlienRace != null)
             {
-                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Royal_AlienRace.defName);
+                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Royal_AlienRace.race.corpseDef);
                 InternalDefOf.XMT_Royal_AlienRace.race.corpseDef.thingClass = typeof(StarbeastCorpse);
             }
 
             if (InternalDefOf.XMT_Larva != null)
             {
-                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Larva.defName);
+                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Larva.race.corpseDef);
                 InternalDefOf.XMT_Larva.race.corpseDef.thingClass = typeof(StarbeastCorpse);
             }
         }

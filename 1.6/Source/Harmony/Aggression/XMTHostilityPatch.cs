@@ -58,7 +58,18 @@ namespace Xenomorphtype
             [HarmonyPrefix]
             public static bool Prefix(Pawn otherPawn, Pawn __instance, ref bool __result)
             {
+                if(otherPawn == null)
+                {
+                    return true;
+                }
+
                 CompPawnInfo info = __instance.Info();
+
+                if (info == null)
+                {
+                    return true;
+                }
+
                 if (XMTUtility.IsXenomorph(__instance) || info.IsObsessed())
                 {
                     return true;

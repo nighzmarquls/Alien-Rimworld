@@ -52,4 +52,69 @@
 		  </li>
 		</comps>
 	</HediffDef>
+	
+	<HediffDef>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defName>XMT_forcewearMaid</defName>
+		<label>force </label>
+		<description>DEV:forces the applied pawn to wear a maid outfit if things are available.</description>
+		<isBad>false</isBad>
+		<stages>
+		  <li>
+			<label>hidden</label>
+			<becomeVisible>false</becomeVisible>
+		  </li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_ForceWearApparel">
+				<headwear>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_MaidHead</li>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_MaidHeadb</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricFrillWorker</li>
+				</headwear>
+				<bodywear>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_Maid</li>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_Maidb</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricUniformWorker</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricFrillWorker</li>
+				</bodywear>
+				<accessory>
+					<li MayRequire="VanillaExpanded.VAPPE">VAE_Apparel_Apron</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApronHalf</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApron</li>
+				</accessory>
+			</li>
+		</comps>
+	</HediffDef>
+			  
+	<HediffDef>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defName>XMT_maidgenes</defName>
+		<label>maid gene setup</label>
+		<description>DEV:converts the applied pawn to a maid xenotype on application.</description>
+		<isBad>false</isBad>
+		<stages>
+		  <li>
+			<label>hidden</label>
+			<becomeVisible>false</becomeVisible>
+		  </li>
+		</stages>
+		<comps>
+		  <li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
+			<genes>
+				<li>FireTerror</li>
+				<li>XMT_Metabolism</li>
+				<li>Body_Standard</li>
+				<li>AptitudeTerrible_Plants</li>
+				<li>AptitudeTerrible_Mining</li>
+				<li>AptitudeRemarkable_Cooking</li>
+				<li>KindInstinct</li>
+				<li>Libido_High</li>
+				<li>PsychicBonding</li>
+				<li>Beauty_Beautiful</li>
+			</genes>
+			<xenotype>maid</xenotype>
+		  </li>
+		</comps>
+	</HediffDef>
 </Defs>

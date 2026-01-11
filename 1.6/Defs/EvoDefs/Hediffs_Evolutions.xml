@@ -145,7 +145,7 @@
     </stages>
   </HediffDef>
   
-  <HediffDef ParentName="XMT_Bodypart" MayRequire="RedMattis.BetterPrerequisites">
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
     <defName>XMT_SizeX1</defName>
     <label>maternal stature</label>
     <description>an increased stature.</description>
@@ -183,7 +183,7 @@
 	</comps>
   </HediffDef>
   
-  <HediffDef ParentName="XMT_Bodypart" MayRequire="RedMattis.BetterPrerequisites">
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
     <defName>XMT_SizeX2</defName>
     <label>noble stature</label>
     <description>a truly noble stature.</description>
@@ -221,9 +221,9 @@
 	</comps>
   </HediffDef>
   
-  <HediffDef ParentName="XMT_Bodypart" MayRequire="RedMattis.BetterPrerequisites">
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
     <defName>XMT_SizeX3</defName>
-    <label>noble stature</label>
+    <label>royal stature</label>
     <description>an impressively royal stature.</description>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>
@@ -259,9 +259,9 @@
 	</comps>
   </HediffDef>
   
-  <HediffDef ParentName="XMT_Bodypart" MayRequire="RedMattis.BetterPrerequisites">
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
     <defName>XMT_SizeX4</defName>
-    <label>noble stature</label>
+    <label>imperial stature</label>
     <description>a staggeringly massive stature.</description>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>

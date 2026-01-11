@@ -40,7 +40,17 @@ namespace Xenomorphtype
 
                 if (__instance.IsForbidden(__instance.Faction))
                 {
+                    if(__instance.Open)
+                    {
+                        return true;
+                    }
                     __result = false;
+                    return false;
+                }
+
+                if (XMTUtility.IsSpace(p.MapHeld))
+                {
+                    __result = true;
                     return false;
                 }
 

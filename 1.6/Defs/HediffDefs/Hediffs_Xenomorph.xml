@@ -452,6 +452,11 @@
 		<overrideMoodBase>1.0</overrideMoodBase>
       </li>
     </stages>
+	<comps>
+		<li Class="HediffCompProperties_SeverityPerDay">
+			<severityPerDay>-1</severityPerDay>
+		</li>
+	</comps>
   </HediffDef>
   
   <HediffDef ParentName="XenomorphtypeBase">

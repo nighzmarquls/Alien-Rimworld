@@ -58,6 +58,14 @@ namespace Xenomorphtype
                     Decay();
                 }
             }
+
+            if(Parent.Faction != null)
+            {
+                if(Parent.Faction.def != InternalDefOf.XMT_PlayerHive)
+                {
+                    Parent.SetFaction(null);
+                }
+            }
         }
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {

@@ -56,7 +56,7 @@ namespace Xenomorphtype
 
             foreach (IntVec3 wallCell in wallCells)
             {
-                GenSpawn.Spawn(InternalDefOf.Hivemass, wallCell, map);
+                GenSpawn.Spawn(XenoBuildingDefOf.Hivemass, wallCell, map);
             }
 
             bool spawnThrone = false;
@@ -97,7 +97,7 @@ namespace Xenomorphtype
                     if (cell.GetEdifice(map) is Building edifice)
                     {
                         edifice.Destroy();
-                        GenSpawn.Spawn(InternalDefOf.HiveWebbing, cell, map);
+                        GenSpawn.Spawn(XenoBuildingDefOf.HiveWebbing, cell, map);
 
                         if (Rand.Chance(0.25f))
                         {
@@ -109,7 +109,7 @@ namespace Xenomorphtype
                                 nook.Destroy();
                             }
 
-                            GenSpawn.Spawn(InternalDefOf.XMT_AmbushSpot, gaurdianCell, map, guardianDirection);
+                            GenSpawn.Spawn(XenoBuildingDefOf.XMT_AmbushSpot, gaurdianCell, map, guardianDirection);
                             spawnedGaurdians++;
                         }
                     }
@@ -124,7 +124,7 @@ namespace Xenomorphtype
             {
                 if (cell.GetEdifice(map) is Building edifice)
                 {
-                    if (edifice.def == InternalDefOf.Hivemass)
+                    if (edifice.def == XenoBuildingDefOf.Hivemass)
                     {
                         continue;
                     }
@@ -136,7 +136,7 @@ namespace Xenomorphtype
                 {
                     if (spawnedEggs < actualEggCount)
                     {
-                        Ovomorph egg = GenSpawn.Spawn(InternalDefOf.XMT_Ovomorph, cell, map) as Ovomorph;
+                        Ovomorph egg = GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovomorph, cell, map) as Ovomorph;
                         egg.ForceProgress(Rand.Range(0.8f, 1f));
                         spawnedEggs++;
                     }
@@ -183,7 +183,7 @@ namespace Xenomorphtype
 
             if (spawnThrone)
             {
-                GenSpawn.Spawn(InternalDefOf.XMT_Ovothrone, map.Center, map, Rot4.Random);
+                GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovothrone, map.Center, map, Rot4.Random);
                 XMTHiveUtility.ForceNestPosition(map.Center+(Rot4.Random.FacingCell*5), map);
             }
             GenSpawn.Spawn(queen, map.Center, map);

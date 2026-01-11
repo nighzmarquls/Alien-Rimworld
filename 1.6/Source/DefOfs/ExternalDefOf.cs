@@ -83,6 +83,10 @@ namespace Xenomorphtype
 
         //Big and Small Framework
         [MayRequire("RedMattis.BetterPrerequisites")]
+        public static StatDef SM_Cosmetic_BodySizeOffset;
+        [MayRequire("RedMattis.BetterPrerequisites")]
+        public static StatDef SM_Cosmetic_BodySizeMultiplier;
+        [MayRequire("RedMattis.BetterPrerequisites")]
         public static StatDef SM_BodySizeOffset;
         [MayRequire("RedMattis.BetterPrerequisites")]
         public static StatDef SM_BodySizeMultiplier;
@@ -99,34 +103,10 @@ namespace Xenomorphtype
         public static NeedDef Hygiene;
 
         [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef sewagePipeStuff;
+        public static XMT_ThingDefList XMT_DBHInfiltrationList;
 
         [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef PitLatrine;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef BasinStuff;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef KitchenSink;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef ToiletStuff;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef BathtubStuff;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef WaterTowerS;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef WaterTowerL;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef SewageOutlet;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef SewageTreatment;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef SewageSepticTank;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef WaterTrough;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef DBHSwimmingPool;
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef HotTub;
+        public static ThingDef sewagePipeStuff;
 
         [MayRequire("Dubwise.DubsBadHygiene")]
         public static ThingDef airPipe;
@@ -140,24 +120,9 @@ namespace Xenomorphtype
         public static ThingDef waterValve;
         [MayRequire("Dubwise.Rimatomics")]
         public static ThingDef coolantValve;
-        
 
         [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef CoolingWater;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef CoolingTower;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef ReactorCoreC;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef ReactorCoreB;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef ReactorCoreA;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef Turbine;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef BigTurbine;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef CoolingRadiator;
+        internal static XMT_ThingDefList XMT_AtomicInfiltrationList;
 
         //Vanilla Biotech
         [MayRequire("ludeon.rimWorld.biotech")]
@@ -198,8 +163,12 @@ namespace Xenomorphtype
         
         [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_Beam_Unpowered;
+
         [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_Beam;
+
+        [MayRequire("kentington.saveourship2")]
+        public static ThingDef ShipHeatConduit;
 
         [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_BeamMech_Unpowered;
@@ -210,6 +179,12 @@ namespace Xenomorphtype
         public static ThingDef Ship_BeamArchotech_Unpowered;
         [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_BeamArchotech;
+
+        [MayRequire("kentington.saveourship2")]
+        public static BiomeDef OuterSpaceBiome;
+
+        [MayRequire("kentington.saveourship2")]
+        public static XMT_ThingDefList XMT_SOS2InfiltrationList;
 
         //RJW
 
@@ -225,8 +200,6 @@ namespace Xenomorphtype
  
         [MayRequire("rim.job.world")]
         public static HediffDef Vagina;
-    
-      
 
     }
 }

@@ -134,16 +134,17 @@
 		<allowedArchonexusCount>150</allowedArchonexusCount>
 		<modExtensions>
 			<li MayRequire="Dubwise.DubsBadHygiene" Class="DubsBadHygiene.WaterExt">
-				<water>1</water>
+				<water>2</water>
 				<UseForWashing>false</UseForWashing>
 				<SeekForThirst>true</SeekForThirst>
 			</li>
 		</modExtensions>
 	</ThingDef>
 	
-	<ThingDef ParentName="OrganicProductBase">
+	<ThingDef ParentName="DrugBase">
 		<defName>Starbeast_RoyalJelly</defName>
-		<thingClass>Medicine</thingClass>
+		<category>Item</category>
+		<thingClass>ThingWithComps</thingClass>
 		<label>iridescent jelly</label>
 		<description>A strange iridescent jelly. It is simultaneously readily digestible, milky-sweet, anti-microbial, anti-viral and wound clotting. It does not rot. Reverses Metabolic slowdown in cryptimorphs.</description>
 		<possessionCount>10</possessionCount>
@@ -153,17 +154,16 @@
 		</graphicData>
 		<socialPropernessMatters>true</socialPropernessMatters>
 		<statBases>
-			<MarketValue>8.0</MarketValue>
-			<Mass>0.025</Mass>
+			<MarketValue>10.0</MarketValue>
+			<Mass>0.01</Mass>
 			<Nutrition>0.1</Nutrition>
 			<FoodPoisonChanceFixedHuman>0.0</FoodPoisonChanceFixedHuman>
-			<MedicalPotency>1.00</MedicalPotency>
-			<MedicalQualityMax>2.0</MedicalQualityMax>
 			<DeteriorationRate>0</DeteriorationRate>
 			<WorkToMake>300</WorkToMake>
 		</statBases>
 		<ingestible>
 			<foodType>AnimalProduct</foodType>
+			<drugCategory>Medical</drugCategory>
 			<preferability>MealFine</preferability>
 			<joy>0.08</joy>
 			<joyKind>Gluttonous</joyKind>
@@ -184,8 +184,10 @@
 		</ingestible>
 		<thingCategories>
 			<li>AnimalProductRaw</li>
-			<li>Medicine</li>
 		</thingCategories>
+		<tradeTags>
+		  <li>Drugs</li>
+		</tradeTags>
 		<comps>
 			<li Class="CompProperties_Drug">
 				<chemical>XMT_Essence</chemical>
@@ -193,12 +195,11 @@
 				<needLevelOffset>1.0</needLevelOffset>
 				<listOrder>1010</listOrder>
 			</li>
-
 		</comps>
 		<allowedArchonexusCount>150</allowedArchonexusCount>
 		<modExtensions>
 			<li MayRequire="Dubwise.DubsBadHygiene" Class="DubsBadHygiene.WaterExt">
-				<water>1</water>
+				<water>2</water>
 				<UseForWashing>false</UseForWashing>
 				<SeekForThirst>true</SeekForThirst>
 			</li>

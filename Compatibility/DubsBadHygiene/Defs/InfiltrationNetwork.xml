@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<Xenomorphtype.XMT_ThingDefList>
+		<defName>XMT_DBHInfiltrationList</defName>
+		<things>
+			<li>PitLatrine</li>
+			<li>BasinStuff</li>
+			<li>KitchenSink</li>
+			<li>ToiletStuff</li>
+			<li>BathtubStuff</li>
+			<li>WaterTowerS</li>
+			<li>WaterTowerL</li>
+			<li>SewageOutlet</li>
+			<li>SewageTreatment</li>
+			<li>SewageSepticTank</li>
+			<li>WaterTrough</li>
+			<li>DBHSwimmingPool</li>
+			<li>HotTub</li>
+		</things>
+	</Xenomorphtype.XMT_ThingDefList>
+</Defs>

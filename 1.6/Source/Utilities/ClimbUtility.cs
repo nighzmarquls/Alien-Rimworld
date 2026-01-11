@@ -1,5 +1,6 @@
 ﻿
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -263,9 +264,36 @@ namespace Xenomorphtype
 
         }
 
+        protected static bool FailClimbToil(Toil toil)
+        {
+            return false;
+            if(toil.actor == null)
+            {
+                return true;
+            }
+
+            CompClimber climber = toil.actor.GetClimberComp();
+
+            if (climber == null)
+            {
+                return false;
+            }
+
+            if (climber.climbParameters.ClimbCellsRegistered)
+            {
+                if (climber.EndClimbCell.IsValid)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public static Toil GotoCell( TargetIndex ind, PathEndMode peMode)
         {
             Toil toil = ToilMaker.MakeToil("ClimbToCell");
+            toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
@@ -277,7 +305,7 @@ namespace Xenomorphtype
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
                 }
-                CompClimber climber = actor.GetComp<CompClimber>();
+                CompClimber climber = actor.GetClimberComp();
                 if (climber == null || !GetClimbParameters(actor, target.Cell, ref climber))
                 {
                     toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
@@ -291,7 +319,7 @@ namespace Xenomorphtype
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
                 Pawn actor = toil.actor;
-                CompClimber climber = toil.actor.GetComp<CompClimber>();
+                CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
                     return;
@@ -304,6 +332,7 @@ namespace Xenomorphtype
         public static Toil GotoCell( IntVec3 cell, PathEndMode peMode)
         {
             Toil toil = ToilMaker.MakeToil("ClimbToCell");
+            toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
@@ -313,7 +342,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                CompClimber climber = actor.GetComp<CompClimber>();
+                CompClimber climber = actor.GetClimberComp();
                 if (climber == null || !GetClimbParameters(actor, cell, ref climber))
                 {
                     toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
@@ -327,7 +356,7 @@ namespace Xenomorphtype
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
                 Pawn actor = toil.actor;
-                CompClimber climber = toil.actor.GetComp<CompClimber>();
+                CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
                     return;
@@ -343,6 +372,7 @@ namespace Xenomorphtype
         {
 
             Toil toil = ToilMaker.MakeToil("ClimbToThing");
+            toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
                 
@@ -350,7 +380,7 @@ namespace Xenomorphtype
                 LocalTargetInfo dest = actor.jobs.curJob.GetTarget(ind);
                 Thing thing = dest.Thing;
                 
-                CompClimber climber = actor.GetComp<CompClimber>();
+                CompClimber climber = actor.GetClimberComp();
                 if (climber == null || !GetClimbParameters(actor, dest.Cell, ref climber))
                 {
                     //Log.Message(actor + " pathing too " + thing);
@@ -365,7 +395,7 @@ namespace Xenomorphtype
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
                 Pawn actor = toil.actor;
-                CompClimber climber = toil.actor.GetComp<CompClimber>();
+                CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
                     return;
@@ -384,12 +414,13 @@ namespace Xenomorphtype
         {
 
             Toil toil = ToilMaker.MakeToil("ClimbToThing");
+            toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
                 LocalTargetInfo dest = actor.jobs.curJob.GetTarget(ind);
                 Thing thing = dest.Thing;
-                CompClimber climber = actor.GetComp<CompClimber>();
+                CompClimber climber = actor.GetClimberComp();
 
                 if (climber == null || !GetClimbParameters(actor, dest.Cell, ref climber))
                 {
@@ -408,7 +439,7 @@ namespace Xenomorphtype
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
                 Pawn actor = toil.actor;
-                CompClimber climber = toil.actor.GetComp<CompClimber>();
+                CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
                     return;
@@ -431,6 +462,7 @@ namespace Xenomorphtype
         public static Toil CarryHauledThingToCell(TargetIndex ind, PathEndMode peMode = PathEndMode.ClosestTouch)
         {
             Toil toil = ToilMaker.MakeToil("ClimbToHaulToCell");
+            toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
@@ -442,7 +474,7 @@ namespace Xenomorphtype
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
                 }
-                CompClimber climber = actor.GetComp<CompClimber>();
+                CompClimber climber = actor.GetClimberComp();
                 if (climber == null || !GetClimbParameters(actor, target.Cell, ref climber))
                 {
                     toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
@@ -457,7 +489,7 @@ namespace Xenomorphtype
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
                 Pawn actor = toil.actor;
-                CompClimber climber = toil.actor.GetComp<CompClimber>();
+                CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
                     return;
@@ -513,17 +545,24 @@ namespace Xenomorphtype
 
             List<IntVec3> line = GenSight.PointsOnLineOfSight(goal, start).ToList();
 
+            bool breakInto = start.Roofed(map) && goal.Roofed(map);
             bool wasBlocked = false;
             IntVec3 lastClear = IntVec3.Invalid;
             int i = 0;
             foreach (IntVec3 point in line)
             {
-                //Log.Message(pawn + " is checking " + point + ":" + i);
-                if(climbEnd.Count == 0)
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(pawn + " is checking " + point + ":" + i);
+                }
+                if (climbEnd.Count == 0)
                 {
                     if(point.Roofed(map))
                     {
-                        //Log.Message(pawn + " has found a end point" + point + ":" + i);
+                        if (XMTSettings.LogClimbing)
+                        {
+                            Log.Message(pawn + " has found a end point" + point + ":" + i);
+                        }
                         climbEnd.Add(point);
                     }
                     else
@@ -533,7 +572,10 @@ namespace Xenomorphtype
                         {
                             if (adj.Roofed(map) || (!adj.Walkable(map) && !adj.CanBeSeenOverFast(map)))
                             {
-                                //Log.Message(pawn + " has found a end point" + point + ":" + i);
+                                if (XMTSettings.LogClimbing)
+                                {
+                                    Log.Message(pawn + " has found a end point" + point + ":" + i);
+                                }
                                 climbEnd.Add(point);
                                 break;
                             }
@@ -570,7 +612,10 @@ namespace Xenomorphtype
 
                 if (noLongerBlocked && climbEnd.Count > climbStart.Count)
                 {
-                    //Log.Message(pawn + " has found a start point" + point + ":" + i);
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(pawn + " has found a start point" + point + ":" + i);
+                    }
                     climbStart.Add(point);
                     wasBlocked = false;
 
@@ -582,14 +627,34 @@ namespace Xenomorphtype
 
                 i++;
             }
-            //Log.Message(climbEnd.Count + " ends and " + climbStart.Count + "starts");
+
+            if (climbStart.Count == 0 && breakInto)
+            {
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(pawn + "found no good starts using" + start);
+                }
+                climbStart.Add(start);
+
+                climbEnd.Clear();
+                climbEnd.Add(goal);
+            }
+
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message(climbEnd.Count + " ends and " + climbStart.Count + "starts");
+            }
+
             climbStart.Reverse();
             climbEnd.Reverse();
             return climbStart.Count > 0 && climbEnd.Count > 0 && climbStart.Count == climbEnd.Count;
         }
         protected static bool GetClimbParameters(Pawn pawn, IntVec3 FinalGoalCell, ref CompClimber climber)
         {
-            //Log.Message( pawn + " gathering climb parameters");
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message(pawn + " gathering climb parameters");
+            }
             climber.ClearClimberData();
 
             climber.climbParameters.FinalGoalCell = FinalGoalCell;
@@ -599,7 +664,11 @@ namespace Xenomorphtype
                 return false;
             }
 
-            //Log.Message(pawn + " final goal valid");
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message(pawn + " final goal valid");
+            }
+
             if (!ShouldClimbTo(pawn, FinalGoalCell))
             {
                 return false;
@@ -608,20 +677,38 @@ namespace Xenomorphtype
             bool ClimbOver = true;
             IntVec3 Start = pawn.Position;
 
-            //Log.Message(pawn + " Trying infiltrate from Position: " + Start + " to " + FinalGoalCell);
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message(pawn + " Trying infiltrate from Position: " + Start + " to " + FinalGoalCell);
+            }
+
             if (InfiltrationUtility.GetInfiltrationEntry(pawn.Map, Start, FinalGoalCell, out Building entry))
             {
-                climber.climbParameters.ClimbStarts.Add(InfiltrationUtility.GetGoalOnOrAdjacentToFrom(Start, entry));
-                //Log.Message(pawn + " Found Infiltration Target Entry: " + entry + " at " + climber.climbParameters.StartClimbCell);
+                IntVec3 entrypoint = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(Start, entry);
+                climber.climbParameters.ClimbStarts.Add(entrypoint);
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(pawn + " Found Infiltration Target Entry: " + entry + " at: " + entrypoint);
+                }
+
                 if (InfiltrationUtility.GetInfiltrationExit(entry, FinalGoalCell, out Building exit))
                 {
+                    IntVec3 exitpoint = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(FinalGoalCell, exit);
+                    climber.climbParameters.ClimbEnds.Add(exitpoint);
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(pawn + " Found Infiltration Target Exit: " + exit + " at: " + exitpoint);
+                    }
 
-                    climber.climbParameters.ClimbEnds.Add(InfiltrationUtility.GetGoalOnOrAdjacentToFrom(FinalGoalCell, exit));
-                    //Log.Message(pawn + " Found Infiltration Target Exit: " + exit + " at " + climber.climbParameters.EndClimbCell);
                     climber.climbParameters.NoWallToClimb = false;
                     ClimbOver = false;
                     climber.climbParameters.Tunneling = true;
                 }
+            }
+
+            if(XMTUtility.IsSpace(pawn.Map))
+            {
+                climber.climbParameters.Tunneling = true;
             }
 
             if (ClimbOver)
@@ -632,10 +719,17 @@ namespace Xenomorphtype
 
             if (climber.climbParameters.ClimbCellsRegistered)
             {
-                //Log.Message("Climb cells registered for " + pawn);
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message("Climb cells registered for " + pawn);
+                }
                 return true;
             }
 
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message("Climb cells failed to register for " + pawn);
+            }
             return false;
         }
     }

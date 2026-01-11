@@ -290,6 +290,15 @@ namespace Xenomorphtype
             }
             return modifier;
         }
+
+        public override void PostSpawnSetup(bool respawningAfterLoad)
+        {
+            base.PostSpawnSetup(respawningAfterLoad);
+            if (parent is Pawn Parent)
+            {
+                PawnCacheWrapper.Recache(Parent);
+            }
+        }
         public override void PostExposeData()
         {
             base.PostExposeData();
