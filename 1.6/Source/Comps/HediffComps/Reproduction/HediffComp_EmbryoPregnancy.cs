@@ -192,8 +192,10 @@ namespace Xenomorphtype
                 }
             }
 
+            PawnKindDef childKind = BioUtility.GetChildKindOfHost(parent.pawn);
+
             PawnGenerationRequest request = new PawnGenerationRequest(
-                InternalDefOf.XMT_StarbeastKind, faction: ChildFaction, PawnGenerationContext.PlayerStarter,-1,true,false,true,false,false,0,false,true,false,false,false,false,false,false,true,0,0,null,0,null,null,null,null,0,Age,0,Gender.Female,null);
+                childKind, faction: ChildFaction, PawnGenerationContext.PlayerStarter,-1,true,false,true,false,false,0,false,true,false,false,false,false,false,false,true,0,0,null,0,null,null,null,null,0,Age,0,Gender.Female,null);
 
             request.ForceNoIdeo = true;
             request.ForceNoBackstory = true;

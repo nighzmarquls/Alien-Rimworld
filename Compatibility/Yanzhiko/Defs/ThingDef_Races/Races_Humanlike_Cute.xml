@@ -1,0 +1,566 @@
+<Defs>
+	<ThingDef Class="AlienRace.ThingDef_AlienRace" ParentName="XMT_Starbeast_Base">
+		<defName>XMT_StarCutie_AlienRace</defName>
+	    <label>cutiemorph</label>
+		<description>a bipedal creature with dark hardened exoskeleton, Floral petals and a sharp bladed tail.</description>
+		<comps>
+		</comps>
+		<statBases>
+	    </statBases>
+		<race>
+			<specialShadowData Inherit="False">
+				<volume>(0.3, 0.8, 0.4)</volume>
+				<offset>(0,0,-0.3)</offset>
+			</specialShadowData>
+		</race>
+		<alienRace>
+			<graphicPaths>
+				<skinShader>Cutout</skinShader>
+				<body>
+					<path>Pawn/Cute/Body/</path>
+				</body>
+				<head>
+					<path>Pawn/Cute/Head/</path>
+				</head>
+			</graphicPaths>
+			<generalSettings>
+				<immuneToAge>true</immuneToAge>
+				<notXenophobistTowards>
+					<li>XMT_Royal_AlienRace</li>
+					<li>XMT_Starbeast_AlienRace</li>
+				</notXenophobistTowards>
+				<immuneToXenophobia>false</immuneToXenophobia>
+				<humanRecipeImport>true</humanRecipeImport>
+				<raceGenes Inherit="False">
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>FireTerror</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_Metabolism</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_KillThirst</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>Body_Thin</defName>
+						<chance>100</chance>
+					</li>
+				</raceGenes>
+				<maleGenderProbability>0.0</maleGenderProbability>
+				
+				<abilities>
+					<li>Starbeast_Leap</li>
+					<li>Starbeast_Bloodlet</li>
+					<li>Starbeast_Bloodspray</li>
+				</abilities>
+				<alienPartGenerator>
+					<headBodyPartDef>StarbeastHead</headBodyPartDef>
+					<customDrawSize>(0.8, 0.8)</customDrawSize>
+					<customPortraitDrawSize>(0.8, 0.8)</customPortraitDrawSize>
+					<headTypes Inherit="False">
+						<li>Male_AverageNormal</li>
+						<li>Female_AverageNormal</li>
+					</headTypes>
+					<headOffsetDirectional Inherit="False">
+								<south>
+									<bodyTypes>
+										<Thin>(0.0,-0.1)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</south>
+								<north>
+									<bodyTypes>
+										<Thin>(0.0,-0.1)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</north>
+								<east>
+									<bodyTypes>
+										<Thin>(-0.02,-0.1)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</east>
+								<west>
+									<bodyTypes>
+										<Thin>(0.02,-0.1)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</west>
+					</headOffsetDirectional>
+					<!--Body Type-->
+					<bodyTypes Inherit="False">
+						<li>Thin</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Baby</li>
+					</bodyTypes>
+					<!--<useGenderedBodies>true</useGenderedBodies>-->
+					<!--<useGenderedHeads>true</useGenderedHeads>-->
+					<!--Ass long list of body addons below-->
+					<!--Don't you fucking dare to touch anything here, it's like a fragile pie.-->
+					
+					
+					<!--HAIR COLOR-->
+					<colorChannels Inherit="False">
+						<li>
+							<name>hair</name>
+							<first Class="AlienRace.ColorGenerator_CustomAlienChannel">
+								<colorChannel>skin_1</colorChannel>
+							</first>
+							<second Class="ColorGenerator_Options">
+								<options>
+									<li>
+										<weight>10</weight>
+										<only>RGBA(0.500, 1.000, 0.000, 1.000)</only>
+									</li>
+								</options>
+							</second>
+						</li>
+
+						<!-- MAIN COLOR (RED)-->
+						<li>
+							<name>skin</name>
+							<first Class="ColorGenerator_Options">
+								<options>
+									<!--YOUR VALUES-->
+									<li>
+										<weight>1</weight>
+										<only>RGBA(255,255,255,255)</only>
+									</li>
+									<!--Fox Orange-->
+								</options>
+							</first>
+							<!--UNUSED (GREEN)-->
+							<second Class="ColorGenerator_Options">
+								<options>
+									<!--YOUR VALUES-->
+									<li>
+										<weight>1</weight>
+										<only>RGBA(255,255,255,255)</only>
+									</li>
+								</options>
+							</second>
+						</li>
+					</colorChannels>
+
+
+					<bodyAddons Inherit="False">
+						<!--TAIL-->
+						<li>
+							<drawSize>1</drawSize>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<path>Pawn/Cute/Tail/Defaulttail</path>					  
+							<inFrontOfBody>false</inFrontOfBody>
+							<!--<canBeVacuumBurnt>false</canBeVacuumBurnt>-->
+							<colorChannel>skin</colorChannel>		 
+							<!--<defaultOffset>Tail</defaultOffset>-->
+							<offsets>
+								<south>
+								<layerOffset>0.195</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0.05)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0.05)</Baby>
+									</bodyTypes>
+								</south>
+								<north>
+								<layerOffset>0.34</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0.05)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0.05)</Baby>
+									</bodyTypes>
+								</north>
+								<east>
+								<layerOffset>0</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0.05)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0.05)</Baby>
+									</bodyTypes>
+								</east>
+							</offsets>
+							<conditions>
+								<BodyPart>
+									<bodyPart>StarbeastTail</bodyPart>
+									<drawWithoutPart>false</drawWithoutPart>
+								</BodyPart>
+								<Posture>
+									<drawnStanding>true</drawnStanding>
+									<drawnLaying>true</drawnLaying>
+									<drawnInBed>false</drawnInBed>
+								</Posture>
+								<Apparel>
+									<hiddenUnderApparelFor><li>Yanz_Tail</li></hiddenUnderApparelFor>
+									<hiddenUnderApparelTag><li>Yanz_Hide_Tail</li></hiddenUnderApparelTag>
+								</Apparel>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+    						</conditions>
+						</li>
+						<!--MOUTH-->
+						<li>				   
+							<!--<hiddenUnderApparelFor>
+							</hiddenUnderApparelFor> -->
+							<!--<shaderType>Cutout</shaderType>-->
+							<drawSize>1</drawSize>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<path>Pawn/Cute/Mouth/Defaultmouth</path>	
+							<inFrontOfBody>false</inFrontOfBody>
+							<colorChannel>skin</colorChannel>									
+							<alignWithHead>true</alignWithHead>
+							<offsets>
+								<south>
+								<layerOffset>-0.325</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</south>
+								<north>
+								<layerOffset>-0.33</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</north>
+								<east>
+								<layerOffset>-0.3245</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</east>
+							</offsets>
+							<conditions>
+								<Or>
+									<!--<Drafted>true</Drafted>-->
+									<Job>XMT_AbductHost</Job>
+									<Job>XMT_StealthHunt</Job>
+									<Job>XMT_Sabotage</Job>
+									<Job>PredatorHunt</Job>
+									<Job>Kidnap</Job>
+									<Job>Arrest</Job>
+									<Job>Capture</Job>
+									<Job>Slaughter</Job>
+									<Job>Hunt</Job>
+									<Job>PrisonerExecution</Job>
+									<Job>GuiltyColonistExecution</Job>
+									<Job>AttackMelee</Job>
+								</Or>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+								<Apparel><hiddenUnderApparelTag><li>Yanz_Hide_Nose</li></hiddenUnderApparelTag></Apparel>
+								<RotStage>Fresh,Rotting</RotStage>
+    						</conditions>
+						</li>
+						<!--LEFT EAR-->
+						<li>					   
+							<!--<hiddenUnderApparelFor>
+							</hiddenUnderApparelFor>-->
+							<shaderType>Transparent</shaderType>
+							<drawSize>1</drawSize>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<path>Pawn/Cute/Ear/leftear</path>					  
+							<inFrontOfBody>false</inFrontOfBody>
+							<colorChannel>skin</colorChannel>			
+							<alignWithHead>true</alignWithHead>
+							<offsets>
+								<south>
+									<layerOffset>0.19</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</south>
+								<north>
+									<layerOffset>0.33</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</north>
+								<east>
+									<layerOffset>-0.33</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</east>
+								<west>
+									<layerOffset>0.33</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</west>
+							</offsets>
+							<conditions>
+								<BodyPart>
+									<bodyPart>StarbeastPores</bodyPart>
+									<bodyPartLabel>left pore</bodyPartLabel>
+								</BodyPart>
+								<Apparel><hiddenUnderApparelTag><li>Yanz_Hide_Ear</li></hiddenUnderApparelTag></Apparel>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+    						</conditions>
+						</li>
+						<!--RIGHT EAR-->
+						<li>										   
+							<!--<hiddenUnderApparelFor>
+							</hiddenUnderApparelFor> -->
+							<shaderType>Transparent</shaderType>
+							<drawSize>1</drawSize>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<path>Pawn/Cute/Ear/rightear</path>					   
+							<inFrontOfBody>false</inFrontOfBody>
+							<colorChannel>skin</colorChannel>			
+							<alignWithHead>true</alignWithHead>
+							<offsets>
+								<south>
+									<layerOffset>0.19</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</south>
+								<north>
+									<layerOffset>0.33</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</north>
+								<east>
+									<layerOffset>0.33</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</east>
+								<west>
+									<layerOffset>-0.35</layerOffset>
+									<bodyTypes>
+										<Thin>(0,0)</Thin>
+										<Child MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Child>
+										<Baby MayRequire="Ludeon.RimWorld.Biotech">(0,0)</Baby>
+									</bodyTypes>
+								</west>
+							</offsets>
+							<conditions>
+								<BodyPart>
+									<bodyPart>StarbeastPores</bodyPart>
+									<bodyPartLabel>right pore</bodyPartLabel>
+								</BodyPart>
+								<Apparel><hiddenUnderApparelTag><li>Yanz_Hide_Ear</li></hiddenUnderApparelTag></Apparel>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+    						</conditions>
+						</li>
+
+						<!-- DRONE COSMETICS END -->
+						<li>
+							<path>Pawn/HostVariation/Thrumbo_Head</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Hediff>XMT_ThrumboHorn</Hediff>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.90</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>-0.90</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.75</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
+							<path>Pawn/HostVariation/Muffalo_Body</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>false</alignWithHead>
+							<conditions>
+								<Gene>XMT_Muffalo_Ruff</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.31</layerOffset>
+								<offset>( 0, -0.03)</offset>
+							  </south>
+							  <north>
+								<layerOffset>-0.29</layerOffset>
+								<offset>( 0, -0.07)</offset>
+							  </north>
+							  <east>
+								<layerOffset>-0.31</layerOffset>
+								<offset>( 0, -0.09)</offset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
+							<path>Pawn/HostVariation/Boomalope_Head</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Gene>XMT_Chemfuel_Metabolism</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.8</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.8</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.8</layerOffset>
+							  </east>
+							</offsets>
+						</li>
+						<li>
+							<path>Pawn/Conditions/Chrysalis/GeneChrysalis</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<conditions>
+								<Hediff>XMT_GeneIntegration</Hediff>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-2</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>2</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-2</layerOffset>
+							  </east>
+							</offsets>
+						</li>
+						<li>
+							<path>Pawn/Conditions/Chrysalis/Chrysalis</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<conditions>
+								<Hediff>Maturation</Hediff>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-2</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>2</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-2</layerOffset>
+							  </east>
+							</offsets>
+						</li>
+					</bodyAddons>
+				</alienPartGenerator>
+			</generalSettings>
+			<relationSettings>
+				<relationChanceModifierLover>0</relationChanceModifierLover>
+				<relationChanceModifierExLover>0</relationChanceModifierExLover>
+				<relationChanceModifierFiance>0</relationChanceModifierFiance>
+				<relationChanceModifierSpouse>0</relationChanceModifierSpouse>
+				<relationChanceModifierExSpouse>0</relationChanceModifierExSpouse>
+				<relationChanceModifierParent>0</relationChanceModifierParent>
+				<relationChanceModifierChild>0</relationChanceModifierChild>
+				<relationChanceModifierSibling>0</relationChanceModifierSibling>
+			</relationSettings>
+			
+			<raceRestriction>
+				<researchList>
+				</researchList>
+				<!-- Reproduction Restrictions -->
+				<canReproduce>true</canReproduce>
+				<canReproduceWithSelf>true</canReproduceWithSelf>
+				<onlyReproduceWithRestrictedRaces>false</onlyReproduceWithRestrictedRaces>
+			    <!-- Gene Restrictions -->
+				<onlyUseRaceRestrictedXenotypes>false</onlyUseRaceRestrictedXenotypes>
+				<xenotypeList />
+				<whiteXenotypeList />
+				<blackXenotypeList />
+				<onlyHaveRaceRestrictedGenes>false</onlyHaveRaceRestrictedGenes>
+				<geneList>
+				</geneList>
+				<whiteGeneList />
+				<whiteGeneTags />
+				<blackGeneList>
+				</blackGeneList>
+				<blackGeneTags> 
+				</blackGeneTags>
+				<blackEndoCategories/>
+			</raceRestriction>
+			<compatibility />
+		</alienRace>
+		<modExtensions />
+	</ThingDef>
+</Defs>

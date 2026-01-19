@@ -11,3 +11,5 @@ About/Preview.kra-autosave.kra
 *.cache
 /Compatibility/CombatExtended/Source/XMT_CE/obj
 /Compatibility/CombatExtended/Source/XMT_CE/obj/Debug
+Compatibility/CombatExtended/Source/XMT_CE/obj/Debug/XMT_CE.csproj.AssemblyReference.cache
+/Compatibility/CombatExtended/Source/XMT_CE/obj

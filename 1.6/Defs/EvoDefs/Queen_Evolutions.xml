@@ -127,6 +127,16 @@
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_NovelGenes</defName>
+		<label>novel gene expression</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Unlocks the ability to access novel cryptimorph genes.</description>
+		<prerequisites>
+			<li>Evo_GeneControl</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_JellyWellSerum</defName>
 		<label>Jelly Wells</label>
 		<evoPointCost>2</evoPointCost>

@@ -621,6 +621,14 @@ namespace Xenomorphtype
         {
             List<GeneDef> genes = new List<GeneDef>();
 
+            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_NovelGenes))
+            {
+                foreach(GeneDef gene in XenoGeneDefOf.XMT_NovelGenes.genes)
+                {
+                    genes.Add(gene);
+                }
+            }
+
             CompHiveGeneHolder hiveGeneHolder = target.TryGetComp<CompHiveGeneHolder>();
             
             if (hiveGeneHolder != null)
@@ -1110,6 +1118,32 @@ namespace Xenomorphtype
             }
 
             return genes;
+        }
+
+        internal static PawnKindDef GetChildKindOfHost(Pawn host)
+        {
+            if (host != null)
+            {
+                if (host.def != null)
+                {
+                    if (host.def.modExtensions != null)
+                    {
+                        foreach (DefModExtension modExt in host.def.modExtensions)
+                        {
+                            AnimalHostGenes animalHostGenes = modExt as AnimalHostGenes;
+                            if (animalHostGenes != null)
+                            {
+                                if(animalHostGenes.customChildKind != null)
+                                {
+                                    return animalHostGenes.customChildKind;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            return InternalDefOf.XMT_StarbeastKind;
         }
     }
 }

@@ -303,6 +303,7 @@
 				<immuneToAge>true</immuneToAge>
 				<notXenophobistTowards>
 					<li>XMT_Royal_AlienRace</li>
+					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
 				</notXenophobistTowards>
 				<immuneToXenophobia>false</immuneToXenophobia>
 				<humanRecipeImport>true</humanRecipeImport>
@@ -438,6 +439,35 @@
 					</colorChannels>
 					<bodyAddons>
 						<!-- DRONE COSMETICS BEGIN -->
+						<li>
+							<path>Pawn/StarBeast/NovelGenes/GuardianCrest</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Gene>XMT_GuardianCrest</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.74</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.74</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.74</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
 						<li>
 							<path>Pawn/StarBeast/Customizable/Stripes</path>
 							<userCustomizable>false</userCustomizable>
@@ -1431,6 +1461,7 @@
 			<generalSettings>
 				<notXenophobistTowards>
 					<li>XMT_Starbeast_AlienRace</li>
+					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
 				</notXenophobistTowards>
 				<validBeds>
 					<li>XMT_QueenSleepingSpot</li>
@@ -2118,6 +2149,7 @@
 				</buildingList>
 				<blackGeneList>
 					<li MayRequire="Ludeon.RimWorld.Biotech">PsychicAbility_Deaf</li>
+					<li>XMT_GuardianCrest</li>
 				</blackGeneList>
 				<blackGeneTags> 
 					<li MayRequire="Ludeon.RimWorld.Biotech">BodyType</li>

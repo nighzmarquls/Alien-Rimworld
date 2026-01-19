@@ -53,7 +53,7 @@ namespace Xenomorphtype
         public static class Patch_HediffSet_AddDirect
         {
             [HarmonyPrefix]
-            public static void Prefix(Hediff hediff, HediffSet __instance)
+            public static bool Prefix(Hediff hediff, HediffSet __instance)
             {
                 if(hediff is Hediff_MissingPart missingPart)
                 {
@@ -65,8 +65,18 @@ namespace Xenomorphtype
                             continue;
                         }
                         attachment.PawnRelease();
+                        return true;
                     }
                 }
+
+                if (__instance.pawn != null && hediff.def == HediffDefOf.CoveredInFirefoam)
+                {
+                    if(__instance.pawn.Info() is CompPawnInfo info)
+                    {
+                        info.CleanPheramones(1);
+                    }
+                }
+                return true;
             }
 
             [HarmonyPostfix]

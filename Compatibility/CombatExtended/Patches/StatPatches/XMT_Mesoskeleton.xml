@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationReplace">
+		<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages</xpath>
+		<value>
+			<stages>
+				<li>
+					<label>sparse</label>
+					<becomeVisible>true</becomeVisible>
+					<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+					<statOffsets>
+						<ArmorRating_Blunt>10.0000</ArmorRating_Blunt> <!--<ArmorRating_Sharp>0.1</ArmorRating_Sharp>-->
+						<ArmorRating_Sharp>05.0000</ArmorRating_Sharp> <!--<ArmorRating_Blunt>0.05</ArmorRating_Blunt>-->
+						<Flammability>-0.1</Flammability>
+						<IncomingDamageFactor>-0.01</IncomingDamageFactor>
+						<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
+						<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
+					</statOffsets>
+				</li>
+				<li>
+					<label>detrimental</label>
+					<becomeVisible>true</becomeVisible>
+					<minSeverity>0.2</minSeverity>
+					<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+					<statOffsets>
+						<ArmorRating_Blunt>20.0000</ArmorRating_Blunt> <!--<ArmorRating_Sharp>0.2</ArmorRating_Sharp>-->
+						<ArmorRating_Sharp>10.0000</ArmorRating_Sharp> <!--<ArmorRating_Blunt>0.1</ArmorRating_Blunt>-->
+						<Flammability>-0.2</Flammability>
+						<IncomingDamageFactor>-0.02</IncomingDamageFactor>
+						<DecompressionResistance MayRequire="kentington.saveourship2">0.2</DecompressionResistance>
+						<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.2</VacuumResistance>
+					</statOffsets>
+				</li>
+				<li>
+					<label>malformed</label>
+					<becomeVisible>true</becomeVisible>
+					<minSeverity>0.3</minSeverity>
+					<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+					<statOffsets>
+						<ArmorRating_Blunt>30.0000</ArmorRating_Blunt> <!--<ArmorRating_Sharp>0.3</ArmorRating_Sharp>-->
+						<ArmorRating_Sharp>15.0000</ArmorRating_Sharp> <!--<ArmorRating_Blunt>0.15</ArmorRating_Blunt>-->
+						<Flammability>-0.3</Flammability>
+						<IncomingDamageFactor>-0.03</IncomingDamageFactor>
+						<DecompressionResistance MayRequire="kentington.saveourship2">0.3</DecompressionResistance>
+						<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.3</VacuumResistance>
+					</statOffsets>
+				</li>
+				<li>
+					<label>integrated</label>
+					<becomeVisible>true</becomeVisible>
+					<minSeverity>0.75</minSeverity>
+					<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+					<statOffsets>
+						<ArmorRating_Blunt>40.0000</ArmorRating_Blunt> <!--<ArmorRating_Sharp>0.4</ArmorRating_Sharp>-->
+						<ArmorRating_Sharp>2.0000</ArmorRating_Sharp> <!--<ArmorRating_Blunt>0.2</ArmorRating_Blunt>-->
+						<Flammability>-0.5</Flammability>
+						<IncomingDamageFactor>-0.05</IncomingDamageFactor>
+						<DecompressionResistance MayRequire="kentington.saveourship2">0.4</DecompressionResistance>
+						<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.4</VacuumResistance>
+						<ComfyTemperatureMin>-5</ComfyTemperatureMin>
+						<ComfyTemperatureMax>5</ComfyTemperatureMax>
+					</statOffsets>
+				</li>
+				<li>
+					<label>complete</label>
+					<becomeVisible>true</becomeVisible>
+					<minSeverity>1</minSeverity>
+					<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+					<statOffsets>
+						<ArmorRating_Blunt>80.0000</ArmorRating_Blunt> <!--<ArmorRating_Sharp>0.8</ArmorRating_Sharp>-->
+						<ArmorRating_Sharp>60.0000</ArmorRating_Sharp> <!--<ArmorRating_Blunt>0.6</ArmorRating_Blunt>-->
+						<Flammability>-0.8</Flammability>
+						<IncomingDamageFactor>-0.08</IncomingDamageFactor>
+						<DecompressionResistance MayRequire="kentington.saveourship2">0.6</DecompressionResistance>
+						<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.6</VacuumResistance>
+						<ArmorRating_Sharp>0.8</ArmorRating_Sharp>
+						<ComfyTemperatureMin>-10</ComfyTemperatureMin>
+						<ComfyTemperatureMax>10</ComfyTemperatureMax>
+					</statOffsets>
+				</li>
+			</stages>
+		</value>
+	</Operation>
+</Patch>

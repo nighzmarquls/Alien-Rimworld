@@ -250,6 +250,7 @@
 	  <li Class="HediffCompProperties_RemoveIfOtherHediff">
 			<hediffs>
 				<li>StarbeastCocoon</li>
+				<li>CoveredInFirefoam</li>
 			</hediffs>
 	  </li>
     </comps>

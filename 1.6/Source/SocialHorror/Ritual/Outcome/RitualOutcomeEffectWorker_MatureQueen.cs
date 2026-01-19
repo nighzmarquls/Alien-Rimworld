@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -38,6 +39,15 @@ namespace Xenomorphtype
                     {
                         Log.Error("Failed to Transform into Queen!");
                         return;
+                    }
+                }
+
+                var missingParts = pawn.def.race.body.AllParts.Where(x => pawn.health.hediffSet.PartIsMissing(x) && !pawn.health.hediffSet.AncestorHasDirectlyAddedParts(x)).ToList();
+                if (missingParts.Any())
+                {
+                    foreach(BodyPartRecord missingPart in missingParts)
+                    {
+                        pawn.health.RestorePart(missingPart);
                     }
                 }
 

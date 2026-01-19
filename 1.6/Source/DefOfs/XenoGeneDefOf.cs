@@ -44,6 +44,9 @@ namespace Xenomorphtype
         public static GeneDef       XMT_Chemfuel_Metabolism;
         public static GeneDef       XMT_Muffalo_Ruff;
 
+        // novel genes
+        public static XMT_GeneSetDef XMT_NovelGenes;
+
         // mutation set
         public static XMT_MutationsHealthSet    XMT_MutationsSet;
         public static XMT_MutationsHealthSet    XMT_LovinMutationSet;

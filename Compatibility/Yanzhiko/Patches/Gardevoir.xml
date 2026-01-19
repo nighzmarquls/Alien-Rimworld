@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Gardevoir - Fairy Pokemon [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Yanz_Gardevoir"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Genetical_Industries_BasicGene</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">YZRCM_Gene_Gardevoir</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">PsychicBonding</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Skin_Green</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_FetalHorror</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_FetalHorror</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+				</li>
+			</value>
+        </match>
+    </Operation>
+</Patch>

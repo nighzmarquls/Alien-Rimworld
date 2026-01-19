@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
 
+	<Xenomorphtype.XMT_GeneSetDef>
+		<defName>XMT_NovelGenes</defName>
+		<genes>
+			<li>XMT_GuardianCrest</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Standard</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
+		</genes>
+	</Xenomorphtype.XMT_GeneSetDef>
+
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>XMT_KillThirst</defName>
 		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
@@ -60,6 +70,34 @@
 				<hideGene>true</hideGene>
 			</li>
 		</modExtensions>
+	</GeneDef>
+	
+	<GeneDef>
+		<defName>XMT_GuardianCrest</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>guardian crest</label>
+		<labelShortAdj>guardian</labelShortAdj>
+		<description>Carriers of this gene can exhibit an extended cranium which increases durability, psychic sensitivity and social impact.</description>
+		<iconPath>UI/Icons/Genes/Gene_GaurdianCrest</iconPath>
+		<displayCategory>Archite</displayCategory>
+		<marketValueFactor>1.5</marketValueFactor>
+		<biostatCpx>6</biostatCpx>
+		<biostatMet>10</biostatMet>
+		<biostatArc>0</biostatArc>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+		<statOffsets>
+			<PsychicSensitivity>0.5</PsychicSensitivity>
+			<SocialImpact>0.5</SocialImpact>
+			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+		</statOffsets>
+		<exclusionTags>
+			<li>XMT_Crests</li>
+		</exclusionTags>
 	</GeneDef>
 
 </Defs>

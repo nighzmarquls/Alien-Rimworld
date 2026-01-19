@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Braixen and Delphox - Fire Pokemon [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Braixen"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Genetical_Industries_BasicGene</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">YZRCM_Gene_Braixen</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">PsychicBonding</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Skin_Orange</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_CanineHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+	<Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Braixen and Delphox - Fire Pokemon [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Delphox"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Genetical_Industries_BasicGene</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">YZRCM_Gene_Delphox</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">PsychicBonding</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Skin_Orange</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_CanineHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+	<Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Braixen and Delphox - Fire Pokemon [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Icephox"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Skin_Blue</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_CanineHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+</Patch>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- To prevent goddamn empire from being AnGeRy at poor you for no reason-->
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Kisalfar and Fressálfar - Lost Project [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Fressalfar"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Genetical_Industries_BasicGene</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">YZRCM_Gene_Fressalfar</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">PsychicBonding</li>
+						<li>XMT_Thrumbo_Features</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_CanineHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+	<Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Kisalfar and Fressálfar - Lost Project [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Kisalfar"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Genetical_Industries_BasicGene</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">YZRCM_Gene_Kisalfar</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">PsychicBonding</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_CanineHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+</Patch>

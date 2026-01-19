@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Eeveelutions - Leafeon Module [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="Yanz_Leafeon"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Genetical_Industries_BasicGene</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">YZRCM_Gene_Leafeon</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Skin_Green</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_CanineHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+</Patch>
