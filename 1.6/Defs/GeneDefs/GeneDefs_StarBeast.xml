@@ -78,7 +78,7 @@
 		<label>guardian crest</label>
 		<labelShortAdj>guardian</labelShortAdj>
 		<description>Carriers of this gene can exhibit an extended cranium which increases durability, psychic sensitivity and social impact.</description>
-		<iconPath>UI/Icons/Genes/Gene_GaurdianCrest</iconPath>
+		<iconPath>UI/GeneIcons/Gene_GaurdianCrest</iconPath>
 		<displayCategory>Archite</displayCategory>
 		<marketValueFactor>1.5</marketValueFactor>
 		<biostatCpx>6</biostatCpx>

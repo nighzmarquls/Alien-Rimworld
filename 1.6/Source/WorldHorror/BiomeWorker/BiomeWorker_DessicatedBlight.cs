@@ -17,8 +17,14 @@ namespace Xenomorphtype {
             {
                 return 0f;
             }
+            float baseScore = XenoformingUtility.ChanceByXenoforming(1) + (tile.temperature * 2.7f);
 
-            return XenoformingUtility.ChanceByXenoforming(1) + ( tile.temperature * 2.7f);
+            if(Find.TickManager.TicksGame <= 0)
+            {
+                baseScore *= (XenoformingUtility.GetXenoforming()/100);
+            }
+
+            return baseScore;
         }
     }
 }

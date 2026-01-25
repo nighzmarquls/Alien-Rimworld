@@ -35,10 +35,13 @@ namespace Xenomorphtype
 
             if(!XMTUtility.IsXenomorph(parent.pawn))
             {
-                int num = (int)(3600000f * parent.pawn.ageTracker.AdultAgingMultiplier*Props.yearsDeAged);
-                long val = (long)(3600000f * parent.pawn.ageTracker.AdultMinAge);
-                parent.pawn.ageTracker.AgeBiologicalTicks = Math.Max(val, parent.pawn.ageTracker.AgeBiologicalTicks - num);
-                parent.pawn.ageTracker.ResetAgeReversalDemand(Pawn_AgeTracker.AgeReversalReason.ViaTreatment);
+                if (parent.pawn.ageTracker.Adult)
+                {
+                    int num = (int)(3600000f * parent.pawn.ageTracker.AdultAgingMultiplier * Props.yearsDeAged);
+                    long val = (long)(3600000f * parent.pawn.ageTracker.AdultMinAge);
+                    parent.pawn.ageTracker.AgeBiologicalTicks = Math.Max(val, parent.pawn.ageTracker.AgeBiologicalTicks - num);
+                    parent.pawn.ageTracker.ResetAgeReversalDemand(Pawn_AgeTracker.AgeReversalReason.ViaTreatment);
+                }
             }
         }
 

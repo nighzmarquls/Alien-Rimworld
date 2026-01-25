@@ -3,10 +3,12 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.Noise;
 using Verse.Sound;
 
 namespace Xenomorphtype
@@ -217,7 +219,6 @@ namespace Xenomorphtype
                     {
                         GetCandidateNeighbors(playerMap.Tile);
                     }
-
                 }
 
                 int candidatesPicked = 0;
@@ -227,6 +228,21 @@ namespace Xenomorphtype
 
                 CandidateTiles.CopyToList(safeCandidateList);
                 safeCandidateList.Shuffle();
+
+                bool shouldSpawnQueenNest = _xenoforming >= 25 && (!XMTUtility.QueenIsPlayer());
+                bool noQueenIncident = true;
+
+                if (shouldSpawnQueenNest)
+                {
+                    foreach(Quest quest in Find.QuestManager.ActiveQuestsListForReading)
+                    {
+                        if(quest.root.defName == "XMT_OpportunitySite_QueenNest")
+                        {
+                            noQueenIncident = false;
+                            break;
+                        }
+                    }
+                }
 
                 foreach (PlanetTile candidate in safeCandidateList)
                 {
@@ -253,6 +269,26 @@ namespace Xenomorphtype
                 foreach(PlanetTile target in targetTiles)
                 {
                     target.Tile.PrimaryBiome = XenoMapDefOf.XMT_DessicatedBlight;
+
+                    if(shouldSpawnQueenNest && noQueenIncident)
+                    {
+                        Map map = Find.AnyPlayerHomeMap;
+                        if (map == null)
+                        {
+                            return;
+                        }
+
+                        IncidentParms parms = new IncidentParms
+                        {
+                            target = Find.World,
+                            forced = true,
+                            points = StorytellerUtility.DefaultThreatPointsNow(map) * 4
+                        };
+                        FiringIncident queenIncident =  new FiringIncident(XenoMapDefOf.XMT_GiveQuest_queenNest, null, parms);
+
+                        Find.Storyteller.TryFire(queenIncident);
+                        noQueenIncident = false;
+                    }
                     CandidateTiles.Remove(target);
                 }
 

@@ -158,6 +158,7 @@
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTDoorPatches.cs" />
     <Compile Include="Harmony\Aggression\XMTHostilityPatch.cs" />
+    <Compile Include="Incidents\IncidentWorker_QueenQuest.cs" />
     <Compile Include="Map\GenSteps\GenStep_QueenSpawn.cs" />
     <Compile Include="Progression\Quests\QuestNode_RequiresQueenNotPlayer.cs" />
     <Compile Include="Progression\Records\HistoryAutoRecorderWorker_Xenoforming.cs" />

@@ -18,6 +18,8 @@ namespace Xenomorphtype
 
         public static GenStepDef XMT_AttackAftermath;
         public static GenStepDef XMT_AbductPopulation;
+
+        public static IncidentDef XMT_GiveQuest_queenNest;
     }
     
 }

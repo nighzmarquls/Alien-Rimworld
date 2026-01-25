@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.079.0</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.080.0</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -71,7 +71,7 @@
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Release Candidate version 0.079.0
+	<description>Release Candidate version 0.080.0
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?
@@ -80,6 +80,6 @@ For more details join the discord.
 https://discord.gg/YgarzpUhhV
 Design Assistance Credit: ohluit, RGM-89 Jegan, BreadAndWheat, DucoteProductions, Type Writer, Ballisticwaffles, King Baddabing, isaias_0395, Stealth and Lavi.
 Technical Assistance Credit: Erdelf, Bradson, Elire and Abraxas
-Art Credit: Psifo for Psycasts Expanded Path, kauripka for Pylon Variations and Cryptimorph Plushy, H.M Hellfire for base hulk and male bodytype textures. darko4050 for furniture/inorganic sprite work, Gartrude for Skull Head Variant.
+Art Credit: yanzihko for mod compatibility art, Psifo for Psycasts Expanded Path, kauripka for Pylon Variations and Cryptimorph Plushy, H.M Hellfire for base hulk and male bodytype textures. darko4050 for furniture/inorganic sprite work, Gartrude for Skull Head Variant.
 </description>
 </ModMetaData>

@@ -1,5 +1,6 @@
 ﻿
 using RimWorld.QuestGen;
+using Verse;
 
 namespace Xenomorphtype
 {
@@ -12,7 +13,13 @@ namespace Xenomorphtype
 
         protected override bool TestRunInt(Slate slate)
         {
-            return !XMTUtility.QueenIsPlayer();
+            bool hasQueen = XMTUtility.QueenIsPlayer();
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("checking if player has queen: " + hasQueen);
+            }
+
+            return !hasQueen;
         }
     }
 }

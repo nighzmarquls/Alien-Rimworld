@@ -309,25 +309,6 @@
           <worldObjects>$site</worldObjects>
         </li>
 
-<!--    
-		<li Class="QuestNode_WorldObjectTimeout">
-          <worldObject>$site</worldObject>
-          <isQuestTimeout>true</isQuestTimeout>
-          <delayTicks>$(randInt(12,28)*60000)</delayTicks>
-          <inSignalDisable>site.MapGenerated</inSignalDisable>
-          <node Class="QuestNode_Sequence">
-            <nodes>
-              <li Class="QuestNode_Letter">
-                <label TKey="LetterLabelQuestExpired">Quest expired: [resolvedQuestName]</label>
-                <text TKey="LetterTextQuestExpired">Intercepted communications indicate the item stash has been cleared by others. The quest [resolvedQuestName] has expired.</text>
-              </li>
-              <li Class="QuestNode_End">
-                <outcome>Fail</outcome>
-              </li>
-            </nodes>
-          </node>
-        </li>
--->
         <li Class="QuestNode_AddItemsReward">
           <items>$generatedItemStashThings</items>
           <inSignalChoiceUsed>site.MapGenerated</inSignalChoiceUsed>
@@ -366,7 +347,7 @@
     <questDescriptionRules>
       <rulesStrings>
         <!-- No asker -->
-        <li>questDescription(askerIsNull==true)->We've spotted signs of a strange structure not far from [map_definite].</li>
+        <li>questDescription(askerIsNull==true)->We've spotted signs of a massive strange structure not far from [map_definite].</li>
 
         <!-- Faction leader asker -->
         <li>questDescription(asker_factionLeader==True)->[asker_nameDef], [asker_faction_leaderTitle] of [asker_faction_name], has informed us about a massive resinous structure.</li>
@@ -447,7 +428,6 @@
             <value>0</value>
           </elseNode>
         </li>
-
         <li Class="QuestNode_GetSitePartDefsByTagsAndFaction">
           <storeAs>sitePartDefs</storeAs>
           <storeFactionAs>siteFaction</storeFactionAs>

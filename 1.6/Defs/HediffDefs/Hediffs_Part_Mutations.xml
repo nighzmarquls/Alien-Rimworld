@@ -1025,7 +1025,7 @@
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.25</obsessionGain>
+				<obsessionGain>1</obsessionGain>
 			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
@@ -1044,7 +1044,7 @@
 				<painFactor>0.95</painFactor>
 				<statOffsets>
 					<MeleeDodgeChance>0.25</MeleeDodgeChance>
-					<MeleeCooldownFactor>0.95</MeleeCooldownFactor>
+					<MeleeCooldownFactor>-0.05</MeleeCooldownFactor>
 					<Wildness>1</Wildness>
 				</statOffsets>
 				<enablesNeeds>
@@ -1082,7 +1082,7 @@
 				</hediffs>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.25</obsessionGain>
+				<obsessionGain>1</obsessionGain>
 			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
@@ -1138,7 +1138,7 @@
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.25</obsessionGain>
+				<obsessionGain>1</obsessionGain>
 			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
@@ -1163,7 +1163,7 @@
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_Obsession">
-				<obsessionGain>0.5</obsessionGain>
+				<obsessionGain>4</obsessionGain>
 			</li>
 			<li>
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>

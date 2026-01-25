@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
 <!-- For People Modding custom Genes for a HAR race you need to xpath to Defs/AlienRace.ThingDef_AlienRace instead of ThingDef-->
-<!-- Vanilla Insectoids TODO: LavaSnail-->
 	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Megascarab"]</xpath>
 		<value>
@@ -119,7 +118,7 @@
 	</Operation>
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Thrumbo" or defName="AlphaThrumbo"]</xpath>
+		<xpath>Defs/ThingDef[defName="Thrumbo"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -202,7 +201,7 @@
 <!--  Elephant -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Elephant" or defName="Mastodon"]</xpath>
+		<xpath>Defs/ThingDef[defName="Elephant"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -219,38 +218,7 @@
 		</value>
 	</Operation>
 	
-<!--  Hippo-->
-	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Hippo"]</xpath>
-		<value>
-			<li Class="Xenomorphtype.AnimalHostGenes">
-				<genes>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Headbone_CenterHorn</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Skin_SlateGray</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Nearsighted</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Strong</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Aggression_HyperAggressive</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Pain_Reduced</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Unstoppable</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
-					<li MayRequire="RedMattis.BigSmall.Core">HalfColossusFrame</li>
-				</genes>
-			</li>
-			<li Class="Xenomorphtype.AnimalMutateForms">
-				<resultCandidates>
-					<li>
-						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
-						<probability>1</probability>
-						<essenceMinimum>-1</essenceMinimum>
-						<essenceMaximum>-1</essenceMaximum>
-					</li>
-				</resultCandidates>
-				<horrorPregnancy>XMT_EquineHorrorPregnant</horrorPregnancy>
-			</li>
-		</value>
-	</Operation>
+
 	
 <!--  Rhinoceros -->
 	<Operation Class="PatchOperationAddModExtension">
@@ -307,7 +275,7 @@
 <!-- Bears and Wargs -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Bear_Polar" or defName="Panda"]</xpath>
+		<xpath>Defs/ThingDef[defName="Bear_Polar"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -335,7 +303,7 @@
 	</Operation>
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Bear_Grizzly" or defName="Warg" or defName="Wolf_Great"]</xpath>
+		<xpath>Defs/ThingDef[defName="Bear_Grizzly" or defName="Warg"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -388,32 +356,6 @@
 		</value>
 	</Operation>
 
-<!-- Big Cats -->
-	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName = "Cat_Scimitar" or defName = "Tiger"]</xpath>
-		<value>
-			<li Class="Xenomorphtype.AnimalHostGenes">
-				<genes>
-					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Quick</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Beauty_Pretty</li>
-					<li MayRequire="RedMattis.BigSmall.Core">BS_LargeFrame</li>
-				</genes>
-			</li>
-			<li Class="Xenomorphtype.AnimalMutateForms">
-				<resultCandidates>
-					<li>
-						<thingTransformationTarget>XMT_Smotherer</thingTransformationTarget>
-						<pawnTransformationTarget>XMT_Smotherer</pawnTransformationTarget>
-						<probability>1</probability>
-						<essenceMinimum>-1</essenceMinimum>
-						<essenceMaximum>-1</essenceMaximum>
-					</li>
-				</resultCandidates>
-				<horrorPregnancy>XMT_FelineHorrorPregnant</horrorPregnancy>
-			</li>
-		</value>
-	</Operation>
-	
 <!-- Foxes -->
 	
 	<Operation Class="PatchOperationAddModExtension">
@@ -497,7 +439,7 @@
 <!-- Wolves -->
 	
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Wolf_Timber" or defName="Wolf_Arctic" or defName="BogHound"]</xpath>
+		<xpath>Defs/ThingDef[defName="Wolf_Timber" or defName="Wolf_Arctic"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -518,8 +460,6 @@
 			</li>
 		</value>
 	</Operation>
-	
-<!-- Small handy TODO: Wolverine, Badger-->
 	
 	<Operation Class="PatchOperationAddModExtension">
 		<xpath>Defs/ThingDef[defName="Raccoon"]</xpath>
@@ -571,65 +511,10 @@
 		</value>
 	</Operation>
 	
-	<!-- Monkey Big-->
-	
-	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Gorilla"]</xpath>
-		<value>
-			<li Class="Xenomorphtype.AnimalHostGenes">
-				<genes>
-					<li MayRequire="Ludeon.RimWorld.Biotech">ElongatedFingers</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
-					<li MayRequire="RedMattis.BigSmall.Core">BS_LargeFrame</li>
-				</genes>
-			</li>
-			<li Class="Xenomorphtype.AnimalMutateForms">
-				<resultCandidates>
-					<li>
-						<thingTransformationTarget>XMT_FetalHorror</thingTransformationTarget>
-						<pawnTransformationTarget>XMT_FetalHorror</pawnTransformationTarget>
-						<probability>1</probability>
-						<essenceMinimum>-1</essenceMinimum>
-						<essenceMaximum>-1</essenceMaximum>
-					</li>
-				</resultCandidates>
-			</li>
-		</value>
-	</Operation>
-
-<!-- Small Tough Animals Porcupine, Armadillo-->
-
-	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Porcupine" or defName="Armadillo"]</xpath>
-		<value>
-			<li Class="Xenomorphtype.AnimalHostGenes">
-				<genes>
-					<li MayRequire="Ludeon.RimWorld.Biotech">MeleeDamage_Weak</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
-					<li MayRequire="RedMattis.BigSmall.Core">BS_SmallFrame</li>
-				</genes>
-			</li>
-			<li Class="Xenomorphtype.AnimalMutateForms">
-				<resultCandidates>
-					<li>
-						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
-						<probability>1</probability>
-						<essenceMinimum>-1</essenceMinimum>
-						<essenceMaximum>-1</essenceMaximum>
-					</li>
-				</resultCandidates>
-				<horrorPregnancy>XMT_RodentHorrorPregnant</horrorPregnancy>
-			</li>
-		</value>
-	</Operation>
-	
 <!-- Small Weak Animals -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="GuineaPig" or defName="Squirrel" or defName="Squirrel" or defName="Rat" or defName="Chinchilla" or defName="PrairieDog" or defName="Mink" or defName="Megavole"]</xpath>
+		<xpath>Defs/ThingDef[defName="GuineaPig" or defName="Squirrel" or defName="Squirrel" or defName="Rat" or defName="Chinchilla"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -686,7 +571,7 @@
 <!-- Cow Animals -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Cow" or defName="Bison" or defName="Yak" or defName="Muskox"]</xpath>
+		<xpath>Defs/ThingDef[defName="Cow" or defName="Bison" or defName="Yak"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -713,7 +598,7 @@
 <!-- Horse Animals -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Elk" or defName="Gazelle" or defName="Caribou" or defName="Moose"]</xpath>
+		<xpath>Defs/ThingDef[defName="Elk" or defName="Gazelle" or defName="Caribou" ]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -840,7 +725,7 @@
 <!-- Reptiles -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Iguana" or defName="Tortoise" or defName="MonitorLizard" or defName="Bullfrog"]</xpath>
+		<xpath>Defs/ThingDef[defName="Iguana"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -864,16 +749,16 @@
 		
 	</Operation>
 	
-<!-- Reptiles Big-->
+	<!-- Reptiles Armored -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Alligator" or defName="ColossusToad"]</xpath>
+		<xpath>Defs/ThingDef[defName="Tortoise"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Slow</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Robust</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Sleepy</li>
-					<li MayRequire="RedMattis.BigSmall.Core">BS_EndlessGrowth</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
@@ -891,7 +776,7 @@
 		</value>
 		
 	</Operation>
-	
+
 <!-- Pigs -->
 
 	<Operation Class="PatchOperationAddModExtension">
@@ -946,38 +831,10 @@
 		</value>
 	</Operation>
 	
-<!-- Smart Birds -->
-
-	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Macaw" or defName="Crow"]</xpath>
-		<value>
-			<li Class="Xenomorphtype.AnimalHostGenes">
-				<genes>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Learning_Fast</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
-					<li MayRequire="RedMattis.BigSmall.Core">BS_SmallFrame</li>
-					<li MayRequire="Ludeon.RimWorld.Biotech">AptitudeRemarkable_Social</li>
-				</genes>
-			</li>
-			<li Class="Xenomorphtype.AnimalMutateForms">
-				<resultCandidates>
-					<li>
-						<thingTransformationTarget>XMT_Barnacle</thingTransformationTarget>
-						<pawnTransformationTarget>XMT_Barnacle</pawnTransformationTarget>
-						<probability>1</probability>
-						<essenceMinimum>-1</essenceMinimum>
-						<essenceMaximum>-1</essenceMaximum>
-					</li>
-				</resultCandidates>
-				<horrorPregnancy>XMT_AvianHorrorPregnant</horrorPregnancy>
-			</li>
-		</value>
-	</Operation>
-	
 <!-- Stupid Birds -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Chicken" or defName="Turkey" or defName="Quail"]</xpath>
+		<xpath>Defs/ThingDef[defName="Chicken" or defName="Turkey"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -1005,7 +862,7 @@
 <!-- Goose -->
 
 	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Goose" or defName="Swan"]</xpath>
+		<xpath>Defs/ThingDef[defName="Goose"]</xpath>
 		<value>
 			<li Class="Xenomorphtype.AnimalHostGenes">
 				<genes>
@@ -1037,32 +894,6 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">Libido_High</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
 					<li MayRequire="RedMattis.BigSmall.Core">BS_SmallFrame</li>
-				</genes>
-			</li>
-			<li Class="Xenomorphtype.AnimalMutateForms">
-				<resultCandidates>
-					<li>
-						<thingTransformationTarget>XMT_Barnacle</thingTransformationTarget>
-						<pawnTransformationTarget>XMT_Barnacle</pawnTransformationTarget>
-						<probability>1</probability>
-						<essenceMinimum>-1</essenceMinimum>
-						<essenceMaximum>-1</essenceMaximum>
-					</li>
-				</resultCandidates>
-				<horrorPregnancy>XMT_AvianHorrorPregnant</horrorPregnancy>
-			</li>
-		</value>
-	</Operation>
-	
-<!-- Tiny Birds -->
-
-	<Operation Class="PatchOperationAddModExtension">
-		<xpath>Defs/ThingDef[defName="Sparrow" or defName="Bluebird"]</xpath>
-		<value>
-			<li Class="Xenomorphtype.AnimalHostGenes">
-				<genes>
-					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
-					<li MayRequire="RedMattis.BigSmall.Core">BS_RabbitFrame</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">

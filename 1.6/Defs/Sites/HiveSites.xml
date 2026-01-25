@@ -39,7 +39,7 @@
     <workerClass>SitePartWorker</workerClass>
     <selectionWeight>1</selectionWeight>
 	<tags>
-      <li>HiveComplext</li>
+      <li>HiveComplex</li>
     </tags>
   </SitePartDef>
   

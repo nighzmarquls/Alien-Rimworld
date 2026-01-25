@@ -28,6 +28,7 @@
 	
 	<IncidentDef ParentName="GiveQuestBase">
 		<defName>XMT_GiveQuest_queenNest</defName>
+		<workerClass>Xenomorphtype.IncidentWorker_QueenQuest</workerClass>
 		<questScriptDef>XMT_OpportunitySite_QueenNest</questScriptDef>
 		<baseChance>0</baseChance> <!-- given by a special storyteller comp -->
 	</IncidentDef>

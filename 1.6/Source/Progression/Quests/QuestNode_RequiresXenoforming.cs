@@ -1,5 +1,6 @@
 ﻿
 using RimWorld.QuestGen;
+using Verse;
 
 namespace Xenomorphtype
 {
@@ -13,7 +14,13 @@ namespace Xenomorphtype
 
         protected override bool TestRunInt(Slate slate)
         {
-            return XenoformingUtility.XenoformingMeets(minimumXenoforming);
+            
+            bool isGood = XenoformingUtility.XenoformingMeets(minimumXenoforming);
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("checking Xenoforming: " + isGood);
+            }
+            return isGood;
         }
     }
 }
