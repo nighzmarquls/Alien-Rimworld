@@ -73,6 +73,19 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget></thingTransformationTarget>
+						<pawnTransformationTarget>XMT_HybridHorrorMatured</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -99,8 +112,13 @@
 				</bodyGraphicData>
 			</li>
 		</lifeStages>
-		<modExtensions>
-		</modExtensions>
+		<startingHediffs>
+			<li>
+				<def>XMT_BecomingAdultHorror</def>
+				<chance>0.25</chance>
+			</li>
+		</startingHediffs>
+		
 	</PawnKindDef>
 	
 	<ThingDef ParentName="AnimalThingBase">

@@ -15,7 +15,7 @@ namespace Xenomorphtype
 
         int nextRevivalTick = -1;
 
-        bool NotActuallyDead
+        public bool NotActuallyDead
         {
             get
             {

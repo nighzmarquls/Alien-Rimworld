@@ -39,7 +39,8 @@ namespace Xenomorphtype
 
         // host gene parts
         public static HediffDef     XMT_ThrumboHorn;
-        
+        public static HediffDef     XMT_IbexHorns;
+
         // host genes
         public static GeneDef       XMT_Chemfuel_Metabolism;
         public static GeneDef       XMT_Muffalo_Ruff;

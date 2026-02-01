@@ -17,6 +17,11 @@ namespace Xenomorphtype
 
         public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
+            if (Pawn == null || Pawn.health == null)
+            {
+                return;
+            }
+
             int currentTick = Find.TickManager.TicksGame;
             if (currentTick > mutateTick)
             {

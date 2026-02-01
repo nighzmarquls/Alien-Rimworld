@@ -1,6 +1,7 @@
 ﻿
 
 
+using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -25,24 +26,26 @@ namespace Xenomorphtype
 
         }
 
-        public override void CompPostPostAdd(DamageInfo? dinfo)
-        {
-            PopulateInfluence();
-        }
-
         public void PopulateInfluence()
         {
+            if(Pawn == null || Pawn.health == null || Pawn.health.hediffSet == null )
+            {
+                return;
+            }
+
             IEnumerable<BodyPartRecord> allbodyparts =  Pawn.health.hediffSet.GetNotMissingParts();
             float totalCoverage = 0;
+
             foreach (BodyPartRecord part in allbodyparts)
             {
                 totalCoverage += part.coverage;
             }
-            
-            Influence = parent.Part.coverage / totalCoverage;
 
-            Pawn.UpdateCarboSilicate(Pawn.CarboSilicate() + Influence);
-            Influence = parent.Part.coverage;
+            Influence = (parent.Part == null)? 1 : parent.Part.coverage / totalCoverage;
+            float updatedValue = Pawn.CarboSilicate() + Influence;
+
+            Pawn.UpdateCarboSilicate(updatedValue);
+
             unInitialized = false;
         }
 

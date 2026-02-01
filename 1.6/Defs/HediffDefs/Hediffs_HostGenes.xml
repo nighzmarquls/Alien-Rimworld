@@ -61,7 +61,30 @@
 		</appliedOnFixedBodyParts>
 		<addsHediff>XMT_ThrumboHorn</addsHediff>
 	</RecipeDef>
-
-
-
+	<HediffDef ParentName="XMT_Bodypart">
+		<defName>XMT_IbexHorns</defName>
+		<label>curved horns</label>
+		<labelNoun>curved horns</labelNoun>
+		<description>Resinous curved horns, ridged, rock-hard, sturdy, a deadly melee weapon.</description>
+		<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+					<li>
+						<label>horns</label>
+						<capacities>
+							<li>Blunt</li>
+						</capacities>
+						<power>15</power>
+						<cooldownTime>2</cooldownTime>
+					</li>
+				</tools>
+			</li>
+		</comps>
+		<addedPartProps>
+			<solid>true</solid>
+			<partEfficiency>1.25</partEfficiency>
+			<betterThanNatural>true</betterThanNatural>
+		</addedPartProps>
+	</HediffDef>
+	
 </Defs>

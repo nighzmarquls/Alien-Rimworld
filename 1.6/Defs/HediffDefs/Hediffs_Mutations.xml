@@ -715,4 +715,25 @@
 			</li>
 		</comps>
 	</HediffDef>
+	
+	<HediffDef ParentName="XenomorphtypeBase">
+		<defName>XMT_BecomingAdultHorror</defName>
+		<label>maturation</label>
+		<description>Is slowly maturing.</description>
+		<makesSickThought>false</makesSickThought>
+		<makesAlert>true</makesAlert>
+		<minSeverity>0.0</minSeverity>
+		<maxSeverity>1.0</maxSeverity>
+		<hediffClass>HediffWithComps</hediffClass>
+		<stages>
+			<li>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_Transformation">
+				<DeathTriggerSeverity>0.5</DeathTriggerSeverity>
+				<SeverityPerDay>0.1</SeverityPerDay>
+			</li>
+		</comps>
+	</HediffDef>
 </Defs>

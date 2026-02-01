@@ -47,8 +47,14 @@ namespace Xenomorphtype
             toil.initAction = delegate
             {
                 Pawn actor = toil.GetActor();
-                Pawn target = (Pawn)(Thing)actor.CurJob.GetTarget(TargetIndex.A);
-                PawnUtility.ForceWait(target, Mathf.FloorToInt(TicksFinish), actor);
+                if(actor == null)
+                {
+                    return;
+                }
+                if (Target is Pawn pawnTarget)
+                {
+                    PawnUtility.ForceWait(pawnTarget, Mathf.FloorToInt(TicksFinish), actor);
+                }
             };
             toil.tickAction = delegate
             {

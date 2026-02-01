@@ -271,6 +271,20 @@ namespace Xenomorphtype
             {
                 Log.Message(thing + " is being evaluated for xenoforming impact");
             }
+
+            if(thing is StarbeastCorpse corpse)
+            {
+                if(corpse.NotActuallyDead)
+                {
+                    if (XMTSettings.LogWorld)
+                    {
+                        Log.Message(thing + " is a not actually dead corpse!");
+                    }
+                    HandleXenoformingImpact(corpse.InnerPawn);
+                    return;
+                }
+            }
+
             MinifiedThing minifiedThing = thing as MinifiedThing;
 
             if (minifiedThing != null)

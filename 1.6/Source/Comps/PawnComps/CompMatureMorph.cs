@@ -370,6 +370,11 @@ namespace Xenomorphtype
                 return 1;
             }
 
+            if(stat == StatDefOf.StaggerDurationFactor)
+            {
+                return 0;
+            }
+
             if(stat == StatDefOf.IncomingDamageFactor)
             {
                 return 2;

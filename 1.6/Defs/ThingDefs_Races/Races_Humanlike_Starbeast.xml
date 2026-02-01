@@ -303,6 +303,7 @@
 				<immuneToAge>true</immuneToAge>
 				<notXenophobistTowards>
 					<li>XMT_Royal_AlienRace</li>
+					<li>XMT_Hybrid_AlienRace</li>
 					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
 				</notXenophobistTowards>
 				<immuneToXenophobia>false</immuneToXenophobia>
@@ -587,6 +588,7 @@
 							</offsets>
 							<!--<inFrontOfBody>true</inFrontOfBody>-->
 						</li>
+						
 						<li>
 							<path>Pawn/HostVariation/Muffalo_Body</path>
 							<userCustomizable>false</userCustomizable>
@@ -1166,6 +1168,7 @@
 				</restrictedThoughts>
 				<cannotReceiveThoughts>
 					<li MayRequire="kentington.saveourship2">SpaceThoughts</li>
+					
 					<li>SleptOnGround</li>
 					<li>SoakingWet</li>
 					<li>AteWithoutTable</li>
@@ -1272,7 +1275,8 @@
 					<li>WrongApparelGender</li>
 					<li>DeadMansApparel</li>
 					<li>HumanLeatherApparelSad</li>
-					
+					<li MayRequire="Ludeon.RimWorld.Anomaly">ImprisonedWithEntity</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">EntityInRoom</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">IdeoRoleApparelRequirementNotMet</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">LookChangeDesired</li>
 					<li MayRequire="Ludeon.RimWorld.Ideology">WearingDesiredApparel_Strong</li>
@@ -1461,6 +1465,7 @@
 			<generalSettings>
 				<notXenophobistTowards>
 					<li>XMT_Starbeast_AlienRace</li>
+					<li>XMT_Hybrid_AlienRace</li>
 					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
 				</notXenophobistTowards>
 				<validBeds>
@@ -2164,5 +2169,277 @@
 				</whiteApparelList>
 			</raceRestriction>
 		</alienRace>
+	</ThingDef>
+
+	<ThingDef Class="AlienRace.ThingDef_AlienRace" ParentName="Human">
+		<defName>XMT_Hybrid_AlienRace</defName>
+	    <label>hybrid</label>
+		<comps>
+			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<ImpossibleHediffs>
+					<li>Anesthetic</li>
+					<li>CryptosleepSickness</li>
+					<li>XMT_RawJellyHigh</li>
+					<li>XMT_EssenceAddiction</li>
+					<li>HeartAttack</li>
+					<li>Carcinoma</li>
+					<li>BadBack</li>
+					<li>Cataract</li>
+					<li>HearingLoss</li>
+					<li>Dementia</li>
+					<li>Alzheimers</li>
+					<li>Asthma</li>
+					<li>HeartArteryBlockage</li>
+				</ImpossibleHediffs>
+			</li>
+			<li Class="CompProperties_Studiable" MayRequire="Ludeon.RimWorld.Anomaly">
+				<frequencyTicks>120000</frequencyTicks>
+				<knowledgeCategory>Advanced</knowledgeCategory>
+				<anomalyKnowledge>3</anomalyKnowledge>
+				<minMonolithLevelForStudy>1</minMonolithLevelForStudy> 
+				<requiresHoldingPlatform>true</requiresHoldingPlatform>
+			</li>
+			<li Class="CompProperties_AttachPoints" MayRequire="Ludeon.RimWorld.Anomaly">
+				<points>
+					<li>
+						<offset>(-.2, 0, 0.0)</offset>
+						<type>PlatformRestraint0</type>
+					</li>
+					<li>
+						<offset>(.2, 0, 0.0)</offset>
+						<type>PlatformRestraint1</type>
+					</li>
+					<li>
+						<offset>(.2, 0, -.5)</offset>
+						<type>PlatformRestraint2</type>
+					</li>
+					<li>
+						<offset>(-.2, 0, -.5)</offset>
+						<type>PlatformRestraint3</type>
+					</li>
+				</points>
+			</li>
+			<li Class="Xenomorphtype.CompStudyXenomorphProperties" MayRequire="Ludeon.RimWorld.Anomaly">
+				<studyNotes>
+				  <li>
+					<thresholdRange>2~3</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>{PAWN_nameDef} has studied the organism {PAWN_nameDef} thinks {PAWN_pronoun} .</text>
+				  </li>
+				  <li>
+					<thresholdRange>5~6</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				  <li>
+					<thresholdRange>8~9</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				</studyNotes>
+			</li>
+		</comps>
+		<statBases>
+	    </statBases>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+		<race>
+			<isImmuneToInfections>true</isImmuneToInfections>
+			<foodType>OmnivoreHuman</foodType>
+			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>1</manhunterOnDamageChance>
+			<predator>false</predator>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
+			<canBecomeShambler>false</canBecomeShambler>
+			<!--<bloodSmearDef Inherit="false">Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
+		</race>
+		<alienRace>
+			<generalSettings>
+				<immuneToAge>true</immuneToAge>
+				<notXenophobistTowards>
+					<li>XMT_Royal_AlienRace</li>
+					<li>XMT_Starbeast_AlienRace</li>
+					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
+				</notXenophobistTowards>
+				<immuneToXenophobia>false</immuneToXenophobia>
+				<humanRecipeImport>true</humanRecipeImport>
+				<raceGenes>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>FireTerror</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_Metabolism</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_KillThirst</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>Body_Standard</defName>
+						<chance>100</chance>
+					</li>
+				</raceGenes>
+				<maleGenderProbability>0.25</maleGenderProbability>
+				<abilities>
+					<li>Starbeast_Bloodlet</li>
+					<li>Starbeast_Bloodspray</li>
+				</abilities>
+			</generalSettings>
+			<relationSettings>
+				<relationChanceModifierLover>0</relationChanceModifierLover>
+				<relationChanceModifierExLover>0</relationChanceModifierExLover>
+				<relationChanceModifierFiance>0</relationChanceModifierFiance>
+				<relationChanceModifierSpouse>0</relationChanceModifierSpouse>
+				<relationChanceModifierExSpouse>0</relationChanceModifierExSpouse>
+				<relationChanceModifierParent>0</relationChanceModifierParent>
+				<relationChanceModifierChild>0</relationChanceModifierChild>
+				<relationChanceModifierSibling>0</relationChanceModifierSibling>
+			</relationSettings>
+
+			<compatibility />
+			<thoughtSettings Inherit="False">
+				<replacerList>
+				  <li>
+					<original>EnvironmentDark</original>
+					<replacer>StarbeastDark</replacer> 
+				  </li>
+				  <li>
+					<original>HoldingMePrisoner</original>
+					<replacer>StarbeastHeldPrisoner</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>KnowColonistExecuted</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Abhorrent</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedColonist_Know_Abhorrent_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedGuest_Know_Abhorrent_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerInnocent_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerInnocent_Know_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Know_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Know_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Know_Respected_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>Execution_Know_Respected_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>ExecutedPrisoner</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>KnowGuestExecuted</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>SharedBed</original>
+					<replacer>StarbeastCuddling</replacer> 
+				  </li>
+				  <li>
+					<original>WasImprisoned</original>
+					<replacer>StarbeastImprisoned</replacer> 
+				  </li>
+				  <li>
+					<original>PrisonCell</original>
+					<replacer>StarbeastPrisonCell</replacer> 
+				  </li>
+				  <li>
+					<original>PrisonBarracks</original>
+					<replacer>StarbeastPrisonBarracks</replacer> 
+				  </li>
+				  <li>
+					<original>RapportBuilt</original>
+					<replacer>StarbeastMockery</replacer> 
+				  </li>
+				  <li>
+					<original>KilledMyMother</original>
+					<replacer>StarbeastKilledMyQueen</replacer> 
+				  </li>
+				  <li>
+					<original>MyMotherLost</original>
+					<replacer>StarbeastLostMyQueen</replacer> 
+				  </li>
+				  <li>
+					<original>MyDaughterDied</original>
+					<replacer>StarbeastChildDied</replacer> 
+				  </li>
+				  <li>
+					<original>MySonDied</original>
+					<replacer>StarbeastChildDied</replacer> 
+				  </li>
+				  
+				</replacerList>
+				<restrictedThoughts>
+					<li>StarbeastDark</li>
+					<li>StarbeastHeldPrisoner</li>
+					<li>StarbeastKilledHost</li>
+					<li>StarbeastCuddling</li>
+					<li>StarbeastImprisoned</li>
+					<li>StarbeastPrisonCell</li>
+					<li>StarbeastPrisonBarracks</li>
+					<li>StarbeastMockery</li>
+					<li>StarbeastKilledMyQueen</li>
+					<li>StarbeastLostMyQueen</li>
+					<li>StarbeastQueenDied</li>
+					<li>SnuggledVictimMood</li>
+					<li>SnuggledVictim</li>
+					<li>HostImpregnated</li>
+					<li>CapturedHost</li>
+					<li>GrabbedPrey</li>
+					<li>OvomorphedVictim</li>
+				</restrictedThoughts>
+				<cannotReceiveThoughts>
+				</cannotReceiveThoughts>
+			</thoughtSettings>
+		</alienRace>
+		<modExtensions />
 	</ThingDef>
 </Defs>

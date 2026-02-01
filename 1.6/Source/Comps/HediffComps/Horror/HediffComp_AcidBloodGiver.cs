@@ -175,6 +175,11 @@ namespace Xenomorphtype
 
         public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
+            if(Pawn == null)
+            {
+                return;
+            }
+
             if (parent.Severity != Influence)
             {
                 PopulateInfluence();

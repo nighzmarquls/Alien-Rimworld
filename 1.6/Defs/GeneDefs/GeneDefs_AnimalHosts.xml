@@ -102,4 +102,29 @@
 		</modExtensions>
 	</GeneDef>
 	
+	<GeneDef>
+		<defName>XMT_Ibex_Features</defName>
+		<geneClass>Xenomorphtype.IbexinGene</geneClass>
+		<label>a curved horns</label>
+		<labelShortAdj>thrum</labelShortAdj>
+		<iconPath>UI/GeneIcons/Gene_Ibex</iconPath>
+		<description>Carriers of this gene have curving horns.</description>
+		<displayOrderInCategory>69</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>5</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>ibex</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<exclusionTags>
+		</exclusionTags>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
+	
 </Defs>

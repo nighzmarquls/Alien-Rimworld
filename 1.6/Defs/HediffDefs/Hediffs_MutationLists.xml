@@ -347,7 +347,7 @@
 			</li>
 		</mutations>
 	</Xenomorphtype.XMT_MutationsHealthSet>
-	
+
 	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_UmbilicalSet</defName>
 		<mutations>

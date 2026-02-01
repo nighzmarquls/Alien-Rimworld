@@ -259,4 +259,24 @@
 			</li>
 		</modExtensions>
 	</PawnKindDef>
+	
+	<PawnKindDef>
+		<defName>XMT_Advanced_Humanoid_Pod_Hybrid</defName>
+		<race>XMT_Advanced_Humanoid_Pod</race>
+		<combatPower>10</combatPower>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Human_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_HumanoidGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastAdvancedGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
 </Defs>

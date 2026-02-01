@@ -42,15 +42,19 @@ namespace Xenomorphtype
                 return;
             }
 
+            if (Pawn == null || Pawn.health == null)
+            {
+                return;
+            }
 
-            if(parent.Severity >= Props.promotionSeverity)
+            if (parent.Severity >= Props.promotionSeverity)
             {
                 BodyPartRecord part = parent.Part;
 
 
                 foreach (XMT_HediffByPart promotion in Props.HediffPromotionsByPart)
                 {
-                    if (promotion.bodyPartDef == part.def && promotion.samePart)
+                    if (part != null && promotion.bodyPartDef == part.def && promotion.samePart)
                     {
                         if (!part.def.IsSolidInDefinition_Debug && promotion.onlyTargetSolid)
                         {

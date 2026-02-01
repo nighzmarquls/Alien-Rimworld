@@ -7,7 +7,7 @@
   <ResearchProjectDef>
     <defName>XMT_Starbeast_Construction</defName>
     <label>Architectural Mimicry</label>
-    <description>The Hive has begun imitating patterns of construction and structures beyond their natural instincts.</description>
+    <description>The Hive has learned from dismantling the structures of others, imitating patterns and forms beyond their natural instincts.</description>
     <techLevel>Neolithic</techLevel>
     <baseCost>1500</baseCost>
     <researchViewX>0.00</researchViewX>
@@ -108,7 +108,7 @@
   <ResearchProjectDef>
     <defName>XMT_Starbeast_JellyTransport</defName>
     <label>Jelly Storage</label>
-    <description>the hive discovers a means to store and transport jelly.</description>
+    <description>the hive has discovered a means to store and transport jelly.</description>
     <techLevel>Neolithic</techLevel>
     <baseCost>6000</baseCost>
     <researchViewX>1.00</researchViewX>
@@ -135,7 +135,7 @@
   <ResearchProjectDef>
     <defName>XMT_Starbeast_Eggs</defName>
     <label>Ovomorph Utilization</label>
-    <description>the hive finds more ways to utilize Ovomorphs, spent and otherwise.</description>
+    <description>the hive has found more ways to utilize Ovomorphs, spent and otherwise.</description>
     <techLevel>Neolithic</techLevel>
     <baseCost>3000</baseCost>
     <researchViewX>2.00</researchViewX>

@@ -150,6 +150,7 @@
     <Compile Include="AI\WorkGiver\WorkGiver_AdvancedTame.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractResin.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractJelly.cs" />
+    <Compile Include="BioHorror\Genes\IbexinGene.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_DeAges.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ForceWearApparel.cs" />

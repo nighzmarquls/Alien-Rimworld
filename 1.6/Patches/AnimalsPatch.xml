@@ -187,7 +187,7 @@
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Plaguerat</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
@@ -242,7 +242,7 @@
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Umbilical</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
@@ -474,7 +474,7 @@
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Plaguerat</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
@@ -528,7 +528,7 @@
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Plaguerat</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
@@ -557,7 +557,7 @@
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Plaguerat</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
@@ -610,7 +610,7 @@
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Umbilical</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
@@ -633,7 +633,7 @@
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Umbilical</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
@@ -677,13 +677,14 @@
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
+					<li>XMT_Ibex_Features<li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
 						<thingTransformationTarget>XMT_Umbilical</thingTransformationTarget>
-						<pawnTransformationTarget></pawnTransformationTarget>
+						<pawnTransformationTarget>XMT_Umbilical</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>

@@ -460,6 +460,7 @@
 			<li>Xenomorphtype.Placeworker_AttachedToHive</li>
 		</placeWorkers>
 		<constructEffect>ResinBuild</constructEffect>
+		<drawStyleCategory>Organic1D</drawStyleCategory>
 	</ThingDef>
 	
 	<ThingDef ParentName="BuildingBase" Name="HiveReinforcement">

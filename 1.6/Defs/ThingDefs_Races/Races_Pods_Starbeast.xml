@@ -138,9 +138,43 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
+						<pawnDef>XMT_HybridFunctional</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>0.1</probability>
+					</li>
+					<li>
+						<pawnDef>XMT_HybridDysfunctional</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>0.25</probability>
+					</li>
+					<li>
 						<thingDef>XMT_MeatballLarder</thingDef>
 						<hatchTime>1</hatchTime>
 						<probability>0.25</probability>
+					</li>
+					<li>
+						<thingDef>XMT_FetalHorror</thingDef>
+						<pawnDef>XMT_FetalHorror</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Advanced_Humanoid_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<pawnDef>XMT_HybridFunctional</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>0.95</probability>
 					</li>
 					<li>
 						<thingDef>XMT_FetalHorror</thingDef>
