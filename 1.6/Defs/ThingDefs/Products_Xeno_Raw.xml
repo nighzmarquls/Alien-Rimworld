@@ -125,6 +125,7 @@
 		</thingCategories>
 		<comps>
 			<li Class="CompProperties_Drug">
+				<compClass>Xenomorphtype.CompJellyDrug</compClass>
 				<chemical>XMT_Essence</chemical>
 				<addictiveness>0.01</addictiveness>
 				<needLevelOffset>0.9</needLevelOffset>
@@ -190,6 +191,7 @@
 		</tradeTags>
 		<comps>
 			<li Class="CompProperties_Drug">
+				<compClass>Xenomorphtype.CompJellyDrug</compClass>
 				<chemical>XMT_Essence</chemical>
 				<addictiveness>0.1</addictiveness>
 				<needLevelOffset>1.0</needLevelOffset>

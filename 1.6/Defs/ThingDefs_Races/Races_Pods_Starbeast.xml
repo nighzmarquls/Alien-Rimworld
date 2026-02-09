@@ -138,11 +138,13 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
+						<thingDef>XMT_Hybrid_AlienRace</thingDef>
 						<pawnDef>XMT_HybridFunctional</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>0.1</probability>
 					</li>
 					<li>
+						<thingDef>XMT_Hybrid_AlienRace</thingDef>
 						<pawnDef>XMT_HybridDysfunctional</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>0.25</probability>
@@ -172,6 +174,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
+						<thingDef>XMT_Hybrid_AlienRace</thingDef>
 						<pawnDef>XMT_HybridFunctional</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>0.95</probability>

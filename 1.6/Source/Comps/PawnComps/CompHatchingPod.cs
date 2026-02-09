@@ -101,14 +101,14 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.TransformPawnIntoPawn(target, pawnDef, out Pawn result))
                     {
-
+                        return;
                     }
                 }
                 else
                 {
                     if (XMTUtility.TransformPawnIntoThing(target, thingDef, out Thing result))
                     {
-                        
+                        return;
                     }
                 }
             }

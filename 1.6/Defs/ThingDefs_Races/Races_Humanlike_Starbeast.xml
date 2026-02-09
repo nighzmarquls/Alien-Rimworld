@@ -2288,8 +2288,47 @@
 					<li>Starbeast_Bloodlet</li>
 					<li>Starbeast_Bloodspray</li>
 				</abilities>
+				<alienPartGenerator>
+					<headTypes Inherit="False">
+						<li>Male_AverageNormal</li>
+						<li>Female_AverageNormal</li>
+					</headTypes>
+					<bodyTypes Inherit="False">
+					  <li>Female</li>
+					  <li>Thin</li>
+					  <li>Hulk</li>
+					  <li>Male</li>
+					  <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
+					</bodyTypes>
+				</alienPartGenerator>
 			</generalSettings>
+			<graphicPaths>
+
+			</graphicPaths>
+			
+			<styleSettings>
+				<li>
+					<key>HairDef</key>
+					<value>
+						<hasStyle>true</hasStyle>
+					</value>
+				</li>
+				<li>
+					<key>BeardDef</key>
+					<value>
+						<hasStyle>true</hasStyle>
+					</value>
+				</li>
+				<li>
+					<key>TattooDef</key>
+					<value>
+						<hasStyle>true</hasStyle>
+					</value>
+				</li>
+			</styleSettings>
+			
 			<relationSettings>
+			
 				<relationChanceModifierLover>0</relationChanceModifierLover>
 				<relationChanceModifierExLover>0</relationChanceModifierExLover>
 				<relationChanceModifierFiance>0</relationChanceModifierFiance>

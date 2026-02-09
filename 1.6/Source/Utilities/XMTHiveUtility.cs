@@ -1813,6 +1813,14 @@ namespace Xenomorphtype
                     continue;
                 }
 
+                if (animal.Info() is CompPawnInfo info)
+                {
+                    if (info.IsObsessed())
+                    {
+                        continue;
+                    }
+                }
+
                 if (rebellion)
                 {
                     animal.SetFaction(Faction.OfAncientsHostile);

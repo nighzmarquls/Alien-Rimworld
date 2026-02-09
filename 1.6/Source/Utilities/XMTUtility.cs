@@ -1096,8 +1096,9 @@ namespace Xenomorphtype
             {
                 return false;
             }
+            Log.Message("began transforming "+ target + " into " + targetDef);
             PawnGenerationRequest request = new PawnGenerationRequest(
-                targetDef, faction: target.Faction, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, target.ageTracker.AgeBiologicalYears, target.ageTracker.AgeChronologicalYears, target.gender);
+                targetDef, faction: target.Faction, PawnGenerationContext.PlayerStarter, null, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, target.ageTracker.AgeBiologicalYears, target.ageTracker.AgeChronologicalYears, BaseGender);
 
             if (targetDef.race.race.hasGenders)
             {
@@ -1114,14 +1115,16 @@ namespace Xenomorphtype
             {
                 request.FixedGender = Gender.None;
             }
-
+            Log.Message("completed request generation for " + target + " into " + targetDef);
             Pawn NewPawn = PawnGenerator.GeneratePawn(request);
 
+            Log.Message("generated pawn " + NewPawn );
             if (NewPawn != null)
             {
                 NewPawn.Name = target.Name;
+                NewPawn.ageTracker.DebugSetAge(target.ageTracker.AgeBiologicalTicks);
 
-                if(NewPawn.BodySize < target.BodySize)
+                if (NewPawn.BodySize < target.BodySize)
                 {
                     if (target.Spawned)
                     {
@@ -1356,11 +1359,13 @@ namespace Xenomorphtype
                  */
             }
 
-            TrySpawnPawnFromTarget(NewPawn, target);
+            Log.Message("finished assigning target to " + NewPawn);
 
+            NewPawn = TrySpawnPawnFromTarget(NewPawn, target) as Pawn;
 
+            Log.Message("spawned " + NewPawn);
             target.Destroy();
-
+            Log.Message("cleaned up original");
             result = NewPawn;
             return true;
         }
