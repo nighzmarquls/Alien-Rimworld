@@ -1098,7 +1098,7 @@ namespace Xenomorphtype
             }
             Log.Message("began transforming "+ target + " into " + targetDef);
             PawnGenerationRequest request = new PawnGenerationRequest(
-                targetDef, faction: target.Faction, PawnGenerationContext.PlayerStarter, null, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, target.ageTracker.AgeBiologicalYears, target.ageTracker.AgeChronologicalYears, BaseGender);
+                targetDef, faction: target.Faction, PawnGenerationContext.PlayerStarter, null, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, target.ageTracker.AgeBiologicalYears, target.ageTracker.AgeChronologicalYears);
 
             if (targetDef.race.race.hasGenders)
             {

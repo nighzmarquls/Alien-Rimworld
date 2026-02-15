@@ -67,16 +67,16 @@ namespace Xenomorphtype
                         switch(prey.Info().StrongestPheromone)
                         {
                             case PheromoneType.Lover:
-                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_LovinMutationSet);
+                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_LovinMutationSet, 1);
                                 break;
                             case PheromoneType.Friend:
-                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_AscendanceMutationSet);
+                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_AscendanceMutationSet, 1);
                                 break;
                             case PheromoneType.Threat:
-                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_HostMeatMutationSet);
+                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_HostMeatMutationSet, 1);
                                 break;
                             default:
-                                BioUtility.TryMutatingPawn(ref prey);
+                                BioUtility.TryMutatingPawn(ref prey, null, 1);
                                 break;
                         }
                     }

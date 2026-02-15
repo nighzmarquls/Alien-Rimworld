@@ -122,7 +122,7 @@ namespace Xenomorphtype
             return hostGenes;
         }
 
-        public static void TryMutatingPawn(ref Pawn pawn, XMT_MutationsHealthSet customSet = null)
+        public static void TryMutatingPawn(ref Pawn pawn, XMT_MutationsHealthSet customSet = null, float bonusEssence = 0)
         {
             if (XMTUtility.IsXenomorph(pawn))
             {
@@ -140,7 +140,7 @@ namespace Xenomorphtype
             }
            
 
-            float essence = GetXenomorphInfluence(pawn);
+            float essence = GetXenomorphInfluence(pawn)+bonusEssence;
 
             if(pawn.health.hediffSet.HasPregnancyHediff())
             {
