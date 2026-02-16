@@ -677,7 +677,7 @@
 				<genes>
 					<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_VeryQuick</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
-					<li>XMT_Ibex_Features<li>
+					<li>XMT_Ibex_Features</li>
 				</genes>
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">

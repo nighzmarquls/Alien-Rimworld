@@ -106,7 +106,7 @@
 		<defName>XMT_Ibex_Features</defName>
 		<geneClass>Xenomorphtype.IbexinGene</geneClass>
 		<label>a curved horns</label>
-		<labelShortAdj>thrum</labelShortAdj>
+		<labelShortAdj>ibexin</labelShortAdj>
 		<iconPath>UI/GeneIcons/Gene_Ibex</iconPath>
 		<description>Carriers of this gene have curving horns.</description>
 		<displayOrderInCategory>69</displayOrderInCategory>

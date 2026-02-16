@@ -2249,6 +2249,7 @@
 			<foodType>OmnivoreHuman</foodType>
 			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
 			<manhunterOnDamageChance>1</manhunterOnDamageChance>
+			<baseHungerRate>0.01</baseHungerRate>
 			<predator>false</predator>
 			<canBePredatorPrey>false</canBePredatorPrey>
 			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
