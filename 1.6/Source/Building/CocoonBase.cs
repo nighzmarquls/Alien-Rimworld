@@ -25,7 +25,10 @@ namespace Xenomorphtype
                     Pawn pawn = list[i] as Pawn;
                     if (pawn != null && pawn.pather.MovingNow is false)
                     {
-                        return pawn;
+                        if (!XMTUtility.IsXenomorph(pawn))
+                        {
+                            return pawn;
+                        }
                     }
                 }
                 return null;

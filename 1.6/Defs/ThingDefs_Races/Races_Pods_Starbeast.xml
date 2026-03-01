@@ -450,7 +450,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
-						<thingDef></thingDef>
+						<thingDef>XMT_Plaguerat</thingDef>
 						<pawnDef>XMT_Plaguerat</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>
@@ -459,7 +459,7 @@
 			</li>
 		</comps>
 		<race>
-			<baseBodySize>0.25</baseBodySize>
+			<baseBodySize>0.2</baseBodySize>
 		</race>
 		<tradeTags>
 			<li>NonContractable</li>
@@ -474,7 +474,43 @@
 				<li>
 					<bodyGraphicData>
 						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
-						<drawSize>0.5</drawSize>
+						<drawSize>0.75</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Advanced_Rodent_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Jellyrat</thingDef>
+						<pawnDef>XMT_Jellyrat</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>0.2</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Advanced_Rodent_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Advanced_Rodent_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>0.75</drawSize>
 					</bodyGraphicData>
 				</li>
 		</lifeStages>
@@ -486,7 +522,6 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
-						<thingDef></thingDef>
 						<pawnDef>XMT_Umbilical</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>

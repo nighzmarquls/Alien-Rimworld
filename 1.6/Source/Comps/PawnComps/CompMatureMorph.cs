@@ -1170,6 +1170,8 @@ namespace Xenomorphtype
             }
 
             target.health.AddHediff(hediff);
+
+            Parent.Map.designationManager.RemoveAllDesignationsOn(target);
         }
         public void TryOvomorphing(Pawn target)
         {
@@ -1514,10 +1516,6 @@ namespace Xenomorphtype
             Pawn candidate = XMTHiveUtility.GetBestLarderCandidate(Parent.Map, forPawn: Parent);
             if (candidate != null)
             {
-                if (XMTUtility.IsXenomorphFriendly(candidate) || XMTUtility.PawnLikesTarget(Parent, candidate))
-                {
-                    return false;
-                }
                 job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyLardering, candidate);
                 FeralJobUtility.ReserveThingForJob(Parent, job, candidate);
                 return true;

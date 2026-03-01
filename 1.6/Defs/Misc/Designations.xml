@@ -30,5 +30,16 @@
     <targetType>Thing</targetType>
   </DesignationDef>
   
+  <DesignationDef>
+    <defName>XMT_Larder</defName>
+    <texturePath>Designations/Larder</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_MakeJelly</defName>
+    <texturePath>Designations/MakeJelly</texturePath>
+    <targetType>Cell</targetType>
+  </DesignationDef>
 
 </Defs>

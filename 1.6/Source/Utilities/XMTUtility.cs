@@ -350,6 +350,11 @@ namespace Xenomorphtype
                 return true;
             }
 
+            if(pawn.RaceProps.FleshType == FleshTypeDefOf.EntityMechanical)
+            {
+                return true;
+            }
+
             if (pawn.RaceProps.FleshType == ExternalDefOf.Asimov_Automaton)
             {
                 return true;
@@ -366,10 +371,18 @@ namespace Xenomorphtype
 
             if (pawn.genes != null)
             {
-                if (pawn.genes.HasActiveGene(ExternalDefOf.VREA_SyntheticBody))
+                foreach(Gene gene in pawn.genes.GenesListForReading)
                 {
-                    return true;
+                    if (gene.def == ExternalDefOf.VREA_SyntheticBody)
+                    {
+                        return true;
+                    }
+                    if(gene.def == ExternalDefOf.PMP_PersonaMechanoid)
+                    {
+                        return true;
+                    }
                 }
+                
             }
 
 
@@ -652,12 +665,13 @@ namespace Xenomorphtype
             {
                 return null;
             }
+            Thing found = null;
+          
             TraverseParms traverseParams = TraverseParms.For(pawn);
 
             traverseParams.maxDanger = Danger.Deadly;
             traverseParams.mode = TraverseMode.PassDoors;
             RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParams, isDestination: false);
-            Thing found = null;
             RegionProcessor regionProcessor = delegate (Region r)
             {
                 List<Thing> list = r.ListerThings.ThingsMatching(ThingRequest.ForGroup(ThingRequestGroup.HaulableEver));

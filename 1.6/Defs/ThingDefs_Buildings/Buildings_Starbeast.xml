@@ -11,6 +11,8 @@
 		  <li>Xenomorphtype.Designator_Art</li>
 		  <li>Xenomorphtype.Designator_ScentFriend</li>
 		  <li>Xenomorphtype.Designator_ScentFoe</li>
+		  <li>Xenomorphtype.Designator_Larder</li>
+		  <li>Xenomorphtype.Designator_MakeJelly</li>
 		</specialDesignatorClasses>
 	</DesignationCategoryDef>
 
@@ -166,6 +168,7 @@
 			<blueprintGraphicData>
 				<texPath>Terrain/FloorBlueprint</texPath>
 			</blueprintGraphicData>
+			<canConstructInCorner>true</canConstructInCorner>
 		</building>
 		<comps>
 		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
@@ -217,6 +220,7 @@
 			<blueprintGraphicData>
 				<texPath>Terrain/FloorBlueprint</texPath>
 			</blueprintGraphicData>
+			<canConstructInCorner>true</canConstructInCorner>
 		</building>
 		<comps>
 		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
@@ -265,6 +269,7 @@
 			<blueprintGraphicData>
 				<texPath>Terrain/FloorBlueprint</texPath>
 			</blueprintGraphicData>
+			<canConstructInCorner>true</canConstructInCorner>
 		</building>
 		<comps>
 		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
@@ -313,6 +318,7 @@
 				<li>HiveWebbingBuildable</li>
 				<li>HiveFloorBuildable</li>
 			</relatedBuildCommands>
+			<canConstructInCorner>true</canConstructInCorner>
 		</building>
 		<comps>
 		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
@@ -320,6 +326,7 @@
 		  </li>
 		</comps>
 		<constructEffect>ResinBuild</constructEffect>
+		
 		<drawStyleCategory>Organic1D</drawStyleCategory>
 	</ThingDef>
 	
@@ -450,6 +457,7 @@
 				<li>HiveWebbingBuildable</li>
 				<li>HiveFloorBuildable</li>
 			</relatedBuildCommands>
+			<canConstructInCorner>true</canConstructInCorner>
 		</building>
 		<comps>
 		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">

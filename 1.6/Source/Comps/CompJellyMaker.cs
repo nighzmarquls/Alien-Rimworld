@@ -7,6 +7,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Noise;
+using static UnityEngine.GraphicsBuffer;
 
 
 namespace Xenomorphtype
@@ -81,10 +82,26 @@ namespace Xenomorphtype
         public bool GetJellyMakingJob(out Job job)
         {
             Region localRegion = parent.GetRegion();
+            job = null;
             if (localRegion != null)
             {
                 if (parent is Pawn pawn)
                 {
+                    if (XMTUtility.QueenIsPlayer()&& Props.jellyProduct == InternalDefOf.Starbeast_Jelly)
+                    {
+                        IEnumerable<Designation> JellyDesignations = localRegion.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_MakeJelly);
+                        foreach (Designation des in JellyDesignations)
+                        {
+
+                            if (FeralJobUtility.IsPlaceAvailableForJobBy(pawn, des.target.Cell))
+                            {
+                                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, des.target.Cell);
+                                FeralJobUtility.ReservePlaceForJob(pawn, job, des.target.Cell);
+                                return true;
+                            }
+                        }
+                    }
+
                     Thing ingredient = XMTUtility.SearchRegionsForJellyMakable(localRegion, pawn, this);
 
                     if (ingredient != null)
@@ -95,7 +112,7 @@ namespace Xenomorphtype
                     }
                 }
             }
-            job = null;
+           
             return false;
         }
 
@@ -180,7 +197,7 @@ namespace Xenomorphtype
 
         public int JellyFromCell(IntVec3 cell, float efficiency = 1f)
         {
-            float jellyValue = 0;
+            float jellyValue = 1;
             Map currentMap = parent.Map;
             if (currentMap != null)
             {
@@ -209,7 +226,7 @@ namespace Xenomorphtype
 
         public int ConvertTerrainToJelly(IntVec3 cell, Map currentMap, float efficiency = 1f)
         {
-            int terrainStack = 0;
+            int terrainStack = 1;
             if (XenoformingUtility.CellIsFertile(cell, currentMap))
             {
                 TerrainDef terrain = cell.GetTerrain(currentMap);
@@ -227,6 +244,12 @@ namespace Xenomorphtype
             Map currentMap = parent.Map;
             if (currentMap != null)
             {
+                Designation JellymakeDesignation = currentMap.designationManager.DesignationAt(cell, XenoWorkDefOf.XMT_MakeJelly);
+                if (JellymakeDesignation != null)
+                {
+                    currentMap.designationManager.RemoveDesignation(JellymakeDesignation);
+                }
+
                 Thing item = cell.GetFirstItem(currentMap);
                 if (item != null)
                 {

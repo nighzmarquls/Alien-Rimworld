@@ -159,6 +159,9 @@
 			<burstDamage>5</burstDamage>
 		    <severityPerDay>1</severityPerDay>
 		</li>
+		<li Class="HediffCompProperties_SurgeryInspectable">
+			<surgicalDetectionDesc>{PAWN_nameDef} has a foreign body present in the torso.</surgicalDetectionDesc> 
+		</li>
     </comps>
   </HediffDef>
   

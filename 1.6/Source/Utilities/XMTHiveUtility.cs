@@ -1366,11 +1366,63 @@ namespace Xenomorphtype
 
         internal static Pawn GetBestLarderCandidate(Map map, Pawn forPawn = null)
         {
+            if (map == null)
+            {
+                return null;
+            }
+
             Pawn bestLarderCandidate = null;
             int BestScore = int.MinValue;
+           
+            if (forPawn.Faction != null)
+            {
+                if(map.designationManager.AnySpawnedDesignationOfDef(XenoWorkDefOf.XMT_Larder))
+                {
+                    IEnumerable<Designation> larderTargets = map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_Larder);
+
+                    foreach(Designation designation in larderTargets)
+                    {
+                        if(designation.target == null)
+                        {
+                            continue;
+                        }
+
+                        Pawn candidate = designation.target.Pawn;
+
+                        if (!FeralJobUtility.IsThingAvailableForJobBy(forPawn, candidate))
+                        {
+                            continue;
+                        }
+
+                        if(!IsMorphingCandidate(candidate))
+                        {
+                            continue;
+                        }
+
+                        int Score = 0;
+                        if (XMTUtility.IsHost(candidate))
+                        {
+                            Score -= 20;
+                        }
+
+                        Score += Mathf.CeilToInt(candidate.BodySize * 10);
+
+                        if (Score > BestScore)
+                        {
+                            bestLarderCandidate = candidate;
+                            BestScore = Score;
+                        }
+                    }
+
+                }
+
+                return bestLarderCandidate;
+            }
+
             NestSite CurrentNest = GetLocalNest(map);
             if (CurrentNest != null)
             {
+               
                 foreach (Pawn candidate in CurrentNest.Cocooned)
                 {
                     if (forPawn != null)
@@ -1380,16 +1432,11 @@ namespace Xenomorphtype
                             continue;
                         }
                     }
-                    if (XMTUtility.IsInorganic(candidate))
+
+                    if (!IsMorphingCandidate(candidate))
                     {
                         continue;
                     }
-
-                    if(XMTUtility.NotPrey(candidate))
-                    {
-                        continue;
-                    }
-
 
                     int Score = 0;
                     if (XMTUtility.IsHost(candidate))

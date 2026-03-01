@@ -26,6 +26,9 @@ namespace Xenomorphtype
         public static DesignationDef XMT_Friend;
         public static DesignationDef XMT_Enemy;
 
+        public static DesignationDef XMT_Larder;
+        public static DesignationDef XMT_MakeJelly;
+
         public static JobDef XMT_Ritual_Metamorphosis;
         public static JobDef XMT_Ritual_PrepareJelly;
 

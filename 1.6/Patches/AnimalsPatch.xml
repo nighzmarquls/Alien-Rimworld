@@ -186,6 +186,13 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_Jellyrat</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Jellyrat</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.25</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Plaguerat</pawnTransformationTarget>
 						<probability>1</probability>
@@ -473,6 +480,13 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_Jellyrat</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Jellyrat</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.25</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Plaguerat</pawnTransformationTarget>
 						<probability>1</probability>
@@ -555,6 +569,13 @@
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Jellyrat</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Jellyrat</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.25</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
 					<li>
 						<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Plaguerat</pawnTransformationTarget>

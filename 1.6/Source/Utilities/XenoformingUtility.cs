@@ -98,7 +98,7 @@ namespace Xenomorphtype
             
             if(foundTerrain.affordances.Contains(InternalDefOf.Resin))
             {
-                return true;
+                return false;
             }
 
             return foundTerrain.fertility > 0 || (foundTerrain.driesTo != null && foundTerrain.driesTo.fertility > 0);

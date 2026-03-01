@@ -201,5 +201,8 @@ namespace Xenomorphtype
         [MayRequire("rim.job.world")]
         public static HediffDef Vagina;
 
+        // Persona Mechanoids 2
+        [MayRequire("Pal5k.PersonaMechs2")]
+        public static GeneDef PMP_PersonaMechanoid;
     }
 }

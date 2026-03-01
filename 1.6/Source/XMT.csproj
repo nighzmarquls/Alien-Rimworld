@@ -167,6 +167,8 @@
     <Compile Include="SocialHorror\Interactions\InteractionWorker_AdvancedTameAttempt.cs" />
     <Compile Include="SocialHorror\SocialHorrorDefs.cs" />
     <Compile Include="Things\XMTDefs.cs" />
+    <Compile Include="UI\Designators\Designator_Larder.cs" />
+    <Compile Include="UI\Designators\Designator_MakeJelly.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_AdvancedTame.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_Abduct.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />

@@ -40,6 +40,7 @@
 		<extractableAnimals>
 			<li>XMT_Royal_AlienRace</li>
 			<li>XMT_Hybrid_AlienRace</li>
+			<li>XMT_Jellyrat</li>
 		</extractableAnimals>
 	</GeneticRim.ExtractableAnimalsList>
 	

@@ -97,8 +97,20 @@
 	<XMT_LetterCaravanAttackedByBase> Negotiations with {1} have broken down, and they are attacking {0}!</XMT_LetterCaravanAttackedByBase>
 	
 	<XMT_LoadPatching>Alien|Rimworld Patching</XMT_LoadPatching>
+	
+	<XMT_CommandLarder>Induce Larder</XMT_CommandLarder>
+	<XMT_CommandLarderDescription>Designate a living organic target to be grown into a larder.</XMT_CommandLarderDescription>
+	
+	<XMT_MessageMustDesignateLarder>Must designate living, downed, organic target.</XMT_MessageMustDesignateLarder>
+	
+	<XMT_CommandMakeJelly>Make Jelly</XMT_CommandMakeJelly>
+	<XMT_CommandMakeJellyDescription>Designate organic material to be made into resinous jelly.</XMT_CommandMakeJellyDescription>
+	
+	<XMT_MessageMustDesignateJelly>Must Designate organic matter or fertile terrain.</XMT_MessageMustDesignateJelly>
+	
 	<XMT_CommandArt>Sculpt</XMT_CommandArt>
 	<XMT_CommandArtDescription>Designate skeletons for art sculpture.</XMT_CommandArtDescription>
+	
 	<XMT_MessageMustDesignateArtable>Must Designate Dessicated Corpses.</XMT_MessageMustDesignateArtable>
 	
 	<XMT_GameOverJoinXenomorphs>Embrace Perfection</XMT_GameOverJoinXenomorphs>

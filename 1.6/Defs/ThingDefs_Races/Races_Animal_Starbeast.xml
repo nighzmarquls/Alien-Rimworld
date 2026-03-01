@@ -260,7 +260,7 @@
 		  <baseBodySize>0.1</baseBodySize>
 		  <baseHungerRate>0.10</baseHungerRate>
 		  <baseHealthScale>0.1</baseHealthScale>
-		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
 		  <lifeExpectancy>10</lifeExpectancy>
 		  
 		  <lifeStageAges>
@@ -284,10 +284,9 @@
 		  </headPosPerRotation>
 		</race>
 		<butcherProducts>
-			<Starbeast_Jelly>5</Starbeast_Jelly>
+			<Starbeast_Jelly>25</Starbeast_Jelly>
 		</butcherProducts>
 		<tradeTags>
-			<li>ExoticMisc</li>
 		</tradeTags>
 	</ThingDef>
 	
