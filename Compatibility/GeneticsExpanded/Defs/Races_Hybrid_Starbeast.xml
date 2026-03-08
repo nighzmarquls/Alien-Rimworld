@@ -290,13 +290,33 @@
 				<li>
 					<bodyGraphicData>
 						<texPath>Things/Pawn/Animal/Pod/Human_Pod</texPath>
-						<drawSize>1.5</drawSize>
+						<drawSize>0.75</drawSize>
 					</bodyGraphicData>
 				</li>
 		</lifeStages>
 		<modExtensions>
 			<li Class="GeneticRim.DefExtension_Hybrid">
 				<dominantGenome>GR_RodentGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastAdvancedGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Advanced_Equine_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Advanced_Equine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_EquineGenetic</dominantGenome>
 				<secondaryGenome>XMT_StarbeastAdvancedGenetic</secondaryGenome>
 			</li>
 		</modExtensions>

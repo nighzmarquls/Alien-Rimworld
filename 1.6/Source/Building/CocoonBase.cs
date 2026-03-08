@@ -23,12 +23,9 @@ namespace Xenomorphtype
                 for (int i = 0; i < list.Count; i++)
                 {
                     Pawn pawn = list[i] as Pawn;
-                    if (pawn != null && pawn.pather.MovingNow is false)
+                    if (pawn != null && pawn.pather.MovingNow is false && pawn.Downed)
                     {
-                        if (!XMTUtility.IsXenomorph(pawn))
-                        {
-                            return pawn;
-                        }
+                        return pawn;
                     }
                 }
                 return null;

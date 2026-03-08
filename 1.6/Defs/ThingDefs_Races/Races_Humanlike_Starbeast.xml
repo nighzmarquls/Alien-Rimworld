@@ -518,6 +518,7 @@
 						</li>
 						<!-- DRONE COSMETICS END -->
 						<li>
+							<name>teeth</name>
 							<path>Pawn/Teeth/Teeth</path>
 							<userCustomizable>false</userCustomizable>
 							<colorChannel>base</colorChannel>
@@ -690,6 +691,7 @@
 							</offsets>
 						</li>
 						<li>
+							<name>tubes</name>
 							<path>Pawn/Tubes/Tubes</path>
 							<userCustomizable>false</userCustomizable>
 							<colorChannel>skin</colorChannel>

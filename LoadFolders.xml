@@ -24,6 +24,9 @@
 		<li IfModActive="otyoty.sizedapparel">Compatibility/SizedApparel</li>
 		
 		<li IfModActive="CETeam.CombatExtended">Compatibility/CombatExtended</li>
+		
+		<li IfModNotActive="zal.cocch" IfModActive="rimofmadness.callofcthulhucosmichorrors">Compatibility/CosmicHorrors</li>
+		<li IfModNotActive="rimofmadness.callofcthulhucosmichorrors" IfModActive="zal.cocch">Compatibility/CosmicHorrors</li>
 	</v1.6>
 	
 </loadFolders>

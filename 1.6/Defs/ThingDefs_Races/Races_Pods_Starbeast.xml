@@ -207,6 +207,20 @@
 		</lifeStages>
 	</PawnKindDef>
 	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Advanced_Humanoid_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Advanced_Humanoid_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Human_Pod</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
 	<ThingDef ParentName="XMT_Base_Pod">
 		<defName>XMT_Thrumbo_Pod</defName>
 		<comps>
@@ -536,6 +550,41 @@
 			<li>NonContractable</li>
 		</tradeTags>
 	</ThingDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Advanced_Equine_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<pawnDef>XMT_Sleipnir</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>1</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Advanced_Equine_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Advanced_Equine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
 		<defName>XMT_Equine_Pod</defName>

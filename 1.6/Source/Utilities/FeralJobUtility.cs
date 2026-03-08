@@ -22,6 +22,15 @@ namespace Xenomorphtype
                 }
             }
 
+            if(pawn.MapHeld.physicalInteractionReservationManager.IsReserved(cell))
+            {
+                return false;
+            }
+
+            if (pawn.Faction != null)
+            {
+                return !pawn.MapHeld.reservationManager.IsReserved(cell);
+            }
             return true;
         }
 

@@ -1384,7 +1384,6 @@
 			<hasGenders>true</hasGenders>
 			<body>Snake</body>
 			<canBePredatorPrey>false</canBePredatorPrey>
-			
 			<baseBodySize>0.2</baseBodySize>
 			<baseHealthScale>1</baseHealthScale>
 			<lifeExpectancy>10</lifeExpectancy>
@@ -1437,6 +1436,179 @@
 		</lifeStages>
 		<modExtensions>
 		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Sleipnir</defName>
+		<label>hoofed thing</label>
+		<description>A large hoofed animal with rubbery skin, six legs, an eyeless equine face, and a bifurcated fleshy tail. .\n\nWhen in a caravan, people can ride these to greatly increase the caravan's speed.</description>
+		<statBases>
+		  <MoveSpeed>11.6</MoveSpeed>
+		  <MarketValue>2200</MarketValue>
+		  <ComfyTemperatureMin>-70</ComfyTemperatureMin>
+		  <ComfyTemperatureMax>90</ComfyTemperatureMax>
+		  <FilthRate>0</FilthRate>
+		  <CaravanRidingSpeedFactor>4.0</CaravanRidingSpeedFactor>
+		  <Wildness>0.2</Wildness>
+		  <LeatherAmount>0</LeatherAmount>
+		</statBases>
+		<uiIconScale>1.1</uiIconScale>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+		</comps>
+		<race>
+		  <herdMigrationAllowed>false</herdMigrationAllowed>
+		  <herdAnimal>false</herdAnimal>
+		  <body>OctapedAnimalWithHooves</body>
+		  <baseBodySize>3</baseBodySize>
+		  <baseHealthScale>1.75</baseHealthScale>
+		  <baseHungerRate>0.535</baseHungerRate>
+		  <foodType>VegetarianRoughAnimal</foodType>
+		  <leatherDef></leatherDef>
+		  <gestationPeriodDays>6.66</gestationPeriodDays>
+		  <roamMtbDays>0</roamMtbDays>
+		  <petness>0.6</petness>
+		  <trainability>Advanced</trainability>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <packAnimal>true</packAnimal>
+		  <lifeExpectancy>30</lifeExpectancy>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalBaby</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.25</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.3333</minAge>
+			  <soundWounded>Pawn_Horse_Wounded</soundWounded>
+			  <soundDeath>Pawn_Horse_Death</soundDeath>
+			  <soundCall>Pawn_Horse_Call</soundCall>
+			  <soundAngry>Pawn_Horse_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  <soundEating>Herbivore_Eat</soundEating>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.33)</li>
+			<li>(0.31, 0, 0.21)</li>
+			<li>(0.0, 0, 0.08)</li>
+			<li>(-0.31, 0, 0.21)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<tools>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>20</power>
+			<cooldownTime>2.9</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+		  </li>
+		  <li>
+			<label>left hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>14</power>
+			<cooldownTime>0.25</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<label>right hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>14</power>
+			<cooldownTime>0.25</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		</tools>
+	</ThingDef>
+
+	<PawnKindDef Name="XMT_Sleipnir" ParentName="AnimalKindBase">
+		<defName>XMT_Sleipnir</defName>
+		<label>hooved thing</label>
+		<labelMale>stallion</labelMale>
+		<labelFemale>mare</labelFemale>
+		<race>XMT_Sleipnir</race>
+		<combatPower>200</combatPower>
+		<ecoSystemWeight>0</ecoSystemWeight>
+		<wildGroupSize>0</wildGroupSize>
+		<lifeStages>
+		  <li>
+			<label>foal</label>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Sleipnir/Sleipnir</texPath>
+			  <drawSize>1.3</drawSize>
+			  <shadowData>
+				<volume>(0.4, 0.3, 0.3)</volume>
+				<offset>(0,0,-0.2)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+			  <drawSize>1.3</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Sleipnir/Sleipnir</texPath>
+			  <drawSize>3.6</drawSize>
+			  <shadowData>
+				<volume>(0.6, 0.45, 0.45)</volume>
+				<offset>(0,0,-0.25)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+			  <drawSize>3.6</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Sleipnir/Sleipnir</texPath>
+			  <drawSize>4.2</drawSize>
+			  <shadowData>
+				<volume>(0.8, 0.6, 0.6)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+			  <drawSize>4.2</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
 	</PawnKindDef>
 	
 	<ThingDef ParentName="AnimalThingBase">

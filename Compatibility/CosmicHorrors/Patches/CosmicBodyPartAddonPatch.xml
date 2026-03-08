@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons</xpath>
+		<value>
+			<li>
+				<path>Pawn/HostVariation/Flesh/Mutant_Female</path>
+				<userCustomizable>false</userCustomizable>
+				<colorChannel>base</colorChannel>
+				<alignWithHead>false</alignWithHead>
+				<shaderType>Transparent</shaderType>
+				<conditions>
+					<Age>HumanlikeAdult</Age>
+					<Hediff>XMT_Meat</Hediff>
+					<RotStage>Fresh</RotStage>
+				</conditions>
+				<extendedGraphics>
+					<BodyType For="Male">
+						<path>Pawn/HostVariation/Flesh/Mutant_Male</path>
+					</BodyType>
+					<BodyType For="Hulk">
+						<path>Pawn/HostVariation/Flesh/Mutant_Hulk</path>
+					</BodyType>
+					<BodyType For="Thin">
+						<path>Pawn/HostVariation/Flesh/Mutant_Thin</path>
+					</BodyType>
+				</extendedGraphics>
+				<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+				<offsets>
+				  <south>
+					<layerOffset>-0.74</layerOffset>
+				  </south>
+				  <north>
+					<layerOffset>0.2</layerOffset>
+				  </north>
+				  <east>
+					<layerOffset>-0.74</layerOffset>
+				  </east>
+				</offsets>
+				<!--<inFrontOfBody>true</inFrontOfBody>-->
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons</xpath>
+		<value>
+			<li>
+				<path>Pawn/HostVariation/Head/Mouth_Mutant</path>
+				<userCustomizable>false</userCustomizable>
+				<colorChannel>base</colorChannel>
+				<alignWithHead>true</alignWithHead>
+				<conditions>
+					<Hediff>XMT_TendrilMaw</Hediff>
+					<Not>
+						<Hediff>XMT_GeneIntegration</Hediff>
+					</Not>
+					<Not>
+						<Hediff>Maturation</Hediff>
+					</Not>
+				</conditions>
+				<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+				<offsets>
+				  <south>
+					<layerOffset>-0.90</layerOffset>
+				  </south>
+				  <north>
+					<layerOffset>-0.90</layerOffset>
+				  </north>
+				  <east>
+					<layerOffset>-0.75</layerOffset>
+				  </east>
+				</offsets>
+				<!--<inFrontOfBody>true</inFrontOfBody>-->
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons</xpath>
+		<value>
+			<li>
+				<name>tentacles</name>
+				<path>Pawn/HostVariation/Tentacles/Tentacles_Small</path>
+				<userCustomizable>false</userCustomizable>
+				<colorChannel>skin</colorChannel>
+				<extendedGraphics>
+					<BodyType For="Hulk">
+						<path>Pawn/HostVariation/Tentacles/Tentacles_Hulk</path>
+					</BodyType>
+				</extendedGraphics>
+				<conditions>
+					<BodyPart>
+						<bodyPart>StarbeastTubes</bodyPart>
+						<drawWithoutPart>false</drawWithoutPart>
+					</BodyPart>
+					<Posture>
+						<drawnStanding>true</drawnStanding>
+						<drawnLaying>true</drawnLaying>
+						<drawnInBed>false</drawnInBed>
+					</Posture>
+					<Hediff>XMT_BackTentacles</Hediff>
+					<Age>HumanlikeAdult</Age>
+					<Not>
+						<Hediff>XMT_GeneIntegration</Hediff>
+					</Not>
+					<Not>
+						<Hediff>Maturation</Hediff>
+					</Not>
+				</conditions>
+				<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+				<offsets>
+				  <south>
+					<layerOffset>0.2</layerOffset>
+				  </south>
+				  <north>
+					<layerOffset>0.22</layerOffset>
+				  </north>
+				  <east>
+					<layerOffset>0.24</layerOffset>
+				  </east>
+				</offsets>
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[name="tubes"]/conditions</xpath>
+		<value>
+			<Not>
+				<Hediff>XMT_BackTentacles</Hediff>
+			</Not>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/generalSettings/alienPartGenerator/bodyAddons/li[name="teeth"]/conditions</xpath>
+		<value>
+			<Not>
+				<Hediff>XMT_TendrilMaw</Hediff>
+			</Not>
+		</value>
+	</Operation>
+	
+ </Patch>

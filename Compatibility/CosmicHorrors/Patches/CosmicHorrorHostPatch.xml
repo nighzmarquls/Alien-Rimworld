@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[@ParentName="BaseCosmicHorrorRaceInit"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>XMT_Horror_Mouth</li>
+					<li>XMT_Back_Tentacles</li>
+					<li>XMT_Cosmic_Flesh</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>ROM_Shoggoth</thingTransformationTarget>
+						<pawnTransformationTarget>ROM_Shoggoth</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
+		</value>
+	</Operation>
+
+</Patch>
