@@ -404,6 +404,11 @@ namespace Xenomorphtype
 
             _xenoforming = Mathf.Max(_xenoforming - XenomorphImpact, 0);
 
+            if (XMTUtility.QueenIsPlayer())
+            {
+                Messages.Message("XMT_XenoformingLowered".Translate(), MessageTypeDefOf.NegativeEvent);
+            }
+
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for death of " + pawn.ToString() + " total: " + _xenoforming);
@@ -436,6 +441,12 @@ namespace Xenomorphtype
         {
             
             _xenoforming += XenomorphImpact;
+
+            if(XMTUtility.QueenIsPlayer())
+            {
+                Messages.Message("XMT_XenoformingRaised".Translate(), MessageTypeDefOf.PositiveEvent);
+            }
+
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for " + pawn + " leaving the map. total: " + _xenoforming);

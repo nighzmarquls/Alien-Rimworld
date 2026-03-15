@@ -589,7 +589,34 @@
 							</offsets>
 							<!--<inFrontOfBody>true</inFrontOfBody>-->
 						</li>
-						
+						<li>
+							<path>Pawn/HostVariation/Ibex_Head</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Hediff>XMT_IbexHorns</Hediff>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.90</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>-0.90</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.75</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
 						<li>
 							<path>Pawn/HostVariation/Muffalo_Body</path>
 							<userCustomizable>false</userCustomizable>
@@ -2482,6 +2509,7 @@
 				</cannotReceiveThoughts>
 			</thoughtSettings>
 		</alienRace>
-		<modExtensions />
+		<modExtensions>
+		</modExtensions>
 	</ThingDef>
 </Defs>

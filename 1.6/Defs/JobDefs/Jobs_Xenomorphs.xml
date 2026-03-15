@@ -26,6 +26,16 @@
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 		<neverFleeFromEnemies>true</neverFleeFromEnemies>
 	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_SampleForClone</defName>
+		<driverClass>Xenomorphtype.JobDriver_SampleForClone</driverClass>
+		<reportString>sampling TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
 
 	<JobDef>
 		<defName>XMT_AbductHost</defName>

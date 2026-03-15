@@ -21,11 +21,22 @@ namespace Xenomorphtype
        
 
         bool _crawling;
-        public bool Crawling { get
+        public bool Crawling
+        {
+            get
             {
                 return _crawling;
             }
+            set
+            {
+                if(!value)
+                {
+                    Parent.jobs.posture = PawnPosture.Standing;
+                }
+                _crawling = value;
+            }
         }
+        
 
         public override void PostExposeData()
         {

@@ -387,6 +387,39 @@
 	</PawnKindDef>
 	
 	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Advanced_Avian_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef>XMT_Ovocloner</thingDef>
+						<pawnDef>XMT_Ovocloner</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Advanced_Avian_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Advanced_Avian_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
 		<defName>XMT_Booma_Pod</defName>
 		<comps>
 			<li Class="Xenomorphtype.CompHatchingPodProperties">

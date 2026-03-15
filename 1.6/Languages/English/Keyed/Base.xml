@@ -45,6 +45,7 @@
 	<XMT_LayOvomorphDescription>Lay {0} at the designated location.</XMT_LayOvomorphDescription>
 	<XMT_InsufficientNutrition>Insufficient nutrition to lay {0}.</XMT_InsufficientNutrition>
 
+	<XMT_GoneFeral>{0} has gone feral.</XMT_GoneFeral>
 	<XMT_MotherEggHatch>{0}'s Ovomorph has hatched!</XMT_MotherEggHatch>
 	<XMT_ParasiteCrushing>The Parasite is crushing {0} to stay secured!</XMT_ParasiteCrushing>
 
@@ -171,6 +172,9 @@
 	<XMT_GameOverXenoformedEnding>You have struggled against the prey but now all the world sings with the voice of your children. \n\nYou may now do with this world as you wish, to ravage or preserve as you see fit until you deem it necessary to rest and await new hosts...</XMT_GameOverXenoformedEnding>
 	<XMT_GameOverChildren>These offspring survived to see your apotheosis:\n\n{0}</XMT_GameOverChildren>
 	
+	<XMT_XenoformingRaised>Your children are prospering on this world.</XMT_XenoformingRaised>
+	<XMT_XenoformingLowered>Your children are faltering on this world</XMT_XenoformingLowered>
+	
 	<XMT_ReleasePioneer>Release Pioneer</XMT_ReleasePioneer>
 	<XMT_ReleasePioneerDescription>Send this child into the world to spread the family.</XMT_ReleasePioneerDescription>
 	
@@ -216,6 +220,11 @@
 	
 	<XMT_Info_Psychic>Is haunted by strange whispers just outside of legibility. \n</XMT_Info_Psychic>
 	<XMT_Info_Psychic_Obsessed>Hears beautiful voices whispering, calling out. \n</XMT_Info_Psychic_Obsessed>
+	
+	<XMT_Info_Error>Removing the info hediff does not do anything cheater!</XMT_Info_Error>
+	
+	<XMT_Cloner_Sample>Sample for Cloning</XMT_Cloner_Sample>
+	<XMT_Cloner_Sample_Description>Sample an organic living baseline that will be cloned in eggs.</XMT_Cloner_Sample_Description>
 	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>

@@ -595,9 +595,10 @@ namespace Xenomorphtype
                 {
                     return;
                 }
-
+                
                 if (Parent.Faction == null)
                 {
+                    display.improperRemoval = false;
                     Parent.health.RemoveHediff(display);
                     return;
                 }
@@ -606,7 +607,7 @@ namespace Xenomorphtype
                 {
                     return;
                 }
-
+                display.improperRemoval = false;
                 Parent.health.RemoveHediff(display);
             }
         }

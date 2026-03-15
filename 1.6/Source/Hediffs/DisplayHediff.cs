@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Xenomorphtype
     public class DisplayHediff : Hediff
     {
         CompPawnInfo pawnInfo => pawn.Info();
-
+        public bool improperRemoval = true;
         public override Color LabelColor => GetColor();
         public override bool Visible => ShoulldDisplay();
         public override string Label => GetLabel();
@@ -56,7 +57,15 @@ namespace Xenomorphtype
             }
             return pawnInfo.GetHediffDescription();
         }
-    
+
+        public override void PostRemoved()
+        {
+            base.PostRemoved();
+            if (improperRemoval)
+            {
+                Messages.Message("XMT_Info_Error".Translate(), MessageTypeDefOf.NegativeEvent);
+            }
+        }
         public override void ExposeData()
         {
             base.ExposeData();

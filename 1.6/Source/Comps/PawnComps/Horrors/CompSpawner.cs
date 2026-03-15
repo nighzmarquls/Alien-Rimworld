@@ -11,13 +11,12 @@ namespace Xenomorphtype
 { 
     public class CompSpawner : ThingComp
     {
-        CompSpawnerProperties Props => props as CompSpawnerProperties;
+        protected CompSpawnerProperties Props => props as CompSpawnerProperties;
         int nextSpawnTick = -1;
 
-        Pawn Parent => parent as Pawn;
+        protected Pawn Parent => parent as Pawn;
         public override void CompTick()
         {
-            base.CompTick();
             if (Parent != null && Parent.Spawned)
             {
                 if (Parent.Awake())
@@ -53,9 +52,18 @@ namespace Xenomorphtype
                 if (Find.TickManager.TicksGame > nextSpawnTick)
                 {
                     nextSpawnTick = currentTick + Mathf.CeilToInt(Props.spawnIntervalHours * 2500);
+                    if (Props.pawnKindSpawned != null)
+                    {
+                        PawnGenerationRequest request = new PawnGenerationRequest(Props.pawnKindSpawned, null);
+                        request.FixedBiologicalAge = 0;
+                        Pawn spawn = PawnGenerator.GeneratePawn(request);
+                        GenSpawn.Spawn(spawn, parent.PositionHeld, parent.MapHeld);
+                        return;
+                    }
+
                     if (Props.thingSpawned != null)
                     {
-                        GenSpawn.Spawn(Props.thingSpawned, Parent.PositionHeld, Parent.MapHeld);
+                        GenSpawn.Spawn(Props.thingSpawned, parent.PositionHeld, parent.MapHeld);
                     }
                 }
             }

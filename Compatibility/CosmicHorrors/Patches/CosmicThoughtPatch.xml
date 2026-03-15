@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]/alienRace/thoughtSettings/cannotReceiveThoughts</xpath>
+		<value>
+			<li>ObservedROM_DeepOne</li>
+			<li>ObservedROM_DeepOneGreat</li>
+			<li>ObservedROM_MiGo</li>
+			<li>ObservedROM_ShoggothTiny</li>
+			<li>ObservedROM_Shoggoth</li>
+			<li>ObservedROM_ShoggothColossal</li>
+			<li>ObservedROM_StarVampire</li>
+			<li>ObservedROM_DarkYoung</li>
+			<li>ObservedROM_ChthonianLarva</li>
+			<li>ObservedROM_Chthonian</li>
+			<li>ROM_SawMonster</li>
+			<li>ROM_AteStrangeMeatAsIngredient</li>
+			<li>ROM_AteStrangeMeatDirect</li>
+		</value>
+	</Operation>
+	
+ </Patch>

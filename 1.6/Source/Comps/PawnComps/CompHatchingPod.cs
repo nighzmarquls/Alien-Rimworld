@@ -1,11 +1,7 @@
-﻿using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 using Verse;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
 {
@@ -19,12 +15,12 @@ namespace Xenomorphtype
     }
     public class CompHatchingPod : ThingComp
     {
-        ThingDef    thingDef;
-        PawnKindDef pawnDef;
-        bool        hatchingPawn;
-        float       tickToHatch;
-        bool        initialized;
-        bool        hatched;
+        protected ThingDef      thingDef;
+        protected PawnKindDef   pawnDef;
+        protected bool          hatchingPawn;
+        protected int           tickToHatch;
+        protected bool          initialized;
+        protected bool          hatched;
         CompHatchingPodProperties Props => props as CompHatchingPodProperties;
 
         public override void PostExposeData()
@@ -60,7 +56,7 @@ namespace Xenomorphtype
             }
         }
 
-        protected void Initialize()
+        protected virtual void Initialize()
         {
             ThingDef hatchProduct = null;
             float hatchTime = 0f;
@@ -82,11 +78,11 @@ namespace Xenomorphtype
             if (hatchProduct != null)
             {
                 thingDef = hatchProduct;
-                tickToHatch = Find.TickManager.TicksGame + (hatchTime);
+                tickToHatch = Find.TickManager.TicksGame + Mathf.RoundToInt(hatchTime);
                 initialized = true;
             }
         }
-        protected void Hatch()
+        protected virtual void Hatch()
         {
             if (hatched)
             {

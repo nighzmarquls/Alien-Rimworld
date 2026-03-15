@@ -826,7 +826,6 @@
 			<hasGenders>true</hasGenders>
 			<body>Snake</body>
 			<canBePredatorPrey>false</canBePredatorPrey>
-			
 			<baseBodySize>0.2</baseBodySize>
 			<baseHealthScale>1</baseHealthScale>
 			<lifeExpectancy>50</lifeExpectancy>
@@ -878,6 +877,148 @@
 		</lifeStages>
 		<modExtensions>
 		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="MiscBirdBase">
+		<defName>XMT_Ovocloner</defName>
+		<label>coralfowl</label>
+		<description>Large bird like creautre with smooth skin, no eyes and elaborate growths branching from the body like coral.</description>
+		<statBases>
+			<MarketValue>2000</MarketValue>
+			<LeatherAmount>0</LeatherAmount>
+			<MaxFlightTime>0</MaxFlightTime>
+			<FlightCooldown>0</FlightCooldown>
+		</statBases>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+			<li Class="Xenomorphtype.CompSpawnerProperties">
+				<compClass>Xenomorphtype.CompCloner</compClass>
+				<pawnKindSpawned>XMT_Cloning_Egg</pawnKindSpawned>
+				<spawnIntervalHours>10</spawnIntervalHours>
+				<foodCost>0.3</foodCost>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Chicken</thingHorrifiedByThis>
+			</li>
+		</comps>
+		<race>
+		  <roamMtbDays>7</roamMtbDays>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <lifeStageAges Inherit="False">
+			<li>
+			  <def>AnimalBabyTiny</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.12</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.2</minAge>
+			  <soundWounded>Pawn_Peacock_Wounded</soundWounded>
+			  <soundDeath>Pawn_Peacock_Death</soundDeath>
+			  <soundCall>Pawn_Peacock_Call</soundCall>
+			  <soundAngry>Pawn_Peacock_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+
+	<PawnKindDef ParentName="BigBirdKindBase">
+		<defName>XMT_Ovocloner</defName>
+		<label>coralfowl</label>
+		<labelMale>coralcock</labelMale>
+		<labelFemale>coralhen</labelFemale>
+		<race>XMT_Ovocloner</race>
+		<combatPower>40</combatPower>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Ovocloner/Ovocloner</texPath>
+			  <drawSize>1.0</drawSize>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Peacock/Dessicated_PeacockFemale</texPath>
+			  <drawSize>1.0</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Ovocloner/Ovocloner</texPath>
+			  <drawSize>1.5</drawSize>
+			  <shadowData>
+				<volume>(0.3, 0.3, 0.3)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Peacock/Dessicated_PeacockFemale</texPath>
+			  <drawSize>1.2</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Ovocloner/Ovocloner</texPath>
+			  <drawSize>2.5</drawSize>
+			  <shadowData>
+				<volume>(0.4, 0.4, 0.4)</volume>
+				<offset>(0,0,-0.2)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Peacock/Dessicated_PeacockMale</texPath>
+			  <drawSize>1.4</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Cloning_Egg</defName>
+		<label>clone Egg</label>
+		<description>a fleshy egg which wriggles and shifts with the motion of the thing developing within.</description>
+		<statBases>
+			<ComfyTemperatureMin>30</ComfyTemperatureMin>
+			<ComfyTemperatureMax>30</ComfyTemperatureMax>
+		</statBases>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<compClass>Xenomorphtype.CompCloningEgg</compClass>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+		<race>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		</race>
+	</ThingDef>
+	
+	<PawnKindDef>
+		<label>clone Egg</label>
+		<defName>XMT_Cloning_Egg</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Cloning_Egg</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/CloneEgg/CloneEgg</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
 	</PawnKindDef>
 	
 	<ThingDef ParentName="AnimalThingBase">

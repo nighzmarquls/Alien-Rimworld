@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using static RimWorld.RitualStage_InteractWithRole;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
@@ -22,13 +23,6 @@ namespace Xenomorphtype
         protected bool recipientStored => recipient.Map != pawn.Map;
         protected Pawn recipient => (Pawn)base.TargetThingA;
 
-        public override bool TryMakePreToilReservations(bool errorOnFailed)
-        {
-        
-            return pawn.Reserve(pawn, job, 1, -1, null, errorOnFailed);
-    
-        }
-
         protected IEnumerable<Toil> FeedRecipient()
         {
             AddFailCondition(() => pawn.needs.food.CurCategory == HungerCategory.Starving);
@@ -40,8 +34,8 @@ namespace Xenomorphtype
             Toil toil = ToilMaker.MakeToil("Trophallaxis");
             toil.initAction = delegate
             {
-                recipient.jobs.StartJob(ChildcareUtility.MakeBabySuckleJob(pawn), JobCondition.InterruptForced);
                 initialFoodPercentage = recipient.needs.food.CurLevelPercentage;
+                PawnUtility.ForceWait(recipient, Mathf.FloorToInt(recipient.needs.food.NutritionWanted*1250f), pawn);
             };
             toil.tickAction = delegate
             {
@@ -166,6 +160,11 @@ namespace Xenomorphtype
         {
             base.ExposeData();
             Scribe_Values.Look(ref initialFoodPercentage, "initialFoodPercentage", 0f);
+        }
+
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
+        {
+            return true;
         }
     }
 

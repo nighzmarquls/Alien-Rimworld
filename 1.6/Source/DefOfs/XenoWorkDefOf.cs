@@ -32,6 +32,8 @@ namespace Xenomorphtype
         public static JobDef XMT_Ritual_Metamorphosis;
         public static JobDef XMT_Ritual_PrepareJelly;
 
+        public static JobDef XMT_SampleForClone;
+
         public static JobDef XMT_ImplantHunt;
         public static JobDef XMT_StealthHunt;
         public static JobDef XMT_AbductHost;

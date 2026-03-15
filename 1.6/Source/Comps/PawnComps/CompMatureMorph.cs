@@ -296,6 +296,7 @@ namespace Xenomorphtype
 
                         if (!Tamed)
                         {
+                            Messages.Message("XMT_GoneFeral".Translate(Parent.LabelShort), MessageTypeDefOf.ThreatBig);
                             Parent.SetFaction(null);
                             Parent.guest.SetGuestStatus(null);
                         }
@@ -813,6 +814,12 @@ namespace Xenomorphtype
         {
             if (Parent.needs.food == null || Parent.needs.food.CurLevelPercentage == 1)
             {
+                if (Parent.Crawling)
+                {
+                    CompCrawler compCrawler = Parent.GetComp<CompCrawler>();
+                    compCrawler.Crawling = false;
+                }
+
                 Job job = null;
                 if (candidate.ParentHolder is EggSack eggSack)
                 {

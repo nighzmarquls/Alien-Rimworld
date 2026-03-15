@@ -98,6 +98,7 @@
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompSovereignDominion.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\XMT_Hivecast.cs" />
     <Compile Include="Abilities\Verbs\Verb_CastAbilityPounce.cs" />
+    <Compile Include="AI\JobDriver\HorrorJobs\JobDriver_SampleForClone.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_AdvancedTame.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_AdvancedTameWithFood.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractResin.cs" />
@@ -156,8 +157,11 @@
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ForceWearApparel.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ReplaceGenes.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_XenoSocialGiver.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompCloner.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompCloningEgg.cs" />
     <Compile Include="Comps\ThingCompHorror\CompJellyDrug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
+    <Compile Include="Harmony\XMTCaveInPatches.cs" />
     <Compile Include="Harmony\XMTDoorPatches.cs" />
     <Compile Include="Harmony\Aggression\XMTHostilityPatch.cs" />
     <Compile Include="Incidents\IncidentWorker_QueenQuest.cs" />
