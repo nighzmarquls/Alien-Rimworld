@@ -99,4 +99,23 @@
 		<XMT_Protofluid>10</XMT_Protofluid>
 	  </forcedItems>
 	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_Drakon5</defName>
+	  <childhood>TribeChild40</childhood>
+	  <adulthood>Brave88</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>Kane</first>
+		<nick>Drakon</nick>
+		<last>Drakon</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+	  </forcedHediffs>
+	  <forcedItems>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
 </Defs>

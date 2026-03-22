@@ -10,11 +10,10 @@ namespace Xenomorphtype
     public class CompCloner  : CompSpawner
     {
         static private Texture2D SampleTexture => ContentFinder<Texture2D>.Get("UI/Abilities/GeneOvomorph");
-
-        int nextSpawnTick = -1;
         PawnKindDef sampleKindDef = null;
         GeneSet sampleGenes = null;
         int eggMaturationTicks = 2000;
+        int eggProductionTicks = 2000;
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -25,13 +24,16 @@ namespace Xenomorphtype
             base.PostExposeData();
             Scribe_Defs.Look(ref sampleKindDef, "sampleKindDef");
             Scribe_Deep.Look(ref sampleGenes, "sampleGenes");
+            Scribe_Values.Look(ref eggMaturationTicks, "eggMaturationTicks");
+            Scribe_Values.Look(ref eggProductionTicks, "eggProductionTicks");
         }
 
         public void SamplePawn(Pawn pawn)
         {
             RaceProperties race = pawn.RaceProps;
-            eggMaturationTicks =  Mathf.CeilToInt(Mathf.Max(2000,race.gestationPeriodDays*30000));
-            if(pawn.genes != null)
+            eggMaturationTicks =    Mathf.CeilToInt(Mathf.Max(2000,race.gestationPeriodDays*30000));
+            eggProductionTicks =    Mathf.CeilToInt(Mathf.Max(2000,race.gestationPeriodDays*15000));
+            if (pawn.genes != null)
             {
                 sampleGenes = new GeneSet();
                 foreach(Gene gene in pawn.genes.Endogenes)
@@ -45,7 +47,8 @@ namespace Xenomorphtype
             }
 
             sampleKindDef = pawn.kindDef;
-
+            int currentTick = Find.TickManager.TicksGame;
+            nextSpawnTick = currentTick + Mathf.CeilToInt(eggProductionTicks);
             if (XMTSettings.LogBiohorror)
             {
                 Log.Message(parent + " has sampled " + pawn + " as a " + sampleKindDef);
@@ -126,7 +129,7 @@ namespace Xenomorphtype
                 {
                     if (currentTick > nextSpawnTick)
                     {
-                        nextSpawnTick = currentTick + Mathf.CeilToInt(Props.spawnIntervalHours * 2500);
+                        nextSpawnTick = currentTick + Mathf.CeilToInt(eggProductionTicks);
 
                         if(Parent?.needs?.food?.CurLevel >= Props.foodCost)
                         {
@@ -136,7 +139,7 @@ namespace Xenomorphtype
                                 PawnGenerationRequest request = new PawnGenerationRequest(Props.pawnKindSpawned, null);
                                 request.FixedBiologicalAge = 0;
                                 Pawn spawn = PawnGenerator.GeneratePawn(request);
-                                
+                                spawn.SetFaction(Parent.Faction);
                                 spawn = GenSpawn.Spawn(spawn, Parent.PositionHeld, Parent.MapHeld) as Pawn;
 
                                 CompCloningEgg cloningEgg = spawn.GetComp<CompCloningEgg>();

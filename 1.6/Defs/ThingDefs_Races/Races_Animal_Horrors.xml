@@ -276,6 +276,161 @@
 	</PawnKindDef>
 	
 	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_BeautifulHarmonizer</defName>
+		<label>beautiful thing</label>
+		<description>A gigantic, beautiful, skeletal creature. Its form is incredibly resistant to damage. Its razor-sharp horn fetches a huge price.\n\n A sensation of peace and serenity surrounds it at all times.</description>
+		<statBases>
+			<MoveSpeed>1.0</MoveSpeed>
+			<MarketValue>4000</MarketValue>
+			<ComfyTemperatureMin>-65</ComfyTemperatureMin>
+			<ComfyTemperatureMax>50</ComfyTemperatureMax>
+			<ArmorRating_Sharp>0.60</ArmorRating_Sharp>
+			<ArmorRating_Blunt>0.40</ArmorRating_Blunt>
+			<ArmorRating_Heat>0.30</ArmorRating_Heat>
+			<FilthRate>8</FilthRate>
+			<Wildness>0.985</Wildness>
+		</statBases>
+		<uiIconScale>1.75</uiIconScale>
+		<tools>
+			<li>
+				<label>horn</label>
+				<capacities>
+					<li>Scratch</li>
+					<li>Stab</li>
+				</capacities>
+				<power>23</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HornAttackTool</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>28</power>
+				<cooldownTime>2.6</cooldownTime>
+				<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+				<chanceFactor>0.7</chanceFactor>
+			</li>
+			<li>
+				<label>left foot</label>
+				<labelNoLocation>foot</labelNoLocation>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>19</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<label>right foot</label>
+				<labelNoLocation>foot</labelNoLocation>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>19</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<label>head</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>17</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			</li>
+		</tools>
+		<race>
+			<body>QuadrupedAnimalWithHoovesAndHorn</body>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<baseBodySize>4</baseBodySize>
+			<baseHealthScale>8.0</baseHealthScale>
+			<foodType>OmnivoreHuman, VegetarianRoughAnimal, DendrovoreAnimal</foodType>
+			<leatherDef>Leather_Thrumbo</leatherDef>
+			<trainability>Advanced</trainability>
+			<gestationPeriodDays>20</gestationPeriodDays>
+			<manhunterOnDamageChance>1.00</manhunterOnDamageChance>
+			<lifeExpectancy>220</lifeExpectancy>
+			<fleshType>StarbeastFlesh</fleshType>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>AnimalAdult</def>
+					<minAge>1.332</minAge>
+					<soundCall>Pawn_Thrumbo_Call</soundCall>
+					<soundAngry>Pawn_Thrumbo_Angry</soundAngry>
+					<soundWounded>Pawn_Thrumbo_Pain</soundWounded>
+					<soundDeath>Pawn_Thrumbo_Death</soundDeath>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			<soundEating>Herbivore_Eat</soundEating>
+			<headPosPerRotation>
+				<li>(0.0, 0, 0.36)</li>
+				<li>(0.11, 0, 0.29)</li>
+				<li>(0, 0, 0.25)</li>
+				<li>(-0.11, 0, 0.29)</li>
+			</headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li>AnimalExotic</li>
+		</tradeTags>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>3.5</splashRange>
+					<cells>3</cells>
+					<damage>20</damage>
+			</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech" Class="Xenomorphtype.CompThoughtGiverProperties">
+				<intervalThought>XMT_HarmonizedSerenity</intervalThought>
+				<thoughtIntervalHours>1</thoughtIntervalHours>
+				<intervalThoughtRadius>3</intervalThoughtRadius>
+				<deathThought>XMT_HarmonizerDeathShriek</deathThought>
+				<deathThoughtRadius>10</deathThoughtRadius>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Thrumbo</thingHorrifiedByThis>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_BeautifulHarmonizer</defName>
+		<label>beautiful thing</label>
+		<race>XMT_BeautifulHarmonizer</race>
+		<combatPower>500</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Harmonizer/Harmonizer</texPath>
+					<drawSize>4.8</drawSize>
+					<shadowData>
+					<volume>(1, 0.8, 0.5)</volume>
+					<offset>(0,0,-0.5)</offset>
+					</shadowData>
+				</bodyGraphicData>
+				<dessicatedBodyGraphicData>
+					<texPath>Things/Pawn/Animal/Thrumbo/Dessicated_Thrumbo</texPath>
+					<drawSize>4.8</drawSize>
+				</dessicatedBodyGraphicData>
+				<butcherBodyPart>
+					<bodyPartGroup>HornAttackTool</bodyPartGroup>
+					<thing>ThrumboHorn</thing>
+				</butcherBodyPart>
+			</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
 		<defName>XMT_Fleshtoad</defName>
 		<label>horrible thing</label>
 		<description>Bloated stack of meat with weeping sores on its back that bulge with pale wriggling masses.</description>
@@ -1002,6 +1157,7 @@
 			<li>NonContractable</li>
 		</tradeTags>
 		<race>
+			<isImmuneToInfections>false</isImmuneToInfections>
 			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
 		</race>
 	</ThingDef>

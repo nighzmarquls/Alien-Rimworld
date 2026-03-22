@@ -1135,7 +1135,7 @@ namespace Xenomorphtype
             Log.Message("generated pawn " + NewPawn );
             if (NewPawn != null)
             {
-                NewPawn.Name = target.Name;
+                
                 NewPawn.ageTracker.DebugSetAge(target.ageTracker.AgeBiologicalTicks);
 
                 if (NewPawn.BodySize < target.BodySize)
@@ -1176,6 +1176,7 @@ namespace Xenomorphtype
                 {
                     if(NewPawn.story != null)
                     {
+                        NewPawn.Name = target.Name;
                         NewPawn.story.skinColorOverride = target.story.SkinColor;
 
                         NewPawn.story.HairColor = target.story.HairColor;
@@ -1201,26 +1202,37 @@ namespace Xenomorphtype
                         }
                     }
                 }
+                else
+                {
+                    if(NewPawn.story != null)
+                    {
+
+                    }
+                    else
+                    {
+                        NewPawn.Name = target.Name;
+                    }
+                }
 
                 if (target.relations != null)
                 {
                     if (NewPawn.relations != null)
                     {
                         NewPawn.relations.ClearAllRelations();
-    
+
                         foreach (DirectPawnRelation relation in target.relations.DirectRelations)
                         {
                             NewPawn.relations.AddDirectRelation(relation.def, relation.otherPawn);
                         }
 
-                        foreach(Pawn relatedPawn in target.relations.RelatedPawns)
+                        foreach (Pawn relatedPawn in target.relations.RelatedPawns)
                         {
                             List<DirectPawnRelation> pawnRelations = relatedPawn.relations.DirectRelations.ToList();
                             foreach (DirectPawnRelation relation in pawnRelations)
                             {
-                                if(relation.otherPawn == target)
+                                if (relation.otherPawn == target)
                                 {
-                                    relatedPawn.relations.AddDirectRelation(relation.def,NewPawn);
+                                    relatedPawn.relations.AddDirectRelation(relation.def, NewPawn);
                                 }
                             }
                         }

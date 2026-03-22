@@ -29,7 +29,7 @@ namespace Xenomorphtype
                 IEnumerable<Pawn> listeners = GenRadial.RadialDistinctThingsAround(Parent.Position, prevMap, Props.deathShriekRadius, true).OfType<Pawn>();
                 if (ModsConfig.RoyaltyActive)
                 {
-                    FleckMaker.Static(Parent.Position, Parent.Map, FleckDefOf.PsycastAreaEffect, 10f);
+                    FleckMaker.Static(Parent.PositionHeld, Parent.MapHeld, FleckDefOf.PsycastAreaEffect, 10f);
                 }
                 foreach (Pawn listener in listeners)
                 {

@@ -89,7 +89,21 @@ namespace Xenomorphtype
                         if(pawnGenes != null)
                         {
                             BioUtility.InsertGenesetToPawn(pawnGenes, ref result);
-                        }    
+                        }
+                        if(XMTUtility.IsXenomorph(result))
+                        {
+                            return;
+                        }
+
+                        for(int i = 0; i < 20; i++)
+                        {
+                            if (Rand.Chance(0.75f))
+                            {
+                                BioUtility.TryMutatingPawn(ref result, bonusEssence: 0.25f);
+                            }
+     
+                        }
+                        
                         return;
                     }
                 }

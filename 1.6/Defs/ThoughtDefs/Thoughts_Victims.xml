@@ -22,6 +22,47 @@
 		  </li>
 		</stages>
 	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>XMT_HarmonizerDeathShriek</defName>
+		<durationDays>5</durationDays>
+		<stackLimit>10</stackLimit>
+		<stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+		<effectMultiplyingStat>PsychicSensitivity</effectMultiplyingStat>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<nullifyingHediffs>
+		  <li MayRequire="Ludeon.RimWorld.Anomaly">Inhumanized</li>
+		</nullifyingHediffs>
+		<nullifyingTraits>
+			<li>Masochist</li>
+		</nullifyingTraits>
+		<stages>
+		  <li>
+			<label>death scream</label>
+			<description>It screamed as it died, the noise echoed in my mind, over and over again!</description>
+			<baseMoodEffect>-30</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
+
+	<ThoughtDef>
+		<defName>XMT_HarmonizedSerenity</defName>
+		<durationDays>5</durationDays>
+		<stackLimit>10</stackLimit>
+		<stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+		<effectMultiplyingStat>PsychicSensitivity</effectMultiplyingStat>
+		<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+		<nullifyingHediffs>
+		  <li MayRequire="Ludeon.RimWorld.Anomaly">Inhumanized</li>
+		</nullifyingHediffs>
+		<stages>
+		  <li>
+			<label>harmonic hum</label>
+			<description>such a soft sound, soothing and beautiful.</description>
+			<baseMoodEffect>5</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
 
 	<ThoughtDef>
 		<defName>Cocooned</defName>

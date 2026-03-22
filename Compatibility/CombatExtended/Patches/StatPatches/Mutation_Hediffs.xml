@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationSequence">
+    <success>Always</success>
+    <operations>
+      <!--SpikedTongue-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_SpikeTongue"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools</xpath>
+            <value>
+              <tools>
+                <li Class="CombatExtended.ToolCE">
+                  <label>tongue</label>
+                  <capacities>
+                    <li>Stab</li>
+                  </capacities>
+                  <power>10</power>
+                  <cooldownTime>2</cooldownTime>
+                  <chanceFactor>0.75</chanceFactor>
+                  <surpriseAttack>
+                    <extraMeleeDamages>
+                          <li>
+                            <def>Stab</def>
+                            <amount>10</amount>
+                          </li>
+                    </extraMeleeDamages>
+                  </surpriseAttack>
+                  <armorPenetrationSharp>15</armorPenetrationSharp>
+                  <armorPenetrationBlunt>28</armorPenetrationBlunt>
+                  <soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+                  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+                  <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+                </li>
+              </tools>
+            </value>
+        </li>
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_SpikeTongue"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>3.5</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>4.5</ArmorRating_Blunt>
+                  <Flammability>-0.1</Flammability>
+                  <IncomingDamageFactor>-0.01</IncomingDamageFactor>
+                </statOffsets>
+            </value>
+        </li>
+      <!--BladedTail-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_BladedTail"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools</xpath>
+            <value>
+              <tools>
+                <li Class="CombatExtended.ToolCE">
+                  <label>tail</label>
+                  <capacities>
+                    <li>Scratch</li>
+                    <li>Stab</li>
+                  </capacities>
+                  <power>15</power>
+                  <cooldownTime>4</cooldownTime>
+                  <linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+                  <chanceFactor>0.12</chanceFactor>
+                  <surpriseAttack>
+                    <extraMeleeDamages>
+                          <li>
+                            <def>Stab</def>
+                            <amount>15</amount>
+                          </li>
+                    </extraMeleeDamages>
+                  </surpriseAttack>
+                  <armorPenetrationSharp>25</armorPenetrationSharp>
+                  <armorPenetrationBlunt>45</armorPenetrationBlunt>
+                  <soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+                  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+                  <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+                </li>
+              </tools>
+            </value>
+        </li>
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_BladedTail"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>3.5</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>4.5</ArmorRating_Blunt>
+                  <Flammability>-0.1</Flammability>
+                  <IncomingDamageFactor>-0.01</IncomingDamageFactor>
+                </statOffsets>
+            </value>
+        </li>
+      <!--PharyngealJaw-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_SecondJaw"]/comps/li[@Class="HediffCompProperties_VerbGiver"]/tools</xpath>
+            <value>
+              <tools>
+                <li Class="CombatExtended.ToolCE">
+                  <label>teeth</label>
+                  <capacities>
+                    <li>Bite</li>
+                  </capacities>
+                  <power>15</power>
+                  <cooldownTime>2</cooldownTime>
+                  <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+                  <chanceFactor>0.75</chanceFactor>
+                  <surpriseAttack>
+                    <extraMeleeDamages>
+                          <li>
+                            <def>Bite</def>
+                            <amount>15</amount>
+                          </li>
+                    </extraMeleeDamages>
+                  </surpriseAttack>
+                  <armorPenetrationSharp>23</armorPenetrationSharp>
+                  <armorPenetrationBlunt>35</armorPenetrationBlunt>
+                  <soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+                  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+                  <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+                </li>
+                <li Class="CombatExtended.ToolCE">
+                  <label>inner teeth</label>
+                  <capacities>
+                    <li>Bite</li>
+                  </capacities>
+                  <power>15</power>
+                  <cooldownTime>2</cooldownTime>
+                  <linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+                  <chanceFactor>0.75</chanceFactor>
+                  <surpriseAttack>
+                    <extraMeleeDamages>
+                          <li>
+                            <def>Bite</def>
+                            <def>Stab</def>
+                            <amount>15</amount>
+                          </li>
+                    </extraMeleeDamages>
+                  </surpriseAttack>
+                  <armorPenetrationSharp>25</armorPenetrationSharp>
+                  <armorPenetrationBlunt>45</armorPenetrationBlunt>
+                  <soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+                  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+                  <alwaysTreatAsWeapon>true</alwaysTreatAsWeapon>
+                </li>
+              </tools>
+            </value>
+        </li>
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_SecondJaw"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>3.5</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>4.5</ArmorRating_Blunt>
+                  <Flammability>-0.1</Flammability>
+                  <IncomingDamageFactor>-0.01</IncomingDamageFactor>
+                </statOffsets>
+            </value>
+        </li>
+      <!--BreathingTubes-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_BreathingTubes"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>3.5</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>4.5</ArmorRating_Blunt>
+                  <Flammability>-0.1</Flammability>
+                  <IncomingDamageFactor>-0.01</IncomingDamageFactor>
+                  <HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
+                </statOffsets>
+            </value>
+        </li>
+      <!--BreathingWafers-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_BreathingWafers"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>3.5</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>4.5</ArmorRating_Blunt>
+                  <Flammability>-0.1</Flammability>
+                  <IncomingDamageFactor>-0.01</IncomingDamageFactor>
+                  <HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
+                </statOffsets>
+            </value>
+        </li>
+      <!--WarpedNeck-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_WarpedNeck"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>3.5</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>4.5</ArmorRating_Blunt>
+                  <Flammability>-0.1</Flammability>
+                  <IncomingDamageFactor>-0.01</IncomingDamageFactor>
+                  <HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
+                </statOffsets>
+            </value>
+        </li>
+        <!--InternalNose-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_InternalNose"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>2</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>2.5</ArmorRating_Blunt>
+                  <Flammability>-0.05</Flammability>
+                  <IncomingDamageFactor>-0.005</IncomingDamageFactor>
+                  <HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
+                  <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
+                </statOffsets>
+            </value>
+        </li>
+        <!--InternalEar-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_InternalEar"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>2</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>2.5</ArmorRating_Blunt>
+                  <Flammability>-0.05</Flammability>
+                  <IncomingDamageFactor>-0.005</IncomingDamageFactor>
+                  <HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
+                  <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
+                </statOffsets>
+            </value>
+        </li>
+        <!--InternalEye-->
+        <li Class="PatchOperationReplace">
+            <xpath>Defs/HediffDef[defName="XMT_InternalEye"]/stages/li/statOffsets</xpath>
+            <value>
+                <statOffsets>
+                  <ArmorRating_Sharp>2</ArmorRating_Sharp>
+                  <ArmorRating_Blunt>2.5</ArmorRating_Blunt>
+                  <Flammability>-0.05</Flammability>
+                  <IncomingDamageFactor>-0.005</IncomingDamageFactor>
+                  <HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
+                  <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.1</VacuumResistance>
+                </statOffsets>
+            </value>
+        </li>
+    </operations>
+  </Operation>
+</Patch>

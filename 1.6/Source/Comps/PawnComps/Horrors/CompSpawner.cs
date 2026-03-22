@@ -12,7 +12,7 @@ namespace Xenomorphtype
     public class CompSpawner : ThingComp
     {
         protected CompSpawnerProperties Props => props as CompSpawnerProperties;
-        int nextSpawnTick = -1;
+        protected int nextSpawnTick = -1;
 
         protected Pawn Parent => parent as Pawn;
         public override void CompTick()
