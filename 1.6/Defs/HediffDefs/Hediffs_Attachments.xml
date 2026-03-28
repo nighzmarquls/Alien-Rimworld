@@ -418,5 +418,43 @@
 		<li Class="HediffCompProperties_DisappearsOnDeath" />
     </comps>
   </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Assasination</defName>
+    <label>grappled</label>
+    <description>A small slick creature is biting and tearing at the body part.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>true</makesAlert>
+    <minSeverity>0</minSeverity>
+    <maxSeverity>1</maxSeverity>
+	<tendable>true</tendable>
+    <initialSeverity>1</initialSeverity>
+    <stages>
+		<li>
+        <minSeverity>0.0</minSeverity>
+        <label>gnawing</label>
+        <lifeThreatening>true</lifeThreatening>
+		<painOffset>0.6</painOffset>
+      </li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_PawnAttachement">
+			<tendQualityToRelease>0.2</tendQualityToRelease>
+			<attackIfRemoved>false</attackIfRemoved>
+		</li>
+		<li Class="HediffCompProperties_TendDuration">
+			<baseTendDurationHours>0.25</baseTendDurationHours>
+			<severityPerDayTended>0</severityPerDayTended>
+		</li>
+	    <li Class="Xenomorphtype.HediffCompProperties_Corrosive">
+			<damageType>Bite</damageType>
+			<damageMultiplier>15</damageMultiplier>
+			<damageIntervalHours>0.25</damageIntervalHours>
+			<throwSmoke>false</throwSmoke>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+  </HediffDef>
 
 </Defs>

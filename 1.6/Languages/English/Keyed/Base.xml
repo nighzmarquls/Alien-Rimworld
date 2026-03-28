@@ -226,5 +226,8 @@
 	<XMT_Cloner_Sample>Sample for Cloning</XMT_Cloner_Sample>
 	<XMT_Cloner_Sample_Description>Sample an organic living baseline that will be cloned in eggs.</XMT_Cloner_Sample_Description>
 	
+	<XMT_Vermin_Target>Choose Target</XMT_Vermin_Target>
+	<XMT_Vermin_Target_Description>Choose a species to be exterminated.</XMT_Vermin_Target_Description>
+	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>

@@ -443,5 +443,10 @@ namespace Xenomorphtype
 
             return newQueen;
         }
+
+        internal static void AddReprisal(Faction faction, float points)
+        {
+            gameComponent.CacheReprisal(faction, points);
+        }
     }
 }

@@ -36,10 +36,12 @@
 					<li>Alzheimers</li>
 					<li>Asthma</li>
 					<li>HeartArteryBlockage</li>
+					<li>LungRotExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">DarknessExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">Digested</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermLossShock</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
 				</ImpossibleHediffs>
 			</li>
@@ -1388,6 +1390,8 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermLossShock</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
+					<li>LungRotExposure</li>
 					<li>HeartAttack</li>
 					<li>Carcinoma</li>
 					<li>BadBack</li>
@@ -2219,6 +2223,8 @@
 					<li>Alzheimers</li>
 					<li>Asthma</li>
 					<li>HeartArteryBlockage</li>
+					<li>LungRotExposure</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
 				</ImpossibleHediffs>
 			</li>
 			<li Class="CompProperties_Studiable" MayRequire="Ludeon.RimWorld.Anomaly">

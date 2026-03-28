@@ -3,6 +3,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using UnityEngine;
 using Verse;
 using Verse.Noise;
 using Verse.Sound;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Xenomorphtype
 {
@@ -38,8 +40,8 @@ namespace Xenomorphtype
             }
         }
 
-        private float _lastxenoforming = XMTSettings.InitialXenoforming*100;
-        private float _xenoforming = XMTSettings.InitialXenoforming*100;
+        private float _lastxenoforming;
+        private float _xenoforming;
         public float Xenoforming
         {
             get
@@ -78,6 +80,9 @@ namespace Xenomorphtype
         private const float QueenAidImpact = 0f;
 
         private int _xenoformingStartTick = -1;
+
+        private List<Faction> _reprisalFactions;
+        private float _totalReprisalRaidPoints;
 
         //countdown
         private const float ScreenFadeSeconds = 6f;
@@ -182,6 +187,8 @@ namespace Xenomorphtype
 
                 EvaluateXenoforming();
                 BiomeXenoformingImpact();
+                LaunchCachedReprisal();
+                
             }
         }
 
@@ -369,8 +376,8 @@ namespace Xenomorphtype
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref _xenoforming, "Xenoforming", 0);
-            Scribe_Values.Look(ref _lastxenoforming, "lastXenoforming", 0);
+            Scribe_Values.Look(ref _xenoforming, "Xenoforming", XMTSettings.InitialXenoforming * 100);
+            Scribe_Values.Look(ref _lastxenoforming, "lastXenoforming", XMTSettings.InitialXenoforming * 100);
             Scribe_Values.Look(ref _xenoformingStartTick, "xenoformingStartTick", -1);
             Scribe_Values.Look(ref nextXenoformingTick, "nextXenoformingTick", 0);
             Scribe_Values.Look(ref MutationProliferation, "MutationProliferation", 0);
@@ -379,15 +386,150 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref PlayerOvomorphInWorld, "PlayerOvomorphInWorld", false);
             Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
 
+            Scribe_Values.Look(ref _totalReprisalRaidPoints, "_totalReprisalRaidPoints", 0);
+            Scribe_Collections.Look(ref _reprisalFactions, "ReprisalFactions",LookMode.Reference);
+
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 Log.Message("Clearing Caches");
                 XMTHiveUtility.ClearAllNestSites();
                 InfiltrationUtility.ClearAllCaches();
                 PawnCacheWrapper.ClearAllPawnCaches();
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("loaded " + _reprisalFactions.Count + " factions for a total reprisal raid points: " + _totalReprisalRaidPoints);
+                }
             }
+
+            
         }
 
+        public void CacheReprisal(Faction faction, float points)
+        {
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("Caching Reprisal for " + faction + " with " + points + " points");
+            }
+            if (_reprisalFactions == null)
+            {
+                _reprisalFactions = new List<Faction>();
+            }
+
+            if (!faction.temporary)
+            {
+                _reprisalFactions.AddUnique(faction);
+            }
+            _totalReprisalRaidPoints += points;
+        }
+        public void LaunchCachedReprisal()
+        {
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("Checking for Reprisal");
+            }
+            Map map = XMTUtility.GetQueen().MapHeld;
+            if (map == null)
+            {
+                return;
+            }
+
+            if (_totalReprisalRaidPoints < StorytellerUtility.DefaultThreatPointsNow(map))
+            {
+                return;
+            }
+
+            if(_reprisalFactions == null || _reprisalFactions.Count == 0)
+            {
+                return;
+            }
+
+            List<Faction> orderedFactions= new List<Faction>();
+            orderedFactions.Add(_reprisalFactions[0]);
+            foreach(Faction faction in _reprisalFactions)
+            {
+                if(!faction.def.canStageAttacks)
+                {
+                    continue;
+                }
+                FactionDef bestFaction = orderedFactions[0].def;
+                if (bestFaction.techLevel < faction.def.techLevel)
+                {
+                    if(orderedFactions.Contains(faction))
+                    {
+                        orderedFactions.Remove(faction);
+                    }
+                    orderedFactions.Insert(0, faction);
+                    continue;
+                }
+
+                if(!bestFaction.canSiege && faction.def.canSiege)
+                {
+                    if (orderedFactions.Contains(faction))
+                    {
+                        orderedFactions.Remove(faction);
+                    }
+                    orderedFactions.Insert(0, faction);
+                    continue;
+                }
+                orderedFactions.AddUnique(faction);
+            }
+            Faction leaderFaction = orderedFactions[0];
+            bool attemptSiege = false;
+            float raidpoints = Mathf.Min(StorytellerUtility.DefaultThreatPointsNow(map) * 4, _totalReprisalRaidPoints);
+            float TicksToArrive = Rand.Range(30000, 60000);
+
+            foreach (Faction faction in orderedFactions)
+            {
+                IncidentParms parms = new IncidentParms
+                {
+                    target = map,
+                    faction = faction,
+                    forced = true,
+                    points = raidpoints
+                };
+
+                if (_xenoforming > 50)
+                {
+                    if(!leaderFaction.AllyOrNeutralTo(faction) && faction != leaderFaction)
+                    {
+                        continue;
+                    }
+                    parms.raidStrategy = ExternalDefOf.ImmediateAttackBreachingSmart;
+                }
+
+                if(faction != leaderFaction)
+                {
+                    parms.silent = true;
+                }
+
+                
+                if (attemptSiege && faction.def.canSiege)
+                {
+                    parms.raidStrategy = ExternalDefOf.Siege;
+
+                    Find.Storyteller.incidentQueue.Add(IncidentDefOf.RaidEnemy, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
+                    if (XMTSettings.LogWorld)
+                    {
+                        Log.Message(faction + " is sending a siege of points: " + parms.points + " in reprisal to losing a settlement. Arriving in " + TicksToArrive / 2400 + " hours");
+                    }
+                }
+                else
+                {
+                    Find.Storyteller.incidentQueue.Add(IncidentDefOf.RaidEnemy, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
+                    if (XMTSettings.LogWorld)
+                    {
+                        Log.Message(faction + " is sending a raid of points: " + parms.points + " in reprisal to losing a settlement. Arriving in " + TicksToArrive / 2400 + " hours");
+                    }
+                }
+                _totalReprisalRaidPoints = Mathf.Max(0, _totalReprisalRaidPoints - raidpoints);
+
+                if(_totalReprisalRaidPoints <= 0)
+                {
+                    break;
+                }
+                raidpoints = Mathf.Min(raidpoints * 0.75f, _totalReprisalRaidPoints);
+            }
+        }
         public void HandleMatureMorphDeath(Pawn pawn)
         {
             if (!pawn.ageTracker.Adult)

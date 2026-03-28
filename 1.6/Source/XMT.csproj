@@ -160,6 +160,7 @@
     <Compile Include="Comps\PawnComps\Horrors\CompCloner.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompCloningEgg.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompThoughtGiver.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompExterminator.cs" />
     <Compile Include="Comps\ThingCompHorror\CompJellyDrug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTCaveInPatches.cs" />

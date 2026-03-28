@@ -44,6 +44,7 @@
 			<li>XMT_Sleipnir</li>
 			<li>XMT_Ovocloner</li>
 			<li>XMT_BeautifulHarmonizer</li>
+			<li>XMT_Exterminator</li>
 		</extractableAnimals>
 	</GeneticRim.ExtractableAnimalsList>
 	
@@ -78,7 +79,7 @@
 		<modExtensions Inherit="false">
 			<li Class="GeneticRim.DefExtension_HybridChanceAlterer">
 				<stability>3</stability>
-				<safety>5</safety>
+				<safety>3</safety>
 			</li>
 		</modExtensions>
 	</ThingDef>
@@ -95,8 +96,8 @@
 		<description>A non-newtonian fluid which exhibits genome like information density. Stabilized in a proper housing it can be used at the genomorpher to create a growth cell of a hybrid animal. This tier 3 genome can be used as either a primary or secondary genome.\n\n&lt;color=#E5E54C&gt;Gameplay effect:&lt;/color&gt; cryptic genomes use non-standard genetic chemistry which risks higher chances of failure. \n\n&lt;color=#E5E54C&gt;Extraction:&lt;/color&gt; Can be extracted via the genome extractor table or any genome excavator from:</description>
 		<modExtensions Inherit="false">
 			<li Class="GeneticRim.DefExtension_HybridChanceAlterer">
-				<stability>10</stability>
-				<safety>2</safety>
+				<stability>1</stability>
+				<safety>1</safety>
 			</li>
 		</modExtensions>
 	</ThingDef>

@@ -19,6 +19,20 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_BeautifulHarmonizer</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_BeautifulHarmonizer</pawnTransformationTarget>
+						<probability>0.5</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
+						<thingTransformationTarget>XMT_AbominableMaw</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_AbominableMaw</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_AbominableMaw</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_AbominableMaw</pawnTransformationTarget>
 						<probability>1</probability>
@@ -156,6 +170,13 @@
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Exterminator</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Exterminator</pawnTransformationTarget>
+						<probability>0.25</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
 					<li>
 						<thingTransformationTarget>XMT_Smotherer</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Smotherer</pawnTransformationTarget>
@@ -478,6 +499,13 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_Ovocloner</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Ovocloner</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_Barnacle</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Barnacle</pawnTransformationTarget>
 						<probability>1</probability>
@@ -504,6 +532,13 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_Ovocloner</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Ovocloner</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_Barnacle</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Barnacle</pawnTransformationTarget>
 						<probability>1</probability>
@@ -529,6 +564,13 @@
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Ovocloner</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Ovocloner</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
 					<li>
 						<thingTransformationTarget>XMT_Barnacle</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Barnacle</pawnTransformationTarget>

@@ -69,6 +69,11 @@ namespace Xenomorphtype
         //Damage Defs
         public static DamageDef Decayed;
 
+        //Raid Strategy Defs
+        public static RaidStrategyDef Siege;
+        public static RaidStrategyDef ImmediateAttackBreachingSmart;
+        public static RaidStrategyDef ImmediateAttackSappers;
+
         //Thrumbo Products
 
         //Asari

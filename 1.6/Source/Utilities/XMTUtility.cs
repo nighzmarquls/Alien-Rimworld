@@ -1923,12 +1923,13 @@ namespace Xenomorphtype
         {
             if(a is Pawn observer)
             {
-                CompPawnInfo info = observer.Info();
-                if(observer.Downed)
+                if (observer.Downed)
                 {
                     return false;
                 }
 
+                CompPawnInfo info = observer.Info();
+                
                 if(info.IsObsessed())
                 {
                     return false;
@@ -1939,7 +1940,7 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                return info.TotalHorrorAwareness() > XMTSettings.MinAwarenessAutoAggression;
+                return info.TotalHorrorAwareness() > XMTSettings.MinAwarenessAutoAggression || observer.Drafted;
 
             }
             return false;

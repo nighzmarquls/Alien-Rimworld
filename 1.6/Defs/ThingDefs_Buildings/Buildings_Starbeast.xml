@@ -186,7 +186,7 @@
 	<ThingDef ParentName="BuildingBase" Name="HeavyHiveFloorBuildable">
 		<defName>HeavyHiveFloorBuildable</defName>
 		<label>reinforced Resin Floor</label>
-		<description>Some kind of secreted resin, shaped into organic patterns on the ground. It has extremely stable and deep foundations.</description>
+		<description>more heavily reinforced resin floors, required to build the larger hive structures.</description>
 		<graphicData>
 		  <texPath>Terrain/FloorBlueprint</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
@@ -238,7 +238,7 @@
 	<ThingDef ParentName="BuildingBase" Name="HiveFloorBuildable">
 		<defName>HiveFloorBuildable</defName>
 		<label>resin Floor</label>
-		<description>Some kind of secreted resin, shaped into organic patterns on the ground.</description>
+		<description>a resinous support, required for almost all hive buildings.</description>
 		<graphicData>
 		  <texPath>Terrain/FloorBlueprint</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
@@ -287,7 +287,7 @@
 	<ThingDef ParentName="BuildingBase" Name="HiveMassBuildable">
 		<defName>HiveMassBuildable</defName>
 		<label>resin mass</label>
-		<description>A solid mass of dark resin. It glistens with moisture.</description>
+		<description>structural walls for the hive, requires resin, can later be reinforced.</description>
 		<graphicData>
 		  <texPath>Things/Building/Linked/Hive_Atlas_Blueprint</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
@@ -422,7 +422,7 @@
 	<ThingDef ParentName="BuildingBase" Name="HiveReinforcementBuildable">
 		<defName>HiveReinforcementBuildable</defName>
 		<label>resin reinforcement</label>
-		<description>structural supports which reinforce adjacent resin mass.</description>
+		<description>an internal reinforcement for the hive, place along the interior of hive walls to improve the durability of adjacent tiles.</description>
 		<graphicData>
 		  <texPath>Things/Building/Linked/Reinforced_Hive_Atlas_Blueprint</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
@@ -562,7 +562,7 @@
 	<ThingDef ParentName="BuildingBase" Name="HiveWebbingBuildable">
 		<defName>HiveWebbingBuildable</defName>
 		<label>resin Web</label>
-		<description>Some kind of secreted resin, a organic web which obstructs motion. (This building acts as a door.)</description>
+		<description>resinous webbing which allows passage while also enclosing spaces as a room (counts as a door).</description>
 		<graphicData>
 		  <texPath>Things/Building/Web</texPath>
 		  <graphicClass>Graphic_Single</graphicClass>
