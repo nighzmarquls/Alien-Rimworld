@@ -20,7 +20,6 @@ namespace Xenomorphtype
         public override void PreConfigure()
         {
             base.PostWorldGenerate();
-            Log.Message("Loading ScenPart for: " + levelRange);
             XenoformingUtility.SetXenoforming(levelRange.RandomInRange * 100);
         }
 
