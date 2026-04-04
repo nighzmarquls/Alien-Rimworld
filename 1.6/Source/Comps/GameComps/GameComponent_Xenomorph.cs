@@ -50,22 +50,21 @@ namespace Xenomorphtype
             }
             set
             {
-                if(DebugSettings.ShowDevGizmos)
+
+                if (value >= 0)
                 {
-                    if (value >= 0)
-                    {
-                        _xenoforming = value;
-                    }
-                    else
-                    {
-                        _xenoforming = 0;
-                    }
-                    if (XMTSettings.LogWorld)
-                    {
-                        Log.Message("Adjusting Xenoforming by DEBUG total: " + _xenoforming);
-                    }
-                    EvaluateXenoforming();
+                    _xenoforming = value;
                 }
+                else
+                {
+                    _xenoforming = 0;
+                }
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("Adjusting Xenoforming by total: " + _xenoforming);
+                }
+                EvaluateXenoforming();
+                
             }
         }
         float MutationProliferation = 0;
@@ -376,8 +375,8 @@ namespace Xenomorphtype
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref _xenoforming, "Xenoforming", XMTSettings.InitialXenoforming * 100);
-            Scribe_Values.Look(ref _lastxenoforming, "lastXenoforming", XMTSettings.InitialXenoforming * 100);
+            Scribe_Values.Look(ref _xenoforming, "Xenoforming", 0);
+            Scribe_Values.Look(ref _lastxenoforming, "lastXenoforming", 0);
             Scribe_Values.Look(ref _xenoformingStartTick, "xenoformingStartTick", -1);
             Scribe_Values.Look(ref nextXenoformingTick, "nextXenoformingTick", 0);
             Scribe_Values.Look(ref MutationProliferation, "MutationProliferation", 0);

@@ -382,6 +382,7 @@
     <Compile Include="Utilities\TamingUtility.cs" />
     <Compile Include="Utilities\XMTRoofUtility.cs" />
     <Compile Include="WorldHorror\BiomeWorker\BiomeWorker_DessicatedBlight.cs" />
+    <Compile Include="WorldHorror\ScenPart\ScenPart_Xenoforming.cs" />
     <Compile Include="WorldHorror\WorldDrawLayer_Xenoforming.cs" />
     <Compile Include="Utilities\XenoformingUtility.cs" />
     <Compile Include="XMT.cs" />

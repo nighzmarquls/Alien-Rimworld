@@ -352,6 +352,11 @@ namespace Xenomorphtype
             return chance * (gameComponent.Xenoforming / 100);
         }
 
+        internal static void SetXenoforming(float v)
+        {
+            gameComponent.Xenoforming = v;
+        }
+
         internal static void IncreaseXenoforming(float v)
         {
             gameComponent.Xenoforming += v;

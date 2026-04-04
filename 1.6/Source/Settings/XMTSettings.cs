@@ -40,9 +40,6 @@ namespace Xenomorphtype
         public static float MaturationFactor => instance != null ? instance._maturationFactor : 1f;
         private float _maturationFactor = 1f;
 
-        public static float InitialXenoforming => instance != null ? instance._initialXenoforming : 0f;
-        private float _initialXenoforming = 0f;
-
         public static int MinimumOpinionForHiveFriend = instance != null ? instance._minimumOpinionForHiveFriend : 80;
         private int _minimumOpinionForHiveFriend = 80;
 
@@ -79,7 +76,6 @@ namespace Xenomorphtype
             _jellyNutritionEfficiency = 0.5f;
             _jellyMassEfficiency = 0.025f;
             _maturationFactor = 1f;
-            _initialXenoforming = 0f;
             _minimumOpinionForHiveFriend = 80;
             _wildEmbryoChance = 0.25f;
             _wildMorphHuntChance = 0.25f;
@@ -138,15 +134,10 @@ namespace Xenomorphtype
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("Log World Horror", ref _logWorld, "Enable log reporting on world horror system");
             listingStandard.Gap(5f);
-
             listingStandard.CheckboxLabeled("Enable Player Sabotage Behavior", ref _playerSabotage, "If enabled player xenomorphs will sabotage human infrastructure when recreation or mood is low.");
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("Enable Horror Pregnancies", ref _horrorPregnancy, "If enabled xenomorph corruption will cause horror pregnancies.");
             listingStandard.Gap(5f);
-
-            _initialXenoforming = listingStandard.SliderLabeled("Initial Xenoforming", _initialXenoforming, 0.00f, 1f, tooltip: TooltipForPercent(_initialXenoforming));
-            listingStandard.Gap(2f);
-            listingStandard.LabelDouble("", TooltipForPercent(_initialXenoforming));
 
             _jellyNutritionEfficiency = listingStandard.SliderLabeled("Jelly Nutrition Efficiency", _jellyNutritionEfficiency, 0.01f, 4f, tooltip: TooltipForJellyNutrition());
             listingStandard.Gap(2f);
@@ -212,7 +203,6 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
             Scribe_Values.Look(ref _horrorPregnancy, "horrorPregnancy", true, false);
 
-            Scribe_Values.Look(ref _initialXenoforming, "initialXenoforming", 0f, false);
             Scribe_Values.Look(ref _maturationFactor, "maturationFactor", 1f, false);
 
             Scribe_Values.Look(ref _jellyNutritionEfficiency, "jellyNutritionEfficiency", 0.5f, false);
