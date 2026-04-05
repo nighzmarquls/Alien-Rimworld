@@ -1203,7 +1203,7 @@
 		</modExtensions>
 	</PawnKindDef>
 	
-	<ThingDef ParentName="MiscBirdBase">
+	<ThingDef ParentName="BigBirdThingBase">
 		<defName>XMT_Ovocloner</defName>
 		<label>coralfowl</label>
 		<description>Large bird like creautre with smooth skin, no eyes and elaborate growths branching from the body like coral.</description>
