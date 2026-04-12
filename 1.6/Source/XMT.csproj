@@ -159,6 +159,7 @@
     <Compile Include="Comps\HediffComps\Utility\HediffComp_XenoSocialGiver.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompCloner.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompCloningEgg.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\CompGuardian.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompThoughtGiver.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompExterminator.cs" />
     <Compile Include="Comps\ThingCompHorror\CompJellyDrug.cs" />

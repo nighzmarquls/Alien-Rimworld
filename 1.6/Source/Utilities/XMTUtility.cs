@@ -1434,7 +1434,15 @@ namespace Xenomorphtype
                 return false;
             }
 
-            Thing NewThing = GenSpawn.Spawn(targetDef, target.Dead ? target.Corpse.Position : target.Position, target.Dead ? target.Corpse.Map : target.MapHeld, WipeMode.Vanish);
+            IntVec3 spawnPosition = target.Dead ? target.Corpse.Position : target.Position;
+            Map spawnMap = target.Dead ? target.Corpse.Map : target.MapHeld;
+
+            Thing NewThing = ThingMaker.MakeThing(targetDef);
+            if(!GenPlace.TryPlaceThing(NewThing, spawnPosition, spawnMap, ThingPlaceMode.Near))
+            {
+                Log.Warning("Failure to place " + NewThing);
+                return false;
+            }
 
             if (target?.health.hediffSet != null)
             {
@@ -1459,11 +1467,11 @@ namespace Xenomorphtype
                             continue;
                     }
 
-                    ThingDef thingToSpawn = hediff.def.spawnThingOnRemoved;
-                    if (thingToSpawn != null)
+                    ThingDef ThingDefToSpawnFromHediff = hediff.def.spawnThingOnRemoved;
+                    if (ThingDefToSpawnFromHediff != null)
                     {
-                        GenSpawn.Spawn(thingToSpawn, target.Dead ? target.Corpse.Position : target.PositionHeld, target.Dead ? target.Corpse.Map : target.MapHeld,WipeMode.VanishOrMoveAside);
-
+                        Thing hediffThing = ThingMaker.MakeThing(ThingDefToSpawnFromHediff);
+                        GenPlace.TryPlaceThing(hediffThing, spawnPosition, spawnMap, ThingPlaceMode.Near);
                         continue;
                     }
                 }
@@ -1478,6 +1486,7 @@ namespace Xenomorphtype
             result = NewThing;
             return true;
         }
+
         public static bool PlayerXenosOnMap(Map localMap)
         {
             return XMTHiveUtility.PlayerXenosOnMap(localMap);

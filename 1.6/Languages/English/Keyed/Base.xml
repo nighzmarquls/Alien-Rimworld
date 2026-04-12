@@ -229,5 +229,10 @@
 	<XMT_Vermin_Target>Choose Target</XMT_Vermin_Target>
 	<XMT_Vermin_Target_Description>Choose a species to be exterminated.</XMT_Vermin_Target_Description>
 	
+	<XMT_Guard_Target>Choose Ward</XMT_Guard_Target>
+	<XMT_Guard_Target_Description>Choose a living being to protect.</XMT_Guard_Target_Description>
+	<XMT_Guard_Sad_Reason>Ward is missing.</XMT_Guard_Sad_Reason>
+	<XMT_Guard_Coma_Reason>Ward died.</XMT_Guard_Coma_Reason>
+	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>

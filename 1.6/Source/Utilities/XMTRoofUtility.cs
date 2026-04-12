@@ -8,7 +8,7 @@ namespace Xenomorphtype
     {
         public static bool RoofIsBreakable(RoofDef roof)
         {
-            return true; //roof == RoofDefOf.RoofRockThin || roof == RoofDefOf.RoofConstructed;
+            return roof == null;
         }
     }
 }

@@ -77,7 +77,7 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
-						<thingTransformationTarget></thingTransformationTarget>
+						<thingTransformationTarget>XMT_Hybrid_AlienRace</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_HybridHorrorMatured</pawnTransformationTarget>
 						<probability>1</probability>
 						<essenceMinimum>-1</essenceMinimum>
@@ -118,7 +118,6 @@
 				<chance>0.25</chance>
 			</li>
 		</startingHediffs>
-		
 	</PawnKindDef>
 	
 	<ThingDef ParentName="AnimalThingBase">
@@ -354,7 +353,6 @@
 			<gestationPeriodDays>20</gestationPeriodDays>
 			<manhunterOnDamageChance>1.00</manhunterOnDamageChance>
 			<lifeExpectancy>220</lifeExpectancy>
-			<fleshType>StarbeastFlesh</fleshType>
 			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
 			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
 			<lifeStageAges>
@@ -918,14 +916,12 @@
 		</comps>
 		<race>
 			<herdMigrationAllowed>false</herdMigrationAllowed>
-			<fleshType>StarbeastFlesh</fleshType>
-			<hasGenders>true</hasGenders>
+			<hasGenders>false</hasGenders>
 			<body>QuadrupedAnimalWithPawsAndTail</body>
 			<canBePredatorPrey>false</canBePredatorPrey>
 			<predator>true</predator>
 			<foodType>CarnivoreAnimal, OvivoreAnimal</foodType>
 			<leatherDef>Leather_Light</leatherDef>
-			
 			<petness>1</petness>
 			<trainability>None</trainability>
 			<nuzzleMtbHours>12</nuzzleMtbHours>
@@ -942,6 +938,7 @@
 			</litterSizeCurve>
 			<lifeExpectancy>10</lifeExpectancy>
 			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
 			<lifeStageAges>
 				<li>
 					<def>EusocialInsectAdult</def>
@@ -1077,6 +1074,19 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Hivehound</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hivehound</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -1098,14 +1108,222 @@
 				</bodyGraphicData>
 			</li>
 		</lifeStages>
+		<startingHediffs>
+			<li>
+				<def>XMT_BecomingAdultHorror</def>
+				<chance>0.25</chance>
+			</li>
+		</startingHediffs>
 		<modExtensions>
 		</modExtensions>
 	</PawnKindDef>
 	
 	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Hivehound</defName>
+		<label>canine thing</label>
+		<description>an eyeless, hairless, thing which blends insectile, reptillian and canine traits seamlessly. However it appears keenly intelligent and incredibly loyal.</description>
+		<statBases>
+		  <MoveSpeed>7.0</MoveSpeed>
+		  <MarketValue>2500</MarketValue>
+		  <ComfyTemperatureMin>-100</ComfyTemperatureMin>
+		  <Wildness>0</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<label>left claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>10.9</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		  <li>
+			<label>right claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>10.9</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>16</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.9</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>6</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.2</chanceFactor>
+		  </li>
+		</tools>
+		<comps>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+						<appliedHediff>AcidCorrosion</appliedHediff>
+						<splashRange>1.5</splashRange>
+						<cells>3</cells>
+						<damage>10</damage>
+				</li>
+				<li Class="Xenomorphtype.CompGaurdianProperties">
+				</li>
+		</comps>
+		<race>
+		  <animalType>Canine</animalType>
+		  <body>QuadrupedAnimalWithPawsAndTail</body>
+		  <petness>1</petness>
+		  <baseBodySize>1</baseBodySize>
+		  <baseHungerRate>0.2</baseHungerRate>
+		  <baseHealthScale>1.5</baseHealthScale>
+		  <foodType>OmnivoreAnimal, OvivoreAnimal</foodType>
+		  <leatherDef>Leather_Dog</leatherDef>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <gestationPeriodDays>10</gestationPeriodDays>
+		  <nameOnTameChance>1</nameOnTameChance>
+		  <trainability>Advanced</trainability>
+		  <specialTrainables>
+			<li MayRequire="Ludeon.RimWorld.Odyssey">Comfort</li>
+		  </specialTrainables>
+		  <nuzzleMtbHours>12</nuzzleMtbHours>
+		  <soundEating>PredatorSmall_Eat</soundEating>
+		  <litterSizeCurve>
+			<points>
+			  <li>(0.5, 0)</li>
+			  <li>(1, 1)</li>
+			  <li>(2, 1.7)</li>
+			  <li>(3, 0.7)</li>
+			  <li>(3.5, 0)</li>
+			</points>
+		  </litterSizeCurve>
+		  <lifeExpectancy>12</lifeExpectancy>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalBaby</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.25</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.5</minAge>
+			  <soundWounded>Pawn_Dog_Injured</soundWounded>
+			  <soundDeath>Pawn_Dog_Death</soundDeath>
+			  <soundCall>Pawn_Dog_Call</soundCall>
+			  <soundAngry>Pawn_Dog_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.24)</li>
+			<li>(0.28, 0, 0.14)</li>
+			<li>(0.0, 0, -0.03)</li>
+			<li>(-0.28, 0, 0.14)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+		  <li>AnimalPet</li>
+		</tradeTags>
+	</ThingDef>
+	  
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Hivehound</defName>
+		<label>canine thing</label>
+		<race>XMT_Hivehound</race>
+		<combatPower>70</combatPower>
+		<ecoSystemWeight>0.6</ecoSystemWeight>
+		<lifeStages>
+		  <li>
+			<label>eyeless puppy</label>
+			<labelPlural>eyeless puppies</labelPlural>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Hivehound/Hivehound</texPath>
+			  <drawSize>0.95</drawSize>
+			  <color>(220,198,160)</color>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Labrador/Dessicated_Labrador</texPath>
+			  <drawSize>0.95</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Hivehound/Hivehound</texPath>
+			  <drawSize>1.35</drawSize>
+			  <color>(220,198,160)</color>
+			  <shadowData>
+				<volume>(0.25, 0.3, 0.25)</volume>
+				<offset>(0,0,-0.15)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Labrador/Dessicated_Labrador</texPath>
+			  <drawSize>1.35</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Hivehound/Hivehound</texPath>
+			  <drawSize>1.6</drawSize>
+			  <color>(220,198,160)</color>
+			  <shadowData>
+				<volume>(0.3, 0.4, 0.3)</volume>
+				<offset>(0,0,-0.15)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Labrador/Dessicated_Labrador</texPath>
+			  <drawSize>1.6</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
 		<defName>XMT_Barnacle</defName>
 		<label>beak worm</label>
-		<description>This horrible thing squirms and caws. Its body a distorted and maggoty form. It caws and squirms with three snapping beaks.</description>
+		<description>This horrible thing squirms and caws. Its body a distorted and maggoty form. It cries and squirms with three snapping beaks.</description>
 		<statBases>
 			<MoveSpeed>1.0</MoveSpeed>
 			<ComfyTemperatureMin>0</ComfyTemperatureMin>
@@ -1247,10 +1465,10 @@
 			<li>
 			  <def>AnimalAdult</def>
 			  <minAge>0.2</minAge>
-			  <soundWounded>Pawn_Peacock_Wounded</soundWounded>
-			  <soundDeath>Pawn_Peacock_Death</soundDeath>
-			  <soundCall>Pawn_Peacock_Call</soundCall>
-			  <soundAngry>Pawn_Peacock_Angry</soundAngry>
+			  <soundWounded MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Wounded</soundWounded>
+			  <soundDeath MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Death</soundDeath>
+			  <soundCall MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Call</soundCall>
+			  <soundAngry MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Angry</soundAngry>
 			</li>
 		  </lifeStageAges>
 		</race>
@@ -1355,6 +1573,7 @@
 			<MarketValue>100</MarketValue>
 			<ComfyTemperatureMin>-25</ComfyTemperatureMin>
 			<Wildness>0</Wildness>
+			<MedicalTendQuality>2</MedicalTendQuality>
 		</statBases>
 		<tools>
 			<li>
@@ -1744,7 +1963,6 @@
 		<description>a tiny eyeless rodent with pale skin and bulbous black mass hanging from its back, the trembling bulb seems almost ready to detach.</description>
 		<race>
 			<herdMigrationAllowed>false</herdMigrationAllowed>
-			<fleshType>StarbeastFlesh</fleshType>
 			<canBePredatorPrey>false</canBePredatorPrey>
 			<leatherDef></leatherDef>
 			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
@@ -1941,6 +2159,7 @@
 		  <petness>0.6</petness>
 		  <trainability>Advanced</trainability>
 		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
 		  <packAnimal>true</packAnimal>
 		  <lifeExpectancy>30</lifeExpectancy>
 		  <lifeStageAges>

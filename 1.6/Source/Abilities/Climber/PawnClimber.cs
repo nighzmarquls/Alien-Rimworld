@@ -217,16 +217,6 @@ namespace Xenomorphtype
         {
             soundLanding?.PlayOneShot(new TargetInfo(Position, Map));
             FleckMaker.ThrowDustPuff(DestinationPos + Gen.RandomHorizontalVector(0.5f), Map, 2f);
-
-            if(!underground)
-            {
-               if(Map.roofGrid.RoofAt(Position) == RoofDefOf.RoofRockThick)
-               {
-                    Map.roofGrid.SetRoof(Position, RoofDefOf.RoofRockThin);
-               }
-
-               RoofCollapserImmediate.DropRoofInCells(Position, Map);
-            }
         }
 
         protected override void Tick()

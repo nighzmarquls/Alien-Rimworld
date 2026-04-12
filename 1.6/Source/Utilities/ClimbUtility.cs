@@ -85,56 +85,36 @@ namespace Xenomorphtype
 
             if (normalReach)
             {
-                return normalReach;
+                return false;
             }
 
             Room destRoom = dest.Cell.GetRoom(pawn.Map);
 
             Room pawnRoom = pawn.GetRoom();
 
+            if(pawnRoom == destRoom)
+            {
+                return false;
+            }
+
             if (destRoom == null || pawnRoom == null)
             {
                 return false;
             }
 
-            if(!(destRoom.PsychologicallyOutdoors && pawnRoom.PsychologicallyOutdoors))
+
+            if(CanReachByInfiltration(pawn,dest, peMode, maxDanger,canBashDoors,canBashFences,mode))
             {
-                if(CanReachByInfiltration(pawn,dest, peMode, maxDanger,canBashDoors,canBashFences,mode))
-                {
-                    return true;
-                }
-
-                bool noOpening = true;
-                foreach(IntVec3 roomCell in destRoom.Cells)
-                {
-                    if(XMTRoofUtility.RoofIsBreakable(roomCell.GetRoof(pawn.Map)))
-                    {
-                        noOpening = false;
-                        break;
-                    }
-                }
-
-                if(noOpening)
-                {
-                    return false;
-                }
-
-                noOpening = true;
-
-                foreach (IntVec3 roomCell in pawnRoom.Cells)
-                {
-                    if (XMTRoofUtility.RoofIsBreakable(roomCell.GetRoof(pawn.Map)))
-                    {
-                        noOpening = false;
-                        break;
-                    }
-                }
-
-                if (noOpening)
-                {
-                    return false;
-                }
+                return true;
             }
+
+            bool noOpening = (destRoom.OpenRoofCount == 0 || pawnRoom.OpenRoofCount == 0);
+           
+            if(noOpening)
+            {
+                return false;
+            }
+            
             
             return true;
         }
@@ -545,7 +525,6 @@ namespace Xenomorphtype
 
             List<IntVec3> line = GenSight.PointsOnLineOfSight(goal, start).ToList();
 
-            bool breakInto = start.Roofed(map) && goal.Roofed(map);
             bool wasBlocked = false;
             IntVec3 lastClear = IntVec3.Invalid;
             int i = 0;
@@ -559,11 +538,34 @@ namespace Xenomorphtype
                 {
                     if(point.Roofed(map))
                     {
-                        if (XMTSettings.LogClimbing)
-                        {
-                            Log.Message(pawn + " has found a end point" + point + ":" + i);
-                        }
-                        climbEnd.Add(point);
+                       if( point.GetRoom(map) is Room destinationRoom)
+                       {
+                            if (XMTSettings.LogClimbing)
+                            {
+                                Log.Message(destinationRoom + " is the room of " + point + ":" + i);
+                            }
+                            if (destinationRoom.OpenRoofCount != 0)
+                            {
+                                if (XMTSettings.LogClimbing)
+                                {
+                                    Log.Message(destinationRoom + " room has open roof tiles " + point + ":" + i);
+                                }
+
+                                foreach (IntVec3 roomCell in destinationRoom.Cells)
+                                {
+                                    if (!roomCell.Roofed(map))
+                                    {
+                                        if (XMTSettings.LogClimbing)
+                                        {
+                                            Log.Message(pawn + " has found an unroofed cell at " + roomCell + ":" + i);
+                                        }
+                                        climbEnd.Add(roomCell);
+                                        wasBlocked = true;
+                                        break;
+                                    }
+                                }
+                            }
+                       }
                     }
                     else
                     {
@@ -628,16 +630,28 @@ namespace Xenomorphtype
                 i++;
             }
 
-            if (climbStart.Count == 0 && breakInto)
+            if (climbEnd.Count > climbStart.Count && wasBlocked && pawn.Position.Roofed(map))
             {
-                if (XMTSettings.LogClimbing)
+                if (pawn.Position.GetRoom(map) is Room departureRoom)
                 {
-                    Log.Message(pawn + "found no good starts using" + start);
-                }
-                climbStart.Add(start);
+                    if (departureRoom.OpenRoofCount == 0)
+                    {
+                        return false;
+                    }
 
-                climbEnd.Clear();
-                climbEnd.Add(goal);
+                    foreach (IntVec3 roomCell in departureRoom.Cells)
+                    {
+                        if (!roomCell.Roofed(map))
+                        {
+                            if (XMTSettings.LogClimbing)
+                            {
+                                Log.Message(pawn + " has found a end point" + roomCell + ":" + i);
+                            }
+                            climbStart.Add(roomCell);
+                            break;
+                        }
+                    }
+                }
             }
 
             if (XMTSettings.LogClimbing)
@@ -664,14 +678,14 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if(!CanReachByClimb(pawn, FinalGoalCell,PathEndMode.OnCell,pawn.NormalMaxDanger()))
+            {
+                return false;
+            }
+
             if (XMTSettings.LogClimbing)
             {
                 Log.Message(pawn + " final goal valid");
-            }
-
-            if (!ShouldClimbTo(pawn, FinalGoalCell))
-            {
-                return false;
             }
 
             bool ClimbOver = true;

@@ -245,6 +245,12 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 				<babies>
 					<li>
+						<childKind>XMT_Advanced_Canine_Pod</childKind>
+						<gestationFactor>0.5</gestationFactor>
+						<probability>0.1</probability>
+						<essenceMinimum>0.5</essenceMinimum>
+					</li>
+					<li>
 						<childKind>XMT_Canine_Pod</childKind>
 						<gestationFactor>0.5</gestationFactor>
 						<probability>1.0</probability>

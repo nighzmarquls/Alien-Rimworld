@@ -420,6 +420,13 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_Hivehound</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hivehound</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
 						<probability>1</probability>
@@ -444,6 +451,13 @@
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Hivehound</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hivehound</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
 					<li>
 						<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>

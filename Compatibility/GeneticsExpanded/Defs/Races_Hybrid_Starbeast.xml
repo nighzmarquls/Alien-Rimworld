@@ -363,6 +363,26 @@
 	</PawnKindDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Advanced_Canine_Pod_Hybrid</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Advanced_Canine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Thrumbo_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<li Class="GeneticRim.DefExtension_Hybrid">
+				<dominantGenome>GR_CanineGenetic</dominantGenome>
+				<secondaryGenome>XMT_StarbeastAdvancedGenetic</secondaryGenome>
+			</li>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
 		<defName>XMT_Advanced_Thrumbo_Pod_Hybrid</defName>
 		<combatPower>10</combatPower>
 		<race>XMT_Advanced_Thrumbo_Pod</race>
