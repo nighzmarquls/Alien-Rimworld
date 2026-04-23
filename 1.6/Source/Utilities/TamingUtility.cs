@@ -315,6 +315,25 @@ namespace Xenomorphtype
             }
             return false;
         }
+
+        public static bool CanFeed(Pawn pawn)
+        {
+            foreach (Pawn colonist in pawn.MapHeld.mapPawns.FreeAdultColonistsSpawned)
+            {
+                if (colonist.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Animals))
+                {
+                    continue;
+                }
+
+                if (colonist.skills.GetSkill(SkillDefOf.Animals).Level == 0)
+                {
+                    continue;
+                }
+
+                return true;
+            }
+            return false;
+        }
         public static bool CanTameBribery(Pawn pawn)
         {
             foreach (Pawn colonist in pawn.MapHeld.mapPawns.FreeAdultColonistsSpawned)

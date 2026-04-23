@@ -36,6 +36,8 @@ namespace Xenomorphtype
 
         //Taming mechanics
 
+        public bool ReleaseOnTamed = true;
+
         public bool ShouldTameSocial = false;
         public bool ShouldTameCondition = false;
         public bool ShouldTamePheromone = false;
@@ -105,6 +107,7 @@ namespace Xenomorphtype
         public override void PostExposeData()
         {
             base.PostExposeData();
+            Scribe_Values.Look(ref ReleaseOnTamed, "ReleaseOnTamed", true);
 
             Scribe_Values.Look(ref ShouldTameSocial, "ShouldTameSocial", false);
             Scribe_Values.Look(ref tamingSocializing, "tamingSocializing", 0);

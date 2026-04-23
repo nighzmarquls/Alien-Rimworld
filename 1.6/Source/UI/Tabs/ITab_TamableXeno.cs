@@ -169,15 +169,22 @@ namespace Xenomorphtype
                 socialDescription += "\n\n" + disabledText.Colorize(ColoredText.WarningColor);
             }
 
-            TooltipHandler.TipRegion(socialRect, socialDescription);
+            yoffset += spacer + optionHeight;
+
+            disabledText = null;
+     
+            Rect ReleaseRect = new Rect(0f, yoffset, rect.width, optionHeight);
+            Widgets.CheckboxLabeled(ReleaseRect, "XMT_TameRelease".Translate(), ref SelPawn.GetMorphComp().ReleaseOnTamed);
+            Widgets.DrawHighlightIfMouseover(ReleaseRect);
+            TaggedString ReleaseDescription = "XMT_TameReleaseDescription".Translate();
+
+            TooltipHandler.TipRegion(ReleaseRect, ReleaseDescription);
+            listing_Standard.Gap();
             listing_Standard.Gap();
             listing_Standard.Label("XMT_TameAmount".Translate() + Mathf.Max(0, SelPawn.GetMorphComp().Taming*2).ToStringPercent());
 
             Widgets.EndGroup();
 
-           
-           
-            
             listing_Standard.End();
             size = new Vector2(280f, listing_Standard.CurHeight + 10f + 24f);
         }

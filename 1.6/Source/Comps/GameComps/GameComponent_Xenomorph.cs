@@ -426,7 +426,14 @@ namespace Xenomorphtype
             {
                 Log.Message("Checking for Reprisal");
             }
-            Map map = XMTUtility.GetQueen().MapHeld;
+
+            Pawn queen = XMTUtility.GetQueen();
+            if(queen == null)
+            {
+                return;
+            }
+
+            Map map = queen.MapHeld;
             if (map == null)
             {
                 return;

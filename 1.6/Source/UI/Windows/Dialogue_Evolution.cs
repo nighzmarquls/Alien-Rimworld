@@ -13,6 +13,11 @@ using Verse.Sound;
 
 namespace Xenomorphtype
 {
+    internal struct EvolutionTreeData
+    {
+        RoyalEvolutionDef def;
+        Rect rect;
+    }
     internal class Dialogue_Evolution : Window
     {
         const float cardWidth = 100f;

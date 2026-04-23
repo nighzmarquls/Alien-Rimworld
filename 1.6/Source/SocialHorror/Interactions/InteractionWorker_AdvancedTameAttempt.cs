@@ -53,7 +53,7 @@ namespace Xenomorphtype
                     extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
                 }
 
-                if (recipient.IsOnHoldingPlatform)
+                if (recipient.IsOnHoldingPlatform && morph.ReleaseOnTamed)
                 {
                     if (recipient.ParentHolder is Building_HoldingPlatform platform)
                     {

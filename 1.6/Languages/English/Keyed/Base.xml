@@ -156,7 +156,7 @@
 	<XMT_TameConditionDescription>Attempt to condition away from unwanted behaviors with operant conditioning.</XMT_TameConditionDescription>
 	<XMT_TameConditionDisabled>No Colonist capable of violence equipped with weapon.</XMT_TameConditionDisabled>
 	
-	<XMT_TameBribery>Bribery</XMT_TameBribery>
+	<XMT_TameBribery>Feed</XMT_TameBribery>
 	<XMT_TameBriberyDescription>Attempt to train desired  behaviors with food as a motivator.</XMT_TameBriberyDescription>
 	<XMT_TameBriberyDisabled>No Colonist capable of animal handling.</XMT_TameBriberyDisabled>
 	
@@ -167,6 +167,9 @@
 	<XMT_TameThreat>Threaten Hostage</XMT_TameThreat>
 	<XMT_TameThreatDescription>Attempt to train by holding Ovomorphs or the Egglaying Caste Hostage.</XMT_TameThreatDescription>
 	<XMT_TameThreatDisabled>No suitable hostage available.</XMT_TameThreatDisabled>
+	
+	<XMT_TameRelease>Release On Tame</XMT_TameRelease>
+	<XMT_TameReleaseDescription>Once it shows obedience release the entity.</XMT_TameReleaseDescription>
 	
 	<XMT_GameOverXenoformedIntro>You've overwhelmed all resistance on this world.\n\n</XMT_GameOverXenoformedIntro>
 	<XMT_GameOverXenoformedEnding>You have struggled against the prey but now all the world sings with the voice of your children. \n\nYou may now do with this world as you wish, to ravage or preserve as you see fit until you deem it necessary to rest and await new hosts...</XMT_GameOverXenoformedEnding>

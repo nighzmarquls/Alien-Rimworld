@@ -197,6 +197,7 @@ namespace Xenomorphtype
             base.ExposeData();
             Scribe_Values.Look(ref _logJobGiver, "logJobGiver", false, false);
             Scribe_Values.Look(ref _logBiohorror, "logBiohorror", false, false);
+            Scribe_Values.Look(ref _logClimbing, "logClimbing", false, false);
             Scribe_Values.Look(ref _logRituals, "logRituals", false, false);
             Scribe_Values.Look(ref _logWorld, "logWorld", false, false);
 

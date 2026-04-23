@@ -1113,19 +1113,11 @@
 					<replacer>StarbeastKilledHost</replacer> 
 				  </li>
 				  <li MayRequire="Ludeon.RimWorld.Ideology">
-					<original>ExecutedPrisonerGuilty_Know_Respected</original>
-					<replacer>StarbeastKilledHost</replacer> 
-				  </li>
-				  <li MayRequire="Ludeon.RimWorld.Ideology">
 					<original>ExecutedPrisonerGuilty_Know_Respected_Mood</original>
 					<replacer>StarbeastKilledHost</replacer> 
 				  </li>
 				  <li MayRequire="Ludeon.RimWorld.Ideology">
 					<original>ExecutedPrisoner_Respected</original>
-					<replacer>StarbeastKilledHost</replacer> 
-				  </li>
-				  <li MayRequire="Ludeon.RimWorld.Ideology">
-					<original>ExecutedPrisoner_Know_Respected</original>
 					<replacer>StarbeastKilledHost</replacer> 
 				  </li>
 				  <li MayRequire="Ludeon.RimWorld.Ideology">
@@ -1175,8 +1167,7 @@
 				  <li>
 					<original>MySonDied</original>
 					<replacer>StarbeastChildDied</replacer> 
-				  </li>
-				  
+				  </li>	  
 				</replacerList>
 				<restrictedThoughts>
 					<li>StarbeastDark</li>
@@ -1199,7 +1190,6 @@
 				</restrictedThoughts>
 				<cannotReceiveThoughts>
 					<li MayRequire="kentington.saveourship2">SpaceThoughts</li>
-					
 					<li>SleptOnGround</li>
 					<li>SoakingWet</li>
 					<li>AteWithoutTable</li>
@@ -1347,7 +1337,6 @@
 				  
 				</cannotReceiveThoughts>
 			</thoughtSettings>
-
 		</alienRace>
 		<recipes>
 			<li>ExtractJellyFromCreature</li>
@@ -2420,10 +2409,6 @@
 				  </li>
 				  <li MayRequire="Ludeon.RimWorld.Ideology">
 					<original>ExecutedPrisonerGuilty_Respected</original>
-					<replacer>StarbeastKilledHost</replacer> 
-				  </li>
-				  <li MayRequire="Ludeon.RimWorld.Ideology">
-					<original>ExecutedPrisonerGuilty_Know_Respected</original>
 					<replacer>StarbeastKilledHost</replacer> 
 				  </li>
 				  <li MayRequire="Ludeon.RimWorld.Ideology">
