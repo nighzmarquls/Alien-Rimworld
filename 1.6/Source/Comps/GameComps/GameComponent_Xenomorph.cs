@@ -384,6 +384,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref PlayerXenomorphInWorld, "PlayerXenomorphInWorld", false);
             Scribe_Values.Look(ref PlayerOvomorphInWorld, "PlayerOvomorphInWorld", false);
             Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
+            Scribe_Collections.Look(ref deadMorphs, "deadMorphs");
 
             Scribe_Values.Look(ref _totalReprisalRaidPoints, "_totalReprisalRaidPoints", 0);
             Scribe_Collections.Look(ref _reprisalFactions, "ReprisalFactions",LookMode.Reference);

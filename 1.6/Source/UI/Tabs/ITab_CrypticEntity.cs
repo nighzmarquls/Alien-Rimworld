@@ -194,9 +194,10 @@ namespace Xenomorphtype
                 TooltipHandler.TipRegion(EntityOptions, "EntityStudyMode_ExecuteDesc".Translate() + (compHoldingPlatformTarget.Props.canBeExecuted ? "" : ("\n\n" + "CantBeExecuted".Translate().ToString())));
                 EntityOptions.y += 28f;
                 Widgets.EndGroup();
+
                 listing_Standard.Gap();
 
-                height = (optionHeight + spacer)*3;
+                height = (optionHeight + spacer)*4;
 
                 Rect ExtractionOptions = listing_Standard.GetRect(height).Rounded();
                 Widgets.DrawMenuSection(ExtractionOptions);
@@ -241,14 +242,37 @@ namespace Xenomorphtype
 
                 TooltipHandler.TipRegion(resinRect, resinDescription);
 
+                disabledText = null;
+                if (!XenoGeneDefOf.XMT_Acid_Utilization.IsFinished)
+                {
+                    disabledText = "XMT_RequiresAcidExtraction".Translate();
+                }
+                else
+                {
+                    Building_HoldingPlatform heldPlatform = compHoldingPlatformTarget.HeldPlatform;
+                    if (heldPlatform != null && heldPlatform.HasAttachedBioferriteHarvester)
+                    {
+                        disabledText = "BioferriteHarvesterAttached".Translate();
+                    }
+                }
 
+                yoffset += spacer + jellyRect.height;
+
+                Rect acidRect = new Rect(0f, yoffset, internalExtractionRect.width, 28f);
+                Widgets.CheckboxLabeled(acidRect, "XMT_AcidExtraction".Translate(), ref SelPawn.Info().extractAcid, disabledText != null);
+                Widgets.DrawHighlightIfMouseover(acidRect);
+                TaggedString acidDescription = "XMT_AcidExtractionDescription".Translate();
+                if (disabledText != null)
+                {
+                    acidDescription += "\n\n" + disabledText.Colorize(ColoredText.WarningColor);
+                }
+
+                TooltipHandler.TipRegion(acidRect, acidDescription);
                 Widgets.EndGroup();
             }
 
-            
-
             listing_Standard.End();
-            size = new Vector2(280f, listing_Standard.CurHeight + 10f + 24f);
+            size = new Vector2(280f, listing_Standard.CurHeight + 10f + 36f);
         }
 
         public static void DoStudyPeriodListing(Listing_Standard listing, CompStudiable studiable)

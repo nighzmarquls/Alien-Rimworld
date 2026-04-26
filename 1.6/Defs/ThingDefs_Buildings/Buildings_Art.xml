@@ -80,7 +80,7 @@
 	<ThingDef ParentName="SculptureBase">
     <defName>XMT_dronePlushie</defName>
     <label>small plushie</label>
-    <description>A torso-sized piece of slick and soft fabric shaped into an adorable if strange creature.</description>
+    <description>A torso-sized piece of slick and soft fabric shaped into an adorable, if strange creature.</description>
     <graphicData>
       <graphicClass>Graphic_Multi</graphicClass>
       <texPath>Things/Building/Plushie/drone</texPath>
@@ -114,7 +114,7 @@
   <ThingDef ParentName="SculptureBase">
     <defName>XMT_queenPlushie</defName>
     <label>large plushie</label>
-    <description>A person-sized piece soft fabric shaped into an adorable if strange creature.</description>
+    <description>A person-sized piece soft fabric shaped into an adorable, if strange creature.</description>
     <castEdgeShadows>true</castEdgeShadows>
     <graphicData>
       <graphicClass>Graphic_Multi</graphicClass>

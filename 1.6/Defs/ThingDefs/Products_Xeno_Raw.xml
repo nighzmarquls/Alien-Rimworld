@@ -367,4 +367,58 @@
 		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
 		<allowedArchonexusCount>150</allowedArchonexusCount>
 	</ThingDef>
+	<ThingDef ParentName="ResourceBase">
+		<defName>XMT_Acid</defName>
+		<label>contained acid</label>
+		<description>A canister of highly volatile molecular acid, even contained it is unstable outside of extremely low temperatures.</description>
+		<possessionCount>15</possessionCount>
+		<tickerType>Normal</tickerType>
+		<graphicData>
+		  <texPath>Things/Item/Resource/Starbeast_Acid</texPath>
+		  <graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<stackLimit>15</stackLimit>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<intricate>true</intricate> <!-- Not returned to player when product made of this is smelted. -->
+		<statBases>
+		  <MaxHitPoints>20</MaxHitPoints>
+		  <MarketValue>75</MarketValue>
+		  <Mass>0.05</Mass>
+		  <Flammability>100.0</Flammability>
+		  <DeteriorationRate>6.0</DeteriorationRate>
+		</statBases>
+		<thingCategories>
+		  <li>Manufactured</li>
+		</thingCategories>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>Flame</explosiveDamageType>
+				<startWickHitPointsPercent>0.95</startWickHitPointsPercent>
+				<preExplosionSpawnSingleThingDef>Starbeast_Filth_AcidBlood</preExplosionSpawnSingleThingDef>
+				<wickTicks>30</wickTicks>
+				<startWickOnDamageTaken>
+				  <li>Flame</li>
+				  <li>AcidBurn</li>
+				  <li>Bullet</li>
+				  <li>Arrow</li>
+				  <li>ArrowHighVelocity</li>
+				  <li>Deterioration</li>
+				  <li>Stab</li>
+				  <li>Cut</li>
+				  <li>Bomb</li>
+				</startWickOnDamageTaken>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="CompProperties_TemperatureRuinable">
+				<compClass>Xenomorphtype.CompDetonateOnTemperature</compClass>
+				<minSafeTemperature>-274</minSafeTemperature>
+				<maxSafeTemperature>-30</maxSafeTemperature>
+				<progressPerDegreePerTick>0.000003</progressPerDegreePerTick>
+			</li>
+		</comps>
+		<allowedArchonexusCount>100</allowedArchonexusCount>
+	</ThingDef>
 </Defs>

@@ -61,6 +61,7 @@ namespace Xenomorphtype
         public static EffecterDef           ResinBuild;
 
         //Xenomorph Materials
+        public static ThingDef              XMT_Acid;
         public static ThingDef              Starbeast_Resin;
         public static ThingDef              Starbeast_Chitin;
         public static ThingDef              Starbeast_Flesh_Meat;

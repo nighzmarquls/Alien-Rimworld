@@ -65,6 +65,7 @@ namespace Xenomorphtype
 
         public bool extractJelly;
         public bool extractResin;
+        public bool extractAcid;
         public PheromoneType StrongestPheromone
         {
             get
@@ -322,7 +323,8 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref obsession, "HorrorObsession", 0);
 
             Scribe_Values.Look(ref extractJelly, "extractJelly", false);
-            Scribe_Values.Look(ref extractResin, "extractResin", false);
+            Scribe_Values.Look(ref extractResin, "extractResin", false); 
+            Scribe_Values.Look(ref extractAcid, "extractAcid", false);
         }
 
         public bool ShouldDisplay()

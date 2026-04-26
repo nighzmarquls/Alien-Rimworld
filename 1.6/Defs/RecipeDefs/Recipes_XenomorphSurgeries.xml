@@ -72,4 +72,26 @@
 		<displayPriority>1</displayPriority>
 	</RecipeDef>
 	
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractAcidFromCreature</defName>
+		<label>extract acid blood</label>
+		<description>Extract acid from the target. The operation will fail to produce any material if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractAcid</workerClass>
+		<jobString>extracting acid blood.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+		  <ThingDef>XMT_Acid</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>XMT_Acid</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_Acid_Utilization</li>
+		</researchPrerequisites>
+		<displayPriority>1</displayPriority>
+	</RecipeDef>
+	
 </Defs>

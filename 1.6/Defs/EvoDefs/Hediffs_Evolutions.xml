@@ -4,7 +4,6 @@
 	<HediffDef Name="XMT_Bodypart" ParentName="ImplantHediffBase" Abstract="True">
 		<defaultLabelColor>(0.35, 0.9, 0.9)</defaultLabelColor>
 	</HediffDef>
-	
 
   <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_MaternalCrest</defName>

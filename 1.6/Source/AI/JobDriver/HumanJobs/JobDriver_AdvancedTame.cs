@@ -11,7 +11,7 @@ namespace Xenomorphtype
     {
        
 
-        protected override bool CanInteractNow => !TameUtility.TriedToTameTooRecently(Target);
+        protected override bool CanInteractNow => Target == null? false : !TameUtility.TriedToTameTooRecently(Target);
         protected Pawn Target => HoldingPlatform == null ? (Pawn)job.targetA.Thing : HoldingPlatform.HeldPawn;
         protected virtual Building_HoldingPlatform HoldingPlatform => job.targetA.Thing as Building_HoldingPlatform;
 
@@ -86,7 +86,7 @@ namespace Xenomorphtype
             yield return TamingUtility.InteractWithTargetPawn(TargetIndex.A);
 
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOn(() => !CanInteractNow);
-            yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
+            yield return TamingUtility.SetLastInteractTime(TargetIndex.A);
         }
     }
 }

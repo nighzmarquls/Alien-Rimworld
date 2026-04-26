@@ -500,5 +500,31 @@ namespace Xenomorphtype
             return false;
         }
 
+        public static Toil SetLastInteractTime(TargetIndex targetInd)
+        {
+            Toil toil = ToilMaker.MakeToil("SetLastInteractTime");
+            toil.initAction = delegate
+            {
+                Pawn actor = toil.GetActor();
+                if (actor.CurJob.GetTarget(targetInd).Thing is Pawn recipient)
+                {
+                    Pawn obj = (Pawn)toil.actor.jobs.curJob.GetTarget(targetInd).Thing;
+                    obj.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
+                    obj.mindState.interactionsToday++;
+                }
+                else if (actor.CurJob.GetTarget(targetInd).Thing is Building_HoldingPlatform platform)
+                {
+                    Pawn obj = platform.HeldPawn;
+                    if (obj != null)
+                    {
+                        obj.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
+                        obj.mindState.interactionsToday++;
+                    }
+                }
+                
+            };
+            toil.defaultCompleteMode = ToilCompleteMode.Instant;
+            return toil;
+        }
     }
 }

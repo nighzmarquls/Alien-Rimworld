@@ -922,6 +922,11 @@ namespace Xenomorphtype
         }
         public static bool WitnessAcid(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
         {
+            if(mapHeld == null)
+            {
+                return false;
+            }
+
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
 
@@ -1918,14 +1923,6 @@ namespace Xenomorphtype
             }
 
             return pawn.health.hediffSet.HasHediff(InternalDefOf.StarbeastCocoon);
-        }
-
-        internal static Job ClimberFleeJob(Pawn pawn)
-        {
-            RCellFinder.TryFindRandomExitSpot(pawn, out IntVec3 cell, TraverseMode.PassAllDestroyableThings);
-            Job job = JobMaker.MakeJob(JobDefOf.Flee, cell);
-            job.exitMapOnArrival = true;
-            return job;
         }
 
         internal static bool IsHostileAndAwareOf(Thing a, Thing b)

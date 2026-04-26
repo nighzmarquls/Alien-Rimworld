@@ -104,6 +104,7 @@
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractResin.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractJelly.cs" />
     <Compile Include="AI\JobDriver\JobDriver_CopyGenesFrom.cs" />
+    <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractAcid.cs" />
     <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_Protofluid.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_MutateTarget.cs" />
@@ -151,8 +152,11 @@
     <Compile Include="AI\WorkGiver\WorkGiver_AdvancedTame.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractResin.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractJelly.cs" />
+    <Compile Include="AI\WorkGiver\WorkGiver_ExtractAcid.cs" />
     <Compile Include="BioHorror\Genes\IbexinGene.cs" />
+    <Compile Include="BioHorror\Recipes\Recipe_ExtractAcid.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
+    <Compile Include="Comps\BuildingComps\Power\CompBatteryBoosting.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_DeAges.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ForceWearApparel.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ReplaceGenes.cs" />
@@ -163,6 +167,7 @@
     <Compile Include="Comps\PawnComps\Horrors\CompThoughtGiver.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompExterminator.cs" />
     <Compile Include="Comps\ThingCompHorror\CompJellyDrug.cs" />
+    <Compile Include="Comps\ThingCompHorror\CompDetonateOnTemperature.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTCaveInPatches.cs" />
     <Compile Include="Harmony\XMTDoorPatches.cs" />

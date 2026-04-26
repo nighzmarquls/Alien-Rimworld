@@ -107,7 +107,7 @@
 
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Embryo</defName>
-    <label>foreign tissue</label>
+    <label>foreign tissue (embryo)</label>
     <description>A foreign growth on the organ.</description>
     <hediffClass>Xenomorphtype.RevealedHediff</hediffClass>
     <makesSickThought>false</makesSickThought>

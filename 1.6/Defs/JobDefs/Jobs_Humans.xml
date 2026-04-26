@@ -44,5 +44,12 @@
 		<casualInterruptible>false</casualInterruptible>
 	</JobDef>
 	
+	<JobDef>
+		<defName>XMT_ExtractAcid</defName>
+		<driverClass>Xenomorphtype.JobDriver_ExtractAcid</driverClass>
+		<reportString>extracting acid blood from TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+	
 	
 </Defs>

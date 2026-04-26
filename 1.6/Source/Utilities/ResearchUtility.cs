@@ -97,6 +97,18 @@ namespace Xenomorphtype
             }
         }
 
+        internal static void ProgressAcidTech(int progress, Pawn actor)
+        {
+            if (ProgressTechProjectOrPrerequisites(progress, actor, XenoGeneDefOf.XMT_Acid_Utilization))
+            {
+                return;
+            }
+
+            if (ProgressTechProjectOrPrerequisites(progress, actor, XenoGeneDefOf.XMT_Jelly_Drugs))
+            {
+                return;
+            }
+        }
         internal static void ProgressCryptobioTech(int progress, Pawn actor)
         {
             //Log.Message(progress + " being added to cryptobiotech by " + actor);

@@ -344,6 +344,11 @@ namespace Xenomorphtype
 
         internal static void HandleMatureMorphDeath(Pawn deadMorph)
         {
+            if(deadMorph.def == InternalDefOf.XMT_Larva)
+            {
+                return;
+            }
+
             gameComponent.HandleMatureMorphDeath(deadMorph);
         }
 

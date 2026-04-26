@@ -35,6 +35,7 @@
 					<li>Dementia</li>
 					<li>Alzheimers</li>
 					<li>Asthma</li>
+					<li>Scaria</li>
 					<li>HeartArteryBlockage</li>
 					<li>LungRotExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">DarknessExposure</li>
@@ -1381,6 +1382,7 @@
 					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
 					<li>LungRotExposure</li>
+					<li>Scaria</li>
 					<li>HeartAttack</li>
 					<li>Carcinoma</li>
 					<li>BadBack</li>
@@ -2083,24 +2085,23 @@
 										<drawnStanding>true</drawnStanding>
 										<drawnLaying>true</drawnLaying>
 										<drawnInBed>false</drawnInBed>
-									</Posture>
-									<Not MayRequire="RedMattis.BetterPrerequisites">
-										<Hediff>XMT_SizeX1</Hediff>
-									</Not>
-									<Not MayRequire="RedMattis.BetterPrerequisites">
-										<Hediff>XMT_SizeX2</Hediff>
-									</Not>
-									<Not MayRequire="RedMattis.BetterPrerequisites">
-										<Hediff>XMT_SizeX3</Hediff>
-									</Not>
-									<Not MayRequire="RedMattis.BetterPrerequisites">
-										<Hediff>XMT_SizeX4</Hediff>
-									</Not>
+									</Posture><!-- -->
 									<Not>
-										<Hediff>XMT_GeneIntegration</Hediff>
-									</Not>
-									<Not>
-										<Hediff>Maturation</Hediff>
+										<Or>
+											<Hediff>XMT_GeneIntegration</Hediff>
+											<Hediff>Maturation</Hediff>
+											<And>
+												<BodyPart>
+													<bodyPart>Torso</bodyPart>
+												</BodyPart>
+												<Or>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX1</Hediff>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX2</Hediff>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX3</Hediff>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX4</Hediff>
+												</Or>
+											</And>
+										</Or>
 									</Not>
 									<Hediff>XMT_Enthroned</Hediff>
 								</conditions>
@@ -2213,6 +2214,7 @@
 					<li>Asthma</li>
 					<li>HeartArteryBlockage</li>
 					<li>LungRotExposure</li>
+					<li>Scaria</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
 				</ImpossibleHediffs>
 			</li>

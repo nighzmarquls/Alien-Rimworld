@@ -6,7 +6,11 @@
 		<insertPriority>100</insertPriority>
 		<thinkRoot Class="ThinkNode_Priority">
 			<subNodes>
-				<li Class="Xenomorphtype.JobGiver_Xenomorph"/>
+				<li Class="Xenomorphtype.JobGiver_Xenomorph">
+					<defaultLocomotion>Sprint</defaultLocomotion>
+					<forceCanDig>true</forceCanDig>
+					<canBash>true</canBash>
+				</li>
 			</subNodes>
 		</thinkRoot>
 	</ThinkTreeDef>
@@ -17,7 +21,11 @@
 		<insertPriority>100</insertPriority>
 		<thinkRoot Class="ThinkNode_Priority">
 			<subNodes>
-				<li Class="Xenomorphtype.JobGiver_Xenomorph"/>
+				<li Class="Xenomorphtype.JobGiver_Xenomorph">
+					<defaultLocomotion>Sprint</defaultLocomotion>
+					<forceCanDig>true</forceCanDig>
+					<canBash>true</canBash>
+				</li>
 			</subNodes>
 		</thinkRoot>
 	</ThinkTreeDef>

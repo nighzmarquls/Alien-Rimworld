@@ -12,7 +12,7 @@ using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
 {
-    public class JobGiver_Xenomorph : ThinkNode_JobGiver
+    public class JobGiver_Xenomorph : JobGiver_ExitMapBest
     {
         protected Job GetAbductJob(Pawn pawn, Pawn target)
         {
@@ -42,7 +42,7 @@ namespace Xenomorphtype
                 if (XMTSettings.LogJobGiver)
                 {
                     Log.Message(pawn + " is fleeing the map due to age");
-                    return XMTUtility.ClimberFleeJob(pawn);
+                    return base.TryGiveJob(pawn);
                 }
             }
             IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => XMTUtility.TriggersOvomorph(x));
@@ -376,7 +376,7 @@ namespace Xenomorphtype
                             {
                                 Log.Message(pawn + " is leaving the map");
                             }
-                            return XMTUtility.ClimberFleeJob(pawn);
+                            return base.TryGiveJob(pawn);
                         }
                     }
 
@@ -426,7 +426,7 @@ namespace Xenomorphtype
                                 Log.Message(pawn + " is leaving the map for safe food");
                             }
 
-                            return XMTUtility.ClimberFleeJob(pawn);
+                            return base.TryGiveJob(pawn);
                         }
                     }
 

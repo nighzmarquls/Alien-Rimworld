@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_AcidCatalyzer</defName>
+		<label>battery acid catalyzer</label>
+		<description>Utilizing ultra potent molecular acid this device is capable of being integrated with more conventional batteries to boost total energy storage capacity.\n\n The containment of the acid however is very fragile, even slight shocks can lead to a detonation.</description>
+		<size>(1,1)</size>
+		<tickerType>Normal</tickerType>
+		<passability>PassThroughOnly</passability>
+		<drawerType>MapMeshAndRealTime</drawerType>
+		<stealable>true</stealable>
+		<fillPercent>0.35</fillPercent>
+		<pathCost>42</pathCost>
+		<rotatable>false</rotatable>
+		<statBases>
+		  <MaxHitPoints>200</MaxHitPoints>
+		  <Flammability>0</Flammability>
+		  <Mass>15</Mass>
+		  <MarketValue>400</MarketValue>
+		  <WorkToBuild>300</WorkToBuild>
+		</statBases>
+		<graphicData>
+		  <texPath>Things/Building/BatteryCatalyzer/BatteryCatalyzer</texPath>
+		  <graphicClass>Graphic_Single</graphicClass>
+		  <drawSize>(1,1)</drawSize>
+		  <shadowData>
+			<volume>(0.6, 0.4, 0.6)</volume>
+		  </shadowData>
+		  <damageData>
+			<rect>(0.2, 0.2, 0.6, 0.6)</rect>
+		  </damageData>
+		</graphicData>
+		<building>
+		  <buildingTags>
+			<li>MechClusterMemberGood</li>
+		  </buildingTags>
+		</building>
+		<thingCategories>
+			<li>BuildingsPower</li>
+		</thingCategories>
+		<drawPlaceWorkersWhileSelected>true</drawPlaceWorkersWhileSelected>
+		<placeWorkers>
+		  <li>PlaceWorker_ShowExplosionRadius</li>
+		</placeWorkers>
+		<minifiedDef>MinifiedThing</minifiedDef>
+		<comps>
+			<li Class="Xenomorphtype.CompBatteryBoostingProperties">
+				<storedEnergyMax>0</storedEnergyMax>
+				<efficiency>0.5</efficiency>
+				<transmitsPower>true</transmitsPower>
+			</li>
+			<li Class="CompProperties_Glower">
+				<glowRadius>4</glowRadius>
+				<glowColor>(115,200,23,0)</glowColor>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>Bomb</explosiveDamageType>
+				<startWickHitPointsPercent>0.95</startWickHitPointsPercent>
+				<preExplosionSpawnSingleThingDef>Starbeast_Filth_AcidBlood</preExplosionSpawnSingleThingDef>
+				<wickTicks>240</wickTicks>
+				<startWickOnDamageTaken>
+					<li>Flame</li>
+					<li>AcidBurn</li>
+					<li>Bullet</li>
+					<li>Arrow</li>
+					<li>ArrowHighVelocity</li>
+					<li>Stab</li>
+					<li>Cut</li>
+					<li>Bomb</li>
+				</startWickOnDamageTaken>
+				<extraInspectStringKey>ExplosionOnDamageWarning</extraInspectStringKey>
+			</li>
+		</comps>
+		<costList>
+			<Steel>25</Steel>
+			<ComponentIndustrial>1</ComponentIndustrial>
+			<XMT_Acid>1</XMT_Acid>
+		</costList>
+		<designationCategory>Power</designationCategory>
+		<uiOrder>2021</uiOrder>
+		<researchPrerequisites>
+			<li>Batteries</li>
+			<li>XMT_Acid_Utilization</li>
+		</researchPrerequisites>
+	</ThingDef>
+
+</Defs>

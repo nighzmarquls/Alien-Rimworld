@@ -1,5 +1,6 @@
 ﻿
 
+using AlienRace;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,6 +82,8 @@ namespace Xenomorphtype
                 {
                     compStealth.ForceVisible();
                 }
+
+                AlienPartGenerator.AlienComp.RegenerateAddonsForced(Occupant);
 
                 XMTUtility.DeclareQueen(Occupant);
             }

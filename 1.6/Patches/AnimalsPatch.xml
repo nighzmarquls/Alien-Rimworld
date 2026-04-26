@@ -20,6 +20,13 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_AcidAphid</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_AcidAphid</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.5</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_Hammerpede</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Hammerpede</pawnTransformationTarget>
 						<probability>1</probability>
@@ -48,6 +55,13 @@
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_AcidAphid</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_AcidAphid</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.5</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
 					<li>
 						<thingTransformationTarget>XMT_Hammerpede</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Hammerpede</pawnTransformationTarget>

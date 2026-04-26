@@ -61,13 +61,42 @@
   </ResearchProjectDef>
   
   <ResearchProjectDef>
+    <defName>XMT_Acid_Utilization</defName>
+    <label>cryptimorphic acid chemistry</label>
+    <description>Study of extremely high energy acids produced by cryptimorphic metabolisms. Allows the safe storage and utilization of this highly dangerous compound.</description>
+    <techLevel>Spacer</techLevel>
+    <baseCost>1500</baseCost>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>0.00</researchViewY>
+    <requiredResearchFacilities>
+    </requiredResearchFacilities>
+    <prerequisites>
+		<li>XMT_Jelly_Extraction</li>
+    </prerequisites>
+    <generalRules>
+      <rulesStrings>
+        <li>subject->gene processors</li>
+
+        <li>subject_story->extracted Glitterworld genes from a drifting derelict</li>
+        <li>subject_story->processed an entire village to create one set of higher genes</li>
+        <li>subject_story->began the slow process of uplift by implanting xenogerms into a primitive tribe</li>
+
+        <li>subject_gerund->constructing gene processors</li>
+        <li>subject_gerund->processing genes</li>
+
+      </rulesStrings>
+    </generalRules>
+	<tab>XMT_HumanResearchTab</tab>
+  </ResearchProjectDef>
+  
+  <ResearchProjectDef>
     <defName>XMT_Jelly_Refinement</defName>
     <label>cryptimorphic refinement</label>
     <description>By studying the cryptimorphs genetic analogue and biochemistry deeply you have discoverd a unique non-newtonian fluid. Life in its most primal and unadulterated form. This microorganism can create the most virulent, mutagenic and destructive pathogen ever observed. But when acetylated, synthethized and contained it can be turned into a miracle cure.</description>
     <techLevel>Spacer</techLevel>
     <baseCost>5000</baseCost>
     <researchViewX>1.00</researchViewX>
-    <researchViewY>0.50</researchViewY>
+    <researchViewY>0.75</researchViewY>
     <requiredResearchFacilities>
       <li>MultiAnalyzer</li>
     </requiredResearchFacilities>
@@ -97,7 +126,7 @@
     <techLevel>Spacer</techLevel>
     <baseCost>2000</baseCost>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>0.0</researchViewY>
+    <researchViewY>1.00</researchViewY>
     <requiredResearchFacilities>
       <li>MultiAnalyzer</li>
     </requiredResearchFacilities>
@@ -126,7 +155,7 @@
     <techLevel>Spacer</techLevel>
     <baseCost>2000</baseCost>
     <researchViewX>2.00</researchViewX>
-    <researchViewY>0.75</researchViewY>
+    <researchViewY>1.75</researchViewY>
     <requiredResearchFacilities>
       <li>MultiAnalyzer</li>
     </requiredResearchFacilities>

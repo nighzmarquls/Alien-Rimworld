@@ -46,7 +46,7 @@ namespace Xenomorphtype
                         insufficientMedicine = true;
                     }
 
-                    if(___recipe.Worker is Recipe_ExtractJelly || ___recipe.Worker is Recipe_ExtractResin)
+                    if(___recipe.Worker is Recipe_ExtractJelly || ___recipe.Worker is Recipe_ExtractAcid)
                     {
                         insufficientMedicine = false;
                     }

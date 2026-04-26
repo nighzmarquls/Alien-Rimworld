@@ -970,9 +970,9 @@ namespace Xenomorphtype
             }
         }
 
-        public static void ExtractMetabolicCostFromPawn(Pawn pawn)
+        public static void ExtractMetabolicCostFromPawn(Pawn pawn, bool useFood = true)
         {
-            if (pawn.needs != null && pawn.needs.food != null)
+            if (pawn.needs != null && pawn.needs.food != null && useFood)
             {
                 pawn.needs.food.CurLevel -= MetabolicLossSeverity;
             }
@@ -983,9 +983,9 @@ namespace Xenomorphtype
                 pawn.health.AddHediff(hediff);
             }
         }
-        internal static bool PawnHasEnoughForExtraction(Pawn pawn)
+        internal static bool PawnHasEnoughForExtraction(Pawn pawn, bool useFood = true)
         {
-            if (pawn.needs != null && pawn.needs.food != null)
+            if (pawn.needs != null && pawn.needs.food != null && useFood)
             {
                 return pawn.needs.food.CurLevel > MinMetabolicLossSeverity;
             }
