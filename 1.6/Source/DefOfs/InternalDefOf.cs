@@ -66,6 +66,7 @@ namespace Xenomorphtype
         public static ThingDef              Starbeast_Chitin;
         public static ThingDef              Starbeast_Flesh_Meat;
         public static ThingDef              Starbeast_Fabric;
+        public static ThingDef              XMT_ThreadWool;
         public static ThingDef              Starbeast_Jelly;
 
         public static DesignationCategoryDef    XMT_Hive;

@@ -55,7 +55,12 @@ namespace Xenomorphtype
             [HarmonyPrefix]
             public static bool Prefix(Hediff hediff, HediffSet __instance)
             {
-                if(hediff is Hediff_MissingPart missingPart)
+                if (__instance.pawn == null)
+                {
+                    return true;
+                }
+
+                if (hediff is Hediff_MissingPart missingPart)
                 {
                     IEnumerable<HediffComp_PawnAttachement> attachments = __instance.GetHediffComps<HediffComp_PawnAttachement>();
                     foreach(HediffComp_PawnAttachement attachment in attachments)
@@ -69,13 +74,22 @@ namespace Xenomorphtype
                     }
                 }
 
-                if (__instance.pawn != null && hediff.def == HediffDefOf.CoveredInFirefoam)
+                if (XMTUtility.IsXenomorph(__instance.pawn))
+                {
+                    if(hediff.Part == null)
+                    {
+
+                    }
+                }
+
+                if (hediff.def == HediffDefOf.CoveredInFirefoam)
                 {
                     if(__instance.pawn.Info() is CompPawnInfo info)
                     {
                         info.CleanPheramones(1);
                     }
                 }
+
                 return true;
             }
 

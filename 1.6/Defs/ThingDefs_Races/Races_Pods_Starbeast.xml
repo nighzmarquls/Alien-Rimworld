@@ -769,6 +769,42 @@
 	</PawnKindDef>
 	
 	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Advanced_Bovine_Pod</defName>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<possibleProducts>
+					<li>
+						<thingDef></thingDef>
+						<pawnDef>XMT_Threadbeast</pawnDef>
+						<hatchTime>60</hatchTime>
+						<probability>1</probability>
+					</li>
+				</possibleProducts>
+			</li>
+		</comps>
+		<race>
+			<baseBodySize>0.5</baseBodySize>
+		</race>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Advanced_Bovine_Pod</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Advanced_Bovine_Pod</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/Pod/Mass_Pod</texPath>
+						<drawSize>1</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
 		<defName>XMT_Insect_Pod</defName>
 		<comps>
 			<li Class="Xenomorphtype.CompHatchingPodProperties">

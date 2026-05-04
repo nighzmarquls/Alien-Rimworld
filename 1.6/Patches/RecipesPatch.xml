@@ -5,6 +5,7 @@
 		</xpath>
 		<value>
 			<li>Make_NeutromineFromJelly</li>
+			<li>XMT_Purify_Wastepack</li>
 		</value>
 	</Operation>
 	
@@ -17,6 +18,7 @@
 					<li>Make_Ovomorph</li>
 					<li>Make_Cryptizip</li>
 					<li>Make_GlitterworldMedicine</li>
+					<li>XMT_Purify_Wastepack</li>
 				</recipes>
 			</value>
 		</nomatch>
@@ -26,6 +28,25 @@
 				<li>Make_Ovomorph</li>
 				<li>Make_Cryptizip</li>
 				<li>Make_GlitterworldMedicine</li>
+				<li>XMT_Purify_Wastepack</li>
+			</value>
+		</match>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="ElectricSmelter"]/recipes</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="ElectricSmelter"]</xpath>
+			<value>
+				<recipes>
+					<li>XMT_Purify_Wastepack</li>
+				</recipes>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="ElectricSmelter"]/recipes</xpath>
+			<value>
+				<li>XMT_Purify_Wastepack</li>
 			</value>
 		</match>
 	</Operation>

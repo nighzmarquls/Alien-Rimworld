@@ -29,7 +29,6 @@
 			<li>XMT_Umbilical</li>
 			<li>XMT_StrangleMoss</li>
 			<li>XMT_Hammerpede</li>
-			<li>XMT_Hybrid_AlienRace</li>
 		</extractableAnimals>
 	</GeneticRim.ExtractableAnimalsList>
 	
@@ -46,6 +45,7 @@
 			<li>XMT_BeautifulHarmonizer</li>
 			<li>XMT_Exterminator</li>
 			<li>XMT_Hivehound</li>
+			<li>XMT_Threadbeast</li>
 			<li>XMT_AcidAphid</li>
 		</extractableAnimals>
 	</GeneticRim.ExtractableAnimalsList>

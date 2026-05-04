@@ -39,9 +39,13 @@ namespace Xenomorphtype
                         {
                             foreach (MutationHealth mutation in Props.customMutationSet.mutations)
                             {
-                                if(parent.pawn.health.hediffSet.HasHediff(mutation.horror))
+                                if (parent.pawn.health.hediffSet.GetFirstHediffOfDef(mutation.horror) is Hediff mutationHediff )
                                 {
-                                    return;
+                                    if (mutationHediff.Severity < mutationHediff.def.maxSeverity)
+                                    {
+                                        mutationHediff.Severity += mutation.horror.initialSeverity;
+                                        return;
+                                    }
                                 }
                             }
                         }

@@ -93,4 +93,20 @@
 			</li>
 		</comps>
 	</ThingDef>
+	
+	<ThingDef ParentName="XMT_Fabric">
+		<defName>XMT_ThreadWool</defName>
+		<label>Hyper-Wool</label>
+		<description>An ultra strong fibre made from exotic resins and organometallic compounds. Unlike most thread it can be electrically treated to crystalize into a metallic solid.</description>
+		<graphicData>
+			<color>(174,219,228)</color>
+			<texPath>Things/Item/Resource/Wool</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<stuffProps>
+			<color>(174,219,228)</color>
+		</stuffProps>
+		<costList IsNull="True"/>
+		<recipeMaker IsNull="True"/>
+	</ThingDef>
 </Defs>

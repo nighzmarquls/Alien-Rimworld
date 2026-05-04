@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -97,8 +94,6 @@ namespace Xenomorphtype
                     else
                     {
                         swallowedmass += target.GetStatValue(StatDefOf.Mass)*target.stackCount;
-
-                        Log.Message(parent + " swallowed " + target + " swallowedmass: " + swallowedmass);
                         target.Destroy();
                     }
                 }

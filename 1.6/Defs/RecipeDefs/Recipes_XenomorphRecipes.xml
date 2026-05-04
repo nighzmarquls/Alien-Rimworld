@@ -168,4 +168,46 @@
 		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
 	</RecipeDef>
 	
+	<RecipeDef>
+		<defName>XMT_Purify_Wastepack</defName>
+		<label>purify wastepack</label>
+		<description>melt down toxic wastepacks with molecular acid into benign compounds.</description>
+		<jobString>making cryptizip.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>1500</workAmount>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+			<li>XMT_Acid_Utilization</li>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Wastepack</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_Acid</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Wastepack</li>
+				<li>XMT_Acid</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<ChunkSlate>1</ChunkSlate>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+	</RecipeDef>
+	
 </Defs>

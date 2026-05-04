@@ -66,7 +66,7 @@
 		</thingSetMakerTags>
 	</ThingDef>
 	
-	<ThingDef ParentName="LeatherBase">
+	<ThingDef ParentName="LeatherBase" Name="XMT_Fabric">
 		<defName>Starbeast_Fabric</defName>
 		<label>resin derived fabric</label>
 		<description>An ultra strong fabric made from exotic resins and organometallic compounds. Unlike most fabrics it can be electrically treated to become rigid or flexible.</description>

@@ -263,7 +263,7 @@ namespace Xenomorphtype
 
             if (thing.Stuff != null)
             {
-                if (thing.Stuff == InternalDefOf.Starbeast_Resin || thing.Stuff == InternalDefOf.Starbeast_Chitin || thing.Stuff == InternalDefOf.Starbeast_Fabric)
+                if (thing.Stuff == InternalDefOf.Starbeast_Resin || thing.Stuff == InternalDefOf.Starbeast_Chitin || thing.Stuff == InternalDefOf.Starbeast_Fabric || thing.Stuff == InternalDefOf.XMT_ThreadWool)
                 {
                     return true;
                 }

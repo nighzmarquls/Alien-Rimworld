@@ -14,8 +14,6 @@ namespace Xenomorphtype
         public bool SettlementAttacked => _settlementAttacked;
 
         float AttackTolerance = 0;
-
-        int nextTickCheck = -1;
         int AttackInterval = 60000;
         public override void Initialize(WorldObjectCompProperties props)
         {

@@ -81,6 +81,8 @@ namespace Xenomorphtype
         public static GeneDef XMT_NaturalBiotic;
         [MayRequire("RimEffectRenegade.AsariReapers")]
         public static HediffDef RE_BioticNatural;
+        [MayRequire("RimEffectRenegade.AsariReapers")]
+        public static HediffDef RE_BioticAmpHediff;
 
         //Asimov
         [MayRequire("Neronix17.Asimov")]

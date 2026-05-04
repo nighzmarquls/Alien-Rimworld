@@ -2398,6 +2398,191 @@
 		<modExtensions>
 		</modExtensions>
 	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Threadbeast</defName>
+		<label>writhing thread mass</label>
+		<description>An ambulatory mass of writhing strands which undulate and shift over one another even when the rest of the mass is still.</description>
+		<statBases>
+			<MoveSpeed>2.5</MoveSpeed>
+			<MarketValue>600</MarketValue>
+			<ComfyTemperatureMin>-200</ComfyTemperatureMin>
+			<ComfyTemperatureMax>45</ComfyTemperatureMax>
+			<FilthRate>0</FilthRate>
+			<Wildness>0.0</Wildness>
+		</statBases>
+		<uiIconScale>1.35</uiIconScale>
+		<comps>
+			<li Class="Xenomorphtype.CompRepairerProperties">
+				<woolDef>XMT_ThreadWool</woolDef>
+				<shearIntervalDays>5</shearIntervalDays>
+				<woolAmount>150</woolAmount>
+				<repairStuffFilter>
+					<categories>
+						<li>Leathers</li>
+						<li>Fabric</li>
+						<li>Wools</li>
+						<li>Metallic</li>
+					</categories>
+					<disallowedThingDefs>
+						<li>XMT_ThreadWool</li>
+					</disallowedThingDefs>
+				</repairStuffFilter>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>1.5</splashRange>
+				<cells>3</cells>
+				<damage>10</damage>
+			</li>
+		</comps>
+		<race>
+		  <herdAnimal>false</herdAnimal>
+		  <body>QuadrupedAnimalWithHooves</body>
+		  <baseBodySize>2.4</baseBodySize>
+		  <baseHealthScale>1.75</baseHealthScale>
+		  <baseHungerRate>0.535</baseHungerRate>
+		  <foodType>VegetarianRoughAnimal</foodType>
+		  <leatherDef>Leather_Bluefur</leatherDef>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+		  <gestationPeriodDays>6.66</gestationPeriodDays>
+		  <roamMtbDays>2</roamMtbDays>
+		  <trainability>None</trainability>
+		  <packAnimal>false</packAnimal>
+		  <lifeExpectancy>15</lifeExpectancy>
+		  <manhunterOnDamageChance>0.1</manhunterOnDamageChance>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalBaby</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.25</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.3333</minAge>
+			  <soundWounded>Pawn_Muffalo_Wounded</soundWounded>
+			  <soundDeath>Pawn_Muffalo_Death</soundDeath>
+			  <soundCall>Pawn_Muffalo_Call</soundCall>
+			  <soundAngry>Pawn_Muffalo_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  <soundEating>Herbivore_Eat</soundEating>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.05)</li>
+			<li>(0.285, 0, 0.02)</li>
+			<li>(0.0, 0, -0.12)</li>
+			<li>(-0.285, 0, 0.02)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<tools>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>13</power>
+			<cooldownTime>2.6</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+		  </li>
+		  <li>
+			<label>left hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<label>right hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		</tools>
+	</ThingDef>
+
+	<PawnKindDef Name="Muffalo" ParentName="AnimalKindBase">
+		<defName>XMT_Threadbeast</defName>
+		<label>writhing thread mass</label>
+		<labelPlural>writhing thread masses</labelPlural>
+		<race>XMT_Threadbeast</race>
+		<combatPower>100</combatPower>
+		<ecoSystemWeight>0</ecoSystemWeight>
+		<wildGroupSize>3~9</wildGroupSize>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Threadbeast/Threadbeast</texPath>
+			  <drawSize>1.5</drawSize>
+			  <shadowData>
+				<volume>(0.4, 0.3, 0.3)</volume>
+				<offset>(0,0,-0.2)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Muffalo/Dessicated_Muffalo</texPath>
+			  <drawSize>1.5</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Threadbeast/Threadbeast</texPath>
+			  <drawSize>2.25</drawSize>
+			  <shadowData>
+				<volume>(0.6, 0.45, 0.45)</volume>
+				<offset>(0,0,-0.25)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Muffalo/Dessicated_Muffalo</texPath>
+			  <drawSize>2.25</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Threadbeast/Threadbeast</texPath>
+			  <drawSize>3</drawSize>
+			  <shadowData>
+				<volume>(0.8, 0.6, 0.6)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Muffalo/Dessicated_Muffalo</texPath>
+			  <drawSize>3</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
   
 	<ThingDef ParentName="AnimalThingBase">
 		<defName>XMT_Hammerpede</defName>

@@ -1058,24 +1058,28 @@ namespace Xenomorphtype
                     }
                 }
             }
+
             if (ModsConfig.IsActive("RimEffectRenegade.AsariReapers"))
             {
-                Hediff sourceNaturalHediff = source.health.hediffSet.GetFirstHediffOfDef(ExternalDefOf.RE_BioticNatural);
+                Hediff_Level sourceNaturalHediff = source.health.hediffSet.GetFirstHediffOfDef(ExternalDefOf.RE_BioticAmpHediff) as Hediff_Level;
+                Log.Message(sourceNaturalHediff + " is available to inherit");
 
                 if (sourceNaturalHediff != null) {
-                    int bioticLevel = Mathf.CeilToInt(sourceNaturalHediff.Severity);
+                    int bioticLevel = sourceNaturalHediff.level;
 
-                    Hediff firstHediffOfDef = child.health.hediffSet.GetFirstHediffOfDef(ExternalDefOf.RE_BioticNatural);
-
-                    for (int i = 0; i < bioticLevel; i++)
+                    Hediff_Level firstHediffOfDef = child.health.hediffSet.GetFirstHediffOfDef(ExternalDefOf.RE_BioticAmpHediff) as Hediff_Level;
+                    Log.Message(firstHediffOfDef + " is available to recieve");
+                    if (firstHediffOfDef == null)
                     {
-                        if (firstHediffOfDef == null)
+                        Log.Message("child def is null, adding Hediff");
+                        firstHediffOfDef = child.health.AddHediff(ExternalDefOf.RE_BioticAmpHediff, child.health.hediffSet.GetBodyPartRecord(InternalDefOf.StarbeastBrain)) as Hediff_Level;
+                    }
+
+                    if (firstHediffOfDef != null)
+                    {
+                        for (int i = 0; i < bioticLevel; i++)
                         {
-                            firstHediffOfDef = child.health.AddHediff(ExternalDefOf.RE_BioticNatural, child.health.hediffSet.GetBodyPartRecord(InternalDefOf.StarbeastBrain));
-                        }
-                        else
-                        {
-                            ((Hediff_Level)firstHediffOfDef).ChangeLevel(1);
+                            firstHediffOfDef.ChangeLevel(1);
                         }
                     }
                 }
@@ -1085,10 +1089,7 @@ namespace Xenomorphtype
                 int inheritLevel = source.GetPsylinkLevel();
                 if (inheritLevel > 0)
                 {
-                    for(int i = 0; i < inheritLevel; i++)
-                    {
-                        child.GetPsylinkLevel();
-                    }
+                    child.ChangePsylinkLevel(inheritLevel);
                 }
             }
         }

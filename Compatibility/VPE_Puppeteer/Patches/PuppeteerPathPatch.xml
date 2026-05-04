@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/VanillaPsycastsExpanded.PsycasterPathDef[defName="VPEP_Puppeteer"]/requiredBackstoriesAny</xpath>
+		<value>
+			<li>
+				<categoryName>XMT_Starbeast</categoryName>
+				<slot>Childhood</slot>
+			</li>
+			<li>
+				<categoryName>XMT_Starbeast</categoryName>
+				<slot>Adulthood</slot>
+			</li>
+		</value>
+	</Operation>
+ </Patch>
