@@ -1,0 +1,17 @@
+<Project>
+  <PropertyGroup>
+    <RimWorldInstallDir Condition="'$(RimWorldInstallDir)' == ''">$(MSBuildThisFileDirectory)..\..\RimWorldWin64_Data\</RimWorldInstallDir>
+    <WorkshopContentDir Condition="'$(WorkshopContentDir)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\workshop\content\294100\</WorkshopContentDir>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)Directory.Build.local.props" Condition="Exists('$(MSBuildThisFileDirectory)Directory.Build.local.props')" />
+
+  <PropertyGroup>
+    <RimWorldManagedDir Condition="'$(RimWorldManagedDir)' == ''">$(RimWorldInstallDir)Managed\</RimWorldManagedDir>
+    <HarmonyAssembliesDir Condition="'$(HarmonyAssembliesDir)' == ''">$(WorkshopContentDir)2009463077\Current\Assemblies\</HarmonyAssembliesDir>
+    <AlienRaceAssembliesDir Condition="'$(AlienRaceAssembliesDir)' == ''">$(WorkshopContentDir)839005762\1.6\Assemblies\</AlienRaceAssembliesDir>
+    <VanillaExpandedFrameworkAssembliesDir Condition="'$(VanillaExpandedFrameworkAssembliesDir)' == ''">$(WorkshopContentDir)2023507013\1.6\Assemblies\</VanillaExpandedFrameworkAssembliesDir>
+    <CombatExtendedAssembliesDir Condition="'$(CombatExtendedAssembliesDir)' == ''">$(WorkshopContentDir)2890901044\Assemblies\</CombatExtendedAssembliesDir>
+    <RimEffectAssembliesDir Condition="'$(RimEffectAssembliesDir)' == ''">$(WorkshopContentDir)3473370247\1.6\Assemblies\</RimEffectAssembliesDir>
+  </PropertyGroup>
+</Project>

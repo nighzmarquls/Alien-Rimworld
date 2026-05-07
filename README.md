@@ -1,5 +1,51 @@
 # Alien | Rimworld
 
+## Building from source
+
+The C# projects target .NET Framework 4.8 and build with MSBuild or Visual Studio.
+
+Build the main mod assembly from the repository root:
+
+```sh
+msbuild 1.6/Source/XMT.csproj /p:Configuration=Debug
+```
+
+On Linux, the .NET SDK can build the project with Mono's .NET Framework reference assemblies:
+
+```sh
+dotnet msbuild 1.6/Source/XMT.csproj /p:Configuration=Debug /p:FrameworkPathOverride=/usr/lib/mono/4.8-api
+```
+
+The debug build writes the mod DLL to:
+
+```text
+1.6/Assemblies/XMT.dll
+```
+
+By default, the projects use the existing relative paths for RimWorld and Steam Workshop dependencies. To use local paths without editing tracked project files, create `Directory.Build.local.props` in the repository root:
+
+```xml
+<Project>
+  <PropertyGroup>
+    <RimWorldInstallDir>/path/to/RimWorld/RimWorld*_Data/</RimWorldInstallDir>
+    <WorkshopContentDir>/path/to/steamapps/workshop/content/294100/</WorkshopContentDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="netstandard">
+      <HintPath>/usr/lib/mono/4.8-api/Facades/netstandard.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <HintPath>/usr/lib/mono/4.8-api/WindowsBase.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
+```
+
+`Directory.Build.local.props` is ignored by git. You can also override individual assembly folders such as `HarmonyAssembliesDir`, `AlienRaceAssembliesDir`, `VanillaExpandedFrameworkAssembliesDir`, `CombatExtendedAssembliesDir`, or `RimEffectAssembliesDir` if a dependency is installed outside the normal workshop layout.
+
 
 
 ## Getting started
