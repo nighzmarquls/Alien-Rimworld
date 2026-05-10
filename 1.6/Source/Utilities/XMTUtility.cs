@@ -1524,6 +1524,7 @@ namespace Xenomorphtype
                 DroppedThing.Add(thing);
             }
 
+
             List<IntVec3> dropRadial = GenRadial.RadialCellsAround(position, GenRadial.RadiusOfNumCells(DroppedThing.Count *2), false).ToList();
 
             int totalDropped = 0;
@@ -1535,6 +1536,7 @@ namespace Xenomorphtype
                     {
                         FilthMaker.TryMakeFilth(dropRadial[i], targetMap, Filth);
                     }
+                    
                     GenSpawn.Spawn(DroppedThing[totalDropped], dropRadial[i], targetMap, WipeMode.VanishOrMoveAside);
                     totalDropped++;
                 }

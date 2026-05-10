@@ -118,7 +118,13 @@ namespace Xenomorphtype
         }
 
         public void ReleaseSpore(IntVec3 cell,  Map targetMap)
-        {
+        {            
+            IEnumerable<Thing> spores = targetMap.listerThings.ThingsOfDef(Props.sporeKindDef.race);
+
+            if(spores.Count() >= Props.maxSporeCount)
+            {
+                return;
+            }
             PawnGenerationRequest request = new PawnGenerationRequest(Props.sporeKindDef, parent.Faction);
             request.FixedBiologicalAge = 0;
             Pawn spore = PawnGenerator.GeneratePawn(request);
@@ -360,6 +366,7 @@ namespace Xenomorphtype
         public float minTemperature = 20f;
         public int HitpointsPerSpore = 50;
         public PawnKindDef sporeKindDef;
+        public int maxSporeCount = 16;
         public CompPetrolsumpProperties()
         {
             this.compClass = typeof(CompPetrolsump);

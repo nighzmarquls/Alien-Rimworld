@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<Xenomorphtype.XMT_ThingDefList>
+		<defName>XMT_OilInfiltrationList</defName>
+		<things>
+			<li>OilWell</li>
+			<li>DeepOilWell</li>
+			<li>CrudeCracker</li>
+			<li>ChemfuelHopper</li>
+			<li>ChemfuelSiphon</li>
+			<li>RefineryLoadingBay</li>
+		</things>
+	</Xenomorphtype.XMT_ThingDefList>
+</Defs>

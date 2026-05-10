@@ -568,10 +568,17 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.PlayerSabotage)
                 {
+                    if(Parent.needs.mood == null)
+                    {
+                        canMischiefTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
+                        return true;
+                    }
+
                     if (Parent.needs.joy.tolerances.BoredOf(ExternalDefOf.Gaming_Dexterity))
                     {
                         return false;
                     }
+
                     if (Parent.needs.mood.CurLevelPercentage < 0.5f || Parent.needs.joy.CurLevelPercentage < 0.25f)
                     {
                         canMischiefTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
@@ -615,6 +622,11 @@ namespace Xenomorphtype
 
             if (Parent.Faction.IsPlayer)
             {
+                if (Parent.needs.mood == null)
+                {
+                    canNuzzleTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
+                    return false;
+                }
 
                 if (Parent.needs.joy.tolerances.BoredOf(ExternalDefOf.Social))
                 {

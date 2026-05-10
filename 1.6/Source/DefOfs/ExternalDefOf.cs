@@ -102,7 +102,7 @@ namespace Xenomorphtype
         [MayRequire("momo.updates.WaterIsCold")]
         public static HediffDef WetCold;
 
-        //Dubs Stuff
+        //DBH Stuff
         [MayRequire("Dubwise.DubsBadHygiene")]
         public static HediffDef Washing;
 
@@ -117,6 +117,17 @@ namespace Xenomorphtype
 
         [MayRequire("Dubwise.DubsBadHygiene")]
         public static ThingDef airPipe;
+
+        //Rimefeller
+        [MayRequire("Dubwise.Rimefeller")]
+        public static ThingDef OilPipeline;
+        [MayRequire("Dubwise.Rimefeller")]
+        public static ThingDef OilPipelineHidden;
+        [MayRequire("Dubwise.Rimefeller")]
+        public static ThingDef pipelineValve;
+
+        [MayRequire("Dubwise.Rimefeller")]
+        internal static XMT_ThingDefList XMT_OilInfiltrationList;
 
         //Rimatomics
         [MayRequire("Dubwise.Rimatomics")]

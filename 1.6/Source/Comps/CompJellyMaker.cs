@@ -188,7 +188,7 @@ namespace Xenomorphtype
                 }
             }
 
-            if (output == 0)
+            if (output <= 0)
             {
                 output = ingredientMass;
             }
@@ -218,8 +218,9 @@ namespace Xenomorphtype
             float nutrition = GetNutritionFromThing(ingredient, efficiency);
 
             float jellyNutrition = Props.jellyProduct.GetStatValueAbstract(StatDefOf.Nutrition);
+            float jellyMass = Props.jellyProduct.GetStatValueAbstract(StatDefOf.Mass);
 
-            float jellyValue = nutrition / jellyNutrition;
+            float jellyValue = jellyNutrition > 0 ? nutrition / jellyNutrition : nutrition / jellyMass;
 
             return Mathf.CeilToInt(jellyValue * efficiency * Props.conversionRate);
         }

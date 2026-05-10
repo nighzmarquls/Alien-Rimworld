@@ -30,7 +30,7 @@ namespace Xenomorphtype
         {
             get
             {
-                if(_network== null)
+                if(_network == null)
                 {
                     _network = parent.GetComp<PipeSystem.CompResource>();
                 }
@@ -142,23 +142,26 @@ namespace Xenomorphtype
 
             IntVec3 bestCell = Cells.First();
 
-            if(compJellyMaker == null)
+            if (compJellyMaker == null)
             {
                 return;
             }
 
-            float jellyStored = network.PipeNet.Stored;
-            bool hasCapacityInNetwork = network.PipeNet.AvailableCapacity > 0;
-
-            if (jellyStored > 10)
+            if (network != null)
             {
-                NoJellyPresent = false;
-                if (parent.HitPoints < parent.MaxHitPoints)
+                float jellyStored = network.PipeNet.Stored;
+                bool hasCapacityInNetwork = network.PipeNet.AvailableCapacity > 0;
+
+                if (jellyStored > 10)
                 {
-                    parent.HitPoints += 50;
-                    network.PipeNet.DrawAmongStorage(10, network.PipeNet.storages);
+                    NoJellyPresent = false;
+                    if (parent.HitPoints < parent.MaxHitPoints)
+                    {
+                        parent.HitPoints += 50;
+                        network.PipeNet.DrawAmongStorage(10, network.PipeNet.storages);
+                    }
                 }
-            }
+            } 
 
             foreach (IntVec3 cell in Cells)
             {

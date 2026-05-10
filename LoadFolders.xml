@@ -18,6 +18,7 @@
 				
 		<li IfModActive="Dubwise.DubsBadHygiene">Compatibility/DubsBadHygiene</li>
 		<li IfModActive="Dubwise.Rimatomics">Compatibility/DubsRimatomics</li>
+		<li IfModActive="Dubwise.Rimefeller">Compatibility/DubsRimefeller</li>
 		<li IfModActive="kentington.saveourship2">Compatibility/BaseSOS</li>
 
 		<li IfModActive="rim.job.world">Compatibility/rjw</li>

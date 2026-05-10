@@ -318,6 +318,29 @@ namespace Xenomorphtype
 
             return false;
         }
+
+        protected static bool IsOilEntry(ThingDef thing)
+        {
+            if (thing == null)
+            {
+                return false;
+            }
+
+            if (ExternalDefOf.XMT_OilInfiltrationList == null)
+            {
+                return false;
+            }
+
+            foreach (ThingDef oilThing in ExternalDefOf.XMT_OilInfiltrationList.things)
+            {
+                if (thing == oilThing)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         protected static bool IsSOSEntry(ThingDef thing)
         {
             if (thing == null)
@@ -534,6 +557,37 @@ namespace Xenomorphtype
                     continue;
                 }
 
+                if (IsOilEntry(building.def))
+                {
+                    Log.Message("Found Oil Entry");
+                    InfiltrationNetwork newNetwork = new InfiltrationNetwork();
+                    newNetwork.connectedRooms = new List<Room>();
+                    newNetwork.connectedBuildings = new List<Building>();
+                    newNetwork.endpoints = new List<InfiltrationEndPoint>();
+                    newNetwork.type = EndPointType.Rimafeller;
+                    bool skip = false;
+                    foreach (InfiltrationNetwork network in cache.networks)
+                    {
+                        if (network.connectedBuildings.Contains(building))
+                        {
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (skip)
+                    {
+                        break;
+                    }
+                    newNetwork.connectedRooms.Add(room);
+                    InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = building, type = EndPointType.Rimafeller };
+
+                    AddAllEndpointsToNetwork(map, infiltrationEndPoint, ref newNetwork);
+                    cache.networks.Add(newNetwork);
+
+                    foundNetwork = true;
+                    continue;
+                }
+
             }
             return foundNetwork;
         }
@@ -553,6 +607,9 @@ namespace Xenomorphtype
                     return;
                 case EndPointType.Rimatomics:
                     AddAllAtomicPointsToNetwork(map, endPoint, ref network);
+                    return;
+                case EndPointType.Rimafeller:
+                    AddAllOilPointsToNetwork(map, endPoint, ref network);
                     return;
                 case EndPointType.SOS2:
                     AddAllSOSPointsToNetwork(map, endPoint, ref network);
@@ -616,6 +673,17 @@ namespace Xenomorphtype
                                 connector = true;
                             }
                             break;
+                        case EndPointType.Rimafeller:
+                            if (IsOilEntry(candidate.def))
+                            {
+                                if (ConnectedEndPoints.Contains(candidate))
+                                {
+                                    break;
+                                }
+                                ConnectedEndPoints.Add(candidate);
+                                connector = true;
+                            }
+                            break;
                         case EndPointType.SOS2:
                             if (IsSOSEntry(candidate.def))
                             {
@@ -662,6 +730,21 @@ namespace Xenomorphtype
             return ConnectedEndPoints;
         }
 
+        private static void AddAllOilPointsToNetwork(Map map, InfiltrationEndPoint endPoint, ref InfiltrationNetwork network)
+        {
+            if (endPoint.type != EndPointType.Rimafeller)
+            {
+                Log.Error("Attempted to find Rimefeller Network on a non-Rimatomics Building. What did you do?!");
+            }
+            AddEndpointToNetwork(map, endPoint, ref network);
+            IEnumerable<Building> endpoints = GetAllConnectedEndPoints(map, endPoint.building, new ThingDef[] { ExternalDefOf.OilPipeline, ExternalDefOf.OilPipelineHidden, ExternalDefOf.pipelineValve }, EndPointType.Rimafeller);
+            foreach (Building endpoint in endpoints)
+            {
+                Log.Message(endpoint + " being checked");
+                InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = endpoint as Building, type = EndPointType.Rimafeller };
+                AddEndpointToNetwork(map, infiltrationEndPoint, ref network);
+            }
+        }
         private static void AddAllAtomicPointsToNetwork(Map map, InfiltrationEndPoint endPoint, ref InfiltrationNetwork network)
         {
             if (endPoint.type != EndPointType.Rimatomics)
