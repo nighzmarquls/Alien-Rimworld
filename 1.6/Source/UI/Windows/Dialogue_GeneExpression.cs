@@ -116,6 +116,10 @@ namespace Xenomorphtype
                 for (int i = 0; i < genes.Count; i++)
                 {
                     GeneDef gene = genes[i];
+                    if (quickSearchWidget.filter.Active && (!matchingGenes.Contains(gene) || (adding && SelectedGenes.Contains(gene))))
+                    {
+                        continue;
+                    }
 
                     if (curX + GeneCreationDialogBase.GeneSize.x + 8 > rect.width - 16f)
                     {
@@ -225,7 +229,30 @@ namespace Xenomorphtype
 
         protected override void UpdateSearchResults()
         {
-            
+            quickSearchWidget.noResultsMatched = false;
+            matchingGenes.Clear();
+            if (!quickSearchWidget.filter.Active)
+            {
+                return;
+            }
+
+            foreach (GeneDef selectedGene in SelectedGenes)
+            {
+                if (quickSearchWidget.filter.Matches(selectedGene.label))
+                {
+                    matchingGenes.Add(selectedGene);
+                }
+            }
+
+            foreach (GeneDef hiveGene in AvailableGenes)
+            {
+                if (!SelectedGenes.Contains(hiveGene) && quickSearchWidget.filter.Matches(hiveGene.label))
+                {
+                    matchingGenes.Add(hiveGene);
+                }
+            }
+
+            quickSearchWidget.noResultsMatched = !matchingGenes.Any();
         }
     }
 }
