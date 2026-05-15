@@ -30,7 +30,7 @@ namespace Xenomorphtype
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             LocalTargetInfo target = job.GetTarget(TargetIndex.A);
-            return target.IsValid && pawn.Reserve(target, job, int.MaxValue, -1, null, errorOnFailed);
+            return target.IsValid; // && pawn.Reserve(target, job, int.MaxValue, -1, null, errorOnFailed);
         }
         public bool FailAction()
         {
