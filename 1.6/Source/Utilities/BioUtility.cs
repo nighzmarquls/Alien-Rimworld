@@ -926,10 +926,6 @@ namespace Xenomorphtype
                     Log.Message("applied altered genes to " + targetPawn);
                 }
 
-                if (targetPawn.jobs.curDriver is JobDriver_CopyGenesFrom)
-                {
-                    targetPawn.jobs.EndCurrentJob(Verse.AI.JobCondition.Succeeded);
-                }
             }
         }
         internal static void AlterGenes(ref Thing target, List<GeneDef> selectedGenes, List<GeneDef> originalGenes, String xenotypeName)
