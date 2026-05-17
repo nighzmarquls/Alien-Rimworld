@@ -1191,6 +1191,7 @@
 					<li>CapturedHost</li>
 					<li>GrabbedPrey</li>
 					<li>OvomorphedVictim</li>
+					<li>XMT_RoomShape</li>
 				</restrictedThoughts>
 				<cannotReceiveThoughts>
 					<li MayRequire="kentington.saveourship2">SpaceThoughts</li>
@@ -2500,6 +2501,7 @@
 					<li>CapturedHost</li>
 					<li>GrabbedPrey</li>
 					<li>OvomorphedVictim</li>
+					<li>XMT_RoomShape</li>
 				</restrictedThoughts>
 				<cannotReceiveThoughts>
 				</cannotReceiveThoughts>

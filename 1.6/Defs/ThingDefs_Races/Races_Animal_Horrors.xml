@@ -470,7 +470,6 @@
 		  <baseHealthScale>0.7</baseHealthScale>
 		  <foodType>VegetarianRoughAnimal</foodType>
 		  <leatherDef>Leather_Light</leatherDef>
-		  
 		  <roamMtbDays>2</roamMtbDays>
 		  <petness>0.08</petness>
 		  <fleshType>StarbeastFlesh</fleshType>
@@ -650,6 +649,162 @@
 		  </li>
 		</lifeStages>
 	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+    <defName>XMT_MedicineToad</defName>
+    <label>eyeless toad thing</label>
+    <description>A massive, eyeless frog like thing with milky pale skin and disturbing yellow teeth. Its thick skin secretes an medicinal slime.</description>
+    <statBases>
+      <MoveSpeed>3.2</MoveSpeed>
+      <MarketValue>880</MarketValue>
+      <ComfyTemperatureMin>-10</ComfyTemperatureMin>
+      <ComfyTemperatureMax>50</ComfyTemperatureMax>
+      <Wildness>0</Wildness>
+      <ToxicResistance>0</ToxicResistance>
+    </statBases>
+    <tools>
+      <li>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+        <chanceFactor>0.7</chanceFactor>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>QuadrupedAnimalWithPaws</body>
+      <baseBodySize>0.8</baseBodySize>
+      <baseHungerRate>0.2</baseHungerRate>
+      <baseHealthScale>0.8</baseHealthScale>
+      <foodType>OmnivoreRoughAnimal</foodType>
+      <leatherDef>Leather_Light</leatherDef>
+      <trainability>Intermediate</trainability>
+      <waterSeeker>true</waterSeeker>
+      <waterCellCost>1</waterCellCost>
+      <gestationPeriodDays>5.661</gestationPeriodDays>
+      <soundEating>Reptile_Eat</soundEating>
+      <lifeExpectancy>8</lifeExpectancy>
+	  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+	  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+      <lifeStageAges>
+        <li>
+          <def>AnimalBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>AnimalJuvenile</def>
+          <minAge>0.1</minAge>
+        </li>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>0.2222</minAge>
+          <soundWounded>Pawn_Frog_Wounded</soundWounded>
+          <soundDeath>Pawn_Frog_Death</soundDeath>
+          <soundCall>Pawn_Frog_Call</soundCall>
+          <soundAngry>Pawn_Frog_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+      <headPosPerRotation>
+        <li>(0.0, 0, 0.2)</li>
+        <li>(0.33, 0, 0.03)</li>
+        <li>(0.0, 0, -0.28)</li>
+        <li>(-0.33, 0, 0.03)</li>
+      </headPosPerRotation>
+    </race>
+    <tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+    </tradeTags>
+	<comps>
+		<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>3</splashRange>
+				<cells>10</cells>
+				<damage>20</damage>
+		</li>
+		<li Class="CompProperties_Milkable">
+			<milkDef>XMT_Medicine_Jelly</milkDef>
+			<milkIntervalDays>0.25</milkIntervalDays>
+			<milkAmount>5</milkAmount>
+			<milkFemaleOnly>false</milkFemaleOnly>
+		</li>
+	</comps>
+  </ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>XMT_MedicineToad</defName>
+    <label>colossus toad</label>
+    <race>XMT_MedicineToad</race>
+    <combatPower>60</combatPower>
+    <ecoSystemWeight>0.3</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
+          <drawSize>1.0</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
+          <drawSize>1.0</drawSize>
+        </dessicatedBodyGraphicData>
+        <swimmingGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.0</drawSize>
+        </swimmingGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
+          <drawSize>1.5</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
+          <drawSize>1.5</drawSize>
+        </dessicatedBodyGraphicData>
+        <swimmingGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.5</drawSize>
+        </swimmingGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
+          <drawSize>1.75</drawSize>
+          <shadowData>
+            <volume>(0.25, 0.3, 0.25)</volume>
+            <offset>(0,0,0)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
+          <drawSize>1.75</drawSize>
+        </dessicatedBodyGraphicData>
+        <swimmingGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.75</drawSize>
+        </swimmingGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
 	
 	<ThingDef ParentName="AnimalThingBase">
 		<defName>XMT_Smotherer</defName>

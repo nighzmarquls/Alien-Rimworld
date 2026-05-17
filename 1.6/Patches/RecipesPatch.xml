@@ -17,8 +17,9 @@
 				<recipes>
 					<li>Make_Ovomorph</li>
 					<li>Make_Cryptizip</li>
-					<li>Make_GlitterworldMedicine</li>
+					<li>XMT_Make_GlitterworldMedicine</li>
 					<li>XMT_Purify_Wastepack</li>
+					<li>XMT_Pack_Medicine_Jelly</li>
 				</recipes>
 			</value>
 		</nomatch>
@@ -27,8 +28,9 @@
 			<value>
 				<li>Make_Ovomorph</li>
 				<li>Make_Cryptizip</li>
-				<li>Make_GlitterworldMedicine</li>
+				<li>XMT_Make_GlitterworldMedicine</li>
 				<li>XMT_Purify_Wastepack</li>
+				<li>XMT_Pack_Medicine_Jelly</li>
 			</value>
 		</match>
 	</Operation>

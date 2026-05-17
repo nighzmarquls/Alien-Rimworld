@@ -347,6 +347,28 @@
 		  </li>
 		</stages>
 	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>XMT_RoomShape</defName>
+		<workerClass>Xenomorphtype.ThoughtWorker_RoomShape</workerClass>
+		<stages>
+		  <li>
+			<label>unnatural space</label>
+			<description>This space is unnatural, hard cornered, too open, no curves or crannies!</description>
+			<baseMoodEffect>-20</baseMoodEffect>
+		  </li>
+		  <li>
+			<label>strange space</label>
+			<description>this space is strange, too flat.</description>
+			<baseMoodEffect>-5</baseMoodEffect>
+		  </li>
+		  <li>
+			<label>soothing space</label>
+			<description>This space is comforting and convuluted with so many places to lurk and hide!</description>
+			<baseMoodEffect>10</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
   
 	<ThoughtDef>
 		<defName>StarbeastPrisonBarracks</defName>

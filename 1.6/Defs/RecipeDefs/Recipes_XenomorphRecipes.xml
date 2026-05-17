@@ -127,7 +127,48 @@
 	</RecipeDef>
 	
 	<RecipeDef>
-		<defName>Make_GlitterworldMedicine</defName>
+		<defName>XMT_Pack_Medicine_Jelly</defName>
+		<label>make glitterworld medicine</label>
+		<description>pack medicinal jelly in cloth and treat it into glitterworld medicine.</description>
+		<jobString>making glitterworld medicine.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>1000</workAmount>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>Cloth</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_Medicine_Jelly</li>
+					</thingDefs>
+				</filter>
+				<count>5</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>Cloth</li>
+				<li>XMT_Medicine_Jelly</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<MedicineUltratech>1</MedicineUltratech>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+	</RecipeDef>
+	
+	<RecipeDef>
+		<defName>XMT_Make_GlitterworldMedicine</defName>
 		<label>make glitterworld medicine</label>
 		<description>enhance medical kits with filtered and diluted doses of protofluid.</description>
 		<jobString>making glitterworld medicine.</jobString>

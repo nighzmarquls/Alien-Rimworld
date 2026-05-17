@@ -1,5 +1,5 @@
 <ModMetaData>
-	<modVersion IgnoreIfNoMatchingField="True">0.094.0</modVersion>
+	<modVersion IgnoreIfNoMatchingField="True">0.095.0</modVersion>
 	<name>Alien | Rimworld</name>
 	<author>Nighzmarquls</author>
 	<packageId>niz.xenomorphtype</packageId>
@@ -75,7 +75,7 @@
 		<li>rim.job.world</li>
 	</loadBefore>
 
-	<description>Release Candidate version 0.094.0
+	<description>Release Candidate version 0.095.0
 Adds the monster and related traits, diseases and other features of the Alien Franchise to Rimworld.
 Try to survive as a human colony against the parasitic organism?
 Tame the horror and wield it for your benefit?
@@ -83,7 +83,7 @@ Or play as the so called 'perfect organism' and subsume the Rimworld in your hiv
 For more details join the discord.
 https://discord.gg/YgarzpUhhV
 Design Assistance Credit: Apropos, ohluit, RGM-89 Jegan, BreadAndWheat, DucoteProductions, Type Writer, Ballisticwaffles, King Baddabing, isaias_0395, Stealth and Lavi.
-Technical Assistance Credit: Erdelf, Bradson, Elire and Abraxas
+Technical Assistance Credit: Erdelf, Bradson, Elire, SomeoneCrazy2 and Abraxas
 Art Assistance Credit: Yanzihko, Psifo, kauripka, H.M Hellfire, darko4050 and Gartrude.
 </description>
 </ModMetaData>

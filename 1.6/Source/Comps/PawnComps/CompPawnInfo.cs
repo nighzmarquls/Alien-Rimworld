@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using AlienRace;
+using RimWorld;
 using RimWorld.Planet;
 using System;
 using UnityEngine;
@@ -113,7 +114,7 @@ namespace Xenomorphtype
         {
             if(stat == StatDefOf.RestRateMultiplier)
             {
-                float totalExperience = TotalHorrorExperience();
+                float totalExperience = TotalHorrorTrauma();
                 if (totalExperience > 0)
                 {
                     if (!IsObsessed())
@@ -174,7 +175,7 @@ namespace Xenomorphtype
                         }
                     }
 
-                    if (_traumaRelief > TotalHorrorExperience())
+                    if (_traumaRelief > TotalHorrorTrauma())
                     {
                         //Log.Message(Parent + " still has " + _traumaRelief + " relief");
                         _traumaRelief += 0.001f;
@@ -298,7 +299,30 @@ namespace Xenomorphtype
             if (parent is Pawn Parent)
             {
                 PawnCacheWrapper.Recache(Parent);
+                if (!respawningAfterLoad)
+                { 
+                    if(Parent.Faction == null)
+                    {
+                        return;
+                    }
+
+                    if(!Parent.Faction.IsPlayer)
+                    {
+                        return;
+                    }
+
+                    if(!ResearchUtility.HumanProjectsVisible())
+                    {
+                        float awareness = TotalHorrorAwareness();
+                        if (IsObsessed() || awareness > 0)
+                        {
+                            ResearchUtility.ProgressCryptobioTech(10 + Mathf.FloorToInt(awareness * 500), Parent);
+                        }
+                    }
+                }
             }
+
+            
         }
         public override void PostExposeData()
         {
@@ -745,13 +769,13 @@ namespace Xenomorphtype
 
         }
 
-        public float TotalHorrorExperience()
+        public float TotalHorrorTrauma()
         {
             return OvomorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() - _traumaRelief;
         }
         public float TotalHorrorAwareness()
         {
-            return TotalHorrorExperience() + IdeoReproductionModifier() + IdeoAdultModifier();
+            return TotalHorrorTrauma() + IdeoReproductionModifier() + IdeoAdultModifier();
         }
 
         public bool IsObsessed(out float awareness)

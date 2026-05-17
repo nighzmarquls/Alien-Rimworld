@@ -46,26 +46,26 @@ namespace Xenomorphtype
                         return;
                     }
 
-                    float totalExperience = info.TotalHorrorExperience();
+                    float totalTrauma = info.TotalHorrorTrauma();
 
-                    if (totalExperience <= 0)
+                    if (totalTrauma <= 0)
                     {
                         return;
                     }
 
-                    if (totalExperience >= 4.0f)
+                    if (totalTrauma >= 4.0f)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 3);
                     }
-                    else if (totalExperience >= 2.0f)
+                    else if (totalTrauma >= 2.0f)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 2);
                     }
-                    else if (totalExperience >= 1.0f)
+                    else if (totalTrauma >= 1.0f)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 1);
                     }
-                    else if (totalExperience > 0)
+                    else if (totalTrauma > 0)
                     {
                         XMTUtility.GiveMemory(actor, HorrorMoodDefOf.VictimNightmareMood, stage: 0);
                     }

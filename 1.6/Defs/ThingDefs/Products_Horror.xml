@@ -109,4 +109,63 @@
 		<costList IsNull="True"/>
 		<recipeMaker IsNull="True"/>
 	</ThingDef>
+	
+	<ThingDef ParentName="OrganicProductBase">
+		<defName>XMT_Medicine_Jelly</defName>
+		<thingClass>Medicine</thingClass>
+		<label>medicinal jelly</label>
+		<description>A strange resinous jelly. It is simultaneously anti-microbial, anti-viral and wound clotting. It does not rot.</description>
+		<possessionCount>10</possessionCount>
+		<graphicData>
+			<texPath>Things/Item/Resource/Medicine_Jelly</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<statBases>
+			<MarketValue>8.0</MarketValue>
+			<Mass>0.025</Mass>
+			<FoodPoisonChanceFixedHuman>0.0</FoodPoisonChanceFixedHuman>
+			<MedicalPotency>0.60</MedicalPotency>
+			<MedicalQualityMax>0.70</MedicalQualityMax>
+			<DeteriorationRate>0</DeteriorationRate>
+			<WorkToMake>300</WorkToMake>
+		</statBases>
+		<ingestible>
+			<foodType>AnimalProduct</foodType>
+			<joy>0.08</joy>
+			<preferability>NeverForNutrition</preferability>
+			<joyKind>Gluttonous</joyKind>
+			<ingestEffect>ResinBuild</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+			<lowPriorityCaravanFood>true</lowPriorityCaravanFood>
+			<babiesCanIngest>true</babiesCanIngest>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>XMT_Medicinal_Boost</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>false</doToGeneratedPawnIfAddicted>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<thingCategories>
+			<li>AnimalProductRaw</li>
+			<li>Medicine</li>
+		</thingCategories>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>XMT_Essence</chemical>
+				<addictiveness>0.00</addictiveness>
+				<needLevelOffset>1</needLevelOffset>
+				<listOrder>1010</listOrder>
+			</li>
+		</comps>
+		<allowedArchonexusCount>150</allowedArchonexusCount>
+		<modExtensions>
+			<li MayRequire="Dubwise.DubsBadHygiene" Class="DubsBadHygiene.WaterExt">
+				<water>2</water>
+				<UseForWashing>false</UseForWashing>
+				<SeekForThirst>true</SeekForThirst>
+			</li>
+		</modExtensions>
+	</ThingDef>
 </Defs>

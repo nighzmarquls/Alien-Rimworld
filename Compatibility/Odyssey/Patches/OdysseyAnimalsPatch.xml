@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
+<!-- Crabs-->
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="StoneCrab" or defName="HermitCrab"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_Hiveglands</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HardenedChitin</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_HypothermicHibernation</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_MegascarabInsectoidSkin_Cosmetic</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectPheromones</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_GenelineEvolution</li>
+					<li MayRequire="vanillaracesexpanded.insector">VRE_InsectMandibles</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
+					<li MayRequire="RedMattis.BigSmall.Core">BS_SmallFrame</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_AcidAphid</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_AcidAphid</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.5</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
+						<thingTransformationTarget>XMT_Hammerpede</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hammerpede</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+				<horrorPregnancy>XMT_InsectHorrorPregnant</horrorPregnancy>
+			</li>
+		</value>
+	</Operation>
 <!-- Vanilla Insectoids TODO: LavaSnail-->
 
 	<Operation Class="PatchOperationAddModExtension">
@@ -415,6 +453,13 @@
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_MedicineToad</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_MedicineToad</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.5</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
 					<li>
 						<thingTransformationTarget>XMT_Fleshtoad</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_Fleshtoad</pawnTransformationTarget>

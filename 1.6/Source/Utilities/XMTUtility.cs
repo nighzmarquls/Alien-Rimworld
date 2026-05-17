@@ -944,7 +944,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessAcidHorror(strength, maxAwareness);
-                            ResearchUtility.ProgressCryptobioTech(1, witness);
+                            ResearchUtility.ProgressAcidTech(10, witness);
                         }
                     }
                 }
@@ -971,7 +971,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessHorror(strength, maxAwareness);
-                            ResearchUtility.ProgressCryptobioTech(1, witness);
+                            ResearchUtility.ProgressCryptobioTech(10, witness);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1004,7 +1004,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             info.WitnessOvomorphHorror(strength, maxAwareness);
-                            ResearchUtility.ProgressCryptobioTech(1, witness);
+                            ResearchUtility.ProgressCryptobioTech(10, witness);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1040,7 +1040,7 @@ namespace Xenomorphtype
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
                         CompPawnInfo info = witness.Info();
-                        ResearchUtility.ProgressCryptobioTech(1, witness);
+                        ResearchUtility.ProgressCryptobioTech(10, witness);
                         if (info != null)
                         {
                             info.WitnessLarvaHorror(strength, maxAwareness);

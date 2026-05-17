@@ -567,7 +567,7 @@ namespace Xenomorphtype
         public void ReleaseOvomorphOnWorld(Ovomorph Ovomorph)
         {
             Ovomorph.HatchNow();
-            _xenoforming = Mathf.Min(_xenoforming, _xenoforming = Mathf.Min(OvomorphSaturationLimit, _xenoforming + (OvomorphImpact*Ovomorph.stackCount)));
+            _xenoforming = Mathf.Max(_xenoforming, Mathf.Min(OvomorphSaturationLimit, _xenoforming + (OvomorphImpact*Ovomorph.stackCount)));
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for " + Ovomorph + " leaving the map. total: " + _xenoforming);
@@ -606,7 +606,7 @@ namespace Xenomorphtype
         internal void ReleaseEmbryoOnWorld(Pawn pawn)
         {
             
-            _xenoforming = Mathf.Min(_xenoforming,Mathf.Min(EmbryoSaturationLimit, _xenoforming + (EmbryoImpact)));
+            _xenoforming = Mathf.Max(_xenoforming,Mathf.Min(EmbryoSaturationLimit, _xenoforming + (EmbryoImpact)));
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for " + pawn + " leaving the map with an embryo. total: " + _xenoforming);
