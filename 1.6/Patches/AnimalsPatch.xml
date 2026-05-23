@@ -332,6 +332,13 @@
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
 					<li>
+						<thingTransformationTarget>XMT_Jagerbar</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Jagerbar</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.25</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+					<li>
 						<thingTransformationTarget>XMT_SlumberingBeast</thingTransformationTarget>
 						<pawnTransformationTarget></pawnTransformationTarget>
 						<probability>1</probability>
@@ -358,6 +365,13 @@
 			</li>
 			<li Class="Xenomorphtype.AnimalMutateForms">
 				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Jagerbar</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Jagerbar</pawnTransformationTarget>
+						<probability>0.1</probability>
+						<essenceMinimum>0.25</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
 					<li>
 						<thingTransformationTarget>XMT_SlumberingBeast</thingTransformationTarget>
 						<pawnTransformationTarget></pawnTransformationTarget>

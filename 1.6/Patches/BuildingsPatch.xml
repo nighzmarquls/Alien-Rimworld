@@ -25,4 +25,12 @@
 		</value>
 	</Operation>
 	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[@ParentName="ChunkRockBase"]/statBases
+		</xpath>
+		<value>
+			<MarketValue>0</MarketValue>
+		</value>
+	</Operation>
+	
 </Patch>

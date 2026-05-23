@@ -1620,10 +1620,6 @@
 			<li>
 			  <def>AnimalAdult</def>
 			  <minAge>0.2</minAge>
-			  <soundWounded MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Wounded</soundWounded>
-			  <soundDeath MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Death</soundDeath>
-			  <soundCall MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Call</soundCall>
-			  <soundAngry MayRequire="Ludeon.RimWorld.Odyssey">Pawn_Peacock_Angry</soundAngry>
 			</li>
 		  </lifeStageAges>
 		</race>
@@ -2038,6 +2034,121 @@
 			  <texPath>Things/Pawn/Animal/Slumberbeast/Beast</texPath>
 			  <drawSize>2.7</drawSize>
 			  <color>(180,180,180)</color>
+			  <shadowData>
+				<volume>(0.8, 0.6, 0.6)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Bear/Dessicated_Bear</texPath>
+			  <drawSize>2.7</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="BaseBear">
+		<defName>XMT_Jagerbar</defName>
+		<label>horrific beast</label>
+		<description>A great furless beast, ursine in posture and glistening in exoskeleton. The empty eyesockets of its face twists and turns seeking prey, it calls to its victims with a humanlike voice. It is startlingly quick for such lumbering creatures.</description>
+		<statBases>
+			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<ArmorRating_Blunt>0.80</ArmorRating_Blunt>
+			<ArmorRating_Heat>0.2</ArmorRating_Heat>
+			<MoveSpeed>9.2</MoveSpeed>
+			<ComfyTemperatureMin>-270</ComfyTemperatureMin>
+			<ComfyTemperatureMax>310</ComfyTemperatureMax>
+			<MeleeDodgeChance>3.5</MeleeDodgeChance>
+			<ToxicResistance>1.0</ToxicResistance>
+			<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+			<IncomingDamageFactor>0.50</IncomingDamageFactor>
+			<Wildness>0</Wildness>
+		</statBases>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<hasGenders>false</hasGenders>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<predator>true</predator>
+			<leatherDef>Starbeast_Chitin</leatherDef>
+			<petness>1</petness>
+			<baseHungerRate>1</baseHungerRate>
+			<trainability>Intermediate</trainability>
+			<nuzzleMtbHours>0</nuzzleMtbHours>
+			<gestationPeriodDays>10</gestationPeriodDays>
+			<nameOnTameChance>1</nameOnTameChance>
+			<litterSizeCurve>
+				<points>
+				  <li>(0.5, 0)</li>
+				  <li>(1, 1)</li>
+				  <li>(2, 1.7)</li>
+				  <li>(3, 0.7)</li>
+				  <li>(3.5, 0)</li>
+				</points>
+			</litterSizeCurve>
+			<lifeExpectancy>10</lifeExpectancy>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges Inherit="false">
+				<li>
+				  <def>AnimalAdult</def>
+				  <minAge>0</minAge>
+				  <soundWounded>Pawn_Bear_Injured</soundWounded>
+				  <soundDeath>Pawn_Bear_Death</soundDeath>
+				  <soundCall>Pawn_Bear_Call</soundCall>
+				  <soundAngry>Pawn_Bear_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<comps>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>3</splashRange>
+					<cells>3</cells>
+					<damage>20</damage>
+				</li>
+		</comps>
+	</ThingDef>
+
+	<PawnKindDef ParentName="BearBase">
+		<defName>XMT_Jagerbar</defName>
+		<label>horrific beast</label>
+		<race>XMT_Jagerbar</race>
+		<alternateGraphicChance>0.8</alternateGraphicChance>
+		<alternateGraphics>
+			<li>
+				<color>(100,100,100)</color>
+			</li>
+			<li>
+				<color>(100,70,60)</color>
+			</li>
+			<li>
+				<color>(100,60,70)</color>
+			</li>
+			<li>
+				<color>(70,60,100)</color>
+			</li>
+			<li>
+				<color>(60,70,100)</color>
+			</li>
+			<li>
+				<color>(80,80,80)</color>
+			</li>
+		</alternateGraphics>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <shaderType>CutoutComplex</shaderType>
+			  <texPath>Things/Pawn/Animal/Jagerbar/Jagerbar</texPath>
+			  <drawSize>2.7</drawSize>
+			  <color>(60,70,100)</color>
 			  <shadowData>
 				<volume>(0.8, 0.6, 0.6)</volume>
 				<offset>(0,0,-0.3)</offset>
