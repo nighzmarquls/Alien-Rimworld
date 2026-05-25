@@ -13,16 +13,13 @@ using Verse.Sound;
 
 namespace Xenomorphtype
 {
-    internal struct EvolutionTreeData
-    {
-        RoyalEvolutionDef def;
-        Rect rect;
-    }
     internal class Dialogue_Evolution : Window
     {
-        const float cardWidth = 100f;
+        const float cardWidth = 98f;
         const float cardHeight = 40f;
         const float cardBuffer = 4f;
+        const float leftPanelWidth = 285f;
+        const float panelGap = 8f;
 
         private Pawn queen;
 
@@ -32,11 +29,13 @@ namespace Xenomorphtype
 
         private float scrollHeight;
 
+        private float scrollWidth;
+
         private Vector2 scrollPosition;
 
         private static List<TabRecord> tmpTabs = new List<TabRecord>();
 
-        List<List<RoyalEvolutionDef>> evolutionDefs = new List<List<RoyalEvolutionDef>>();
+        private EvolutionGraphLayout evolutionLayout;
 
         public static RoyalEvolutionDef selectedEvolution;
 
@@ -52,7 +51,7 @@ namespace Xenomorphtype
             comp = compQueen;
             absorbInputAroundWindow = true;
             originalEvolutions = compQueen.ChosenEvolutions.ToArray().ToList();
-            PrepEvolutionList();
+            evolutionLayout = new EvolutionGraphLayout(cardWidth, cardHeight, cardBuffer * 2f, cardBuffer * 6f);
         }
 
         private void DrawInfo(Rect rect)
@@ -156,47 +155,6 @@ namespace Xenomorphtype
             Widgets.EndGroup();
         }
 
-        private int GetRankingOfEvo(RoyalEvolutionDef def, int currentRanking = 0)
-        {
-            int highestRanking = currentRanking;
-
-            if (def.prerequisites?.Count > 0)
-            {
-                highestRanking++;
-
-                foreach(RoyalEvolutionDef prereq in def.prerequisites)
-                {
-                    int ranking = GetRankingOfEvo(prereq, highestRanking);
-
-                    if(ranking > highestRanking)
-                    {
-                        highestRanking = ranking;
-                    }
-                }
-            }
-
-            return highestRanking;
-        }
-
-        private void PrepEvolutionList()
-        {
-            //TODO: Do Better then this.
-            HashSet<RoyalEvolutionDef> AllEvos = DefDatabase<RoyalEvolutionDef>.AllDefsListForReading.ToHashSet(); ;
-            foreach (RoyalEvolutionDef def in AllEvos)
-            {
-                int ranking = GetRankingOfEvo(def);
-
-                if(ranking >= evolutionDefs.Count())
-                {
-                    evolutionDefs.Add(new List<RoyalEvolutionDef> { def });
-                }
-                else
-                {
-                    evolutionDefs[ranking].Add(def);
-                }
-            }
-        }
-
         private bool EvolutionUnlocked(RoyalEvolutionDef def, CompQueen compqueen)
         {
 
@@ -217,51 +175,40 @@ namespace Xenomorphtype
 
         private void DrawLines(Rect rect)
         {
-            /* for later
-            float curY = rect.y;
-            foreach (List<RoyalEvolutionDef> rank in evolutionDefs)
+            foreach (EvolutionGraphNode node in evolutionLayout.Nodes)
             {
-                float curX = rect.x;
-                foreach (RoyalEvolutionDef def in rank)
+                foreach (EvolutionGraphNode parent in node.Parents)
                 {
-
-                    curX += (cardBuffer + cardWidth);
+                    DrawDependencyLine(parent, node, TexUI.DefaultLineResearchColor, 2f);
                 }
-                curY += (cardBuffer + cardHeight);
             }
-            */
 
-            /*
-            Vector2 start = default(Vector2);
-            Vector2 end = default(Vector2);
-            List<RoyalTitlePermitDef> allDefsListForReading = DefDatabase<RoyalTitlePermitDef>.AllDefsListForReading;
-            for (int i = 0; i < 2; i++)
+            if (selectedEvolution == null)
             {
-                for (int j = 0; j < allDefsListForReading.Count; j++)
-                {
-                    RoyalTitlePermitDef royalTitlePermitDef = allDefsListForReading[j];
+                return;
+            }
 
-                    Vector2 vector = DrawPosition(royalTitlePermitDef);
-                    start.x = vector.x;
-                    start.y = vector.y + 25f;
-                    RoyalTitlePermitDef prerequisite = royalTitlePermitDef.prerequisite;
-                    if (prerequisite != null)
+            foreach (EvolutionGraphNode node in evolutionLayout.Nodes)
+            {
+                foreach (EvolutionGraphNode parent in node.Parents)
+                {
+                    if (node.Def == selectedEvolution || parent.Def == selectedEvolution)
                     {
-                        Vector2 vector2 = DrawPosition(prerequisite);
-                        end.x = vector2.x + 200f;
-                        end.y = vector2.y + 25f;
-                        /*if ((i == 1 && selectedPermit == royalTitlePermitDef) || selectedPermit == prerequisite)
-                        {
-                            Widgets.DrawLine(start, end, TexUI.HighlightLineResearchColor, 4f);
-                        }
-                        else if (i == 0)
-                        {
-                            Widgets.DrawLine(start, end, TexUI.DefaultLineResearchColor, 2f);
-                        }
+                        DrawDependencyLine(parent, node, TexUI.HighlightLineResearchColor, 4f);
                     }
                 }
             }
-            */
+        }
+
+        private void DrawDependencyLine(EvolutionGraphNode parent, EvolutionGraphNode child, Color color, float width)
+        {
+            Vector2 start = new Vector2(parent.Rect.center.x, parent.Rect.yMax);
+            Vector2 end = new Vector2(child.Rect.center.x, child.Rect.yMin);
+            float midY = start.y + ((end.y - start.y) / 2f);
+
+            Widgets.DrawLine(start, new Vector2(start.x, midY), color, width);
+            Widgets.DrawLine(new Vector2(start.x, midY), new Vector2(end.x, midY), color, width);
+            Widgets.DrawLine(new Vector2(end.x, midY), end, color, width);
         }
         private void DrawEvolutionCard(RoyalEvolutionDef def, Rect rect)
         {
@@ -299,53 +246,48 @@ namespace Xenomorphtype
         }
         private float DrawEvolutions(Rect rect)
         {
-            float curY = rect.y;
             GameFont font = Text.Font;
             Text.Font = GameFont.Tiny;
+            evolutionLayout.UpdateRects(rect);
             DrawLines(rect);
-            foreach (List<RoyalEvolutionDef> rank in evolutionDefs)
+            foreach (EvolutionGraphNode node in evolutionLayout.Nodes)
             {
-                float curX = rect.x;
-                foreach (RoyalEvolutionDef def in rank)
-                {
-                    Rect cardRect = new Rect(curX, curY, cardWidth, cardHeight);
-                    DrawEvolutionCard(def, cardRect);
-                    curX += (cardBuffer + cardWidth);
-                }
-                curY += (cardBuffer + cardHeight);
+                DrawEvolutionCard(node.Def, node.Rect);
             }
-            curY += cardBuffer*2;
 
             Text.Font = font;
-            return curY - rect.y;
+            return evolutionLayout.Size.y + cardBuffer * 2f;
         }
         public override void DoWindowContents(Rect inRect)
         {
             Rect outRect = (inRect);
             outRect.yMax -= 4f + Window.CloseButSize.y;
             Text.Font = GameFont.Small;
-            Rect viewRect = new Rect(outRect.x, outRect.y, outRect.width - 16f, scrollHeight);
             float curY = 0f;
-            float curX = 0f;
-            Widgets.Label(0f, ref curY, viewRect.width, text.Resolve());
+            Widgets.Label(0f, ref curY, outRect.width, text.Resolve());
             curY += 18f;
 
-            Rect pawnRect = new Rect(0f, curY, viewRect.width / 4, viewRect.width / 4);
+            float leftWidth = Mathf.Min(leftPanelWidth, outRect.width * 0.35f);
+            Rect leftPanelRect = new Rect(outRect.x, curY, leftWidth, outRect.height - curY);
+            Rect graphOuterRect = new Rect(leftPanelRect.xMax + panelGap, curY, outRect.width - leftPanelRect.width - panelGap, outRect.height - curY);
+            Rect graphViewRect = new Rect(0f, 0f, Mathf.Max(graphOuterRect.width - 16f, scrollWidth), scrollHeight);
+
+            Rect pawnRect = new Rect(leftPanelRect.x, leftPanelRect.y, leftPanelRect.width, leftPanelRect.width);
             DrawPawn(pawnRect);
 
-            Rect infoRect = new Rect(0f, curY + pawnRect.height, pawnRect.width, viewRect.height);
+            Rect infoRect = new Rect(leftPanelRect.x, pawnRect.yMax, leftPanelRect.width, leftPanelRect.height - pawnRect.height);
             DrawInfo(infoRect);
 
-            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+            Widgets.BeginScrollView(graphOuterRect, ref scrollPosition, graphViewRect);
 
-            curX += pawnRect.width + 4f;
-            Rect evoRect = new Rect(curX, curY, viewRect.width, viewRect.height);
+            Rect evoRect = new Rect(0f, 0f, graphViewRect.width, graphViewRect.height);
 
-            curY += DrawEvolutions(evoRect);
+            float graphHeight = DrawEvolutions(evoRect);
 
             if (Event.current.type == EventType.Layout)
             {
-                scrollHeight = Mathf.Max(curY, outRect.height);
+                scrollHeight = Mathf.Max(graphHeight, graphOuterRect.height);
+                scrollWidth = Mathf.Max(evolutionLayout.Size.x + 16f, graphOuterRect.width - 16f);
             }
 
             Widgets.EndScrollView();

@@ -1346,6 +1346,7 @@
 		<recipes>
 			<li>ExtractJellyFromCreature</li>
 			<li>ExtractResinFromCreature</li>
+			<li>ExtractAcidFromCreature</li>
 		</recipes>
 		<modExtensions />
 	</ThingDef>

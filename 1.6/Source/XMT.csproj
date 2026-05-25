@@ -386,6 +386,7 @@
     <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvomorph.cs" />
     <Compile Include="UI\Tabs\ITab_CrypticEntity.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
+    <Compile Include="UI\Windows\EvolutionGraphLayout.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
     <Compile Include="Utilities\TamingUtility.cs" />

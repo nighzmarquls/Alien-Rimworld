@@ -149,6 +149,7 @@
 		</tradeTags>
 		<recipes>
 			<li>ExtractJellyFromCreature</li>
+			<li>ExtractAcidFromCreature</li>
 		</recipes>
 	</ThingDef>
 	
