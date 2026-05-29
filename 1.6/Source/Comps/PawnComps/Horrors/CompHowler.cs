@@ -107,11 +107,11 @@ namespace Xenomorphtype
 
                                 if (Rand.Chance(0.5f))
                                 {
-                                    victim.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, "terrible howling", forced: true, forceWake: true, false);
+                                    victim.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, "XMT_TerribleHowling".Translate(), forced: true, forceWake: true, false);
                                 }
                                 else
                                 {
-                                    victim.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, "terrible howling", forced: true, forceWake: true, false);
+                                    victim.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, "XMT_TerribleHowling".Translate(), forced: true, forceWake: true, false);
                                 }
                                 
                             }

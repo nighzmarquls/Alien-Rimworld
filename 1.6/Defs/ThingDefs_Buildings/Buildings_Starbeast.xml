@@ -13,6 +13,7 @@
 		  <li>Xenomorphtype.Designator_ScentFoe</li>
 		  <li>Xenomorphtype.Designator_Larder</li>
 		  <li>Xenomorphtype.Designator_MakeJelly</li>
+		  <li>Xenomorphtype.Designator_HiveIdeologyBuildings</li>
 		</specialDesignatorClasses>
 	</DesignationCategoryDef>
 

@@ -69,6 +69,15 @@
 		<neverFleeFromEnemies>false</neverFleeFromEnemies>
 		<suspendable>false</suspendable>
 	</JobDef>
+
+	<JobDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_ElectroMetabolicCharge</defName>
+		<driverClass>Xenomorphtype.JobDriver_ElectroMetabolicCharge</driverClass>
+		<reportString>charging TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<neverFleeFromEnemies>false</neverFleeFromEnemies>
+		<suspendable>false</suspendable>
+	</JobDef>
 	
 	<JobDef>
 		<defName>XMT_MoveOvomorph</defName>
@@ -257,6 +266,24 @@
 		<driverClass>Xenomorphtype.JobDriver_ConsumeGenes</driverClass>
 		<reportString>consuming genes.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_AssimilateQueenItem</defName>
+		<driverClass>Xenomorphtype.JobDriver_AssimilateQueenItem</driverClass>
+		<reportString>assimilating TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
+
+	<JobDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_QueenGestateMech</defName>
+		<driverClass>Xenomorphtype.JobDriver_QueenGestateMech</driverClass>
+		<reportString>gestating mechanoid.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
 	</JobDef>
 	
 </Defs>

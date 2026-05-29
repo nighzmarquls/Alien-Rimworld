@@ -151,6 +151,9 @@
 			 <StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
 			 <Wildness>1</Wildness>
 			 <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
+			 <XMT_GrappleStrength>4.0</XMT_GrappleStrength>
+			 <XMT_Stealth>2.0</XMT_Stealth>
+			 <XMT_StealthDetection>1.25</XMT_StealthDetection>
 			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
 			 <DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 			 <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
@@ -1417,6 +1420,8 @@
 			</li>
 			<li Class="Xenomorphtype.CompQueenProperties">
 			</li>
+			<li Class="Xenomorphtype.CompQueenAssimilationProperties">
+			</li>
 			<li Class="Xenomorphtype.CompGeneManipulatorProperties">
 			</li>
 			<li Class="Xenomorphtype.CompOvomorphLayerProperties">
@@ -1474,6 +1479,9 @@
 			<LeatherAmount>75</LeatherAmount>
 			<TerrorSource MayRequire="Ludeon.RimWorld.Ideology">100</TerrorSource>
 			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">500</MinimumContainmentStrength>
+			<XMT_GrappleStrength>6.0</XMT_GrappleStrength>
+			<XMT_Stealth>2.2</XMT_Stealth>
+			<XMT_StealthDetection>1.5</XMT_StealthDetection>
 		</statBases>
 		<race>
 			<body>XMT_Queen</body>
@@ -1546,6 +1554,90 @@
 									</Not>
 								</conditions>
 								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_DivineHalo</path>
+										<conditions>
+											<Hediff>XMT_DivineHalo</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_ImperialCrown</path>
+										<conditions>
+											<Hediff>XMT_ImperialCrown</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_RoyalCrown</path>
+										<conditions>
+											<Hediff>XMT_RoyalCrown</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Juggernaut</path>
+										<conditions>
+											<Hediff>XMT_JuggernautsCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Fierce</path>
+										<conditions>
+											<Hediff>XMT_FierceCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li MayRequire="Ludeon.RimWorld.Biotech">
+										<path>Pawn/Royalty/Crests/Crest_MechanitorArray</path>
+										<conditions>
+											<Hediff>XMT_MechanitorArray</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li MayRequire="Ludeon.RimWorld.Biotech">
+										<path>Pawn/Royalty/Crests/Crest_SignalAmplifyingAntenna</path>
+										<conditions>
+											<Hediff>XMT_SignalAmplifyingAntenna</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
 									<li>
 										<path>Pawn/Royalty/Crests/Crest_Queen</path>
 										<conditions>

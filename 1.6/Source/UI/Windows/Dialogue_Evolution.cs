@@ -1,14 +1,8 @@
 ﻿using RimWorld;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
-using Verse.Noise;
 using Verse.Sound;
 
 namespace Xenomorphtype
@@ -17,9 +11,26 @@ namespace Xenomorphtype
     {
         const float cardWidth = 98f;
         const float cardHeight = 40f;
-        const float cardBuffer = 4f;
+        const float cardPadding = 4f;
+        const float graphHorizontalSpacing = cardPadding * 2f;
+        const float graphVerticalSpacing = cardPadding * 12f;
+        const float graphBottomPadding = cardPadding * 2f;
         const float leftPanelWidth = 285f;
         const float panelGap = 8f;
+        const float dependencyCornerRadius = 6f;
+        const int dependencyCornerMinimumSegments = 2;
+        const int dependencyCornerMaximumSegments = 4;
+        const float dependencyCornerPixelsPerSegment = 5f;
+        const float dependencyCornerMinimumTurnAngle = 3f;
+        const float dependencyCornerMinimumSegmentLength = 1f;
+        const float dependencyPointComparisonTolerance = 0.01f;
+        const float dependencyLineHaloWidthMultiplier = 2.4f;
+        const float dependencyLineHaloAlphaMultiplier = 0.28f;
+
+        private static readonly Color mutedDependencyLineColor = new Color(0.45f, 0.55f, 0.52f, 0.42f);
+        private static readonly Color selectedDependentLineColor = new Color(0.12f, 0.82f, 0.72f, 0.78f);
+        private static readonly Color selectedPrerequisiteLineColor = new Color(0.45f, 1f, 0.28f, 1f);
+        private static readonly Color selectedMissingPrerequisiteLineColor = new Color(0.72f, 1f, 0.22f, 1f);
 
         private Pawn queen;
 
@@ -33,9 +44,10 @@ namespace Xenomorphtype
 
         private Vector2 scrollPosition;
 
-        private static List<TabRecord> tmpTabs = new List<TabRecord>();
-
         private EvolutionGraphLayout evolutionLayout;
+
+        private readonly EvolutionGraphEdgeRouter edgeRouter = new EvolutionGraphEdgeRouter();
+        private readonly XMTLineTextureCache dependencyLineTextureCache = new XMTLineTextureCache();
 
         public static RoyalEvolutionDef selectedEvolution;
 
@@ -51,7 +63,13 @@ namespace Xenomorphtype
             comp = compQueen;
             absorbInputAroundWindow = true;
             originalEvolutions = compQueen.ChosenEvolutions.ToArray().ToList();
-            evolutionLayout = new EvolutionGraphLayout(cardWidth, cardHeight, cardBuffer * 2f, cardBuffer * 6f);
+            evolutionLayout = new EvolutionGraphLayout(cardWidth, cardHeight, graphHorizontalSpacing, graphVerticalSpacing);
+        }
+
+        public override void PostClose()
+        {
+            base.PostClose();
+            dependencyLineTextureCache.Dispose();
         }
 
         private void DrawInfo(Rect rect)
@@ -92,7 +110,7 @@ namespace Xenomorphtype
 
                 if (selectedEvolution.prerequisites != null)
                 {
-                    requirementText = requirementText + "\n" + "requires: ";
+                    requirementText = requirementText + "\n" + "XMT_EvolutionRequires".Translate();
                     foreach (RoyalEvolutionDef preref in selectedEvolution.prerequisites)
                     {
                         requirementText = requirementText + preref.label.Colorize(EvolutionUnlocked(preref, comp) ? Color.white : ColorLibrary.RedReadable) + " ";
@@ -104,7 +122,7 @@ namespace Xenomorphtype
 
                 if (!comp.ChosenEvolutions.Contains(selectedEvolution) && selectedEvolution.AvailableForPawn(queen) && EvolutionUnlocked(selectedEvolution,comp))
                 {
-                    if (Widgets.ButtonText(new Rect(rect.x, num, Window.CloseButSize.x, Window.CloseButSize.y), "Add"))//.Translate()))
+                    if (Widgets.ButtonText(new Rect(rect.x, num, Window.CloseButSize.x, Window.CloseButSize.y), "XMT_EvolutionAdd".Translate()))
                     {
                         BuyEvolution(selectedEvolution);
                     }
@@ -114,7 +132,7 @@ namespace Xenomorphtype
                 {
                     if (comp.HasDependencies(selectedEvolution, out RoyalEvolutionDef[] dependencies))
                     {
-                        TaggedString dependencyText = "is prerequisite for ";
+                        TaggedString dependencyText = "XMT_EvolutionPrerequisiteFor".Translate();
                         foreach(RoyalEvolutionDef dep in dependencies)
                         {
                             dependencyText += dep.label.Colorize(Color.red) + "\n ";
@@ -124,7 +142,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        if (Widgets.ButtonText(new Rect(rect.x, num, Window.CloseButSize.x, Window.CloseButSize.y), "Remove"))//.Translate()))
+                        if (Widgets.ButtonText(new Rect(rect.x, num, Window.CloseButSize.x, Window.CloseButSize.y), "XMT_EvolutionRemove".Translate()))
                         {
                             RemoveEvolution(selectedEvolution);
                         }
@@ -175,40 +193,160 @@ namespace Xenomorphtype
 
         private void DrawLines(Rect rect)
         {
-            foreach (EvolutionGraphNode node in evolutionLayout.Nodes)
-            {
-                foreach (EvolutionGraphNode parent in node.Parents)
-                {
-                    DrawDependencyLine(parent, node, TexUI.DefaultLineResearchColor, 2f);
-                }
-            }
+            List<EvolutionGraphEdgeRoute> routes = edgeRouter.BuildRoutes(evolutionLayout.Nodes);
 
-            if (selectedEvolution == null)
+            if (selectedEvolution != null)
             {
+                foreach (EvolutionGraphEdgeRoute route in routes)
+                {
+                    if (route.Child.Def != selectedEvolution && route.Parent.Def != selectedEvolution)
+                    {
+                        DrawDependencyLine(route, mutedDependencyLineColor, 1.5f);
+                    }
+                }
+
+                foreach (EvolutionGraphEdgeRoute route in routes)
+                {
+                    if (route.Parent.Def == selectedEvolution && route.Child.Def != selectedEvolution)
+                    {
+                        DrawDependencyLine(route, selectedDependentLineColor, 2.5f);
+                    }
+                }
+
+                foreach (EvolutionGraphEdgeRoute route in routes)
+                {
+                    if (route.Child.Def == selectedEvolution)
+                    {
+                        Color color = comp.ChosenEvolutions.Contains(route.Parent.Def) ? selectedPrerequisiteLineColor : selectedMissingPrerequisiteLineColor;
+                        DrawDependencyLine(route, color, 4f);
+                    }
+                }
+
                 return;
             }
 
-            foreach (EvolutionGraphNode node in evolutionLayout.Nodes)
+            foreach (EvolutionGraphEdgeRoute route in routes)
             {
-                foreach (EvolutionGraphNode parent in node.Parents)
-                {
-                    if (node.Def == selectedEvolution || parent.Def == selectedEvolution)
-                    {
-                        DrawDependencyLine(parent, node, TexUI.HighlightLineResearchColor, 4f);
-                    }
-                }
+                DrawDependencyLine(route, TexUI.DefaultLineResearchColor, 2f);
             }
         }
 
-        private void DrawDependencyLine(EvolutionGraphNode parent, EvolutionGraphNode child, Color color, float width)
+        private void DrawDependencyLine(EvolutionGraphEdgeRoute route, Color color, float width)
         {
-            Vector2 start = new Vector2(parent.Rect.center.x, parent.Rect.yMax);
-            Vector2 end = new Vector2(child.Rect.center.x, child.Rect.yMin);
-            float midY = start.y + ((end.y - start.y) / 2f);
+            if (route.Points.Count < 3 || dependencyCornerRadius <= 0f || dependencyCornerMaximumSegments <= 0)
+            {
+                DrawDependencyPolyline(route, route.Points, color, width);
+                return;
+            }
 
-            Widgets.DrawLine(start, new Vector2(start.x, midY), color, width);
-            Widgets.DrawLine(new Vector2(start.x, midY), new Vector2(end.x, midY), color, width);
-            Widgets.DrawLine(new Vector2(end.x, midY), end, color, width);
+            List<Vector2> points = new List<Vector2>();
+            points.Add(route.Points[0]);
+
+            for (int i = 1; i < route.Points.Count - 1; i++)
+            {
+                Vector2 previous = route.Points[i - 1];
+                Vector2 corner = route.Points[i];
+                Vector2 next = route.Points[i + 1];
+
+                if (!TryGetRoundedCorner(previous, corner, next, out Vector2 cornerStart, out Vector2 cornerEnd, out int cornerSegments))
+                {
+                    AddDependencyPoint(points, corner);
+                    continue;
+                }
+
+                AddDependencyPoint(points, cornerStart);
+                for (int segment = 1; segment < cornerSegments; segment++)
+                {
+                    float progress = (float)segment / cornerSegments;
+                    AddDependencyPoint(points, GetRoundedCornerPoint(cornerStart, corner, cornerEnd, progress));
+                }
+                AddDependencyPoint(points, cornerEnd);
+            }
+
+            AddDependencyPoint(points, route.Points[route.Points.Count - 1]);
+            DrawDependencyPolyline(route, points, color, width);
+        }
+
+        private void DrawDependencyPolyline(EvolutionGraphEdgeRoute route, List<Vector2> points, Color color, float width)
+        {
+            dependencyLineTextureCache.DrawPolyline(GetDependencyLineCacheKey(route), points, color, width, dependencyLineHaloWidthMultiplier, dependencyLineHaloAlphaMultiplier);
+        }
+
+        private int GetDependencyLineCacheKey(EvolutionGraphEdgeRoute route)
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 31 + (route.Parent.Def != null ? route.Parent.Def.shortHash : 0);
+                hash = hash * 31 + (route.Child.Def != null ? route.Child.Def.shortHash : 0);
+                return hash;
+            }
+        }
+
+        private bool TryGetRoundedCorner(Vector2 previous, Vector2 corner, Vector2 next, out Vector2 cornerStart, out Vector2 cornerEnd, out int cornerSegments)
+        {
+            Vector2 incoming = previous - corner;
+            Vector2 outgoing = next - corner;
+            float incomingLength = incoming.magnitude;
+            float outgoingLength = outgoing.magnitude;
+
+            if (incomingLength <= dependencyCornerMinimumSegmentLength || outgoingLength <= dependencyCornerMinimumSegmentLength)
+            {
+                cornerStart = corner;
+                cornerEnd = corner;
+                cornerSegments = 0;
+                return false;
+            }
+
+            float turnAngle = 180f - Vector2.Angle(incoming, outgoing);
+            if (turnAngle <= dependencyCornerMinimumTurnAngle)
+            {
+                cornerStart = corner;
+                cornerEnd = corner;
+                cornerSegments = 0;
+                return false;
+            }
+
+            float radius = Mathf.Min(dependencyCornerRadius, incomingLength / 2f, outgoingLength / 2f);
+            if (radius <= dependencyCornerMinimumSegmentLength)
+            {
+                cornerStart = corner;
+                cornerEnd = corner;
+                cornerSegments = 0;
+                return false;
+            }
+
+            cornerStart = corner + incoming.normalized * radius;
+            cornerEnd = corner + outgoing.normalized * radius;
+            cornerSegments = GetRoundedCornerSegmentCount(radius, turnAngle);
+            return true;
+        }
+
+        private int GetRoundedCornerSegmentCount(float radius, float turnAngle)
+        {
+            float scaledCurveSize = radius * Mathf.Max(0.5f, turnAngle / 90f);
+            int segments = Mathf.CeilToInt(scaledCurveSize / dependencyCornerPixelsPerSegment);
+            return Mathf.Clamp(segments, dependencyCornerMinimumSegments, dependencyCornerMaximumSegments);
+        }
+
+        private Vector2 GetRoundedCornerPoint(Vector2 cornerStart, Vector2 corner, Vector2 cornerEnd, float progress)
+        {
+            Vector2 first = Vector2.Lerp(cornerStart, corner, progress);
+            Vector2 second = Vector2.Lerp(corner, cornerEnd, progress);
+            return Vector2.Lerp(first, second, progress);
+        }
+
+        private void AddDependencyPoint(List<Vector2> points, Vector2 point)
+        {
+            if (points.Count == 0 || !Approximately(points[points.Count - 1], point))
+            {
+                points.Add(point);
+            }
+        }
+
+        private bool Approximately(Vector2 a, Vector2 b)
+        {
+            return Mathf.Abs(a.x - b.x) < dependencyPointComparisonTolerance && Mathf.Abs(a.y - b.y) < dependencyPointComparisonTolerance;
         }
         private void DrawEvolutionCard(RoyalEvolutionDef def, Rect rect)
         {
@@ -233,7 +371,7 @@ namespace Xenomorphtype
             if (Widgets.CustomButtonText(ref rect, string.Empty, bgColor, color, borderColor))
             {
                 SoundDefOf.Click.PlayOneShotOnCamera();
-                selectedEvolution = def;
+                selectedEvolution = selectedEvolution == def ? null : def;
             }
 
             TextAnchor anchor = Text.Anchor;
@@ -249,6 +387,7 @@ namespace Xenomorphtype
             GameFont font = Text.Font;
             Text.Font = GameFont.Tiny;
             evolutionLayout.UpdateRects(rect);
+            ClearSelectionOnEmptyGraphClick(rect);
             DrawLines(rect);
             foreach (EvolutionGraphNode node in evolutionLayout.Nodes)
             {
@@ -256,8 +395,28 @@ namespace Xenomorphtype
             }
 
             Text.Font = font;
-            return evolutionLayout.Size.y + cardBuffer * 2f;
+            return evolutionLayout.Size.y + graphBottomPadding;
         }
+
+        private void ClearSelectionOnEmptyGraphClick(Rect rect)
+        {
+            if (selectedEvolution == null || Event.current.type != EventType.MouseDown || Event.current.button != 0 || !rect.Contains(Event.current.mousePosition))
+            {
+                return;
+            }
+
+            foreach (EvolutionGraphNode node in evolutionLayout.Nodes)
+            {
+                if (node.Rect.Contains(Event.current.mousePosition))
+                {
+                    return;
+                }
+            }
+
+            selectedEvolution = null;
+            Event.current.Use();
+        }
+
         public override void DoWindowContents(Rect inRect)
         {
             Rect outRect = (inRect);
@@ -303,7 +462,7 @@ namespace Xenomorphtype
                 Close();
             }
 
-            DrawBottomText(Window.CloseButSize.x + cardBuffer, ref curY, inRect.width);
+            DrawBottomText(Window.CloseButSize.x + cardPadding, ref curY, inRect.width);
 
             if (!acceptanceReport.Accepted)
             {

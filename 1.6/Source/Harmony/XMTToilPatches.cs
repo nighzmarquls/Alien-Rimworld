@@ -133,7 +133,7 @@ namespace Xenomorphtype
                 
                 if (XMTUtility.IsXenomorph(actor))
                 {
-                    if (XMTUtility.IsHiveBuilding(frame.BuildDef))
+                    if (XMTUtility.IsHiveBuilding(frame.BuildDef) || XMTIdeologyConstructionUtility.IsRegisteredResinBuild(frame))
                     {
                         List<Toil> output = new List<Toil>();
                         

@@ -10,10 +10,122 @@ namespace Xenomorphtype
     
     internal class AcidUtility
     {
+        public const float MinBloodFullnessForWoundSplash = 0.15f;
+
         protected static ThingDef GetBloodDef(Pawn bleeder)
         {
             return  InternalDefOf.Starbeast_Filth_AcidBlood;
         }
+        public static float GetBloodFullness(Thing bleeder, bool includeHitPoints = true)
+        {
+            float fullness = 1f;
+
+            if (bleeder is Pawn pawnBleeder)
+            {
+                Hediff bloodloss = pawnBleeder.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss);
+                if (bloodloss != null)
+                {
+                    fullness = 1 - bloodloss.Severity;
+                    fullness *= pawnBleeder.BodySize;
+                }
+            }
+
+            if (includeHitPoints && bleeder.MaxHitPoints > 0)
+            {
+                fullness *= (float)bleeder.HitPoints / bleeder.MaxHitPoints;
+            }
+
+            return Mathf.Max(0f, fullness);
+        }
+
+        public static bool IsAcidSplashDamage(DamageInfo dinfo, bool autoBleed)
+        {
+            return dinfo.Def == DamageDefOf.Cut
+               || dinfo.Def == DamageDefOf.ExecutionCut
+               || dinfo.Def == DamageDefOf.Scratch
+               || dinfo.Def == DamageDefOf.Crush
+               || dinfo.Def == DamageDefOf.Stab
+               || dinfo.Def == DamageDefOf.Bullet
+               || autoBleed;
+        }
+
+        public static float WoundSplashSeverity(float totalDamageDealt)
+        {
+            return Mathf.Clamp(totalDamageDealt / 12f, 0.15f, 0.75f);
+        }
+
+        public static bool TrySplashAcidFromWound(Thing bleeder, float bloodFullness, float totalDamageDealt, float splashRange, int maxCells, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26)
+        {
+            float splashSeverity = (bloodFullness * 0.5f) + (totalDamageDealt / 12f);
+            return TrySplashAcid(bleeder, splashSeverity, splashRange, maxCells, true, appliedHediff, damageToSeverity, damage);
+        }
+
+        public static void TryDamageAdjacentWeapon(Thing bleeder, Thing instigator, float damage)
+        {
+            Pawn attacker = instigator as Pawn;
+            if (attacker?.equipment?.Primary == null)
+            {
+                return;
+            }
+
+            if (!instigator.Position.AdjacentTo8WayOrInside(bleeder.PositionHeld))
+            {
+                return;
+            }
+
+            if (!IsAcidImmune(attacker.equipment.Primary))
+            {
+                attacker.equipment.Primary.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, damage, 9, -1, bleeder));
+            }
+        }
+
+        public static void DamageBiter(Thing acidSource, Pawn bitingPawn, float damage, HediffDef appliedHediff = null, float damageToSeverity = 1, bool taperDamageAcrossParts = false)
+        {
+            if (acidSource == null || bitingPawn == null)
+            {
+                return;
+            }
+
+            if (bitingPawn.Map != null)
+            {
+                FleckMaker.ThrowSmoke(bitingPawn.DrawPos, bitingPawn.Map, 5);
+            }
+
+            List<BodyPartRecord> source = (from x in bitingPawn.health.hediffSet.GetNotMissingParts()
+                                           where x.IsInGroup(ExternalDefOf.Mouth) || x.depth == BodyPartDepth.Inside
+                                           select x).ToList();
+
+            if (!source.Any())
+            {
+                return;
+            }
+
+            float localDamage = damage;
+            foreach (BodyPartRecord record in source)
+            {
+                DamageWorker.DamageResult result = bitingPawn.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, localDamage, 999f, -1, acidSource, record));
+                if (result.totalDamageDealt > 0 && !result.deflected && appliedHediff != null)
+                {
+                    TryApplyAcidHediff(bitingPawn, result.LastHitPart, result.totalDamageDealt, appliedHediff, damageToSeverity);
+                }
+
+                if (taperDamageAcrossParts)
+                {
+                    localDamage -= damage / source.Count;
+                }
+            }
+        }
+
+        private static void TryApplyAcidHediff(Pawn pawn, BodyPartRecord targetPart, float damageDealt, HediffDef appliedHediff, float damageToSeverity)
+        {
+            if (pawn.health.hediffSet.HasBodyPart(targetPart) || XMTUtility.GetPartAttachedToPartOnPawn(pawn, ref targetPart))
+            {
+                Hediff burn = HediffMaker.MakeHediff(appliedHediff, pawn, targetPart);
+                burn.Severity = damageDealt * damageToSeverity;
+                pawn.health.AddHediff(burn, targetPart);
+            }
+        }
+
         protected static void TryBloodLoss(Pawn bleeder, float bloodLossSeverity)
         {
             if (bleeder is Pawn)
@@ -26,6 +138,11 @@ namespace Xenomorphtype
         }
         public static bool TrySplashAcid(Thing bleeder, float severity = 1, float splashRange = -1f, int maxCells = 3, bool cellLimit = true, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26)
         {
+            if (bleeder == null || bleeder.MapHeld == null)
+            {
+                return false;
+            }
+
             if (bleeder is Pawn pawnBleeder)
             {
                 if (pawnBleeder.Dead)
@@ -35,8 +152,8 @@ namespace Xenomorphtype
                 TryBloodLoss(pawnBleeder, severity*0.001f);
             }
 
-            float modifiedSplashRange = splashRange * severity;
-            int modifiedCells = cellLimit ? Mathf.CeilToInt(maxCells * severity) : int.MaxValue;
+            float modifiedSplashRange = severity > 0f ? Mathf.Max(1f, splashRange * severity) : 0f;
+            int modifiedCells = cellLimit ? Mathf.Max(1, Mathf.CeilToInt(maxCells * severity)) : int.MaxValue;
 
             XMTUtility.WitnessAcid(bleeder.PositionHeld, bleeder.MapHeld, 0.1f);
 
@@ -60,6 +177,11 @@ namespace Xenomorphtype
         }
         public static bool TrySplashAcidCell(Thing bleeder, Map map, IntVec3 cell, float severity = 1, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26)
         {
+            if (bleeder == null || map == null)
+            {
+                return false;
+            }
+
             ThingDef BloodFilth = InternalDefOf.Starbeast_Filth_AcidBlood;
             if (bleeder is Pawn pawnBleeder)
             {
@@ -200,10 +322,7 @@ namespace Xenomorphtype
                                         BodyPartRecord targetPart = result.LastHitPart;
                                         if (thingAsPawn.health.hediffSet.HasBodyPart(targetPart) || XMTUtility.GetPartAttachedToPartOnPawn(thingAsPawn, ref targetPart))
                                         {
-                                            Hediff burn = HediffMaker.MakeHediff(acidBurn, thingAsPawn, targetPart);
-                                            burn.Severity = result.totalDamageDealt * damageToSeverity;
-
-                                            thingAsPawn.health.AddHediff(burn, targetPart);
+                                            TryApplyAcidHediff(thingAsPawn, targetPart, result.totalDamageDealt, acidBurn, damageToSeverity);
                                         }
 
                                     }

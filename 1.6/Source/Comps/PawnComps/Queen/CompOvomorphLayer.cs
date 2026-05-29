@@ -57,40 +57,7 @@ namespace Xenomorphtype
         {
             get
             {
-                float adjustedCost = Props.foodCost;
-               
-                if (Parent.genes != null)
-                {
-                    foreach (Gene gene in Parent.genes.GenesListForReading)
-                    {
-                        if (gene.Active)
-                        {
-                            if (gene.def == XenoGeneDefOf.Sterile)
-                            {
-                                adjustedCost *= 2;
-                                continue;
-                            }
-                            if (gene.def == XenoGeneDefOf.Fertile)
-                            {
-                                adjustedCost *= 0.5f;
-                                continue;
-                            }
-                        }
-                    }
-                }
-
-                if (Parent.health.hediffSet.HasHediff(RoyalEvolutionDefOf.XMT_Fertility))
-                {
-                    adjustedCost *= 0.5f;
-                }
-
-                if(Parent.health.hediffSet.HasHediff(InternalDefOf.XMT_Enthroned))
-                {
-                    adjustedCost *= 0.25f;
-                }
-
-                adjustedCost = Parent.needs.food == null? adjustedCost : Mathf.Min(Parent.needs.food.MaxLevel, adjustedCost);
-                return adjustedCost;
+                return OvomorphLayUtility.GetAdjustedFoodCost(Parent, Props.foodCost);
             }
         }
 
@@ -124,12 +91,7 @@ namespace Xenomorphtype
 
         public bool CannotLayOvomorph(float cost)
         {
-            if (Parent.needs.food == null || Parent.needs.food.CurLevel > cost)
-            {
-                return false;
-            }
-
-            return true;
+            return Parent.needs.food != null && Parent.needs.food.CurLevel <= cost;
         }
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
@@ -174,7 +136,7 @@ namespace Xenomorphtype
                 Find.Targeter.BeginTargeting(LayOvomorphParameters, delegate (LocalTargetInfo target)
                 {
                     nextOvomorph = Props.OvomorphDef;
-                    Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
+                    FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_LayOvomorph, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -199,7 +161,7 @@ namespace Xenomorphtype
                 Find.Targeter.BeginTargeting(LayOvomorphParameters, delegate (LocalTargetInfo target)
                 {
                     nextOvomorph = Props.geneOvomorphDef;
-                    Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
+                    FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_LayOvomorph, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -215,48 +177,16 @@ namespace Xenomorphtype
         
         public Thing LayOvomorph( IntVec3 loc)
         {
-            Map map = parent.MapHeld;
-            if (loc.InBounds(map) && loc.GetEdifice(map) == null)
+            ThingDef OvomorphDef = nextOvomorph ?? Props.OvomorphDef;
+            float foodCost = OvomorphDef == Props.geneOvomorphDef ? FoodCost / 2 : FoodCost;
+            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, loc, OvomorphDef, foodCost);
+
+            if (laidThing != null)
             {
-                ThingDef OvomorphDef = nextOvomorph;
-
-                if (OvomorphDef == null)
-                {
-                    OvomorphDef = Props.OvomorphDef;
-                }
-
-                Thing laidThing = GenSpawn.Spawn(OvomorphDef, loc, map, WipeMode.Vanish);
-
-                Ovomorph Ovomorph = laidThing as Ovomorph;
-
-                if (Ovomorph != null)
-                {
-                    Ovomorph.LayEgg(Parent, Parent);
-                    Ovomorph.ForceProgress(0);
-                }
-
-                if (Parent.needs.food != null)
-                {
-                    if (OvomorphDef == Props.geneOvomorphDef)
-                    {
-
-                        Parent.needs.food.CurLevel -= FoodCost / 2;
-                    }
-                    else
-                    {
-                        Parent.needs.food.CurLevel -= FoodCost;
-                    }
-                }
-
-                XMTUtility.WitnessOvomorph(loc, map, 0.1f);
-                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovomorph_Laid, Parent.Named(HistoryEventArgsNames.Doer)));
-                SoundDefOf.CocoonDestroyed.PlayOneShot(new TargetInfo(loc, map));
-                FilthMaker.TryMakeFilth(loc, map, InternalDefOf.Starbeast_Filth_Resin, count: 8);
                 nextOvomorph = null;
-                return laidThing;
-
             }
-            return null;
+
+            return laidThing;
         }
     }
 

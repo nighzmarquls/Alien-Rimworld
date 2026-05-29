@@ -26,6 +26,7 @@ namespace Xenomorphtype
         bool PlayerOvomorphInWorld = false;
 
         private List<string> deadMorphs = new List<string>();
+        private List<string> ideologyResinBuildThingIds = new List<string>();
 
         const int XenoformingCheckInterval = 60000;
         public bool QueenInWorld
@@ -385,6 +386,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref PlayerOvomorphInWorld, "PlayerOvomorphInWorld", false);
             Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
             Scribe_Collections.Look(ref deadMorphs, "deadMorphs");
+            Scribe_Collections.Look(ref ideologyResinBuildThingIds, "ideologyResinBuildThingIds");
 
             Scribe_Values.Look(ref _totalReprisalRaidPoints, "_totalReprisalRaidPoints", 0);
             Scribe_Collections.Look(ref _reprisalFactions, "ReprisalFactions",LookMode.Reference);
@@ -622,6 +624,41 @@ namespace Xenomorphtype
                 Log.Message("Adjusting Xenoforming for " + Queen + " calling aid to the map. total: " + _xenoforming);
             }
             EvaluateXenoforming();
+        }
+
+        public void RegisterIdeologyResinBuild(Thing thing)
+        {
+            if (thing == null)
+            {
+                return;
+            }
+
+            if (ideologyResinBuildThingIds == null)
+            {
+                ideologyResinBuildThingIds = new List<string>();
+            }
+
+            ideologyResinBuildThingIds.AddDistinct(thing.ThingID);
+        }
+
+        public void UnregisterIdeologyResinBuild(Thing thing)
+        {
+            if (thing == null || ideologyResinBuildThingIds == null)
+            {
+                return;
+            }
+
+            ideologyResinBuildThingIds.Remove(thing.ThingID);
+        }
+
+        public bool IsIdeologyResinBuild(Thing thing)
+        {
+            if (thing == null || ideologyResinBuildThingIds == null)
+            {
+                return false;
+            }
+
+            return ideologyResinBuildThingIds.Contains(thing.ThingID);
         }
     }
 }

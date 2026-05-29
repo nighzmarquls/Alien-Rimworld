@@ -83,5 +83,57 @@ namespace Xenomorphtype
                 pawn.MapHeld.reservationManager.Reserve(pawn, job, thing);
             }
         }
+
+        internal static void ClearFeralJobReservationsForTarget(Map map, Thing target)
+        {
+            if (map == null || target == null)
+            {
+                return;
+            }
+
+            if (map.reservationManager.IsReserved(target))
+            {
+                map.reservationManager.ReleaseAllForTarget(target);
+            }
+
+            if (map.physicalInteractionReservationManager.IsReserved(target))
+            {
+                map.physicalInteractionReservationManager.ReleaseAllForTarget(target);
+            }
+        }
+
+        internal static void ClearFeralJobReservationsForTarget(Thing target)
+        {
+            ClearFeralJobReservationsForTarget(target?.MapHeld, target);
+        }
+
+        internal static void ClearFeralJobReservationsForTarget(Map map, LocalTargetInfo target)
+        {
+            if (map == null || !target.IsValid)
+            {
+                return;
+            }
+
+            if (target.Thing != null)
+            {
+                ClearFeralJobReservationsForTarget(map, target.Thing);
+            }
+        }
+
+        internal static void ClearFeralJobReservationsClaimedBy(Map map, Pawn reserver)
+        {
+            if (map == null || reserver == null)
+            {
+                return;
+            }
+
+            map.reservationManager.ReleaseAllClaimedBy(reserver);
+            map.physicalInteractionReservationManager.ReleaseAllClaimedBy(reserver);
+        }
+
+        internal static void ClearFeralJobReservationsClaimedBy(Pawn reserver)
+        {
+            ClearFeralJobReservationsClaimedBy(reserver?.MapHeld, reserver);
+        }
     }
 }

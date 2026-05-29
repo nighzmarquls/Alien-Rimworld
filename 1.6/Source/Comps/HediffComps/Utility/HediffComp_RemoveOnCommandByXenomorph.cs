@@ -39,14 +39,14 @@ namespace Xenomorphtype
             {
                 Log.Message("designation present " + parent + " on " + parent.pawn);
                 Command_Action Cancel_Action = new Command_Action();
-                Cancel_Action.defaultLabel = "Cancel Release";
-                Cancel_Action.defaultDesc = "Cancel Release from " + parent.Label;
+                Cancel_Action.defaultLabel = "XMT_CancelRelease".Translate();
+                Cancel_Action.defaultDesc = "XMT_CancelReleaseFrom".Translate(parent.Label);
                 Cancel_Action.icon = cancelTexture;
                 Cancel_Action.action = delegate
                 {
                     if(parent.pawn.Map.reservationManager.TryGetReserver(parent.pawn,Queen.Faction, out Pawn reserver))
                     {
-                        parent.pawn.Map.reservationManager.ReleaseAllClaimedBy(reserver);
+                        FeralJobUtility.ClearFeralJobReservationsClaimedBy(parent.pawn.Map, reserver);
                     }
                     designationManager.RemoveAllDesignationsOn(parent.pawn);
                 };
@@ -57,8 +57,8 @@ namespace Xenomorphtype
 
             Log.Message("setting up release action gizmo in " + parent + " on " + parent.pawn);
             Command_Action Release_Action = new Command_Action();
-            Release_Action.defaultLabel = "Release";
-            Release_Action.defaultDesc = "Release from " + parent.Label;
+            Release_Action.defaultLabel = "XMT_Release".Translate();
+            Release_Action.defaultDesc = "XMT_ReleaseFrom".Translate(parent.Label);
             Release_Action.icon = releaseTexture;
             Release_Action.action = delegate
             {

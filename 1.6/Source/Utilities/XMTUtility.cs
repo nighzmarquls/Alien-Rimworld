@@ -4,6 +4,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -456,76 +457,57 @@ namespace Xenomorphtype
         }
 
 
-        public static float GetDefendGrappleChance(Pawn attacker, Pawn defender)
+        public static GrappleCheckReport GetGrappleCheckReport(Pawn attacker, Pawn defender)
         {
-            if (defender.WorkTagIsDisabled(WorkTags.Violent))
+            GrappleCheckReport report = new GrappleCheckReport
             {
-                return 0f;
+                Attacker = attacker,
+                Defender = defender
+            };
+
+            if (attacker == null || defender == null)
+            {
+                report.BlockedReason = "missing attacker or defender";
+                return report;
             }
 
-            float defenderChance = defender.GetStatValue(StatDefOf.MeleeHitChance);
-            if (ModsConfig.IdeologyActive)
+            if (defender.WorkTagIsDisabled(WorkTags.Violent))
             {
-                if (DarknessCombatUtility.IsOutdoorsAndLit(defender))
-                {
-                    defenderChance += defender.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsLitOffset);
-                }
-                else if (DarknessCombatUtility.IsOutdoorsAndDark(defender))
-                {
-                    defenderChance += defender.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsDarkOffset);
-                }
-                else if (DarknessCombatUtility.IsIndoorsAndDark(defender))
-                {
-                    defenderChance += defender.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsDarkOffset);
-                }
-                else if (DarknessCombatUtility.IsIndoorsAndLit(defender))
-                {
-                    defenderChance += defender.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsLitOffset);
-                }
+                report.BlockedReason = "defender cannot perform violent work";
+                return report;
             }
+
+            report.DefenderStrength = Mathf.Max(defender.GetStatValue(XenoStatDefOf.XMT_GrappleStrength), 0f);
+            report.AttackerStrength = Mathf.Max(attacker.GetStatValue(XenoStatDefOf.XMT_GrappleStrength), 0.0001f);
+            report.DefenderConsciousFactor = 1f;
+            report.DefenderStunFactor = 1f;
+            report.AttackerInvisibleFactor = 1f;
+            report.BodySizeFactor = Mathf.Clamp(defender.BodySize / Mathf.Max(attacker.BodySize, 0.0001f), 0.05f, 20f);
 
             if (!defender.Awake())
             {
-                defenderChance *= 0.25f;
+                report.DefenderConsciousFactor = 0.25f;
             }
 
             if(defender.stances.stunner.Stunned)
             {
-                defenderChance *= 0.5f;
-            }
-
-            float attackerChance = attacker.GetStatValue(StatDefOf.MeleeHitChance);
-            if (ModsConfig.IdeologyActive)
-            {
-                if (DarknessCombatUtility.IsOutdoorsAndLit(attacker))
-                {
-                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsLitOffset);
-                }
-                else if (DarknessCombatUtility.IsOutdoorsAndDark(attacker))
-                {
-                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceOutdoorsDarkOffset);
-                }
-                else if (DarknessCombatUtility.IsIndoorsAndDark(attacker))
-                {
-                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsDarkOffset);
-                }
-                else if (DarknessCombatUtility.IsIndoorsAndLit(attacker))
-                {
-                    attackerChance += attacker.GetStatValue(StatDefOf.MeleeDodgeChanceIndoorsLitOffset);
-                }
+                report.DefenderStunFactor = 0.5f;
             }
 
             if (attacker.IsPsychologicallyInvisible())
             {
-                attackerChance *= 2;
+                report.AttackerInvisibleFactor = 2f;
             }
 
-            defenderChance *= (defender.BodySize / attacker.BodySize);
+            report.ModifiedDefenderStrength = report.DefenderStrength * report.BodySizeFactor * report.DefenderConsciousFactor * report.DefenderStunFactor;
+            report.ModifiedAttackerStrength = report.AttackerStrength * report.AttackerInvisibleFactor;
+            report.ResistChance = Mathf.Clamp01(report.ModifiedDefenderStrength / Mathf.Max(report.ModifiedDefenderStrength + report.ModifiedAttackerStrength, 0.0001f));
+            return report;
+        }
 
-            defenderChance /= attackerChance;
-
-            //Log.Message(" Grapple attempt between " + attacker + " and " + defender + " defense chance: " + defenderChance);
-            return defenderChance;
+        public static float GetDefendGrappleChance(Pawn attacker, Pawn defender)
+        {
+            return GetGrappleCheckReport(attacker, defender).ResistChance;
 
         }
 
@@ -1962,6 +1944,44 @@ namespace Xenomorphtype
             }
 
             return map.Biome.inVacuum || map.Biome == ExternalDefOf.OuterSpaceBiome;
+        }
+    }
+
+    public class GrappleCheckReport
+    {
+        public Pawn Attacker;
+        public Pawn Defender;
+        public string BlockedReason;
+        public float AttackerStrength;
+        public float DefenderStrength;
+        public float ModifiedAttackerStrength;
+        public float ModifiedDefenderStrength;
+        public float BodySizeFactor;
+        public float DefenderConsciousFactor;
+        public float DefenderStunFactor;
+        public float AttackerInvisibleFactor;
+        public float ResistChance;
+        public float SuccessChance => Mathf.Clamp01(1f - ResistChance);
+
+        public string ToLogString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Grapple check");
+            builder.AppendLine("Attacker: " + Attacker);
+            builder.AppendLine("Defender: " + Defender);
+            if (!BlockedReason.NullOrEmpty())
+            {
+                builder.AppendLine("Blocked: " + BlockedReason);
+                return builder.ToString();
+            }
+            builder.AppendLine("Attacker strength: " + AttackerStrength.ToString("0.###") + " -> " + ModifiedAttackerStrength.ToString("0.###"));
+            builder.AppendLine("Defender strength: " + DefenderStrength.ToString("0.###") + " -> " + ModifiedDefenderStrength.ToString("0.###"));
+            builder.AppendLine("Body size factor: " + BodySizeFactor.ToString("0.###"));
+            builder.AppendLine("Conscious factor: " + DefenderConsciousFactor.ToString("0.###"));
+            builder.AppendLine("Stun factor: " + DefenderStunFactor.ToString("0.###"));
+            builder.AppendLine("Invisible attacker factor: " + AttackerInvisibleFactor.ToString("0.###"));
+            builder.AppendLine("Resist chance: " + ResistChance.ToStringPercent());
+            return builder.ToString();
         }
     }
 }

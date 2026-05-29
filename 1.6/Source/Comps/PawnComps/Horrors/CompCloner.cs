@@ -103,7 +103,7 @@ namespace Xenomorphtype
             {
                 Find.Targeter.BeginTargeting(SamplePawn, delegate (LocalTargetInfo target)
                 {
-                    Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
+                    FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_SampleForClone, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);

@@ -101,6 +101,36 @@
 			</li>
 		</modExtensions>
 	</GeneDef>
+
+	<GeneDef ParentName="GeneSkinColorOverride">
+		<defName>XMT_Flamingo_Color</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>bright pink skin</label>
+		<labelShortAdj>pink</labelShortAdj>
+		<description>Carriers of this gene produce a vivid pink pigment that colors their skin and hair.</description>
+		<selectionWeight>0</selectionWeight>
+		<skinColorOverride>(255, 36, 178)</skinColorOverride>
+		<hairColorOverride>(255, 36, 178)</hairColorOverride>
+		<displayOrderInCategory>89</displayOrderInCategory>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>pink</symbol></li>
+				<li><symbol>rose</symbol></li>
+				<li><symbol>flamingo</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<displayCategory>Cosmetic_Skin</displayCategory>
+		<iconPath>UI/Icons/Genes/Gene_SkinColorOverride</iconPath>
+		<exclusionTags>
+			<li>SkinColorOverride</li>
+		</exclusionTags>
+		<randomBrightnessFactor>0.12</randomBrightnessFactor>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
 	
 	<GeneDef>
 		<defName>XMT_Ibex_Features</defName>
@@ -126,5 +156,190 @@
 			</li>
 		</modExtensions>
 	</GeneDef>
-	
+
+	<GeneDef>
+		<defName>XMT_Flipper_Locomotion</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>flipper locomotion</label>
+		<labelShortAdj>flippered</labelShortAdj>
+		<iconPath>UI/Icons/Genes/Gene_WebbedPhalanges</iconPath>
+		<description>Carriers of this gene move through water with little resistance, but their limbs are awkward on dry land.</description>
+		<displayCategory>Movement</displayCategory>
+		<displayOrderInCategory>501</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>1</biostatMet>
+		<waterCellCost MayRequire="Ludeon.RimWorld.Odyssey">1</waterCellCost>
+		<statOffsets>
+			<MoveSpeed>-0.2</MoveSpeed>
+		</statOffsets>
+		<customEffectDescriptions>
+			<li MayRequire="Ludeon.RimWorld.Odyssey">Moves efficiently through water.</li>
+			<li>Reduced movement speed on land.</li>
+		</customEffectDescriptions>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>flipper</symbol></li>
+				<li><symbol>swim</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
+
+	<GeneDef>
+		<defName>XMT_Wading_Adaptation</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>wading adaptation</label>
+		<labelShortAdj>wading</labelShortAdj>
+		<iconPath>UI/Icons/Genes/Gene_WebbedPhalanges</iconPath>
+		<description>Carriers of this gene can cross shallow water and wetlands without being seriously slowed, while remaining comfortable on dry ground.</description>
+		<displayCategory>Movement</displayCategory>
+		<displayOrderInCategory>502</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-1</biostatMet>
+		<waterCellCost MayRequire="Ludeon.RimWorld.Odyssey">1</waterCellCost>
+		<customEffectDescriptions>
+			<li MayRequire="Ludeon.RimWorld.Odyssey">Moves efficiently through water without a land movement penalty.</li>
+		</customEffectDescriptions>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>wade</symbol></li>
+				<li><symbol>marsh</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
+
+	<GeneDef MayRequire="Ludeon.RimWorld.Odyssey">
+		<defName>XMT_Sludge_Spew</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>sludge spew</label>
+		<labelShortAdj>sludge-spewing</labelShortAdj>
+		<description>Carriers of this gene can spray acidic sludge over a target area.</description>
+		<iconPath>UI/Commands/SludgeSpray</iconPath>
+		<displayCategory>Ability</displayCategory>
+		<displayOrderInCategory>503</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-2</biostatMet>
+		<abilities>
+			<li>SludgeSpew</li>
+		</abilities>
+		<descriptionHyperlinks>
+			<AbilityDef>SludgeSpew</AbilityDef>
+		</descriptionHyperlinks>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>sludge</symbol></li>
+				<li><symbol>acid</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
+
+	<GeneDef MayRequire="Ludeon.RimWorld.Odyssey">
+		<defName>XMT_Egg_Spew</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>egg spew</label>
+		<labelShortAdj>egg-spewing</labelShortAdj>
+		<description>Carriers of this gene can launch an egg sac with a spray of acidic sludge.</description>
+		<iconPath>UI/Commands/EggSpew</iconPath>
+		<displayCategory>Ability</displayCategory>
+		<displayOrderInCategory>504</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>2</biostatCpx>
+		<biostatMet>-3</biostatMet>
+		<abilities>
+			<li>EggSpew</li>
+		</abilities>
+		<descriptionHyperlinks>
+			<AbilityDef>EggSpew</AbilityDef>
+		</descriptionHyperlinks>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>brood</symbol></li>
+				<li><symbol>egg</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
+
+	<GeneDef MayRequire="Ludeon.RimWorld.Odyssey">
+		<defName>XMT_Thermal_Slime</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>thermal slime</label>
+		<labelShortAdj>thermal-slimed</labelShortAdj>
+		<description>Carriers of this gene secrete a thick insulating slime that helps protect them from extreme heat.</description>
+		<iconPath>UI/Icons/Genes/Gene_FireResistant</iconPath>
+		<displayCategory>Temperature</displayCategory>
+		<displayOrderInCategory>505</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>-1</biostatMet>
+		<statOffsets>
+			<ArmorRating_Heat>0.1</ArmorRating_Heat>
+			<ComfyTemperatureMax>10</ComfyTemperatureMax>
+		</statOffsets>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>thermal</symbol></li>
+				<li><symbol>slime</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
+
+	<GeneDef>
+		<defName>XMT_Gene_OvomorphSpew</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>ovomorph spew</label>
+		<labelShortAdj>ovomorph-spewing</labelShortAdj>
+		<description>Carriers of this gene can produce and launch cryptimorphic ovamorphs.</description>
+		<iconPath>UI/Abilities/Ovomorph</iconPath>
+		<displayCategory>Ability</displayCategory>
+		<displayOrderInCategory>504</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>2</biostatCpx>
+		<biostatMet>-3</biostatMet>
+		<abilities>
+			<li>XMT_Ability_OvomorphSpew</li>
+		</abilities>
+		<descriptionHyperlinks>
+			<AbilityDef>XMT_Ability_OvomorphSpew</AbilityDef>
+		</descriptionHyperlinks>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>brood</symbol></li>
+				<li><symbol>egg</symbol></li>
+				<li><symbol>ovomorph</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
+
 </Defs>

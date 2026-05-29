@@ -13,6 +13,11 @@
 				<targetGeneDef>XMT_Royal_CenterHorn</targetGeneDef>
 				<replacementGeneDef>Headbone_CenterHorn</replacementGeneDef>
 			</li>
+			<li MayRequire="Ludeon.RimWorld.Odyssey">
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>XMT_Gene_OvomorphSpew</targetGeneDef>
+				<replacementGeneDef>XMT_Egg_Spew</replacementGeneDef>
+			</li>
 		</geneRemaps>
 	</Xenomorphtype.XMT_GeneRemapListDef>
 	
@@ -29,6 +34,33 @@
 				<targetGeneDef>Headbone_CenterHorn</targetGeneDef>
 				<replacementGeneDef>XMT_Royal_CenterHorn</replacementGeneDef>
 			</li>
+			<li MayRequire="Ludeon.RimWorld.Odyssey">
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>XMT_Egg_Spew</targetGeneDef>
+				<replacementGeneDef>XMT_Gene_OvomorphSpew</replacementGeneDef>
+			</li>
 		</geneRemaps>
 	</Xenomorphtype.XMT_GeneRemapListDef>
+
+	<Xenomorphtype.XMT_OvomorphLayCostModifierListDef>
+		<defName>XMT_OvomorphLayCostModifiers</defName>
+		<costModifiers>
+			<li>
+				<gene>Sterile</gene>
+				<factor>2</factor>
+			</li>
+			<li>
+				<gene>Fertile</gene>
+				<factor>0.5</factor>
+			</li>
+			<li>
+				<hediff>XMT_Fertility</hediff>
+				<factor>0.5</factor>
+			</li>
+			<li>
+				<hediff>XMT_Enthroned</hediff>
+				<factor>0.25</factor>
+			</li>
+		</costModifiers>
+	</Xenomorphtype.XMT_OvomorphLayCostModifierListDef>
 </Defs>

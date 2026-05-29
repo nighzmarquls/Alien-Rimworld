@@ -16,7 +16,7 @@ namespace Xenomorphtype
 
         public override string SettingsCategory()
         {
-            return "Alien | Rimworld";
+            return "XMT_ModSettingsCategory".Translate();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)

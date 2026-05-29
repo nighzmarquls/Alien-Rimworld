@@ -29,6 +29,12 @@ namespace Xenomorphtype
 
                     if(Props.pawnMaturation != null)
                     {
+                        if (Props.maxActivePawnMaturationOnMap >= 0 && ActivePawnMaturationCount() >= Props.maxActivePawnMaturationOnMap)
+                        {
+                            tickCheck = currentTick + Mathf.FloorToInt(Props.retryMaturationHours * 2500);
+                            return;
+                        }
+
                         PawnGenerationRequest request = new PawnGenerationRequest(Props.pawnMaturation, null);
                         request.FixedBiologicalAge = 0;
 
@@ -52,6 +58,17 @@ namespace Xenomorphtype
 
         }
 
+        private int ActivePawnMaturationCount()
+        {
+            Map map = parent.MapHeld;
+            if (map == null || Props.pawnMaturation == null)
+            {
+                return 0;
+            }
+
+            return map.mapPawns.AllPawnsSpawned.Count(pawn => pawn.kindDef == Props.pawnMaturation && !pawn.Dead && (!Props.countOnlyAwakePawns || pawn.Awake()));
+        }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -65,6 +82,9 @@ namespace Xenomorphtype
         public ThingDef     thingMaturation;
         public float        maturationHours = 1;
         public int          minStackToMature = 100;
+        public int          maxActivePawnMaturationOnMap = -1;
+        public float        retryMaturationHours = 1;
+        public bool         countOnlyAwakePawns = false;
 
         public CompStackMaturingProperties()
         {

@@ -280,7 +280,7 @@ namespace Xenomorphtype
                     {
                         if (corpse.MapHeld is Map map)
                         {
-                            map.reservationManager.ReleaseAllForTarget(corpse);
+                            FeralJobUtility.ClearFeralJobReservationsForTarget(map, corpse);
                         }
                     }
 

@@ -9,12 +9,14 @@ namespace Xenomorphtype
 { 
     public class JobDriver_CorpseSculpture : JobDriver
     {
-        private float TicksFinish => (pawn.CurJob.plantDefToSow != null ? pawn.CurJob.plantDefToSow.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 250) : 60);
+        private float TicksFinish => WorkRequired();
         private ThingDef SculptureDef => pawn.CurJob.plantDefToSow;
+        private ThingDef StuffDef => (Item as IdeologyResinArtFrame)?.StuffDef;
+        private GameComponent_CorpseArtProgress ProgressTracker => Current.Game.GetComponent<GameComponent_CorpseArtProgress>();
 
         protected Thing Item => job.GetTarget(TargetIndex.A).Thing;
-        private float Ticks = 0;
-        private float Progress = 0;
+        private float WorkDone = 0;
+        private float Progress => WorkDone / TicksFinish;
         protected float xpPerTick = 0.085f;
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -37,15 +39,22 @@ namespace Xenomorphtype
                 {
                     pawn.jobs.curJob.plantDefToSow = ArtUtility.GetSculptureDefForCorpse(corpse);
                 }
+                else if (Item is IdeologyResinArtFrame artFrame)
+                {
+                    pawn.jobs.curJob.plantDefToSow = artFrame.TargetThingDef;
+                }
+
+                WorkDone = ProgressTracker.WorkDone(Item);
             };
             toil.tickIntervalAction = delegate (int delta)
             {
-                Ticks += pawn.GetStatValue(StatDefOf.AssemblySpeedFactor);
+                WorkDone += pawn.GetStatValue(StatDefOf.AssemblySpeedFactor);
+                ProgressTracker.SetWorkDone(Item, WorkDone);
+
                 if (pawn.skills != null)
                 {
                     pawn.skills.Learn(SkillDefOf.Artistic, xpPerTick);
                 }
-                Progress = (Ticks / TicksFinish);
 
                 if (!BioUtility.PerformBioconstructionCost(pawn))
                 {
@@ -53,7 +62,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                if (Ticks >= TicksFinish)
+                if (WorkDone >= TicksFinish)
                 {
                     ReadyForNextToil();
                 }
@@ -61,13 +70,26 @@ namespace Xenomorphtype
             };
             toil.AddFinishAction(delegate
             {
+                if (Item == null || Item.Destroyed)
+                {
+                    ProgressTracker.Clear(Item);
+                    return;
+                }
+
                 if (Progress >= 1)
                 {
                     IntVec3 cell = job.GetTarget(TargetIndex.A).Cell;
-                    Thing corpse = Item;
-                    Thing finishedSculpture = ThingMaker.MakeThing(SculptureDef);
+                    Thing material = Item;
+                    Thing finishedSculpture = ThingMaker.MakeThing(SculptureDef, StuffDef);
                     finishedSculpture.SetFaction(pawn.Faction);
-                    corpse.DeSpawn();
+                    ProgressTracker.Clear(material);
+                    material.Map?.designationManager.RemoveAllDesignationsOn(material);
+                    material.DeSpawn();
+
+                    if (material is IdeologyResinArtFrame artFrame && finishedSculpture is ThingWithComps thingWithComps)
+                    {
+                        thingWithComps.StyleDef = artFrame.TargetStyleDef;
+                    }
 
                     CompQuality compQuality = finishedSculpture.TryGetComp<CompQuality>();
                     if (compQuality != null)
@@ -88,7 +110,11 @@ namespace Xenomorphtype
                         compArt.JustCreatedBy(pawn);
                     }
 
-                    if (SculptureDef.Minifiable)
+                    if (material is IdeologyResinArtFrame)
+                    {
+                        job.SetTarget(TargetIndex.A, GenSpawn.Spawn(finishedSculpture, cell, pawn.Map, material.Rotation));
+                    }
+                    else if (SculptureDef.Minifiable)
                     {
                         MinifiedThing minifiedThing = finishedSculpture.MakeMinified();
                         job.SetTarget(TargetIndex.A, GenSpawn.Spawn(minifiedThing, cell, pawn.Map));
@@ -98,7 +124,7 @@ namespace Xenomorphtype
                         job.SetTarget(TargetIndex.A, GenSpawn.Spawn(finishedSculpture, cell, pawn.Map));
                     }
 
-                    corpse.Destroy();
+                    material.Destroy();
                 }
             });
             toil.WithProgressBar(TargetIndex.A, () => Progress);
@@ -107,5 +133,15 @@ namespace Xenomorphtype
             return toil;
         }
 
+        private float WorkRequired()
+        {
+            if (Item is IdeologyResinArtFrame artFrame && artFrame.TargetThingDef != null)
+            {
+                float work = artFrame.def.GetStatValueAbstract(StatDefOf.WorkToBuild);
+                return work > 0 ? work : 250f;
+            }
+
+            return pawn.CurJob.plantDefToSow != null ? pawn.CurJob.plantDefToSow.statBases.GetStatValueFromList(StatDefOf.WorkToBuild, 250) : 60;
+        }
     }
 }

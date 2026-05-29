@@ -172,16 +172,37 @@ namespace Xenomorphtype
                 
                 if (Rand.Chance(health.probability))
                 {
+                    BodyPartRecord specificPart = null;
+                    if (health.specificBodyPart != null)
+                    {
+                        specificPart = pawn.health.hediffSet.GetBodyPartRecord(health.specificBodyPart);
+                        if (specificPart == null)
+                        {
+                            continue;
+                        }
+                    }
+
                     foreach(Hediff hediff in pawn.health.hediffSet.hediffs)
                     {
                         if (hediff.def == health.horror)
                         {
+                            if (specificPart != null && hediff.Part != specificPart)
+                            {
+                                continue;
+                            }
+
                             if (hediff.Severity < health.horror.maxSeverity)
                             {
                                 hediff.Severity += health.horror.initialSeverity;
                                 return;
                             }
                         }
+                    }
+
+                    if(specificPart != null)
+                    {
+                        pawn.health.AddHediff(health.horror, specificPart);
+                        return;
                     }
 
                     if (health.randomBodypart)
@@ -195,21 +216,8 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        if(health.specificBodyPart != null)
-                        {
-                            BodyPartRecord part = pawn.health.hediffSet.GetBodyPartRecord(health.specificBodyPart);
-                            if (part != null)
-                            {
-                                pawn.health.AddHediff(health.horror, part);
-                                return;
-                            }
-
-                        }
-                        else
-                        {
-                            pawn.health.AddHediff(health.horror);
-                            return;
-                        }
+                        pawn.health.AddHediff(health.horror);
+                        return;
                     }
                 }
 

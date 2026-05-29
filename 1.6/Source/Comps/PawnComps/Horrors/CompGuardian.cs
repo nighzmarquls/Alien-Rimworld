@@ -79,7 +79,10 @@ namespace Xenomorphtype
                     {
                         protectedWard = targetedPawn;
 
-                        RelationsUtility.TryDevelopBondRelation(protectedWard, Parent, 100);
+                        if (protectedWard.RaceProps?.Humanlike == true && Parent.RaceProps?.Animal == true)
+                        {
+                            RelationsUtility.TryDevelopBondRelation(protectedWard, Parent, 100);
+                        }
                         if (TrainableUtility.CanBeMaster(protectedWard, Parent))
                         {
                             Parent.training.Train(TrainableDefOf.Tameness, protectedWard, true);
@@ -195,10 +198,14 @@ namespace Xenomorphtype
 
                 if (protectedWard.LastAttackedTarget != null)
                 {
-                    Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, protectedWard.LastAttackedTarget);
-                    Parent.jobs.StartJob(job, JobCondition.InterruptForced);
+                    Thing attackedTarget = protectedWard.LastAttackedTarget.Thing;
+                    if (attackedTarget != null && !attackedTarget.Destroyed && attackedTarget.Spawned && attackedTarget.Map == Parent.Map && Parent.CanReach(attackedTarget, PathEndMode.Touch, Danger.Deadly))
+                    {
+                        Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, protectedWard.LastAttackedTarget);
+                        Parent.jobs.StartJob(job, JobCondition.InterruptForced);
 
-                    return;
+                        return;
+                    }
                 }
 
                 if (protectedWard.CurJobDef == JobDefOf.FleeAndCower || protectedWard.CurJobDef == JobDefOf.FleeAndCowerShort)
@@ -208,8 +215,6 @@ namespace Xenomorphtype
                    
                     return;
                 }
-
-               
             }
         }
     }

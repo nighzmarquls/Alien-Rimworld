@@ -47,6 +47,7 @@
 				<pawnMaturation>XMT_StrangleMoss</pawnMaturation>
 				<maturationHours>1</maturationHours>
 				<minStackToMature>100</minStackToMature>
+				<maxActivePawnMaturationOnMap>10</maxActivePawnMaturationOnMap>
 			</li>
 			<li Class="Xenomorphtype.CompFilthSpreaderProperties">
 				<filth>Filth_AnimalFilth</filth>

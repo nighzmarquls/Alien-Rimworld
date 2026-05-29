@@ -53,7 +53,7 @@ namespace Xenomorphtype
             string text = description;
 
 
-            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
+            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl) && !DebugSettings.godMode)
             {
                 return text;
             }
@@ -127,8 +127,8 @@ namespace Xenomorphtype
             };
 
             Command_Action GeneClone_Action = new Command_Action();
-            GeneClone_Action.defaultLabel = "Apply Genes";
-            GeneClone_Action.defaultDesc = "Apply Genes to Target, overwriting existing genome.";
+            GeneClone_Action.defaultLabel = "XMT_ApplyGenes".Translate();
+            GeneClone_Action.defaultDesc = "XMT_ApplyGenesDesc".Translate();
             GeneClone_Action.icon = geneticTexture;
             GeneClone_Action.action = delegate
             {

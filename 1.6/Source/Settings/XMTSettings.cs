@@ -87,30 +87,30 @@ namespace Xenomorphtype
         }
         private string TooltipForEggMaturation()
         {
-            return Mathf.Floor(_laidEggMaturationTime * 24) + " hours";
+            return "XMT_SettingsHours".Translate(Mathf.Floor(_laidEggMaturationTime * 24));
         }
 
         private string TooltipForFactor(float value)
         {
-            return Mathf.Floor(value * 100) + "% factor";
+            return "XMT_SettingsPercentFactor".Translate(Mathf.Floor(value * 100));
         }
 
         private string TooltipForPercent(float value)
         {
-            return Mathf.Floor(value * 100) + "% ";
+            return "XMT_SettingsPercent".Translate(Mathf.Floor(value * 100));
         }
         private string TooltipForChance(float value)
         {
-            return Mathf.Floor(value * 100) + "% chance";
+            return "XMT_SettingsPercentChance".Translate(Mathf.Floor(value * 100));
         }
         private string TooltipForJellyNutrition()
         {
-            return Mathf.Floor(_jellyNutritionEfficiency * 100) + "% efficient";
+            return "XMT_SettingsPercentEfficient".Translate(Mathf.Floor(_jellyNutritionEfficiency * 100));
         }
 
         private string TooltipForJellyMass()
         {
-            return Mathf.Floor(_jellyMassEfficiency * 100) + "% efficient";
+            return "XMT_SettingsPercentEfficient".Translate(Mathf.Floor(_jellyMassEfficiency * 100));
         }
         public void DoWindowContents(Rect inRect)
         {
@@ -124,66 +124,66 @@ namespace Xenomorphtype
             listingStandard.ColumnWidth = viewRect.width;
             listingStandard.Begin(viewRect);
             listingStandard.Gap(4f);
-            listingStandard.CheckboxLabeled("Log Job Giver", ref _logJobGiver, "Enable log reporting on job giver");
+            listingStandard.CheckboxLabeled("XMT_SettingsLogJobGiver".Translate(), ref _logJobGiver, "XMT_SettingsLogJobGiverDesc".Translate());
             listingStandard.Gap(5f);
-            listingStandard.CheckboxLabeled("Log Climbing", ref _logClimbing, "Enable log reporting on climbing");
+            listingStandard.CheckboxLabeled("XMT_SettingsLogClimbing".Translate(), ref _logClimbing, "XMT_SettingsLogClimbingDesc".Translate());
             listingStandard.Gap(5f);
-            listingStandard.CheckboxLabeled("Log Rituals", ref _logRituals, "Enable log reporting on rituals");
+            listingStandard.CheckboxLabeled("XMT_SettingsLogRituals".Translate(), ref _logRituals, "XMT_SettingsLogRitualsDesc".Translate());
             listingStandard.Gap(5f);
-            listingStandard.CheckboxLabeled("Log Bio Horror", ref _logBiohorror, "Enable log reporting on mutations and other biohorror");
+            listingStandard.CheckboxLabeled("XMT_SettingsLogBioHorror".Translate(), ref _logBiohorror, "XMT_SettingsLogBioHorrorDesc".Translate());
             listingStandard.Gap(5f);
-            listingStandard.CheckboxLabeled("Log World Horror", ref _logWorld, "Enable log reporting on world horror system");
+            listingStandard.CheckboxLabeled("XMT_SettingsLogWorldHorror".Translate(), ref _logWorld, "XMT_SettingsLogWorldHorrorDesc".Translate());
             listingStandard.Gap(5f);
-            listingStandard.CheckboxLabeled("Enable Player Sabotage Behavior", ref _playerSabotage, "If enabled player xenomorphs will sabotage human infrastructure when recreation or mood is low.");
+            listingStandard.CheckboxLabeled("XMT_SettingsPlayerSabotage".Translate(), ref _playerSabotage, "XMT_SettingsPlayerSabotageDesc".Translate());
             listingStandard.Gap(5f);
-            listingStandard.CheckboxLabeled("Enable Horror Pregnancies", ref _horrorPregnancy, "If enabled xenomorph corruption will cause horror pregnancies.");
+            listingStandard.CheckboxLabeled("XMT_SettingsHorrorPregnancies".Translate(), ref _horrorPregnancy, "XMT_SettingsHorrorPregnanciesDesc".Translate());
             listingStandard.Gap(5f);
 
-            _jellyNutritionEfficiency = listingStandard.SliderLabeled("Jelly Nutrition Efficiency", _jellyNutritionEfficiency, 0.01f, 4f, tooltip: TooltipForJellyNutrition());
+            _jellyNutritionEfficiency = listingStandard.SliderLabeled("XMT_SettingsJellyNutritionEfficiency".Translate(), _jellyNutritionEfficiency, 0.01f, 4f, tooltip: TooltipForJellyNutrition());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("",TooltipForJellyNutrition());
             listingStandard.Gap(5f);
-            _jellyMassEfficiency = listingStandard.SliderLabeled("Jelly Mass Efficiency", _jellyMassEfficiency, 0.01f, 4f, tooltip: TooltipForJellyMass());
+            _jellyMassEfficiency = listingStandard.SliderLabeled("XMT_SettingsJellyMassEfficiency".Translate(), _jellyMassEfficiency, 0.01f, 4f, tooltip: TooltipForJellyMass());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForJellyMass());
             listingStandard.Gap(5f);
-            _maturationFactor = listingStandard.SliderLabeled("Maturation Factor", _maturationFactor, 0.00f, 10f, tooltip: TooltipForFactor(_maturationFactor));
+            _maturationFactor = listingStandard.SliderLabeled("XMT_SettingsMaturationFactor".Translate(), _maturationFactor, 0.00f, 10f, tooltip: TooltipForFactor(_maturationFactor));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForFactor(_maturationFactor));
             listingStandard.Gap(5f);
-            _wildEmbryoChance = listingStandard.SliderLabeled("Wild Embryo Chance Factor", _wildEmbryoChance, 0.00f, 1f, tooltip: TooltipForChance(_wildEmbryoChance));
+            _wildEmbryoChance = listingStandard.SliderLabeled("XMT_SettingsWildEmbryoChanceFactor".Translate(), _wildEmbryoChance, 0.00f, 1f, tooltip: TooltipForChance(_wildEmbryoChance));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForChance(_wildEmbryoChance));
             listingStandard.Gap(5f);
-            _wildMorphHuntChance = listingStandard.SliderLabeled("Wild Alien Chance Factor", _wildMorphHuntChance, 0.00f, 1f, tooltip: TooltipForChance(_wildMorphHuntChance));
+            _wildMorphHuntChance = listingStandard.SliderLabeled("XMT_SettingsWildAlienChanceFactor".Translate(), _wildMorphHuntChance, 0.00f, 1f, tooltip: TooltipForChance(_wildMorphHuntChance));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForChance(_wildMorphHuntChance));
             listingStandard.Gap(5f);
-            _siteAttackChance = listingStandard.SliderLabeled("Site Attack Chance Factor", _siteAttackChance, 0.00f, 1f, tooltip: TooltipForChance(_siteAttackChance));
+            _siteAttackChance = listingStandard.SliderLabeled("XMT_SettingsSiteAttackChanceFactor".Translate(), _siteAttackChance, 0.00f, 1f, tooltip: TooltipForChance(_siteAttackChance));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForChance(_siteAttackChance));
             listingStandard.Gap(5f);
-            _minimumOpinionForHiveFriend = Mathf.FloorToInt(listingStandard.SliderLabeled("Min Relationship For Hive Friend", _minimumOpinionForHiveFriend, -100, 100f, tooltip: ""));
+            _minimumOpinionForHiveFriend = Mathf.FloorToInt(listingStandard.SliderLabeled("XMT_SettingsMinRelationshipForHiveFriend".Translate(), _minimumOpinionForHiveFriend, -100, 100f, tooltip: ""));
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", _minimumOpinionForHiveFriend.ToString());
             listingStandard.Gap(5f);
-            _laidEggMaturationTime = listingStandard.SliderLabeled("Time for Laid Ovomorphs to Incubate", _laidEggMaturationTime, 0, 10f, tooltip: TooltipForEggMaturation());
+            _laidEggMaturationTime = listingStandard.SliderLabeled("XMT_SettingsLaidOvomorphIncubationTime".Translate(), _laidEggMaturationTime, 0, 10f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForEggMaturation());
             listingStandard.Gap(5f);
-            _biomeSpreadFactor = listingStandard.SliderLabeled("Xenoform Biome Spread Factor", _biomeSpreadFactor, 0, 1f, tooltip: TooltipForEggMaturation());
+            _biomeSpreadFactor = listingStandard.SliderLabeled("XMT_SettingsXenoformBiomeSpreadFactor".Translate(), _biomeSpreadFactor, 0, 1f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForPercent(_biomeSpreadFactor));
             listingStandard.Gap(5f);
-            _xenoformingGrowthFactor = listingStandard.SliderLabeled("Xenoforming Growth Factor", _xenoformingGrowthFactor, 0, 10f, tooltip: TooltipForEggMaturation());
+            _xenoformingGrowthFactor = listingStandard.SliderLabeled("XMT_SettingsXenoformingGrowthFactor".Translate(), _xenoformingGrowthFactor, 0, 10f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForPercent(_xenoformingGrowthFactor));
             listingStandard.Gap(5f);
-            _minAutoAggression = listingStandard.SliderLabeled("Minimum Awareness for Auto Aggression", _minAutoAggression, 0, 10f, tooltip: TooltipForEggMaturation());
+            _minAutoAggression = listingStandard.SliderLabeled("XMT_SettingsMinimumAwarenessForAutoAggression".Translate(), _minAutoAggression, 0, 10f, tooltip: TooltipForEggMaturation());
             listingStandard.Gap(2f);
             listingStandard.LabelDouble("", TooltipForPercent(_minAutoAggression));
             listingStandard.Gap(5f);
-            if (listingStandard.ButtonText("Reset To Default"))
+            if (listingStandard.ButtonText("XMT_SettingsResetToDefault".Translate()))
             {
                 ResetToDefault();
             }

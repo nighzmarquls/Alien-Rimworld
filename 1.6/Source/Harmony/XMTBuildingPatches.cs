@@ -17,7 +17,6 @@ namespace Xenomorphtype
          postfix: new HarmonyMethod(patchType, nameof(CanConstructPostfix)));
      */
     internal class XMTBuildingPatches {
-
         [HarmonyPatch(typeof(RaceRestrictionSettings), nameof(RaceRestrictionSettings.CanColonyBuild))]
         public static class Patch_RaceRestrictionSettings_CanColonyBuild
         {

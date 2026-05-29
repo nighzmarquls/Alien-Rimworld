@@ -89,18 +89,45 @@ namespace Xenomorphtype
 
         }
 
+        protected bool CanContinueAttach(Pawn target)
+        {
+            Pawn pawn = Parent;
+            if (pawn == null || target == null)
+            {
+                return false;
+            }
+
+            if (pawn.Dead || pawn.Downed || target.Dead)
+            {
+                return false;
+            }
+
+            if (!pawn.Spawned || !target.Spawned || pawn.MapHeld == null || target.MapHeld != pawn.MapHeld)
+            {
+                return false;
+            }
+
+            return pawn.PositionHeld.AdjacentTo8WayOrInside(target.PositionHeld);
+        }
+
         public virtual bool TryResist(Pawn target)
         {
             if (target.apparel != null)
             {
                 if (target.meleeVerbs.TryMeleeAttack(parent))
                 {
-                    if ((parent as Pawn).Dead)
+                    if (!CanContinueAttach(target))
                     {
                         return true;
                     }
                 }
             }
+
+            if (Rand.Chance(XMTUtility.GetDefendGrappleChance(Parent, target)))
+            {
+                return true;
+            }
+
             return false;
         }
         public virtual List<BodyPartRecord> GetTargetBodyParts(Pawn target)
@@ -112,6 +139,11 @@ namespace Xenomorphtype
         public void TryAttachToHost(Pawn target)
         {
             if (target == null)
+            {
+                return;
+            }
+
+            if (!CanContinueAttach(target))
             {
                 return;
             }
@@ -151,6 +183,11 @@ namespace Xenomorphtype
                     MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
                     return;
                 }
+
+                if (!CanContinueAttach(target))
+                {
+                    return;
+                }
             }
 
             if (target.jobs != null)
@@ -167,11 +204,17 @@ namespace Xenomorphtype
 
             source.Shuffle();
 
-            Hediff hediff = HediffMaker.MakeHediff(Props.parasiteHediff, target, source.First());
+            if (!source.Any())
+            {
+                return;
+            }
+
+            BodyPartRecord targetPart = source.First();
+            Hediff hediff = HediffMaker.MakeHediff(Props.parasiteHediff, target, targetPart);
 
             PreattachTarget(target);
 
-            target.health.AddHediff(hediff, source.First(), new DamageInfo(DamageDefOf.Stun, 10, 999, instigator: Parent));
+            target.health.AddHediff(hediff, targetPart, new DamageInfo(DamageDefOf.Stun, 10, 999, instigator: Parent));
         }
     }
 

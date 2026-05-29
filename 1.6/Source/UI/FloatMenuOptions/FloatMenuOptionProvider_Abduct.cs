@@ -29,7 +29,9 @@ namespace Xenomorphtype
                 {
 
                     IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map, context.FirstSelectedPawn);
-                    FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Abduct".Translate(), delegate
+                    GrappleCheckReport grappleReport = XMTUtility.GetGrappleCheckReport(context.FirstSelectedPawn, clickedPawn);
+                    string label = "XMT_FMO_Abduct".Translate(grappleReport.SuccessChance.ToStringPercent());
+                    FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, delegate
                     {
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, clickedPawn, cell);
                         FeralJobUtility.ReservePlaceForJob(context.FirstSelectedPawn, job, cell);
@@ -50,6 +52,14 @@ namespace Xenomorphtype
                     {
                         AbductOption.Disabled = true;
                         AbductOption.tooltip = "XMT_NoRoomToCocoon".Translate();
+                    }
+                    else if (grappleReport.BlockedReason.NullOrEmpty())
+                    {
+                        AbductOption.tooltip = "XMT_FMO_AbductTooltip".Translate(
+                            grappleReport.SuccessChance.ToStringPercent(),
+                            grappleReport.ResistChance.ToStringPercent(),
+                            grappleReport.ModifiedAttackerStrength.ToString("0.##"),
+                            grappleReport.ModifiedDefenderStrength.ToString("0.##"));
                     }
 
                     return AbductOption;

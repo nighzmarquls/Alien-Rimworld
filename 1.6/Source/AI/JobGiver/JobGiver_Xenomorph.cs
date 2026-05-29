@@ -112,7 +112,7 @@ namespace Xenomorphtype
                         Pawn target = XMTHiveUtility.GetOvomorphingCandidate(pawn.Map);
                         if (target != null)
                         {
-                            pawn.Map.reservationManager.ReleaseAllForTarget(target);
+                            FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, target);
                             if (XMTSettings.LogJobGiver)
                             {
                                 Log.Message(pawn + " is going to Ovomorph " + target);

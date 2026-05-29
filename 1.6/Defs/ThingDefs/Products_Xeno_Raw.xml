@@ -164,13 +164,14 @@
 		</statBases>
 		<ingestible>
 			<foodType>AnimalProduct</foodType>
-			<drugCategory>Medical</drugCategory>
-			<preferability>MealFine</preferability>
+			<drugCategory>Social</drugCategory>
+			<preferability>DesperateOnly</preferability>
 			<joy>0.08</joy>
 			<joyKind>Gluttonous</joyKind>
 			<ingestEffect>ResinBuild</ingestEffect>
 			<ingestSound>Meal_Eat</ingestSound>
 			<lowPriorityCaravanFood>true</lowPriorityCaravanFood>
+			<canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
 			<babiesCanIngest>true</babiesCanIngest>
 			<outcomeDoers>
 				<li Class="IngestionOutcomeDoer_GiveHediff">

@@ -60,7 +60,7 @@ namespace Xenomorphtype
                         {
                             return;
                         }
-                        Parent.mindState.mentalStateHandler.TryStartMentalState(ExternalDefOf.Crying, "living", forced: true, forceWake: true, false);
+                        Parent.mindState.mentalStateHandler.TryStartMentalState(ExternalDefOf.Crying, "XMT_LivingReason".Translate(), forced: true, forceWake: true, false);
                     
                     }
                 }

@@ -22,6 +22,7 @@
 			<SocialImpact>1</SocialImpact>
 			<ArmorRating_Blunt>0.75</ArmorRating_Blunt>
 			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<MechBandwidth MayRequire="Ludeon.RimWorld.Biotech">1</MechBandwidth>
 		</statOffsets>
       </li>
     </stages>
@@ -294,5 +295,232 @@
 				</headOffset>
 			</li>
 	</comps>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_RoyalCrown</defName>
+    <label>royal crown</label>
+    <description>a raised crown of psychic neural tissue and polished chitin.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.5</PsychicSensitivity>
+			<SocialImpact>1.5</SocialImpact>
+			<ArmorRating_Blunt>0.9</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.9</ArmorRating_Sharp>
+		</statOffsets>
+		<statFactors>
+			<PsychicEntropyMax>1.15</PsychicEntropyMax>
+			<PsychicEntropyRecoveryRate>1.1</PsychicEntropyRecoveryRate>
+		</statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_ImperialCrown</defName>
+    <label>imperial crown</label>
+    <description>a towering crest of dense neural folds and sovereign psychic presence.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>2</PsychicSensitivity>
+			<SocialImpact>2</SocialImpact>
+			<ArmorRating_Blunt>1.1</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.1</ArmorRating_Sharp>
+		</statOffsets>
+		<statFactors>
+			<PsychicEntropyMax>1.3</PsychicEntropyMax>
+			<PsychicEntropyRecoveryRate>1.25</PsychicEntropyRecoveryRate>
+		</statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_DivineHalo</defName>
+    <label>divine halo</label>
+    <description>a haloed crest of impossible sensory tissue, tuned to the hive like a living crown.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>3</PsychicSensitivity>
+			<SocialImpact>3</SocialImpact>
+			<ArmorRating_Blunt>1.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+		</statOffsets>
+		<statFactors>
+			<PsychicEntropyMax>1.5</PsychicEntropyMax>
+			<PsychicEntropyRecoveryRate>1.5</PsychicEntropyRecoveryRate>
+		</statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_FierceCrest</defName>
+    <label>fierce crest</label>
+    <description>a lowered battering crest of dense, brutal chitin.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>-0.5</PsychicSensitivity>
+			<SocialImpact>0.75</SocialImpact>
+			<ArmorRating_Blunt>1.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.5</ArmorRating_Sharp>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_JuggernautsCrest</defName>
+    <label>juggernaut's crest</label>
+    <description>a massive shield crest grown to weather gunfire, shrapnel and impact.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>-0.75</PsychicSensitivity>
+			<SocialImpact>1</SocialImpact>
+			<MoveSpeed>-0.4</MoveSpeed>
+			<ArmorRating_Blunt>2.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>2.25</ArmorRating_Sharp>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_SignalAmplifyingAntenna</defName>
+    <label>signal amplifying antenna</label>
+    <description>cryptomechanical antennae grown through the crest, ready to carry mechanoid command signals.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>3</MechBandwidth>
+			<SocialImpact>0.25</SocialImpact>
+			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_MechanitorArray</defName>
+    <label>mechanitor array</label>
+    <description>a living crown-array of metal-threaded chitin and neural receivers.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>6</MechBandwidth>
+			<SocialImpact>0.5</SocialImpact>
+			<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_AssimilatedSignalChip</defName>
+    <label>assimilated signal chip</label>
+    <description>integrated mechanoid command tissue derived from a signal chip.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>3</MechBandwidth>
+			<MechControlGroups>1</MechControlGroups>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_AssimilatedPowerfocusChip</defName>
+    <label>assimilated powerfocus chip</label>
+    <description>integrated mechanoid command tissue derived from a powerfocus chip.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>6</MechBandwidth>
+			<MechControlGroups>1</MechControlGroups>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_AssimilatedNanostructuringChip</defName>
+    <label>assimilated nanostructuring chip</label>
+    <description>integrated mechanoid command tissue derived from a nanostructuring chip.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>9</MechBandwidth>
+			<MechControlGroups>1</MechControlGroups>
+		</statOffsets>
+      </li>
+    </stages>
   </HediffDef>
 </Defs>

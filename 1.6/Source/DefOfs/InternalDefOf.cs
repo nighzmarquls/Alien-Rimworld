@@ -92,6 +92,8 @@ namespace Xenomorphtype
         public static JoyKindDef            HuntingPrey;
         public static JoyKindDef            Communion;
 
+        public static InteractionDef        XMT_QueenResourceAssimilation;
+
         //Xenomorph render Offsets
         public static OffsetListDef         XMT_HeadAttachmentOffsets;
         

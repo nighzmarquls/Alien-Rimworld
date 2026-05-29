@@ -401,9 +401,9 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (aggressor == null && dinfo.Instigator != null)
+            if (aggressor == null)
             {
-                if (Parent.Faction == null)
+                if (dinfo.Instigator != null && Parent.Faction == null)
                 {
                     if (Parent.mindState.mentalStateHandler.InMentalState)
                     {
@@ -1294,9 +1294,11 @@ namespace Xenomorphtype
             }
             
 
-            if(Rand.Chance(XMTUtility.GetDefendGrappleChance(Parent,target)))
+            GrappleCheckReport grappleReport = XMTUtility.GetGrappleCheckReport(Parent, target);
+            if(Rand.Chance(grappleReport.ResistChance))
             {
                 GenClamor.DoClamor(target, 10f, ClamorDefOf.Harm);
+                MoteMaker.ThrowText(target.DrawPos, target.Map, "XMT_TextMote_AbductGrappleResisted".Translate(grappleReport.ResistChance.ToStringPercent(), grappleReport.SuccessChance.ToStringPercent()), 1.9f);
                 target.TakeDamage(new DamageInfo(DamageDefOf.Blunt, 1, 999f, -1, parent));
                 return false;
             }
@@ -1493,6 +1495,76 @@ namespace Xenomorphtype
                 }
             }
             return false;
+        }
+
+        protected bool GetMechChargeJob(out Job job)
+        {
+            job = null;
+            if (!ModsConfig.BiotechActive)
+            {
+                return false;
+            }
+
+            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_ElectroMetabolicCatalyst))
+            {
+                return false;
+            }
+
+            if (Parent.needs?.food == null || Parent.needs.food.CurLevel <= 0.1f)
+            {
+                return false;
+            }
+
+            Pawn bestMech = null;
+            float bestScore = float.MinValue;
+            foreach (Pawn candidate in Parent.Map.mapPawns.AllPawnsSpawned)
+            {
+                if (candidate == Parent || candidate.Dead || !candidate.RaceProps.IsMechanoid)
+                {
+                    continue;
+                }
+
+                if (candidate.Faction != Faction.OfPlayer && !MechanitorUtility.IsPlayerOverseerSubject(candidate))
+                {
+                    continue;
+                }
+
+                if (!JobDriver_ElectroMetabolicCharge.WantsElectroMetabolicCharge(candidate))
+                {
+                    continue;
+                }
+
+                if (!FeralJobUtility.IsThingAvailableForJobBy(Parent, candidate))
+                {
+                    continue;
+                }
+
+                if (!Parent.CanReach(candidate, PathEndMode.Touch, Danger.Deadly))
+                {
+                    continue;
+                }
+
+                if (!JobDriver_ElectroMetabolicCharge.TryGetMechEnergy(candidate, out Need energy))
+                {
+                    continue;
+                }
+
+                float score = (1f - energy.CurLevelPercentage) * 1000f - candidate.Position.DistanceToSquared(Parent.Position);
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestMech = candidate;
+                }
+            }
+
+            if (bestMech == null)
+            {
+                return false;
+            }
+
+            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ElectroMetabolicCharge, bestMech);
+            FeralJobUtility.ReserveThingForJob(Parent, job, bestMech);
+            return true;
         }
 
         protected bool GetOvomorphingJob(out Job job)
@@ -1756,6 +1828,17 @@ namespace Xenomorphtype
                         return true;
 
                     }
+                    else if (material.target.Thing is IdeologyResinArtFrame artFrame)
+                    {
+                        if (!FeralJobUtility.IsThingAvailableForJobBy(Parent, artFrame))
+                        {
+                            continue;
+                        }
+
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_CorpseSculpture, artFrame);
+                        FeralJobUtility.ReserveThingForJob(Parent, job, artFrame);
+                        return true;
+                    }
                 }
             }
 
@@ -1877,6 +1960,12 @@ namespace Xenomorphtype
                         return true;
                     }
                 }
+
+                if (GetMechChargeJob(out job))
+                {
+                    return true;
+                }
+
                 return false;
             }
 
@@ -1919,6 +2008,11 @@ namespace Xenomorphtype
                     }
                 }
 
+                if (GetMechChargeJob(out job))
+                {
+                    return true;
+                }
+
                 if (GetCocoonPrisonerJob(out job))
                 {
                     return true;
@@ -1934,6 +2028,17 @@ namespace Xenomorphtype
                 {
                     return true;
                 }
+                return false;
+            }
+
+            if (workType == XenoWorkDefOf.Crafting)
+            {
+                CompQueenAssimilation assimilation = Parent.GetComp<CompQueenAssimilation>();
+                if (assimilation != null && assimilation.TryCreateAutoResourceAssimilationJob(out job))
+                {
+                    return true;
+                }
+
                 return false;
             }
 
@@ -2028,6 +2133,11 @@ namespace Xenomorphtype
                     {
                         return job;
                     }
+                }
+
+                if (GetMechChargeJob(out job))
+                {
+                    return job;
                 }
 
                 if (Parent.Faction == null && XMTHiveUtility.ShouldBuildNest(Parent.Map))
@@ -2194,7 +2304,7 @@ namespace Xenomorphtype
                 Parent.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
             }
             targetPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 8));
-            Parent.Map.reservationManager.ReleaseAllForTarget(targetPawn);
+            FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, targetPawn);
             Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, targetPawn);
             Parent.jobs.StartJob(job, JobCondition.InterruptForced);
         }

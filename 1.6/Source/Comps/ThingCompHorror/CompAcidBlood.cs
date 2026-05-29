@@ -33,17 +33,7 @@ namespace Xenomorphtype
 
         public float GetBloodFullness()
         {
-            float fullness = 1f;
-            if(IsParentPawn)
-            {
-                Hediff bloodloss = Parent.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss);
-                if (bloodloss != null)
-                {
-                    fullness = 1 - bloodloss.Severity;
-                    fullness *= Parent.BodySize;
-                }
-            }
-            return fullness*(parent.HitPoints/parent.MaxHitPoints);
+            return AcidUtility.GetBloodFullness(parent);
         }
         public bool TrySplashAcidThing(float severity, Thing thing)
         {
@@ -76,36 +66,7 @@ namespace Xenomorphtype
 
         public void DamageBiter(Pawn bitingPawn)
         {
-            if (bitingPawn != null)
-            {
-                FleckMaker.ThrowSmoke(bitingPawn.DrawPos, bitingPawn.Map, 5);
-                IEnumerable<BodyPartRecord> source = from x in bitingPawn.health.hediffSet.GetNotMissingParts()
-                                                     where
-                                                    x.IsInGroup(ExternalDefOf.Mouth) || x.depth == BodyPartDepth.Inside
-                                                     select x;
-
-                float Damage = Props.damage;
-                foreach (BodyPartRecord record in source)
-                {
-                    if (record != null)
-                    {
-                        DamageWorker.DamageResult result = bitingPawn.TakeDamage(new DamageInfo(DamageDefOf.AcidBurn, Damage, 999f, -1, parent, record));
-                        if (result.totalDamageDealt > 0 && !result.deflected && Props.appliedHediff != null)
-                        {
-                            BodyPartRecord targetPart = result.LastHitPart;
-                            if (bitingPawn.health.hediffSet.HasBodyPart(targetPart) || XMTUtility.GetPartAttachedToPartOnPawn(bitingPawn, ref targetPart))
-                            {
-                                Hediff burn = HediffMaker.MakeHediff(Props.appliedHediff, bitingPawn, targetPart);
-                                burn.Severity = result.totalDamageDealt * Props.damageToSeverity;
-
-                                bitingPawn.health.AddHediff(burn, targetPart);
-                            }
-                        }
-                        Damage -= (Props.damage / source.Count());
-                    }
-                }
-               
-            }
+            AcidUtility.DamageBiter(parent, bitingPawn, Props.damage, Props.appliedHediff, Props.damageToSeverity, true);
         }
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
@@ -154,34 +115,13 @@ namespace Xenomorphtype
                 AutoBleed = parent.MaxHitPoints > parent.HitPoints;
             }
 
-            if (dinfo.Def == DamageDefOf.Cut
-               || dinfo.Def == DamageDefOf.ExecutionCut
-               || dinfo.Def == DamageDefOf.Scratch
-               || dinfo.Def == DamageDefOf.Crush
-               || dinfo.Def == DamageDefOf.Stab
-               || dinfo.Def == DamageDefOf.Bullet || AutoBleed
-               )
+            if (AcidUtility.IsAcidSplashDamage(dinfo, AutoBleed))
             {
                 
                 float bloodfullness = GetBloodFullness();
 
-                if (dinfo.Instigator != null && dinfo.Instigator.Position.AdjacentTo8WayOrInside(parent.PositionHeld))
-                {
-   
-                    Pawn attacker = dinfo.Instigator as Pawn;
-                    if (attacker != null)
-                    {
-
-                        if (attacker.equipment != null)
-                        {
-                            if (!AcidUtility.IsAcidImmune(attacker?.equipment?.Primary))
-                            {
-                                attacker.equipment.Primary.TakeDamage(new DamageInfo(DamageDefOf.Deterioration, Props.damage + totalDamageDealt, 9, -1, parent));
-                            }
-                        }
-                    }
-                }
-                AcidUtility.TrySplashAcid(parent,bloodfullness + (totalDamageDealt / 10),Props.splashRange,Props.cells,true, Props.appliedHediff, Props.damageToSeverity, Props.damage);
+                AcidUtility.TryDamageAdjacentWeapon(parent, dinfo.Instigator, Props.damage + totalDamageDealt);
+                AcidUtility.TrySplashAcidFromWound(parent, bloodfullness, totalDamageDealt, Props.splashRange, Props.cells, Props.appliedHediff, Props.damageToSeverity, Props.damage);
             }
         }
 

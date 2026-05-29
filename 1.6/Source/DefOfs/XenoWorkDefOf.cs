@@ -19,6 +19,9 @@ namespace Xenomorphtype
         public static ThingDef XMT_CorpseSculptureSmall;
         public static ThingDef XMT_CorpseSculptureLarge;
         public static ThingDef XMT_CorpseSculptureGrand;
+        public static ThingDef XMT_IdeologyResinArtFrameSmall;
+        public static ThingDef XMT_IdeologyResinArtFrameLarge;
+        public static ThingDef XMT_IdeologyResinArtFrameGrand;
 
         public static DesignationDef XMT_Abduct;
         public static DesignationDef XMT_Release;
@@ -50,6 +53,7 @@ namespace Xenomorphtype
         public static JobDef XMT_HideInSpot;
         public static JobDef XMT_HiveBuilding;
         public static JobDef XMT_PerformTrophallaxis;
+        public static JobDef XMT_ElectroMetabolicCharge;
         public static JobDef XMT_PruneLarder;
         public static JobDef XMT_MergeIntoJellyWell;
         public static JobDef XMT_WallClimb;
@@ -59,6 +63,8 @@ namespace Xenomorphtype
         public static JobDef XMT_CopyGenes;
         public static JobDef XMT_LayOvomorph;
         public static JobDef XMT_GeneDevour;
+        public static JobDef XMT_AssimilateQueenItem;
+        public static JobDef XMT_QueenGestateMech;
         public static JobDef XMT_CorpseSculpture;
 
         public static JobDef XMT_Protofluid;

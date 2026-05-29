@@ -57,7 +57,7 @@ namespace Xenomorphtype
             {
                 Find.Targeter.BeginTargeting(GeneTargetParameters, delegate (LocalTargetInfo target)
                 {
-                    Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
+                    FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AlterGenes, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -87,7 +87,7 @@ namespace Xenomorphtype
             {
                 Find.Targeter.BeginTargeting(MutantTargetParameters, delegate (LocalTargetInfo target)
                 {
-                    Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
+                    FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MutateTarget, target);
                     job.count = 1;
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -129,7 +129,7 @@ namespace Xenomorphtype
             {
                 Find.Targeter.BeginTargeting(CorpseParameters, delegate (LocalTargetInfo target)
                 {
-                    Parent.Map.reservationManager.ReleaseAllForTarget(target.Thing);
+                    FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_GeneDevour, target.Thing);
                     job.count = 1;
                     job.overeat = true;

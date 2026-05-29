@@ -112,7 +112,17 @@ namespace Xenomorphtype
             else if (promotePart != null)
             {
                 BodyPartRecord part = parent.pawn.health.hediffSet.GetBodyPartRecord(promotePart);
+                if (part == null)
+                {
+                    return;
+                }
+
                 Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, part);
+                if (promoted.Part != part)
+                {
+                    promoted = parent.pawn.health.AddHediff(hediffDef, part);
+                }
+
                 if (promoted != null)
                 {
                     promoted.Severity += severityIncrease;
@@ -146,7 +156,17 @@ namespace Xenomorphtype
                         }
                     }
                 }
+                if (part == null)
+                {
+                    return;
+                }
+
                 Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, part);
+                if (promoted.Part != part)
+                {
+                    promoted = parent.pawn.health.AddHediff(hediffDef, part);
+                }
+
                 if (promoted != null)
                 {
                     promoted.Severity += severityIncrease;

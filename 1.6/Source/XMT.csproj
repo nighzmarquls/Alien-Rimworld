@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\Climber\PawnClimberWorker.cs" />
+    <Compile Include="Abilities\Comps\CompAbilityLayOvomorph.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodLet.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
     <Compile Include="Abilities\Climber\PawnClimber.cs" />
@@ -123,6 +124,8 @@
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ProduceJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_PruneLarder.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_ConsumeGenes.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_AssimilateQueenItem.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_QueenGestateMech.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_Ritual_Metamorphosis.cs" />
     <Compile Include="AI\JobDriver\JobDriver_StarbeastSeduce.cs" />
     <Compile Include="AI\JobDriver\JobDriver_StealthHunt.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="AI\JobDriver\JobDriver_Sabotage.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_StarbeastSnuggle.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_Trophallaxis.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ElectroMetabolicCharge.cs" />
     <Compile Include="AI\JobDriver\JobDriver_ClimbToPosition.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_LayOvomorph.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Metamorphosis.cs" />
@@ -170,6 +174,8 @@
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompExterminator.cs" />
     <Compile Include="Comps\ThingCompHorror\CompJellyDrug.cs" />
     <Compile Include="Comps\ThingCompHorror\CompDetonateOnTemperature.cs" />
+    <Compile Include="Debug\DebugActions_GrappleStealth.cs" />
+    <Compile Include="Debug\DebugActions_HostGenes.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTRecruitPatches.cs" />
     <Compile Include="Harmony\XMTCaveInPatches.cs" />
@@ -186,7 +192,9 @@
     <Compile Include="UI\Designators\Designator_MakeJelly.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_AdvancedTame.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_Abduct.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenAssimilation.cs" />
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
@@ -195,6 +203,7 @@
     <Compile Include="BioHorror\Recipes\Recipe_ExtractJelly.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_XMT_HaulToGeneBank.cs" />
     <Compile Include="BioHorror\XMT_GeneRemapListDef.cs" />
+    <Compile Include="BioHorror\XMT_OvomorphLayCostModifierListDef.cs" />
     <Compile Include="Building\AmbushTrap.cs" />
     <Compile Include="Building\Fillable\JellyPod.cs" />
     <Compile Include="Building\Fillable\JellyWell.cs" />
@@ -256,6 +265,7 @@
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompInfector.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompMundivore.cs" />
     <Compile Include="Comps\PawnComps\Queen\CompQueen.cs" />
+    <Compile Include="Comps\PawnComps\Queen\CompQueenAssimilation.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompScreecher.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompFleshTick.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompSmotherer.cs" />
@@ -269,6 +279,7 @@
     <Compile Include="DefOfs\XenoPreceptDefOf.cs" />
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Comps\GameComps\GameComponent_Xenomorph.cs" />
+    <Compile Include="Comps\GameComps\GameComponent_CorpseArtProgress.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
     <Compile Include="Harmony\XMTEnderPatches.cs" />
     <Compile Include="Harmony\XMTExplosivePatches.cs" />
@@ -280,6 +291,7 @@
     <Compile Include="Harmony\XMTMapPatches.cs" />
     <Compile Include="Harmony\XMTOffsetPatches.cs" />
     <Compile Include="Harmony\XMTResearchPatches.cs" />
+    <Compile Include="Harmony\XMTReservationPatches.cs" />
     <Compile Include="Harmony\XMTRestPatches.cs" />
     <Compile Include="Harmony\XMTSurgeryPatch.cs" />
     <Compile Include="Harmony\XMTToilPatches.cs" />
@@ -289,10 +301,14 @@
     <Compile Include="Hediffs\DisplayHediff.cs" />
     <Compile Include="Hediffs\RevealedHediff.cs" />
     <Compile Include="Utilities\ArtUtility.cs" />
+    <Compile Include="Utilities\XMTStealthUtility.cs" />
     <Compile Include="SocialHorror\Precept\Comp\PreceptComp_WitnessedAction.cs" />
     <Compile Include="SocialHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_Biomorph.cs" />
     <Compile Include="SocialHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_Biomorph_Social.cs" />
     <Compile Include="SocialHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_ParasiteEggs.cs" />
+    <Compile Include="SocialHorror\Ideology\XMT_ResinConstructionSubstitutionDef.cs" />
+    <Compile Include="SocialHorror\Ideology\IdeologyResinArtFrame.cs" />
+    <Compile Include="SocialHorror\Ideology\XMTIdeologyConstructionUtility.cs" />
     <Compile Include="SocialHorror\Ritual\StageAction\ActionOnTick\ActionOnTick_EnrichChrysalis.cs" />
     <Compile Include="SocialHorror\Ritual\StageAction\RitualStageAction_EnrichChrysalis.cs" />
     <Compile Include="Incidents\IncidentWorker_HuntingXenomorph.cs" />
@@ -303,6 +319,8 @@
     <Compile Include="Map\TileMutatorWorkers\TileMutatorWorker_Xenoforming.cs" />
     <Compile Include="ModExtensions\AnimalMutateForms.cs" />
     <Compile Include="Progression\Quests\QuestNode_RequiresXenoforming.cs" />
+    <Compile Include="Progression\QueenAssimilationDef.cs" />
+    <Compile Include="Progression\QueenIngestibleResourceDef.cs" />
     <Compile Include="Progression\RoyalEvolutionDef.cs" />
     <Compile Include="SocialHorror\Ritual\Behavior\RitualBehaviorWorker_MatureQueen.cs" />
     <Compile Include="SocialHorror\Ritual\Obligation\TargetWorker\RitualObligationTargetWorker_MatureChrysalis.cs" />
@@ -317,6 +335,7 @@
     <Compile Include="Rendering\PawnRenderer\PawnRenderNodeWorker_HeadAttachment.cs" />
     <Compile Include="Rendering\PawnRenderer\PawnRenderNodeWorker_OverlayMesoSkeleton.cs" />
     <Compile Include="Settings\XMTSettings.cs" />
+    <Compile Include="Stats\StatPart_GrappleVerbQuality.cs" />
     <Compile Include="Things\MutagenGooFilth.cs" />
     <Compile Include="Things\XMTGenePack.cs" />
     <Compile Include="Building\HibernationCocoon.cs" />
@@ -343,6 +362,7 @@
     <Compile Include="DefOfs\ExternalDefOf.cs" />
     <Compile Include="DefOfs\HorrorMoodDefOf.cs" />
     <Compile Include="DefOfs\InternalDefOf.cs" />
+    <Compile Include="DefOfs\XenoStatDefOf.cs" />
     <Compile Include="Comps\PawnComps\CompLarvalGenes.cs" />
     <Compile Include="DefOfs\XenoGeneDefOf.cs" />
     <Compile Include="DefOfs\XenoWorkDefOf.cs" />
@@ -362,9 +382,11 @@
     <Compile Include="Comps\HediffComps\HediffComp_Spreading.cs" />
     <Compile Include="Comps\HediffComps\Reproduction\HediffComp_SurgeryInspectableEmbryo.cs" />
     <Compile Include="Harmony\XMTBuildingPatches.cs" />
+    <Compile Include="Harmony\XMTIdeologyConstructionPatches.cs" />
     <Compile Include="Harmony\XMTHealthPatches.cs" />
     <Compile Include="Harmony\XMTInteractionPatches.cs" />
     <Compile Include="Harmony\XMTPosturePatches.cs" />
+    <Compile Include="Harmony\XMTQueenMechanitorPatches.cs" />
     <Compile Include="Harmony\XMTThoughtPatch.cs" />
     <Compile Include="Harmony\XMTUIPatches.cs" />
     <Compile Include="Map\HiveMapComponent.cs" />
@@ -380,12 +402,17 @@
     <Compile Include="UI\Designators\Designator_ScentFoe.cs" />
     <Compile Include="UI\Designators\Designator_ScentFriend.cs" />
     <Compile Include="UI\Designators\Designator_Hive_Cancel.cs" />
+    <Compile Include="UI\Designators\Designator_HiveIdeologyBuildings.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_DevourSpecial.cs" />
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
+    <Compile Include="UI\Gizmos\Gizmo_QueenResources.cs" />
+    <Compile Include="UI\PlayLogEntry_QueenResourceAssimilation.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvomorph.cs" />
     <Compile Include="UI\Tabs\ITab_CrypticEntity.cs" />
+    <Compile Include="UI\XMTLineDrawer.cs" />
     <Compile Include="UI\Windows\Dialogue_Evolution.cs" />
+    <Compile Include="UI\Windows\EvolutionGraphEdgeRouter.cs" />
     <Compile Include="UI\Windows\EvolutionGraphLayout.cs" />
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
@@ -395,8 +422,11 @@
     <Compile Include="WorldHorror\ScenPart\ScenPart_Xenoforming.cs" />
     <Compile Include="WorldHorror\WorldDrawLayer_Xenoforming.cs" />
     <Compile Include="Utilities\XenoformingUtility.cs" />
+    <Compile Include="Utilities\OvomorphLayUtility.cs" />
     <Compile Include="XMT.cs" />
     <Compile Include="Settings\XMTMod.cs" />
+    <Compile Include="Utilities\QueenIngestibleResourceUtility.cs" />
+    <Compile Include="Utilities\QueenMechGestationUtility.cs" />
     <Compile Include="Utilities\XMTUtility.cs" />
   </ItemGroup>
   <ItemGroup>

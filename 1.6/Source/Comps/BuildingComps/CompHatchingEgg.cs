@@ -153,7 +153,7 @@ namespace Xenomorphtype
                 if (Ovomorph.Unhatched)
                 {
                     bool ready = Ovomorph.Ready;
-                    FloatMenuOption HatchOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Hatch", delegate
+                    FloatMenuOption HatchOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_Hatch".Translate(), delegate
                     {
                         if (ready)
                         {

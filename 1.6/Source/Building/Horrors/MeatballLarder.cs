@@ -72,15 +72,14 @@ namespace Xenomorphtype
             };
 
             Command_Action Jelly_Action = new Command_Action();
-            Jelly_Action.defaultLabel = "Create Jelly Well";
-            Jelly_Action.defaultDesc = "Target will devour the larder and become a Jelly Well.";
+            Jelly_Action.defaultLabel = "XMT_CreateJellyWell".Translate();
+            Jelly_Action.defaultDesc = "XMT_CreateJellyWellDesc".Translate();
             Jelly_Action.icon = jellyTexture;
             Jelly_Action.action = delegate
             {
                 Find.Targeter.BeginTargeting(GeneTargetParameters, delegate (LocalTargetInfo target)
                 {
-                    Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("The target will merge to become a Jelly Well, this is lethal and irreversible.\n" +
-                        "Are you sure?",
+                    Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("XMT_CreateJellyWellConfirmation".Translate(),
                     delegate {
                         if (target.Thing is Pawn targetPawn)
                         {

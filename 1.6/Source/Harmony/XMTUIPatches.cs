@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -9,6 +11,85 @@ namespace Xenomorphtype
 {
     internal class XMTUIPatches
     {
+        [HarmonyPatch(typeof(PawnColumnWorker_WorkPriority), "GetHeaderTip")]
+        public static class Patch_PawnColumnWorker_WorkPriority_GetHeaderTip
+        {
+            private static readonly FieldInfo pawnColumnDefField = AccessTools.Field(typeof(PawnColumnWorker), "def");
+
+            [HarmonyPostfix]
+            public static void Postfix(PawnColumnWorker_WorkPriority __instance, PawnTable table, ref string __result)
+            {
+                PawnColumnDef columnDef = pawnColumnDefField?.GetValue(__instance) as PawnColumnDef;
+                WorkTypeDef workType = columnDef?.workType;
+                if (workType == null || !ShouldShowCryptimorphWorkNotes(table))
+                {
+                    return;
+                }
+
+                string key = WorkTypeNoteKey(workType);
+                if (key.NullOrEmpty())
+                {
+                    return;
+                }
+
+                __result += "\n\n" + "XMT_WorkTypeCryptimorphHeader".Translate() + "\n" + key.Translate();
+            }
+
+            private static bool ShouldShowCryptimorphWorkNotes(PawnTable table)
+            {
+                return table?.PawnsListForReading?.Any(pawn => pawn != null && XMTUtility.IsXenomorph(pawn)) == true;
+            }
+
+            private static string WorkTypeNoteKey(WorkTypeDef workType)
+            {
+                if (workType == XenoWorkDefOf.Childcare)
+                {
+                    return "XMT_WorkTypeNote_Childcare";
+                }
+                if (workType == XenoWorkDefOf.Doctor)
+                {
+                    return "XMT_WorkTypeNote_Doctor";
+                }
+                if (workType == XenoWorkDefOf.Warden)
+                {
+                    return "XMT_WorkTypeNote_Warden";
+                }
+                if (workType == XenoWorkDefOf.Handling)
+                {
+                    return "XMT_WorkTypeNote_Handling";
+                }
+                if (workType == XenoWorkDefOf.Cooking)
+                {
+                    return "XMT_WorkTypeNote_Cooking";
+                }
+                if (workType == XenoWorkDefOf.Crafting)
+                {
+                    return "XMT_WorkTypeNote_Crafting";
+                }
+                if (workType == XenoWorkDefOf.Hunting)
+                {
+                    return "XMT_WorkTypeNote_Hunting";
+                }
+                if (workType == XenoWorkDefOf.Construction)
+                {
+                    return "XMT_WorkTypeNote_Construction";
+                }
+                if (workType == XenoWorkDefOf.Growing)
+                {
+                    return "XMT_WorkTypeNote_Growing";
+                }
+                if (workType == XenoWorkDefOf.PlantCutting)
+                {
+                    return "XMT_WorkTypeNote_PlantCutting";
+                }
+                if (workType == XenoWorkDefOf.Art)
+                {
+                    return "XMT_WorkTypeNote_Art";
+                }
+
+                return null;
+            }
+        }
 
         [HarmonyPatch(typeof(PawnUIOverlay), nameof(PawnUIOverlay.DrawPawnGUIOverlay))]
         public static class Patch_PawnUIOverlay_DrawPawnGUIOverlay
@@ -46,7 +127,7 @@ namespace Xenomorphtype
                     FloatMenuOption HuntOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Hunt".Translate(), delegate
                     {
 
-                        pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
+                        FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, targetPawn);
                         Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, targetPawn);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
@@ -66,7 +147,7 @@ namespace Xenomorphtype
                     FloatMenuOption TrophallaxisOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Feed".Translate(), delegate
                     {
 
-                        pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
+                        FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, targetPawn);
                         if (pawn.Crawling)
                         {
                             CompCrawler compCrawler = pawn.GetComp<CompCrawler>();
@@ -95,7 +176,7 @@ namespace Xenomorphtype
                 {
                     FloatMenuOption OvomorphOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Ovomorph".Translate(), delegate
                     {
-                        pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
+                        FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, targetPawn);
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyOvomorphing, targetPawn);
                         job.count = 1;
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -110,7 +191,7 @@ namespace Xenomorphtype
                         FloatMenuOption LarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Larder".Translate(), delegate
                         {
 
-                            pawn.Map.reservationManager.ReleaseAllForTarget(targetPawn);
+                            FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, targetPawn);
                             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyLardering, targetPawn);
                             job.count = 1;
                             pawn.jobs.StartJob(job, JobCondition.InterruptForced);
@@ -130,7 +211,7 @@ namespace Xenomorphtype
                 {
                     FloatMenuOption PruneLarderOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_PruneLarder".Translate(), delegate
                     {
-                        pawn.Map.reservationManager.ReleaseAllForTarget(targetBuilding);
+                        FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, targetBuilding);
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, targetBuilding);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 
@@ -145,7 +226,7 @@ namespace Xenomorphtype
                     FloatMenuOption TrophallaxisOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("XMT_FMO_Feed".Translate(), delegate
                     {
 
-                        pawn.Map.reservationManager.ReleaseAllForTarget(eggSack);
+                        FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, eggSack);
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PerformTrophallaxis, eggSack.Occupant, eggSack);
                         pawn.jobs.StartJob(job, JobCondition.InterruptForced);
 

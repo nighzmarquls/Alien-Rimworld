@@ -24,4 +24,24 @@
 		</value>
 	</Operation>
 
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Odyssey</li>
+		</mods>
+		<match Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="LavaSnail"]/modExtensions/li[@Class="Xenomorphtype.AnimalMutateForms"]/resultCandidates</xpath>
+			<value>
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>ROM_Shoggoth</thingTransformationTarget>
+						<pawnTransformationTarget>ROM_Shoggoth</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</value>
+		</match>
+	</Operation>
+
 </Patch>

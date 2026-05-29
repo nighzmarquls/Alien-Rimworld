@@ -51,6 +51,13 @@
 		<evoPointCost>1</evoPointCost>
 		<description>A potent growth serum which hive daughters can inject into prey to promote tissue growth above all else.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_CryptomechanicalCircuitry</defName>
+		<label>Cryptomechanical Circuitry</label>
+		<evoPointCost>1</evoPointCost>
+		<description>The queen adapts a mechanitor chip into cryptic nerve and resin, preparing her body to command machines through alien impulse. Other mechanoid chips can later be consumed to unlock equivalent mech technology.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX1</defName>
@@ -145,7 +152,86 @@
 			<li>Evo_LarderSerum</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_ElectroMetabolicCatalyst</defName>
+		<label>Electro Metabolic Catalyst</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Cryptic tissues learn to bleed usable current into allied mechanoids at great metabolic cost.</description>
+		<prerequisites>
+			<li>Evo_CryptomechanicalCircuitry</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_MechanoidGestation</defName>
+		<label>Mechanoid Gestation</label>
+		<evoPointCost>2</evoPointCost>
+		<description>The queen can begin gestating small mechanoids from swallowed metal, components, slag and dead mechanoid matter. This advancement is inert without a mechlink.</description>
+		<prerequisites>
+			<li>Evo_CryptomechanicalCircuitry</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+<!--
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_RoyalCrown</defName>
+		<label>Royal Crown</label>
+		<evoPointCost>2</evoPointCost>
+		<evolutionHediff>XMT_RoyalCrown</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The maternal crest rises into a crown of neural vanes, improving psychic resonance, neural heat handling and social awe.</description>
+		<replaces>
+			<li>Evo_MaternalCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_MaternalCrest</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_FierceCrest</defName>
+		<label>Fierce Crest</label>
+		<evoPointCost>2</evoPointCost>
+		<evolutionHediff>XMT_FierceCrest</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The crest thickens into a brutal shield of chitin, sacrificing psychic delicacy for impact protection and predatory presence.</description>
+		<replaces>
+			<li>Evo_MaternalCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_MaternalCrest</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+-->
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_SignalAmplifyingAntenna</defName>
+		<label>Signal Amplifying Antenna</label>
+		<evoPointCost>2</evoPointCost>
+		<evolutionHediff>XMT_SignalAmplifyingAntenna</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>Metallic nerves thread through the crest, making the queen a living beacon for mechanoid signals and future raid-calling mechanics. This advancement is inert without a mechlink.</description>
+		<replaces>
+			<li>Evo_MaternalCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_CryptomechanicalCircuitry</li>
+			<li>Evo_MaternalCrest</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+<!--
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_QuadrupedalStance</defName>
+		<label>Quadrupedal Stance</label>
+		<evoPointCost>2</evoPointCost>
+		<description>The secondary arms lengthen into a supporting pair of legs, preparing a more mobile stance at the loss of fine manipulation.</description>
+		<replaces>
+			<li>Evo_DelicateHands</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_DelicateHands</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	-->
 	<!-- 3rd tier -->
 	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
@@ -172,7 +258,111 @@
 			<li>Evo_GeneStorage</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_MechanoidSubversion</defName>
+		<label>Mechanoid Subversion</label>
+		<evoPointCost>4</evoPointCost>
+		<description>Specialized ovamorphs can be prepared for later hijacker mechanics, letting the hive corrupt artificial life and turn hostile mechanoid systems against themselves. This advancement is inert without a mechlink.</description>
+		<prerequisites>
+			<li>Evo_SignalAmplifyingAntenna</li>
+			<li>Evo_MechanoidGestation</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_MechanitorArray</defName>
+		<label>Mechanitor Array</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_MechanitorArray</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The antenna blossoms into a crown-array of cryptic receivers, preparing body-size scaling bandwidth and stronger mechanoid summons. This advancement is inert without a mechlink.</description>
+		<replaces>
+			<li>Evo_SignalAmplifyingAntenna</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_SignalAmplifyingAntenna</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_MechanoidSynthesis</defName>
+		<label>Mechanoid Synthesis</label>
+		<evoPointCost>4</evoPointCost>
+		<description>The queen's gestation tissues can later synthesize larger and more advanced mechanoids unlocked by mech technology, with mass and movement costs handled by future mechanics. This advancement is inert without a mechlink.</description>
+		<prerequisites>
+			<li>Evo_MechanoidGestation</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+<!--
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_ImperialCrown</defName>
+		<label>Imperial Crown</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_ImperialCrown</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The royal crown widens into an imperial psychic organ, deepening neural heat capacity, heat loss and social command.</description>
+		<replaces>
+			<li>Evo_RoyalCrown</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_RoyalCrown</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_JuggernautsCrest</defName>
+		<label>Juggernaut's Crest</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_JuggernautsCrest</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The fierce crest becomes a living bulwark of layered chitin, granting enormous protection at the cost of speed.</description>
+		<replaces>
+			<li>Evo_FierceCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_FierceCrest</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_IntegratedEggSac</defName>
+		<label>Integrated Egg Sac</label>
+		<evoPointCost>4</evoPointCost>
+		<description>The ovipositor sack fuses into the queen's body, preparing continuous egg production without full immobility.</description>
+		<replaces>
+			<li>Evo_OvoThrone</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_OvoThrone</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_HexapedalStance</defName>
+		<label>Hexapedal Stance</label>
+		<evoPointCost>4</evoPointCost>
+		<description>The royal posture settles into a fully hexapedal gait, preparing immense mobility at further cost to delicate handling.</description>
+		<replaces>
+			<li>Evo_QuadrupedalStance</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_QuadrupedalStance</li>
+			<li>Evo_RendingClaws</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_BiologicalSubjugation</defName>
+		<label>Biological Subjugation</label>
+		<evoPointCost>4</evoPointCost>
+		<description>The hive's biological influence deepens until sufficiently altered minds cannot bring themselves to strike the queen, preparing future enslavement and taming abilities.</description>
+		<prerequisites>
+			<li>Evo_MutantExpression</li>
+			<li>Evo_MaternalCrest</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+-->
 	<!-- 4th tier -->
 	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
@@ -197,6 +387,42 @@
 		<description>Unlocks the ability to alter one's own genes.</description>
 		<prerequisites>
 			<li>Evo_GeneDigestion</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_SignalBoostingPylon</defName>
+		<label>Signal Boosting Pylon</label>
+		<evoPointCost>8</evoPointCost>
+		<description>The royal can later lay ovamorphs that grow into bandwidth-amplifying pylons at mechanoid material cost. This advancement is inert without a mechlink.</description>
+		<prerequisites>
+			<li>Evo_MechanitorArray</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+<!--
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_DivineHalo</defName>
+		<label>Divine Halo</label>
+		<evoPointCost>8</evoPointCost>
+		<evolutionHediff>XMT_DivineHalo</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The imperial crown unfolds into a halo-like organ of psychic tissue, granting the queen her highest resonance and preparing divine crest psycast unlocks.</description>
+		<replaces>
+			<li>Evo_ImperialCrown</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_ImperialCrown</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+-->
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_MechanoidDominion</defName>
+		<label>Mechanoid Dominion</label>
+		<evoPointCost>8</evoPointCost>
+		<description>The queen becomes a sovereign signal over artificial organisms, overwhelming all protections and defenses. This advancement is inert without a mechlink.</description>
+		<prerequisites>
+			<li>Evo_MechanoidSubversion</li>
+			<li>Evo_MechanitorArray</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 	

@@ -701,7 +701,7 @@ namespace Xenomorphtype
 
         public static bool IsCellValidCocoon(IntVec3 cell, Map map, bool fast = false)
         {
-            if(cell == IntVec3.Invalid)
+            if(cell == IntVec3.Invalid || map == null || !cell.InBounds(map))
             {
                 return false;
             }
@@ -729,6 +729,11 @@ namespace Xenomorphtype
 
             foreach (IntVec3 adjacent in Adjacents)
             {
+                if (!adjacent.InBounds(map))
+                {
+                    continue;
+                }
+
                 IEnumerable<Building> things = adjacent.GetThingList(map).OfType<Building>();
 
                 if (things.Any())

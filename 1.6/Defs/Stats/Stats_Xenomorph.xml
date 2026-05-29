@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <StatDef>
+    <defName>XMT_GrappleStrength</defName>
+    <label>grapple strength</label>
+    <description>Ability to force, resist, or maintain close body-control struggles.</description>
+    <category>PawnCombat</category>
+    <defaultBaseValue>1</defaultBaseValue>
+    <minValue>0</minValue>
+    <toStringStyle>FloatTwo</toStringStyle>
+    <neverDisabled>true</neverDisabled>
+    <skillNeedFactors>
+      <li Class="SkillNeed_BaseBonus">
+        <skill>Melee</skill>
+        <baseValue>1</baseValue>
+        <bonusPerLevel>0.03</bonusPerLevel>
+      </li>
+    </skillNeedFactors>
+    <capacityFactors>
+      <li>
+        <capacity>Moving</capacity>
+        <weight>0.4</weight>
+      </li>
+      <li>
+        <capacity>Manipulation</capacity>
+        <weight>0.4</weight>
+      </li>
+      <li>
+        <capacity>Consciousness</capacity>
+        <weight>0.2</weight>
+      </li>
+    </capacityFactors>
+    <parts>
+      <li Class="Xenomorphtype.StatPart_GrappleVerbQuality" />
+    </parts>
+    <displayPriorityInCategory>4095</displayPriorityInCategory>
+  </StatDef>
+
+  <StatDef>
+    <defName>XMT_Stealth</defName>
+    <label>stealth</label>
+    <description>Ability to avoid detection while hidden. This stat is based on vanilla hunting stealth so existing hunting stealth patches can influence stealth checks.</description>
+    <category>PawnWork</category>
+    <defaultBaseValue>1</defaultBaseValue>
+    <minValue>0</minValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <neverDisabled>true</neverDisabled>
+    <statFactors>
+      <li>HuntingStealth</li>
+    </statFactors>
+    <displayPriorityInCategory>4499</displayPriorityInCategory>
+  </StatDef>
+
+  <StatDef>
+    <defName>XMT_StealthDetection</defName>
+    <label>stealth detection</label>
+    <description>Ability to detect hidden threats. Sight and hearing affect this stat; line of sight, light, noise, and distance are applied by individual detection checks.</description>
+    <category>PawnCombat</category>
+    <defaultBaseValue>1</defaultBaseValue>
+    <minValue>0</minValue>
+    <toStringStyle>PercentZero</toStringStyle>
+    <neverDisabled>true</neverDisabled>
+    <skillNeedFactors>
+      <li Class="SkillNeed_BaseBonus">
+        <skill>Shooting</skill>
+        <baseValue>1</baseValue>
+        <bonusPerLevel>0.025</bonusPerLevel>
+      </li>
+      <li Class="SkillNeed_BaseBonus">
+        <skill>Animals</skill>
+        <baseValue>1</baseValue>
+        <bonusPerLevel>0.025</bonusPerLevel>
+      </li>
+    </skillNeedFactors>
+    <capacityFactors>
+      <li>
+        <capacity>Sight</capacity>
+        <weight>0.6</weight>
+      </li>
+      <li>
+        <capacity>Hearing</capacity>
+        <weight>0.4</weight>
+      </li>
+    </capacityFactors>
+    <displayPriorityInCategory>4094</displayPriorityInCategory>
+  </StatDef>
+
+</Defs>

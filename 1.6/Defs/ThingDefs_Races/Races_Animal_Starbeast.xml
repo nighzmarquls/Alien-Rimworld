@@ -76,6 +76,9 @@
 			<Radiation MayRequire="Dubwise.Rimatomics">0</Radiation>
 			<Wildness>0.2</Wildness>
 			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">40</MinimumContainmentStrength>
+			<XMT_GrappleStrength>0.75</XMT_GrappleStrength>
+			<XMT_Stealth>2.5</XMT_Stealth>
+			<XMT_StealthDetection>0.75</XMT_StealthDetection>
 		</statBases>
 		<uiIconScale>2</uiIconScale>
 		<tools>
@@ -216,6 +219,9 @@
 			<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 			<Radiation MayRequire="Dubwise.Rimatomics">0</Radiation>
 			<Wildness>1</Wildness>
+			<XMT_GrappleStrength>0.25</XMT_GrappleStrength>
+			<XMT_Stealth>1.5</XMT_Stealth>
+			<XMT_StealthDetection>0.25</XMT_StealthDetection>
 		</statBases>
 		<uiIconScale>2</uiIconScale>
 		<tools>

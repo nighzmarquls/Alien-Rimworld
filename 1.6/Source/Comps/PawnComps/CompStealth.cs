@@ -17,7 +17,7 @@ namespace Xenomorphtype
         private Pawn Parent => (Pawn)parent;
         bool wasLastFriendly = false;
 
-        public int becomeInvisibleTick = int.MaxValue;
+        public int becomeInvisibleTick = 0;
 
         private bool IsFriendly => Parent.Faction == null ? false : Parent.Faction.IsPlayer;
         [Unsaved(false)]
@@ -196,7 +196,7 @@ namespace Xenomorphtype
                     }
 
                     int tick = Find.TickManager.TicksGame;
-                    if (tick > becomeInvisibleTick)
+                    if (Invisibility != null && Invisibility.PsychologicallyVisible && tick > becomeInvisibleTick)
                     {
                         if (Parent.Map.gameConditionManager.MapBrightness <= Props.hideBrightness || HiddenByBed())
                         {
@@ -211,12 +211,7 @@ namespace Xenomorphtype
                         return;
                     }
 
-                    CheckIfSeen();
-
-                    if (Parent.IsPsychologicallyInvisible())
-                    {
-                        CheckIfHeard();
-                    }
+                    CheckIfDetected();
                 }
                 
             }
@@ -234,7 +229,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        private void CheckIfSeen()
+        private void CheckIfDetected()
         {
             if (HiddenByBed())
             {
@@ -259,89 +254,28 @@ namespace Xenomorphtype
                 return;
             }
 
-            bool visible = true;
             if (brightness < Props.minVisibleBrightness)
             {
                 TryHide();
-                visible = false;
-            }
-
-            if(visible)
-            {
-                TryVisible();
-                return;
             }
 
             IEnumerable<Thing> PossibleSpotters = GenRadial.RadialDistinctThingsAround(Parent.Position, Parent.Map, Props.spotRange, true)
-                    .Where(x => XMTUtility.IsSpotter(x) && XMTUtility.IsThingWaryOfTarget(x,Parent));
-            bool found = false;
-            Thing finder = null;
+                    .Where(x => x != Parent && XMTUtility.IsSpotter(x) && XMTUtility.IsThingWaryOfTarget(x,Parent));
 
             if (PossibleSpotters.Any())
             {
                 foreach (Thing thing in PossibleSpotters)
                 {
-                    if(Parent.AdjacentTo8WayOrInside(thing))
+                    StealthDetectionReport report = XMTStealthUtility.GetDetectionReport(Parent, thing, Props.spotRange, brightness);
+                    if (report.CanDetect && Rand.Chance(report.FinalChance))
                     {
-                        found = true;
-                        finder = thing;
-                        break;
-                    }
-                    else if (brightness < Props.minVisibleBrightness)
-                    {
-                        continue;
-                    }
-
-                    Pawn pawn = thing as Pawn;
-                    if (pawn != null)
-                    {
-                        if (!PawnUtility.IsBiologicallyOrArtificiallyBlind(pawn))
-                        {
-                            bool hasDarkvision = false;
-                            if(pawn.genes != null)
-                            {
-                                hasDarkvision = pawn.genes.HasActiveGene(ExternalDefOf.DarkVision);
-                            }
-
-                            if(XMTUtility.IsXenomorph(pawn))
-                            {
-                                hasDarkvision = true;
-                            }
-
-                            float seeing = pawn.health.capacities.GetLevel(PawnCapacityDefOf.Sight) * (hasDarkvision? 1.0f : brightness);
-                            if (Rand.Chance(seeing))
-                            {
-                                if (GenSight.LineOfSightToThing(pawn.PositionHeld, Parent, Parent.Map))
-                                {
-                                    found = true;
-                                    finder = thing;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        found = true;
-                        finder = thing;
+                        RevelationShock(thing);
+                        TryVisible();
                         break;
                     }
                 }
-                if (found)
-                {
-                    RevelationShock(finder);
-                    TryVisible();
-                }
             }
 
-        }
-
-        private void CheckIfHeard()
-        {
-            if(Parent.Faction == Faction.OfPlayer)
-            {
-                return;
-            }
         }
     }
 

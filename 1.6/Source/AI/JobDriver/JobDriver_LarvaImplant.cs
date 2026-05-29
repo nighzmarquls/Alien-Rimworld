@@ -15,7 +15,7 @@ namespace Xenomorphtype
         {
             get
             {
-                return (Pawn)job.GetTarget(TargetIndex.A).Thing;
+                return job.GetTarget(TargetIndex.A).Thing as Pawn;
             }
         }
         public override bool TryMakePreToilReservations(bool errorOnFailed)
@@ -25,7 +25,10 @@ namespace Xenomorphtype
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            Toil toil = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOn(() => Find.TickManager.TicksGame > startTick + 5000 && (float)(job.GetTarget(TargetIndex.A).Cell - pawn.Position).LengthHorizontalSquared > 4f);
+            Toil toil = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch)
+                .FailOnDespawnedOrNull(TargetIndex.A)
+                .FailOn(() => Prey == null || pawn == null || pawn.Dead)
+                .FailOn(() => Find.TickManager.TicksGame > startTick + 5000 && (float)(job.GetTarget(TargetIndex.A).Cell - pawn.Position).LengthHorizontalSquared > 4f);
             yield return toil;
             yield return AttemptEmbrace();
         }
@@ -37,6 +40,12 @@ namespace Xenomorphtype
             toil.tickAction = delegate
             {
                 Pawn prey = Prey;
+                if (prey == null || pawn == null || pawn.Dead)
+                {
+                    ReadyForNextToil();
+                    return;
+                }
+
                 CompLarvalGenes LarvalGenes = pawn.GetComp<CompLarvalGenes>();
                 if (LarvalGenes != null && !LarvalGenes.latched)
                 {

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<Xenomorphtype.QueenIngestibleResourceDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_MechanoidMaterial</defName>
+		<label>mechanoid material</label>
+		<description>Recovered industrial mass stored for mechanoid gestation.</description>
+		<barColor>(0.62, 0.64, 0.64)</barColor>
+		<barHighlightColor>(0.82, 0.84, 0.84)</barHighlightColor>
+		<requiredEvolution>Evo_MechanoidGestation</requiredEvolution>
+		<prerequisiteAssimilations>
+			<li>XMT_Assimilate_Mechlink</li>
+		</prerequisiteAssimilations>
+		<baseCapacity>180</baseCapacity>
+		<bodySizeFactor>1</bodySizeFactor>
+		<metabolismFactor>0.08</metabolismFactor>
+		<allowDerivedIngredientValue>true</allowDerivedIngredientValue>
+		<derivedIngredientFactor>0.8</derivedIngredientFactor>
+		<entries>
+			<li>
+				<thingDef>Steel</thingDef>
+				<valuePerUnit>1</valuePerUnit>
+			</li>
+			<li>
+				<thingDef>Plasteel</thingDef>
+				<valuePerUnit>4</valuePerUnit>
+			</li>
+			<li>
+				<thingDef>ComponentIndustrial</thingDef>
+				<valuePerUnit>25</valuePerUnit>
+			</li>
+			<li>
+				<thingDef>ComponentSpacer</thingDef>
+				<valuePerUnit>75</valuePerUnit>
+			</li>
+			<li>
+				<thingDef>ChunkSlagSteel</thingDef>
+				<valuePerUnit>15</valuePerUnit>
+			</li>
+			<li MayRequire="Ludeon.RimWorld.Odyssey">
+				<thingDef>ChunkMechanoidSlag</thingDef>
+				<valuePerUnit>25</valuePerUnit>
+			</li>
+			<li>
+				<thingDef>SubcoreBasic</thingDef>
+				<valuePerUnit>50</valuePerUnit>
+			</li>
+			<li>
+				<thingDef>SubcoreRegular</thingDef>
+				<valuePerUnit>75</valuePerUnit>
+			</li>
+			<li>
+				<thingDef>SubcoreHigh</thingDef>
+				<valuePerUnit>100</valuePerUnit>
+			</li>
+		</entries>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+</Defs>

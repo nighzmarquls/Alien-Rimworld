@@ -97,6 +97,38 @@
 			</li>
 		</comps>
 	</AbilityDef>
+
+	<AbilityDef>
+		<defName>XMT_Ability_OvomorphSpew</defName>
+		<label>ovomorph spew</label>
+		<description>Launches a forming ovamorph into a nearby space.</description>
+		<iconPath>UI/Abilities/Ovomorph</iconPath>
+		<displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+		<category>Xenomorph</category>
+		<cooldownTicksRange>60000</cooldownTicksRange>
+		<sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<uiOrder>4</uiOrder>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<label>spew</label>
+			<warmupTime>1</warmupTime>
+			<range>3.5</range>
+			<drawAimPie>false</drawAimPie>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Xenomorphtype.CompProperties_AbilityLayOvomorph">
+				<ovomorphDef>XMT_Ovomorph</ovomorphDef>
+				<baseFoodCost>2</baseFoodCost>
+				<useCostModifiers>true</useCostModifiers>
+				<initialProgress>1</initialProgress>
+			</li>
+		</comps>
+	</AbilityDef>
 	
 
 </Defs>

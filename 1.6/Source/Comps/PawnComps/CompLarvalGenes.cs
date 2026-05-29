@@ -124,6 +124,27 @@ namespace Xenomorphtype
             }
 
         }
+        private bool CanContinueAttach(Pawn target)
+        {
+            Pawn pawn = Parent;
+            if (pawn == null || target == null)
+            {
+                return false;
+            }
+
+            if (pawn.Dead || pawn.Downed || target.Dead)
+            {
+                return false;
+            }
+
+            if (!pawn.Spawned || !target.Spawned || pawn.MapHeld == null || target.MapHeld != pawn.MapHeld)
+            {
+                return false;
+            }
+
+            return pawn.PositionHeld.AdjacentTo8WayOrInside(target.PositionHeld);
+        }
+
         public void TryEmbrace(Pawn target)
         {
             if (target == null)
@@ -196,6 +217,11 @@ namespace Xenomorphtype
                     MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
                     return;
                 }
+
+                if (!CanContinueAttach(target))
+                {
+                    return;
+                }
             }
 
             if (target.jobs != null)
@@ -241,10 +267,15 @@ namespace Xenomorphtype
         {
             if (target.meleeVerbs.TryMeleeAttack(parent))
             {
-                if ((parent as Pawn).Dead)
+                if (!CanContinueAttach(target))
                 {
                     return true;
                 }
+            }
+
+            if (Rand.Chance(XMTUtility.GetDefendGrappleChance(Parent, target)))
+            {
+                return true;
             }
 
             if (target.apparel != null)

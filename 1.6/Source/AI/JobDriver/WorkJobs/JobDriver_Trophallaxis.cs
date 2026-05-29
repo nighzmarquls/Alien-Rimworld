@@ -18,7 +18,10 @@ namespace Xenomorphtype
 
     public class JobDriver_Trophallaxis : JobDriver
     {
+        private const int RecipientWaitRefreshInterval = 120;
+
         protected float initialFoodPercentage;
+        private int nextRecipientWaitRefreshTick;
 
         protected bool recipientStored => recipient.Map != pawn.Map;
         protected Pawn recipient => (Pawn)base.TargetThingA;
@@ -35,7 +38,7 @@ namespace Xenomorphtype
             toil.initAction = delegate
             {
                 initialFoodPercentage = recipient.needs.food.CurLevelPercentage;
-                PawnUtility.ForceWait(recipient, Mathf.FloorToInt(recipient.needs.food.NutritionWanted*1250f), pawn);
+                ForceRecipientWait();
             };
             toil.tickAction = delegate
             {
@@ -49,6 +52,8 @@ namespace Xenomorphtype
                 {
                     pawn.needs.food.CurLevel -= lost;
                 }
+
+                ForceRecipientWait();
 
                 if (recipient.needs.food.CurLevelPercentage >= 0.75f|| pawn.needs.food.CurCategory == HungerCategory.Starving)
                 {
@@ -135,6 +140,17 @@ namespace Xenomorphtype
             toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.WithEffect(EffecterDefOf.Breastfeeding, (recipientStored) ? TargetIndex.B : TargetIndex.A);
             return toil;
+        }
+
+        private void ForceRecipientWait()
+        {
+            if (recipientStored || recipient == null || recipient.Destroyed || Find.TickManager.TicksGame < nextRecipientWaitRefreshTick)
+            {
+                return;
+            }
+
+            PawnUtility.ForceWait(recipient, RecipientWaitRefreshInterval + 60, pawn, maintainPosture: true, maintainSleep: false);
+            nextRecipientWaitRefreshTick = Find.TickManager.TicksGame + RecipientWaitRefreshInterval;
         }
 
         protected override IEnumerable<Toil> MakeNewToils()

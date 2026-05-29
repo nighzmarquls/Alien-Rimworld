@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<!--
+		Layout stress-test advancements.
+		These defs are intentionally self-contained and can be commented out or removed as a block.
+		They exercise fan-out, replacement chains, shared prerequisites, multi-parent convergence, late recombination,
+		simple one-parent chains adjacent to multi-parent nodes and intentionally pathological cycles.
+
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_RootAlpha</defName>
+		<label>Test Root Alpha</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Layout test root for a replacement branch and a cross-link branch.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_RootBeta</defName>
+		<label>Test Root Beta</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Layout test root for a competing replacement branch.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_RootGamma</defName>
+		<label>Test Root Gamma</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Layout test root that feeds a shared convergence directly.</description>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_AlphaReplacement</defName>
+		<label>Alpha Replacement</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests a straightforward replacement edge from Alpha.</description>
+		<replaces>
+			<li>Evo_Test_RootAlpha</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_Test_RootAlpha</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_AlphaSideBranch</defName>
+		<label>Alpha Side Branch</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests same-root fan-out without replacement.</description>
+		<prerequisites>
+			<li>Evo_Test_RootAlpha</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_BetaReplacement</defName>
+		<label>Beta Replacement</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests a second replacement lineage that later converges.</description>
+		<replaces>
+			<li>Evo_Test_RootBeta</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_Test_RootBeta</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_SharedConvergence</defName>
+		<label>Shared Convergence</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests three-parent convergence, including a direct root prerequisite.</description>
+		<prerequisites>
+			<li>Evo_Test_AlphaReplacement</li>
+			<li>Evo_Test_BetaReplacement</li>
+			<li>Evo_Test_RootGamma</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_CrossBridge</defName>
+		<label>Cross Bridge</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests a cross-link between a non-replacement alpha branch and beta replacement branch.</description>
+		<prerequisites>
+			<li>Evo_Test_AlphaSideBranch</li>
+			<li>Evo_Test_BetaReplacement</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_LateRecombination</defName>
+		<label>Late Recombination</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests late recombination between two already-shared branches.</description>
+		<prerequisites>
+			<li>Evo_Test_SharedConvergence</li>
+			<li>Evo_Test_CrossBridge</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_ConvergenceReplacementA</defName>
+		<label>Convergence Replace A</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests replacement fan-out from a shared convergence.</description>
+		<replaces>
+			<li>Evo_Test_SharedConvergence</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_Test_SharedConvergence</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_ConvergenceReplacementB</defName>
+		<label>Convergence Replace B</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests competing replacement fan-out from the same shared convergence.</description>
+		<replaces>
+			<li>Evo_Test_SharedConvergence</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_Test_SharedConvergence</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_FinalApex</defName>
+		<label>Final Apex</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests final multi-parent convergence from recombination and replacement forks.</description>
+		<prerequisites>
+			<li>Evo_Test_LateRecombination</li>
+			<li>Evo_Test_ConvergenceReplacementA</li>
+			<li>Evo_Test_ConvergenceReplacementB</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_LockedChainChild</defName>
+		<label>Locked Chain Child</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests that a one-parent child stays vertically aligned while adjacent nodes compete for the same row.</description>
+		<replaces>
+			<li>Evo_Test_RootGamma</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_Test_RootGamma</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_LockedChainGrandchild</defName>
+		<label>Locked Chain Grandchild</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests that a simple chain grandchild is not pulled sideways by nearby centered fan-out packing.</description>
+		<replaces>
+			<li>Evo_Test_LockedChainChild</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_Test_LockedChainChild</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_AdjacentMultiParentA</defName>
+		<label>Adjacent Multi A</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests a nearby multi-parent node that should not drag the locked chain off column.</description>
+		<prerequisites>
+			<li>Evo_Test_RootAlpha</li>
+			<li>Evo_Test_RootGamma</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_AdjacentMultiParentB</defName>
+		<label>Adjacent Multi B</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Tests another nearby multi-parent node sharing the same rough desired column.</description>
+		<prerequisites>
+			<li>Evo_Test_RootBeta</li>
+			<li>Evo_Test_RootGamma</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_SelfCycle</defName>
+		<label>Self Cycle</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Pathological layout test: this def requires itself and should trigger cycle detection without infinite recursion.</description>
+		<prerequisites>
+			<li>Evo_Test_SelfCycle</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_CycleA</defName>
+		<label>Cycle A</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Pathological layout test: two-node cycle, half A.</description>
+		<prerequisites>
+			<li>Evo_Test_CycleB</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_CycleB</defName>
+		<label>Cycle B</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Pathological layout test: two-node cycle, half B.</description>
+		<prerequisites>
+			<li>Evo_Test_CycleA</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_Test_DuplicatePrerequisite</defName>
+		<label>Duplicate Prereq</label>
+		<evoPointCost>0</evoPointCost>
+		<description>Pathological layout test: duplicate prerequisite entries should not crash layout even if they create redundant edges.</description>
+		<prerequisites>
+			<li>Evo_Test_RootAlpha</li>
+			<li>Evo_Test_RootAlpha</li>
+			<li>Evo_Test_RootBeta</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	-->
+</Defs>

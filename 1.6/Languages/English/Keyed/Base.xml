@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
-	<XMT_FMO_Abduct>Abduct</XMT_FMO_Abduct>
+	<XMT_FMO_Abduct>Abduct ({0} success)</XMT_FMO_Abduct>
+	<XMT_FMO_AbductTooltip>Predicted grapple check: {0} success, {1} resistance.\nAttacker strength: {2}\nTarget strength: {3}</XMT_FMO_AbductTooltip>
 	<XMT_FMO_Make>Make </XMT_FMO_Make>
 	
 	<XMT_FMO_NoNestEnclosed>Nest Spot is not Fully Enclosed.</XMT_FMO_NoNestEnclosed>
@@ -10,6 +11,8 @@
 	<XMT_FMO_TameNotEnabled>No Advanced Taming Selected.</XMT_FMO_TameNotEnabled>
 	
 	<XMT_FMO_Feed>Trophallaxis</XMT_FMO_Feed>
+	<XMT_FMO_ChargeMech>Charge {0}</XMT_FMO_ChargeMech>
+	<XMT_FMO_MechCharged>{0} is already charged to its desired level.</XMT_FMO_MechCharged>
 	<XMT_FMO_TooHungry>{0} is too hungry to perform Trophallaxis.</XMT_FMO_TooHungry>
 	<XMT_FMO_TooStuffed>{0} is too full to recieve Trophallaxis.</XMT_FMO_TooStuffed>
 	
@@ -40,6 +43,10 @@
 	
 	<XMT_EvolutionLabel>Choose Traits</XMT_EvolutionLabel>
 	<XMT_EvolutionDescription>express different morphological traits.</XMT_EvolutionDescription>
+	<XMT_EvolutionRequires>requires: </XMT_EvolutionRequires>
+	<XMT_EvolutionPrerequisiteFor>is prerequisite for </XMT_EvolutionPrerequisiteFor>
+	<XMT_EvolutionAdd>Add</XMT_EvolutionAdd>
+	<XMT_EvolutionRemove>Remove</XMT_EvolutionRemove>
 	
 	<XMT_LayOvomorphLabel>Lay {0}</XMT_LayOvomorphLabel>
 	<XMT_LayOvomorphDescription>Lay {0} at the designated location.</XMT_LayOvomorphDescription>
@@ -57,6 +64,7 @@
 	
 	<XMT_CannotHatch>cannot hatch, still gestating."</XMT_CannotHatch>
 	<XMT_ForceHatch>Hatch Now</XMT_ForceHatch>
+	<XMT_Hatch>Hatch</XMT_Hatch>
 	<XMT_Ready>Ready.</XMT_Ready>
 	
 	<XMT_StandLabel>Stand-up</XMT_StandLabel>
@@ -85,9 +93,10 @@
 	<XMT_MessageMustDesignateAlive>Must designate a living non-cryptimorph target.</XMT_MessageMustDesignateAlive>
 	
 	<XMT_CommandAbduct>Abduct</XMT_CommandAbduct>
-	<XMT_CommandAbductDescription>Designate targets for Abduction.</XMT_CommandAbductDescription>
+	<XMT_CommandAbductDescription>Designate targets for abduction. Assigned workers compare their grapple strength against the target's grapple strength and may skip targets that are likely to resist.</XMT_CommandAbductDescription>
 	
-	<XMT_MessageMustDesignateAbductable>Must designate abductable.</XMT_MessageMustDesignateAbductable>
+	<XMT_MessageMustDesignateAbductable>Must designate a living target.</XMT_MessageMustDesignateAbductable>
+	<XMT_TextMote_AbductGrappleResisted>Resisted\n{0} resist chance\n{1} success chance</XMT_TextMote_AbductGrappleResisted>
 	
 	<XMT_CommandInvestigateSite>Investigate Settlement</XMT_CommandInvestigateSite>
 	<XMT_CommandInvestigateSiteDesc>No one seems to be home? that's odd.</XMT_CommandInvestigateSiteDesc>
@@ -111,6 +120,9 @@
 	
 	<XMT_CommandArt>Sculpt</XMT_CommandArt>
 	<XMT_CommandArtDescription>Designate skeletons for art sculpture.</XMT_CommandArtDescription>
+	<XMT_CommandHiveIdeologyBuildings>Shape Ideology Structure</XMT_CommandHiveIdeologyBuildings>
+	<XMT_CommandHiveIdeologyBuildingsDescription>Shape a believed ideological structure from resin.</XMT_CommandHiveIdeologyBuildingsDescription>
+	<XMT_IdeologyBuildOptionWithIdeo>{0} ({1})</XMT_IdeologyBuildOptionWithIdeo>
 	
 	<XMT_MessageMustDesignateArtable>Must Designate Dessicated Corpses.</XMT_MessageMustDesignateArtable>
 	
@@ -243,6 +255,103 @@
 	<XMT_Guard_Target_Description>Choose a living being to protect.</XMT_Guard_Target_Description>
 	<XMT_Guard_Sad_Reason>Ward is missing.</XMT_Guard_Sad_Reason>
 	<XMT_Guard_Coma_Reason>Ward died.</XMT_Guard_Coma_Reason>
+	<XMT_TerribleHowling>terrible howling</XMT_TerribleHowling>
+	<XMT_LivingReason>living</XMT_LivingReason>
+
+	<XMT_Assimilate>Assimilate</XMT_Assimilate>
+	<XMT_AssimilateDesc>Integrate compatible matter or technology into the queen's body.</XMT_AssimilateDesc>
+	<XMT_AssimilateThing>Assimilate {0}</XMT_AssimilateThing>
+	<XMT_AssimilationCannotReach>Cannot reach {0}.</XMT_AssimilationCannotReach>
+	<XMT_AssimilationNotAssimilatable>Not assimilatable.</XMT_AssimilationNotAssimilatable>
+	<XMT_AssimilationAlreadyAssimilated>Already assimilated.</XMT_AssimilationAlreadyAssimilated>
+	<XMT_AssimilationRequires>Requires {0}.</XMT_AssimilationRequires>
+	<XMT_AssimilationRequiresCount>Requires {0} {1}.</XMT_AssimilationRequiresCount>
+	<XMT_AssimilationCompletedGeneric>{PAWN_nameDef} assimilated {0}.</XMT_AssimilationCompletedGeneric>
+	<XMT_AssimilatedMechlinkMessage>{PAWN_nameDef} has assimilated a mechlink.</XMT_AssimilatedMechlinkMessage>
+	<XMT_AssimilatedMechanoidTransponderMessage>{PAWN_nameDef} has assimilated a mechanoid transponder.</XMT_AssimilatedMechanoidTransponderMessage>
+	<XMT_AssimilatedSignalChipMessage>{PAWN_nameDef} has assimilated a signal chip and decoded standard mechtech.</XMT_AssimilatedSignalChipMessage>
+	<XMT_AssimilatedPowerfocusChipMessage>{PAWN_nameDef} has assimilated a powerfocus chip and decoded high mechtech.</XMT_AssimilatedPowerfocusChipMessage>
+	<XMT_AssimilatedNanostructuringChipMessage>{PAWN_nameDef} has assimilated a nanostructuring chip and decoded ultra mechtech.</XMT_AssimilatedNanostructuringChipMessage>
+	<XMT_MechanitorShipDecryptedLabel>Mechanitor ship decrypted</XMT_MechanitorShipDecryptedLabel>
+	<XMT_MechanitorShipDecryptedText>{PAWN_nameDef} has assimilated the mechanoid transponder and decrypted the location of a mechanitor ship.</XMT_MechanitorShipDecryptedText>
+	<XMT_CallMechThreat>Call mech threat</XMT_CallMechThreat>
+	<XMT_CallMechThreatDesc>Broadcast a hostile mechanoid challenge through the queen's integrated mech signals.</XMT_CallMechThreatDesc>
+	<XMT_CallMechThreatOption>Call {0}</XMT_CallMechThreatOption>
+	<XMT_CallMechThreatRequires>Call {0}: requires {1}</XMT_CallMechThreatRequires>
+	<XMT_CallMechThreatReward>Reward: {0}.</XMT_CallMechThreatReward>
+	<XMT_CallMechThreatWave>Call wave: {0}.</XMT_CallMechThreatWave>
+	<XMT_CalledMechThreat>{PAWN_nameDef} called a {0} threat.</XMT_CalledMechThreat>
+	<XMT_NoMechThreatsAvailable>No mech threats available.</XMT_NoMechThreatsAvailable>
+	<XMT_HijackComms>Hijack comms</XMT_HijackComms>
+	<XMT_HijackCommsDesc>Open long-range communications through the queen's signal-amplifying antenna.</XMT_HijackCommsDesc>
+	<XMT_NoCommsTargetsAvailable>No comms targets available.</XMT_NoCommsTargetsAvailable>
+	<XMT_QueenResources>Reserves</XMT_QueenResources>
+	<XMT_AssimilatedResourcesMessage>{PAWN_nameDef} assimilated {1}, recovering {2}.</XMT_AssimilatedResourcesMessage>
+	<XMT_GestateMechanoid>Gestate mechanoid</XMT_GestateMechanoid>
+	<XMT_GestateMechanoidDesc>Gestate a small mechanoid from assimilated mechanoid material.</XMT_GestateMechanoidDesc>
+	<XMT_GestateMechanoidOption>Gestate {0}: {1} material, {2}h</XMT_GestateMechanoidOption>
+	<XMT_NoMechGestationOptions>No mechanoid patterns available.</XMT_NoMechGestationOptions>
+	<XMT_MechGestationUnavailable>Unavailable.</XMT_MechGestationUnavailable>
+	<XMT_MechGestationLocked>Requires mechanoid gestation.</XMT_MechGestationLocked>
+	<XMT_MechGestationResearchMissing>Requires {0}.</XMT_MechGestationResearchMissing>
+	<XMT_MechGestationNeedsMaterial>Requires {0} {1}.</XMT_MechGestationNeedsMaterial>
+	<XMT_MechGestationNoBandwidth>Requires mechanitor control.</XMT_MechGestationNoBandwidth>
+	<XMT_MechGestationComplete>{PAWN_nameDef} finished gestating {MECH_labelShort}.</XMT_MechGestationComplete>
+	<XMT_WorkTypeCryptimorphHeader>Cryptimorph behavior:</XMT_WorkTypeCryptimorphHeader>
+	<XMT_WorkTypeNote_Childcare>Moves Ovomorphs into place and applies ovomorphing to valid hosts.</XMT_WorkTypeNote_Childcare>
+	<XMT_WorkTypeNote_Doctor>Feeds hive dependents and electro-metabolically charges mechs.</XMT_WorkTypeNote_Doctor>
+	<XMT_WorkTypeNote_Warden>Feeds or cocoons prisoners and electro-metabolically charges mechs.</XMT_WorkTypeNote_Warden>
+	<XMT_WorkTypeNote_Handling>Befriends or abducts marked targets.</XMT_WorkTypeNote_Handling>
+	<XMT_WorkTypeNote_Cooking>Produces jelly from jelly makers.</XMT_WorkTypeNote_Cooking>
+	<XMT_WorkTypeNote_Crafting>Lets cryptimorph mechanitors fill accessible mechanoid material reserves.</XMT_WorkTypeNote_Crafting>
+	<XMT_WorkTypeNote_Hunting>Hunts prey and responds to marked enemies.</XMT_WorkTypeNote_Hunting>
+	<XMT_WorkTypeNote_Construction>Cools nest structures when the hive overheats.</XMT_WorkTypeNote_Construction>
+	<XMT_WorkTypeNote_Growing>Applies larder transformation to valid targets.</XMT_WorkTypeNote_Growing>
+	<XMT_WorkTypeNote_PlantCutting>Prunes mature larders.</XMT_WorkTypeNote_PlantCutting>
+	<XMT_WorkTypeNote_Art>Creates cryptimorph corpse sculptures and resin art frames.</XMT_WorkTypeNote_Art>
+
+	<XMT_CreateJellyWell>Create Jelly Well</XMT_CreateJellyWell>
+	<XMT_CreateJellyWellDesc>Target will devour the larder and become a Jelly Well.</XMT_CreateJellyWellDesc>
+	<XMT_CreateJellyWellConfirmation>The target will merge to become a Jelly Well, this is lethal and irreversible.\nAre you sure?</XMT_CreateJellyWellConfirmation>
+	<XMT_ApplyGenes>Apply Genes</XMT_ApplyGenes>
+	<XMT_ApplyGenesDesc>Apply Genes to Target, overwriting existing genome.</XMT_ApplyGenesDesc>
+	<XMT_Release>Release</XMT_Release>
+	<XMT_ReleaseFrom>Release from {0}</XMT_ReleaseFrom>
+	<XMT_CancelRelease>Cancel Release</XMT_CancelRelease>
+	<XMT_CancelReleaseFrom>Cancel Release from {0}</XMT_CancelReleaseFrom>
+
+	<XMT_ModSettingsCategory>Alien | Rimworld</XMT_ModSettingsCategory>
+	<XMT_SettingsLogJobGiver>Log Job Giver</XMT_SettingsLogJobGiver>
+	<XMT_SettingsLogJobGiverDesc>Enable log reporting on job giver</XMT_SettingsLogJobGiverDesc>
+	<XMT_SettingsLogClimbing>Log Climbing</XMT_SettingsLogClimbing>
+	<XMT_SettingsLogClimbingDesc>Enable log reporting on climbing</XMT_SettingsLogClimbingDesc>
+	<XMT_SettingsLogRituals>Log Rituals</XMT_SettingsLogRituals>
+	<XMT_SettingsLogRitualsDesc>Enable log reporting on rituals</XMT_SettingsLogRitualsDesc>
+	<XMT_SettingsLogBioHorror>Log Bio Horror</XMT_SettingsLogBioHorror>
+	<XMT_SettingsLogBioHorrorDesc>Enable log reporting on mutations and other biohorror</XMT_SettingsLogBioHorrorDesc>
+	<XMT_SettingsLogWorldHorror>Log World Horror</XMT_SettingsLogWorldHorror>
+	<XMT_SettingsLogWorldHorrorDesc>Enable log reporting on world horror system</XMT_SettingsLogWorldHorrorDesc>
+	<XMT_SettingsPlayerSabotage>Enable Player Sabotage Behavior</XMT_SettingsPlayerSabotage>
+	<XMT_SettingsPlayerSabotageDesc>If enabled player xenomorphs will sabotage human infrastructure when recreation or mood is low.</XMT_SettingsPlayerSabotageDesc>
+	<XMT_SettingsHorrorPregnancies>Enable Horror Pregnancies</XMT_SettingsHorrorPregnancies>
+	<XMT_SettingsHorrorPregnanciesDesc>If enabled xenomorph corruption will cause horror pregnancies.</XMT_SettingsHorrorPregnanciesDesc>
+	<XMT_SettingsJellyNutritionEfficiency>Jelly Nutrition Efficiency</XMT_SettingsJellyNutritionEfficiency>
+	<XMT_SettingsJellyMassEfficiency>Jelly Mass Efficiency</XMT_SettingsJellyMassEfficiency>
+	<XMT_SettingsMaturationFactor>Maturation Factor</XMT_SettingsMaturationFactor>
+	<XMT_SettingsWildEmbryoChanceFactor>Wild Embryo Chance Factor</XMT_SettingsWildEmbryoChanceFactor>
+	<XMT_SettingsWildAlienChanceFactor>Wild Alien Chance Factor</XMT_SettingsWildAlienChanceFactor>
+	<XMT_SettingsSiteAttackChanceFactor>Site Attack Chance Factor</XMT_SettingsSiteAttackChanceFactor>
+	<XMT_SettingsMinRelationshipForHiveFriend>Min Relationship For Hive Friend</XMT_SettingsMinRelationshipForHiveFriend>
+	<XMT_SettingsLaidOvomorphIncubationTime>Time for Laid Ovomorphs to Incubate</XMT_SettingsLaidOvomorphIncubationTime>
+	<XMT_SettingsXenoformBiomeSpreadFactor>Xenoform Biome Spread Factor</XMT_SettingsXenoformBiomeSpreadFactor>
+	<XMT_SettingsXenoformingGrowthFactor>Xenoforming Growth Factor</XMT_SettingsXenoformingGrowthFactor>
+	<XMT_SettingsMinimumAwarenessForAutoAggression>Minimum Awareness for Auto Aggression</XMT_SettingsMinimumAwarenessForAutoAggression>
+	<XMT_SettingsResetToDefault>Reset To Default</XMT_SettingsResetToDefault>
+	<XMT_SettingsHours>{0} hours</XMT_SettingsHours>
+	<XMT_SettingsPercentFactor>{0}% factor</XMT_SettingsPercentFactor>
+	<XMT_SettingsPercent>{0}%</XMT_SettingsPercent>
+	<XMT_SettingsPercentChance>{0}% chance</XMT_SettingsPercentChance>
+	<XMT_SettingsPercentEfficient>{0}% efficient</XMT_SettingsPercentEfficient>
 	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>
