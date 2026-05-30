@@ -55,8 +55,8 @@
 				  </li>
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.02</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.01</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
 				</statOffsets>
@@ -119,8 +119,8 @@
 				  </li>
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.02</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.01</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
 				</statOffsets>
@@ -256,8 +256,8 @@
 				  </li>
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.02</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.01</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
 				</statOffsets>
@@ -315,8 +315,8 @@
 				  </li>
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.02</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.01</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
 					<HypoxiaResistance MayRequire="kentington.saveourship2">0.5</HypoxiaResistance>
@@ -345,8 +345,8 @@
 				  </li>
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.02</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.01</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
 					<HypoxiaResistance MayRequire="kentington.saveourship2">0.125</HypoxiaResistance>
@@ -387,8 +387,8 @@
 				  </li>
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.02</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.01</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
 					<HypoxiaResistance MayRequire="kentington.saveourship2">0.25</HypoxiaResistance>
@@ -417,8 +417,8 @@
 
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.05</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.025</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.01</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.005</ArmorRating_Blunt>
 					<Flammability>-0.05</Flammability>
 					<IncomingDamageFactor>-0.005</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
@@ -452,8 +452,8 @@
 
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.05</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.025</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.01</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.005</ArmorRating_Blunt>
 					<Flammability>-0.05</Flammability>
 					<IncomingDamageFactor>-0.005</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
@@ -487,8 +487,8 @@
 
 				</capMods>
 				<statOffsets>
-					<ArmorRating_Sharp>0.05</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.025</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.01</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.005</ArmorRating_Blunt>
 					<Flammability>-0.05</Flammability>
 					<IncomingDamageFactor>-0.005</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
@@ -678,8 +678,8 @@
 				<becomeVisible>true</becomeVisible>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
-					<ArmorRating_Sharp>0.1</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.05</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.08</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.15</ArmorRating_Blunt>
 					<Flammability>-0.1</Flammability>
 					<IncomingDamageFactor>-0.01</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.1</DecompressionResistance>
@@ -692,8 +692,8 @@
 				<minSeverity>0.2</minSeverity>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
-					<ArmorRating_Sharp>0.2</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.1</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.16</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.30</ArmorRating_Blunt>
 					<Flammability>-0.2</Flammability>
 					<IncomingDamageFactor>-0.02</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.2</DecompressionResistance>
@@ -706,8 +706,8 @@
 				<minSeverity>0.3</minSeverity>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
-					<ArmorRating_Sharp>0.3</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.15</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.24</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.45</ArmorRating_Blunt>
 					<Flammability>-0.3</Flammability>
 					<IncomingDamageFactor>-0.03</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.3</DecompressionResistance>
@@ -720,8 +720,8 @@
 				<minSeverity>0.75</minSeverity>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
-					<ArmorRating_Sharp>0.4</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.2</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.40</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.60</ArmorRating_Blunt>
 					<Flammability>-0.5</Flammability>
 					<IncomingDamageFactor>-0.05</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.4</DecompressionResistance>
@@ -736,13 +736,12 @@
 				<minSeverity>1</minSeverity>
 				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 				<statOffsets>
-					<ArmorRating_Sharp>0.8</ArmorRating_Sharp>
-					<ArmorRating_Blunt>0.6</ArmorRating_Blunt>
+					<ArmorRating_Sharp>0.60</ArmorRating_Sharp>
+					<ArmorRating_Blunt>0.70</ArmorRating_Blunt>
 					<Flammability>-0.8</Flammability>
 					<IncomingDamageFactor>-0.08</IncomingDamageFactor>
 					<DecompressionResistance MayRequire="kentington.saveourship2">0.6</DecompressionResistance>
 					<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">0.6</VacuumResistance>
-					<ArmorRating_Sharp>0.8</ArmorRating_Sharp>
 					<ComfyTemperatureMin>-10</ComfyTemperatureMin>
 					<ComfyTemperatureMax>10</ComfyTemperatureMax>
 				</statOffsets>

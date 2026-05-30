@@ -258,7 +258,7 @@
 			<li>Evo_GeneStorage</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-
+<!--
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanoidSubversion</defName>
 		<label>Mechanoid Subversion</label>
@@ -294,7 +294,6 @@
 			<li>Evo_MechanoidGestation</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-<!--
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_ImperialCrown</defName>
 		<label>Imperial Crown</label>
@@ -389,7 +388,7 @@
 			<li>Evo_GeneDigestion</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-
+<!--
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_SignalBoostingPylon</defName>
 		<label>Signal Boosting Pylon</label>
@@ -399,7 +398,6 @@
 			<li>Evo_MechanitorArray</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-<!--
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_DivineHalo</defName>
 		<label>Divine Halo</label>
@@ -414,7 +412,7 @@
 			<li>Evo_ImperialCrown</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
--->
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanoidDominion</defName>
 		<label>Mechanoid Dominion</label>
@@ -425,5 +423,5 @@
 			<li>Evo_MechanitorArray</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+	-->
 </Defs>

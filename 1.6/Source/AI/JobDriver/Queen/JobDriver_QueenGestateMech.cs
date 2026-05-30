@@ -157,7 +157,10 @@ namespace Xenomorphtype
                 return;
             }
 
-            Pawn mech = PawnGenerator.GeneratePawn(kind, pawn.Faction);
+            PawnGenerationRequest request = new PawnGenerationRequest(kind, pawn.Faction);
+            request.FixedBiologicalAge = 0;
+            request.FixedChronologicalAge = 0;
+            Pawn mech = PawnGenerator.GeneratePawn(request);
             if (pawn.mechanitor == null || !pawn.mechanitor.CanOverseeSubject(mech))
             {
                 Messages.Message("XMT_MechGestationNoBandwidth".Translate(), pawn, MessageTypeDefOf.RejectInput, false);

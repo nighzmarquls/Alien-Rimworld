@@ -69,6 +69,7 @@ namespace Xenomorphtype
         public override void PostClose()
         {
             base.PostClose();
+            selectedEvolution = null;
             dependencyLineTextureCache.Dispose();
         }
 

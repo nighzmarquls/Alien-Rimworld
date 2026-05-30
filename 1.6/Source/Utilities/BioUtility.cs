@@ -629,14 +629,6 @@ namespace Xenomorphtype
         {
             List<GeneDef> genes = new List<GeneDef>();
 
-            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_NovelGenes))
-            {
-                foreach(GeneDef gene in XenoGeneDefOf.XMT_NovelGenes.genes)
-                {
-                    genes.Add(gene);
-                }
-            }
-
             CompHiveGeneHolder hiveGeneHolder = target.TryGetComp<CompHiveGeneHolder>();
             
             if (hiveGeneHolder != null)
@@ -770,6 +762,14 @@ namespace Xenomorphtype
         internal static List<GeneDef> GetAllHiveGenes(Map map)
         {
             List<GeneDef> genes = new List<GeneDef>();
+
+            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_NovelGenes))
+            {
+                foreach (GeneDef gene in XenoGeneDefOf.XMT_NovelGenes.genes)
+                {
+                    genes.AddDistinct(gene);
+                }
+            }
 
             List<Thing> GeneCarriers = XMTHiveUtility.GetAllGeneCarriers(map);
 

@@ -50,6 +50,7 @@ namespace Xenomorphtype
             if (parent.Severity >= Props.promotionSeverity)
             {
                 BodyPartRecord part = parent.Part;
+                bool promoted = false;
 
 
                 foreach (XMT_HediffByPart promotion in Props.HediffPromotionsByPart)
@@ -63,8 +64,11 @@ namespace Xenomorphtype
 
                         if (Rand.Chance(promotion.chance))
                         {
-                            PromoteIntoHediff(promotion.hediffDef, severityIncrease: promotion.increaseSeverity, removePromoter: promotion.removePromoter);
-                            break;
+                            promoted = PromoteIntoHediff(promotion.hediffDef, severityIncrease: promotion.increaseSeverity, removePromoter: promotion.removePromoter);
+                            if (promoted)
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -72,19 +76,22 @@ namespace Xenomorphtype
                     {
                         if (Rand.Chance(promotion.chance))
                         {
-                            PromoteIntoHediff(promotion.hediffDef, promotePart: promotion.bodyPartDef, useParentPart: false, severityIncrease: promotion.increaseSeverity, removePromoter: promotion.removePromoter, onlySolid: promotion.onlyTargetSolid);
-                            break;
+                            promoted = PromoteIntoHediff(promotion.hediffDef, promotePart: promotion.bodyPartDef, useParentPart: false, severityIncrease: promotion.increaseSeverity, removePromoter: promotion.removePromoter, onlySolid: promotion.onlyTargetSolid);
+                            if (promoted)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
                 
-                stabilized = true;
+                stabilized = promoted;
             }
 
 
         }
 
-        private void PromoteIntoHediff(HediffDef hediffDef, BodyPartDef promotePart = null, bool useParentPart = true, float severityIncrease = 0f, bool removePromoter = true, bool onlySolid = false)
+        private bool PromoteIntoHediff(HediffDef hediffDef, BodyPartDef promotePart = null, bool useParentPart = true, float severityIncrease = 0f, bool removePromoter = true, bool onlySolid = false)
         {
             if (XMTSettings.LogBiohorror)
             {
@@ -114,7 +121,7 @@ namespace Xenomorphtype
                 BodyPartRecord part = parent.pawn.health.hediffSet.GetBodyPartRecord(promotePart);
                 if (part == null)
                 {
-                    return;
+                    return false;
                 }
 
                 Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, part);
@@ -158,7 +165,7 @@ namespace Xenomorphtype
                 }
                 if (part == null)
                 {
-                    return;
+                    return false;
                 }
 
                 Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, part);
@@ -178,6 +185,8 @@ namespace Xenomorphtype
             {
                 parent.pawn.health.RemoveHediff(parent);
             }
+
+            return partAdded;
             
         }
     }
