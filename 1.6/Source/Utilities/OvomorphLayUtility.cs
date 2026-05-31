@@ -33,6 +33,11 @@ namespace Xenomorphtype
 
         public static bool CanLayAt(Pawn layer, IntVec3 loc, ThingDef ovomorphDef, out string reason)
         {
+            return CanLayAt(layer, loc, layer, ovomorphDef, out reason);
+        }
+
+        public static bool CanLayAt(Pawn layer, IntVec3 loc, Thing positionSource, ThingDef ovomorphDef, out string reason)
+        {
             reason = null;
 
             if (layer == null || layer.Destroyed || layer.Dead)
@@ -41,13 +46,14 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (!layer.Spawned || layer.MapHeld == null)
+            positionSource ??= layer;
+            if (positionSource.Destroyed || !positionSource.Spawned || positionSource.MapHeld == null)
             {
                 reason = "CannotGenericWorkCustom".Translate("NotSpawned".Translate());
                 return false;
             }
 
-            Map map = layer.MapHeld;
+            Map map = positionSource.MapHeld;
             if (!loc.InBounds(map))
             {
                 reason = "OutOfBounds".Translate();
@@ -66,7 +72,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (!map.reachability.CanReach(layer.Position, loc, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Deadly))
+            if (!map.reachability.CanReach(positionSource.PositionHeld, loc, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Deadly))
             {
                 reason = "NoPath".Translate();
                 return false;
@@ -83,7 +89,12 @@ namespace Xenomorphtype
 
         public static Thing TryLayOvomorphWithCost(Pawn layer, IntVec3 loc, ThingDef ovomorphDef, float foodCost, float initialProgress = 0f)
         {
-            if (!CanLayAt(layer, loc, ovomorphDef, out string _))
+            return TryLayOvomorphWithCost(layer, loc, layer, ovomorphDef, foodCost, initialProgress);
+        }
+
+        public static Thing TryLayOvomorphWithCost(Pawn layer, IntVec3 loc, Thing positionSource, ThingDef ovomorphDef, float foodCost, float initialProgress = 0f)
+        {
+            if (!CanLayAt(layer, loc, positionSource, ovomorphDef, out string _))
             {
                 return null;
             }
@@ -93,7 +104,7 @@ namespace Xenomorphtype
                 return null;
             }
 
-            Map map = layer.MapHeld;
+            Map map = positionSource.MapHeld;
             Thing laidThing = GenSpawn.Spawn(ovomorphDef, loc, map, WipeMode.Vanish);
 
             if (laidThing is Ovomorph ovomorph)

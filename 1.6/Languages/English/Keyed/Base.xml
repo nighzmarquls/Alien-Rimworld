@@ -51,6 +51,11 @@
 	<XMT_LayOvomorphLabel>Lay {0}</XMT_LayOvomorphLabel>
 	<XMT_LayOvomorphDescription>Lay {0} at the designated location.</XMT_LayOvomorphDescription>
 	<XMT_InsufficientNutrition>Insufficient nutrition to lay {0}.</XMT_InsufficientNutrition>
+	<XMT_EggSackProduction>Egg production: {0}/{1}</XMT_EggSackProduction>
+	<XMT_EggSackNutritionSufficient>Nutrition: sufficient for another egg.</XMT_EggSackNutritionSufficient>
+	<XMT_EggSackNutritionSufficientAmount>Nutrition: sufficient for another egg ({0}/{1}).</XMT_EggSackNutritionSufficientAmount>
+	<XMT_EggSackNutritionInsufficientAmount>Nutrition: insufficient for another egg ({0}/{1}).</XMT_EggSackNutritionInsufficientAmount>
+	<XMT_EggSackNutritionUnknown>Nutrition: no egg-layer detected.</XMT_EggSackNutritionUnknown>
 
 	<XMT_GoneFeral>{0} has gone feral.</XMT_GoneFeral>
 	<XMT_MotherEggHatch>{0}'s Ovomorph has hatched!</XMT_MotherEggHatch>

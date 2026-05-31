@@ -177,9 +177,14 @@ namespace Xenomorphtype
         
         public Thing LayOvomorph( IntVec3 loc)
         {
+            return LayOvomorph(loc, parent);
+        }
+
+        public Thing LayOvomorph(IntVec3 loc, Thing positionSource)
+        {
             ThingDef OvomorphDef = nextOvomorph ?? Props.OvomorphDef;
             float foodCost = OvomorphDef == Props.geneOvomorphDef ? FoodCost / 2 : FoodCost;
-            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, loc, OvomorphDef, foodCost);
+            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, loc, positionSource, OvomorphDef, foodCost);
 
             if (laidThing != null)
             {

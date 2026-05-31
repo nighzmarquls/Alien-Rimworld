@@ -115,6 +115,47 @@ namespace Xenomorphtype
             yield return command_Action;
         }
 
+        public override string GetInspectString()
+        {
+            string text = base.GetInspectString();
+
+            if (Faction == null || !Faction.IsPlayer)
+            {
+                return text;
+            }
+
+            if (!text.NullOrEmpty())
+            {
+                text += "\n";
+            }
+
+            text += "XMT_EggSackProduction".Translate(currentBacklog, maxBacklog);
+
+            if (Occupant == null || layer == null)
+            {
+                text += "\n" + "XMT_EggSackNutritionUnknown".Translate();
+                return text;
+            }
+
+            if (Occupant.needs?.food == null)
+            {
+                text += "\n" + "XMT_EggSackNutritionSufficient".Translate();
+                return text;
+            }
+
+            float foodCost = layer.FoodCost;
+            if (Occupant.needs.food.CurLevel >= foodCost)
+            {
+                text += "\n" + "XMT_EggSackNutritionSufficientAmount".Translate(Occupant.needs.food.CurLevel.ToString("F1"), foodCost.ToString("F1"));
+            }
+            else
+            {
+                text += "\n" + "XMT_EggSackNutritionInsufficientAmount".Translate(Occupant.needs.food.CurLevel.ToString("F1"), foodCost.ToString("F1"));
+            }
+
+            return text;
+        }
+
         public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -292,7 +333,7 @@ namespace Xenomorphtype
                 {
                     if (cell.GetEdifice(Map) == null)
                     {
-                        layer.LayOvomorph(cell);
+                        layer.LayOvomorph(cell, this);
                         break;
                     }
                 }
