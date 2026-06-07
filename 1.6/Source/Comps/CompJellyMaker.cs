@@ -14,6 +14,8 @@ namespace Xenomorphtype
 {
     public class CompJellyMaker : ThingComp
     {
+        private const float MinimumFeralJellyLightSuitability = 0.55f;
+
         public float WorkPerJelly => Props.processingWork;
         public float Efficiency => Props.conversionRate;
         CompJellyMakerProperties Props => props as CompJellyMakerProperties;
@@ -79,7 +81,7 @@ namespace Xenomorphtype
 
             return Props.jellyIngredientFilter.Allows(thing);
         }
-        public bool GetJellyMakingJob(out Job job)
+        public bool GetJellyMakingJob(out Job job, bool requireLightLevel = false)
         {
             Region localRegion = parent.GetRegion();
             job = null;
@@ -93,7 +95,8 @@ namespace Xenomorphtype
                         foreach (Designation des in JellyDesignations)
                         {
 
-                            if (FeralJobUtility.IsPlaceAvailableForJobBy(pawn, des.target.Cell))
+                            if ((!requireLightLevel || IsProperLightLevelForFeralJelly(des.target.Cell, localRegion.Map)) &&
+                                FeralJobUtility.IsPlaceAvailableForJobBy(pawn, des.target.Cell))
                             {
                                 job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, des.target.Cell);
                                 FeralJobUtility.ReservePlaceForJob(pawn, job, des.target.Cell);
@@ -102,7 +105,7 @@ namespace Xenomorphtype
                         }
                     }
 
-                    Thing ingredient = XMTUtility.SearchRegionsForJellyMakable(localRegion, pawn, this);
+                    Thing ingredient = XMTUtility.SearchRegionsForJellyMakable(localRegion, pawn, this, requireLightLevel);
 
                     if (ingredient != null)
                     {
@@ -114,6 +117,11 @@ namespace Xenomorphtype
             }
            
             return false;
+        }
+
+        internal static bool IsProperLightLevelForFeralJelly(IntVec3 cell, Map map)
+        {
+            return map != null && cell.InBounds(map) && XMTHiveUtility.HiveLightSuitabilityAt(cell, map) >= MinimumFeralJellyLightSuitability;
         }
 
         public float GetNutritionFromThing(Thing ingredient, float efficiency = 1f)

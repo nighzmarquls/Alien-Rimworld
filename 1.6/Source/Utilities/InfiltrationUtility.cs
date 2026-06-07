@@ -265,6 +265,11 @@ namespace Xenomorphtype
                         {
 
                             bool Reachable = CheckReachable(map, startCell, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
+                            if (!Reachable)
+                            {
+                                continue;
+                            }
+
                             int distance = startCell.DistanceToSquared(endpoint.building.Position);
                             if (distance < closestEntry)
                             {
@@ -278,6 +283,11 @@ namespace Xenomorphtype
                         foreach (InfiltrationEndPoint endpoint in network.endpoints)
                         {
                             bool Reachable = CheckReachable(map, startCell, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
+                            if (!Reachable)
+                            {
+                                continue;
+                            }
+
                             int distance = startCell.DistanceToSquared(endpoint.building.Position);
                             if (distance < closestEntry)
                             {

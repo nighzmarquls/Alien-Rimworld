@@ -26,7 +26,7 @@ namespace Xenomorphtype {
             if(parent.pawn.IsHashIntervalTick(tickInterval))
             {
                 BodyPartRecord targetPart = parent.Part;
-                if (parent.pawn.health.hediffSet.HasBodyPart(targetPart) || XMTUtility.GetPartAttachedToPartOnPawn(parent.pawn, ref targetPart))
+                if (TryResolveCorrosiveDamagePart(parent.pawn, ref targetPart))
                 {
                     if (!targetPart.IsCorePart)
                     {
@@ -39,6 +39,37 @@ namespace Xenomorphtype {
                 }
 
             }
+        }
+
+        private bool TryResolveCorrosiveDamagePart(Pawn pawn, ref BodyPartRecord targetPart)
+        {
+            if (pawn == null || targetPart == null)
+            {
+                return false;
+            }
+
+            if (pawn.health.hediffSet.PartIsMissing(targetPart))
+            {
+                return false;
+            }
+
+            if (targetPart.coverageAbs > 0f && targetPart.depth == BodyPartDepth.Outside)
+            {
+                return true;
+            }
+
+            BodyPartRecord originalPart = targetPart;
+            List<BodyPartRecord> childParts = originalPart.GetPartAndAllChildParts()
+                .Where(part => part != originalPart && part.coverageAbs > 0f && part.depth == BodyPartDepth.Outside && !pawn.health.hediffSet.PartIsMissing(part))
+                .ToList();
+
+            if (!childParts.Any())
+            {
+                return false;
+            }
+
+            targetPart = childParts.RandomElement();
+            return true;
         }
     }
 

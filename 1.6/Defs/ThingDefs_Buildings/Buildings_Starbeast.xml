@@ -122,11 +122,6 @@
 		<comps>
 		  <li Class="Xenomorphtype.CompAtmosphericPylonProperties">
 		  </li>
-		  <li Class="Xenomorphtype.CompRoofReplacerProperties">
-			<targetRoof>RoofRockThick</targetRoof>
-			<replaceRoof>RoofRockThin</replaceRoof>
-			<radius>1</radius> 
-		  </li>
 		  <li Class="Xenomorphtype.CompSpreadTerrainProperties">
 			<spreadTerrain>HiveFloor</spreadTerrain>
 			<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
@@ -693,6 +688,35 @@
 		</building>
 		<comps>
 		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="SleepingSpotBase">
+		<defName>HiveSleepingSpotBuildable</defName>
+		<label>sleeping nest</label>
+		<description>A patch of resin shaped to provide a place to rest.</description>
+		<graphicData>
+		  <texPath>Things/Building/HiveSleepSpot</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<shaderType>CutoutComplex</shaderType>
+		</graphicData>
+		<size>(1,1)</size>
+		<tickerType>Normal</tickerType>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<statBases>
+			<MaxHitPoints>1</MaxHitPoints>
+			<WorkToBuild>10</WorkToBuild>
+			<Flammability>0</Flammability>
+		</statBases>
+		<building>
+			<isInert>true</isInert>
+		</building>
+		<comps>
+		  <li Class="Xenomorphtype.CompReplacerBuildingProperties">
+			<replacedWith>HiveSleepingSpot</replacedWith>
+		  </li>
+		</comps>
+		<constructEffect>ResinBuild</constructEffect>
 	</ThingDef>
 	
 	<ThingDef ParentName="SleepingSpotBase">

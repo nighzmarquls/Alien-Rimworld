@@ -48,8 +48,6 @@ namespace Xenomorphtype
         private Vector3 effectivePos;
 
         private float effectiveHeight;
-        private Job preClimbJob;
-        private JobDriver preJobDriver;
 
         protected Thing ClimbingThing
         {
@@ -178,12 +176,12 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (preClimbJob != null)
+            CompClimber climber = pawn.GetClimberComp();
+            if (climber != null)
             {
-                pawn.jobs.curJob = preClimbJob;
-                pawn.jobs.curDriver = preJobDriver;
+                climber.ResumeJobAfterClimb(pawn);
             }
-            else
+            if (pawn.jobs.curJob == null)
             {
                 pawn.jobs.CheckForJobOverride();
             }
@@ -233,7 +231,6 @@ namespace Xenomorphtype
 
             if (ticksClimbing >= ticksFlightTime)
             {
-                Debug.Log("Arrived!");
                 RespawnPawn();
                 Destroy();
             }
@@ -335,17 +332,12 @@ namespace Xenomorphtype
                 pawnClimber.pawnCanFireAtWill = pawn.drafter.FireAtWill;
             }
 
-            if (pawn.CurJob != null)
+            CompClimber climber = pawn.GetClimberComp();
+            if (climber != null)
             {
-                Log.Message(pawn + " has job " + pawn.CurJob);
-                pawnClimber.preClimbJob = pawn.CurJob;
-                pawnClimber.preJobDriver = pawn.jobs.curDriver;
-                
-                pawn.jobs.curJob = null;
-                pawn.jobs.curDriver = null;
+                climber.SuspendJobForClimb(pawn);
             }
 
-            pawnClimber.jobQueue = pawn.jobs.CaptureAndClearJobQueue();
             if (flyWithCarriedThing && pawn.carryTracker.CarriedThing != null && pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Direct, out pawnClimber.carriedThing))
             {
                 if (pawnClimber.carriedThing.holdingOwner != null)

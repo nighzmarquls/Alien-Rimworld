@@ -115,7 +115,7 @@
         <li>
           <def>Leg</def>
           <customLabel>first front left leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontLeftLeg</li>
@@ -131,7 +131,7 @@
         <li>
           <def>Leg</def>
           <customLabel>first front right leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontRightLeg</li>
@@ -147,7 +147,7 @@
 		<li>
           <def>Leg</def>
           <customLabel>second front left leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontLeftLeg</li>
@@ -163,7 +163,7 @@
         <li>
           <def>Leg</def>
           <customLabel>second front right leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontRightLeg</li>
@@ -179,7 +179,7 @@
 		<li>
           <def>Leg</def>
           <customLabel>third front left leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontLeftLeg</li>
@@ -195,7 +195,7 @@
         <li>
           <def>Leg</def>
           <customLabel>third front right leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontRightLeg</li>
@@ -211,7 +211,7 @@
 		<li>
           <def>Leg</def>
           <customLabel>fourth front left leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontLeftLeg</li>
@@ -227,7 +227,7 @@
         <li>
           <def>Leg</def>
           <customLabel>fourth front right leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <groups>
             <li>FrontRightLeg</li>
@@ -243,7 +243,7 @@
         <li>
           <def>Leg</def>
           <customLabel>rear left leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <parts>
             <li>
@@ -256,7 +256,7 @@
         <li>
           <def>Leg</def>
           <customLabel>rear right leg</customLabel>
-          <coverage>0.07</coverage>
+          <coverage>0.05</coverage>
           <height>Bottom</height>
           <parts>
             <li>

@@ -4,6 +4,7 @@
 		<defName>XMT_Protofluid</defName>
 		<label>discoloration</label>
 		<description>A discoloration spreads out from an injection site.</description>
+		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>true</makesSickThought>
 		<hediffClass>Hediff_Injury</hediffClass>
 		<makesAlert>true</makesAlert>
@@ -64,6 +65,7 @@
 		<defName>XMT_MildEssence</defName>
 		<label>foreign tissue</label>
 		<description>A foreign growth of discoloration laces the tissue.</description>
+		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>false</makesSickThought>
 		<makesAlert>false</makesAlert>
 		<minSeverity>0.000</minSeverity>
@@ -212,6 +214,7 @@
 		<defName>XMT_DebuffEssence</defName>
 		<label>foreign tissue</label>
 		<description>A foreign growth of discoloration laces the tissue.</description>
+		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>true</makesSickThought>
 		<makesAlert>true</makesAlert>
 		<minSeverity>0.000</minSeverity>
@@ -387,6 +390,7 @@
 		<defName>XMT_SilicateEssence</defName>
 		<label>silicate tissue</label>
 		<description>A foreign growths of silicate crystals lace the tissue.</description>
+		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>false</makesSickThought>
 		<makesAlert>false</makesAlert>
 		<minSeverity>0.000</minSeverity>
@@ -563,6 +567,7 @@
 		<defName>XMT_BoostingEssence</defName>
 		<label>foreign tissue</label>
 		<description>A foreign growth of discoloration laces the tissue.</description>
+		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>false</makesSickThought>
 		<makesAlert>false</makesAlert>
 		<minSeverity>0.001</minSeverity>
@@ -690,6 +695,7 @@
 		<defName>XMT_BecomingMutant</defName>
 		<label>transformative cell division</label>
 		<description>cells are rapidly dividing and self destructiong at an alarming rate.</description>
+		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>false</makesSickThought>
 		<makesAlert>true</makesAlert>
 		<minSeverity>0.0</minSeverity>
@@ -720,6 +726,7 @@
 		<defName>XMT_BecomingAdultHorror</defName>
 		<label>maturation</label>
 		<description>Is slowly maturing.</description>
+		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>false</makesSickThought>
 		<makesAlert>true</makesAlert>
 		<minSeverity>0.0</minSeverity>

@@ -233,5 +233,201 @@ namespace Xenomorphtype
                 XenoformingUtility.HandleXenoformingImpact(__instance);
             }
         }
+
+        [HarmonyPatch(typeof(FloodFillerFog), nameof(FloodFillerFog.FloodUnfog))]
+        public static class Patch_FloodFillerFog_FloodUnfog
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(IntVec3 root, Map map, ref FloodUnfogResult __result)
+            {
+                if (XMTHiveDebug.DisableHiveRoomRefog || map == null || !root.InBounds(map))
+                {
+                    return true;
+                }
+
+                if (!ContainsCocoonedPlayerPawn(root, map))
+                {
+                    return true;
+                }
+
+                __result = default;
+                return false;
+            }
+
+            private static bool ContainsCocoonedPlayerPawn(IntVec3 root, Map map)
+            {
+                List<Thing> things = root.GetThingList(map);
+                for (int i = 0; i < things.Count; i++)
+                {
+                    if (things[i] is Pawn pawn && pawn.Faction != null && pawn.Faction.IsPlayer && XMTUtility.IsCocooned(pawn))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(WorkGiver_Tend), nameof(WorkGiver_Tend.HasJobOnThing))]
+        public static class Patch_WorkGiver_Tend_HasJobOnThing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, Thing t, ref bool __result)
+            {
+                return AllowPlayerCareTarget(pawn, t, ref __result);
+            }
+        }
+
+        [HarmonyPatch(typeof(WorkGiver_TendOther), nameof(WorkGiver_TendOther.HasJobOnThing))]
+        public static class Patch_WorkGiver_TendOther_HasJobOnThing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, Thing t, ref bool __result)
+            {
+                return AllowPlayerCareTarget(pawn, t, ref __result);
+            }
+        }
+
+        [HarmonyPatch(typeof(WorkGiver_TendOther_Humanlike), nameof(WorkGiver_TendOther_Humanlike.HasJobOnThing))]
+        public static class Patch_WorkGiver_TendOther_Humanlike_HasJobOnThing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, Thing t, ref bool __result)
+            {
+                return AllowPlayerCareTarget(pawn, t, ref __result);
+            }
+        }
+
+        [HarmonyPatch(typeof(WorkGiver_TendOther_Animal), nameof(WorkGiver_TendOther_Animal.HasJobOnThing))]
+        public static class Patch_WorkGiver_TendOther_Animal_HasJobOnThing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, Thing t, ref bool __result)
+            {
+                return AllowPlayerCareTarget(pawn, t, ref __result);
+            }
+        }
+
+        [HarmonyPatch(typeof(WorkGiver_TendOtherUrgent), nameof(WorkGiver_TendOtherUrgent.HasJobOnThing))]
+        public static class Patch_WorkGiver_TendOtherUrgent_HasJobOnThing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, Thing t, ref bool __result)
+            {
+                return AllowPlayerCareTarget(pawn, t, ref __result);
+            }
+        }
+
+        [HarmonyPatch(typeof(WorkGiver_TendSelf), nameof(WorkGiver_TendSelf.HasJobOnThing))]
+        public static class Patch_WorkGiver_TendSelf_HasJobOnThing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, Thing t, ref bool __result)
+            {
+                return AllowPlayerCareTarget(pawn, t, ref __result);
+            }
+        }
+
+        [HarmonyPatch(typeof(WorkGiver_FeedPatient), nameof(WorkGiver_FeedPatient.HasJobOnThing))]
+        public static class Patch_WorkGiver_FeedPatient_HasJobOnThing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn pawn, Thing t, ref bool __result)
+            {
+                return AllowPlayerCareTarget(pawn, t, ref __result);
+            }
+        }
+
+        [HarmonyPatch(typeof(FloatMenuOptionProvider_DraftedTend), "IsValidTendTarget")]
+        public static class Patch_FloatMenuOptionProvider_DraftedTend_IsValidTendTarget
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Pawn doctor, Pawn patient, ref bool __result)
+            {
+                if (IsPlayerPawn(doctor) && IsFogHiddenCocoonedPawn(patient))
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(CameraJumper), nameof(CameraJumper.CanJump))]
+        public static class Patch_CameraJumper_CanJump
+        {
+            [HarmonyPostfix]
+            public static void Postfix(GlobalTargetInfo target, ref bool __result)
+            {
+                if (__result && IsFogHiddenCocoonedTarget(target))
+                {
+                    __result = false;
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(CameraJumper), nameof(CameraJumper.TryJump), new Type[] { typeof(GlobalTargetInfo), typeof(CameraJumper.MovementMode) })]
+        public static class Patch_CameraJumper_TryJump_GlobalTargetInfo
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(GlobalTargetInfo target)
+            {
+                return !IsFogHiddenCocoonedTarget(target);
+            }
+        }
+
+        [HarmonyPatch(typeof(CameraJumper), nameof(CameraJumper.TryJumpAndSelect), new Type[] { typeof(GlobalTargetInfo), typeof(CameraJumper.MovementMode) })]
+        public static class Patch_CameraJumper_TryJumpAndSelect_GlobalTargetInfo
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(GlobalTargetInfo target)
+            {
+                return !IsFogHiddenCocoonedTarget(target);
+            }
+        }
+
+        [HarmonyPatch(typeof(CameraJumper), "TryJumpInternal", new Type[] { typeof(Thing), typeof(CameraJumper.MovementMode) })]
+        public static class Patch_CameraJumper_TryJumpInternal_Thing
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Thing thing)
+            {
+                return !IsFogHiddenCocoonedPawn(thing as Pawn);
+            }
+        }
+
+        private static bool AllowPlayerCareTarget(Pawn worker, Thing target, ref bool result)
+        {
+            if (IsPlayerPawn(worker) && IsFogHiddenCocoonedPawn(target as Pawn))
+            {
+                result = false;
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool IsPlayerPawn(Pawn pawn)
+        {
+            return pawn != null && pawn.Faction != null && pawn.Faction.IsPlayer;
+        }
+
+        private static bool IsFogHiddenCocoonedTarget(GlobalTargetInfo target)
+        {
+            return target.IsValid && IsFogHiddenCocoonedPawn(target.Pawn);
+        }
+
+        private static bool IsFogHiddenCocoonedPawn(Pawn pawn)
+        {
+            Map map = pawn?.MapHeld;
+            if (map == null || !pawn.Spawned || !pawn.PositionHeld.InBounds(map))
+            {
+                return false;
+            }
+
+            return XMTUtility.IsCocooned(pawn) && pawn.PositionHeld.Fogged(map);
+        }
     }
 }

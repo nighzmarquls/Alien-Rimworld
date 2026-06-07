@@ -14,6 +14,7 @@ namespace Xenomorphtype
 
         public static FleshTypeDef          StarbeastFlesh;
         public static FactionDef            XMT_PlayerHive;
+        public static FactionDef            XMT_QueenAidDefenders;
 
         //Xenomorphtype Defs
         public static PawnKindDef           XMT_StarbeastKind;

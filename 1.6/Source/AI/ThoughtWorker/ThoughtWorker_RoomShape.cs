@@ -35,27 +35,17 @@ namespace Xenomorphtype
                 return ThoughtState.Inactive;
             }
 
-            int borderCells = room.BorderCellsCardinal.Count();
-
-            int sideCells = borderCells / 4;
-
-            int squareCellCount = sideCells* sideCells;
-
-            float difference = squareCellCount - room.CellCount;
-
-            float ratioOfDifference = difference / room.CellCount;
-
-            switch (ratioOfDifference)
+            switch (XMTHiveUtility.CryptimorphRoomShapeStage(room))
             {
-                case > 0.25f:
+                case 2:
                     return ThoughtState.ActiveAtStage(2);
-                case > 0.10f:
-                    return ThoughtState.Inactive;
-                case < 0.05f:
+                case 0:
                     return ThoughtState.ActiveAtStage(0);
+                case 1:
+                    return ThoughtState.ActiveAtStage(1);
             }
 
-            return ThoughtState.ActiveAtStage(1);
+            return ThoughtState.Inactive;
         }
     }
 }

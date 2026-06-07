@@ -2,6 +2,7 @@
 
 using System;
 using Verse;
+using Verse.AI;
 using System.Collections.Generic;
 using static Xenomorphtype.ClimbUtility;
 using System.Linq;
@@ -27,6 +28,11 @@ namespace Xenomorphtype
         }
         public bool lastClimb => climbStep == climbParameters.ClimbStarts.Count;
         int climbStep = 0;
+        private bool jobSuspended;
+        private Job suspendedJob;
+        private JobDriver suspendedDriver;
+
+        public bool JobSuspended => jobSuspended;
 
         public bool climbing
         {
@@ -48,6 +54,40 @@ namespace Xenomorphtype
 
         public IntVec3 EndClimbCell => lastClimb ? climbParameters.ClimbEnds.Last() : climbParameters.ClimbEnds[climbStep];
         public IntVec3 StartClimbCell => lastClimb ? climbParameters.ClimbStarts.Last() : climbParameters.ClimbStarts[climbStep];
+
+        public void SuspendJobForClimb(Pawn pawn)
+        {
+            if (jobSuspended || pawn?.jobs == null)
+            {
+                return;
+            }
+
+            suspendedJob = pawn.jobs.curJob;
+            suspendedDriver = pawn.jobs.curDriver;
+            jobSuspended = true;
+        }
+
+        public void ResumeJobAfterClimb(Pawn pawn)
+        {
+            if (!jobSuspended || pawn?.jobs == null)
+            {
+                return;
+            }
+
+            if (pawn.jobs.curJob == null && suspendedJob != null)
+            {
+                pawn.jobs.curJob = suspendedJob;
+            }
+
+            if (pawn.jobs.curDriver == null && suspendedDriver != null)
+            {
+                pawn.jobs.curDriver = suspendedDriver;
+            }
+
+            suspendedJob = null;
+            suspendedDriver = null;
+            jobSuspended = false;
+        }
 
         public void ClearClimberData()
         {

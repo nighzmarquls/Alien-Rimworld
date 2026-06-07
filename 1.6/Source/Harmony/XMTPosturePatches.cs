@@ -160,6 +160,25 @@ namespace Xenomorphtype
                 __result = true;
             }
         }
+
+        [HarmonyPatch(typeof(Verb_MeleeAttackDamage), "ApplyMeleeDamageToTarget")]
+        public static class Patch_Verb_MeleeAttackDamage_ApplyMeleeDamageToTarget
+        {
+            public static void Postfix(Verb_MeleeAttackDamage __instance)
+            {
+                Pawn pawn = __instance?.CasterPawn;
+                if (pawn == null || !XMTUtility.IsXenomorph(pawn))
+                {
+                    return;
+                }
+
+                CompCrawler compCrawler = pawn.GetComp<CompCrawler>();
+                if (compCrawler != null && compCrawler.Crawling)
+                {
+                    compCrawler.Crawling = false;
+                }
+            }
+        }
         
     }
 }

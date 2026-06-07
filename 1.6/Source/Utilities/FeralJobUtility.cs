@@ -22,7 +22,7 @@ namespace Xenomorphtype
                 }
             }
 
-            if(pawn.MapHeld.physicalInteractionReservationManager.IsReserved(cell))
+            if (pawn.MapHeld.physicalInteractionReservationManager.IsReserved(cell) && !pawn.MapHeld.physicalInteractionReservationManager.IsReservedBy(pawn, cell))
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace Xenomorphtype
 
         internal static bool IsThingAvailableForJobBy(Pawn pawn, Thing thing)
         {
-            if (pawn == null)
+            if (pawn == null || thing == null)
             {
                 return false;
             }
@@ -70,9 +70,29 @@ namespace Xenomorphtype
             return true;
         }
 
-        internal static void ReservePlaceForJob(Pawn pawn, Job job, IntVec3 place)
+        internal static bool ReservePlaceForJob(Pawn pawn, Job job, IntVec3 place)
         {
-            pawn.Reserve(place, job);
+            if (pawn == null || job == null || pawn.MapHeld == null || !place.InBounds(pawn.MapHeld))
+            {
+                return false;
+            }
+
+            if (!pawn.MapHeld.physicalInteractionReservationManager.IsReservedBy(pawn, place))
+            {
+                if (pawn.MapHeld.physicalInteractionReservationManager.IsReserved(place))
+                {
+                    return false;
+                }
+
+                pawn.MapHeld.physicalInteractionReservationManager.Reserve(pawn, job, place);
+            }
+
+            if (pawn.Faction != null && !pawn.MapHeld.reservationManager.IsReserved(place))
+            {
+                return pawn.Reserve(place, job);
+            }
+
+            return true;
         }
 
         internal static void ReserveThingForJob(Pawn pawn, Job job, Thing thing)

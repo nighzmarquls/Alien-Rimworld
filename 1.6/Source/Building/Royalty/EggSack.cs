@@ -69,11 +69,17 @@ namespace Xenomorphtype
         }
         protected void RegisterOccupant(Thing thing)
         {
+            if (thing == null)
+            {
+                return;
+            }
+
             containedMorph = thing.TryGetComp<CompMatureMorph>();
             layer = thing.TryGetComp<CompOvomorphLayer>();
             if (thing is Pawn pawn)
             {
                 Occupant = pawn;
+                empty = false;
 
                 Occupant.health.GetOrAddHediff(InternalDefOf.XMT_Enthroned);
 
@@ -84,10 +90,27 @@ namespace Xenomorphtype
                 }
 
                 AlienPartGenerator.AlienComp.RegenerateAddonsForced(Occupant);
+                Occupant.Drawer?.renderer?.SetAllGraphicsDirty();
+                if (Spawned && Map != null)
+                {
+                    Map.mapDrawer.MapMeshDirty(Position, MapMeshFlagDefOf.Things);
+                }
 
                 XMTUtility.DeclareQueen(Occupant);
             }
         }
+
+        private Pawn GetOccupant()
+        {
+            Pawn pawn = ContainedThing as Pawn ?? Occupant;
+            if (pawn != null && pawn != Occupant)
+            {
+                RegisterOccupant(pawn);
+            }
+
+            return pawn;
+        }
+
         public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
         {
             if (base.TryAcceptThing(thing, allowSpecialEffects))
@@ -95,6 +118,66 @@ namespace Xenomorphtype
                 RegisterOccupant(thing);
                 return true;
             }
+            return false;
+        }
+
+        public bool TryEnthronePawn(Pawn pawn)
+        {
+            if (pawn == null || (ContainedThing != null && ContainedThing != pawn))
+            {
+                return false;
+            }
+
+            if (!pawn.Spawned && Spawned && Map != null)
+            {
+                IntVec3 warmupCell = InteractionCell;
+                if (!warmupCell.IsValid || !warmupCell.InBounds(Map) || !warmupCell.Standable(Map))
+                {
+                    warmupCell = CellFinder.RandomClosewalkCellNear(Position, Map, 2);
+                }
+
+                GenSpawn.Spawn(pawn, warmupCell, Map, WipeMode.VanishOrMoveAside);
+            }
+
+            if (pawn.Spawned && !pawn.DeSpawnOrDeselect())
+            {
+                return false;
+            }
+
+            if (TryAcceptThing(pawn, allowSpecialEffects: false) && ContainedThing == pawn)
+            {
+                if (pawn.jobs.curJob != null)
+                {
+                    pawn.jobs.curJob.Clear();
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryContainGeneratedQueen(Pawn queen)
+        {
+            if (queen == null || ContainedThing != null)
+            {
+                return false;
+            }
+
+            if (queen.Spawned && !queen.DeSpawnOrDeselect())
+            {
+                return false;
+            }
+
+            if (GetDirectlyHeldThings().TryAddOrTransfer(queen, canMergeWithExistingStacks: false))
+            {
+                if (queen.jobs.curJob != null)
+                {
+                    queen.jobs.curJob.Clear();
+                }
+                RegisterOccupant(queen);
+                return true;
+            }
+
             return false;
         }
 
@@ -182,12 +265,8 @@ namespace Xenomorphtype
 
                     if (XenoformingUtility.XenoformingMeets(10))
                     {
-                        IncidentParms parms = new IncidentParms();
-                        parms.forced = true;
-                        parms.target = Map;
-                        if (XenoIncidentDefOf.XMT_HuntingPack.Worker.TryExecute(parms))
+                        if (XenoformingUtility.QueenCalledForAid(aggressor))
                         {
-                            XenoformingUtility.QueenCalledForAid();
                             if (ModsConfig.RoyaltyActive)
                             {
                                 FleckMaker.Static(Position, Map, FleckDefOf.PsycastAreaEffect, 10f);
@@ -231,15 +310,8 @@ namespace Xenomorphtype
                         {
                             continue;
                         }
-                        empty = false;
-                        bool flag = pawn.DeSpawnOrDeselect();
-                        if (TryAcceptThing(pawn, allowSpecialEffects: false) && flag)
+                        if (TryEnthronePawn(pawn))
                         {
-                            
-                            if (Occupant.jobs.curJob != null)
-                            {
-                                Occupant.jobs.curJob.Clear();
-                            }
                             Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
                             return;
                         }
@@ -255,15 +327,13 @@ namespace Xenomorphtype
             else
             {
                 Pawn Queen = XenoformingUtility.GenerateFeralQueen();
-                Queen.SetFaction(Faction);
-                GenSpawn.Spawn(Queen, Position, Map);
-                bool flag = Queen.DeSpawnOrDeselect();
-                if (TryAcceptThing(Queen, allowSpecialEffects: false) && flag)
+                XenoformingUtility.EnsureQueenHasOvoThrone(Queen);
+                if (Faction != null && Queen.Faction != Faction)
                 {
-                    if (Queen.jobs.curJob != null)
-                    {
-                        Queen.jobs.curJob.Clear();
-                    }
+                    Queen.SetFaction(Faction);
+                }
+                if (TryContainGeneratedQueen(Queen))
+                {
                     return;
                 }
             }
@@ -274,7 +344,8 @@ namespace Xenomorphtype
         {
             base.TickInterval(delta);
 
-            if (containedMorph == null && empty)
+            Pawn occupant = GetOccupant();
+            if (containedMorph == null && occupant == null && empty)
             {
                 Initialize();
                 return;
@@ -282,7 +353,7 @@ namespace Xenomorphtype
 
             if (this.IsHashIntervalTick(CheckInterval))
             {
-                if (Occupant != null)
+                if (occupant != null)
                 {
                     if (currentBacklog >= maxBacklog)
                     {
@@ -292,11 +363,11 @@ namespace Xenomorphtype
                     {
                         currentBacklog++;
                     }
-                    if (Occupant.needs != null)
+                    if (occupant.needs != null)
                     { 
-                        if(Occupant.needs.rest != null)
+                        if(occupant.needs.rest != null)
                         {
-                            Occupant.needs.rest.CurLevel += 0.1f;
+                            occupant.needs.rest.CurLevel += 0.1f;
                         }
                     }
                     
@@ -363,52 +434,42 @@ namespace Xenomorphtype
         {
             base.DrawAt(drawLoc, flip);
 
-            Rot4 rotation = Rotation;
-            if (ContainedThing is Pawn pawn)
+            if (TopGraphic == null)
             {
-                
-                Vector3 s = new Vector3(def.graphicData.drawSize.x * 0.8f, 1f, def.graphicData.drawSize.y * 0.8f);
-                Vector3 drawPos = DrawPos;
-                drawPos.y -= HeldPawnDrawPos_Y;
+                TopGraphic = def.building.gibbetCageTopGraphicData.GraphicColoredFor(this);
+            }
 
-                Vector3 pawnDrawLoc = DrawPos;
+            Rot4 rotation = Rotation;
+            Vector3 TopDrawLoc = drawLoc;
+
+            TopDrawLoc.y += 1.5f;
+            TopGraphic.Draw(TopDrawLoc, rotation, this);
+
+            Pawn pawn = GetOccupant();
+            if (pawn != null)
+            {
+                Vector3 pawnDrawLoc = drawLoc;
+                pawnDrawLoc.y += 1.6f;
 
                 if (rotation == Rot4.East)
                 {
 
                     pawnDrawLoc.x += 1.5f;
-                    pawnDrawLoc.y += 1.0f;
                     pawnDrawLoc.z += 0.75f;
                 }
                 else if (rotation == Rot4.West)
                 {
 
                     pawnDrawLoc.x -= 1.5f;
-                    pawnDrawLoc.y += 1.0f;
                     pawnDrawLoc.z += 0.75f;
                 }
                 else if(rotation == Rot4.North)
                 {
-                    pawnDrawLoc.y += 0.5f;
                     pawnDrawLoc.z += 1.4f;
                 }
-                else
-                {
-                    pawnDrawLoc.y += 0.25f;
-                }
 
-                pawn.Drawer.renderer.RenderPawnAt(pawnDrawLoc, rotation, neverAimWeapon: true);
+                pawn.Drawer.renderer.DynamicDrawPhaseAt(DrawPhase.Draw, pawnDrawLoc, rotation, neverAimWeapon: true);
             }
-
-            if (TopGraphic == null)
-            {
-                TopGraphic = def.building.gibbetCageTopGraphicData.GraphicColoredFor(this);
-            }
-
-            Vector3 TopDrawLoc = drawLoc;
-
-            TopDrawLoc.y += 1.5f;
-            TopGraphic.Draw(TopDrawLoc, rotation, this);
 
         }
 

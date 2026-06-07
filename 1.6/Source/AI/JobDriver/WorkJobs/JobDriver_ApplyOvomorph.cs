@@ -28,7 +28,7 @@ namespace Xenomorphtype
 
         public bool IsNoLongerValidTarget()
         {
-            return XMTUtility.HasEmbryo(Prey);
+            return !XMTHiveUtility.IsValidOvomorphHost(Prey);
         }
         protected override IEnumerable<Toil> MakeNewToils()
         {

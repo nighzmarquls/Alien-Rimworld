@@ -10,7 +10,24 @@ namespace Xenomorphtype
     {
         private const string Category = "Alien | Rimworld";
 
-        [DebugAction(Category, "Spawn gene ovamorph by host source", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        [DebugActionYielder]
+        private static IEnumerable<DebugActionNode> GeneTestNodes()
+        {
+            DebugActionNode root = new DebugActionNode("Gene tests", DebugActionType.Action, null);
+            root.category = Category;
+            root.childGetter = delegate
+            {
+                return new List<DebugActionNode>
+                {
+                    new DebugActionNode("Spawn gene ovamorph by host source", DebugActionType.Action, SpawnGeneOvomorphByHostSource),
+                    new DebugActionNode("Spawn all custom host gene examples", DebugActionType.Action, SpawnAllCustomHostGeneExamples),
+                    new DebugActionNode("Spawn all host source gene ovamorphs", DebugActionType.Action, SpawnAllHostSourceGeneOvomorphs)
+                };
+            };
+
+            yield return root;
+        }
+
         private static void SpawnGeneOvomorphByHostSource()
         {
             List<HostGeneSource> sources = AllHostGeneSources().OrderBy(source => source.MenuLabel).ToList();
@@ -38,7 +55,6 @@ namespace Xenomorphtype
             Find.WindowStack.Add(new FloatMenu(options));
         }
 
-        [DebugAction(Category, "Spawn all custom host gene examples", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.PlayingOnMap)]
         private static void SpawnAllCustomHostGeneExamples()
         {
             Dictionary<GeneDef, HostGeneSource> examplesByGene = new Dictionary<GeneDef, HostGeneSource>();
@@ -64,7 +80,6 @@ namespace Xenomorphtype
             BeginSpawnTargeter(requests);
         }
 
-        [DebugAction(Category, "Spawn all host source gene ovamorphs", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.PlayingOnMap)]
         private static void SpawnAllHostSourceGeneOvomorphs()
         {
             List<SpawnRequest> requests = AllHostGeneSources()

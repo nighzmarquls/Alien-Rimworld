@@ -169,9 +169,15 @@ namespace Xenomorphtype
 
         public void ForceVisible()
         {
-            TryVisible();
+            if (Invisibility != null)
+            {
+                Invisibility.BecomeVisible(instant: true);
+                becomeInvisibleTick = Find.TickManager.TicksGame + 600;
+                Parent.Drawer?.renderer?.SetAllGraphicsDirty();
+            }
         }
-        protected void TryVisible()
+
+        protected void TryVisible(bool instant = false)
         {
             if (Invisibility.PsychologicallyVisible)
             {
@@ -179,8 +185,9 @@ namespace Xenomorphtype
             }
             if (Invisibility != null)
             {
-                Invisibility.BecomeVisible();
+                Invisibility.BecomeVisible(instant);
                 becomeInvisibleTick = Find.TickManager.TicksGame + 600;
+                Parent.Drawer?.renderer?.SetAllGraphicsDirty();
             }
         }
 

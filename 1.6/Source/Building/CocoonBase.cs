@@ -60,6 +60,7 @@ namespace Xenomorphtype
                 {
                     LastOccupant = occupant;
                     XMTHiveUtility.AddCocooned(occupant, occupant.MapHeld);
+                    XMTNestBuildingUtility.TryRefogHiveRoom(Position.GetRoomOrAdjacent(Map));
                 }
                 else
                 {

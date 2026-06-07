@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <FactionDef ParentName="FactionBase">
+    <defName>XMT_QueenAidDefenders</defName>
+    <label>cryptimorph queen defenders</label>
+    <description>Temporary cryptimorph defenders answering a queen's distress call.</description>
+    <pawnSingular>defender</pawnSingular>
+    <pawnsPlural>defenders</pawnsPlural>
+    <categoryTag>QueenAid</categoryTag>
+    <basicMemberKind>XMT_FeralStarbeastKind</basicMemberKind>
+    <humanlikeFaction>true</humanlikeFaction>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Offworld</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <hidden>true</hidden>
+    <autoFlee>false</autoFlee>
+    <canSiege>false</canSiege>
+    <canStageAttacks>false</canStageAttacks>
+    <requiredCountAtGameStart>0</requiredCountAtGameStart>
+    <mustStartOneEnemy>false</mustStartOneEnemy>
+    <settlementGenerationWeight>0</settlementGenerationWeight>
+    <permanentEnemy>false</permanentEnemy>
+    <techLevel>Neolithic</techLevel>
+    <factionNameMaker>NamerFactionMechanoid</factionNameMaker>
+    <factionIconPath>World/WorldObjects/Expanding/SmallNest</factionIconPath>
+    <colorSpectrum>
+      <li>(0.02, 0.35, 0.38)</li>
+    </colorSpectrum>
+  </FactionDef>
+
+</Defs>

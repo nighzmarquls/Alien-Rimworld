@@ -180,7 +180,13 @@ namespace Xenomorphtype
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return true;
+            LocalTargetInfo reserveTarget = recipientStored ? job.GetTarget(TargetIndex.B) : job.GetTarget(TargetIndex.A);
+            if (!reserveTarget.IsValid)
+            {
+                return false;
+            }
+
+            return pawn.Reserve(reserveTarget, job, 1, -1, null, errorOnFailed);
         }
     }
 

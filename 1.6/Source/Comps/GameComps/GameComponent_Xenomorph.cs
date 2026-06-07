@@ -9,12 +9,24 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
+using Verse.AI;
+using Verse.AI.Group;
 using Verse.Noise;
 using Verse.Sound;
 using static System.Collections.Specialized.BitVector32;
 
 namespace Xenomorphtype
 {
+    [Flags]
+    internal enum XenoformingPawnAccountingState
+    {
+        None = 0,
+        WorldXenoformingCounted = 1,
+        QueenAidBorrowed = 2,
+        SiteBorrowed = 4,
+        DeathAccounted = 8
+    }
+
     public class GameComponent_Xenomorph : GameComponent
     {
         public Pawn Queen = null;
@@ -26,6 +38,7 @@ namespace Xenomorphtype
         bool PlayerOvomorphInWorld = false;
 
         private List<string> deadMorphs = new List<string>();
+        private Dictionary<string, XenoformingPawnAccountingState> xenoformingPawnAccounting = new Dictionary<string, XenoformingPawnAccountingState>();
         private List<string> ideologyResinBuildThingIds = new List<string>();
 
         const int XenoformingCheckInterval = 60000;
@@ -77,7 +90,24 @@ namespace Xenomorphtype
         private const float OvomorphImpact = 0.1f;
         private const float EmbryoSaturationLimit = 10;
         private const float EmbryoImpact = 0.5f;
-        private const float QueenAidImpact = 0f;
+        private const float QueenAidCostPerPawn = 0.35f;
+        private const int QueenAidCooldownTicks = 60000;
+        private const int QueenAidWaveIntervalTicks = 1200;
+        private const int QueenAidMaxWaves = 5;
+        private const int QueenAidMaxActivePawns = 40;
+        private const int QueenAidMaxPawnsPerWave = 8;
+        private const float QueenAidThreatPawnFactor = 0.75f;
+        private const float QueenAidMinimumXenoforming = 10f;
+
+        private List<int> queenAidPawnIDs = new List<int>();
+        private int nextQueenAidTick = -1;
+        private int nextQueenAidWaveTick = -1;
+        private int queenAidWavesRemaining = 0;
+        private int queenAidSpawnedThisResponse = 0;
+        private bool queenAidLetterSent = false;
+        private bool queenAidResponseActive = false;
+        private QueenAidThreatProfile queenAidThreatProfile;
+        private Faction queenAidFaction;
 
         private int _xenoformingStartTick = -1;
 
@@ -148,6 +178,7 @@ namespace Xenomorphtype
         public override void GameComponentTick()
         {
             base.GameComponentTick();
+            QueenAidTick();
 
             if (_xenoforming <= 0)
             {
@@ -386,7 +417,17 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref PlayerOvomorphInWorld, "PlayerOvomorphInWorld", false);
             Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
             Scribe_Collections.Look(ref deadMorphs, "deadMorphs");
+            Scribe_Collections.Look(ref xenoformingPawnAccounting, "xenoformingPawnAccounting", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref ideologyResinBuildThingIds, "ideologyResinBuildThingIds");
+            Scribe_Collections.Look(ref queenAidPawnIDs, "queenAidPawnIDs");
+            Scribe_Values.Look(ref nextQueenAidTick, "nextQueenAidTick", -1);
+            Scribe_Values.Look(ref nextQueenAidWaveTick, "nextQueenAidWaveTick", -1);
+            Scribe_Values.Look(ref queenAidWavesRemaining, "queenAidWavesRemaining", 0);
+            Scribe_Values.Look(ref queenAidSpawnedThisResponse, "queenAidSpawnedThisResponse", 0);
+            Scribe_Values.Look(ref queenAidLetterSent, "queenAidLetterSent", false);
+            Scribe_Values.Look(ref queenAidResponseActive, "queenAidResponseActive", false);
+            Scribe_Deep.Look(ref queenAidThreatProfile, "queenAidThreatProfile");
+            Scribe_References.Look(ref queenAidFaction, "queenAidFaction");
 
             Scribe_Values.Look(ref _totalReprisalRaidPoints, "_totalReprisalRaidPoints", 0);
             Scribe_Collections.Look(ref _reprisalFactions, "ReprisalFactions",LookMode.Reference);
@@ -397,6 +438,13 @@ namespace Xenomorphtype
                 XMTHiveUtility.ClearAllNestSites();
                 InfiltrationUtility.ClearAllCaches();
                 PawnCacheWrapper.ClearAllPawnCaches();
+                xenoformingPawnAccounting ??= new Dictionary<string, XenoformingPawnAccountingState>();
+                deadMorphs ??= new List<string>();
+                queenAidPawnIDs ??= new List<int>();
+                foreach (int thingID in queenAidPawnIDs)
+                {
+                    AddPawnAccountingState(ThingIDAccountingKey(thingID), XenoformingPawnAccountingState.QueenAidBorrowed);
+                }
                 if (XMTSettings.LogWorld)
                 {
                     Log.Message("loaded " + _reprisalFactions.Count + " factions for a total reprisal raid points: " + _totalReprisalRaidPoints);
@@ -541,30 +589,52 @@ namespace Xenomorphtype
         }
         public void HandleMatureMorphDeath(Pawn pawn)
         {
-            if (!pawn.ageTracker.Adult)
+            if (pawn == null || !pawn.ageTracker.Adult)
             {
                 return;
             }
 
-            if (deadMorphs.Contains(pawn.ToString()))
+            string key = PawnAccountingKey(pawn);
+            if (HasPawnAccountingState(key, XenoformingPawnAccountingState.DeathAccounted) || deadMorphs.Contains(pawn.ToString()))
             {
                 return;
             }
 
-            deadMorphs.Add(pawn.ToString());
+            bool borrowedQueenAid = RemovePawnAccountingState(key, XenoformingPawnAccountingState.QueenAidBorrowed) || RemovePawnAccountingState(ThingIDAccountingKey(pawn.thingIDNumber), XenoformingPawnAccountingState.QueenAidBorrowed);
+            bool borrowedSitePawn = RemovePawnAccountingState(key, XenoformingPawnAccountingState.SiteBorrowed);
+            bool countedWorldPawn = HasPawnAccountingState(key, XenoformingPawnAccountingState.WorldXenoformingCounted);
 
-            _xenoforming = Mathf.Max(_xenoforming - XenomorphImpact, 0);
+            AddPawnAccountingState(key, XenoformingPawnAccountingState.DeathAccounted);
+            deadMorphs.AddDistinct(pawn.ToString());
 
-            if (XMTUtility.QueenIsPlayer())
+            if (borrowedQueenAid)
+            {
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("Queen aid pawn " + pawn + " died; aid cost remains spent and normal xenoforming death adjustment is skipped.");
+                }
+                return;
+            }
+
+            bool adjustedXenoforming = !borrowedSitePawn || countedWorldPawn;
+            if (adjustedXenoforming)
+            {
+                _xenoforming = Mathf.Max(_xenoforming - XenomorphImpact, 0);
+            }
+
+            if (adjustedXenoforming && XMTUtility.QueenIsPlayer())
             {
                 Messages.Message("XMT_XenoformingLowered".Translate(), MessageTypeDefOf.NegativeEvent);
             }
 
-            if (XMTSettings.LogWorld)
+            if (adjustedXenoforming && XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for death of " + pawn.ToString() + " total: " + _xenoforming);
             }
-            EvaluateXenoforming();
+            if (adjustedXenoforming)
+            {
+                EvaluateXenoforming();
+            }
         }
         public void ReleaseOvomorphOnWorld(Ovomorph Ovomorph)
         {
@@ -590,8 +660,39 @@ namespace Xenomorphtype
 
         internal void ReleaseXenomorphOnWorld(Pawn pawn)
         {
-            
+            if (pawn == null)
+            {
+                return;
+            }
+
+            string key = PawnAccountingKey(pawn);
+            if (RemovePawnAccountingState(key, XenoformingPawnAccountingState.QueenAidBorrowed) || RemovePawnAccountingState(ThingIDAccountingKey(pawn.thingIDNumber), XenoformingPawnAccountingState.QueenAidBorrowed))
+            {
+                _xenoforming += QueenAidCostPerPawn;
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("Queen aid pawn " + pawn + " returned to the xenoforming pool. Xenoforming total: " + _xenoforming);
+                }
+                EvaluateXenoforming();
+                return;
+            }
+
+            if (RemovePawnAccountingState(key, XenoformingPawnAccountingState.SiteBorrowed))
+            {
+                if (XMTSettings.LogWorld)
+                {
+                    Log.Message("World cryptimorph " + pawn + " returned from a site without changing xenoforming.");
+                }
+                return;
+            }
+
+            if (HasPawnAccountingState(key, XenoformingPawnAccountingState.WorldXenoformingCounted))
+            {
+                return;
+            }
+
             _xenoforming += XenomorphImpact;
+            AddPawnAccountingState(key, XenoformingPawnAccountingState.WorldXenoformingCounted);
 
             if(XMTUtility.QueenIsPlayer())
             {
@@ -616,9 +717,510 @@ namespace Xenomorphtype
             EvaluateXenoforming();
         }
 
+        private void QueenAidTick()
+        {
+            if (!queenAidResponseActive)
+            {
+                return;
+            }
+
+            Pawn queen = XMTUtility.GetQueen();
+            Thing protectionTarget = QueenAidProtectionTarget(queen);
+            if (queen == null || queen.Dead || protectionTarget == null || protectionTarget.Destroyed || !protectionTarget.Spawned || protectionTarget.MapHeld == null || _xenoforming < QueenAidMinimumXenoforming)
+            {
+                EndQueenAidResponse(startCooldown: true);
+                return;
+            }
+
+            if (queenAidThreatProfile == null || CountQueenAidThreats(queen, queenAidThreatProfile) <= 0)
+            {
+                EndQueenAidResponse(startCooldown: true);
+                return;
+            }
+
+            if (queenAidWavesRemaining <= 0)
+            {
+                EndQueenAidResponse(startCooldown: true);
+                return;
+            }
+
+            if (Find.TickManager.TicksGame < nextQueenAidWaveTick)
+            {
+                return;
+            }
+
+            if (!SpawnQueenAidWave(queen, queenAidThreatProfile))
+            {
+                EndQueenAidResponse(startCooldown: true);
+                return;
+            }
+
+            queenAidWavesRemaining--;
+            nextQueenAidWaveTick = queenAidWavesRemaining > 0 ? Find.TickManager.TicksGame + QueenAidWaveIntervalTicks : -1;
+        }
+
+        private void EndQueenAidResponse(bool startCooldown)
+        {
+            queenAidResponseActive = false;
+            queenAidWavesRemaining = 0;
+            queenAidSpawnedThisResponse = 0;
+            queenAidLetterSent = false;
+            nextQueenAidWaveTick = -1;
+            queenAidThreatProfile = null;
+            if (startCooldown)
+            {
+                nextQueenAidTick = Find.TickManager.TicksGame + QueenAidCooldownTicks;
+            }
+        }
+
+        internal bool TryQueenCallForAid(Pawn aggressor)
+        {
+            return TryQueenCallForAid(XMTUtility.GetQueen(), aggressor);
+        }
+
+        internal bool TryQueenCallForAid(Pawn queen, Pawn aggressor)
+        {
+            Thing protectionTarget = QueenAidProtectionTarget(queen);
+            if (queen == null || queen.Dead || protectionTarget == null || protectionTarget.Destroyed || !protectionTarget.Spawned || protectionTarget.MapHeld == null)
+            {
+                return false;
+            }
+
+            if (_xenoforming < QueenAidMinimumXenoforming)
+            {
+                return false;
+            }
+
+            if (queenAidResponseActive)
+            {
+                return false;
+            }
+
+            int ticksGame = Find.TickManager.TicksGame;
+            if (nextQueenAidTick > ticksGame)
+            {
+                return false;
+            }
+
+            if (ActiveQueenAidPawnCount(protectionTarget.MapHeld) >= QueenAidMaxActivePawns)
+            {
+                return false;
+            }
+
+            queenAidThreatProfile = new QueenAidThreatProfile(aggressor);
+            queenAidResponseActive = true;
+            queenAidSpawnedThisResponse = 0;
+            queenAidLetterSent = false;
+            queenAidWavesRemaining = QueenAidMaxWaves;
+            StartQueenDefensePanic(protectionTarget.MapHeld);
+
+            if (!SpawnQueenAidWave(queen, queenAidThreatProfile))
+            {
+                EndQueenAidResponse(startCooldown: false);
+                return false;
+            }
+
+            queenAidWavesRemaining--;
+            nextQueenAidWaveTick = queenAidWavesRemaining > 0 ? ticksGame + QueenAidWaveIntervalTicks : -1;
+            return true;
+        }
+
+        private bool SpawnQueenAidWave(Pawn queen, QueenAidThreatProfile threatProfile)
+        {
+            Thing protectionTarget = QueenAidProtectionTarget(queen);
+            Map map = protectionTarget?.MapHeld;
+            if (map == null)
+            {
+                return false;
+            }
+
+            IntVec3 entryCell;
+            if (!TryFindQueenAidEntryCell(queen, out entryCell))
+            {
+                return false;
+            }
+
+            int desiredCount = DesiredQueenAidTotal(queen, threatProfile);
+            int remainingDesiredCount = Mathf.Max(0, desiredCount - queenAidSpawnedThisResponse);
+            int activeCapacity = QueenAidMaxActivePawns - ActiveQueenAidPawnCount(map);
+            int affordableCount = Mathf.FloorToInt(Mathf.Max(0f, _xenoforming - QueenAidMinimumXenoforming) / QueenAidCostPerPawn);
+            int count = Mathf.Min(remainingDesiredCount, QueenAidMaxPawnsPerWave, activeCapacity, affordableCount);
+
+            if (count <= 0)
+            {
+                return false;
+            }
+
+            List<Pawn> spawnedPawns = new List<Pawn>();
+            Rot4 rot = Rot4.FromAngleFlat((map.Center - entryCell).AngleFlat);
+            for (int i = 0; i < count; i++)
+            {
+                Pawn pawn = TakeWorldCryptimorphForUse(XenoformingPawnAccountingState.QueenAidBorrowed, queen.Faction?.IsPlayer ?? false) ?? XenoformingUtility.GenerateFeralXenomorph();
+                Faction defenderFaction = GetQueenAidFaction(queen.Faction);
+                if (defenderFaction != null)
+                {
+                    pawn.SetFaction(defenderFaction);
+                }
+
+                IntVec3 loc = CellFinder.RandomClosewalkCellNear(entryCell, map, 10);
+                GenSpawn.Spawn(pawn, loc, map, rot);
+                CompCrawler crawler = pawn.GetComp<CompCrawler>();
+                if (crawler != null)
+                {
+                    crawler.Crawling = true;
+                }
+                pawn.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + QueenAidCooldownTicks;
+                spawnedPawns.Add(pawn);
+                AddPawnAccountingState(pawn, XenoformingPawnAccountingState.QueenAidBorrowed);
+            }
+
+            if (!spawnedPawns.Any())
+            {
+                return false;
+            }
+
+            _xenoforming = Mathf.Max(0, _xenoforming - (QueenAidCostPerPawn * spawnedPawns.Count));
+            queenAidSpawnedThisResponse += spawnedPawns.Count;
+            Faction lordFaction = spawnedPawns[0].Faction;
+            LordMaker.MakeNewLord(lordFaction, new LordJob_QueenAid(queen, threatProfile), map, spawnedPawns);
+            SendQueenAidLetter(queen, spawnedPawns);
+
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("Queen aid wave spawned " + spawnedPawns.Count + " cryptimorphs for " + queen + " against " + CountQueenAidThreats(queen, threatProfile) + " threats. Xenoforming total: " + _xenoforming);
+            }
+
+            EvaluateXenoforming();
+            return true;
+        }
+
+        private bool TryFindQueenAidEntryCell(Pawn queen, out IntVec3 entryCell)
+        {
+            entryCell = IntVec3.Invalid;
+            Thing protectionTarget = QueenAidProtectionTarget(queen);
+            Map map = protectionTarget?.MapHeld;
+            if (map == null || protectionTarget == null)
+            {
+                return false;
+            }
+
+            List<IntVec3> candidates = map.AllCells
+                .Where(cell => IsQueenAidEntryCandidate(cell, map, protectionTarget))
+                .OrderBy(cell => cell.DistanceToSquared(protectionTarget.Position))
+                .Take(80)
+                .ToList();
+
+            if (candidates.Any())
+            {
+                entryCell = candidates.RandomElement();
+                return true;
+            }
+
+            return RCellFinder.TryFindRandomPawnEntryCell(out entryCell, map, CellFinder.EdgeRoadChance_Animal);
+        }
+
+        private bool IsQueenAidEntryCandidate(IntVec3 cell, Map map, Thing protectionTarget)
+        {
+            if (cell.x != 0 && cell.z != 0 && cell.x != map.Size.x - 1 && cell.z != map.Size.z - 1)
+            {
+                return false;
+            }
+
+            if (!cell.Standable(map) || cell.Fogged(map) || cell.GetFirstPawn(map) != null)
+            {
+                return false;
+            }
+
+            return map.reachability.CanReach(cell, protectionTarget.Position, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors));
+        }
+
+        private Faction GetQueenAidFaction(Faction queenFaction)
+        {
+            if (queenAidFaction == null || queenAidFaction.def != InternalDefOf.XMT_QueenAidDefenders)
+            {
+                queenAidFaction = Find.FactionManager.FirstFactionOfDef(InternalDefOf.XMT_QueenAidDefenders);
+            }
+
+            if (queenAidFaction == null)
+            {
+                queenAidFaction = FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(InternalDefOf.XMT_QueenAidDefenders));
+                Find.FactionManager.Add(queenAidFaction);
+            }
+
+            AlignQueenAidFactionToQueen(queenAidFaction, queenFaction);
+            return queenAidFaction;
+        }
+
+        private void AlignQueenAidFactionToQueen(Faction defenderFaction, Faction queenFaction)
+        {
+            if (defenderFaction == null || queenFaction == null || defenderFaction == queenFaction)
+            {
+                return;
+            }
+
+            defenderFaction.TryMakeInitialRelationsWith(queenFaction);
+            queenFaction.TryMakeInitialRelationsWith(defenderFaction);
+
+            FactionRelation defenderRelation = defenderFaction.RelationWith(queenFaction, allowNull: false);
+            defenderRelation.kind = FactionRelationKind.Ally;
+
+            FactionRelation queenRelation = queenFaction.RelationWith(defenderFaction, allowNull: false);
+            queenRelation.kind = FactionRelationKind.Ally;
+        }
+
+        private void StartQueenDefensePanic(Map map)
+        {
+            if (map == null)
+            {
+                return;
+            }
+
+            foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned.ToList())
+            {
+                if (pawn == null || pawn.Dead || pawn.Downed || pawn == Queen || !XMTUtility.IsXenomorph(pawn))
+                {
+                    continue;
+                }
+
+                pawn.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+            }
+        }
+
+        private void SendQueenAidLetter(Pawn queen, List<Pawn> spawnedPawns)
+        {
+            if (queenAidLetterSent || spawnedPawns.NullOrEmpty())
+            {
+                return;
+            }
+
+            if (queen?.Faction == Faction.OfPlayer)
+            {
+                TaggedString label = "XMT_LetterLabelQueenDefendersArrived".Translate();
+                TaggedString text = "XMT_QueenDefendersArrived".Translate(InternalDefOf.XMT_FeralStarbeastKind.GetLabelPlural());
+                Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, new LookTargets(spawnedPawns));
+            }
+            else if (queenAidThreatProfile != null && queenAidThreatProfile.AggressorIsPlayerFaction && queenAidThreatProfile.AggressorIsHumanlike)
+            {
+                TaggedString label = "XMT_LetterLabelQueenAidScreech".Translate();
+                TaggedString text = "XMT_QueenAidScreech".Translate();
+                Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.ThreatBig, new LookTargets(spawnedPawns));
+            }
+            else
+            {
+                return;
+            }
+
+            queenAidLetterSent = true;
+        }
+
+        private int DesiredQueenAidTotal(Pawn queen, QueenAidThreatProfile threatProfile)
+        {
+            int threatCount = Mathf.Max(1, CountQueenAidThreats(queen, threatProfile));
+            int desired = 2 + Mathf.CeilToInt(threatCount * QueenAidThreatPawnFactor);
+            int affordableTotal = Mathf.FloorToInt(Mathf.Max(0f, _xenoforming - QueenAidMinimumXenoforming) / QueenAidCostPerPawn) + queenAidSpawnedThisResponse;
+            return Mathf.Clamp(Mathf.Min(desired, affordableTotal), 1, QueenAidMaxActivePawns);
+        }
+
+        private int CountQueenAidThreats(Pawn queen, QueenAidThreatProfile threatProfile)
+        {
+            Thing protectionTarget = QueenAidProtectionTarget(queen);
+            Map map = protectionTarget?.MapHeld;
+            if (map == null || threatProfile == null)
+            {
+                return 0;
+            }
+
+            int count = 0;
+            foreach (Pawn pawn in map.mapPawns.AllPawnsSpawned)
+            {
+                if (IsVisibleQueenAidThreat(queen, pawn, threatProfile))
+                {
+                    count++;
+                }
+            }
+
+            foreach (Building_TurretGun turret in map.listerThings.GetThingsOfType<Building_TurretGun>())
+            {
+                if (IsVisibleQueenAidThreat(queen, turret, threatProfile))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        private bool IsVisibleQueenAidThreat(Pawn queen, Thing target, QueenAidThreatProfile threatProfile)
+        {
+            if (target != null && target.Spawned && target.MapHeld != null && target.PositionHeld.Fogged(target.MapHeld))
+            {
+                return false;
+            }
+
+            return QueenAidThreatProfile.IsQueenAidThreat(queen, queen, target, threatProfile);
+        }
+
+        private Thing QueenAidProtectionTarget(Pawn queen)
+        {
+            if (queen == null)
+            {
+                return null;
+            }
+
+            if (queen.Spawned)
+            {
+                return queen;
+            }
+
+            Thing spawnedParent = queen.SpawnedParentOrMe;
+            if (spawnedParent != null && spawnedParent != queen && spawnedParent.Spawned)
+            {
+                return spawnedParent;
+            }
+
+            return queen.ParentHolder as Thing;
+        }
+
+        private int ActiveQueenAidPawnCount(Map map)
+        {
+            if (map == null)
+            {
+                return 0;
+            }
+
+            return map.mapPawns.AllPawnsSpawned.Count(pawn => pawn != null && !pawn.Dead && !pawn.Downed && HasPawnAccountingState(pawn, XenoformingPawnAccountingState.QueenAidBorrowed));
+        }
+
+        internal Pawn TakeWorldCryptimorphForUse(XenoformingPawnAccountingState useState, bool allowPlayerPioneers)
+        {
+            List<Pawn> candidates = Find.WorldPawns.AllPawnsAlive
+                .Where(pawn => IsWorldCryptimorphCandidate(pawn, allowPlayerPioneers))
+                .OrderBy(pawn => pawn.Faction == Faction.OfPlayer ? 0 : 1)
+                .ThenBy(_ => Rand.Value)
+                .ToList();
+
+            Pawn selected = candidates.FirstOrDefault();
+            if (selected == null)
+            {
+                return null;
+            }
+
+            AddPawnAccountingState(selected, useState);
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("Using world cryptimorph " + selected + " for " + useState + ".");
+            }
+            return selected;
+        }
+
+        private bool IsWorldCryptimorphCandidate(Pawn pawn, bool allowPlayerPioneers)
+        {
+            if (pawn == null || pawn.Spawned || pawn.Dead || pawn.Downed || CaravanUtility.IsCaravanMember(pawn))
+            {
+                return false;
+            }
+
+            if (!allowPlayerPioneers && pawn.Faction == Faction.OfPlayer)
+            {
+                return false;
+            }
+
+            if (!XMTUtility.IsXenomorph(pawn) || pawn == Queen || !pawn.ageTracker.Adult)
+            {
+                return false;
+            }
+
+            if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving))
+            {
+                return false;
+            }
+
+            return !HasPawnAccountingState(pawn, XenoformingPawnAccountingState.QueenAidBorrowed | XenoformingPawnAccountingState.SiteBorrowed | XenoformingPawnAccountingState.DeathAccounted);
+        }
+
+        internal Pawn GetWorldOrGeneratedCryptimorphForSite(bool allowPlayerPioneers)
+        {
+            Pawn pawn = TakeWorldCryptimorphForUse(XenoformingPawnAccountingState.SiteBorrowed, allowPlayerPioneers);
+            return pawn ?? XenoformingUtility.GenerateFeralXenomorph();
+        }
+
+        internal bool IsQueenAidDefender(Pawn pawn)
+        {
+            return HasPawnAccountingState(pawn, XenoformingPawnAccountingState.QueenAidBorrowed) || (pawn != null && HasPawnAccountingState(ThingIDAccountingKey(pawn.thingIDNumber), XenoformingPawnAccountingState.QueenAidBorrowed));
+        }
+
+        private string PawnAccountingKey(Pawn pawn)
+        {
+            return pawn?.ThingID;
+        }
+
+        private static string ThingIDAccountingKey(int thingIDNumber)
+        {
+            return "thingIDNumber:" + thingIDNumber;
+        }
+
+        private bool HasPawnAccountingState(Pawn pawn, XenoformingPawnAccountingState state)
+        {
+            return pawn != null && HasPawnAccountingState(PawnAccountingKey(pawn), state);
+        }
+
+        private bool HasPawnAccountingState(string key, XenoformingPawnAccountingState state)
+        {
+            if (key.NullOrEmpty() || xenoformingPawnAccounting == null || !xenoformingPawnAccounting.TryGetValue(key, out XenoformingPawnAccountingState existing))
+            {
+                return false;
+            }
+
+            return (existing & state) != XenoformingPawnAccountingState.None;
+        }
+
+        private void AddPawnAccountingState(Pawn pawn, XenoformingPawnAccountingState state)
+        {
+            if (pawn != null)
+            {
+                AddPawnAccountingState(PawnAccountingKey(pawn), state);
+            }
+        }
+
+        private void AddPawnAccountingState(string key, XenoformingPawnAccountingState state)
+        {
+            if (key.NullOrEmpty())
+            {
+                return;
+            }
+
+            xenoformingPawnAccounting ??= new Dictionary<string, XenoformingPawnAccountingState>();
+            xenoformingPawnAccounting.TryGetValue(key, out XenoformingPawnAccountingState existing);
+            xenoformingPawnAccounting[key] = existing | state;
+        }
+
+        private bool RemovePawnAccountingState(string key, XenoformingPawnAccountingState state)
+        {
+            if (key.NullOrEmpty() || xenoformingPawnAccounting == null || !xenoformingPawnAccounting.TryGetValue(key, out XenoformingPawnAccountingState existing))
+            {
+                return false;
+            }
+
+            if ((existing & state) == XenoformingPawnAccountingState.None)
+            {
+                return false;
+            }
+
+            XenoformingPawnAccountingState updated = existing & ~state;
+            if (updated == XenoformingPawnAccountingState.None)
+            {
+                xenoformingPawnAccounting.Remove(key);
+            }
+            else
+            {
+                xenoformingPawnAccounting[key] = updated;
+            }
+            return true;
+        }
+
         internal void HandleQueenCallForAid()
         {
-            _xenoforming = Mathf.Max(0, _xenoforming - (QueenAidImpact));
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for " + Queen + " calling aid to the map. total: " + _xenoforming);

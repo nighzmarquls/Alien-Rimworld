@@ -42,7 +42,7 @@ namespace Xenomorphtype
                 Pawn prey = Prey;
                 if (prey == null || pawn == null || pawn.Dead)
                 {
-                    ReadyForNextToil();
+                    EndJobWith(JobCondition.Incompletable);
                     return;
                 }
 
@@ -50,7 +50,7 @@ namespace Xenomorphtype
                 if (LarvalGenes != null && !LarvalGenes.latched)
                 {
                     LarvalGenes.TryEmbrace(prey);
-                    ReadyForNextToil();
+                    EndJobWith(JobCondition.Succeeded);
                     return;
                 }
 
@@ -58,9 +58,11 @@ namespace Xenomorphtype
                 if(HostHunter != null)
                 {
                     HostHunter.TryAttachToHost(prey);
-                    ReadyForNextToil();
+                    EndJobWith(JobCondition.Succeeded);
                     return;
-                }   
+                }
+
+                EndJobWith(JobCondition.Incompletable);
 
             };
             toil.defaultCompleteMode = ToilCompleteMode.Never;

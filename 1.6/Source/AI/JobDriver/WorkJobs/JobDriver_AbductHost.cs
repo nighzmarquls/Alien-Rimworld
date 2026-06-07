@@ -95,23 +95,18 @@ namespace Xenomorphtype
                 GrabProgress = (GrabTicks / GrabTicksFinish);
                 if (GrabTicks >= GrabTicksFinish)
                 {
+                    CompMatureMorph matureMorph = pawn.GetMorphComp();
+                    if (matureMorph != null)
+                    {
+                        if (GrabProgress >= 1 && !FailedGrab)
+                        {
+                            matureMorph.TryGrab(Victim);
+                        }
+                    }
                     ReadyForNextToil();
                 }
                 
             };
-            toil.AddFinishAction(delegate
-            {
-                
-                CompMatureMorph matureMorph = pawn.GetMorphComp();
-                if (matureMorph != null)
-                {
-                    if (GrabProgress >= 1 && !FailedGrab)
-                    {
-                        matureMorph.TryGrab(Victim);
-                    }
-                }
-               
-            });
             toil.WithProgressBar(TargetIndex.A, () => GrabProgress);
             toil.defaultCompleteMode = ToilCompleteMode.Never;
             return toil;

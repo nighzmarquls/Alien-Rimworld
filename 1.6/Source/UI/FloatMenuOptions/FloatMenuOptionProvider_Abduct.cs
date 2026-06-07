@@ -28,7 +28,7 @@ namespace Xenomorphtype
                 if (!XMTUtility.IsXenomorph(clickedPawn))
                 {
 
-                    IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(context.FirstSelectedPawn.Map, context.FirstSelectedPawn);
+                    XMTHiveUtility.TryGetHiveCocoonCell(context.FirstSelectedPawn, out IntVec3 cell);
                     GrappleCheckReport grappleReport = XMTUtility.GetGrappleCheckReport(context.FirstSelectedPawn, clickedPawn);
                     string label = "XMT_FMO_Abduct".Translate(grappleReport.SuccessChance.ToStringPercent());
                     FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, delegate
@@ -43,12 +43,7 @@ namespace Xenomorphtype
                     }, priority: MenuOptionPriority.Default), context.FirstSelectedPawn, clickedPawn);
 
 
-                    if (XMTHiveUtility.ShouldBuildNest(clickedThing.Map))
-                    {
-                        AbductOption.Disabled = true;
-                        AbductOption.tooltip = "XMT_FMO_NoNestEnclosed".Translate();
-                    }
-                    else if (!cell.IsValid)
+                    if (!cell.IsValid)
                     {
                         AbductOption.Disabled = true;
                         AbductOption.tooltip = "XMT_NoRoomToCocoon".Translate();

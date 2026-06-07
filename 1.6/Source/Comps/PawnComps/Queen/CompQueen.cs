@@ -18,6 +18,7 @@ namespace Xenomorphtype
         int _advancementForPsyLink = 1;
         int _advancementForBiotic = 1;
         int _totalSpentEvoPoints = 0;
+        private const float QueenAidPainThreshold = 0.25f;
 
         public int TotalEvoPoints => _totalEvoPoints;
 
@@ -244,11 +245,6 @@ namespace Xenomorphtype
 
             Pawn aggressor = dinfo.Instigator as Pawn;
 
-            if (Parent.Downed)
-            {
-                return;
-            }
-
             if (aggressor != null)
             {
                 if (aggressor.Dead)
@@ -271,25 +267,20 @@ namespace Xenomorphtype
                 if (info != null)
                 {
                     info.ApplyThreatPheromone(Parent,1,10);
+                }
 
-                    if(XenoformingUtility.XenoformingMeets(10))
+                if(XenoformingUtility.XenoformingMeets(10))
+                {
+                    if (Parent.Downed || Parent.health.hediffSet.PainTotal >= QueenAidPainThreshold || Parent.health.hediffSet.BleedRateTotal > 0.1f)
                     {
-                        if (Parent.health.hediffSet.BleedRateTotal > 0.1f)
+                        if (XenoformingUtility.QueenCalledForAid(Parent, aggressor))
                         {
-                            IncidentParms parms = new IncidentParms();
-                            parms.forced = true;
-                            parms.target = parent.Map;
-                            if (XenoIncidentDefOf.XMT_HuntingPack.Worker.TryExecute(parms))
+                            if (ModsConfig.RoyaltyActive)
                             {
-                                XenoformingUtility.QueenCalledForAid();
-                                if (ModsConfig.RoyaltyActive)
-                                {
-                                    FleckMaker.Static(Parent.Position, parent.Map, FleckDefOf.PsycastAreaEffect, 10f);
-                                }
+                                FleckMaker.Static(Parent.Position, parent.Map, FleckDefOf.PsycastAreaEffect, 10f);
                             }
                         }
                     }
-
                 }
             }
         }

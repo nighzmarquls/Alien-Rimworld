@@ -34,6 +34,7 @@ namespace Xenomorphtype
         protected override IEnumerable<Toil> MakeNewToils()
         {
             AddFailCondition(IsNoLongerValidTarget);
+            AddFailCondition(() => pawn.Faction == null && !CompJellyMaker.IsProperLightLevelForFeralJelly(target, pawn.Map));
 
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
             yield return BeginProducingJelly();

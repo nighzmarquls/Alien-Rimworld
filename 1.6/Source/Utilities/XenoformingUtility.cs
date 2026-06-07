@@ -376,12 +376,23 @@ namespace Xenomorphtype
 
         }
 
-        internal static void QueenCalledForAid()
+        internal static bool QueenCalledForAid(Pawn aggressor = null)
         {
             if(XMTUtility.QueenPresent())
             {
-                gameComponent.HandleQueenCallForAid();
+                return gameComponent.TryQueenCallForAid(aggressor);
             }
+            return false;
+        }
+
+        internal static bool QueenCalledForAid(Pawn queen, Pawn aggressor)
+        {
+            if (queen == null)
+            {
+                return QueenCalledForAid(aggressor);
+            }
+
+            return gameComponent.TryQueenCallForAid(queen, aggressor);
         }
 
         public static Pawn GenerateFeralXenomorph()
@@ -402,6 +413,16 @@ namespace Xenomorphtype
             BioUtility.ExtractGenesToGeneset(ref genes, InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.geneList);
             BioUtility.InsertGenesetToPawn(genes, ref pawn);
             return pawn;
+        }
+
+        public static Pawn GetWorldOrGeneratedFeralXenomorphForSite(bool allowPlayerPioneers = true)
+        {
+            return gameComponent.GetWorldOrGeneratedCryptimorphForSite(allowPlayerPioneers);
+        }
+
+        public static bool IsQueenAidDefender(Pawn pawn)
+        {
+            return gameComponent.IsQueenAidDefender(pawn);
         }
 
         public static Pawn GenerateFeralQueen(RoyalEvolutionSet advancementSet = null)
@@ -452,6 +473,43 @@ namespace Xenomorphtype
             }
 
             return newQueen;
+        }
+
+        internal static void PrepareQueenForOvoThrone(Pawn queen)
+        {
+            CompQueen compQueen = queen?.GetComp<CompQueen>();
+            if (compQueen == null)
+            {
+                return;
+            }
+
+            if (RoyalEvolutionDefOf.BaseQueenSet?.evolutions == null)
+            {
+                return;
+            }
+
+            compQueen.RecieveProgress(10);
+            foreach (RoyalEvolutionDef evolution in RoyalEvolutionDefOf.BaseQueenSet.evolutions)
+            {
+                if (evolution != null && !compQueen.ChosenEvolutions.Contains(evolution))
+                {
+                    compQueen.AddEvolution(evolution);
+                }
+            }
+        }
+
+        internal static void EnsureQueenHasOvoThrone(Pawn queen)
+        {
+            CompQueen compQueen = queen?.GetComp<CompQueen>();
+            if (compQueen == null || RoyalEvolutionDefOf.Evo_OvoThrone == null)
+            {
+                return;
+            }
+
+            if (!compQueen.ChosenEvolutions.Contains(RoyalEvolutionDefOf.Evo_OvoThrone))
+            {
+                compQueen.AddEvolution(RoyalEvolutionDefOf.Evo_OvoThrone);
+            }
         }
 
         internal static void AddReprisal(Faction faction, float points)

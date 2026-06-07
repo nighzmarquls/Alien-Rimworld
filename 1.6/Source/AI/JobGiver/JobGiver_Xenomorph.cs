@@ -14,11 +14,21 @@ namespace Xenomorphtype
 {
     public class JobGiver_Xenomorph : JobGiver_ExitMapBest
     {
-        protected Job GetAbductJob(Pawn pawn, Pawn target)
+        protected Job GetAbductJob(Pawn pawn, Pawn target, bool allowExpansion = false)
         {
-            IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(pawn.Map, pawn);
+            IntVec3 cell = IntVec3.Invalid;
+            XMTHiveUtility.TryGetHiveCocoonCell(pawn, out cell);
             if(!cell.IsValid)
             {
+                if (allowExpansion)
+                {
+                    Job expansionJob = XMTHiveUtility.GetHiveCocoonExpansionJob(pawn);
+                    if (expansionJob != null)
+                    {
+                        return expansionJob;
+                    }
+                }
+
                 Messages.Message("XMT_NoRoomToCocoon".Translate(), MessageTypeDefOf.NegativeEvent);
                 return null;
             }
@@ -27,9 +37,59 @@ namespace Xenomorphtype
             FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
             FeralJobUtility.ReserveThingForJob(pawn, job, target);
             job.count = 1;
-            pawn.Reserve(target, job);
             return job;
         }
+
+        protected bool TryGetFeralAbductionJob(Pawn pawn, CompMatureMorph compMatureMorph, IEnumerable<Pawn> candidates, bool allowExpansion, bool blockedByOvomorphNest, out Job job)
+        {
+            job = null;
+            if (pawn?.Map == null || compMatureMorph == null || candidates == null || blockedByOvomorphNest)
+            {
+                return false;
+            }
+
+            List<Pawn> candidateList = candidates as List<Pawn> ?? candidates.ToList();
+            if (!candidateList.Any())
+            {
+                return false;
+            }
+
+            if (!compMatureMorph.ShouldAbductHost())
+            {
+                return false;
+            }
+
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message(pawn + " thinks a host should be abducted");
+            }
+
+            if (compMatureMorph.ShouldDoMichief() && XMTMischiefUtility.TryFindRoofBreakMischief(pawn, out Job roofBreakJob, out string roofBreakReason))
+            {
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message(pawn + " is starting roof breaking mischief during abduction search: " + roofBreakReason);
+                }
+
+                job = roofBreakJob;
+                return true;
+            }
+
+            Pawn target = compMatureMorph.BestAbductCandidate(candidateList);
+            if (target == null)
+            {
+                return false;
+            }
+
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message(pawn + " thinks " + target + " should be abducted");
+            }
+
+            job = GetAbductJob(pawn, target, allowExpansion);
+            return job != null;
+        }
+
         protected Job GetFeralJob(Pawn pawn)
         {
             if (XMTSettings.LogJobGiver)
@@ -42,47 +102,55 @@ namespace Xenomorphtype
                 if (XMTSettings.LogJobGiver)
                 {
                     Log.Message(pawn + " is fleeing the map due to age");
-                    return base.TryGiveJob(pawn);
+                }
+
+                Need_Food juvenileFood = pawn.needs.food;
+                bool juvenileDesperate = juvenileFood != null && juvenileFood.CurCategory == HungerCategory.Starving;
+                if (juvenileFood != null && juvenileFood.CurLevelPercentage < 0.9f)
+                {
+                    Job juvenileFoodJob = GetFoodJob(pawn, juvenileDesperate, juvenileDesperate ? 1f : 0.45f);
+                    if (juvenileFoodJob != null)
+                    {
+                        return juvenileFoodJob;
+                    }
+                }
+
+                Job juvenileRestJob = XMTHiveUtility.GetHiveRestJob(pawn);
+                if (juvenileRestJob != null)
+                {
+                    return juvenileRestJob;
                 }
             }
             IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => XMTUtility.TriggersOvomorph(x));
             IEnumerable<Pawn> hostPawns = pawn.Map.mapPawns.AllPawnsSpawned.Where(x => XMTUtility.TriggersOvomorph(x));
-            Need_Food food = pawn.needs.food;
-            bool desperate = pawn.needs.food.CurCategory == HungerCategory.Starving;
+            Need_Food food = pawn.needs?.food;
+            bool desperate = food != null && food.CurCategory == HungerCategory.Starving;
 
             CompMatureMorph compMatureMorph = pawn.GetMorphComp();
 
             bool shouldOvomorph = compMatureMorph.ShouldOvomorphCandidate();
-            bool hasNest = XMTHiveUtility.HasCocooned(pawn.Map);
+            bool hasCocoonedHosts = XMTHiveUtility.HasCocooned(pawn.Map);
+            bool hasNest = hasCocoonedHosts || XMTHiveUtility.HasLocalNest(pawn.Map);
 
-            if (food.CurCategory == HungerCategory.Fed)
+            if (compMatureMorph != null && compMatureMorph.TryGetPriorityFeralFeedJob(out Job priorityFeedJob))
+            {
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message(pawn + " is prioritizing host feeding.");
+                }
+
+                return priorityFeedJob;
+            }
+
+            if (food == null || food.CurCategory != HungerCategory.Starving)
             {
                 if (XMTSettings.LogJobGiver)
                 {
                     Log.Message(pawn + " is getting fed Job there are " + hostPawns.Count() + " possible hosts");
                 }
-                if (hostPawns.Any())
+                if (TryGetFeralAbductionJob(pawn, compMatureMorph, hostPawns, allowExpansion: true, blockedByOvomorphNest: shouldOvomorph && hasCocoonedHosts, out Job abductJob))
                 {
-                    if (compMatureMorph != null)
-                    {
-                        if (compMatureMorph.ShouldAbductHost() && !(shouldOvomorph && hasNest) )
-                        {
-                            if (XMTSettings.LogJobGiver)
-                            {
-                                Log.Message(pawn + " thinks a host should be abducted");
-                            }
-                            Pawn target = compMatureMorph.BestAbductCandidate(hostPawns);
-                            if (target != null)
-                            {
-                                if (XMTSettings.LogJobGiver)
-                                {
-                                    Log.Message(pawn + " thinks " + target + " should be abducted");
-                                }
-                                
-                                return GetAbductJob(pawn, target);
-                            }
-                        }
-                    }
+                    return abductJob;
                 }
             }
             else
@@ -91,6 +159,15 @@ namespace Xenomorphtype
                if(job != null)
                {
                    return job;
+               }
+
+               if (TryGetFeralAbductionJob(pawn, compMatureMorph, hostPawns, allowExpansion: true, blockedByOvomorphNest: shouldOvomorph && hasCocoonedHosts, out Job abductJob))
+               {
+                   if (XMTSettings.LogJobGiver)
+                   {
+                       Log.Message(pawn + " is abducting a host after failing to find food.");
+                   }
+                   return abductJob;
                }
             }
 
@@ -150,38 +227,39 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is hunting the last colony pawn.");
+                                Log.Message(pawn + " is abducting the last colony pawn.");
                             }
                            
                             Pawn target = UndownedPawns.First();
 
-                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
+                            return GetAbductJob(pawn, target, allowExpansion: true);
 
                         }
-                        else if (pawn.needs.rest.CurLevelPercentage < 0.25f)
+                        else if (pawn.needs?.rest != null && pawn.needs.rest.CurLevelPercentage < 0.25f)
                         {
                             if (XMTSettings.LogJobGiver)
                             {
                                 Log.Message(pawn + " is napping.");
                             }
-                           
-                            return JobMaker.MakeJob(JobDefOf.Wait_Asleep);
+
+                            Job restJob = XMTHiveUtility.GetHiveRestJob(pawn);
+                            return restJob;
                         }
                         else if (shouldHunt && UndownedPawns.Any())
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is hunting a random colony pawn.");
+                                Log.Message(pawn + " is abducting a random colony pawn.");
                             }
                             
                             Pawn target = UndownedPawns.RandomElement();
 
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is hunting " + target);
+                                Log.Message(pawn + " is going to abduct " + target);
                             }
 
-                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_StealthHunt, target);
+                            return GetAbductJob(pawn, target, allowExpansion: true);
                     
                         }
                     }
@@ -193,21 +271,94 @@ namespace Xenomorphtype
                             Log.Message(pawn + "should be in the nest.");
                         }
 
-                        return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
+                        return XMTHiveUtility.GetHiveRestJob(pawn);
                     }
 
                     if (XMTSettings.LogJobGiver)
                     {
                         Log.Message(pawn + " has nothing else to do.");
                     }
-                    //TODO: Do something here.
+
+                    Job hibernateJob = XMTHiveUtility.GetSurplusHibernationJob(pawn);
+                    if (hibernateJob != null)
+                    {
+                        return hibernateJob;
+                    }
+
+                    Job wanderRestJob = XMTHiveUtility.GetHiveRestJob(pawn);
+                    if (wanderRestJob != null)
+                    {
+                        return wanderRestJob;
+                    }
+
+                    Job hiveWanderJob = XMTHiveUtility.GetHiveWanderJob(pawn);
+                    if (hiveWanderJob != null)
+                    {
+                        return hiveWanderJob;
+                    }
 
                 }
                 else
                 {
-                    return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
+                    Job restJob = XMTHiveUtility.GetHiveRestJob(pawn);
+                    if (restJob != null)
+                    {
+                        return restJob;
+                    }
                 }
                 
+            }
+
+            if (hasNest && compMatureMorph != null)
+            {
+                if (compMatureMorph.GetCocoonedFeedJob(out Job feedJob))
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is feeding a cocooned pawn instead of leaving the map.");
+                    }
+                    return feedJob;
+                }
+
+                Job buildJob = XMTHiveUtility.GetHiveCocoonExpansionJob(pawn);
+                if (buildJob != null)
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is expanding cocoon space instead of leaving the map: " + buildJob);
+                    }
+                    return buildJob;
+                }
+
+                buildJob = XMTHiveUtility.GetNestBuildJob(pawn);
+                if (buildJob != null)
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is doing hive building work instead of leaving the map.");
+                    }
+                    return buildJob;
+                }
+
+                Job restJob = XMTHiveUtility.GetHiveRestJob(pawn);
+                if (restJob != null)
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is returning to hive rest instead of leaving the map.");
+                    }
+                    return restJob;
+                }
+
+                Job wanderJob = XMTHiveUtility.GetHiveWanderJob(pawn);
+                if (wanderJob != null)
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is wandering in the hive instead of leaving the map.");
+                    }
+                    return wanderJob;
+                }
             }
 
             if (XMTSettings.LogJobGiver)
@@ -226,49 +377,72 @@ namespace Xenomorphtype
                 Log.Message(pawn + " is getting food Job");
             }
 
-            bool caresAboutForbidden = ForbidUtility.CaresAboutForbidden(pawn, false);
-
-            if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn, desperate,
-                out Thing foodSource, out var foodDef,
-                canRefillDispenser: false, canUseInventory: true, canUsePackAnimalInventory: false,
-                allowForbidden: !caresAboutForbidden, allowCorpse: true, allowSociallyImproper: true, allowHarvest: false, forceScanWholeMap: true, ignoreReservations: true, calculateWantedStackCount: false, allowVenerated: true))
+            if (pawn?.Map == null)
             {
-                IEnumerable<Pawn> SuitablePrey = pawn.Map.spawnedThings.OfType<Pawn>().Where(p => !XMTUtility.NotPrey(p) && !XMTUtility.IsInorganic(p));
-                if (SuitablePrey.Any())
+                return null;
+            }
+
+            bool caresAboutForbidden = ForbidUtility.CaresAboutForbidden(pawn, false);
+            Thing foodSource = null;
+            ThingDef foodDef = null;
+            bool foundFoodSource = false;
+
+            try
+            {
+                foundFoodSource = FoodUtility.TryFindBestFoodSourceFor(pawn, pawn, desperate,
+                    out foodSource, out foodDef,
+                    canRefillDispenser: false, canUseInventory: true, canUsePackAnimalInventory: false,
+                    allowForbidden: !caresAboutForbidden, allowCorpse: true, allowSociallyImproper: true, allowHarvest: false, forceScanWholeMap: true, ignoreReservations: true, calculateWantedStackCount: false, allowVenerated: true);
+            }
+            catch (Exception ex)
+            {
+                if (XMTSettings.LogJobGiver)
                 {
-                    int distance = int.MaxValue;
-                    foreach(Pawn prey in SuitablePrey)
+                    Log.Warning(pawn + " failed vanilla food source scan: " + ex.Message);
+                }
+                foodSource = null;
+                foodDef = null;
+                foundFoodSource = false;
+            }
+
+            if (!foundFoodSource)
+            {
+                int distance = int.MaxValue;
+                foreach(Pawn prey in pawn.Map.spawnedThings.OfType<Pawn>())
+                {
+                    if (prey == null || prey == pawn || !prey.Spawned || prey.Dead || XMTUtility.NotPrey(prey) || XMTUtility.IsInorganic(prey))
                     {
-                        if(caresAboutForbidden)
+                        continue;
+                    }
+
+                    if(caresAboutForbidden)
+                    {
+                        if(prey.IsForbidden(pawn))
                         {
-                            if(prey.IsForbidden(pawn))
-                            {
-                                continue;
-                            }
-                            if(!prey.PositionHeld.InAllowedArea(pawn))
-                            {
-                                continue;
-                            }
+                            continue;
                         }
-
-                        int preydistance = prey.PositionHeld.DistanceToSquared(pawn.Position);
-
-                        if(preydistance < distance)
+                        if(!prey.PositionHeld.InAllowedArea(pawn))
                         {
-                            preydistance = distance;
-                            foodSource = prey;
+                            continue;
                         }
+                    }
 
+                    int preydistance = prey.PositionHeld.DistanceToSquared(pawn.Position);
+
+                    if(preydistance < distance)
+                    {
+                        distance = preydistance;
+                        foodSource = prey;
                     }
                 }
+
                 if(foodSource == null)
                 {
                     return null;
                 }
             }
 
-
-            if(!FeralJobUtility.IsThingAvailableForJobBy(pawn, foodSource))
+            if (foodSource == null)
             {
                 return null;
             }
@@ -278,17 +452,36 @@ namespace Xenomorphtype
                 if (foodPawn.Dead)
                 {
                     foodSource = foodPawn.Corpse;
+                    foodDef = foodSource != null ? FoodUtility.GetFinalIngestibleDef(foodSource, false) : null;
                 }
                 else
                 {
-                    pawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+                    if (pawn.playerSettings != null)
+                    {
+                        pawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+                    }
                     Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, foodPawn);
                     job.killIncappedTarget = true;
                     return job;
                 }
             }
 
+            if (foodSource == null || foodDef == null || foodDef.ingestible == null)
+            {
+                return null;
+            }
+
+            if (!FeralJobUtility.IsThingAvailableForJobBy(pawn, foodSource))
+            {
+                return null;
+            }
+
             float nutrition = FoodUtility.GetNutrition(pawn, foodSource, foodDef);
+            if (nutrition <= 0f)
+            {
+                return null;
+            }
+
             Pawn pawn3 = (foodSource.ParentHolder as Pawn_InventoryTracker)?.pawn;
             if (pawn3 != null && pawn3 != pawn)
             {
@@ -299,6 +492,11 @@ namespace Xenomorphtype
 
             if (maximumLight < 1)
             {
+                if (foodSource.MapHeld == null || !foodSource.Position.InBounds(foodSource.MapHeld))
+                {
+                    return null;
+                }
+
                 float brightness = foodSource.MapHeld.glowGrid.GroundGlowAt(foodSource.Position);
 
                 if(brightness > maximumLight)
@@ -370,7 +568,7 @@ namespace Xenomorphtype
                     {
                         float brightness = pawn.MapHeld.glowGrid.GroundGlowAt(compMatureMorph.NestPosition);
 
-                        if (brightness > 0.45 && pawn.Faction == null)
+                        if (brightness > 0.45 && pawn.Faction == null && !XMTHiveUtility.HasCocooned(pawn.Map))
                         {
                             if (XMTSettings.LogJobGiver)
                             {
@@ -421,6 +619,23 @@ namespace Xenomorphtype
                         }
                         else
                         {
+                            if (XMTHiveUtility.HasCocooned(pawn.Map))
+                            {
+                                Job restJob = XMTHiveUtility.GetHiveRestJob(pawn);
+                                if (restJob != null)
+                                {
+                                    return restJob;
+                                }
+
+                                Job wanderJob = XMTHiveUtility.GetHiveWanderJob(pawn);
+                                if (wanderJob != null)
+                                {
+                                    return wanderJob;
+                                }
+
+                                return null;
+                            }
+
                             if (XMTSettings.LogJobGiver)
                             {
                                 Log.Message(pawn + " is leaving the map for safe food");
@@ -477,6 +692,16 @@ namespace Xenomorphtype
                             return job;
                         }
 
+                        if (compMatureMorph.GetCocoonedFeedJob(out Job feedJob))
+                        {
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message(pawn + " is feeding a cocooned pawn while staying in the nest.");
+                            }
+
+                            return feedJob;
+                        }
+
                         if (XMTSettings.LogJobGiver)
                         {
                             Log.Message(pawn + " is sleeping in the nest.");
@@ -486,35 +711,9 @@ namespace Xenomorphtype
                         if (compMatureMorph.NestPosition.InSunlight(pawn.Map))
                         {
                             pawn.needs.rest.CurLevel = 0.25f;
-                            if (pawn.InBed())
-                            {
-                                return JobMaker.MakeJob(JobDefOf.Wait_Asleep);
-                            }
-                            else
-                            {
-                                IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(compMatureMorph.NestPosition, 5, true);
-                                foreach (IntVec3 cell in cells)
-                                {
-                                    if (!cell.Standable(pawn.Map))
-                                    {
-                                        continue;
-                                    }
-
-                                    if (cell.TryGetFirstThing(pawn.Map, out CocoonBase thing))
-                                    {
-                                        continue;
-                                    }
-
-                                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HideInSpot, cell);
-                                    pawn.Map.reservationManager.Reserve(pawn, job, cell);
-                                    return job;
-                                }
-                            }
                         }
-                        else
-                        {
-                            return JobMaker.MakeJob(JobDefOf.Wait_Asleep, compMatureMorph.NestPosition);
-                        }
+
+                        return XMTHiveUtility.GetHiveRestJob(pawn);
                     }
                     else
                     {
@@ -523,7 +722,7 @@ namespace Xenomorphtype
                             Log.Message(pawn + " is going to the nest.");
                         }
 
-                        return JobMaker.MakeJob(JobDefOf.Goto, compMatureMorph.NestPosition);
+                        return XMTHiveUtility.GetHiveRestJob(pawn);
                     }
                 }
 
@@ -545,29 +744,6 @@ namespace Xenomorphtype
 
                         return TendNestJob;
                     }
-                }
-
-                if (compMatureMorph.ShouldDoMichief())
-                {
-                    if (XMTSettings.LogJobGiver)
-                    {
-                        Log.Message(pawn + " thinks they should do michief.");
-                    }
-
-                    Job michief;
-                    if (compMatureMorph.FindMichief(out michief))
-                    {
-                        if (XMTSettings.LogJobGiver)
-                        {
-                            Log.Message(pawn + " found some michief to do.");
-                        }
-                        return michief;
-                    }
-                }
-
-                if (pawn.Faction == null || !pawn.Faction.IsPlayer)
-                {
-                    return GetFeralJob(pawn);
                 }
 
                 if (compMatureMorph.ShouldAbductHost())
@@ -606,6 +782,43 @@ namespace Xenomorphtype
                         }
                     }
                 }
+
+                if (compMatureMorph.ShouldDoMichief())
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " thinks they should do michief.");
+                    }
+
+                    Job michief;
+                    if (compMatureMorph.FindMichief(out michief))
+                    {
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message(pawn + " found some michief to do.");
+                        }
+                        return michief;
+                    }
+                }
+
+                if (pawn.Faction == null || !pawn.Faction.IsPlayer)
+                {
+                    return GetFeralJob(pawn);
+                }
+
+                
+            }
+
+            Job surplusHibernateJob = XMTHiveUtility.GetSurplusHibernationJob(pawn);
+            if (surplusHibernateJob != null)
+            {
+                return surplusHibernateJob;
+            }
+
+            Job hiveRestJob = XMTHiveUtility.GetHiveRestJob(pawn);
+            if (hiveRestJob != null && pawn.needs?.rest != null && pawn.needs.rest.CurLevelPercentage < 0.25f)
+            {
+                return hiveRestJob;
             }
 
             if (pawn.def == InternalDefOf.XMT_Larva)

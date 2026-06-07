@@ -45,7 +45,6 @@ namespace Xenomorphtype
             else
             {
                 queen = XenoformingUtility.GenerateFeralQueen();
-                XMTUtility.DeclareQueen(queen);
             }
 
             if(queen == null)
@@ -144,7 +143,7 @@ namespace Xenomorphtype
                 {
                     if (spawnedGaurdians < gaurdians)
                     {
-                        Pawn gaurdian = XenoformingUtility.GenerateFeralXenomorph();
+                        Pawn gaurdian = XenoformingUtility.GetWorldOrGeneratedFeralXenomorphForSite();
                         GenSpawn.Spawn(gaurdian, cell, map);
                         spawnedGaurdians++;
                     }
@@ -184,8 +183,10 @@ namespace Xenomorphtype
             {
                 GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovothrone, map.Center, map, Rot4.Random);
                 XMTHiveUtility.ForceNestPosition(map.Center+(Rot4.Random.FacingCell*5), map);
+                return;
             }
             GenSpawn.Spawn(queen, map.Center, map);
+            XMTUtility.DeclareQueen(queen);
         }
     }
 }

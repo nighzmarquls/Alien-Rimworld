@@ -154,6 +154,20 @@ namespace Xenomorphtype
                 }
             }
 
+            private List<HiveRoomRecord> hiveRooms;
+            public List<HiveRoomRecord> HiveRooms
+            {
+                get
+                {
+                    if (hiveRooms == null)
+                    {
+                        hiveRooms = new List<HiveRoomRecord>();
+                    }
+
+                    return hiveRooms;
+                }
+            }
+
             public int EggCount => Ovomorphs.Count + OvomorphingPawns.Count;
 
             public bool HaveHosts => AvailableHosts.Count > 0;
@@ -169,6 +183,36 @@ namespace Xenomorphtype
             public int TotalCocooned => Cocooned.Count;
         }
 
+        protected class HiveRoomRecord
+        {
+            public Room room;
+            public IntVec3 anchorCell;
+            public IntVec3 restExpansionAnchor = IntVec3.Invalid;
+            public IntVec3 cocoonExpansionAnchor = IntVec3.Invalid;
+            public int score;
+            public int lastSeenTick;
+        }
+
+        private class HiveBuildStimulus
+        {
+            public IntVec3 center;
+            public Map map;
+            public int radius;
+            public int expireTick;
+            public int strength;
+        }
+
+        private class HiveOverextensionSignal
+        {
+            public Map map;
+            public int expireTick;
+            public int strength;
+        }
+
+        private const int MaxHiveBuildCandidateCells = 80;
+        private const int MaxHiveWanderCandidateCells = 48;
+        private const int MaxHiveRestCandidates = 24;
+
         protected static List<NestSite> hive;
         protected static List<NestSite> Hive
         {
@@ -179,6 +223,96 @@ namespace Xenomorphtype
                     hive = new List<NestSite>();
                 }
                 return hive;
+            }
+        }
+
+        private static List<HiveBuildStimulus> buildStimuli;
+        private static List<HiveBuildStimulus> BuildStimuli
+        {
+            get
+            {
+                if (buildStimuli == null)
+                {
+                    buildStimuli = new List<HiveBuildStimulus>();
+                }
+                return buildStimuli;
+            }
+        }
+
+        private static List<HiveOverextensionSignal> overextensionSignals;
+        private static List<HiveOverextensionSignal> OverextensionSignals
+        {
+            get
+            {
+                if (overextensionSignals == null)
+                {
+                    overextensionSignals = new List<HiveOverextensionSignal>();
+                }
+                return overextensionSignals;
+            }
+        }
+
+        internal static void RegisterHiveBuildStimulus(Map map, IntVec3 center, int radius = 20, int durationTicks = 30000, int strength = 50)
+        {
+            if (map == null || !center.InBounds(map))
+            {
+                return;
+            }
+
+            BuildStimuli.Add(new HiveBuildStimulus
+            {
+                map = map,
+                center = center,
+                radius = radius,
+                expireTick = Find.TickManager.TicksGame + durationTicks,
+                strength = strength
+            });
+        }
+
+        internal static void ClearHiveBuildStimuli(Map map = null)
+        {
+            if (map == null)
+            {
+                BuildStimuli.Clear();
+                OverextensionSignals.Clear();
+                return;
+            }
+
+            BuildStimuli.RemoveAll(stimulus => stimulus.map == map);
+            OverextensionSignals.RemoveAll(signal => signal.map == map);
+        }
+
+        internal static void RegisterHiveOverextensionSignal(Pawn pawn, int severity = 1)
+        {
+            if (pawn?.MapHeld == null)
+            {
+                return;
+            }
+
+            int strength = Mathf.Clamp(15 + severity * 10, 20, 90);
+            OverextensionSignals.Add(new HiveOverextensionSignal
+            {
+                map = pawn.MapHeld,
+                expireTick = Find.TickManager.TicksGame + 30000,
+                strength = strength
+            });
+        }
+
+        internal static void NotifyLocalThreatStimulus(Thing victim, Thing aggressor, IntVec3 eventPosition, Map map, float radius)
+        {
+            if (map == null || !eventPosition.InBounds(map))
+            {
+                return;
+            }
+
+            RegisterHiveBuildStimulus(map, eventPosition, Mathf.CeilToInt(radius * 2f), 15000, 60);
+
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(eventPosition, map, radius, true))
+            {
+                if (thing is HibernationCocoon cocoon && cocoon.ContainedThing is Pawn contained && XMTUtility.IsXenomorph(contained))
+                {
+                    cocoon.Open();
+                }
             }
         }
 
@@ -193,6 +327,26 @@ namespace Xenomorphtype
 
             return localNest.TotalHiveMates;
         }
+        internal static bool IsValidOvomorphHost(Pawn candidate)
+        {
+            if (candidate == null || candidate.Destroyed || candidate.Dead || candidate.MapHeld == null)
+            {
+                return false;
+            }
+
+            return XMTUtility.TriggersOvomorph(candidate);
+        }
+
+        private static void PruneInvalidAvailableHosts(NestSite localNest)
+        {
+            if (localNest == null)
+            {
+                return;
+            }
+
+            localNest.AvailableHosts.RemoveAll(x => !IsValidOvomorphHost(x) || !localNest.Cocooned.Contains(x));
+        }
+
         public static void CleanNestLists(Map map)
         {
             NestSite localNest = GetLocalNest(map);
@@ -221,6 +375,8 @@ namespace Xenomorphtype
             {
                 return false;
             }
+
+            PruneInvalidAvailableHosts(localNest);
 
             if(localNest.HaveEggs && localNest.HaveHosts)
             {
@@ -256,7 +412,7 @@ namespace Xenomorphtype
 
                             if (food != null)
                             {
-                                if (food.CurCategory == HungerCategory.UrgentlyHungry || (food.CurCategory == HungerCategory.Starving))
+                                if (food.CurCategory != HungerCategory.Fed)
                                 {
                                     return true;
                                 }
@@ -326,19 +482,13 @@ namespace Xenomorphtype
             {
                 return false;
             }
-            Room lairRoom = localNest.Position.GetRoomOrAdjacent(map);
 
-            if(lairRoom == null)
-            {
-                return true;
-            }
+            return XMTNestBuildingUtility.ShouldBuildNest(map, localNest.Position);
+        }
 
-            if(lairRoom.OutdoorsForWork)
-            {
-                return true;
-            }
-
-            return false;
+        public static bool HasLocalNest(Map map)
+        {
+            return GetLocalNest(map) != null;
         }
 
         public static void AddLarder(Thing larder, Map map)
@@ -425,7 +575,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (XMTUtility.IsHost(pawn))
+            if (IsValidOvomorphHost(pawn))
             {
                 localNest.AvailableHosts.Add(pawn);
             }
@@ -541,18 +691,7 @@ namespace Xenomorphtype
                     currentOffense += 50;
                 }
 
-                CompGlower glower = building.GetComp<CompGlower>();
-                if (glower != null)
-                {
-                    if (glower.GlowColor.r > 0.25f)
-                    {
-                        currentOffense += glower.GlowRadius * (glower.GlowColor.r * 10);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
+                currentOffense += HiveLightOffenseScore(building);
 
                 if (currentOffense > mostOffense)
                 {
@@ -720,7 +859,7 @@ namespace Xenomorphtype
 
             if(fast)
             {
-                return true;
+                return HasAdjacentOpenEggPlacementCell(cell, map, ignorePawns: true);
             }
 
             Building support = null;
@@ -759,196 +898,1816 @@ namespace Xenomorphtype
                 return false;
             }
 
+            return HasAdjacentOpenEggPlacementCell(cell, map);
+        }
+
+        internal static bool HasAdjacentOpenEggPlacementCell(IntVec3 cocoonCell, Map map, Pawn forPawn = null, IntVec3 blockedCell = default, bool ignorePawns = false)
+        {
+            if (!cocoonCell.IsValid || map == null || !cocoonCell.InBounds(map))
+            {
+                return false;
+            }
+
+            foreach (IntVec3 adjacent in GenAdj.CellsAdjacent8Way(cocoonCell, Rot4.North, new IntVec2(1, 1)))
+            {
+                if (IsOpenEggPlacementCell(adjacent, map, forPawn, blockedCell, ignorePawns))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static bool IsOpenEggPlacementCell(IntVec3 cell, Map map, Pawn forPawn = null, IntVec3 blockedCell = default, bool ignorePawns = false)
+        {
+            if (!cell.IsValid || cell == blockedCell || map == null || !cell.InBounds(map) || !cell.Standable(map) || cell.GetEdifice(map) != null)
+            {
+                return false;
+            }
+
+            TerrainDef terrain = cell.GetTerrain(map);
+            if (terrain == null || terrain == ExternalDefOf.EmptySpace)
+            {
+                return false;
+            }
+
+            if (!ignorePawns && cell.GetFirstPawn(map) != null)
+            {
+                return false;
+            }
+
+            if (forPawn != null && !FeralJobUtility.IsPlaceAvailableForJobBy(forPawn, cell))
+            {
+                return false;
+            }
+
             return true;
         }
-        public static Building TryPlaceHiveMassSupport(IntVec3 startingPosition, Pawn owner )
+
+        internal static bool CanPlaceNonOvomorphHiveUtilityAt(IntVec3 cell, Map map, Pawn forPawn = null)
         {
-            if (owner == null)
+            if (!IsOpenEggPlacementCell(cell, map, forPawn))
+            {
+                return false;
+            }
+
+            if (IsCellValidCocoon(cell, map, fast: true))
+            {
+                return false;
+            }
+
+            foreach (IntVec3 adjacent in GenAdj.CellsAdjacent8Way(cell, Rot4.North, new IntVec2(1, 1)))
+            {
+                if (!adjacent.InBounds(map))
+                {
+                    continue;
+                }
+
+                if (adjacent.GetEdifice(map) is CocoonBase && !HasAdjacentOpenEggPlacementCell(adjacent, map, forPawn, cell, ignorePawns: true))
+                {
+                    return false;
+                }
+
+                if (IsCellValidCocoon(adjacent, map, fast: true) && !HasAdjacentOpenEggPlacementCell(adjacent, map, forPawn, cell, ignorePawns: true))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        
+        private static bool IsHiveTerrain(IntVec3 cell, Map map)
+        {
+            TerrainDef terrain = cell.GetTerrain(map);
+            return terrain == InternalDefOf.HiveFloor || terrain == InternalDefOf.HeavyHiveFloor;
+        }
+
+        private static bool IsHiveStructure(Building building)
+        {
+            if (building == null)
+            {
+                return false;
+            }
+
+            return building.def == XenoBuildingDefOf.Hivemass || building.def == XenoBuildingDefOf.HiveWebbing || building.def == XenoBuildingDefOf.HiveReinforcement;
+        }
+
+        private static bool IsSolidStructure(Building building)
+        {
+            if (building == null)
+            {
+                return false;
+            }
+
+            return building.def.passability == Traversability.Impassable;
+        }
+
+        internal static float HiveLightSuitabilityAt(IntVec3 cell, Map map)
+        {
+            if (map == null || !cell.InBounds(map))
+            {
+                return 0f;
+            }
+
+            return Mathf.Clamp01(1f - map.glowGrid.GroundGlowAt(cell, true, true));
+        }
+
+        internal static int HiveLightOffenseScore(Thing thing)
+        {
+            if (thing == null || thing.MapHeld == null)
+            {
+                return 0;
+            }
+
+            CompGlower glower = thing.TryGetComp<CompGlower>();
+            if (glower == null || glower.GlowRadius <= 0f)
+            {
+                return 0;
+            }
+
+            float redBias = glower.GlowColor.r > 0.25f ? glower.GlowColor.r * 10f : 0f;
+            return Mathf.CeilToInt(glower.GlowRadius * Mathf.Max(1f, redBias));
+        }
+
+        internal static int CryptimorphRoomShapeStage(Room room)
+        {
+            if (room == null || room.PsychologicallyOutdoors || room.CellCount <= 1)
+            {
+                return -1;
+            }
+
+            int borderCells = room.BorderCellsCardinal.Count();
+            int sideCells = borderCells / 4;
+            int squareCellCount = sideCells * sideCells;
+            float difference = squareCellCount - room.CellCount;
+            float ratioOfDifference = difference / room.CellCount;
+
+            if (ratioOfDifference > 0.25f)
+            {
+                return 2;
+            }
+
+            if (ratioOfDifference > 0.10f)
+            {
+                return -1;
+            }
+
+            if (ratioOfDifference < 0.05f)
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        internal static int HiveUsedRoomScore(Room room)
+        {
+            if (room == null)
+            {
+                return 0;
+            }
+
+            int score = 0;
+            score += room.ContainedThings<Ovomorph>().Count() * 20;
+            score += room.ContainedThings<CocoonBase>().Count() * 25;
+            score += room.ContainedThings<MeatballLarder>().Count() * 20;
+            score += room.ContainedThings<Building>().Count(building => IsHiveStructure(building) || building.def == XenoBuildingDefOf.HiveSleepingSpot || building.def == XenoBuildingDefOf.AtmospherePylon) * 10;
+
+            int sampled = 0;
+            foreach (IntVec3 cell in room.Cells)
+            {
+                if (sampled >= 40)
+                {
+                    break;
+                }
+
+                sampled++;
+                if (IsHiveTerrain(cell, room.Map))
+                {
+                    score += 2;
+                }
+            }
+
+            return score;
+        }
+
+        internal static void NotifyHiveRoomCompleted(Room room)
+        {
+            if (!IsHiveRoomTrackable(room))
+            {
+                return;
+            }
+
+            NestSite localNest = GetLocalNest(room.Map);
+            if (localNest == null)
+            {
+                return;
+            }
+
+            AddOrUpdateTrackedHiveRoom(localNest, room);
+        }
+
+        private static bool TryDiscoverCurrentHiveRoom(Pawn pawn, NestSite localNest)
+        {
+            if (pawn == null || localNest == null || pawn.Map != localNest.map)
+            {
+                return false;
+            }
+
+            Room currentRoom = pawn.Position.GetRoomOrAdjacent(pawn.Map);
+            if (!IsHiveRoomTrackable(currentRoom))
+            {
+                return false;
+            }
+
+            AddOrUpdateTrackedHiveRoom(localNest, currentRoom);
+            return true;
+        }
+
+        private static void AddOrUpdateTrackedHiveRoom(NestSite localNest, Room room)
+        {
+            IntVec3 anchorCell = CalculateRoomAnchor(room);
+            if (!anchorCell.IsValid)
+            {
+                return;
+            }
+
+            HiveRoomRecord record = localNest.HiveRooms.FirstOrDefault(existing => existing.room == room);
+            if (record == null)
+            {
+                record = new HiveRoomRecord();
+                localNest.HiveRooms.Add(record);
+            }
+
+            record.room = room;
+            record.anchorCell = anchorCell;
+            if (record.restExpansionAnchor.IsValid && !IsRestExpansionAnchorValidForRoom(localNest.map, record.room, record.restExpansionAnchor))
+            {
+                record.restExpansionAnchor = IntVec3.Invalid;
+            }
+
+            if (record.restExpansionAnchor.IsValid && record.restExpansionAnchor.GetRoomOrAdjacent(localNest.map) == room)
+            {
+                record.restExpansionAnchor = IntVec3.Invalid;
+            }
+
+            if (record.cocoonExpansionAnchor.IsValid && !IsExpansionAnchorValidForRoom(localNest.map, record.room, record.cocoonExpansionAnchor))
+            {
+                record.cocoonExpansionAnchor = IntVec3.Invalid;
+            }
+
+            if (record.cocoonExpansionAnchor.IsValid && record.cocoonExpansionAnchor.GetRoomOrAdjacent(localNest.map) == room)
+            {
+                record.cocoonExpansionAnchor = IntVec3.Invalid;
+            }
+
+            record.score = HiveUsedRoomScore(room);
+            record.lastSeenTick = Find.TickManager.TicksGame;
+        }
+
+        private static void ValidateTrackedHiveRooms(NestSite localNest)
+        {
+            if (localNest == null)
+            {
+                return;
+            }
+
+            localNest.HiveRooms.RemoveAll(record => !IsTrackedHiveRoomValid(localNest, record));
+        }
+
+        private static bool IsTrackedHiveRoomValid(NestSite localNest, HiveRoomRecord record)
+        {
+            if (localNest == null || record == null || !IsHiveRoomTrackable(record.room))
+            {
+                return false;
+            }
+
+            if (record.room.Map != localNest.map || !record.anchorCell.IsValid || !record.anchorCell.InBounds(localNest.map))
+            {
+                return false;
+            }
+
+            Room anchorRoom = record.anchorCell.GetRoomOrAdjacent(localNest.map);
+            if (anchorRoom != record.room)
+            {
+                return false;
+            }
+
+            if (record.restExpansionAnchor.IsValid && !IsRestExpansionAnchorValidForRoom(localNest.map, record.room, record.restExpansionAnchor))
+            {
+                record.restExpansionAnchor = IntVec3.Invalid;
+            }
+
+            if (record.cocoonExpansionAnchor.IsValid && !IsExpansionAnchorValidForRoom(localNest.map, record.room, record.cocoonExpansionAnchor))
+            {
+                record.cocoonExpansionAnchor = IntVec3.Invalid;
+            }
+
+            record.score = HiveUsedRoomScore(record.room);
+            return true;
+        }
+
+        private static bool IsHiveRoomTrackable(Room room)
+        {
+            if (room == null || room.Map == null || room.IsDoorway || room.TouchesMapEdge || room.CellCount <= 0 || room.OpenRoofCount > 0)
+            {
+                return false;
+            }
+
+            foreach (IntVec3 cell in room.Cells)
+            {
+                if (IsHiveTerrain(cell, room.Map))
+                {
+                    return true;
+                }
+
+                foreach (Thing thing in cell.GetThingList(room.Map))
+                {
+                    if (thing is Building building &&
+                        (IsHiveStructure(building) || building.def == XenoBuildingDefOf.HiveSleepingSpot || building.def == XenoBuildingDefOf.HiveSleepingCocoon))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static IntVec3 CalculateRoomAnchor(Room room)
+        {
+            if (room == null || room.CellCount <= 0)
+            {
+                return IntVec3.Invalid;
+            }
+
+            float totalX = 0f;
+            float totalZ = 0f;
+            int count = 0;
+            foreach (IntVec3 cell in room.Cells)
+            {
+                totalX += cell.x;
+                totalZ += cell.z;
+                count++;
+            }
+
+            if (count <= 0)
+            {
+                return IntVec3.Invalid;
+            }
+
+            float averageX = totalX / count;
+            float averageZ = totalZ / count;
+            IntVec3 bestCell = IntVec3.Invalid;
+            float bestDistance = float.MaxValue;
+
+            foreach (IntVec3 cell in room.Cells)
+            {
+                float x = cell.x - averageX;
+                float z = cell.z - averageZ;
+                float distance = x * x + z * z;
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    bestCell = cell;
+                }
+            }
+
+            return bestCell.IsValid ? bestCell : room.Cells.RandomElement();
+        }
+
+        private static int HiveBuildStimulusScore(Map map, IntVec3 cell)
+        {
+            int ticks = Find.TickManager.TicksGame;
+            BuildStimuli.RemoveAll(stimulus => stimulus.map == null || stimulus.expireTick <= ticks);
+
+            int score = 0;
+            foreach (HiveBuildStimulus stimulus in BuildStimuli)
+            {
+                if (stimulus.map != map)
+                {
+                    continue;
+                }
+
+                float distance = cell.DistanceTo(stimulus.center);
+                if (distance > stimulus.radius)
+                {
+                    continue;
+                }
+
+                score += Mathf.CeilToInt(stimulus.strength * (1f - (distance / stimulus.radius)));
+            }
+
+            return score;
+        }
+
+        private static bool HasActiveHiveBuildStimulus(Map map)
+        {
+            int ticks = Find.TickManager.TicksGame;
+            BuildStimuli.RemoveAll(stimulus => stimulus.map == null || stimulus.expireTick <= ticks);
+            return BuildStimuli.Any(stimulus => stimulus.map == map);
+        }
+
+        private static List<IntVec3> SampleHiveCandidateCells(Pawn pawn, NestSite localNest, float pawnRadius, float nestRadius, int maxCells)
+        {
+            List<IntVec3> cells = new List<IntVec3>();
+            if (localNest != null && localNest.Position.IsValid)
+            {
+                foreach (IntVec3 cell in GenRadial.RadialCellsAround(localNest.Position, nestRadius, true))
+                {
+                    if (cell.InBounds(pawn.Map) && !cells.Contains(cell))
+                    {
+                        cells.Add(cell);
+                    }
+                }
+            }
+
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(pawn.Position, pawnRadius, true))
+            {
+                if (cell.InBounds(pawn.Map) && !cells.Contains(cell))
+                {
+                    cells.Add(cell);
+                }
+            }
+
+            if (cells.Count > maxCells)
+            {
+                cells.RemoveRange(maxCells, cells.Count - maxCells);
+            }
+
+            return cells;
+        }
+
+        private static int HiveUsedCellScore(IntVec3 cell, Map map, NestSite localNest)
+        {
+            if (map == null || !cell.InBounds(map))
+            {
+                return 0;
+            }
+
+            int score = 0;
+            if (localNest != null && localNest.Position.IsValid)
+            {
+                float distance = cell.DistanceTo(localNest.Position);
+                if (distance < 28f)
+                {
+                    score += Mathf.CeilToInt(28f - distance);
+                }
+            }
+
+            if (IsHiveTerrain(cell, map))
+            {
+                score += 18;
+            }
+
+            foreach (IntVec3 direction in GenAdj.CardinalDirections)
+            {
+                IntVec3 adjacent = cell + direction;
+                if (!adjacent.InBounds(map))
+                {
+                    continue;
+                }
+
+                if (IsHiveTerrain(adjacent, map))
+                {
+                    score += 12;
+                }
+
+                Building edifice = adjacent.GetEdifice(map);
+                if (IsSolidStructure(edifice))
+                {
+                    score += 18;
+                }
+                else if (edifice?.def == XenoBuildingDefOf.HiveWebbing)
+                {
+                    score += 3;
+                }
+                else if (edifice != null && edifice.def.holdsRoof)
+                {
+                    score += 6;
+                }
+            }
+
+            return score;
+        }
+
+        private static bool HasOpenHiveFrontier(Map map, NestSite localNest)
+        {
+            return false;
+        }
+
+        private static bool IsAdjacentToRoofHolder(IntVec3 cell, Map map)
+        {
+            foreach (IntVec3 direction in GenAdj.CardinalDirections)
+            {
+                IntVec3 adjacent = cell + direction;
+                if (!adjacent.InBounds(map))
+                {
+                    continue;
+                }
+
+                Building edifice = adjacent.GetEdifice(map);
+                if (edifice != null && edifice.def.holdsRoof)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        private static bool IsLocallyHiveClaimed(IntVec3 cell, Map map, IntVec3 nestPosition)
+        {
+            if ((cell - nestPosition).LengthHorizontalSquared <= 144f)
+            {
+                return true;
+            }
+
+            if (IsHiveTerrain(cell, map))
+            {
+                return true;
+            }
+
+            foreach (IntVec3 direction in GenAdj.CardinalDirections)
+            {
+                IntVec3 adjacent = cell + direction;
+                if (!adjacent.InBounds(map))
+                {
+                    continue;
+                }
+
+                if (IsHiveTerrain(adjacent, map) || IsHiveStructure(adjacent.GetEdifice(map)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static int ActiveAwakeAdultNonQueenCount(Map map)
+        {
+            if (map == null)
+            {
+                return 0;
+            }
+
+            int count = 0;
+            foreach (Pawn pawn in GetHiveMembersOnMap(map))
+            {
+                if (pawn == null || pawn.Dead || !pawn.Spawned || pawn.Downed || !pawn.DevelopmentalStage.Adult())
+                {
+                    continue;
+                }
+
+                if (XMTUtility.IsQueen(pawn) || pawn.CurJobDef == XenoWorkDefOf.XMT_Hibernate)
+                {
+                    continue;
+                }
+
+                count++;
+            }
+
+            return count;
+        }
+
+        private static int NearbyAmbushSpotCount(Map map, IntVec3 cell, float radius = 18f)
+        {
+            return GenRadial.RadialDistinctThingsAround(cell, map, radius, true).Count(thing => thing.def == XenoBuildingDefOf.XMT_AmbushSpot);
+        }
+
+        internal static Job GetSurplusHibernationJob(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null || !pawn.DevelopmentalStage.Adult() || XMTUtility.IsQueen(pawn))
             {
                 return null;
             }
-            ThingDef newThingDef = XenoBuildingDefOf.Hivemass;
 
-            IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(startingPosition, 1.5f, false);
+            NestSite localNest = GetLocalNest(pawn.Map);
+            if (HasActiveHiveBuildStimulus(pawn.Map) || HasOpenHiveFrontier(pawn.Map, localNest) || ShouldBuildNest(pawn.Map) || ShouldCoolNest(pawn.Map))
+            {
+                return null;
+            }
 
-            Building support = null;
-            IntVec3 BestCell = cells.First(); 
+            if (ActiveAwakeAdultNonQueenCount(pawn.Map) <= 10 || NearbyAmbushSpotCount(pawn.Map, pawn.Position, 20f) < 3)
+            {
+                return null;
+            }
+
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+            List<IntVec3> cells = GenRadial.RadialCellsAround(pawn.Position, 10f, true).ToList();
+            cells.Shuffle();
+            if (cells.Count > MaxHiveBuildCandidateCells)
+            {
+                cells.RemoveRange(MaxHiveBuildCandidateCells, cells.Count - MaxHiveBuildCandidateCells);
+            }
+
             foreach (IntVec3 cell in cells)
             {
-                IEnumerable<Building> things = cell.GetThingList(owner.MapHeld).OfType<Building>();
-
-                if(things.Any())
+                if (!cell.InBounds(pawn.Map) || !cell.Standable(pawn.Map) || cell.GetEdifice(pawn.Map) != null || !FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
                 {
-                    foreach(Building thing in things)
+                    continue;
+                }
+
+                int score = Mathf.CeilToInt(HiveLightSuitabilityAt(cell, pawn.Map) * 50f);
+                score += cell.Roofed(pawn.Map) ? 25 : 0;
+                score += HiveUsedCellScore(cell, pawn.Map, localNest);
+                score -= Mathf.CeilToInt(cell.DistanceTo(pawn.Position));
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestCell = cell;
+                }
+            }
+
+            return bestCell.IsValid ? JobMaker.MakeJob(XenoWorkDefOf.XMT_Hibernate, bestCell) : null;
+        }
+
+        internal static IntVec3 GetBestEggCellNearHost(Pawn host, Pawn forPawn = null, float radius = 2.5f)
+        {
+            if (!IsValidOvomorphHost(host))
+            {
+                return IntVec3.Invalid;
+            }
+
+            Map map = host.MapHeld;
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+            List<IntVec3> cells = GenAdj.CellsAdjacent8Way(host.PositionHeld, Rot4.North, new IntVec2(1, 1)).ToList();
+            cells.Shuffle();
+            NestSite localNest = GetLocalNest(map);
+
+            foreach (IntVec3 cell in cells)
+            {
+                if (!IsOpenEggPlacementCell(cell, map, forPawn))
+                {
+                    continue;
+                }
+
+                int score = Mathf.CeilToInt(HiveLightSuitabilityAt(cell, map) * 50f);
+                score += IsHiveTerrain(cell, map) ? 25 : 0;
+                score += IsAdjacentToRoofHolder(cell, map) ? 20 : 0;
+                score += HiveUsedCellScore(cell, map, localNest);
+                score += cell.Roofed(map) ? 10 : 0;
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestCell = cell;
+                }
+            }
+
+            return bestCell;
+        }
+
+        internal static IntVec3 GetBestAtmospherePylonCell(Pawn builder)
+        {
+            if (builder == null || builder.Map == null)
+            {
+                return IntVec3.Invalid;
+            }
+
+            NestSite localNest = GetLocalNest(builder.Map);
+            Room lairRoom = localNest?.Position.GetRoomOrAdjacent(builder.Map);
+            if (lairRoom == null)
+            {
+                return IntVec3.Invalid;
+            }
+
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+            List<IntVec3> cells = lairRoom.Cells.ToList();
+            cells.Shuffle();
+
+            foreach (IntVec3 cell in cells)
+            {
+                if (!CanPlaceNonOvomorphHiveUtilityAt(cell, builder.Map, builder))
+                {
+                    continue;
+                }
+
+                int score = Mathf.CeilToInt(HiveLightSuitabilityAt(cell, builder.Map) * 60f);
+                score += IsHiveTerrain(cell, builder.Map) ? 30 : 0;
+                score += cell.Roofed(builder.Map) ? 20 : 0;
+                score += AdjacentHiveTerrainCount(builder.Map, cell) * 8;
+                score -= Mathf.CeilToInt(cell.DistanceTo(localNest.Position));
+                score -= Mathf.CeilToInt(cell.DistanceTo(builder.Position));
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestCell = cell;
+                }
+            }
+
+            return bestCell;
+        }
+
+        private static int AdjacentHiveTerrainCount(Map map, IntVec3 cell)
+        {
+            if (map == null || !cell.InBounds(map))
+            {
+                return 0;
+            }
+
+            int count = 0;
+            foreach (IntVec3 direction in GenAdj.CardinalDirections)
+            {
+                IntVec3 adjacent = cell + direction;
+                if (adjacent.InBounds(map) && IsHiveTerrain(adjacent, map))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        internal static Job GetHiveRestJob(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null)
+            {
+                return null;
+            }
+
+            NestSite localNest = PrepareHiveRoomRecords(pawn);
+
+            Job activeRestExpansionJob = TryGetActiveHiveRestExpansionJob(pawn, localNest);
+            if (activeRestExpansionJob != null)
+            {
+                return activeRestExpansionJob;
+            }
+
+            if (localNest.HiveRooms.Count == 0)
+            {
+                Job nestBuildJob = GetHiveRestNestBuildJob(pawn, null);
+                if (nestBuildJob != null)
+                {
+                    ReportHiveRestFailure(pawn, "No tracked hive rooms available for rest; delegating to nest build job " + nestBuildJob.def.defName + " at " + nestBuildJob.targetA + ".");
+                    return nestBuildJob;
+                }
+
+                ReportHiveRestFailure(pawn, "No tracked hive rooms available for rest.");
+                return null;
+            }
+
+            List<HiveRoomRecord> restRooms = HiveRoomsForRest(pawn, localNest);
+            if (restRooms.Count == 0)
+            {
+                ReportHiveRestFailure(pawn, "No reachable tracked hive room available for rest.");
+                return null;
+            }
+
+            string restUnavailableReason = null;
+            List<HiveRoomRecord> fullRestRooms = new List<HiveRoomRecord>();
+            foreach (HiveRoomRecord room in restRooms)
+            {
+                Building bestSpot = BestHiveRestBuilding(pawn, room, localNest, out string roomUnavailableReason);
+                if (bestSpot != null)
+                {
+                    Job job = JobMaker.MakeJob(JobDefOf.Wait_Asleep, bestSpot.Position);
+                    FeralJobUtility.ReserveThingForJob(pawn, job, bestSpot);
+                    return job;
+                }
+
+                if (roomUnavailableReason != null)
+                {
+                    restUnavailableReason = roomUnavailableReason;
+                }
+            }
+
+            foreach (HiveRoomRecord room in restRooms)
+            {
+                if (RoomHasPendingHiveRestBuild(room.room))
+                {
+                    continue;
+                }
+
+                IntVec3 buildCell = BestHiveRestBuildCell(pawn, room, localNest);
+                if (buildCell.IsValid)
+                {
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, buildCell);
+                    job.plantDefToSow = XenoBuildingDefOf.HiveSleepingSpot;
+                    FeralJobUtility.ReservePlaceForJob(pawn, job, buildCell);
+                    return job;
+                }
+
+                if (RoomHasHiveRestFurnitureOrPendingBuild(room.room))
+                {
+                    fullRestRooms.Add(room);
+                }
+            }
+
+            if (fullRestRooms.Count == 0)
+            {
+                fullRestRooms.AddRange(restRooms);
+            }
+
+            Job fallbackNestBuildJob = GetHiveRestNestBuildJob(pawn, fullRestRooms);
+            if (fallbackNestBuildJob != null)
+            {
+                ReportHiveRestFailure(pawn, "Tracked hive rest room is full; expanding from room edge with " + fallbackNestBuildJob.def.defName + " at " + fallbackNestBuildJob.targetA + ".");
+                return fallbackNestBuildJob;
+            }
+
+            if (restUnavailableReason != null)
+            {
+                Job roomEntryJob = GetHiveRestRoomEntryJob(pawn, restRooms);
+                if (roomEntryJob != null)
+                {
+                    ReportHiveRestFailure(pawn, "Tracked hive rooms are not ready for rest job; moving to room anchor at " + roomEntryJob.targetA + ". " + restUnavailableReason);
+                    return roomEntryJob;
+                }
+
+                ReportHiveRestFailure(pawn, "Tracked hive rooms have rest furniture, but none is currently available. " + restUnavailableReason);
+                return null;
+            }
+
+            Job fallbackEntryJob = GetHiveRestRoomEntryJob(pawn, restRooms);
+            if (fallbackEntryJob != null)
+            {
+                ReportHiveRestFailure(pawn, "No rest furniture or rest build cell in tracked hive rooms; moving to room anchor at " + fallbackEntryJob.targetA + ".");
+                return fallbackEntryJob;
+            }
+
+            ReportHiveRestFailure(pawn, "No rest furniture or rest build cell in tracked hive rooms.");
+            return null;
+        }
+
+        private static NestSite PrepareHiveRoomRecords(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null)
+            {
+                return null;
+            }
+
+            NestSite localNest = GetLocalNest(pawn.Map);
+            if (localNest == null)
+            {
+                localNest = InitializeNest(pawn.Position, pawn.Map);
+                Hive.Add(localNest);
+            }
+
+            ValidateTrackedHiveRooms(localNest);
+            TryDiscoverCurrentHiveRoom(pawn, localNest);
+            TryDiscoverNearbyHiveRooms(pawn, localNest);
+            TryDiscoverHiveRoomsNearTrackedRooms(localNest);
+            ValidateTrackedHiveRooms(localNest);
+            return localNest;
+        }
+
+        private static bool TryDiscoverNearbyHiveRooms(Pawn pawn, NestSite localNest)
+        {
+            if (pawn == null || localNest == null || pawn.Map != localNest.map)
+            {
+                return false;
+            }
+
+            bool discovered = false;
+            discovered |= TryDiscoverHiveRoomAt(pawn.Position, localNest);
+            return discovered;
+        }
+
+        private static bool TryDiscoverHiveRoomsNearTrackedRooms(NestSite localNest)
+        {
+            if (localNest?.map == null || localNest.HiveRooms.Count == 0)
+            {
+                return false;
+            }
+
+            bool discovered = false;
+            List<IntVec3> anchors = localNest.HiveRooms
+                .Where(record => record != null)
+                .SelectMany(record => new[] { record.anchorCell, record.restExpansionAnchor, record.cocoonExpansionAnchor })
+                .Where(cell => cell.IsValid && cell.InBounds(localNest.map))
+                .Distinct()
+                .ToList();
+
+            foreach (IntVec3 anchor in anchors)
+            {
+                discovered |= TryDiscoverHiveRoomAt(anchor, localNest);
+                foreach (IntVec3 cell in GenRadial.RadialCellsAround(anchor, 6f, true))
+                {
+                    if (cell.InBounds(localNest.map))
                     {
-                        if(thing.def.holdsRoof)
+                        discovered |= TryDiscoverHiveRoomAt(cell, localNest);
+                    }
+                }
+            }
+
+            return discovered;
+        }
+
+        private static bool TryDiscoverHiveRoomAt(IntVec3 cell, NestSite localNest)
+        {
+            if (localNest == null || localNest.map == null || !cell.IsValid || !cell.InBounds(localNest.map))
+            {
+                return false;
+            }
+
+            Room room = cell.GetRoomOrAdjacent(localNest.map);
+            if (!IsHiveRoomTrackable(room))
+            {
+                return false;
+            }
+
+            AddOrUpdateTrackedHiveRoom(localNest, room);
+            return true;
+        }
+
+        private static List<HiveRoomRecord> HiveRoomsForRest(Pawn pawn, NestSite localNest)
+        {
+            List<HiveRoomRecord> rooms = HiveRoomsForUse(pawn, localNest);
+            rooms.SortByDescending(record => HiveRestRoomScore(pawn, record));
+            return rooms;
+        }
+
+        private static List<HiveRoomRecord> HiveRoomsForUse(Pawn pawn, NestSite localNest)
+        {
+            List<HiveRoomRecord> rooms = new List<HiveRoomRecord>();
+            if (pawn == null || localNest == null)
+            {
+                return rooms;
+            }
+
+            foreach (HiveRoomRecord record in localNest.HiveRooms)
+            {
+                if (record?.room == null || !ClimbUtility.CanReachByWalkingOrClimb(pawn, record.anchorCell, PathEndMode.OnCell, Danger.Deadly))
+                {
+                    continue;
+                }
+
+                rooms.Add(record);
+            }
+
+            return rooms;
+        }
+
+        internal static bool TryGetHiveCocoonCell(Pawn pawn, out IntVec3 cell)
+        {
+            cell = IntVec3.Invalid;
+            if (pawn == null || pawn.Map == null)
+            {
+                return false;
+            }
+
+            NestSite localNest = PrepareHiveRoomRecords(pawn);
+            List<HiveRoomRecord> rooms = HiveRoomsForUse(pawn, localNest);
+            rooms.SortByDescending(record => HiveCocoonRoomScore(pawn, record));
+
+            foreach (HiveRoomRecord room in rooms)
+            {
+                cell = BestHiveCocoonCell(pawn, room, localNest);
+                if (cell.IsValid)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static Job GetHiveCocoonExpansionJob(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null)
+            {
+                return null;
+            }
+
+            NestSite localNest = PrepareHiveRoomRecords(pawn);
+            if (localNest == null)
+            {
+                return null;
+            }
+
+            foreach (HiveRoomRecord room in localNest.HiveRooms)
+            {
+                Job activeExpansionJob = TryGetAnchoredHiveCocoonExpansionJob(pawn, room);
+                if (activeExpansionJob != null)
+                {
+                    return activeExpansionJob;
+                }
+            }
+
+            List<HiveRoomRecord> rooms = HiveRoomsForUse(pawn, localNest);
+            rooms.SortByDescending(record => HiveCocoonRoomScore(pawn, record));
+
+            foreach (HiveRoomRecord room in rooms)
+            {
+                IntVec3 expansionSeed = BestHiveCocoonExpansionSeed(pawn, room);
+                if (!expansionSeed.IsValid)
+                {
+                    continue;
+                }
+
+                room.cocoonExpansionAnchor = expansionSeed;
+                Job job = XMTNestBuildingUtility.TryGetNestBuildJobFromExpansionSeed(pawn, expansionSeed);
+                if (job != null)
+                {
+                    return job;
+                }
+
+                Job expansionJob = XMTNestBuildingUtility.TryGetHiveRoomExpansionBuildJob(pawn, room.room, expansionSeed);
+                if (expansionJob != null)
+                {
+                    room.cocoonExpansionAnchor = expansionJob.targetA.Cell;
+                    return expansionJob;
+                }
+
+                job = XMTNestBuildingUtility.TryGetNestBuildJobFromExpansionSeed(pawn, room.cocoonExpansionAnchor);
+                if (job != null)
+                {
+                    return job;
+                }
+            }
+
+            if (rooms.Count > 0)
+            {
+                return null;
+            }
+
+            return XMTNestBuildingUtility.TryGetNestBuildJob(pawn, localNest.Position);
+        }
+
+        private static int HiveCocoonRoomScore(Pawn pawn, HiveRoomRecord record)
+        {
+            if (pawn == null || record == null || !record.anchorCell.IsValid)
+            {
+                return int.MinValue;
+            }
+
+            int score = record.score;
+            score += Mathf.CeilToInt(HiveLightSuitabilityAt(record.anchorCell, pawn.Map) * 45f);
+            score += record.anchorCell.Roofed(pawn.Map) ? 25 : 0;
+            score -= Mathf.CeilToInt(record.anchorCell.DistanceTo(pawn.Position));
+            return score;
+        }
+
+        private static IntVec3 BestHiveCocoonCell(Pawn pawn, HiveRoomRecord record, NestSite localNest)
+        {
+            if (pawn == null || record?.room == null || pawn.Map == null)
+            {
+                return IntVec3.Invalid;
+            }
+
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+            foreach (IntVec3 candidate in record.room.Cells)
+            {
+                if (!IsHiveCocoonCellAvailableFor(pawn, candidate))
+                {
+                    continue;
+                }
+
+                int score = HiveUsedCellScore(candidate, pawn.Map, localNest);
+                score += Mathf.CeilToInt(HiveLightSuitabilityAt(candidate, pawn.Map) * 55f);
+                score += candidate.Roofed(pawn.Map) ? 35 : 0;
+                score -= Mathf.CeilToInt(candidate.DistanceTo(pawn.Position));
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestCell = candidate;
+                }
+            }
+
+            return bestCell;
+        }
+
+        private static bool IsHiveCocoonCellAvailableFor(Pawn pawn, IntVec3 cell)
+        {
+            if (pawn == null || pawn.Map == null || !IsCellValidCocoon(cell, pawn.Map))
+            {
+                return false;
+            }
+
+            if (cell.GetFirstPawn(pawn.Map) != null)
+            {
+                return false;
+            }
+
+            if (!FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
+            {
+                return false;
+            }
+
+            if (!HasAdjacentOpenEggPlacementCell(cell, pawn.Map, pawn))
+            {
+                return false;
+            }
+
+            return ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly);
+        }
+
+        private static Job TryGetAnchoredHiveCocoonExpansionJob(Pawn pawn, HiveRoomRecord room)
+        {
+            if (pawn == null || pawn.Map == null || room == null || !IsExpansionAnchorValidForRoom(pawn.Map, room.room, room.cocoonExpansionAnchor))
+            {
+                if (room != null)
+                {
+                    room.cocoonExpansionAnchor = IntVec3.Invalid;
+                }
+
+                return null;
+            }
+
+            if (room.cocoonExpansionAnchor.GetRoomOrAdjacent(pawn.Map) != room.room && IsHiveRoomTrackable(room.cocoonExpansionAnchor.GetRoomOrAdjacent(pawn.Map)))
+            {
+                room.cocoonExpansionAnchor = IntVec3.Invalid;
+                return null;
+            }
+
+            Job job = XMTNestBuildingUtility.TryGetNestBuildJobFromExpansionSeed(pawn, room.cocoonExpansionAnchor);
+            if (job != null)
+            {
+                return job;
+            }
+
+            Job expansionJob = XMTNestBuildingUtility.TryGetHiveRoomExpansionBuildJob(pawn, room.room, room.cocoonExpansionAnchor);
+            if (expansionJob != null)
+            {
+                room.cocoonExpansionAnchor = expansionJob.targetA.Cell;
+                return expansionJob;
+            }
+
+            return null;
+        }
+
+        private static int HiveRestRoomScore(Pawn pawn, HiveRoomRecord record)
+        {
+            if (pawn == null || record == null || !record.anchorCell.IsValid)
+            {
+                return int.MinValue;
+            }
+
+            int score = record.score;
+            score += Mathf.CeilToInt(HiveLightSuitabilityAt(record.anchorCell, pawn.Map) * 35f);
+            score += record.anchorCell.Roofed(pawn.Map) ? 20 : 0;
+            score -= Mathf.CeilToInt(record.anchorCell.DistanceTo(pawn.Position));
+            return score;
+        }
+
+        private static Building BestHiveRestBuilding(Pawn pawn, HiveRoomRecord record, NestSite localNest, out string unavailableReason)
+        {
+            Building bestSpot = null;
+            int bestScore = int.MinValue;
+            int checkedSpots = 0;
+            int pendingSpots = 0;
+            unavailableReason = "No final hive rest object was found in the room.";
+
+            foreach (Building spot in HiveRestRoomBuildings(record.room))
+            {
+                if (checkedSpots >= MaxHiveRestCandidates)
+                {
+                    break;
+                }
+
+                if (IsPendingHiveRestBuilding(spot))
+                {
+                    pendingSpots++;
+                    unavailableReason = "Found " + pendingSpots + " pending HiveSleepingSpotBuildable object(s), but no final HiveSleepingSpot/HiveSleepingCocoon.";
+                    continue;
+                }
+
+                if (!IsHiveRestBuilding(spot))
+                {
+                    continue;
+                }
+
+                checkedSpots++;
+                string rejectionReason = HiveRestBuildingUnavailableReason(pawn, spot);
+                if (rejectionReason != null)
+                {
+                    unavailableReason = spot.def.defName + " at " + spot.Position + " rejected: " + rejectionReason;
+                    continue;
+                }
+
+                int score = Mathf.CeilToInt(HiveLightSuitabilityAt(spot.Position, pawn.Map) * 50f);
+                score += HiveUsedCellScore(spot.Position, pawn.Map, localNest);
+                score -= Mathf.CeilToInt(spot.Position.DistanceTo(pawn.Position));
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestSpot = spot;
+                }
+            }
+
+            return bestSpot;
+        }
+
+        private static IntVec3 BestHiveRestBuildCell(Pawn pawn, HiveRoomRecord record, NestSite localNest)
+        {
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+
+            foreach (IntVec3 cell in record.room.Cells)
+            {
+                if (!CanBuildHiveRestSpotAt(pawn, cell))
+                {
+                    continue;
+                }
+
+                int score = Mathf.CeilToInt(HiveLightSuitabilityAt(cell, pawn.Map) * 50f);
+                score += HiveUsedCellScore(cell, pawn.Map, localNest);
+                score += cell.Roofed(pawn.Map) ? 25 : 0;
+                score -= Mathf.CeilToInt(cell.DistanceTo(pawn.Position));
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestCell = cell;
+                }
+            }
+
+            return bestCell;
+        }
+
+        private static bool CanBuildHiveRestSpotAt(Pawn pawn, IntVec3 cell)
+        {
+            Map map = pawn.Map;
+            if (!cell.InBounds(map) || !cell.Standable(map) || !IsHiveTerrain(cell, map))
+            {
+                return false;
+            }
+
+            if (cell.GetEdifice(map) != null || cell.GetFirstBuilding(map) != null)
+            {
+                return false;
+            }
+
+            if (!FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
+            {
+                return false;
+            }
+
+            if (HasAdjacentHiveRestBuilding(map, cell))
+            {
+                return false;
+            }
+
+            return ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly);
+        }
+
+        private static bool HasAdjacentHiveRestBuilding(Map map, IntVec3 cell)
+        {
+            foreach (IntVec3 adjacent in GenAdj.CellsAdjacent8Way(cell, Rot4.North, new IntVec2(1, 1)))
+            {
+                if (!adjacent.InBounds(map))
+                {
+                    continue;
+                }
+
+                foreach (Thing thing in adjacent.GetThingList(map))
+                {
+                    if (thing is Building building && (IsHiveRestBuilding(building) || IsPendingHiveRestBuilding(building)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static bool IsHiveRestBuilding(Building building)
+        {
+            return building != null &&
+                   (building.def == XenoBuildingDefOf.HiveSleepingSpot || building.def == XenoBuildingDefOf.HiveSleepingCocoon);
+        }
+
+        private static bool IsPendingHiveRestBuilding(Building building)
+        {
+            return building != null && building.def == XenoBuildingDefOf.HiveSleepingSpotBuildable;
+        }
+
+        private static bool RoomHasHiveRestFurnitureOrPendingBuild(Room room)
+        {
+            if (room == null)
+            {
+                return false;
+            }
+
+            foreach (Building building in HiveRestRoomBuildings(room))
+            {
+                if (IsHiveRestBuilding(building) || IsPendingHiveRestBuilding(building))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool RoomHasPendingHiveRestBuild(Room room)
+        {
+            if (room == null)
+            {
+                return false;
+            }
+
+            foreach (Building building in HiveRestRoomBuildings(room))
+            {
+                if (IsPendingHiveRestBuilding(building))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static Job GetHiveRestNestBuildJob(Pawn pawn, List<HiveRoomRecord> restRooms)
+        {
+            if (pawn == null || pawn.Map == null)
+            {
+                return null;
+            }
+
+            if (restRooms != null)
+            {
+                foreach (HiveRoomRecord room in restRooms)
+                {
+                    IntVec3 expansionSeed = BestHiveRestExpansionSeed(pawn, room);
+                    if (expansionSeed.IsValid)
+                    {
+                        room.restExpansionAnchor = expansionSeed;
+                        Job job = XMTNestBuildingUtility.TryGetNestBuildJobFromExpansionSeed(pawn, expansionSeed);
+                        if (job != null)
                         {
-                            support = thing;
-                            break;
+                            return job;
+                        }
+
+                        Job expansionJob = XMTNestBuildingUtility.TryGetHiveRoomExpansionBuildJob(pawn, room.room, expansionSeed);
+                        if (expansionJob != null)
+                        {
+                            room.restExpansionAnchor = expansionJob.targetA.Cell;
+                            return expansionJob;
+                        }
+
+                        job = XMTNestBuildingUtility.TryGetNestBuildJobFromExpansionSeed(pawn, room.restExpansionAnchor);
+                        if (job != null)
+                        {
+                            return job;
                         }
                     }
                 }
-                else
+            }
+
+            if (restRooms != null && restRooms.Count > 0)
+            {
+                return null;
+            }
+
+            NestSite localNest = GetLocalNest(pawn.Map);
+            return localNest != null ? XMTNestBuildingUtility.TryGetNestBuildJob(pawn, localNest.Position) : null;
+        }
+
+        private static Job GetHiveRestRoomEntryJob(Pawn pawn, List<HiveRoomRecord> restRooms)
+        {
+            if (pawn == null || pawn.Map == null || restRooms == null)
+            {
+                return null;
+            }
+
+            HiveRoomRecord bestRoom = null;
+            int bestScore = int.MinValue;
+            foreach (HiveRoomRecord room in restRooms)
+            {
+                if (room == null || !room.anchorCell.IsValid || !room.anchorCell.InBounds(pawn.Map))
                 {
-                    BestCell = cell;
+                    continue;
+                }
+
+                if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, room.anchorCell, PathEndMode.OnCell, Danger.Deadly))
+                {
+                    continue;
+                }
+
+                int score = room.anchorCell.Roofed(pawn.Map) ? 30 : 0;
+                score += Mathf.CeilToInt(HiveLightSuitabilityAt(room.anchorCell, pawn.Map) * 40f);
+                score -= Mathf.CeilToInt(room.anchorCell.DistanceTo(pawn.Position));
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestRoom = room;
                 }
             }
 
-            if(support == null)
+            return bestRoom != null ? JobMaker.MakeJob(JobDefOf.Goto, bestRoom.anchorCell) : null;
+        }
+
+        private static Job TryGetActiveHiveRestExpansionJob(Pawn pawn, NestSite localNest)
+        {
+            if (pawn == null || pawn.Map == null || localNest == null || localNest.map != pawn.Map)
             {
-                support = GenSpawn.Spawn(newThingDef, BestCell, owner.MapHeld, WipeMode.FullRefund) as Building_Bed; ;
+                return null;
             }
 
-            if (owner.Map.roofGrid.RoofAt(startingPosition) != RoofDefOf.RoofRockThick)
+            foreach (HiveRoomRecord room in localNest.HiveRooms)
             {
-                owner.Map.roofGrid.SetRoof(startingPosition, RoofDefOf.RoofRockThin);
+                Job activeExpansionJob = TryGetAnchoredHiveRestExpansionJob(pawn, room);
+                if (activeExpansionJob != null)
+                {
+                    ReportHiveRestFailure(pawn, "Continuing active hive rest room expansion from seed " + room.restExpansionAnchor + " with " + activeExpansionJob.def.defName + " at " + activeExpansionJob.targetA + ".");
+                    return activeExpansionJob;
+                }
             }
 
-            return support;
+            return null;
+        }
+
+        private static Job TryGetAnchoredHiveRestExpansionJob(Pawn pawn, HiveRoomRecord room)
+        {
+            if (pawn == null || pawn.Map == null || room == null || !IsRestExpansionAnchorValidForRoom(pawn.Map, room.room, room.restExpansionAnchor))
+            {
+                if (room != null)
+                {
+                    room.restExpansionAnchor = IntVec3.Invalid;
+                }
+
+                return null;
+            }
+
+            if (room.restExpansionAnchor.GetRoomOrAdjacent(pawn.Map) != room.room && IsHiveRoomTrackable(room.restExpansionAnchor.GetRoomOrAdjacent(pawn.Map)))
+            {
+                room.restExpansionAnchor = IntVec3.Invalid;
+                return null;
+            }
+
+            Job job = XMTNestBuildingUtility.TryGetNestBuildJobFromExpansionSeed(pawn, room.restExpansionAnchor);
+            if (job != null)
+            {
+                return job;
+            }
+
+            Job expansionJob = XMTNestBuildingUtility.TryGetHiveRoomExpansionBuildJob(pawn, room.room, room.restExpansionAnchor);
+            if (expansionJob != null)
+            {
+                room.restExpansionAnchor = expansionJob.targetA.Cell;
+                return expansionJob;
+            }
+
+            return null;
+        }
+
+        private static bool IsRestExpansionAnchorValidForRoom(Map map, Room room, IntVec3 anchor)
+        {
+            return IsExpansionAnchorValidForRoom(map, room, anchor);
+        }
+
+        private static bool IsExpansionAnchorValidForRoom(Map map, Room room, IntVec3 anchor)
+        {
+            if (map == null || room == null || !anchor.IsValid || !anchor.InBounds(map) || anchor.GetTerrain(map) == ExternalDefOf.EmptySpace)
+            {
+                return false;
+            }
+
+            if (anchor.GetRoomOrAdjacent(map) == room)
+            {
+                return true;
+            }
+
+            foreach (IntVec3 roomCell in room.Cells)
+            {
+                if (roomCell.DistanceToSquared(anchor) <= 144f)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static IntVec3 BestHiveRestExpansionSeed(Pawn pawn, HiveRoomRecord record)
+        {
+            if (pawn == null || record?.room == null || pawn.Map == null)
+            {
+                return IntVec3.Invalid;
+            }
+
+            Map map = pawn.Map;
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+            foreach (IntVec3 roomCell in record.room.Cells)
+            {
+                foreach (IntVec3 direction in GenAdj.CardinalDirections)
+                {
+                    for (int distance = 4; distance <= 8; distance++)
+                    {
+                        IntVec3 cell = roomCell + (direction * distance);
+                        if (!IsHiveRestExpansionSeedCell(map, cell) || cell.GetRoomOrAdjacent(map) == record.room)
+                        {
+                            continue;
+                        }
+
+                        int targetDistance = Mathf.Abs(distance - 6);
+                        int score = Rand.RangeInclusive(0, 12);
+                        score += (8 - targetDistance) * 20;
+                        score += Mathf.CeilToInt(HiveLightSuitabilityAt(cell, map) * 30f);
+                        score += AdjacentHiveFloorCountForRestExpansion(map, cell) * 10;
+                        score += AdjacentHiveStructureCountForRestExpansion(map, cell) * 10;
+                        score -= Mathf.CeilToInt(cell.DistanceTo(pawn.Position) * 2f);
+                        score -= Mathf.CeilToInt(cell.DistanceTo(record.anchorCell));
+
+                        if (score > bestScore)
+                        {
+                            bestScore = score;
+                            bestCell = cell;
+                        }
+                    }
+                }
+            }
+
+            return bestCell;
+        }
+
+        private static IntVec3 BestHiveCocoonExpansionSeed(Pawn pawn, HiveRoomRecord record)
+        {
+            if (pawn == null || record?.room == null || pawn.Map == null)
+            {
+                return IntVec3.Invalid;
+            }
+
+            Map map = pawn.Map;
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+            foreach (IntVec3 roomCell in record.room.Cells)
+            {
+                foreach (IntVec3 direction in GenAdj.CardinalDirections)
+                {
+                    for (int distance = 8; distance <= 14; distance++)
+                    {
+                        IntVec3 cell = roomCell + (direction * distance);
+                        if (!IsHiveRestExpansionSeedCell(map, cell) || cell.GetRoomOrAdjacent(map) == record.room)
+                        {
+                            continue;
+                        }
+
+                        int viableCells = ViableCocoonExpansionClusterCells(map, cell);
+                        if (viableCells < 14)
+                        {
+                            continue;
+                        }
+
+                        int targetDistance = Mathf.Abs(distance - 11);
+                        int adjacentHive = AdjacentHiveFloorCountForRestExpansion(map, cell);
+                        int adjacentStructure = AdjacentHiveStructureCountForRestExpansion(map, cell);
+                        int score = Rand.RangeInclusive(0, 12);
+                        score += viableCells * 6;
+                        score += (14 - targetDistance) * 14;
+                        score += Mathf.CeilToInt(HiveLightSuitabilityAt(cell, map) * 45f);
+                        score += cell.Roofed(map) ? 20 : 0;
+                        score -= adjacentHive * 18;
+                        score -= adjacentStructure * 10;
+                        score -= Mathf.CeilToInt(cell.DistanceTo(pawn.Position));
+                        score -= Mathf.CeilToInt(cell.DistanceTo(record.anchorCell) * 0.5f);
+
+                        if (score > bestScore)
+                        {
+                            bestScore = score;
+                            bestCell = cell;
+                        }
+                    }
+                }
+            }
+
+            return bestCell.IsValid ? bestCell : BestHiveRestExpansionSeed(pawn, record);
+        }
+
+        private static int ViableCocoonExpansionClusterCells(Map map, IntVec3 center)
+        {
+            int count = 0;
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, 3.9f, true))
+            {
+                if (IsHiveRestExpansionSeedCell(map, cell))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        private static bool IsHiveRestExpansionSeedCell(Map map, IntVec3 cell)
+        {
+            if (map == null || !cell.InBounds(map) || !cell.Standable(map) || IsHiveTerrain(cell, map))
+            {
+                return false;
+            }
+
+            if (cell.GetTerrain(map) == ExternalDefOf.EmptySpace)
+            {
+                return false;
+            }
+
+            Building edifice = cell.GetEdifice(map);
+            if (edifice != null && edifice.def.passability == Traversability.Impassable)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static int AdjacentHiveFloorCountForRestExpansion(Map map, IntVec3 cell)
+        {
+            int count = 0;
+            foreach (IntVec3 direction in GenAdj.CardinalDirections)
+            {
+                IntVec3 adjacent = cell + direction;
+                if (adjacent.InBounds(map) && IsHiveTerrain(adjacent, map))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        private static int AdjacentHiveStructureCountForRestExpansion(Map map, IntVec3 cell)
+        {
+            int count = 0;
+            foreach (IntVec3 direction in GenAdj.CardinalDirections)
+            {
+                IntVec3 adjacent = cell + direction;
+                if (adjacent.InBounds(map) && IsHiveStructure(adjacent.GetEdifice(map)))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        private static IEnumerable<Building> HiveRestRoomBuildings(Room room)
+        {
+            if (room == null)
+            {
+                yield break;
+            }
+
+            HashSet<Building> yielded = new HashSet<Building>();
+            foreach (Building building in room.ContainedThings<Building>())
+            {
+                if (building != null && yielded.Add(building))
+                {
+                    yield return building;
+                }
+            }
+
+            foreach (IntVec3 cell in room.Cells)
+            {
+                foreach (Thing thing in cell.GetThingList(room.Map))
+                {
+                    if (thing is Building building && yielded.Add(building))
+                    {
+                        yield return building;
+                    }
+                }
+            }
+        }
+
+        private static bool IsHiveRestBuildingAvailableFor(Pawn pawn, Building spot)
+        {
+            return HiveRestBuildingUnavailableReason(pawn, spot) == null;
+        }
+
+        private static string HiveRestBuildingUnavailableReason(Pawn pawn, Building spot)
+        {
+            if (pawn == null)
+            {
+                return "no pawn.";
+            }
+
+            if (spot == null)
+            {
+                return "no spot.";
+            }
+
+            if (pawn.MapHeld == null)
+            {
+                return "pawn has no held map.";
+            }
+
+            if (!spot.Spawned)
+            {
+                return "spot is not spawned.";
+            }
+
+            if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, spot, PathEndMode.OnCell, Danger.Deadly))
+            {
+                return "spot is not climb-reachable.";
+            }
+
+            if (ForbidUtility.CaresAboutForbidden(pawn, false) && (spot.IsForbidden(pawn) || !spot.Position.InAllowedArea(pawn)))
+            {
+                return "spot is forbidden or outside allowed area.";
+            }
+
+            if (pawn.MapHeld.physicalInteractionReservationManager.IsReserved(spot) &&
+                !pawn.MapHeld.physicalInteractionReservationManager.IsReservedBy(pawn, spot))
+            {
+                return "spot has a physical interaction reservation by another pawn.";
+            }
+
+            if (pawn.Faction != null && !pawn.CanReserve(spot))
+            {
+                return "spot cannot be reserved by this pawn.";
+            }
+
+            return null;
+        }
+
+        private static void ReportHiveRestFailure(Pawn pawn, string reason)
+        {
+        }
+
+        internal static Job GetHiveWanderJob(Pawn pawn)
+        {
+            if (pawn == null || pawn.Map == null)
+            {
+                return null;
+            }
+
+            NestSite localNest = GetLocalNest(pawn.Map);
+            if (localNest == null)
+            {
+                return null;
+            }
+
+            IntVec3 bestCell = IntVec3.Invalid;
+            int bestScore = int.MinValue;
+            List<IntVec3> cells = SampleHiveCandidateCells(pawn, localNest, 10f, 10f, MaxHiveWanderCandidateCells);
+
+            foreach (IntVec3 cell in cells)
+            {
+                if (!cell.InBounds(pawn.Map) || !cell.Standable(pawn.Map) || !FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
+                {
+                    continue;
+                }
+
+                Room room = cell.GetRoomOrAdjacent(pawn.Map);
+                int score = HiveUsedCellScore(cell, pawn.Map, localNest);
+                score += IsLocallyHiveClaimed(cell, pawn.Map, localNest.Position) ? 30 : 0;
+                score += room != null && (room.OutdoorsForWork || room.PsychologicallyOutdoors) ? 10 : 0;
+                score += HiveBuildStimulusScore(pawn.Map, cell);
+                score += Mathf.CeilToInt(HiveLightSuitabilityAt(cell, pawn.Map) * 15f);
+                score -= Mathf.CeilToInt(cell.DistanceTo(pawn.Position));
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestCell = cell;
+                }
+            }
+
+            if (!bestCell.IsValid || bestCell == pawn.Position)
+            {
+                return null;
+            }
+
+            Job job = JobMaker.MakeJob(JobDefOf.Goto, bestCell);
+            FeralJobUtility.ReservePlaceForJob(pawn, job, bestCell);
+            return job;
         }
 
         protected static List<Job> GenerateNestBuildJobs(Map map, NestSite localNest)
         {
-            List<Job> jobs = new List<Job>();
-            float Radius = Rand.Range(4,8);
-
-            IntVec3 NWcorner = localNest.Position + IntVec3.FromVector3( (Vector3.forward + Vector3.left )* Radius);
-
-            IntVec3 SEcorner = localNest.Position + IntVec3.FromVector3((Vector3.back + Vector3.right) * Radius);
-
-            IntVec3[] Circle;
-
-            Room nestRoom = localNest.Position.GetRoomOrAdjacent(map);
-
-            if (nestRoom.CellCount > 1000 || nestRoom == null)
-            {
-                //Log.Message("attempting to Generate Nest Circle");
-                if (NWcorner.InBounds(map) && SEcorner.InBounds(map))
-                {
-                    //Log.Message("corners are in bounds");
-                    Circle = GenRadial.RadialCellsAround(localNest.Position, Radius - 1, Radius).ToArray();
-                    ThingDef wallDef = XenoBuildingDefOf.Hivemass;
-                    ThingDef doorDef = XenoBuildingDefOf.HiveWebbing;
-                    int divisionCount = Circle.Length / Rand.Range(3,8);
-                    int countTilDoor = 0;
-                    foreach (IntVec3 cell in Circle)
-                    {
-                        
-                        if (countTilDoor > 0)
-                        {
-                            if (cell.GetEdifice(map) == null)
-                            {
-                                countTilDoor--;
-                                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, cell);
-                                job.plantDefToSow = wallDef;
-                                jobs.Add(job);
-                            }
-                        }
-                        else
-                        {
-                            countTilDoor = divisionCount;
-                            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, cell);
-                            job.plantDefToSow = doorDef;
-                            jobs.Add(job);
-                        }
-                    }
-                    Circle = GenRadial.RadialCellsAround(localNest.Position,Radius,true).ToArray();
-                }
-                else
-                {
-                    //Log.Message("circle not in bounds");
-                }
-            }
-            else
-            {
-                foreach(IntVec3 cell in nestRoom.Cells)
-                {
-                    if(map.roofGrid.Roofed(cell))
-                    {
-                        continue;
-                    }
-                    map.roofGrid.SetRoof(cell, RoofDefOf.RoofRockThin);
-                }
-            }
-            
-
-            return jobs;
+            return new List<Job>();
         }
 
         public static Job GetNestBuildJob(Pawn builder)
         {
-            Job job = null;
-
-            if(!XMTUtility.IsXenomorph(builder))
+            if (builder == null || builder.Map == null)
             {
-                return job;
+                return null;
             }
-            Map map = builder.Map;
 
-            NestSite localNest = GetLocalNest(map);
+            NestSite localNest = GetLocalNest(builder.Map);
             if (localNest == null)
             {
-                FindGoodNestSite(map);
-                localNest = GetLocalNest(map);
+                return null;
             }
 
-            if(localNest.BuildJobs.Count() == 0)
-            {
-                localNest.BuildJobs = GenerateNestBuildJobs(map, localNest);
-            }
-            if (localNest.BuildJobs.Count() > 0)
-            {
-                job = localNest.BuildJobs.First();
-                localNest.BuildJobs.Remove(job);
-            }
-            return job;
+            return XMTNestBuildingUtility.TryGetNestBuildJob(builder, localNest.Position);
         }
 
         public static IntVec3 GetValidCocoonCell(Map map, Pawn forPawn = null)
         {
-            NestSite localNest = GetLocalNest(map);
-            if (localNest == null)
+            if (forPawn != null && TryGetHiveCocoonCell(forPawn, out IntVec3 hiveRoomCell))
             {
-                FindGoodNestSite(map);
-                localNest = GetLocalNest(map);
-            }
-
-            Room nestRoom = localNest.Room;
-
-            
-
-            List<IntVec3> cellsToSearch = nestRoom.Cells.ToList();
-
-            cellsToSearch.Shuffle();
-
-            if (XMTSettings.LogJobGiver)
-            {
-                Log.Message(forPawn + " found nest at room: " + nestRoom + " with cell count of: " + cellsToSearch.Count);
-            }
-
-            foreach (IntVec3 cell in cellsToSearch)
-            {
-                if(IsCellValidCocoon(cell, map))
-                {
-                    if(forPawn != null)
-                    {
-                        if(!FeralJobUtility.IsPlaceAvailableForJobBy(forPawn,cell))
-                        {
-                            continue;
-                        }
-                    }
-                    if (XMTSettings.LogJobGiver)
-                    {
-                        Log.Message(forPawn + " found nest cell for cocoon at: " + cell);
-                    }
-                    return cell;
-                }
+                return hiveRoomCell;
             }
 
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(forPawn + " found no valid cells in nest room.");
+                Log.Message(forPawn + " found no valid hive room cell for cocoon.");
             }
+
             return IntVec3.Invalid;
         }
         public static Building TryPlaceCocoonBase(IntVec3 startingPosition, Pawn target, float radius = 1.5f)
@@ -996,7 +2755,7 @@ namespace Xenomorphtype
                 return -100;
             }
 
-            int score = Mathf.CeilToInt((0 - map.glowGrid.GroundGlowAt(site,true,true))*100);
+            int score = Mathf.CeilToInt(HiveLightSuitabilityAt(site, map) * 100f);
             score = site.Roofed(map) ? score : 0;
             Room space = site.GetRoomOrAdjacent(map);
 
@@ -1173,6 +2932,7 @@ namespace Xenomorphtype
         internal static Pawn GetHost(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
+            PruneInvalidAvailableHosts(localNest);
             if (localNest == null || localNest.AvailableHosts.Count == 0)
             {
                 return null;
@@ -1181,6 +2941,11 @@ namespace Xenomorphtype
             {
                 foreach (Pawn hostCandidate in localNest.AvailableHosts)
                 {
+                    if (!IsValidOvomorphHost(hostCandidate))
+                    {
+                        continue;
+                    }
+
                     if(forPawn != null)
                     {
                         if(!FeralJobUtility.IsThingAvailableForJobBy(forPawn,hostCandidate))
@@ -1215,6 +2980,12 @@ namespace Xenomorphtype
                 localNest = GetLocalNest(map);
             }
 
+            if (localNest == null)
+            {
+                return false;
+            }
+
+            PruneInvalidAvailableHosts(localNest);
             return localNest.NeedEggs;
         }
 
@@ -1227,6 +2998,24 @@ namespace Xenomorphtype
                 localNest = GetLocalNest(map);
             }
 
+            if (localNest == null)
+            {
+                return false;
+            }
+
+            PruneInvalidAvailableHosts(localNest);
+            return localNest.NeedEggs || localNest.NeedHosts || localNest.TotalCocooned == 0;
+        }
+
+        internal static bool NeedAbductions(Pawn pawn)
+        {
+            NestSite localNest = PrepareHiveRoomRecords(pawn);
+            if (localNest == null)
+            {
+                return false;
+            }
+
+            PruneInvalidAvailableHosts(localNest);
             return localNest.NeedEggs || localNest.NeedHosts || localNest.TotalCocooned == 0;
         }
 
@@ -1261,6 +3050,11 @@ namespace Xenomorphtype
         internal static Pawn GetOvomorphingCandidate(Map map, Pawn forPawn = null)
         {
             NestSite localNest = GetLocalNest(map);
+            if (localNest == null)
+            {
+                return null;
+            }
+
             foreach (Pawn candidate in localNest.Cocooned)
             {
                 if (forPawn != null)
@@ -1304,7 +3098,7 @@ namespace Xenomorphtype
                         int Score = candidate.HitPoints;
                         if (Score > BestScore)
                         {
-                            Score = BestScore;
+                            BestScore = Score;
                             larder = candidate;
 
                         }
@@ -1357,9 +3151,18 @@ namespace Xenomorphtype
                         Score += Mathf.CeilToInt((1 - food.CurLevelPercentage) * 100);
                     }
 
+                    if (!candidate.DevelopmentalStage.Adult())
+                    {
+                        Score += 40;
+                        if (food.CurLevelPercentage < 0.9f)
+                        {
+                            Score += 60;
+                        }
+                    }
+
                     if (Score > BestScore)
                     {
-                        Score = BestScore;
+                        BestScore = Score;
                         hungryCandidate = candidate;
                         lowestFoodNeed = food.CurLevelPercentage;
                     }
@@ -1533,7 +3336,7 @@ namespace Xenomorphtype
 
                     if (Score > BestScore)
                     {
-                        Score = BestScore;
+                        BestScore = Score;
                         hungryCandidate = candidate;
                         lowestFoodNeed = food.CurLevelPercentage;
                     }
@@ -1887,6 +3690,10 @@ namespace Xenomorphtype
             {
                 foreach (Pawn hiveMate in localNest.HiveMates)
                 {
+                    if (XenoformingUtility.IsQueenAidDefender(hiveMate))
+                    {
+                        continue;
+                    }
                     hiveMate.SetFaction(Faction.OfPlayer);
                 }
             }

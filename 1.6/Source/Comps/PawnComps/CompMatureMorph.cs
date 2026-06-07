@@ -3,12 +3,10 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
-using static UnityEngine.GraphicsBuffer;
 
 
 namespace Xenomorphtype
@@ -30,6 +28,7 @@ namespace Xenomorphtype
         int canOvomorphTick = 0;
         int canMatureTick = 0;
         int canMischiefTick = 0;
+        int canAcidMischiefTick = 0;
         int canHuntTick = 0;
         int canTendLairTick = 0;
         int canTunnelTick = 0;
@@ -130,6 +129,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref canMatureTick, "canMatureTick", 0);
 
             Scribe_Values.Look(ref canMischiefTick, "canMischiefTick", 0);
+            Scribe_Values.Look(ref canAcidMischiefTick, "canAcidMischiefTick", 0);
 
             Scribe_Values.Look(ref canHuntTick, "canHuntTick", 0);
 
@@ -237,6 +237,8 @@ namespace Xenomorphtype
 
             if (Parent.IsHashIntervalTick(IntervalCheck))
             {
+                TryAcidBloodMischief();
+
                 if (Parent.CarriedBy != null)
                 {
                     if (!XMTUtility.IsXenomorph(Parent.CarriedBy))
@@ -463,6 +465,16 @@ namespace Xenomorphtype
 
         public bool ShouldTendNest()
         {
+            if (Parent == null || Parent.Dead || !Parent.Spawned || Parent.MapHeld == null)
+            {
+                return false;
+            }
+
+            if (XenoformingUtility.IsQueenAidDefender(Parent))
+            {
+                return false;
+            }
+
             if (Find.TickManager.TicksGame < canTendLairTick)
             {
                 return false;
@@ -473,19 +485,24 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if (XMTHiveUtility.NoNestOnMap(Parent.MapHeld))
+            {
+                return false;
+            }
+
             bool HiveNeedsTending = XMTHiveUtility.ShouldTendNest(Parent.MapHeld) || XMTHiveUtility.ShouldBuildNest(Parent.MapHeld);
 
             if (Parent.Faction == null)
             {
                 if (HiveNeedsTending)
                 {
-                    canTendLairTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 5000);
+                    canTendLairTick = Find.TickManager.TicksGame + Rand.Range(350, 900);
                     return true;
                 }
                 return false;
             }
 
-            if (Parent.needs.joy.tolerances.BoredOf(InternalDefOf.NestTending))
+            if (Parent.needs?.joy?.tolerances != null && Parent.needs.joy.tolerances.BoredOf(InternalDefOf.NestTending))
             {
                 if (HiveNeedsTending)
                 {
@@ -501,6 +518,7 @@ namespace Xenomorphtype
                     if (maxOverwork > 0)
                     {
                         XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.TooMuchNestWork, maxOverwork);
+                        XMTHiveUtility.RegisterHiveOverextensionSignal(Parent, maxOverwork);
                     }
                 }
                 else
@@ -726,11 +744,6 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if(XMTHiveUtility.ShouldBuildNest(Parent.Map))
-            {
-                return false;
-            }
-
             if(Parent.ideo != null && Parent.ideo.Ideo is Ideo PawnIdeo)
             {
                 if (Parent.IsFreeNonSlaveColonist)
@@ -744,7 +757,7 @@ namespace Xenomorphtype
                 }
             }
 
-            if (XMTHiveUtility.NeedAbductions(Parent.Map))
+            if (XMTHiveUtility.NeedAbductions(Parent))
             {
                 canAbductTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
                 return true;
@@ -822,12 +835,17 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if (ClimbUtility.CanReachByClimb(Parent, NestPosition, PathEndMode.Touch, Danger.Deadly, canBashDoors: true, canBashFences: true))
+            {
+                return false;
+            }
+
             canTunnelTick = Find.TickManager.TicksGame + Mathf.CeilToInt(2500);
             return true;
         }
         public Job GetCandidateFeedJob(Pawn candidate)
         {
-            if (Parent.needs.food == null || Parent.needs.food.CurLevelPercentage == 1)
+            if (CanSpareFoodForTrophallaxis())
             {
                 if (Parent.Crawling)
                 {
@@ -850,6 +868,17 @@ namespace Xenomorphtype
                 return job;
             }
             return null;
+        }
+
+        private bool CanSpareFoodForTrophallaxis()
+        {
+            if (Parent.needs.food == null)
+            {
+                return true;
+            }
+
+            return Parent.needs.food.CurLevelPercentage >= 0.75f &&
+                   Parent.needs.food.CurCategory != HungerCategory.Starving;
         }
         public Pawn GetSnuggleTarget()
         {
@@ -1359,26 +1388,115 @@ namespace Xenomorphtype
         public bool FindMichief(out Job michief)
         {
             michief = null;
+            List<XMTMischiefCandidate> candidates = new List<XMTMischiefCandidate>();
 
-            if (XMTHiveUtility.NestOnMap(Parent.Map))
+            if (XMTMischiefUtility.TryFindOffensiveNestMischief(Parent, out Job offensiveJob, out string _))
             {
-                Thing offensive = XMTHiveUtility.GetMostOffensiveThingInNest(NestPosition, Parent.Map);
-
-                if (offensive != null )
+                candidates.Add(new XMTMischiefCandidate
                 {
-                    michief = JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, offensive);
-                    return true;
-                }
+                    Kind = XMTMischiefKind.OffensiveNest,
+                    Job = offensiveJob,
+                    Weight = 5f,
+                    Label = "offensive nest object"
+                });
             }
 
-            Thing BestSabotageTarget = XMTUtility.GetPowerSabotageTarget(Parent);
-
-            if (BestSabotageTarget != null)
+            if (XMTMischiefUtility.TryFindDoorMischief(Parent, out Job doorJob, out string _))
             {
-                michief = JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, BestSabotageTarget);
+                candidates.Add(new XMTMischiefCandidate
+                {
+                    Kind = XMTMischiefKind.DoorOpening,
+                    Job = doorJob,
+                    Weight = 4f,
+                    Label = "door opening"
+                });
+            }
+
+            if (ShouldAbductHost() && XMTMischiefUtility.TryFindRoofBreakMischief(Parent, out Job roofJob, out string _))
+            {
+                candidates.Add(new XMTMischiefCandidate
+                {
+                    Kind = XMTMischiefKind.RoofBreaking,
+                    Job = roofJob,
+                    Weight = 4f,
+                    Label = "roof breaking"
+                });
+            }
+
+            if (XMTMischiefUtility.TryFindPowerSabotageMischief(Parent, out Job powerJob, out string _))
+            {
+                candidates.Add(new XMTMischiefCandidate
+                {
+                    Kind = XMTMischiefKind.PowerSabotage,
+                    Job = powerJob,
+                    Weight = 1f,
+                    Label = "power sabotage"
+                });
+            }
+
+            if (candidates.Any())
+            {
+                XMTMischiefCandidate selected = candidates.RandomElementByWeight(candidate => candidate.Weight);
+                michief = selected.Job;
                 return true;
             }
+
             return false;
+        }
+
+        public void ClearMischiefCooldowns()
+        {
+            canMischiefTick = 0;
+            canAcidMischiefTick = 0;
+        }
+
+        internal bool TryAcidBloodMischief(bool ignoreCooldown = false)
+        {
+            if (!ignoreCooldown && Find.TickManager.TicksGame < canAcidMischiefTick)
+            {
+                return false;
+            }
+
+            if (!Parent.DevelopmentalStage.Adult() || Parent.Dead || Parent.Downed)
+            {
+                return false;
+            }
+
+            if (Parent.needs?.mood == null || Parent.needs.mood.CurLevelPercentage > 0.15f)
+            {
+                return false;
+            }
+
+            if (!IsTrappedForAcidMischief())
+            {
+                return false;
+            }
+
+            CompAcidBlood acidBlood = Parent.GetAcidBloodComp();
+            if (acidBlood == null || acidBlood.GetBloodFullness() <= 0.05f)
+            {
+                return false;
+            }
+
+            acidBlood.TrySplashAcid(Mathf.Max(0.25f, acidBlood.GetBloodFullness()));
+            XMTMischiefUtility.NotifyMischiefCompleted(Parent, 0.04f);
+            canAcidMischiefTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 7500);
+            return true;
+        }
+
+        private bool IsTrappedForAcidMischief()
+        {
+            if (Parent.IsOnHoldingPlatform || Parent.ParentHolder is Building_HoldingPlatform)
+            {
+                return true;
+            }
+
+            if (Parent.guest != null && Parent.guest.IsPrisoner)
+            {
+                return true;
+            }
+
+            return Parent.Spawned && Parent.IsPrisonerInPrisonCell();
         }
 
         protected bool GetOvomorphMoveJob(out Job job)
@@ -1403,16 +1521,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        IEnumerable<IntVec3> eggSites = GenRadial.RadialCellsAround(hostCandidate.Position, 1.5f, false);
-                        IntVec3 clearSite = IntVec3.Invalid;
-                        foreach (IntVec3 eggSite in eggSites)
-                        {
-                            if (eggSite.GetEdifice(Parent.Map) == null && FeralJobUtility.IsPlaceAvailableForJobBy(Parent, eggSite))
-                            {
-                                clearSite = eggSite;
-                                break;
-                            }
-                        }
+                        IntVec3 clearSite = XMTHiveUtility.GetBestEggCellNearHost(hostCandidate, Parent);
 
                         if (clearSite != IntVec3.Invalid)
                         {
@@ -1436,7 +1545,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        protected bool GetJellyJob(out Job job)
+        protected bool GetJellyJob(out Job job, bool requireLightLevel = false)
         {
             if(JellyMaker == null)
             {
@@ -1445,7 +1554,7 @@ namespace Xenomorphtype
 
             if(JellyMaker != null)
             {
-                return JellyMaker.GetJellyMakingJob(out job);
+                return JellyMaker.GetJellyMakingJob(out job, requireLightLevel);
             }
 
             job = null;
@@ -1458,6 +1567,34 @@ namespace Xenomorphtype
             {
                 Log.Message(Parent + " is trying to get feeding job.");
             }
+            if (GetCocoonedFeedJob(out job))
+            {
+                return true;
+            }
+
+            Pawn FeedCandidate = XMTHiveUtility.GetHungriestHivemate(Parent.Map, forPawn: Parent);
+
+            if (FeedCandidate != null)
+            {
+                if (!FeedCandidate.Spawned)
+                {
+                    XMTHiveUtility.RemoveHiveMate(FeedCandidate, Parent.Map);
+                }
+                else
+                {
+                    job = GetCandidateFeedJob(FeedCandidate);
+                    if (job != null)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool GetCocoonedFeedJob(out Job job)
+        {
+            job = null;
             Pawn FeedCandidate = XMTHiveUtility.GetHungriestCocooned(Parent.Map, forPawn: Parent);
             if (FeedCandidate != null)
             {
@@ -1476,25 +1613,13 @@ namespace Xenomorphtype
                     }
                 }
             }
-
-            FeedCandidate = XMTHiveUtility.GetHungriestHivemate(Parent.Map, forPawn: Parent);
-
-            if (FeedCandidate != null)
-            {
-                if (!FeedCandidate.Spawned)
-                {
-                    XMTHiveUtility.RemoveHiveMate(FeedCandidate, Parent.Map);
-                }
-                else
-                {
-                    job = GetCandidateFeedJob(FeedCandidate);
-                    if (job != null)
-                    {
-                        return true;
-                    }
-                }
-            }
             return false;
+        }
+
+        public bool TryGetPriorityFeralFeedJob(out Job job)
+        {
+            job = null;
+            return CanSpareFoodForTrophallaxis() && GetFeedJob(out job);
         }
 
         protected bool GetMechChargeJob(out Job job)
@@ -1679,7 +1804,7 @@ namespace Xenomorphtype
         protected bool GetNestCoolingJob(out Job job)
         {
             job = null;
-            IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(Parent.Map, Parent);
+            IntVec3 cell = XMTHiveUtility.GetBestAtmospherePylonCell(Parent);
             if (cell.IsValid)
             {
                 ThingDef cooler = XenoBuildingDefOf.AtmospherePylon;
@@ -1871,7 +1996,11 @@ namespace Xenomorphtype
                         }
 
 
-                        IntVec3 cell = XMTHiveUtility.GetValidCocoonCell(Parent.Map, Parent);
+                        if (!XMTHiveUtility.TryGetHiveCocoonCell(Parent, out IntVec3 cell))
+                        {
+                            continue;
+                        }
+
                         job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, cell);
                         FeralJobUtility.ReservePlaceForJob(Parent, job, cell);
                         FeralJobUtility.ReserveThingForJob(Parent, job, prey);
@@ -1953,7 +2082,7 @@ namespace Xenomorphtype
 
             if (workType == XenoWorkDefOf.Doctor)
             {
-                if (Parent.needs.food != null && Parent.needs.food.CurLevelPercentage == 1)
+                if (CanSpareFoodForTrophallaxis())
                 {
                     if (GetFeedJob(out job))
                     {
@@ -2000,7 +2129,7 @@ namespace Xenomorphtype
 
             if (workType == XenoWorkDefOf.Warden)
             {
-                if (Parent.needs.food != null && Parent.needs.food.CurLevelPercentage == 1)
+                if (CanSpareFoodForTrophallaxis())
                 {
                     if (GetFeedJob(out job))
                     {
@@ -2120,7 +2249,7 @@ namespace Xenomorphtype
                     return job;
                 }
 
-                if (Parent.needs.food != null && Parent.needs.food.CurLevelPercentage == 1)
+                if (CanSpareFoodForTrophallaxis())
                 {
                     if (GetFeedJob(out job))
                     {
@@ -2156,7 +2285,7 @@ namespace Xenomorphtype
                     }
                 }
 
-                if(GetJellyJob(out job))
+                if(GetJellyJob(out job, Parent.Faction == null))
                 {
                     return job;
                 }
@@ -2278,13 +2407,18 @@ namespace Xenomorphtype
             targetPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 8));
             if (InitiateGrabCheck(targetPawn))
             {
+                if (!XMTHiveUtility.TryGetHiveCocoonCell(Parent, out IntVec3 cell))
+                {
+                    return;
+                }
+
                 if (Parent.playerSettings != null)
                 {
                     Parent.playerSettings.hostilityResponse = HostilityResponseMode.Ignore;
                 }
                 Hediff hediff = HediffMaker.MakeHediff(InternalDefOf.XMT_Ambushed, targetPawn);
                 targetPawn.health.AddHediff(hediff);
-                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, XMTHiveUtility.GetNestPosition(targetPawn.Map));
+                Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, cell);
                 job.count = 1;
                 Parent.jobs.StartJob(job, JobCondition.InterruptForced);
             }
@@ -2313,7 +2447,7 @@ namespace Xenomorphtype
     public class CompMatureMorphProperties : CompProperties
     {
         public float        abductRange = 3f;
-        public float        IntervalHours = 0.1f;
+        public float        IntervalHours = 2f;
         public float        slowDownDailyChance = 0.25f;
         public HediffDef    grabHediff;
         public HediffDef    cocoonHediff;

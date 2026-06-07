@@ -37,6 +37,12 @@ namespace Xenomorphtype
 
         public static JobDef XMT_SampleForClone;
 
+        //Mischief
+        public static JobDef XMT_Mature;
+        public static JobDef XMT_Sabotage;
+        public static JobDef XMT_OpenDoorMischief;
+        public static JobDef XMT_BreakRoofMischief;
+
         public static JobDef XMT_ImplantHunt;
         public static JobDef XMT_StealthHunt;
         public static JobDef XMT_AbductHost;
@@ -47,11 +53,10 @@ namespace Xenomorphtype
         public static JobDef XMT_Snuggle;
         public static JobDef XMT_MarkEnemy;
         public static JobDef XMT_Seduce;
-        public static JobDef XMT_Mature;
-        public static JobDef XMT_Sabotage;
         public static JobDef XMT_Hibernate;
         public static JobDef XMT_HideInSpot;
         public static JobDef XMT_HiveBuilding;
+        public static JobDef XMT_HiveRoofing;
         public static JobDef XMT_PerformTrophallaxis;
         public static JobDef XMT_ElectroMetabolicCharge;
         public static JobDef XMT_PruneLarder;

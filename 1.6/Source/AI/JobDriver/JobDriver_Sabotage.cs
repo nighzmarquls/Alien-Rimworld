@@ -13,7 +13,14 @@ namespace Xenomorphtype
     {
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return base.TryMakePreToilReservations(errorOnFailed);
+            Thing target = TargetThingA;
+            if (target == null || !FeralJobUtility.IsThingAvailableForJobBy(pawn, target))
+            {
+                return false;
+            }
+
+            FeralJobUtility.ReserveThingForJob(pawn, job, target);
+            return true;
         }
 
         protected override IEnumerable<Toil> MakeNewToils()

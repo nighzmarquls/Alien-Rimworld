@@ -208,6 +208,20 @@
 		<reportString>sabotaging TargetA.</reportString>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
+
+	<JobDef>
+		<defName>XMT_OpenDoorMischief</defName>
+		<driverClass>Xenomorphtype.JobDriver_OpenDoorMischief</driverClass>
+		<reportString>opening TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_BreakRoofMischief</defName>
+		<driverClass>Xenomorphtype.JobDriver_BreakRoofMischief</driverClass>
+		<reportString>breaking roof.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+	</JobDef>
 	
 	<JobDef>
 		<defName>XMT_Mature</defName>
@@ -227,6 +241,13 @@
 		<defName>XMT_HiveBuilding</defName>
 		<driverClass>Xenomorphtype.JobDriver_BuildXenomorphStructure</driverClass>
 		<reportString>building hive.</reportString>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_HiveRoofing</defName>
+		<driverClass>Xenomorphtype.JobDriver_BuildHiveRoof</driverClass>
+		<reportString>building hive roof.</reportString>
 		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
 	</JobDef>
 	

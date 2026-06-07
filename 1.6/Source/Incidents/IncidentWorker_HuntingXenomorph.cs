@@ -93,15 +93,8 @@ namespace Xenomorphtype
                 Log.Message("Generated animals");
             }
 
-            if (XMTUtility.QueenIsPlayer())
-            {
-                SendStandardLetter("XMT_LetterLabelQueenDefendersArrived".Translate(), "XMT_QueenDefendersArrived".Translate(animalKind.GetLabelPlural()), LetterDefOf.PositiveEvent, parms, list[0]);
-            }
-            else
-            {
-                SendStandardLetter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(animalKind.GetLabelPlural()), LetterDefOf.ThreatBig, parms, list[0]);
-                Find.TickManager.slower.SignalForceNormalSpeedShort();
-            }
+            SendStandardLetter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(animalKind.GetLabelPlural()), LetterDefOf.ThreatBig, parms, list[0]);
+            Find.TickManager.slower.SignalForceNormalSpeedShort();
             return true;
         }
     }

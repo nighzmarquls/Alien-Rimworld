@@ -88,6 +88,8 @@
 	
 	<XMT_LetterLabelQueenDefendersArrived>Defenders have arrived</XMT_LetterLabelQueenDefendersArrived>
 	<XMT_QueenDefendersArrived>A pack of {0} have come to defend their mother! They will hunt down all enemies who dared to harm her!</XMT_QueenDefendersArrived>
+	<XMT_LetterLabelQueenAidScreech>A queen screams</XMT_LetterLabelQueenAidScreech>
+	<XMT_QueenAidScreech>A wounded queen's shriek rolls across the hive. Something in the dark has heard her.</XMT_QueenAidScreech>
 	
 	<XMT_CommandMarkFriend>Mark Friend</XMT_CommandMarkFriend>
 	<XMT_CommandMarkFriendDescription>Mark as friends of the family!</XMT_CommandMarkFriendDescription>

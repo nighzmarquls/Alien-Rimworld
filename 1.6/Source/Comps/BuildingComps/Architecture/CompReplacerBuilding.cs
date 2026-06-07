@@ -41,6 +41,7 @@ namespace Xenomorphtype
                             {
                                 spawned.SetFaction(faction);
                             }
+                            XMTNestBuildingUtility.NotifyHiveConstructionCompleted(map, position, Props.replacedWith);
                         }
                     }
                   

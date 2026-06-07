@@ -396,8 +396,8 @@
 				<thingTransformationTarget></thingTransformationTarget>
 				<pawnTransformationTarget>XMT_StarbeastKind</pawnTransformationTarget>
 				<probability>1</probability>
-				<essenceMinimum>1</essenceMinimum>
-				<essenceMaximum>2</essenceMaximum>
+				<essenceMinimum>2</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</transformations>
 	</Xenomorphtype.XMT_TransformationSet>

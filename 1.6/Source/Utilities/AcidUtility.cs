@@ -274,7 +274,8 @@ namespace Xenomorphtype
 
                         if (thingAsPawn != null)
                         {
-                            IEnumerable<BodyPartRecord> acidContact = thingAsPawn.health.hediffSet.GetNotMissingParts().Where(x => x.depth != BodyPartDepth.Inside && x.def.hitPoints >= modifiedDamage);
+                            IEnumerable<BodyPartRecord> acidContact = thingAsPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Outside, null, null)
+                                .Where(x => x.coverageAbs > 0f && x.def.hitPoints >= modifiedDamage);
 
                             if (acidContact.Any())
                             {
@@ -283,7 +284,7 @@ namespace Xenomorphtype
                                 if (thingAsPawn.apparel != null)
                                 {
 
-                                    List<Apparel> wornThings = thingAsPawn.apparel.WornApparel;
+                                    List<Apparel> wornThings = thingAsPawn.apparel.WornApparel.ListFullCopy();
                                     foreach (Apparel w in wornThings)
                                     {
                                         if (w.def.apparel.CoversBodyPart(hitPart))

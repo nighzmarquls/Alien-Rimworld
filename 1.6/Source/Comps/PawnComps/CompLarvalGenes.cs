@@ -265,12 +265,9 @@ namespace Xenomorphtype
 
         public bool TryResist(Pawn target)
         {
-            if (target.meleeVerbs.TryMeleeAttack(parent))
+            if (!CanContinueAttach(target))
             {
-                if (!CanContinueAttach(target))
-                {
-                    return true;
-                }
+                return true;
             }
 
             if (Rand.Chance(XMTUtility.GetDefendGrappleChance(Parent, target)))

@@ -46,6 +46,15 @@ Add durable observations here when they would help a future agent work safely an
 - Mechanitor queen progression uses `CompQueenAssimilation` for consumed-item state and mechanoid material/resource storage; keep assimilation/material integration state there rather than on evolution defs or hediffs.
 - Custom `InteractionDef`s used by play-log/social-tab entries need a valid `symbolSource` or icon path; otherwise vanilla social tab rendering can crash while resolving the interaction symbol.
 - Last checked RimWorld 1.6 local defs/source on 2026-05-29: vanilla `MechEnergy` need is player-mechs-only and recharge AI is player-mech gated; Electro Metabolic Catalyst currently targets mechs that already have `MechEnergy`, not independent feral/null-faction mech energy simulation.
+- Future feature idea, not part of queen-aid fixes: failed attacks on a non-player queen could raise future cryptimorph raid pressure/frequency as world retaliation.
+- Ovothrones and ambush traps should usually own their occupant population through their empty-after-grace-period fail-safe; avoid external debug/gen-step code forcing occupants into holders unless specifically testing holder insertion.
+- Generated ovothrone queens should use normal `GenerateFeralQueen()` xenoforming-scaled advancement, then only guarantee `Evo_OvoThrone` if missing.
+- When containing stealth-capable pawns, force invisibility visible instantly and dirty pawn/map graphics after registration; normal reveal fade can leave held pawn rendering stale.
+- Declare global queens only after the queen is spawned or successfully contained; early declaration can leave bookkeeping pointing at an unused generated pawn.
+- RimWorld toil `AddFinishAction`/`OnFinishedAction` is safe for bookkeeping cleanup, not core game logic; gate completion logic inside ticks/end conditions with explicit completion checks.
+- Hive building tuning in `XMTNestBuildingUtility` is a multi-session feature area; save durable notes about current behavior, accepted tradeoffs, and tuning knobs when making follow-up changes because the full system exceeds comfortable single-context scope.
+- For hive-building perimeter pocket behavior, `MaxQueuedPocketFloorArea` is the main tuning knob: raise it if tiny ruin/player-structure pockets survive, lower it if perimeter creation defers too much into floor claiming.
+- Last checked RimWorld 1.6 local assembly on 2026-06-01: when exported `Source/` lacks a vanilla method body, load `RimWorldWin64_Data/Managed/*.dll` via PowerShell reflection and recover partial types from `ReflectionTypeLoadException.Types`; this found `Verse.DebugActionsMapManagement.RefogMap()` delegating to `Verse.FloodFillerFog.DebugRefogMap(Map)`. For refog behavior, vanilla bulk-refogs, dirties `MapMeshFlagDefOf.FogOfWar`, then `FloodFillerFog.FloodUnfog` from colonists.
 
 ## Agent Update Rule
 

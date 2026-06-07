@@ -133,7 +133,7 @@ namespace Xenomorphtype
                             }
                             else if (spawnedGuardians < gaurdians)
                             {
-                                Pawn gaurdian = XenoformingUtility.GenerateFeralXenomorph();
+                                Pawn gaurdian = XenoformingUtility.GetWorldOrGeneratedFeralXenomorphForSite();
                                 GenSpawn.Spawn(gaurdian, nestCell, map);
                                 spawnedGuardians++;
                             }

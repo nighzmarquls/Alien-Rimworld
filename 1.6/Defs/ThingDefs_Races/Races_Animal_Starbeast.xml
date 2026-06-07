@@ -76,7 +76,8 @@
 			<Radiation MayRequire="Dubwise.Rimatomics">0</Radiation>
 			<Wildness>0.2</Wildness>
 			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">40</MinimumContainmentStrength>
-			<XMT_GrappleStrength>0.75</XMT_GrappleStrength>
+			<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
+			<XMT_GrappleStrength>2</XMT_GrappleStrength>
 			<XMT_Stealth>2.5</XMT_Stealth>
 			<XMT_StealthDetection>0.75</XMT_StealthDetection>
 		</statBases>

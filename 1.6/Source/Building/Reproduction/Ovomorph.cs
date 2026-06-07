@@ -180,7 +180,7 @@ namespace Xenomorphtype
                 if (gestateProgress >= 1f)
                 {
                     IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(Position, Map, def.specialDisplayRadius, true).OfType<Pawn>()
-                        .Where(x => XMTUtility.TriggersOvomorph(x));
+                        .Where(x => XMTHiveUtility.IsValidOvomorphHost(x));
 
                     foreach (Pawn host in PossibleHosts)
                     {

@@ -151,7 +151,7 @@
 			 <StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
 			 <Wildness>1</Wildness>
 			 <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
-			 <XMT_GrappleStrength>4.0</XMT_GrappleStrength>
+			 <XMT_GrappleStrength>5.0</XMT_GrappleStrength>
 			 <XMT_Stealth>2.0</XMT_Stealth>
 			 <XMT_StealthDetection>1.25</XMT_StealthDetection>
 			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
@@ -998,6 +998,7 @@
 				  <li>HiveFloorBuildable</li>
 				  <li>HiveBridgeBuildable</li>
 				  <li>XMT_NestSpot</li>
+				  <li>HiveSleepingSpotBuildable</li>
 				  <li>HiveSleepingSpot</li>
 				  <li>AtmospherePylon_Buildable</li>
 				  <!-- Reinforced Buildings -->

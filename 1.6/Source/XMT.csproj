@@ -130,6 +130,8 @@
     <Compile Include="AI\JobDriver\JobDriver_StarbeastSeduce.cs" />
     <Compile Include="AI\JobDriver\JobDriver_StealthHunt.cs" />
     <Compile Include="AI\JobDriver\JobDriver_LarvaImplant.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_OpenDoorMischief.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_BreakRoofMischief.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Metamorphosis.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Sabotage.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_StarbeastSnuggle.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="AI\JobGiver\JobGiver_PrepareJellyForChrysalis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
     <Compile Include="AI\Lord\LordJob\LordJob_HumanRebellion.cs" />
+    <Compile Include="AI\Lord\LordJob\LordJob_QueenAid.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Morph.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Traumatized.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Obsession.cs" />
@@ -174,8 +177,12 @@
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompExterminator.cs" />
     <Compile Include="Comps\ThingCompHorror\CompJellyDrug.cs" />
     <Compile Include="Comps\ThingCompHorror\CompDetonateOnTemperature.cs" />
+    <Compile Include="Debug\DebugActions_Mischief.cs" />
     <Compile Include="Debug\DebugActions_GrappleStealth.cs" />
+    <Compile Include="Debug\DebugActions_HiveTesting.cs" />
     <Compile Include="Debug\DebugActions_HostGenes.cs" />
+    <Compile Include="Debug\DebugActions_QueenTesting.cs" />
+    <Compile Include="Debug\XMTHiveDebug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTRecruitPatches.cs" />
     <Compile Include="Harmony\XMTCaveInPatches.cs" />
@@ -207,9 +214,9 @@
     <Compile Include="Building\AmbushTrap.cs" />
     <Compile Include="Building\Fillable\JellyPod.cs" />
     <Compile Include="Building\Fillable\JellyWell.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_BuildHiveRoof.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforceable.cs" />
     <Compile Include="Comps\BuildingComps\Architecture\CompReinforcing.cs" />
-    <Compile Include="Comps\BuildingComps\Architecture\CompRoofReplacer.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompJellyWell.cs" />
     <Compile Include="Comps\HediffComps\HediffComp_Allergy.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_AcidBloodGiver.cs" />
@@ -301,6 +308,8 @@
     <Compile Include="Hediffs\DisplayHediff.cs" />
     <Compile Include="Hediffs\RevealedHediff.cs" />
     <Compile Include="Utilities\ArtUtility.cs" />
+    <Compile Include="Utilities\XMTDoorUtility.cs" />
+    <Compile Include="Utilities\XMTMischiefUtility.cs" />
     <Compile Include="Utilities\XMTStealthUtility.cs" />
     <Compile Include="SocialHorror\Precept\Comp\PreceptComp_WitnessedAction.cs" />
     <Compile Include="SocialHorror\Precept\ThoughtWorker\ThoughtWorker_Precept_Biomorph.cs" />
@@ -392,6 +401,7 @@
     <Compile Include="Map\HiveMapComponent.cs" />
     <Compile Include="Utilities\XMTHiveUtility.cs" />
     <Compile Include="Utilities\InfiltrationUtility.cs" />
+    <Compile Include="Utilities\XMTNestBuildingUtility.cs" />
     <Compile Include="ModExtensions\AnimalHostGenes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Things\AcidBurnFilth.cs" />
@@ -417,7 +427,6 @@
     <Compile Include="UI\Windows\Dialogue_GeneExpression.cs" />
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
     <Compile Include="Utilities\TamingUtility.cs" />
-    <Compile Include="Utilities\XMTRoofUtility.cs" />
     <Compile Include="WorldHorror\BiomeWorker\BiomeWorker_DessicatedBlight.cs" />
     <Compile Include="WorldHorror\ScenPart\ScenPart_Xenoforming.cs" />
     <Compile Include="WorldHorror\WorldDrawLayer_Xenoforming.cs" />

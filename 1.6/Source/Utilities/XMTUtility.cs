@@ -146,7 +146,7 @@ namespace Xenomorphtype
                 IEnumerable<CompPower> cables = bestPowerNet.transmitters.Where(x =>
                 (x as CompPowerBattery == null) &&
                 (x as CompPowerTrader == null) &&
-                (map.glowGrid.GroundGlowAt(x.parent.Position) < 0.45f) &&
+                XMTMischiefUtility.IsDarkEnoughForMischief(x.parent.Position, map) &&
                 pawn.CanReach(x.parent.Position, PathEndMode.ClosestTouch, Danger.None) &&
                 pawn.CanReserve(x.parent));
 
@@ -486,7 +486,7 @@ namespace Xenomorphtype
 
             if (!defender.Awake())
             {
-                report.DefenderConsciousFactor = 0.25f;
+                report.DefenderConsciousFactor = 0.1f;
             }
 
             if(defender.stances.stunner.Stunned)
@@ -641,7 +641,7 @@ namespace Xenomorphtype
             RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 99999);
             return found;
         }
-        public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker)
+        public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker, bool requireLightLevel = false)
         {
             if(pawn == null)
             {
@@ -662,7 +662,9 @@ namespace Xenomorphtype
                 {
                     Thing thing = list[i];
 
-                    if (jellyMaker.CanMakeIntoJelly(thing) && FeralJobUtility.IsThingAvailableForJobBy(pawn, thing))
+                    if (jellyMaker.CanMakeIntoJelly(thing) &&
+                        (!requireLightLevel || CompJellyMaker.IsProperLightLevelForFeralJelly(thing.PositionHeld, thing.MapHeld)) &&
+                        FeralJobUtility.IsThingAvailableForJobBy(pawn, thing))
                     {
                         if(!FeralJobUtility.IsThingAvailableForJobBy(pawn,thing))
                         {
@@ -1824,6 +1826,7 @@ namespace Xenomorphtype
             if (!aggressorInfo.IsXenomorphFriendly())
             {
                 IntVec3 eventPosition = (victim != null) ? victim.PositionHeld : aggressorInfo.parent.PositionHeld;
+                XMTHiveUtility.NotifyLocalThreatStimulus(victim, aggressorInfo.parent, eventPosition, aggressorInfo.parent.MapHeld, radius);
                 IEnumerable <IntVec3> cells = GenRadial.RadialCellsAround(eventPosition, radius, true);
 
                 foreach (IntVec3 cell in cells)
