@@ -2316,6 +2316,8 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
 				</ImpossibleHediffs>
 			</li>
+			<li Class="Xenomorphtype.CompCrawlerProperties">
+			</li>
 			<li Class="CompProperties_Studiable" MayRequire="Ludeon.RimWorld.Anomaly">
 				<frequencyTicks>120000</frequencyTicks>
 				<knowledgeCategory>Advanced</knowledgeCategory>
