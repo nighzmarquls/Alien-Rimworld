@@ -62,6 +62,7 @@ namespace Xenomorphtype
                 return false;
             }
 
+
             return pawn.Map.reachability.CanReach(pawn.Position, dest, peMode, TraverseParms.For(pawn, maxDanger, mode, canBashDoors, alwaysUseAvoidGrid: false, canBashFences));
 
         }
@@ -460,6 +461,7 @@ namespace Xenomorphtype
                 CompClimber climber = actor.GetClimberComp();
                 if (climber == null)
                 {
+                    toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
                     actor.pather.StartPath(target, peMode);
                     return;
                 }
@@ -502,6 +504,7 @@ namespace Xenomorphtype
                 CompClimber climber = actor.GetClimberComp();
                 if (climber == null)
                 {
+                    toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
                     actor.pather.StartPath(cell, peMode);
                     return;
                 }
