@@ -34,6 +34,33 @@
 	
 	<XMT_AlterMutationsLabel>Induce Mutations</XMT_AlterMutationsLabel>
 	<XMT_AlterMutationsDescription>Encourage mutated tissues to spread.</XMT_AlterMutationsDescription>
+	<XMT_ManageMutationLabel>Manage Mutation</XMT_ManageMutationLabel>
+	<XMT_ManageMutationDescription>Direct or suppress existing mutated tissues.</XMT_ManageMutationDescription>
+	<XMT_InduceMutationLabel>Induce Mutation</XMT_InduceMutationLabel>
+	<XMT_InduceMutationDescription>Direct mutated tissues to spread in a chosen pattern.</XMT_InduceMutationDescription>
+	<XMT_RemoveMutationLabel>Remove Mutation</XMT_RemoveMutationLabel>
+	<XMT_RemoveMutationDescription>Revert a chosen induced mutation toward baseline.</XMT_RemoveMutationDescription>
+	<XMT_SuppressMutationLabel>Suppress Mutation</XMT_SuppressMutationLabel>
+	<XMT_FMO_MutationActions>Mutations: {0}</XMT_FMO_MutationActions>
+	<XMT_FMO_InduceMutation>Induce mutation in {0}...</XMT_FMO_InduceMutation>
+	<XMT_FMO_RemoveMutation>Suppress mutation in {0}...</XMT_FMO_RemoveMutation>
+	<XMT_MutationInvalid_Target>Must select a valid pawn.</XMT_MutationInvalid_Target>
+	<XMT_MutationInvalid_TargetDead>{0} is dead.</XMT_MutationInvalid_TargetDead>
+	<XMT_MutationInvalid_NoHealth>{0} has no health tracker.</XMT_MutationInvalid_NoHealth>
+	<XMT_MutationInvalid_Xenomorph>{0} is already cryptimorphic.</XMT_MutationInvalid_Xenomorph>
+	<XMT_MutationInvalid_NoMutation>No mutation selected.</XMT_MutationInvalid_NoMutation>
+	<XMT_MutationInvalid_NoEssence>No mutable essence present: {0} of any required essence.</XMT_MutationInvalid_NoEssence>
+	<XMT_MutationInvalid_EssenceLow>Essence is too low: {0} of {1} required.</XMT_MutationInvalid_EssenceLow>
+	<XMT_MutationInvalid_EssenceHigh>Essence is too high: {0} of {1} maximum.</XMT_MutationInvalid_EssenceHigh>
+	<XMT_MutationInvalid_MissingBodyPart>Missing required body part: {0}.</XMT_MutationInvalid_MissingBodyPart>
+	<XMT_MutationInvalid_NoBodyPart>No valid body part is available.</XMT_MutationInvalid_NoBodyPart>
+	<XMT_MutationInvalid_MaxSeverity>{0} is already fully expressed.</XMT_MutationInvalid_MaxSeverity>
+	<XMT_MutationInvalid_NotPresent>{0} is not present.</XMT_MutationInvalid_NotPresent>
+	<XMT_MutationInvalid_NoOptions>{0} has no available mutation options.</XMT_MutationInvalid_NoOptions>
+	<XMT_MutationMote_Added>Mutated: {0}</XMT_MutationMote_Added>
+	<XMT_MutationMote_Intensified>Mutation intensified: {0}</XMT_MutationMote_Intensified>
+	<XMT_MutationMote_Reduced>Mutation reduced: {0}</XMT_MutationMote_Reduced>
+	<XMT_MutationMote_Removed>Mutation removed: {0}</XMT_MutationMote_Removed>
 	
 	<XMT_ConsumeGenesLabel>Consume Genes</XMT_ConsumeGenesLabel>
 	<XMT_ConsumeGenesDescription>Extract Genes into a Gene Ovomorph.</XMT_ConsumeGenesDescription>

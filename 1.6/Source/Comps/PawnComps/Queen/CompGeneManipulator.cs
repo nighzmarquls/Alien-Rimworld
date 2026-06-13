@@ -21,6 +21,9 @@ namespace Xenomorphtype
         static private Texture2D consumeTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ConsumeGenes");
         static private Texture2D selfTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ExpressGenes");
         Pawn Parent => parent as Pawn;
+        CompGeneManipulatorProperties Props => props as CompGeneManipulatorProperties;
+        private List<QueenMutationOrder> mutationOrders = new List<QueenMutationOrder>();
+
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             if (Parent.Faction != Faction.OfPlayer)
@@ -76,21 +79,18 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
-                return BioUtility.HasMutations(target.Thing as Pawn);
+                return target.Thing is Pawn pawn && pawn.health != null && !pawn.Dead && !XMTUtility.IsXenomorph(pawn) && BioUtility.HasMutations(pawn, false);
             };
 
             Command_Action MutantControl_Action = new Command_Action();
-            MutantControl_Action.defaultLabel = "XMT_AlterMutationsLabel".Translate();
-            MutantControl_Action.defaultDesc = "XMT_AlterMutationsDescription".Translate();
+            MutantControl_Action.defaultLabel = "XMT_ManageMutationLabel".Translate();
+            MutantControl_Action.defaultDesc = "XMT_ManageMutationDescription".Translate();
             MutantControl_Action.icon = mutantTexture;
             MutantControl_Action.action = delegate
             {
                 Find.Targeter.BeginTargeting(MutantTargetParameters, delegate (LocalTargetInfo target)
                 {
-                    FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MutateTarget, target);
-                    job.count = 1;
-                    Parent.jobs.StartJob(job, JobCondition.InterruptForced);
+                    OpenMutationActionMenu(target.Thing as Pawn);
                 });
             };
 
@@ -160,18 +160,347 @@ namespace Xenomorphtype
             yield return GeneSelf_Action;
         }
 
+        public List<QueenMutationOption> AvailableMutationOptions()
+        {
+            List<QueenMutationOption> options = new List<QueenMutationOption>();
+            if (Props?.mutationOptions == null)
+            {
+                return options;
+            }
+
+            CompQueen queen = Parent?.GetComp<CompQueen>();
+            foreach (QueenMutationOption option in Props.mutationOptions)
+            {
+                if (option?.mutationSet == null)
+                {
+                    continue;
+                }
+
+                if (option.requiredEvolution != null && (queen == null || !queen.ChosenEvolutions.Contains(option.requiredEvolution)))
+                {
+                    continue;
+                }
+
+                options.Add(option);
+            }
+
+            return options
+                .GroupBy(option => option.mutationSet)
+                .Select(group => group.OrderBy(option => option.displayOrder).First())
+                .OrderBy(option => option.displayOrder)
+                .ThenBy(option => option.mutationSet.displayOrder)
+                .ThenBy(option => BioUtility.LabelForMutationSet(option.mutationSet))
+                .ThenBy(option => option.mutationSet.defName)
+                .ToList();
+        }
+
+        public bool HasAvailableMutationOptions()
+        {
+            return AvailableMutationOptions().Any();
+        }
+
+        public void OpenMutationActionMenu(Pawn target)
+        {
+            if (target == null)
+            {
+                Messages.Message("XMT_MutationInvalid_Target".Translate(), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            if (!BioUtility.HasMutations(target, false))
+            {
+                Messages.Message("XMT_MutationInvalid_NoEssence".Translate(BioUtility.GetXenomorphInfluence(target).ToString("0.##")), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            Find.WindowStack.Add(new FloatMenu(new List<FloatMenuOption>
+            {
+                new FloatMenuOption("XMT_InduceMutationLabel".Translate(), delegate
+                {
+                    OpenMutationMenu(target, QueenMutationOperation.Add);
+                }),
+                new FloatMenuOption("XMT_SuppressMutationLabel".Translate(), delegate
+                {
+                    OpenMutationMenu(target, QueenMutationOperation.Remove);
+                })
+            }));
+        }
+
+        public void OpenMutationMenu(Pawn target, QueenMutationOperation operation)
+        {
+            if (target == null)
+            {
+                Messages.Message("XMT_MutationInvalid_Target".Translate(), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            if (!BioUtility.HasMutations(target, false))
+            {
+                Messages.Message("XMT_MutationInvalid_NoEssence".Translate(BioUtility.GetXenomorphInfluence(target).ToString("0.##")), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            if (operation == QueenMutationOperation.Remove)
+            {
+                List<FloatMenuOption> mutationOptions = SuppressMutationMenuOptions(target).ToList();
+                if (mutationOptions.NullOrEmpty())
+                {
+                    Messages.Message("XMT_MutationInvalid_NoOptions".Translate(target.LabelShort), MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+
+                Find.WindowStack.Add(new FloatMenu(mutationOptions));
+                return;
+            }
+
+            List<FloatMenuOption> setOptions = new List<FloatMenuOption>();
+            foreach (QueenMutationOption option in AvailableMutationOptions())
+            {
+                XMT_MutationsHealthSet selectedSet = option.mutationSet;
+                List<FloatMenuOption> mutationOptions = MutationMenuOptions(target, selectedSet, operation).ToList();
+                if (mutationOptions.NullOrEmpty())
+                {
+                    continue;
+                }
+
+                setOptions.Add(new FloatMenuOption(BioUtility.LabelForMutationSet(selectedSet), delegate
+                {
+                    Find.WindowStack.Add(new FloatMenu(mutationOptions));
+                }));
+            }
+
+            if (setOptions.NullOrEmpty())
+            {
+                Messages.Message("XMT_MutationInvalid_NoOptions".Translate(target.LabelShort), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            Find.WindowStack.Add(new FloatMenu(setOptions));
+        }
+
+        public void StartMutationOrder(Pawn target, QueenMutationOperation operation, XMT_MutationsHealthSet sourceSet, HediffDef mutationDef)
+        {
+            if (target == null || mutationDef == null)
+            {
+                return;
+            }
+
+            RegisterMutationOrder(target, operation, sourceSet, mutationDef);
+            FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target);
+            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MutateTarget, target);
+            job.count = 1;
+            Parent.jobs.StartJob(job, JobCondition.InterruptForced);
+        }
+
+        public bool TryExecuteMutationOrder(Pawn target, out bool foundOrder)
+        {
+            foundOrder = false;
+            QueenMutationOrder order = FindOrder(target);
+            if (order == null)
+            {
+                return false;
+            }
+
+            foundOrder = true;
+            mutationOrders.Remove(order);
+
+            AcceptanceReport report;
+            if (order.operation == QueenMutationOperation.Add)
+            {
+                MutationHealth mutation = BioUtility.MutationForDef(order.sourceSet, order.mutationDef);
+                report = BioUtility.CanApplyMutation(target, mutation, requireExistingMutations: true);
+                if (!report.Accepted)
+                {
+                    Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
+                    return false;
+                }
+
+                return BioUtility.TryApplyMutation(target, mutation, out Hediff _, requireExistingMutations: true);
+            }
+
+            report = BioUtility.CanRemoveMutation(target, order.mutationDef);
+            if (!report.Accepted)
+            {
+                Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
+                return false;
+            }
+
+            return BioUtility.TryRemoveMutation(target, order.mutationDef, out Hediff _);
+        }
+
+        public bool CanRemoveMutationFromOptions(Pawn target, HediffDef mutationDef)
+        {
+            if (target == null || mutationDef == null)
+            {
+                return false;
+            }
+
+            return AvailableMutationOptions()
+                .Any(option => BioUtility.AllMutationsForSet(option.mutationSet)
+                .Any(mutation => mutation.horror == mutationDef));
+        }
+
+        private IEnumerable<FloatMenuOption> MutationMenuOptions(Pawn target, XMT_MutationsHealthSet set, QueenMutationOperation operation)
+        {
+            IEnumerable<MutationHealth> mutations = BioUtility.AllMutationsForSet(set)
+                .OrderBy(mutation => mutation.displayOrder)
+                .ThenBy(BioUtility.LabelForMutation)
+                .ThenBy(mutation => mutation.horror.defName);
+
+            foreach (MutationHealth mutation in mutations)
+            {
+                if (operation == QueenMutationOperation.Remove && !target.health.hediffSet.hediffs.Any(hediff => hediff.def == mutation.horror))
+                {
+                    continue;
+                }
+
+                MutationHealth selectedMutation = mutation;
+                string label = BioUtility.LabelForMutation(selectedMutation);
+                FloatMenuOption option = new FloatMenuOption(label, delegate
+                {
+                    StartMutationOrder(target, operation, set, selectedMutation.horror);
+                });
+
+                AcceptanceReport report = operation == QueenMutationOperation.Add
+                    ? BioUtility.CanApplyMutation(target, selectedMutation, requireExistingMutations: true)
+                    : BioUtility.CanRemoveMutation(target, selectedMutation.horror);
+
+                if (!report.Accepted)
+                {
+                    option.Disabled = true;
+                    option.tooltip = report.Reason;
+                }
+                else if (!selectedMutation.horror.description.NullOrEmpty())
+                {
+                    option.tooltip = selectedMutation.horror.description;
+                }
+
+                yield return option;
+            }
+        }
+
+        private IEnumerable<FloatMenuOption> SuppressMutationMenuOptions(Pawn target)
+        {
+            HashSet<HediffDef> seenMutationDefs = new HashSet<HediffDef>();
+            foreach (QueenMutationOption option in AvailableMutationOptions())
+            {
+                XMT_MutationsHealthSet selectedSet = option.mutationSet;
+                IEnumerable<MutationHealth> mutations = BioUtility.AllMutationsForSet(selectedSet)
+                    .OrderBy(mutation => mutation.displayOrder)
+                    .ThenBy(BioUtility.LabelForMutation)
+                    .ThenBy(mutation => mutation.horror.defName);
+
+                foreach (MutationHealth mutation in mutations)
+                {
+                    if (!target.health.hediffSet.hediffs.Any(hediff => hediff.def == mutation.horror))
+                    {
+                        continue;
+                    }
+
+                    if (!seenMutationDefs.Add(mutation.horror))
+                    {
+                        continue;
+                    }
+
+                    MutationHealth selectedMutation = mutation;
+                    FloatMenuOption menuOption = new FloatMenuOption(BioUtility.LabelForMutation(selectedMutation), delegate
+                    {
+                        StartMutationOrder(target, QueenMutationOperation.Remove, selectedSet, selectedMutation.horror);
+                    });
+
+                    AcceptanceReport report = BioUtility.CanRemoveMutation(target, selectedMutation.horror);
+                    if (!report.Accepted)
+                    {
+                        menuOption.Disabled = true;
+                        menuOption.tooltip = report.Reason;
+                    }
+                    else if (!selectedMutation.horror.description.NullOrEmpty())
+                    {
+                        menuOption.tooltip = selectedMutation.horror.description;
+                    }
+
+                    yield return menuOption;
+                }
+            }
+        }
+
+        private void RegisterMutationOrder(Pawn target, QueenMutationOperation operation, XMT_MutationsHealthSet sourceSet, HediffDef mutationDef)
+        {
+            ClearStaleMutationOrders();
+            mutationOrders.RemoveAll(order => order?.target == target);
+            mutationOrders.Add(new QueenMutationOrder
+            {
+                target = target,
+                operation = operation,
+                sourceSet = sourceSet,
+                mutationDef = mutationDef
+            });
+        }
+
+        private QueenMutationOrder FindOrder(Pawn target)
+        {
+            ClearStaleMutationOrders();
+            return mutationOrders.FirstOrDefault(order => order?.target == target);
+        }
+
+        private void ClearStaleMutationOrders()
+        {
+            mutationOrders.RemoveAll(order => order == null || order.target == null || order.target.Dead || order.mutationDef == null);
+        }
+
         public void AlterGenes(Thing Target)
         {
             Find.WindowStack.Add(new Dialogue_GeneExpression(Target));
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_Collections.Look(ref mutationOrders, "mutationOrders", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && mutationOrders == null)
+            {
+                mutationOrders = new List<QueenMutationOrder>();
+            }
         }
     }
 
     public class CompGeneManipulatorProperties : CompProperties
     {
+        public List<QueenMutationOption> mutationOptions;
+
         public CompGeneManipulatorProperties()
         {
             this.compClass = typeof(CompGeneManipulator);
         }
 
+    }
+
+    public class QueenMutationOption
+    {
+        public RoyalEvolutionDef requiredEvolution;
+        public XMT_MutationsHealthSet mutationSet;
+        public int displayOrder = 0;
+    }
+
+    public enum QueenMutationOperation
+    {
+        Add,
+        Remove
+    }
+
+    public class QueenMutationOrder : IExposable
+    {
+        public Pawn target;
+        public QueenMutationOperation operation;
+        public HediffDef mutationDef;
+        public XMT_MutationsHealthSet sourceSet;
+
+        public void ExposeData()
+        {
+            Scribe_References.Look(ref target, "target");
+            Scribe_Values.Look(ref operation, "operation", QueenMutationOperation.Add);
+            Scribe_Defs.Look(ref mutationDef, "mutationDef");
+            Scribe_Defs.Look(ref sourceSet, "sourceSet");
+        }
     }
 }

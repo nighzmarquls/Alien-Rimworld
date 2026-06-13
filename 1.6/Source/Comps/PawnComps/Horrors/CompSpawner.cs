@@ -31,6 +31,13 @@ namespace Xenomorphtype
                             Parent.needs.food.CurLevel -= Props.foodCost;
                             if(Props.pawnKindSpawned != null)
                             {
+                                IEnumerable<Thing> spawnedPawn = Parent.Map.listerThings.ThingsOfDef(Props.pawnKindSpawned.race);
+
+                                if (spawnedPawn.Count() >= Props.maxPawnCount)
+                                {
+                                    return;
+                                }
+
                                 PawnGenerationRequest request = new PawnGenerationRequest(Props.pawnKindSpawned, null);
                                 request.FixedBiologicalAge = 0;
                                 Pawn spawn = PawnGenerator.GeneratePawn(request);
@@ -77,6 +84,7 @@ namespace Xenomorphtype
         public float spawnIntervalHours = 1;
         public int   spawnStackCount = 1;
         public float foodCost = 0.25f;
+        public int   maxPawnCount = 40;
         public CompSpawnerProperties()
         {
             this.compClass = typeof(CompSpawner);

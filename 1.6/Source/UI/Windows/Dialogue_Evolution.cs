@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.Sound;
 
 namespace Xenomorphtype
@@ -508,6 +509,8 @@ namespace Xenomorphtype
 
             if (difference > 0)
             {
+                InterruptQueenJobForEvolution();
+
                 Hediff geneIntegration = HediffMaker.MakeHediff(XenoGeneDefOf.XMT_GeneIntegration, queen);
 
                 geneIntegration.Severity = (1.0f * difference) / 12;
@@ -517,6 +520,24 @@ namespace Xenomorphtype
             }
 
             Close();
+        }
+
+        private void InterruptQueenJobForEvolution()
+        {
+            if (queen?.MapHeld == null || queen.jobs == null)
+            {
+                return;
+            }
+
+            queen.pather?.StopDead();
+            FeralJobUtility.ForceClearFeralJobReservationsClaimedBy(queen.MapHeld, queen);
+
+            if (queen.CurJob != null)
+            {
+                queen.jobs.EndCurrentJob(JobCondition.InterruptForced);
+            }
+
+            FeralJobUtility.ForceClearFeralJobReservationsClaimedBy(queen.MapHeld, queen);
         }
 
         private AcceptanceReport CanClose()

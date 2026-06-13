@@ -23,6 +23,8 @@ namespace Xenomorphtype
         public float        probability = 0;
         public float        essenceMinimum = 0;
         public float        essenceMaximum = 1;
+        public string       uiLabel;
+        public int          displayOrder = 0;
     }
 
     public class InfluenceHealth
@@ -54,6 +56,8 @@ namespace Xenomorphtype
     public class XMT_MutationsHealthSet : Def
     {
         public List<MutationHealth> mutations;
+        public string uiLabel;
+        public int displayOrder = 0;
     }
 
 }

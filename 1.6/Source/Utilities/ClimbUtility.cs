@@ -3,9 +3,12 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.Scripting.GarbageCollector;
 
 namespace Xenomorphtype
 {
@@ -286,14 +289,20 @@ namespace Xenomorphtype
 
                     if (climber.lastClimb)
                     {
-                        //Log.Message(actor + " pathing too " + climber.climbParameters.FinalGoalCell);
+                        if (XMTSettings.LogClimbing)
+                        {
+                            Log.Message(actor + " pathing too " + climber.climbParameters.FinalGoalCell);
+                        }
                         actor.pather.StartPath(climber.climbParameters.FinalGoalCell, peMode);
                     }
                     else
                     {
                         climber.startedClimb = false;
                         climber.finishedClimb = false;
-                        //Log.Message(actor + " pathing too " + climber.StartClimbCell);
+                        if (XMTSettings.LogClimbing)
+                        {
+                            Log.Message(actor + " pathing too " + climber.StartClimbCell);
+                        }
                         actor.pather.StartPath(climber.StartClimbCell, peMode);
                     }
                     return;
@@ -313,7 +322,11 @@ namespace Xenomorphtype
                 }
                 else if(!climber.startedClimb)
                 {
-                    //Log.Message(actor + " is checking if they are at " + climber.StartClimbCell);
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " is checking if they are at " + climber.StartClimbCell);
+                    }
+                   
                     if (climber.StartClimbCell.AdjacentTo8WayOrInside(actor.Position))
                     {
                         BeginClimb(actor, ref climber, toil);
@@ -395,6 +408,10 @@ namespace Xenomorphtype
 
             if (!actor.pather.MovingNow && (actor.pather.curPath == null || actor.pather.curPath.Finished))
             {
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(actor + " reports as having not arrived at " + targetCell + " with " + peMode + " for " + actor.jobs?.curJob);
+                }
                 TryStartFallbackPathOrEndJob(actor, targetCell, peMode);
             }
         }
@@ -429,6 +446,7 @@ namespace Xenomorphtype
                 {
                     Log.Message(actor + " recovered climb fallback path to " + target + " with " + peMode + " for " + actor.jobs?.curJob + " attempt " + attempts);
                 }
+
                 actor.pather.StartPath(target, peMode);
                 return true;
             }
@@ -467,7 +485,22 @@ namespace Xenomorphtype
                 }
                 if (!GetClimbParameters(actor, target.Cell, ref climber))
                 {
-                    TryStartFallbackPathOrEndJob(actor, target, peMode);
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " could not get climb parameters in TargetIndex GotoCell Init Action");
+                    }
+
+                    if (HasArrived(actor, target.Cell, peMode))
+                    {
+                        climber.ClearClimberData();
+                        actor.jobs.curDriver.ReadyForNextToil();
+                        return;
+                    }
+
+                    if (TryStartFallbackPathOrEndJob(actor, target, peMode))
+                    {
+                        toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
+                    }
                     return;
                 }
                 InitClimbAction(actor, ref climber, toil, peMode);
@@ -510,7 +543,20 @@ namespace Xenomorphtype
                 }
                 if (!GetClimbParameters(actor, cell, ref climber))
                 {
-                    TryStartFallbackPathOrEndJob(actor, cell, peMode);
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " could not get climb parameters in cell GotoCell Init Action");
+                    }
+                    if (HasArrived(actor, cell, peMode))
+                    {
+                        climber.ClearClimberData();
+                        actor.jobs.curDriver.ReadyForNextToil();
+                        return;
+                    }
+                    if (TryStartFallbackPathOrEndJob(actor, cell, peMode))
+                    {
+                        toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
+                    }
                     return;
                 }
                 InitClimbAction(actor, ref climber, toil, peMode);
@@ -547,13 +593,27 @@ namespace Xenomorphtype
                 CompClimber climber = actor.GetClimberComp();
                 if (climber == null)
                 {
-                    //Log.Message(actor + " pathing too " + thing);
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " pathing too " + thing);
+                    }
+                    
                     toil.actor.pather.StartPath(exactCell, PathEndMode.OnCell);
                     toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
                     return;
                 }
                 if (!GetClimbParameters(actor, dest.Cell, ref climber))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " could not get climb parameters in dest.cell GotoCell Init Action");
+                    }
+                    if (HasArrived(actor, dest.Cell, PathEndMode.OnCell))
+                    {
+                        climber.ClearClimberData();
+                        actor.jobs.curDriver.ReadyForNextToil();
+                        return;
+                    }
                     if (TryStartFallbackPathOrEndJob(actor, exactCell, PathEndMode.OnCell))
                     {
                         toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
@@ -606,6 +666,16 @@ namespace Xenomorphtype
                 }
                 if (!GetClimbParameters(actor, dest.Cell, ref climber))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " could not get climb parameters in dest.cell GotoThing Init Action");
+                    }
+                    if (HasArrived(actor, dest.Cell, peMode))
+                    {
+                        climber.ClearClimberData();
+                        actor.jobs.curDriver.ReadyForNextToil();
+                        return;
+                    }
                     if (thing != null && canGotoSpawnedParent)
                     {
                         dest = thing.SpawnedParentOrMe;
@@ -667,6 +737,16 @@ namespace Xenomorphtype
                 }
                 if (!GetClimbParameters(actor, target.Cell, ref climber))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " could not get climb parameters in target.Cell CarryHauledThingToCell Init Action");
+                    }
+                    if (HasArrived(actor, target.Cell, peMode))
+                    {
+                        climber.ClearClimberData();
+                        actor.jobs.curDriver.ReadyForNextToil();
+                        return;
+                    }
                     if (TryStartFallbackPathOrEndJob(actor, target, peMode))
                     {
                         toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
@@ -899,16 +979,28 @@ namespace Xenomorphtype
 
             if (!FinalGoalCell.IsValid)
             {
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(pawn + " final goal invalid");
+                }
                 return false;
             }
 
             if (pawn?.Map == null || !pawn.Position.InBounds(pawn.Map) || !FinalGoalCell.InBounds(pawn.Map))
             {
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(pawn + " final goal invalid");
+                }
                 return false;
             }
 
             if(!CanReachByClimb(pawn, FinalGoalCell,PathEndMode.OnCell,pawn.NormalMaxDanger()))
             {
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(pawn + " final goal not reachable by climb");
+                }
                 return false;
             }
 

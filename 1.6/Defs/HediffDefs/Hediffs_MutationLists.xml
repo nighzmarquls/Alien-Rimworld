@@ -96,6 +96,14 @@
 				<influence>0.1</influence>
 			</li>
 			<li>
+				<hediff>XMT_RoyalJellyHigh</hediff>
+				<influence>0.1</influence>
+			</li>
+			<li>
+				<hediff>XMT_CryptizipHigh</hediff>
+				<influence>0.1</influence>
+			</li>
+			<li>
 				<hediff>XMT_EssenceAddiction</hediff>
 				<influence>0.25</influence>
 			</li>
@@ -104,9 +112,13 @@
 	
 	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_MutationsSet</defName>
+		<uiLabel>General mutations</uiLabel>
+		<displayOrder>0</displayOrder>
 		<mutations>
 			<li>
 				<horror>XMT_RawJellyHigh</horror>
+				<uiLabel>Raw jelly stimulation</uiLabel>
+				<displayOrder>0</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.85</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -114,6 +126,8 @@
 			</li>
 			<li>
 				<horror>XMT_DebuffEssence</horror>
+				<uiLabel>Unstable tissue</uiLabel>
+				<displayOrder>10</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -121,6 +135,8 @@
 			</li>
 			<li>
 				<horror>XMT_MildEssence</horror>
+				<uiLabel>Mild adaptation</uiLabel>
+				<displayOrder>20</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.5</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -128,6 +144,8 @@
 			</li>
 			<li>
 				<horror>XMT_SilicateEssence</horror>
+				<uiLabel>Silicate tissue</uiLabel>
+				<displayOrder>30</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.5</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -135,6 +153,8 @@
 			</li>
 			<li>
 				<horror>XMT_BoostingEssence</horror>
+				<uiLabel>Metabolic acceleration</uiLabel>
+				<displayOrder>40</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -142,6 +162,8 @@
 			</li>
 			<li>
 				<horror>XMT_EssenceAddiction</horror>
+				<uiLabel>Essence dependency</uiLabel>
+				<displayOrder>50</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -149,6 +171,8 @@
 			</li>
 			<li>
 				<horror>XMT_Lardering</horror>
+				<uiLabel>Larder growth</uiLabel>
+				<displayOrder>60</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.1</probability>
 				<essenceMinimum>2</essenceMinimum>
@@ -156,6 +180,8 @@
 			</li>
 			<li>
 				<horror>XMT_Enthralled</horror>
+				<uiLabel>Enthrallment</uiLabel>
+				<displayOrder>70</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.0</essenceMinimum>
@@ -163,9 +189,11 @@
 			</li>
 			<li>
 				<horror>XMT_BecomingMutant</horror>
+				<uiLabel>Mutant transformation</uiLabel>
+				<displayOrder>80</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>1</probability>
-				<essenceMinimum>3</essenceMinimum>
+				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>10</essenceMaximum>
 			</li>
 		</mutations>
@@ -173,9 +201,13 @@
 	
 	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_LovinMutationSet</defName>
+		<uiLabel>Social conditioning</uiLabel>
+		<displayOrder>10</displayOrder>
 		<mutations>
 			<li>
 				<horror>XMT_RawJellyHigh</horror>
+				<uiLabel>Raw jelly stimulation</uiLabel>
+				<displayOrder>0</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.85</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -183,6 +215,8 @@
 			</li>
 			<li>
 				<horror>XMT_BoostingEssence</horror>
+				<uiLabel>Metabolic acceleration</uiLabel>
+				<displayOrder>10</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -190,6 +224,8 @@
 			</li>
 			<li>
 				<horror>XMT_EssenceAddiction</horror>
+				<uiLabel>Essence dependency</uiLabel>
+				<displayOrder>20</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -197,6 +233,8 @@
 			</li>
 			<li>
 				<horror>XMT_LoverGland</horror>
+				<uiLabel>Lover pheromone gland</uiLabel>
+				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.75</essenceMinimum>
@@ -204,6 +242,8 @@
 			</li>
 			<li>
 				<horror>XMT_FriendlyGland</horror>
+				<uiLabel>Friendly pheromone gland</uiLabel>
+				<displayOrder>40</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.75</essenceMinimum>
@@ -211,6 +251,8 @@
 			</li>
 			<li>
 				<horror>XMT_Enthralled</horror>
+				<uiLabel>Enthrallment</uiLabel>
+				<displayOrder>50</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.0</essenceMinimum>
@@ -218,6 +260,8 @@
 			</li>
 			<li>
 				<horror>XMT_Docile</horror>
+				<uiLabel>Docility conditioning</uiLabel>
+				<displayOrder>60</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.0</essenceMinimum>
@@ -228,9 +272,13 @@
 	
 	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_HostMeatMutationSet</defName>
+		<uiLabel>Host preparation</uiLabel>
+		<displayOrder>30</displayOrder>
 		<mutations>
 			<li>
 				<horror>XMT_RawJellyHigh</horror>
+				<uiLabel>Raw jelly stimulation</uiLabel>
+				<displayOrder>0</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.85</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -238,6 +286,8 @@
 			</li>
 			<li>
 				<horror>XMT_EssenceAddiction</horror>
+				<uiLabel>Essence dependency</uiLabel>
+				<displayOrder>10</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -245,6 +295,8 @@
 			</li>
 			<li>
 				<horror>XMT_BoostingEssence</horror>
+				<uiLabel>Metabolic acceleration</uiLabel>
+				<displayOrder>20</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -252,6 +304,8 @@
 			</li>
 			<li>
 				<horror>XMT_Enthralled</horror>
+				<uiLabel>Enthrallment</uiLabel>
+				<displayOrder>30</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.0</essenceMinimum>
@@ -259,6 +313,8 @@
 			</li>
 			<li>
 				<horror>XMT_Docile</horror>
+				<uiLabel>Docility conditioning</uiLabel>
+				<displayOrder>40</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>
 				<probability>1</probability>
 				<essenceMinimum>0.0</essenceMinimum>
@@ -266,6 +322,8 @@
 			</li>
 			<li>
 				<horror>XMT_HorrorPregnant</horror>
+				<uiLabel>Embryo implantation</uiLabel>
+				<displayOrder>50</displayOrder>
 				<probability>1</probability>
 				<essenceMinimum>0.51</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -275,9 +333,13 @@
 	
 	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_AscendanceMutationSet</defName>
+		<uiLabel>Ascendance</uiLabel>
+		<displayOrder>20</displayOrder>
 		<mutations>
 			<li>
 				<horror>XMT_RawJellyHigh</horror>
+				<uiLabel>Raw jelly stimulation</uiLabel>
+				<displayOrder>0</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.85</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -285,6 +347,8 @@
 			</li>
 			<li>
 				<horror>XMT_SilicateEssence</horror>
+				<uiLabel>Silicate tissue</uiLabel>
+				<displayOrder>10</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.5</probability>
 				<essenceMinimum>0</essenceMinimum>
@@ -292,6 +356,8 @@
 			</li>
 			<li>
 				<horror>XMT_BoostingEssence</horror>
+				<uiLabel>Metabolic acceleration</uiLabel>
+				<displayOrder>20</displayOrder>
 				<randomBodypart>true</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -299,6 +365,8 @@
 			</li>
 			<li>
 				<horror>XMT_FriendlyGland</horror>
+				<uiLabel>Friendly pheromone gland</uiLabel>
+				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.75</essenceMinimum>
@@ -306,9 +374,20 @@
 			</li>
 			<li>
 				<horror>XMT_Enthralled</horror>
+				<uiLabel>Enthrallment</uiLabel>
+				<displayOrder>40</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>
 				<probability>0.25</probability>
 				<essenceMinimum>0.0</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_BecomingMutant</horror>
+				<uiLabel>Mutant transformation</uiLabel>
+				<displayOrder>50</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>1</probability>
+				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</mutations>
@@ -316,6 +395,8 @@
 	
 	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_ProtofluidMutationSet</defName>
+		<uiLabel>Protofluid exposure</uiLabel>
+		<displayOrder>40</displayOrder>
 		<mutations>
 			<li>
 				<horror>XMT_DebuffEssence</horror>
@@ -350,6 +431,8 @@
 
 	<Xenomorphtype.XMT_MutationsHealthSet>
 		<defName>XMT_UmbilicalSet</defName>
+		<uiLabel>Umbilical implantation</uiLabel>
+		<displayOrder>50</displayOrder>
 		<mutations>
 			<li>
 				<horror>XMT_ReptileHorrorPregnant</horror>
@@ -392,6 +475,13 @@
 	<Xenomorphtype.XMT_TransformationSet>
 		<defName>XMT_DefaultTransformationSet</defName>
 		<transformations>
+			<li>
+				<thingTransformationTarget></thingTransformationTarget>
+				<pawnTransformationTarget>XMT_HybridHorrorBlank</pawnTransformationTarget>
+				<probability>0.5</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>2</essenceMaximum>
+			</li>
 			<li>
 				<thingTransformationTarget></thingTransformationTarget>
 				<pawnTransformationTarget>XMT_StarbeastKind</pawnTransformationTarget>

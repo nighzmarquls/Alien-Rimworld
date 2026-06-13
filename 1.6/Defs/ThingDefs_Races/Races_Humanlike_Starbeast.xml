@@ -44,6 +44,33 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
+					<!-- anti-mutation list-->
+					<li>XMT_MildEssence</li>
+					<li>XMT_DebuffEssence</li>
+					<li>XMT_SilicateEssence</li>
+					<li>XMT_BoostingEssence</li>
+					<li>XMT_ImprovedStomach</li>
+					<li>XMT_SpikeTongue</li>
+					<li>XMT_SecondJaw</li>
+					<li>XMT_HostileGland</li>
+					<li>XMT_LoverGland</li>
+					<li>XMT_BladedTail</li>
+					<li>XMT_BreathingTubes</li>
+					<li>XMT_BreathingWafers</li>
+					<li>XMT_WarpedNeck</li>
+					<li>XMT_InternalNose</li>
+					<li>XMT_InternalEar</li>
+					<li>XMT_InternalEye</li>
+					<li>XMT_AcidFat</li>
+					<li>XMT_MuscleRestructure</li>
+					<li>XMT_Mesoskeleton</li>
+					<li>XMT_Stabilize</li>
+					<li>XMT_AcidbloodMarrow</li>
+					<li>XMT_SoftBone</li>
+					<li>XMT_Predatory</li>
+					<li>XMT_Unasthetic</li>
+					<li>XMT_Docile</li>
+					<li>XMT_Enthralled</li>
 				</ImpossibleHediffs>
 			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
@@ -1402,6 +1429,33 @@
 					<li>Alzheimers</li>
 					<li>Asthma</li>
 					<li>HeartArteryBlockage</li>
+					<!-- anti-mutation list-->
+					<li>XMT_MildEssence</li>
+					<li>XMT_DebuffEssence</li>
+					<li>XMT_SilicateEssence</li>
+					<li>XMT_BoostingEssence</li>
+					<li>XMT_ImprovedStomach</li>
+					<li>XMT_SpikeTongue</li>
+					<li>XMT_SecondJaw</li>
+					<li>XMT_HostileGland</li>
+					<li>XMT_LoverGland</li>
+					<li>XMT_BladedTail</li>
+					<li>XMT_BreathingTubes</li>
+					<li>XMT_BreathingWafers</li>
+					<li>XMT_WarpedNeck</li>
+					<li>XMT_InternalNose</li>
+					<li>XMT_InternalEar</li>
+					<li>XMT_InternalEye</li>
+					<li>XMT_AcidFat</li>
+					<li>XMT_MuscleRestructure</li>
+					<li>XMT_Mesoskeleton</li>
+					<li>XMT_Stabilize</li>
+					<li>XMT_AcidbloodMarrow</li>
+					<li>XMT_SoftBone</li>
+					<li>XMT_Predatory</li>
+					<li>XMT_Unasthetic</li>
+					<li>XMT_Docile</li>
+					<li>XMT_Enthralled</li>
 				</ImpossibleHediffs>
 			</li>
 			<li Class="Xenomorphtype.CompClimberProperties">
@@ -1424,6 +1478,23 @@
 			<li Class="Xenomorphtype.CompQueenAssimilationProperties">
 			</li>
 			<li Class="Xenomorphtype.CompGeneManipulatorProperties">
+				<mutationOptions>
+					<li>
+						<requiredEvolution>Evo_MutantExpression</requiredEvolution>
+						<mutationSet>XMT_LovinMutationSet</mutationSet>
+						<displayOrder>10</displayOrder>
+					</li>
+					<li>
+						<requiredEvolution>Evo_MutantExpression</requiredEvolution>
+						<mutationSet>XMT_AscendanceMutationSet</mutationSet>
+						<displayOrder>20</displayOrder>
+					</li>
+					<li>
+						<requiredEvolution>Evo_MutantExpression</requiredEvolution>
+						<mutationSet>XMT_HostMeatMutationSet</mutationSet>
+						<displayOrder>30</displayOrder>
+					</li>
+				</mutationOptions>
 			</li>
 			<li Class="Xenomorphtype.CompOvomorphLayerProperties">
 				<foodCost>2</foodCost>
@@ -2430,9 +2501,7 @@
 				</alienPartGenerator>
 			</generalSettings>
 			<graphicPaths>
-
 			</graphicPaths>
-			
 			<styleSettings>
 				<li>
 					<key>HairDef</key>
@@ -2577,7 +2646,6 @@
 					<original>MySonDied</original>
 					<replacer>StarbeastChildDied</replacer> 
 				  </li>
-				  
 				</replacerList>
 				<restrictedThoughts>
 					<li>StarbeastDark</li>

@@ -92,7 +92,7 @@ namespace Xenomorphtype
         }
         public override void CompPostPostRemoved()
         {
-            base.CompPostPostRemoved();
+            
             if (Host != null)
             {
                 if (Host.MapHeld != null)
@@ -110,6 +110,7 @@ namespace Xenomorphtype
                     Host = null;
                 }
             }
+            base.CompPostPostRemoved();
         }
 
         public override void Notify_PawnDied(DamageInfo? dinfo, Hediff culprit = null)
@@ -249,8 +250,6 @@ namespace Xenomorphtype
 
             }
 
-            
-
             if (genes == null)
             {
                 genes = new GeneSet();
@@ -389,8 +388,7 @@ namespace Xenomorphtype
 
         public float CalculateMaturity()
         {
-            
-            return Math.Max(parent.pawn.BodySize * parent.Severity, 0.001f);
+            return Math.Max(Host.BodySize * parent.Severity, 0.001f);
         }
 
         public override float SeverityChangePerDay()

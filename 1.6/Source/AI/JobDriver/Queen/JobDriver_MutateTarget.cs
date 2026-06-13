@@ -64,21 +64,19 @@ namespace Xenomorphtype
                 {
                     if(Target is Pawn prey)
                     {
-                        switch(prey.Info().StrongestPheromone)
+                        CompGeneManipulator manipulator = pawn.GetComp<CompGeneManipulator>();
+                        bool foundOrder = false;
+                        if (manipulator != null && manipulator.TryExecuteMutationOrder(prey, out foundOrder))
                         {
-                            case PheromoneType.Lover:
-                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_LovinMutationSet, 1);
-                                break;
-                            case PheromoneType.Friend:
-                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_AscendanceMutationSet, 1);
-                                break;
-                            case PheromoneType.Threat:
-                                BioUtility.TryMutatingPawn(ref prey, XenoGeneDefOf.XMT_HostMeatMutationSet, 1);
-                                break;
-                            default:
-                                BioUtility.TryMutatingPawn(ref prey, null, 1);
-                                break;
+                            return;
                         }
+
+                        if (foundOrder)
+                        {
+                            return;
+                        }
+
+                        BioUtility.TryMutatingPawn(ref prey, BioUtility.GetFallbackMutationSet(prey), 1);
                     }
 
                 }

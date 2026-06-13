@@ -299,6 +299,19 @@ namespace Xenomorphtype
             return false;
         }
 
+        public static bool IsCrawler(Pawn pawn)
+        {
+            if(pawn == null)
+            {
+                return false;
+            }
+            if(pawn.GetCrawlerComp() is CompCrawler)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static bool IsXenomorph(Pawn pawn)
         {
             if (pawn == null)
@@ -1099,7 +1112,7 @@ namespace Xenomorphtype
             {
                 return false;
             }
-            Log.Message("began transforming "+ target + " into " + targetDef);
+            //Log.Message("began transforming "+ target + " into " + targetDef);
             PawnGenerationRequest request = new PawnGenerationRequest(
                 targetDef, faction: target.Faction, PawnGenerationContext.PlayerStarter, null, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, target.ageTracker.AgeBiologicalYears, target.ageTracker.AgeChronologicalYears);
 
@@ -1118,10 +1131,10 @@ namespace Xenomorphtype
             {
                 request.FixedGender = Gender.None;
             }
-            Log.Message("completed request generation for " + target + " into " + targetDef);
+            //Log.Message("completed request generation for " + target + " into " + targetDef);
             Pawn NewPawn = PawnGenerator.GeneratePawn(request);
 
-            Log.Message("generated pawn " + NewPawn );
+            //Log.Message("generated pawn " + NewPawn );
             if (NewPawn != null)
             {
                 
@@ -1311,6 +1324,8 @@ namespace Xenomorphtype
                     if(NewPawn.genes != null)
                     {
                         GeneSet geneset = new GeneSet();
+                        List<GeneDef> genes = BioUtility.GetExtraHostGenes(target);
+                        BioUtility.ExtractGenesToGeneset(ref geneset, genes);
                         BioUtility.ExtractCryptimorphGenesToGeneset(ref geneset, target.genes.GenesListForReading);
                         BioUtility.InsertGenesetToPawn(geneset, ref NewPawn);
                     }

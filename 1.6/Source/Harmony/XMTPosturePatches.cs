@@ -19,7 +19,7 @@ namespace Xenomorphtype
             [HarmonyPrefix]
             public static bool Prefix(ref float __result, Pawn __instance, bool diagonal)
             {
-                if (!XMTUtility.IsXenomorph(__instance))
+                if (!XMTUtility.IsCrawler(__instance))
                 {
                     return true;
                 }
@@ -78,7 +78,7 @@ namespace Xenomorphtype
             [HarmonyPrefix]
             public static bool Prefix(ref bool __result, Pawn __instance)
             {
-                if (!XMTUtility.IsXenomorph(__instance))
+                if (!XMTUtility.IsCrawler(__instance))
                 {
                     return true;
                 }
@@ -99,7 +99,12 @@ namespace Xenomorphtype
                     return true;
                 }
 
-                if (!XMTUtility.IsXenomorph(__instance))
+                if (!XMTUtility.IsCrawler(__instance))
+                {
+                    return true;
+                }
+
+                if(__instance.InBed())
                 {
                     return true;
                 }
@@ -110,16 +115,14 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if (!__instance.ageTracker.Adult)
+                if (__instance.GetMorphComp() is CompMatureMorph compMorph && !__instance.ageTracker.Adult)
                 {
                     __result = true;
                     __instance.jobs.posture = PawnPosture.LayingOnGroundNormal;
                     return false;
                 }
 
-                CompCrawler compCrawler = __instance.GetComp<CompCrawler>();
-
-                if (compCrawler != null)
+                if (__instance.GetCrawlerComp() is CompCrawler compCrawler)
                 {
                     __result = compCrawler.Crawling;
                     if (__result)
@@ -142,7 +145,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                if (!XMTUtility.IsXenomorph(___pawn))
+                if (!XMTUtility.IsCrawler(___pawn))
                 {
                     return;
                 }
@@ -167,12 +170,12 @@ namespace Xenomorphtype
             public static void Postfix(Verb_MeleeAttackDamage __instance)
             {
                 Pawn pawn = __instance?.CasterPawn;
-                if (pawn == null || !XMTUtility.IsXenomorph(pawn))
+                if (pawn == null || !XMTUtility.IsCrawler(pawn))
                 {
                     return;
                 }
 
-                CompCrawler compCrawler = pawn.GetComp<CompCrawler>();
+                CompCrawler compCrawler = pawn.GetCrawlerComp();
                 if (compCrawler != null && compCrawler.Crawling)
                 {
                     compCrawler.Crawling = false;

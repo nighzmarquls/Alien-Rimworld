@@ -46,5 +46,20 @@ namespace Xenomorphtype
                 FeralJobUtility.ClearFeralJobReservationsForTarget(___pawn?.MapHeld, reservedItem);
             }
         }
+
+        [HarmonyPatch(typeof(Pawn), nameof(Pawn.VerifyReservations))]
+        public static class Patch_Pawn_VerifyReservations
+        {
+            [HarmonyPrefix]
+            public static void Prefix(Pawn __instance, Job prevJob)
+            {
+                if (!XMTUtility.IsXenomorph(__instance))
+                {
+                    return;
+                }
+
+                FeralJobUtility.ClearFeralPhysicalInteractionReservationsClaimedBy(__instance.MapHeld, __instance, prevJob);
+            }
+        }
     }
 }

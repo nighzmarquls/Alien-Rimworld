@@ -606,8 +606,8 @@
 		<description>Some kind of secreted resin, a organic web which obstructs motion.</description>
 		<category>Building</category>
 		<graphicData>
-			<texPath>Things/Building/Web</texPath>
-			<graphicClass>Graphic_Single</graphicClass>
+			<texPath>Things/Building/Webbing</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
 			<drawSize>1.5</drawSize>
 		</graphicData>
 		<statBases>

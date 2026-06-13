@@ -151,6 +151,7 @@
 					</li>
 					<li>
 						<thingDef>XMT_MeatballLarder</thingDef>
+						<pawnDef></pawnDef>
 						<hatchTime>1</hatchTime>
 						<probability>0.25</probability>
 					</li>
@@ -666,7 +667,7 @@
 				<possibleProducts>
 					<li>
 						<thingDef>XMT_Jagerbar</thingDef>
-						<pawnDef></pawnDef>
+						<pawnDef>XMT_Jagerbar</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>
 					</li>
@@ -773,6 +774,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
+						<thingDef>XMT_Umbilical</thingDef>
 						<pawnDef>XMT_Umbilical</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>
@@ -794,6 +796,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
+						<thingDef>XMT_Sleipnir</thingDef>
 						<pawnDef>XMT_Sleipnir</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>
@@ -843,7 +846,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
-						<thingDef></thingDef>
+						<thingDef>XMT_StrangleMoss</thingDef>
 						<pawnDef>XMT_StrangleMoss</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>
@@ -879,7 +882,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
-						<thingDef></thingDef>
+						<thingDef>XMT_Threadbeast</thingDef>
 						<pawnDef>XMT_Threadbeast</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>
@@ -915,7 +918,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
-						<thingDef></thingDef>
+						<thingDef>XMT_Hammerpede</thingDef>
 						<pawnDef>XMT_Hammerpede</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>
@@ -951,7 +954,7 @@
 			<li Class="Xenomorphtype.CompHatchingPodProperties">
 				<possibleProducts>
 					<li>
-						<thingDef></thingDef>
+						<thingDef>XMT_AcidAphid</thingDef>
 						<pawnDef>XMT_AcidAphid</pawnDef>
 						<hatchTime>60</hatchTime>
 						<probability>1</probability>

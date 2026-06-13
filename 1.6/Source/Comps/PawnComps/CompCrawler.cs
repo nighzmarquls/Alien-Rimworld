@@ -10,7 +10,7 @@ using Verse.AI;
 namespace Xenomorphtype
 {
     [StaticConstructorOnStartup]
-    internal class CompCrawler : ThingComp
+    public class CompCrawler : ThingComp
     {
         static private Texture2D CrawlTexture => ContentFinder<Texture2D>.Get("UI/Abilities/Starbeast_Crawl");
         static private Texture2D StandTexture => ContentFinder<Texture2D>.Get("UI/Abilities/Starbeast_Stand");

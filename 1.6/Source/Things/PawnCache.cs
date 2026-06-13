@@ -30,6 +30,9 @@ namespace Xenomorphtype
             protected CompClimber _climber;
             public CompClimber Climber => _climber;
 
+            protected CompCrawler _crawler;
+            public CompCrawler Crawler => _crawler;
+
             protected CompMatureMorph _matureMorph;
             public CompMatureMorph MatureMorph => _matureMorph;
 
@@ -87,6 +90,11 @@ namespace Xenomorphtype
                     if(comp is CompMatureMorph morph)
                     {
                         _matureMorph = morph;
+                        continue;
+                    }
+                    if(comp is CompCrawler crawler)
+                    {
+                        _crawler = crawler;
                         continue;
                     }
                     if (comp is CompClimber climber)
@@ -275,6 +283,18 @@ namespace Xenomorphtype
             PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
 
             return PawnCache.cache[pawn.thingIDNumber].AcidBlood;
+        }
+
+        public static CompCrawler GetCrawlerComp(this Pawn pawn)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                return PawnCache.cache[pawn.thingIDNumber].Crawler;
+            }
+
+            PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
+
+            return PawnCache.cache[pawn.thingIDNumber].Crawler;
         }
 
         public static CompClimber GetClimberComp(this Pawn pawn)

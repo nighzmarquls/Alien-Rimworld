@@ -1,6 +1,8 @@
 ﻿
 using RimWorld;
 using System;
+using System.Collections;
+using System.Reflection;
 using Verse;
 using Verse.AI;
 
@@ -8,6 +10,9 @@ namespace Xenomorphtype
 {
     internal class FeralJobUtility
     {
+        private static readonly FieldInfo reservationManagerReservationsField = typeof(ReservationManager).GetField("reservations", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static readonly FieldInfo physicalInteractionReservationsField = typeof(PhysicalInteractionReservationManager).GetField("reservations", BindingFlags.Instance | BindingFlags.NonPublic);
+
         internal static bool IsPlaceAvailableForJobBy(Pawn pawn, IntVec3 cell)
         {
             if (ForbidUtility.CaresAboutForbidden(pawn, false))
@@ -127,6 +132,19 @@ namespace Xenomorphtype
             ClearFeralJobReservationsForTarget(target?.MapHeld, target);
         }
 
+        internal static void ClearFeralJobReservationsForTarget(Map map, IntVec3 target)
+        {
+            if (map == null || !target.IsValid || !target.InBounds(map))
+            {
+                return;
+            }
+
+            if (map.physicalInteractionReservationManager.IsReserved(target))
+            {
+                map.physicalInteractionReservationManager.ReleaseAllForTarget(target);
+            }
+        }
+
         internal static void ClearFeralJobReservationsForTarget(Map map, LocalTargetInfo target)
         {
             if (map == null || !target.IsValid)
@@ -137,6 +155,12 @@ namespace Xenomorphtype
             if (target.Thing != null)
             {
                 ClearFeralJobReservationsForTarget(map, target.Thing);
+                return;
+            }
+
+            if (target.Cell.IsValid)
+            {
+                ClearFeralJobReservationsForTarget(map, target.Cell);
             }
         }
 
@@ -151,9 +175,49 @@ namespace Xenomorphtype
             map.physicalInteractionReservationManager.ReleaseAllClaimedBy(reserver);
         }
 
+        internal static void ForceClearFeralJobReservationsClaimedBy(Map map, Pawn reserver)
+        {
+            if (map == null || reserver == null)
+            {
+                return;
+            }
+
+            ClearFeralJobReservationsClaimedBy(map, reserver);
+            RemoveClaimedReservations(reservationManagerReservationsField?.GetValue(map.reservationManager) as IList, reserver);
+            RemoveClaimedReservations(physicalInteractionReservationsField?.GetValue(map.physicalInteractionReservationManager) as IList, reserver);
+        }
+
+        private static void RemoveClaimedReservations(IList reservations, Pawn reserver)
+        {
+            if (reservations == null || reserver == null)
+            {
+                return;
+            }
+
+            for (int i = reservations.Count - 1; i >= 0; i--)
+            {
+                object reservation = reservations[i];
+                FieldInfo claimantField = reservation?.GetType().GetField("claimant", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (claimantField?.GetValue(reservation) == reserver)
+                {
+                    reservations.RemoveAt(i);
+                }
+            }
+        }
+
         internal static void ClearFeralJobReservationsClaimedBy(Pawn reserver)
         {
             ClearFeralJobReservationsClaimedBy(reserver?.MapHeld, reserver);
+        }
+
+        internal static void ClearFeralPhysicalInteractionReservationsClaimedBy(Map map, Pawn reserver, Job job)
+        {
+            if (map == null || reserver == null || job == null)
+            {
+                return;
+            }
+
+            map.physicalInteractionReservationManager.ReleaseClaimedBy(reserver, job);
         }
     }
 }

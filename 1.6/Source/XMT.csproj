@@ -181,6 +181,7 @@
     <Compile Include="Debug\DebugActions_GrappleStealth.cs" />
     <Compile Include="Debug\DebugActions_HiveTesting.cs" />
     <Compile Include="Debug\DebugActions_HostGenes.cs" />
+    <Compile Include="Debug\DebugActions_Mutations.cs" />
     <Compile Include="Debug\DebugActions_QueenTesting.cs" />
     <Compile Include="Debug\XMTHiveDebug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
@@ -202,6 +203,7 @@
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenAssimilation.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenMutation.cs" />
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />

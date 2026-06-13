@@ -20,6 +20,14 @@
 	</startingHediffs>
   </PawnKindDef>
   
+    <PawnKindDef ParentName="XMT_HybridBase">
+	<defName>XMT_HybridHorrorBlank</defName>
+	<startingHediffs>
+
+	</startingHediffs>
+	<minGenerationAge>4</minGenerationAge>
+  </PawnKindDef>
+  
   <PawnKindDef ParentName="XMT_HybridBase">
 	<defName>XMT_HybridDysfunctional</defName>
 	<startingHediffs>

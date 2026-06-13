@@ -172,56 +172,323 @@ namespace Xenomorphtype
                 
                 if (Rand.Chance(health.probability))
                 {
-                    BodyPartRecord specificPart = null;
-                    if (health.specificBodyPart != null)
+                    if (TryApplyMutation(pawn, health, out Hediff _, bonusEssence, false))
                     {
-                        specificPart = pawn.health.hediffSet.GetBodyPartRecord(health.specificBodyPart);
-                        if (specificPart == null)
-                        {
-                            continue;
-                        }
-                    }
-
-                    foreach(Hediff hediff in pawn.health.hediffSet.hediffs)
-                    {
-                        if (hediff.def == health.horror)
-                        {
-                            if (specificPart != null && hediff.Part != specificPart)
-                            {
-                                continue;
-                            }
-
-                            if (hediff.Severity < health.horror.maxSeverity)
-                            {
-                                hediff.Severity += health.horror.initialSeverity;
-                                return;
-                            }
-                        }
-                    }
-
-                    if(specificPart != null)
-                    {
-                        pawn.health.AddHediff(health.horror, specificPart);
-                        return;
-                    }
-
-                    if (health.randomBodypart)
-                    {
-                        IEnumerable<BodyPartRecord> parts = pawn.health.hediffSet.GetNotMissingParts();
-                        if (parts.Any())
-                        {
-                            pawn.health.AddHediff(health.horror, parts.RandomElement());
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        pawn.health.AddHediff(health.horror);
                         return;
                     }
                 }
 
             }
+        }
+
+        public static XMT_MutationsHealthSet GetFallbackMutationSet(Pawn target)
+        {
+            if (target != null)
+            {
+                switch (target.Info().StrongestPheromone)
+                {
+                    case CompPawnInfo.PheromoneType.Lover:
+                        return XenoGeneDefOf.XMT_LovinMutationSet;
+                    case CompPawnInfo.PheromoneType.Friend:
+                        return XenoGeneDefOf.XMT_AscendanceMutationSet;
+                    case CompPawnInfo.PheromoneType.Threat:
+                        return XenoGeneDefOf.XMT_HostMeatMutationSet;
+                }
+            }
+
+            return XenoGeneDefOf.XMT_MutationsSet;
+        }
+
+        public static IEnumerable<MutationHealth> AllMutationsForSet(XMT_MutationsHealthSet set)
+        {
+            if (set?.mutations == null)
+            {
+                yield break;
+            }
+
+            foreach (MutationHealth mutation in set.mutations)
+            {
+                if (mutation?.horror != null)
+                {
+                    yield return mutation;
+                }
+            }
+        }
+
+        public static string LabelForMutationSet(XMT_MutationsHealthSet set)
+        {
+            if (set == null)
+            {
+                return "";
+            }
+
+            if (!set.uiLabel.NullOrEmpty())
+            {
+                return set.uiLabel;
+            }
+
+            if (!set.label.NullOrEmpty())
+            {
+                return set.LabelCap.ToString();
+            }
+
+            return set.defName;
+        }
+
+        public static string LabelForMutation(MutationHealth mutation)
+        {
+            if (mutation == null)
+            {
+                return "";
+            }
+
+            if (!mutation.uiLabel.NullOrEmpty())
+            {
+                return mutation.uiLabel;
+            }
+
+            if (mutation.horror != null)
+            {
+                if (!mutation.horror.label.NullOrEmpty())
+                {
+                    return mutation.horror.LabelCap.ToString();
+                }
+
+                return mutation.horror.defName;
+            }
+
+            return "";
+        }
+
+        public static MutationHealth MutationForDef(XMT_MutationsHealthSet set, HediffDef mutationDef)
+        {
+            if (set?.mutations == null || mutationDef == null)
+            {
+                return null;
+            }
+
+            return set.mutations.FirstOrDefault(mutation => mutation?.horror == mutationDef);
+        }
+
+        public static AcceptanceReport CanApplyMutation(Pawn target, MutationHealth mutation, float bonusEssence = 0f, bool requireExistingMutations = false)
+        {
+            if (target == null)
+            {
+                return "XMT_MutationInvalid_Target".Translate();
+            }
+
+            if (target.Dead)
+            {
+                return "XMT_MutationInvalid_TargetDead".Translate(target.LabelShort);
+            }
+
+            if (target.health == null)
+            {
+                return "XMT_MutationInvalid_NoHealth".Translate(target.LabelShort);
+            }
+
+            if (XMTUtility.IsXenomorph(target))
+            {
+                return "XMT_MutationInvalid_Xenomorph".Translate(target.LabelShort);
+            }
+
+            if (mutation?.horror == null)
+            {
+                return "XMT_MutationInvalid_NoMutation".Translate();
+            }
+
+            float essence = GetXenomorphInfluence(target) + bonusEssence;
+            if (requireExistingMutations && essence <= 0f)
+            {
+                return "XMT_MutationInvalid_NoEssence".Translate(essence.ToString("0.##"));
+            }
+
+            if (mutation.essenceMinimum > 0 && mutation.essenceMinimum > essence)
+            {
+                return "XMT_MutationInvalid_EssenceLow".Translate(essence.ToString("0.##"), mutation.essenceMinimum.ToString("0.##"));
+            }
+
+            if (mutation.essenceMaximum > 0 && mutation.essenceMaximum < essence)
+            {
+                return "XMT_MutationInvalid_EssenceHigh".Translate(essence.ToString("0.##"), mutation.essenceMaximum.ToString("0.##"));
+            }
+
+            BodyPartRecord specificPart = SpecificMutationPart(target, mutation);
+            if (mutation.specificBodyPart != null && specificPart == null)
+            {
+                return "XMT_MutationInvalid_MissingBodyPart".Translate(mutation.specificBodyPart.label);
+            }
+
+            if (mutation.randomBodypart && mutation.specificBodyPart == null && !target.health.hediffSet.GetNotMissingParts().Any())
+            {
+                return "XMT_MutationInvalid_NoBodyPart".Translate();
+            }
+
+            Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
+            if (existing != null && existing.Severity >= mutation.horror.maxSeverity)
+            {
+                return "XMT_MutationInvalid_MaxSeverity".Translate(LabelForMutation(mutation));
+            }
+
+            return true;
+        }
+
+        public static AcceptanceReport CanRemoveMutation(Pawn target, HediffDef mutationDef)
+        {
+            if (target == null)
+            {
+                return "XMT_MutationInvalid_Target".Translate();
+            }
+
+            if (target.Dead)
+            {
+                return "XMT_MutationInvalid_TargetDead".Translate(target.LabelShort);
+            }
+
+            if (target.health == null)
+            {
+                return "XMT_MutationInvalid_NoHealth".Translate(target.LabelShort);
+            }
+
+            if (mutationDef == null)
+            {
+                return "XMT_MutationInvalid_NoMutation".Translate();
+            }
+
+            if (!target.health.hediffSet.hediffs.Any(hediff => hediff.def == mutationDef))
+            {
+                return "XMT_MutationInvalid_NotPresent".Translate(mutationDef.LabelCap);
+            }
+
+            return true;
+        }
+
+        public static bool TryApplyMutation(Pawn target, MutationHealth mutation, out Hediff changedHediff, float bonusEssence = 0f, bool feedback = true, bool requireExistingMutations = false)
+        {
+            changedHediff = null;
+            AcceptanceReport report = CanApplyMutation(target, mutation, bonusEssence, requireExistingMutations);
+            if (!report.Accepted)
+            {
+                return false;
+            }
+
+            BodyPartRecord specificPart = SpecificMutationPart(target, mutation);
+            Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
+            bool intensified = existing != null;
+
+            if (existing != null)
+            {
+                existing.Severity = Mathf.Min(existing.Severity + mutation.horror.initialSeverity, mutation.horror.maxSeverity);
+                changedHediff = existing;
+            }
+            else if (specificPart != null)
+            {
+                changedHediff = target.health.AddHediff(mutation.horror, specificPart);
+            }
+            else if (mutation.randomBodypart)
+            {
+                changedHediff = target.health.AddHediff(mutation.horror, target.health.hediffSet.GetNotMissingParts().RandomElement());
+            }
+            else
+            {
+                changedHediff = target.health.AddHediff(mutation.horror);
+            }
+
+            RevealMutation(changedHediff);
+            if (feedback)
+            {
+                ThrowMutationMote(target, intensified ? "XMT_MutationMote_Intensified".Translate(LabelForMutation(mutation)) : "XMT_MutationMote_Added".Translate(LabelForMutation(mutation)));
+            }
+
+            return changedHediff != null;
+        }
+
+        public static bool TryRemoveMutation(Pawn target, HediffDef mutationDef, out Hediff changedHediff, bool feedback = true)
+        {
+            changedHediff = null;
+            AcceptanceReport report = CanRemoveMutation(target, mutationDef);
+            if (!report.Accepted)
+            {
+                return false;
+            }
+
+            Hediff hediff = target.health.hediffSet.hediffs.FirstOrDefault(candidate => candidate.def == mutationDef);
+            if (hediff == null)
+            {
+                return false;
+            }
+
+            float reduction = mutationDef.initialSeverity > 0 ? mutationDef.initialSeverity : 1f;
+            if (hediff.Severity > reduction)
+            {
+                hediff.Severity -= reduction;
+                changedHediff = hediff;
+                RevealMutation(changedHediff);
+                if (feedback)
+                {
+                    ThrowMutationMote(target, "XMT_MutationMote_Reduced".Translate(mutationDef.LabelCap));
+                }
+            }
+            else
+            {
+                target.health.RemoveHediff(hediff);
+                if (feedback)
+                {
+                    ThrowMutationMote(target, "XMT_MutationMote_Removed".Translate(mutationDef.LabelCap));
+                }
+            }
+
+            return true;
+        }
+
+        private static BodyPartRecord SpecificMutationPart(Pawn target, MutationHealth mutation)
+        {
+            if (target?.health?.hediffSet == null || mutation?.specificBodyPart == null)
+            {
+                return null;
+            }
+
+            return target.health.hediffSet.GetBodyPartRecord(mutation.specificBodyPart);
+        }
+
+        private static Hediff ExistingMutationHediff(Pawn target, HediffDef mutationDef, BodyPartRecord specificPart)
+        {
+            if (target?.health?.hediffSet == null || mutationDef == null)
+            {
+                return null;
+            }
+
+            foreach (Hediff hediff in target.health.hediffSet.hediffs)
+            {
+                if (hediff.def != mutationDef)
+                {
+                    continue;
+                }
+
+                if (specificPart != null && hediff.Part != specificPart)
+                {
+                    continue;
+                }
+
+                return hediff;
+            }
+
+            return null;
+        }
+
+        private static void RevealMutation(Hediff hediff)
+        {
+            hediff?.SetVisible();
+        }
+
+        private static void ThrowMutationMote(Pawn target, string text)
+        {
+            if (target?.MapHeld == null || text.NullOrEmpty())
+            {
+                return;
+            }
+
+            MoteMaker.ThrowText(target.DrawPos, target.MapHeld, text, 3.65f);
         }
 
         public static void InsertGenesetToPawn(GeneSet geneset, ref Pawn pawn, bool xenogene = false, bool forbidUnknown = true)
