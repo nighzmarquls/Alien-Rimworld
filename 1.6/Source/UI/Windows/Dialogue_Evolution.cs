@@ -32,6 +32,8 @@ namespace Xenomorphtype
         private static readonly Color selectedDependentLineColor = new Color(0.12f, 0.82f, 0.72f, 0.78f);
         private static readonly Color selectedPrerequisiteLineColor = new Color(0.45f, 1f, 0.28f, 1f);
         private static readonly Color selectedMissingPrerequisiteLineColor = new Color(0.72f, 1f, 0.22f, 1f);
+        private static readonly Color purchasedEvolutionColor = new Color(0.72f, 0.86f, 0.22f, 1f);
+        private static readonly Color replacedEvolutionColor = new Color(0.42f, 0.55f, 0.34f, 1f);
 
         private Pawn queen;
 
@@ -115,14 +117,36 @@ namespace Xenomorphtype
                     requirementText = requirementText + "\n" + "XMT_EvolutionRequires".Translate();
                     foreach (RoyalEvolutionDef preref in selectedEvolution.prerequisites)
                     {
-                        requirementText = requirementText + preref.label.Colorize(EvolutionUnlocked(preref, comp) ? Color.white : ColorLibrary.RedReadable) + " ";
+                        requirementText = requirementText + preref.label.Colorize(comp.HasActiveEvolution(preref) ? Color.white : ColorLibrary.RedReadable) + " ";
 
                     }
                     Widgets.LabelCacheHeight(ref requirementRect, requirementText.Resolve());
                     num += requirementRect.height + 4f;
                 }
 
-                if (!comp.ChosenEvolutions.Contains(selectedEvolution) && selectedEvolution.AvailableForPawn(queen) && EvolutionUnlocked(selectedEvolution,comp))
+                Rect incompatibleRect = new Rect(0f, num, infoRect.width, 0f);
+                string incompatibleText = "";
+                if (selectedEvolution.incompatible != null && selectedEvolution.incompatible.Count > 0)
+                {
+                    incompatibleText = incompatibleText + "\n" + "XMT_EvolutionIncompatible".Translate();
+                    foreach (RoyalEvolutionDef incompatible in selectedEvolution.incompatible)
+                    {
+                        incompatibleText = incompatibleText + incompatible.label.Colorize(comp.HasActiveEvolution(incompatible) ? ColorLibrary.RedReadable : Color.white) + " ";
+                    }
+                }
+
+                if (comp.TryGetIncompatibleEvolution(selectedEvolution, out RoyalEvolutionDef blocker))
+                {
+                    incompatibleText = incompatibleText + "\n" + "XMT_EvolutionBlockedByIncompatible".Translate(blocker.LabelCap).Colorize(ColorLibrary.RedReadable);
+                }
+
+                if (!incompatibleText.NullOrEmpty())
+                {
+                    Widgets.LabelCacheHeight(ref incompatibleRect, incompatibleText);
+                    num += incompatibleRect.height + 4f;
+                }
+
+                if (!comp.ChosenEvolutions.Contains(selectedEvolution) && selectedEvolution.AvailableForPawn(queen) && EvolutionUnlocked(selectedEvolution,comp) && !comp.TryGetIncompatibleEvolution(selectedEvolution, out RoyalEvolutionDef _))
                 {
                     if (Widgets.ButtonText(new Rect(rect.x, num, Window.CloseButSize.x, Window.CloseButSize.y), "XMT_EvolutionAdd".Translate()))
                     {
@@ -184,7 +208,7 @@ namespace Xenomorphtype
             }
 
             foreach(RoyalEvolutionDef prereq in  def.prerequisites) {
-                if (!compqueen.ChosenEvolutions.Contains(prereq))
+                if (!compqueen.HasActiveEvolution(prereq))
                 {
                     return false;
                 }
@@ -219,7 +243,7 @@ namespace Xenomorphtype
                 {
                     if (route.Child.Def == selectedEvolution)
                     {
-                        Color color = comp.ChosenEvolutions.Contains(route.Parent.Def) ? selectedPrerequisiteLineColor : selectedMissingPrerequisiteLineColor;
+                        Color color = comp.HasActiveEvolution(route.Parent.Def) ? selectedPrerequisiteLineColor : selectedMissingPrerequisiteLineColor;
                         DrawDependencyLine(route, color, 4f);
                     }
                 }
@@ -353,8 +377,22 @@ namespace Xenomorphtype
         private void DrawEvolutionCard(RoyalEvolutionDef def, Rect rect)
         {
             Color color = Widgets.NormalOptionColor;
-            Color bgColor = (EvolutionUnlocked(def, comp) ? TexUI.OldFinishedResearchColor : TexUI.AvailResearchColor);
+            Color bgColor = EvolutionUnlocked(def, comp) ? TexUI.OldFinishedResearchColor : TexUI.AvailResearchColor;
             Color borderColor;
+            bool chosen = comp.ChosenEvolutions.Contains(def);
+            bool replaced = comp.IsEvolutionReplaced(def);
+            bool incompatible = comp.TryGetIncompatibleEvolution(def, out RoyalEvolutionDef _);
+            bool unlocked = EvolutionUnlocked(def, comp);
+
+            if (chosen)
+            {
+                bgColor = replaced ? replacedEvolutionColor : purchasedEvolutionColor;
+                if (!replaced)
+                {
+                    color = Color.black;
+                }
+            }
+
             if (selectedEvolution == def)
             {
                 borderColor = TexUI.HighlightBorderResearchColor;
@@ -365,7 +403,7 @@ namespace Xenomorphtype
                 borderColor = TexUI.DefaultBorderResearchColor;
             }
 
-            if (!def.AvailableForPawn(queen))
+            if (!chosen && (!def.AvailableForPawn(queen) || incompatible || !unlocked))
             {
                 color = Color.red;
             }

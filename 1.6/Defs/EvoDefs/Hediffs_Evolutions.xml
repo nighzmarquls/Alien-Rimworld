@@ -6,29 +6,6 @@
 	</HediffDef>
 
   <HediffDef ParentName="XMT_Bodypart">
-    <defName>XMT_MaternalCrest</defName>
-    <label>maternal Crest</label>
-    <description>a wide imposing crest.</description>
-    <makesSickThought>false</makesSickThought>
-    <makesAlert>false</makesAlert>
-	<tendable>false</tendable>
-	<isInfection>false</isInfection>
-	<initialSeverity>1</initialSeverity>
-    <stages>
-	  <li>
-	    <becomeVisible>true</becomeVisible>
-		<statOffsets>
-			<PsychicSensitivity>1.25</PsychicSensitivity>
-			<SocialImpact>1</SocialImpact>
-			<ArmorRating_Blunt>0.75</ArmorRating_Blunt>
-			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
-			<MechBandwidth MayRequire="Ludeon.RimWorld.Biotech">1</MechBandwidth>
-		</statOffsets>
-      </li>
-    </stages>
-  </HediffDef>
-  
-  <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_DelicateHand</defName>
     <label>delicate minor arm</label>
     <description>a minor arm with a dextrous slender fingered hand.</description>
@@ -144,6 +121,8 @@
       </li>
     </stages>
   </HediffDef>
+  
+  <!-- Sizes -->
   
   <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
     <defName>XMT_SizeX1</defName>
@@ -322,6 +301,31 @@
       </li>
     </stages>
   </HediffDef>
+  
+  <!-- Crests -->
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_MaternalCrest</defName>
+    <label>maternal Crest</label>
+    <description>a wide imposing crest.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.25</PsychicSensitivity>
+			<SocialImpact>1</SocialImpact>
+			<ArmorRating_Blunt>0.75</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<MechBandwidth MayRequire="Ludeon.RimWorld.Biotech">1</MechBandwidth>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
 
   <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_ImperialCrown</defName>
@@ -419,6 +423,32 @@
       </li>
     </stages>
   </HediffDef>
+  
+  <!-- Fleshcrafter Crests-->
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_SubjugatorCrest</defName>
+    <label>flesh subjugator crest</label>
+    <description>a tall arching crest with pulsing sacks along its sides.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.00</PsychicSensitivity>
+			<SocialImpact>1</SocialImpact>
+			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <!-- Mechanitor Crests -->
 
   <HediffDef ParentName="XMT_Bodypart" MayRequire="Ludeon.RimWorld.Biotech">
     <defName>XMT_SignalAmplifyingAntenna</defName>

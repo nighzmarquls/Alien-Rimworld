@@ -1936,6 +1936,11 @@ namespace Xenomorphtype
                     return false;
                 }
 
+                if (b is Pawn queen && QueenSubjugatesThreatPerception(observer, queen))
+                {
+                    return false;
+                }
+
                 CompPawnInfo info = observer.Info();
                 
                 if(info.IsObsessed())
@@ -1952,6 +1957,54 @@ namespace Xenomorphtype
 
             }
             return false;
+        }
+
+        internal static bool QueenSubjugatesThreatPerception(Pawn observer, Pawn queen)
+        {
+            
+            if (observer == null || queen == null || observer == queen)
+            {
+                return false;
+            }
+
+            if (!observer.Spawned || !queen.Spawned || observer.Dead || queen.Dead || observer.MapHeld != queen.MapHeld)
+            {
+                return false;
+            }
+
+            if (!IsQueen(queen))
+            {
+                return false;
+            }
+
+            if (IsXenomorph(observer))
+            {
+                return true;
+            }
+
+            if (!observer.HasBrainMutation())
+            {
+                return false;
+            }
+
+            CompQueen queenComp = queen.GetComp<CompQueen>();
+            if (queenComp == null || !queenComp.HasActiveEvolution(RoyalEvolutionDefOf.Evo_SubjugatorCrest))
+            {
+                return false;
+            }
+
+            if (!queen.health.hediffSet.GetNotMissingParts().Any(part => part.def == InternalDefOf.StarbeastCrest))
+            {
+                return false;
+            }
+
+            float range = queenComp.SubjugationBaseRange * Mathf.Max(0f, queen.GetStatValue(StatDefOf.PsychicSensitivity));
+            if (range <= 0f)
+            {
+                return false;
+            }
+
+            return observer.PositionHeld.DistanceToSquared(queen.PositionHeld) <= range * range;
         }
 
         internal static bool IsSpace(Map map)

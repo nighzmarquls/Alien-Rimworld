@@ -107,6 +107,30 @@
 				<hediff>XMT_EssenceAddiction</hediff>
 				<influence>0.25</influence>
 			</li>
+			<li>
+				<hediff>XMT_Enthralled</hediff>
+				<influence>0.01</influence>
+			</li>
+			<li>
+				<hediff>XMT_Docile</hediff>
+				<influence>0.01</influence>
+			</li>
+			<li>
+				<hediff>XMT_Unasthetic</hediff>
+				<influence>0.01</influence>
+			</li>
+			<li>
+				<hediff>XMT_Predatory</hediff>
+				<influence>0.01</influence>
+			</li>
+			<li>
+				<hediff>XMT_Narcoleptic</hediff>
+				<influence>0.01</influence>
+			</li>
+			<li>
+				<hediff>XMT_TorporComa</hediff>
+				<influence>0.01</influence>
+			</li>
 		</influences>
 	</Xenomorphtype.XMT_InfluenceHealthSet>
 	

@@ -72,6 +72,8 @@
 	<XMT_EvolutionDescription>express different morphological traits.</XMT_EvolutionDescription>
 	<XMT_EvolutionRequires>requires: </XMT_EvolutionRequires>
 	<XMT_EvolutionPrerequisiteFor>is prerequisite for </XMT_EvolutionPrerequisiteFor>
+	<XMT_EvolutionIncompatible>conflicts with: </XMT_EvolutionIncompatible>
+	<XMT_EvolutionBlockedByIncompatible>Blocked by incompatible advancement: {0}</XMT_EvolutionBlockedByIncompatible>
 	<XMT_EvolutionAdd>Add</XMT_EvolutionAdd>
 	<XMT_EvolutionRemove>Remove</XMT_EvolutionRemove>
 	

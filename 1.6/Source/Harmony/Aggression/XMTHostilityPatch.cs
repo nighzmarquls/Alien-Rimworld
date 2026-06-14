@@ -82,6 +82,11 @@ namespace Xenomorphtype
                         __result = false;
                         return false;
                     }
+                    else
+                    {
+                        __result = true;
+                        return false;
+                    }
                 }
 
                 return true;
@@ -104,6 +109,11 @@ namespace Xenomorphtype
                             __result = true;
                             return false;
                         }
+                        else
+                        {
+                            __result = false;
+                            return false;
+                        }
                     }
                 }
                 else
@@ -113,6 +123,11 @@ namespace Xenomorphtype
                         if (XMTUtility.IsHostileAndAwareOf(a, b))
                         {
                             __result = true;
+                            return false;
+                        }
+                        else
+                        {
+                            __result = false;
                             return false;
                         }
                     }

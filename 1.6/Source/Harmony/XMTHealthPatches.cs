@@ -99,6 +99,7 @@ namespace Xenomorphtype
                 Pawn pawn = __instance.pawn;
                 if (pawn != null)
                 {
+
                     CompPerfectOrganism perfectOrganism = pawn.GetComp<CompPerfectOrganism>();
                     if (perfectOrganism != null)
                     {
@@ -124,6 +125,8 @@ namespace Xenomorphtype
                             info.headOffset = hediffOffset.Offset;
                         }
                     }
+
+                    PawnCacheWrapper.Recache(pawn);
                 }
             }
         }
@@ -146,6 +149,8 @@ namespace Xenomorphtype
                             info.headOffset = null;
                         }
                     }
+
+                    PawnCacheWrapper.Recache(___pawn);
                 }
             }
         }

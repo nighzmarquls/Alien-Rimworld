@@ -27,6 +27,7 @@ namespace Xenomorphtype
         public static RoyalEvolutionDef Evo_MutantExpression;
         public static RoyalEvolutionDef Evo_OvoThrone;
         public static RoyalEvolutionDef Evo_NovelGenes;
+        public static RoyalEvolutionDef Evo_SubjugatorCrest;
         [MayRequire("Ludeon.RimWorld.Biotech")]
         public static RoyalEvolutionDef Evo_CryptomechanicalCircuitry;
         [MayRequire("Ludeon.RimWorld.Biotech")]

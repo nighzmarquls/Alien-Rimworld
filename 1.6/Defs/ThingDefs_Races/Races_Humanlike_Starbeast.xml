@@ -44,6 +44,11 @@
 					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
 					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
 					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
+					<!-- CE -->
+					<li MayRequire="CETeam.CombatExtended">SmokeInhalation</li>
+					<li MayRequire="CETeam.CombatExtended">VenomBuildup</li>
+					<li MayRequire="CETeam.CombatExtended">MuscleSpasms</li>
+					<li MayRequire="CETeam.CombatExtended">PrometheumSoaked</li>
 					<!-- anti-mutation list-->
 					<li>XMT_MildEssence</li>
 					<li>XMT_DebuffEssence</li>
@@ -1213,6 +1218,8 @@
 					<li>StarbeastPrisonCell</li>
 					<li>StarbeastPrisonBarracks</li>
 					<li>StarbeastMockery</li>
+					<li>StarbeastHarmedQueenMood</li>
+					<li>StarbeastHarmedMyQueen</li>
 					<li>StarbeastKilledMyQueen</li>
 					<li>StarbeastLostMyQueen</li>
 					<li>StarbeastQueenDied</li>
@@ -1429,6 +1436,11 @@
 					<li>Alzheimers</li>
 					<li>Asthma</li>
 					<li>HeartArteryBlockage</li>
+					<!-- CE -->
+					<li MayRequire="CETeam.CombatExtended">SmokeInhalation</li>
+					<li MayRequire="CETeam.CombatExtended">VenomBuildup</li>
+					<li MayRequire="CETeam.CombatExtended">MuscleSpasms</li>
+					<li MayRequire="CETeam.CombatExtended">PrometheumSoaked</li>
 					<!-- anti-mutation list-->
 					<li>XMT_MildEssence</li>
 					<li>XMT_DebuffEssence</li>
@@ -1474,6 +1486,7 @@
 				<jellyProduct>Starbeast_RoyalJelly</jellyProduct>
 			</li>
 			<li Class="Xenomorphtype.CompQueenProperties">
+				<subjugationBaseRange>5</subjugationBaseRange>
 			</li>
 			<li Class="Xenomorphtype.CompQueenAssimilationProperties">
 			</li>
@@ -1686,6 +1699,18 @@
 											</Not>
 										</conditions>
 									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Subjugator</path>
+										<conditions>
+											<Hediff>XMT_SubjugatorCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
 									<li MayRequire="Ludeon.RimWorld.Biotech">
 										<path>Pawn/Royalty/Crests/Crest_MechanitorArray</path>
 										<conditions>
@@ -1729,7 +1754,7 @@
 									<layerOffset>-0.33</layerOffset>
 								  </south>
 								  <north>
-									<layerOffset>0.1</layerOffset>
+									<layerOffset>0.75</layerOffset>
 								  </north>
 								  <east>
 									<layerOffset>-0.33</layerOffset>
@@ -2656,6 +2681,8 @@
 					<li>StarbeastPrisonCell</li>
 					<li>StarbeastPrisonBarracks</li>
 					<li>StarbeastMockery</li>
+					<li>StarbeastHarmedQueenMood</li>
+					<li>StarbeastHarmedMyQueen</li>
 					<li>StarbeastKilledMyQueen</li>
 					<li>StarbeastLostMyQueen</li>
 					<li>StarbeastQueenDied</li>

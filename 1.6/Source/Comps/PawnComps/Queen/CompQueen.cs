@@ -19,14 +19,17 @@ namespace Xenomorphtype
         int _advancementForBiotic = 1;
         int _totalSpentEvoPoints = 0;
         private const float QueenAidPainThreshold = 0.25f;
+        private const int HarmedQueenThoughtMaxCount = 3;
 
         public int TotalEvoPoints => _totalEvoPoints;
+        public float SubjugationBaseRange => Props.subjugationBaseRange;
 
         public int TotalSpentEvoPoints => _totalSpentEvoPoints;
         public int AvailableEvoPoints => _totalEvoPoints - _totalSpentEvoPoints;
 
         static private Texture2D evolutionTexture => ContentFinder<Texture2D>.Get("UI/Rituals/XMT_Evolution");
         Pawn Parent => parent as Pawn;
+        CompQueenProperties Props => props as CompQueenProperties;
 
         public List<RoyalEvolutionDef> ChosenEvolutions
         {
@@ -257,6 +260,12 @@ namespace Xenomorphtype
                     return;
                 }
 
+                if (totalDamageDealt > 0 && (XMTUtility.IsXenomorph(aggressor) || aggressor.HasBrainMutation()))
+                {
+                    XMTUtility.GiveMemory(aggressor, HorrorMoodDefOf.StarbeastHarmedQueenMood, HarmedQueenThoughtMaxCount);
+                    XMTUtility.GiveInteractionMemory(aggressor, HorrorMoodDefOf.StarbeastHarmedMyQueen, Parent);
+                }
+
                 if (XMTUtility.IsXenomorph(aggressor))
                 {
                     return;
@@ -288,8 +297,13 @@ namespace Xenomorphtype
         {
             bool foundDependencies = false;
             List<RoyalEvolutionDef> list = new List<RoyalEvolutionDef> ();
-            foreach(RoyalEvolutionDef evoDef in chosenEvolutions)
+            foreach(RoyalEvolutionDef evoDef in ChosenEvolutions)
             {
+                if (!HasActiveEvolution(evoDef))
+                {
+                    continue;
+                }
+
                 if(evoDef.prerequisites == null || evoDef.prerequisites.Count == 0)
                 {
                     continue;
@@ -303,6 +317,65 @@ namespace Xenomorphtype
             }
             dependencies = list.ToArray();
             return foundDependencies;
+        }
+
+        public bool HasActiveEvolution(RoyalEvolutionDef evolution)
+        {
+            return evolution != null && ChosenEvolutions.Contains(evolution) && !IsEvolutionReplaced(evolution);
+        }
+
+        public bool IsEvolutionReplaced(RoyalEvolutionDef evolution)
+        {
+            if (evolution == null)
+            {
+                return false;
+            }
+
+            foreach (RoyalEvolutionDef chosenEvolution in ChosenEvolutions)
+            {
+                if (chosenEvolution == null || chosenEvolution == evolution || chosenEvolution.replaces == null)
+                {
+                    continue;
+                }
+
+                if (chosenEvolution.replaces.Contains(evolution))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool TryGetIncompatibleEvolution(RoyalEvolutionDef evolution, out RoyalEvolutionDef blocker)
+        {
+            blocker = null;
+            if (evolution == null)
+            {
+                return false;
+            }
+
+            foreach (RoyalEvolutionDef chosenEvolution in ChosenEvolutions)
+            {
+                if (chosenEvolution == null || chosenEvolution == evolution || !HasActiveEvolution(chosenEvolution))
+                {
+                    continue;
+                }
+
+                if (EvolutionIncompatibleWith(evolution, chosenEvolution))
+                {
+                    blocker = chosenEvolution;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool EvolutionIncompatibleWith(RoyalEvolutionDef evolution, RoyalEvolutionDef other)
+        {
+            return (evolution.incompatible != null && evolution.incompatible.Contains(other))
+                || (other.incompatible != null && other.incompatible.Contains(evolution));
         }
         private void RemoveEvolutionFeatures(RoyalEvolutionDef evolution, bool replacing = false)
         {
@@ -435,6 +508,8 @@ namespace Xenomorphtype
 
     public class CompQueenProperties : CompProperties
     {
+        public float subjugationBaseRange = 5f;
+
         public CompQueenProperties()
         {
             this.compClass = typeof(CompQueen);

@@ -388,6 +388,16 @@ namespace Xenomorphtype
 
         public float CalculateMaturity()
         {
+            if (Pawn == null)
+            {
+                return Math.Max(parent.Severity, 0.001f);
+            }
+
+            if (Host == null)
+            {
+                Host = Pawn;
+            }
+            
             return Math.Max(Host.BodySize * parent.Severity, 0.001f);
         }
 

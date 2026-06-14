@@ -19,6 +19,7 @@ namespace Xenomorphtype
 
         public List<RoyalEvolutionDef> replaces;
         public List<RoyalEvolutionDef> prerequisites;
+        public List<RoyalEvolutionDef> incompatible;
 
         public bool AvailableForPawn(Pawn pawn)
         {

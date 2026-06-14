@@ -66,6 +66,9 @@
 		<targetBodyPart>Torso</targetBodyPart>
 		<evoPointCost>1</evoPointCost>
 		<description>Body hypertrophies to increase stature all the better to guide the hive.</description>
+		<incompatible>
+			<li>Evo_OvoThrone</li>
+		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<!-- 2nd tier -->
@@ -96,6 +99,9 @@
 		<prerequisites>
 			<li>Evo_IncreasedSizeX1</li>
 		</prerequisites>
+		<incompatible>
+			<li>Evo_OvoThrone</li>
+		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
 		
 	<Xenomorphtype.RoyalEvolutionDef>
@@ -130,6 +136,22 @@
 		<description>Unlocks the ability to access genes on cryptimorph mutated organisms and enhance or suppress their expression.</description>
 		<prerequisites>
 			<li>Evo_GeneControl</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_SubjugatorCrest</defName>
+		<label>Subjugator Crest</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_SubjugatorCrest</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The maternal crest collapses into a fleshcrafting organ tuned for biological dominance and forced expression.</description>
+		<replaces>
+			<li>Evo_MaternalCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_MaternalCrest</li>
+			<li>Evo_MutantExpression</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
@@ -247,6 +269,9 @@
 		<prerequisites>
 			<li>Evo_IncreasedSizeX2</li>
 		</prerequisites>
+		<incompatible>
+			<li>Evo_OvoThrone</li>
+		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef>
@@ -377,6 +402,9 @@
 		<prerequisites>
 			<li>Evo_IncreasedSizeX3</li>
 		</prerequisites>
+		<incompatible>
+			<li>Evo_OvoThrone</li>
+		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef>

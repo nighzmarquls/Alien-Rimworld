@@ -27,6 +27,9 @@ namespace Xenomorphtype
             protected bool _isInorganic;
             public bool IsInorganic => _isInorganic;
 
+            protected int _brainMutationCount;
+            public bool HasBrainMutation => _brainMutationCount > 0;
+
             protected CompClimber _climber;
             public CompClimber Climber => _climber;
 
@@ -121,12 +124,54 @@ namespace Xenomorphtype
 
                
                 _isInorganic = XMTUtility.CacheIsInorganic(_pawn);
+                _brainMutationCount = CountBrainMutations(_pawn);
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(_pawn + " is caching inorganic status  as " + _isInorganic);
+                    if (_isInorganic)
+                    {
+                        Log.Message(_pawn + " is caching inorganic status  as " + _isInorganic);
+                    }
+                    if (_brainMutationCount > 0)
+                    {
+                        Log.Message(_pawn + " brainMutation count is " + _brainMutationCount);
+                    }
                 }
             }
+
+            private static int CountBrainMutations(Pawn pawn)
+            {
+                if (pawn?.health?.hediffSet?.hediffs == null || XenoGeneDefOf.XMT_InfluencesSet?.influences == null)
+                {
+                    return 0;
+                }
+
+                int count = 0;
+                foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+                {
+                    if (hediff?.Part == null || !IsBrainPart(hediff.Part.def))
+                    {
+                        continue;
+                    }
+
+                    foreach (InfluenceHealth influence in XenoGeneDefOf.XMT_InfluencesSet.influences)
+                    {
+                        if (influence != null && influence.hediff == hediff.def && influence.influence > 0f)
+                        {
+                            count++;
+                            break;
+                        }
+                    }
+                }
+
+                return count;
+            }
+
+            private static bool IsBrainPart(BodyPartDef partDef)
+            {
+                return partDef == ExternalDefOf.Brain || partDef == InternalDefOf.StarbeastBrain;
+            }
+
             public PawnCache(Pawn pawn)
             {
                 _pawn = pawn;
@@ -356,6 +401,17 @@ namespace Xenomorphtype
 
             return PawnCache.cache[pawn.thingIDNumber].MesoSkeletalValue >= 1;
         }
+
+        public static bool HasBrainMutation(this Pawn pawn)
+        {
+            if (!PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
+            }
+
+            return PawnCache.cache[pawn.thingIDNumber].HasBrainMutation;
+        }
+
         public static CompPawnInfo Info(this Pawn pawn)
         {
            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))

@@ -463,6 +463,34 @@
 	</ThoughtDef>
 	
 	<ThoughtDef>
+		<defName>StarbeastHarmedQueenMood</defName>
+		<durationDays>30</durationDays>
+		<stackLimit>3</stackLimit>
+		<stages>
+		  <li>
+			<label>harmed the queen</label>
+			<description>I hurt her. The thought will not leave me.</description>
+			<baseMoodEffect>-12</baseMoodEffect>
+		  </li>
+		</stages>
+	</ThoughtDef>
+	
+	<ThoughtDef>
+		<defName>StarbeastHarmedMyQueen</defName>
+		<thoughtClass>Thought_MemorySocial</thoughtClass>
+		<durationDays>30</durationDays>
+		<stackLimit>3</stackLimit>
+		<stackLimitForSameOtherPawn>3</stackLimitForSameOtherPawn>
+		<stages>
+		  <li>
+			<label>harmed my mother</label>
+			<description>I raised my hand against my mother.</description>
+			<baseOpinionOffset>-80</baseOpinionOffset>
+		  </li>
+		</stages>
+	</ThoughtDef>
+	
+	<ThoughtDef>
 		<defName>StarbeastKilledMyQueen</defName>
 		<thoughtClass>Thought_MemorySocial</thoughtClass>
 		<durationDays>120</durationDays>
