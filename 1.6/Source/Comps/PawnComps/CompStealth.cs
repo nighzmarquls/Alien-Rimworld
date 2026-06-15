@@ -19,7 +19,8 @@ namespace Xenomorphtype
 
         public int becomeInvisibleTick = 0;
 
-        private bool IsFriendly => Parent.Faction == null ? false : Parent.Faction.IsPlayer;
+        private bool IsFriendly => Parent.Faction == null ? Faction.OfPlayer.def == InternalDefOf.XMT_PlayerHive ? true : false
+            : Parent.Faction.IsPlayer;
         [Unsaved(false)]
         private HediffComp_Invisibility _invisibility;
 

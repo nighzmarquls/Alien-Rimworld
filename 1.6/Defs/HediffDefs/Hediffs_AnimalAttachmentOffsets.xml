@@ -4,6 +4,13 @@
 		<defName>XMT_HeadAttachmentOffsets</defName>
 		<raceOffsets>
 			<li>
+				<race>Elk</race>
+				<north>(0, 0, 0.0)</north>
+				<east>(0.45, 0, 0.0)</east>
+				<south>(0, 0, -0.15)</south>
+				<west>(-0.45, 0, 0.0)</west>
+			</li>
+			<li>
 				<race>Thrumbo</race>
 				<north>(0.0, 0.0, 0.0)</north>
 				<east>(0.5, 0, 0.9)</east>

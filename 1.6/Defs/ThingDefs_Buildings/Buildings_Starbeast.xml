@@ -738,6 +738,9 @@
 			<Comfort>0.1</Comfort>
 			<BedRestEffectiveness>1</BedRestEffectiveness>
 		</statBases>
+		<building>
+			<bed_pawnDrawOffset>-0.5</bed_pawnDrawOffset>
+		</building>
 	</ThingDef>
 
 </Defs>

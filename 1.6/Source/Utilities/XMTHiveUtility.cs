@@ -6,6 +6,7 @@ using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
+using Verse.Noise;
 
 namespace Xenomorphtype
 {
@@ -327,14 +328,14 @@ namespace Xenomorphtype
 
             return localNest.TotalHiveMates;
         }
-        internal static bool IsValidOvomorphHost(Pawn candidate)
+        internal static bool IsValidOvomorphingTarget(Pawn candidate)
         {
-            if (candidate == null || candidate.Destroyed || candidate.Dead || candidate.MapHeld == null)
+            if (candidate == null || candidate.Destroyed || candidate.Dead || candidate.MapHeld == null || !candidate.Downed)
             {
                 return false;
             }
 
-            return XMTUtility.TriggersOvomorph(candidate);
+            return !(XMTUtility.IsMorphing(candidate) || XMTUtility.HasEmbryo(candidate) || XMTUtility.IsInorganic(candidate));
         }
 
         private static void PruneInvalidAvailableHosts(NestSite localNest)
@@ -344,7 +345,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            localNest.AvailableHosts.RemoveAll(x => !IsValidOvomorphHost(x) || !localNest.Cocooned.Contains(x));
+            localNest.AvailableHosts.RemoveAll(x => !IsValidOvomorphingTarget(x) || !localNest.Cocooned.Contains(x));
         }
 
         public static void CleanNestLists(Map map)
@@ -575,7 +576,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (IsValidOvomorphHost(pawn))
+            if (XMTUtility.IsHost(pawn))
             {
                 localNest.AvailableHosts.Add(pawn);
             }
@@ -1103,7 +1104,8 @@ namespace Xenomorphtype
             NestSite localNest = GetLocalNest(room.Map);
             if (localNest == null)
             {
-                return;
+                FindGoodNestSite(room.Map);
+                localNest = GetLocalNest(room.Map);
             }
 
             AddOrUpdateTrackedHiveRoom(localNest, room);
@@ -1216,11 +1218,14 @@ namespace Xenomorphtype
                 return false;
             }
 
+            int countedCells = 0;
+
+            int goalCells = room.Cells.Count() -(room.Cells.Count() / 3);
             foreach (IntVec3 cell in room.Cells)
             {
                 if (IsHiveTerrain(cell, room.Map))
                 {
-                    return true;
+                    countedCells++;
                 }
 
                 foreach (Thing thing in cell.GetThingList(room.Map))
@@ -1230,6 +1235,11 @@ namespace Xenomorphtype
                     {
                         return true;
                     }
+                }
+
+                if (countedCells >= goalCells)
+                {
+                    return true;
                 }
             }
 
@@ -1528,7 +1538,7 @@ namespace Xenomorphtype
 
         internal static IntVec3 GetBestEggCellNearHost(Pawn host, Pawn forPawn = null, float radius = 2.5f)
         {
-            if (!IsValidOvomorphHost(host))
+            if (!XMTUtility.IsHost(host))
             {
                 return IntVec3.Invalid;
             }
@@ -2941,7 +2951,7 @@ namespace Xenomorphtype
             {
                 foreach (Pawn hostCandidate in localNest.AvailableHosts)
                 {
-                    if (!IsValidOvomorphHost(hostCandidate))
+                    if (!XMTUtility.IsHost(hostCandidate))
                     {
                         continue;
                     }

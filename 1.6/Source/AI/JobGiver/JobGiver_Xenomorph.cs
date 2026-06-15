@@ -522,6 +522,33 @@ namespace Xenomorphtype
                 return null;
             }
 
+            if (pawn.def == InternalDefOf.XMT_Larva)
+            {
+                CompLarvalGenes compLarvalGenes = pawn.GetComp<CompLarvalGenes>();
+                if (compLarvalGenes != null)
+                {
+                    if (compLarvalGenes.latched)
+                    {
+                        return null;
+                    }
+                    if (compLarvalGenes.spent)
+                    {
+                        return null;
+                    }
+
+                    IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compLarvalGenes.LeapRange, true).OfType<Pawn>()
+                        .Where(x => XMTUtility.TriggersOvomorph(x));
+
+                    if (pawns.Any())
+                    {
+                        foreach (Pawn target in pawns)
+                        {
+                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, target);
+                        }
+                    }
+                }
+            }
+
             CompMatureMorph compMatureMorph = pawn.GetMorphComp();
             if (compMatureMorph != null)
             {
@@ -821,32 +848,6 @@ namespace Xenomorphtype
                 return hiveRestJob;
             }
 
-            if (pawn.def == InternalDefOf.XMT_Larva)
-            {
-                CompLarvalGenes compLarvalGenes = pawn.GetComp<CompLarvalGenes>();
-                if (compLarvalGenes != null)
-                {
-                    if (compLarvalGenes.latched)
-                    {
-                        return null;
-                    }
-                    if (compLarvalGenes.spent)
-                    {
-                        return null;
-                    }
-
-                    IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compLarvalGenes.LeapRange, true).OfType<Pawn>()
-                        .Where(x => XMTUtility.TriggersOvomorph(x));
-
-                    if (pawns.Any())
-                    {
-                        foreach (Pawn target in pawns)
-                        {
-                            return JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, target);
-                        }
-                    }
-                }
-            }
             return null;
         }
     }

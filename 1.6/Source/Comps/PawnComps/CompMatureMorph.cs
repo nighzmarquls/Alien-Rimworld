@@ -791,6 +791,10 @@ namespace Xenomorphtype
 
             if (XMTHiveUtility.NoNestOnMap(Parent.Map))
             {
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message(Parent + " cannot mature, no nest on map ");
+                }
                 return false;
             }
 
@@ -801,19 +805,10 @@ namespace Xenomorphtype
 
             if (Parent.needs.food.CurLevelPercentage < 0.9f)
             {
-                return false;
-            }
-
-            if (XMTHiveUtility.ShouldBuildNest(Parent.Map))
-            {
-                return false;
-            }
-
-            float brightness = Parent.MapHeld.glowGrid.GroundGlowAt(XMTHiveUtility.GetNestSpot(Parent.Map).Cell);
-
-            if (brightness > 0.5f)
-            {
-                
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message(Parent + " cannot mature, need food ");
+                }
                 return false;
             }
 

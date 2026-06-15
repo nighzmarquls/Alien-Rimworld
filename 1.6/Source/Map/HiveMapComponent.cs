@@ -11,9 +11,10 @@ namespace Xenomorphtype
 {
     public class HiveMapComponent : MapComponent
     {
-
+        bool Uninitialized = true;
         public HiveMapComponent(Map map) : base(map)
         {
+            
         }
 
         public override void MapRemoved()
@@ -22,12 +23,25 @@ namespace Xenomorphtype
 
             XMTHiveUtility.DeregisterNestMap(map);
         }
-
         public override void MapComponentTick()
         {
             base.MapComponentTick();
+
+            if(Uninitialized)
+            {
+                Initialize();
+            }
         }
 
+
+        protected void Initialize()
+        {
+            foreach (Room room in map.regionGrid.AllRooms)
+            {
+                XMTHiveUtility.NotifyHiveRoomCompleted(room);
+            }
+            Uninitialized = false;
+        }
         public override void ExposeData()
         {
 

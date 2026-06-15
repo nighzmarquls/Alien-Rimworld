@@ -1936,11 +1936,6 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if (b is Pawn queen && QueenSubjugatesThreatPerception(observer, queen))
-                {
-                    return false;
-                }
-
                 CompPawnInfo info = observer.Info();
                 
                 if(info.IsObsessed())
@@ -1959,7 +1954,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        internal static bool QueenSubjugatesThreatPerception(Pawn observer, Pawn queen)
+        public static bool QueenSubjugatesThreatPerception(Pawn observer, Pawn queen)
         {
             
             if (observer == null || queen == null || observer == queen)

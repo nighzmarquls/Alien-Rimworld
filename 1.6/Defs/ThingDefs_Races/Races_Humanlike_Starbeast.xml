@@ -1486,7 +1486,7 @@
 				<jellyProduct>Starbeast_RoyalJelly</jellyProduct>
 			</li>
 			<li Class="Xenomorphtype.CompQueenProperties">
-				<subjugationBaseRange>5</subjugationBaseRange>
+				<subjugationBaseRange>4</subjugationBaseRange>
 			</li>
 			<li Class="Xenomorphtype.CompQueenAssimilationProperties">
 			</li>
@@ -1499,12 +1499,12 @@
 					</li>
 					<li>
 						<requiredEvolution>Evo_MutantExpression</requiredEvolution>
-						<mutationSet>XMT_AscendanceMutationSet</mutationSet>
+						<mutationSet>XMT_HostMeatMutationSet</mutationSet>
 						<displayOrder>20</displayOrder>
 					</li>
 					<li>
-						<requiredEvolution>Evo_MutantExpression</requiredEvolution>
-						<mutationSet>XMT_HostMeatMutationSet</mutationSet>
+						<requiredEvolution>Evo_SubjugatorCrest</requiredEvolution>
+						<mutationSet>XMT_AscendanceMutationSet</mutationSet>
 						<displayOrder>30</displayOrder>
 					</li>
 				</mutationOptions>

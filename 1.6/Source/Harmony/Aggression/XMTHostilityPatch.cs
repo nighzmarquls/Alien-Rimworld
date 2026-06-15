@@ -77,14 +77,14 @@ namespace Xenomorphtype
 
                 if(XMTUtility.IsXenomorph(otherPawn))
                 {
+                    if (XMTUtility.QueenSubjugatesThreatPerception(__instance, otherPawn))
+                    {
+                        __result = true;
+                        return false;
+                    }
                     if (XMTUtility.IsHostileAndAwareOf(__instance, otherPawn))
                     {
                         __result = false;
-                        return false;
-                    }
-                    else
-                    {
-                        __result = true;
                         return false;
                     }
                 }
@@ -104,14 +104,15 @@ namespace Xenomorphtype
                 {
                     if (!XMTUtility.IsXenomorph(b))
                     {
+                        if (XMTUtility.QueenSubjugatesThreatPerception(b as Pawn, a as Pawn))
+                        {
+                            __result = false;
+                            return false;
+                        }
+
                         if (XMTUtility.IsHostileAndAwareOf(b, a))
                         {
                             __result = true;
-                            return false;
-                        }
-                        else
-                        {
-                            __result = false;
                             return false;
                         }
                     }
@@ -120,14 +121,14 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.IsXenomorph(b))
                     {
+                        if (XMTUtility.QueenSubjugatesThreatPerception(a as Pawn, b as Pawn))
+                        {
+                            __result = false;
+                            return false;
+                        }
                         if (XMTUtility.IsHostileAndAwareOf(a, b))
                         {
                             __result = true;
-                            return false;
-                        }
-                        else
-                        {
-                            __result = false;
                             return false;
                         }
                     }
