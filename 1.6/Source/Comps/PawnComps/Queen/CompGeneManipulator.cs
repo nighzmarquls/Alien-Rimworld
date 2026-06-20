@@ -20,6 +20,9 @@ namespace Xenomorphtype
 
         static private Texture2D consumeTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ConsumeGenes");
         static private Texture2D selfTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ExpressGenes");
+        static private Texture2D subjugateTexture => ContentFinder<Texture2D>.Get("UI/Abilities/DominateMutant");
+        private const float DominionBaselineRange = 21f;
+        private const float BaselineQueenPsychicSensitivity = 1.25f;
         Pawn Parent => parent as Pawn;
         CompGeneManipulatorProperties Props => props as CompGeneManipulatorProperties;
         private List<QueenMutationOrder> mutationOrders = new List<QueenMutationOrder>();
@@ -31,13 +34,18 @@ namespace Xenomorphtype
                 yield break;
             }
 
-            if (Parent.Drafted)
+            if(!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
             {
                 yield break;
             }
 
-            if(!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
+            if (Parent.Drafted)
             {
+                Command_Action draftedSubjugation = CreateSubjugationAction();
+                if (draftedSubjugation != null)
+                {
+                    yield return draftedSubjugation;
+                }
                 yield break;
             }
 
@@ -143,11 +151,21 @@ namespace Xenomorphtype
                 yield return GeneConsume_Action;
             }
 
+            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_SubjugatorCrest))
+            {
+                yield return CreateSubjugationAction();
+            }
+
             if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
             {
                 yield break;
             }
 
+            yield return CreateSelfGeneExpressionAction();
+        }
+
+        public Command_Action CreateSelfGeneExpressionAction()
+        {
             Command_Action GeneSelf_Action = new Command_Action();
             GeneSelf_Action.defaultLabel = "XMT_AlterSelfLabel".Translate();
             GeneSelf_Action.defaultDesc = "XMT_AlterSelfDescription".Translate();
@@ -157,7 +175,7 @@ namespace Xenomorphtype
                 AlterGenes(parent);
             };
 
-            yield return GeneSelf_Action;
+            return GeneSelf_Action;
         }
 
         public List<QueenMutationOption> AvailableMutationOptions()
@@ -338,6 +356,191 @@ namespace Xenomorphtype
             return AvailableMutationOptions()
                 .Any(option => BioUtility.AllMutationsForSet(option.mutationSet)
                 .Any(mutation => mutation.horror == mutationDef));
+        }
+
+        private Command_Action CreateSubjugationAction()
+        {
+            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_SubjugatorCrest))
+            {
+                return null;
+            }
+
+            TargetingParameters SubjugationTargetParameters = new TargetingParameters();
+            SubjugationTargetParameters.canTargetPawns = true;
+            SubjugationTargetParameters.validator = delegate (TargetInfo target)
+            {
+                return target.Thing is Pawn pawn && CanSubjugateTarget(pawn).Accepted;
+            };
+
+            Command_Action subjugationAction = new Command_Action();
+            subjugationAction.defaultLabel = "XMT_SubjugateLabel".Translate();
+            subjugationAction.defaultDesc = "XMT_SubjugateDescription".Translate(BiologicalSubjugationRange().ToString("0.#"));
+            subjugationAction.icon = subjugateTexture;
+            subjugationAction.action = delegate
+            {
+                Find.Targeter.BeginTargeting(
+                    SubjugationTargetParameters,
+                    delegate (LocalTargetInfo target)
+                    {
+                        TrySubjugateTarget(target.Thing as Pawn);
+                    },
+                    DrawBiologicalSubjugationTargetHighlight,
+                    delegate (LocalTargetInfo target)
+                    {
+                        return target.Thing is Pawn pawn && CanSubjugateTarget(pawn).Accepted;
+                    },
+                    Parent,
+                    null,
+                    null,
+                    true,
+                    null,
+                    DrawBiologicalSubjugationRange);
+            };
+
+            return subjugationAction;
+        }
+
+        private void DrawBiologicalSubjugationTargetHighlight(LocalTargetInfo target)
+        {
+            if (target.Thing is Pawn pawn && CanSubjugateTarget(pawn).Accepted)
+            {
+                GenDraw.DrawTargetHighlight(target);
+            }
+        }
+
+        private void DrawBiologicalSubjugationRange(LocalTargetInfo target)
+        {
+            if (Parent == null || !Parent.Spawned)
+            {
+                return;
+            }
+
+            float range = BiologicalSubjugationRange();
+            if (range <= 0f)
+            {
+                return;
+            }
+
+            GenDraw.DrawRadiusRing(Parent.Position, range);
+        }
+
+        private float BiologicalSubjugationRange()
+        {
+            float sensitivity = Parent != null ? Mathf.Max(0f, Parent.GetStatValue(StatDefOf.PsychicSensitivity)) : 0f;
+            return DominionBaselineRange * (sensitivity / BaselineQueenPsychicSensitivity);
+        }
+
+        private AcceptanceReport CanSubjugateTarget(Pawn target)
+        {
+            if (Parent == null || Parent.Faction == null)
+            {
+                return "XMT_SubjugateInvalid_NoQueen".Translate();
+            }
+
+            if (target == null)
+            {
+                return "XMT_MutationInvalid_Target".Translate();
+            }
+
+            if (target == Parent)
+            {
+                return "XMT_SubjugateInvalid_Self".Translate();
+            }
+
+            if (target.Dead)
+            {
+                return "XMT_MutationInvalid_TargetDead".Translate(target.LabelShort);
+            }
+
+            if (target.health == null)
+            {
+                return "XMT_MutationInvalid_NoHealth".Translate(target.LabelShort);
+            }
+
+            if (target.MapHeld != null && Parent.MapHeld != null && target.MapHeld != Parent.MapHeld)
+            {
+                return "XMT_SubjugateInvalid_Map".Translate(target.LabelShort);
+            }
+
+            float range = BiologicalSubjugationRange();
+            if (range <= 0f)
+            {
+                return "XMT_SubjugateInvalid_NoPsychicReach".Translate();
+            }
+
+            if (target.Spawned && Parent.Spawned && target.Position.DistanceToSquared(Parent.Position) > range * range)
+            {
+                return "XMT_SubjugateInvalid_Range".Translate(target.LabelShort, range.ToString("0.#"));
+            }
+
+            if (target.Faction == Parent.Faction && target.GuestStatus != GuestStatus.Prisoner && target.GuestStatus != GuestStatus.Slave)
+            {
+                return "XMT_SubjugateInvalid_AlreadyControlled".Translate(target.LabelShort);
+            }
+
+            if (!target.HasBrainMutation() && !target.IsHorror())
+            {
+                return "XMT_SubjugateInvalid_NoInfluence".Translate(target.LabelShort);
+            }
+
+            return true;
+        }
+
+        private bool TrySubjugateTarget(Pawn target)
+        {
+            AcceptanceReport report = CanSubjugateTarget(target);
+            if (!report.Accepted)
+            {
+                Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
+                return false;
+            }
+
+            FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target);
+            ApplySubjugation(target);
+            MoteMaker.ThrowText(target.DrawPos, target.MapHeld, "XMT_SubjugateMote".Translate(), 3.65f);
+            Messages.Message("XMT_SubjugateSuccess".Translate(target.LabelShort, Parent.LabelShort), target, MessageTypeDefOf.PositiveEvent, false);
+            return true;
+        }
+
+        private void ApplySubjugation(Pawn target)
+        {
+            if (ModsConfig.IdeologyActive && target.RaceProps.Humanlike && target.guest != null)
+            {
+                target.guest.SetGuestStatus(Parent.Faction, GuestStatus.Slave);
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(HistoryEventDefOf.EnslavedPrisoner, Parent.Named(HistoryEventArgsNames.Doer)));
+            }
+            else if (target.RaceProps.Humanlike)
+            {
+                RecruitUtility.Recruit(target, Parent.Faction, Parent);
+            }
+            else
+            {
+                target.SetFaction(Parent.Faction);
+                target.guest?.SetGuestStatus(null);
+            }
+
+            CompMatureMorph morph = target.GetMorphComp();
+            if (morph != null)
+            {
+                morph.tamingSocializing = Mathf.Max(morph.tamingSocializing, 1f);
+            }
+
+            if (ModsConfig.IdeologyActive && Parent.ideo?.Ideo != null && target.ideo != null)
+            {
+                target.ideo.SetIdeo(Parent.ideo.Ideo);
+            }
+
+            if (target.relations != null && !target.relations.DirectRelationExists(PawnRelationDefOf.Parent, Parent))
+            {
+                target.relations.AddDirectRelation(PawnRelationDefOf.Parent, Parent);
+            }
+
+            XMTUtility.GiveMemory(target, HorrorMoodDefOf.XMT_CommuneWithQueen);
+
+            if (target.caller != null)
+            {
+                target.caller.DoCall();
+            }
         }
 
         private IEnumerable<FloatMenuOption> MutationMenuOptions(Pawn target, XMT_MutationsHealthSet set, QueenMutationOperation operation)

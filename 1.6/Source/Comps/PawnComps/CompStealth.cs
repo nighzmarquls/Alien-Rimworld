@@ -218,7 +218,7 @@ namespace Xenomorphtype
                         TryVisible();
                         return;
                     }
-
+                    
                     CheckIfDetected();
                 }
                 
@@ -239,6 +239,7 @@ namespace Xenomorphtype
 
         private void CheckIfDetected()
         {
+
             if (HiddenByBed())
             {
                 TryHide();
@@ -261,8 +262,7 @@ namespace Xenomorphtype
                 TryVisible();
                 return;
             }
-
-            if (brightness < Props.minVisibleBrightness)
+            else if (brightness < Props.minVisibleBrightness)
             {
                 TryHide();
             }

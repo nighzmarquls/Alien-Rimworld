@@ -33,6 +33,22 @@ namespace Xenomorphtype
         public float HeldPawnBodyAngle => Rotation.AsAngle;
         public PawnPosture HeldPawnPosture => PawnPosture.Standing;
 
+        public override string Label
+        {
+            get
+            {
+                return Occupant?.Label ?? base.Label;
+            }
+        }
+
+        public override string LabelNoCount
+        {
+            get
+            {
+                return Occupant?.LabelNoCount ?? base.LabelNoCount;
+            }
+        }
+
         public override string LabelCapNoCount
         {
             get
@@ -186,6 +202,25 @@ namespace Xenomorphtype
             if (Faction == null || !Faction.IsPlayer)
             {
                 yield break;
+            }
+
+            Pawn occupant = GetOccupant();
+            if (occupant?.Faction == Faction.OfPlayer)
+            {
+                CompOvomorphLayer occupantLayer = occupant.GetComp<CompOvomorphLayer>();
+                if (occupantLayer != null)
+                {
+                    foreach (Gizmo gizmo in occupantLayer.GetThroneManagementGizmos(this))
+                    {
+                        yield return gizmo;
+                    }
+                }
+
+                CompGeneManipulator geneManipulator = occupant.GetComp<CompGeneManipulator>();
+                if (geneManipulator != null && XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
+                {
+                    yield return geneManipulator.CreateSelfGeneExpressionAction();
+                }
             }
 
             Command_Action command_Action = new Command_Action();

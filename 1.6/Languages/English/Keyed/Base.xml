@@ -64,6 +64,18 @@
 	
 	<XMT_ConsumeGenesLabel>Consume Genes</XMT_ConsumeGenesLabel>
 	<XMT_ConsumeGenesDescription>Extract Genes into a Gene Ovomorph.</XMT_ConsumeGenesDescription>
+
+	<XMT_SubjugateLabel>Biological Subjugation</XMT_SubjugateLabel>
+	<XMT_SubjugateDescription>Force a pawn with brain mutations or a horror into obedience. Range scales with the queen's psychic sensitivity.\n\nCurrent range: {0} cells.</XMT_SubjugateDescription>
+	<XMT_SubjugateInvalid_NoQueen>No controlling queen faction available.</XMT_SubjugateInvalid_NoQueen>
+	<XMT_SubjugateInvalid_Self>The queen already commands herself.</XMT_SubjugateInvalid_Self>
+	<XMT_SubjugateInvalid_Map>{0} is not on the queen's map.</XMT_SubjugateInvalid_Map>
+	<XMT_SubjugateInvalid_NoPsychicReach>The queen has no psychic reach.</XMT_SubjugateInvalid_NoPsychicReach>
+	<XMT_SubjugateInvalid_Range>{0} is outside biological subjugation range ({1} cells).</XMT_SubjugateInvalid_Range>
+	<XMT_SubjugateInvalid_AlreadyControlled>{0} is already controlled.</XMT_SubjugateInvalid_AlreadyControlled>
+	<XMT_SubjugateInvalid_NoInfluence>{0} has no brain mutation and does not count as a horror.</XMT_SubjugateInvalid_NoInfluence>
+	<XMT_SubjugateMote>Submitted</XMT_SubjugateMote>
+	<XMT_SubjugateSuccess>{0} submitted to {1}.</XMT_SubjugateSuccess>
 	
 	<XMT_AlterSelfLabel>Alter Self</XMT_AlterSelfLabel>
 	<XMT_AlterSelfDescription>Alter Gene Expression in self.</XMT_AlterSelfDescription> 
@@ -80,6 +92,12 @@
 	<XMT_LayOvomorphLabel>Lay {0}</XMT_LayOvomorphLabel>
 	<XMT_LayOvomorphDescription>Lay {0} at the designated location.</XMT_LayOvomorphDescription>
 	<XMT_InsufficientNutrition>Insufficient nutrition to lay {0}.</XMT_InsufficientNutrition>
+	<XMT_SelectEggOptionDesc>Right-click to choose what will be laid.</XMT_SelectEggOptionDesc>
+	<XMT_SelectedEggOption>Selected: {0}</XMT_SelectedEggOption>
+	<XMT_InvalidEggOption>No valid egg option is available.</XMT_InvalidEggOption>
+	<XMT_EggOptionRequiresEvolution>Requires {0}.</XMT_EggOptionRequiresEvolution>
+	<XMT_EggOptionRequiresGene>Requires gene: {0}.</XMT_EggOptionRequiresGene>
+	<XMT_EggOptionRequiresGeneHolder>{0} cannot hold genes.</XMT_EggOptionRequiresGeneHolder>
 	<XMT_EggSackProduction>Egg production: {0}/{1}</XMT_EggSackProduction>
 	<XMT_EggSackNutritionSufficient>Nutrition: sufficient for another egg.</XMT_EggSackNutritionSufficient>
 	<XMT_EggSackNutritionSufficientAmount>Nutrition: sufficient for another egg ({0}/{1}).</XMT_EggSackNutritionSufficientAmount>

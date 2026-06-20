@@ -14,5 +14,6 @@ namespace Xenomorphtype
         public static StatDef XMT_GrappleStrength;
         public static StatDef XMT_Stealth;
         public static StatDef XMT_StealthDetection;
+        public static StatDef XMT_HereditaryCapacity;
     }
 }

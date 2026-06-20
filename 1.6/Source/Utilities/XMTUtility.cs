@@ -1977,7 +1977,7 @@ namespace Xenomorphtype
                 return true;
             }
 
-            if (!observer.HasBrainMutation())
+            if (!observer.HasBrainMutation() && !observer.IsHorror())
             {
                 return false;
             }

@@ -111,6 +111,7 @@ namespace Xenomorphtype
             {
                 ovomorph.LayEgg(layer, layer);
                 ovomorph.ForceProgress(initialProgress);
+                layer.GetComp<CompOvomorphLayer>()?.TryApplyBroodLineage(ovomorph, ovomorphDef);
             }
 
             if (layer.needs?.food != null)

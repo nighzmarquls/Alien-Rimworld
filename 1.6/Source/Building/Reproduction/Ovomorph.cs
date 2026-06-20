@@ -94,6 +94,51 @@ namespace Xenomorphtype
             }
 
         }
+
+        public void SetParentsWithGenes(Pawn mother, Pawn father, IEnumerable<GeneDef> genes)
+        {
+            if (HatchingEgg == null)
+            {
+                Log.Warning("No HatchingEgg Comp Defined on SetParentsWithGenes for Ovomorph");
+                return;
+            }
+            if (HatchingEgg.Props == null)
+            {
+                Log.Warning("No HatchingEgg Props Defined on SetParentsWithGenes for Ovomorph");
+                return;
+            }
+
+            HatchingEgg.mother = mother;
+            HatchingEgg.father = father == null ? HatchingEgg.father : father;
+            HatchingEgg.genes = new GeneSet();
+
+            if (genes != null)
+            {
+                BioUtility.ExtractGenesToGeneset(ref HatchingEgg.genes, genes.ToList());
+            }
+        }
+
+        private List<GeneDef> GetOvomorphingGenes(Pawn transformedPawn, Pawn instigator)
+        {
+            List<GeneDef> genes = new List<GeneDef>();
+
+            if (transformedPawn != null)
+            {
+                genes.AddRange(BioUtility.GetExtraHostGenes(transformedPawn));
+                if (transformedPawn.genes != null)
+                {
+                    genes.AddRange(BioUtility.GetCryptimorphInheritableGenes(transformedPawn.genes.GenesListForReading));
+                }
+            }
+
+            if (instigator != null)
+            {
+                int hereditaryCapacity = BioUtility.GetHereditaryCapacity(instigator, 12);
+                genes.AddRange(BioUtility.FilterGenesWithinComplexity(BioUtility.GetCryptimorphInheritableGenes(instigator), hereditaryCapacity));
+            }
+
+            return genes;
+        }
         private Graphic _emptyGraphic;
         public override Graphic Graphic
         {
@@ -335,7 +380,7 @@ namespace Xenomorphtype
         {
             if(instigator == null)
             {
-                SetParents(HatchingEgg.mother, pawn);
+                SetParentsWithGenes(HatchingEgg.mother, pawn, GetOvomorphingGenes(pawn, HatchingEgg.mother));
             }
             else
             {
@@ -343,7 +388,7 @@ namespace Xenomorphtype
                 {
                     SetFaction(instigator.Faction);
                 }
-                SetParents(instigator, pawn);
+                SetParentsWithGenes(instigator, pawn, GetOvomorphingGenes(pawn, instigator));
             }
             gestateProgress = 1;
 
@@ -377,12 +422,12 @@ namespace Xenomorphtype
 
                         if (instigator == null)
                         {
-                            egg.SetParents(HatchingEgg.mother, pawn);
+                            egg.SetParentsWithGenes(HatchingEgg.mother, pawn, GetOvomorphingGenes(pawn, HatchingEgg.mother));
                         }
                         else
                         {
                             egg.SetFaction(instigator.Faction);
-                            egg.SetParents(instigator, pawn);
+                            egg.SetParentsWithGenes(instigator, pawn, GetOvomorphingGenes(pawn, instigator));
                         }
                         remainingBody -= 1;
                     }

@@ -23,7 +23,13 @@ namespace Xenomorphtype
             {
                 yield break;
             }
-
+           
+            bool mechanoidSynthesis = false;
+            float queenBodysize = queen.BodySize;
+            if(queen.GetComp<CompQueen>() is CompQueen compQueen)
+            {
+                mechanoidSynthesis = compQueen.HasActiveEvolution(RoyalEvolutionDefOf.Evo_MechanoidSynthesis);
+            }
             foreach (RecipeDef recipe in lightGestator.recipes)
             {
                 if (!RecipeAvailableByResearch(recipe))
@@ -36,8 +42,12 @@ namespace Xenomorphtype
                 {
                     continue;
                 }
-
-                if (IsLightMech(product, recipe))
+                
+                if(mechanoidSynthesis && product.race.baseBodySize < queenBodysize/2)
+                {
+                    yield return recipe;
+                }
+                else if (IsLightMech(product, recipe))
                 {
                     yield return recipe;
                 }

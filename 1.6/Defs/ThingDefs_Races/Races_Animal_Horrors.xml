@@ -85,6 +85,7 @@
 					</li>
 				</resultCandidates>
 			</li>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
 		</modExtensions>
 	</ThingDef>
 	
@@ -243,6 +244,9 @@
 				<thingHorrifiedByThis>Thrumbo</thingHorrifiedByThis>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -397,6 +401,9 @@
 				<thingHorrifiedByThis>Thrumbo</thingHorrifiedByThis>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -521,6 +528,9 @@
 					<foodCost>0.25</foodCost>
 				</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -627,6 +637,9 @@
 					<acidFilth>Starbeast_Filth_Resin</acidFilth>
 				</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -741,7 +754,10 @@
 			<milkFemaleOnly>false</milkFemaleOnly>
 		</li>
 	</comps>
-  </ThingDef>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
+	</ThingDef>
 
   <PawnKindDef ParentName="AnimalKindBase">
     <defName>XMT_MedicineToad</defName>
@@ -946,6 +962,9 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -1115,6 +1134,9 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
 			<li >NonContractable</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -1237,6 +1259,7 @@
 					</li>
 				</resultCandidates>
 			</li>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
 		</modExtensions>
 	</ThingDef>
 	
@@ -1416,6 +1439,9 @@
 		<tradeTags>
 		  <li>AnimalPet</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	  
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -1547,6 +1573,9 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -1623,6 +1652,9 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
 			<li >NonContractable</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="BigBirdKindBase">
@@ -1694,6 +1726,9 @@
 			<isImmuneToInfections>false</isImmuneToInfections>
 			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
 		</race>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef>
@@ -1813,6 +1848,9 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -1929,6 +1967,9 @@
 					<damage>5</damage>
 				</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -2018,6 +2059,9 @@
 					<damage>20</damage>
 				</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="BearBase">
@@ -2111,6 +2155,9 @@
 					<damage>20</damage>
 				</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="BearBase">
@@ -2199,6 +2246,9 @@
 					<damage>2</damage>
 				</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="RatKindBase">
@@ -2265,6 +2315,9 @@
 					<damage>2</damage>
 				</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef ParentName="RatKindBase">
@@ -2359,6 +2412,9 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -2500,6 +2556,9 @@
 			<chanceFactor>0.5</chanceFactor>
 		  </li>
 		</tools>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef Name="XMT_Sleipnir" ParentName="AnimalKindBase">
@@ -2640,6 +2699,9 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -2790,6 +2852,9 @@
 			<chanceFactor>0.5</chanceFactor>
 		  </li>
 		</tools>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 
 	<PawnKindDef Name="Muffalo" ParentName="AnimalKindBase">
@@ -2933,6 +2998,9 @@
 			<li >NonContractable</li>
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
 	</ThingDef>
 	
 	<PawnKindDef ParentName="AnimalKindBase">
@@ -3040,7 +3108,10 @@
 			<li MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
 			<li >NonContractable</li>
 	</tradeTags>
-  </ThingDef>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+		</modExtensions>
+	</ThingDef>
   
   <PawnKindDef ParentName="AnimalKindBase">
     <defName>XMT_AcidAphid</defName>

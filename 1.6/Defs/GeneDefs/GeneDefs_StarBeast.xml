@@ -81,7 +81,7 @@
 		<iconPath>UI/GeneIcons/Gene_GaurdianCrest</iconPath>
 		<displayCategory>Archite</displayCategory>
 		<marketValueFactor>1.5</marketValueFactor>
-		<biostatCpx>6</biostatCpx>
+		<biostatCpx>10</biostatCpx>
 		<biostatMet>10</biostatMet>
 		<biostatArc>0</biostatArc>
 		<modExtensions>

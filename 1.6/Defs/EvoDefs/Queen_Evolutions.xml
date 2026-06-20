@@ -189,11 +189,14 @@
 		<defName>Evo_MechanoidGestation</defName>
 		<label>Mechanoid Gestation</label>
 		<evoPointCost>2</evoPointCost>
+		<evolutionHediff>XMT_MechaFertility</evolutionHediff>
+		<targetBodyPart>Torso</targetBodyPart>
 		<description>The queen can begin gestating small mechanoids from swallowed metal, components, slag and dead mechanoid matter. This advancement is inert without a mechlink.</description>
 		<prerequisites>
 			<li>Evo_CryptomechanicalCircuitry</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
+	
 <!--
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_RoyalCrown</defName>
@@ -256,6 +259,8 @@
 	-->
 	<!-- 3rd tier -->
 	
+
+	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX3</defName>
 		<label>Royal Stature</label>
@@ -281,6 +286,18 @@
 		<description>Unlocks the ability to extract genes from fresh corpses.</description>
 		<prerequisites>
 			<li>Evo_GeneStorage</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>Evo_MechanoidSynthesis</defName>
+		<label>Mechanoid Synthesis</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_MechaFertilitySynthesis</evolutionHediff>
+		<targetBodyPart>Torso</targetBodyPart>
+		<description>The queen's reproductive tissues have further integrated mechanoid circuitry and can now synthesize larger and more advanced mechanoids unlocked by mech technology, the only limit is her body size. This advancement is inert without a mechlink.</description>
+		<prerequisites>
+			<li>Evo_MechanoidGestation</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 <!--
@@ -310,15 +327,8 @@
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 
-	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
-		<defName>Evo_MechanoidSynthesis</defName>
-		<label>Mechanoid Synthesis</label>
-		<evoPointCost>4</evoPointCost>
-		<description>The queen's gestation tissues can later synthesize larger and more advanced mechanoids unlocked by mech technology, with mass and movement costs handled by future mechanics. This advancement is inert without a mechlink.</description>
-		<prerequisites>
-			<li>Evo_MechanoidGestation</li>
-		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
+	
+	
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_ImperialCrown</defName>
 		<label>Imperial Crown</label>

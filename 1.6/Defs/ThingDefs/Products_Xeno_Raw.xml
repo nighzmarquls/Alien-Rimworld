@@ -371,7 +371,7 @@
 	<ThingDef ParentName="ResourceBase">
 		<defName>XMT_Acid</defName>
 		<label>contained acid</label>
-		<description>A canister of highly volatile molecular acid, even contained it is unstable outside of extremely low temperatures.</description>
+		<description>A canister of highly volatile molecular acid, even contained it is unstable outside of extremely low temperatures, -30 Celsius maximum for shelf stable reactivity.</description>
 		<possessionCount>15</possessionCount>
 		<tickerType>Normal</tickerType>
 		<graphicData>

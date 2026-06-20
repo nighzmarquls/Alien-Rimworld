@@ -389,6 +389,7 @@ namespace Xenomorphtype
                 return true;
             }
 
+            /*
             IEnumerable<FillableChrysalis> Chrysali = map.listerBuildings.AllBuildingsColonistOfClass<FillableChrysalis>();
 
             if(Chrysali.Any())
@@ -400,7 +401,8 @@ namespace Xenomorphtype
                         return true;
                     }
                 }
-            }
+            }*/
+
             if (localNest.Cocooned.Count() > 0)
             {
                 foreach (Pawn cocooned in localNest.Cocooned)
@@ -1489,6 +1491,7 @@ namespace Xenomorphtype
 
         internal static Job GetSurplusHibernationJob(Pawn pawn)
         {
+
             if (pawn == null || pawn.Map == null || !pawn.DevelopmentalStage.Adult() || XMTUtility.IsQueen(pawn))
             {
                 return null;

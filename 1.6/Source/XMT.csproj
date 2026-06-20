@@ -330,6 +330,7 @@
     <Compile Include="Map\TileMutatorWorkers\TileMutatorWorker_Aftermath.cs" />
     <Compile Include="Map\TileMutatorWorkers\TileMutatorWorker_Xenoforming.cs" />
     <Compile Include="ModExtensions\AnimalMutateForms.cs" />
+    <Compile Include="ModExtensions\XMT_HorrorPawnExtension.cs" />
     <Compile Include="Progression\Quests\QuestNode_RequiresXenoforming.cs" />
     <Compile Include="Progression\QueenAssimilationDef.cs" />
     <Compile Include="Progression\QueenIngestibleResourceDef.cs" />

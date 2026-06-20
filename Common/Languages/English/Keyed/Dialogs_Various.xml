@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
+  <XMT_ShapeBroodLineageLabel>Shape brood lineage</XMT_ShapeBroodLineageLabel>
+  <XMT_ShapeBroodLineageDesc>Shape the inheritable gene pattern this egg layer will impress into regular ovomorphs.</XMT_ShapeBroodLineageDesc>
+  <XMT_ShapeBroodLineageHeader>Shape Brood Lineage</XMT_ShapeBroodLineageHeader>
+  <XMT_AcceptBroodLineage>Accept Lineage</XMT_AcceptBroodLineage>
+  <XMT_GeneComplexityLimit>Complexity: {0} / {1}</XMT_GeneComplexityLimit>
+  <XMT_GeneComplexityTooHigh>Selected genes exceed hereditary capacity: {0} / {1}</XMT_GeneComplexityTooHigh>
+  <XMT_GeneWouldExceedCapacity>{0} would exceed hereditary capacity.</XMT_GeneWouldExceedCapacity>
 
 </LanguageData>

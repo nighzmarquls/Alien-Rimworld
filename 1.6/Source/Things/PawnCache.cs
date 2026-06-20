@@ -27,6 +27,9 @@ namespace Xenomorphtype
             protected bool _isInorganic;
             public bool IsInorganic => _isInorganic;
 
+            protected bool _isHorror;
+            public bool IsHorror => _isHorror;
+
             protected int _brainMutationCount;
             public bool HasBrainMutation => _brainMutationCount > 0;
 
@@ -124,6 +127,7 @@ namespace Xenomorphtype
 
                
                 _isInorganic = XMTUtility.CacheIsInorganic(_pawn);
+                _isHorror = _pawn.def.HasModExtension<XMT_HorrorPawnExtension>();
                 _brainMutationCount = CountBrainMutations(_pawn);
 
                 if (XMTSettings.LogBiohorror)
@@ -135,6 +139,10 @@ namespace Xenomorphtype
                     if (_brainMutationCount > 0)
                     {
                         Log.Message(_pawn + " brainMutation count is " + _brainMutationCount);
+                    }
+                    if (_isHorror)
+                    {
+                        Log.Message(_pawn + " is caching horror status as " + _isHorror);
                     }
                 }
             }
@@ -387,6 +395,19 @@ namespace Xenomorphtype
 
             return PawnCache.cache[pawn.thingIDNumber].IsInorganic;
         }
+
+        public static bool IsHorror(this Pawn pawn)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                return PawnCache.cache[pawn.thingIDNumber].IsHorror;
+            }
+
+            PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
+
+            return PawnCache.cache[pawn.thingIDNumber].IsHorror;
+        }
+
         public static bool IsAcidImmune(this Pawn pawn)
         {
             if (!PawnCache.cache.ContainsKey(pawn.thingIDNumber))

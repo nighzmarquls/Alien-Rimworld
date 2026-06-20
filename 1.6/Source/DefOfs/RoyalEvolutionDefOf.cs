@@ -20,6 +20,7 @@ namespace Xenomorphtype
 
         public static RoyalEvolutionDef Evo_LarderSerum;
         public static RoyalEvolutionDef Evo_JellyWellSerum;
+
         public static RoyalEvolutionDef Evo_GeneControl;
         public static RoyalEvolutionDef Evo_GeneStorage;
         public static RoyalEvolutionDef Evo_GeneDigestion;
@@ -28,13 +29,12 @@ namespace Xenomorphtype
         public static RoyalEvolutionDef Evo_OvoThrone;
         public static RoyalEvolutionDef Evo_NovelGenes;
         public static RoyalEvolutionDef Evo_SubjugatorCrest;
-        [MayRequire("Ludeon.RimWorld.Biotech")]
-        public static RoyalEvolutionDef Evo_CryptomechanicalCircuitry;
-        [MayRequire("Ludeon.RimWorld.Biotech")]
-        public static RoyalEvolutionDef Evo_ElectroMetabolicCatalyst;
-        [MayRequire("Ludeon.RimWorld.Biotech")]
-        public static RoyalEvolutionDef Evo_SignalAmplifyingAntenna;
 
+
+        public static RoyalEvolutionDef Evo_CryptomechanicalCircuitry;
+        public static RoyalEvolutionDef Evo_ElectroMetabolicCatalyst;
+        public static RoyalEvolutionDef Evo_SignalAmplifyingAntenna;
+        public static RoyalEvolutionDef Evo_MechanoidSynthesis;
 
         public static HediffDef XMT_Fertility;
 

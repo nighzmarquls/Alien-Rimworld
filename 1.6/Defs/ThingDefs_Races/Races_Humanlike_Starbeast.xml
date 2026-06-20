@@ -91,6 +91,7 @@
 					</categories>
 					<thingDefs>
 						<li>WoodLog</li>
+						<li>MedicineHerbal</li>
 						<li>Starbeast_Resin</li>
 						<li>Cloth</li>
 						<li>DevilstrandCloth</li>
@@ -186,6 +187,7 @@
 			 <XMT_GrappleStrength>5.0</XMT_GrappleStrength>
 			 <XMT_Stealth>2.0</XMT_Stealth>
 			 <XMT_StealthDetection>1.25</XMT_StealthDetection>
+			 <XMT_HereditaryCapacity>12</XMT_HereditaryCapacity>
 			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
 			 <DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 			 <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
@@ -1513,6 +1515,32 @@
 				<foodCost>2</foodCost>
 				<OvomorphDef>XMT_Ovomorph</OvomorphDef>
 				<geneOvomorphDef>XMT_GeneOvomorph</geneOvomorphDef>
+				<eggOptions>
+					<li>
+						<thingDef>XMT_Ovomorph</thingDef>
+						<iconPath>UI/Abilities/Ovomorph</iconPath>
+						<displayOrder>0</displayOrder>
+						<foodCostFactor>1</foodCostFactor>
+						<persistSelection>true</persistSelection>
+						<defaultSelection>true</defaultSelection>
+					</li>
+					<li>
+						<thingDef>XMT_GeneOvomorph</thingDef>
+						<requiredEvolution>Evo_GeneStorage</requiredEvolution>
+						<iconPath>UI/Abilities/GeneOvomorph</iconPath>
+						<displayOrder>10</displayOrder>
+						<foodCostFactor>0.5</foodCostFactor>
+						<openGeneDialog>true</openGeneDialog>
+					</li>
+					<li>
+						<thingDef>XMT_ExplosivePod</thingDef>
+						<requiredGene>XMT_Chemfuel_Metabolism</requiredGene>
+						<iconPath>Things/Building/Security/ExplosivePod</iconPath>
+						<displayOrder>20</displayOrder>
+						<foodCostFactor>0.25</foodCostFactor>
+						<persistSelection>true</persistSelection>
+					</li>
+				</eggOptions>
 			</li>
 			<li MayRequire="otyoty.sizedapparel">
 				<compClass>SizedApparel.ApparelRecorderComp</compClass>
@@ -1567,6 +1595,7 @@
 			<XMT_GrappleStrength>6.0</XMT_GrappleStrength>
 			<XMT_Stealth>2.2</XMT_Stealth>
 			<XMT_StealthDetection>1.5</XMT_StealthDetection>
+			<XMT_HereditaryCapacity>22</XMT_HereditaryCapacity>
 		</statBases>
 		<race>
 			<body>XMT_Queen</body>

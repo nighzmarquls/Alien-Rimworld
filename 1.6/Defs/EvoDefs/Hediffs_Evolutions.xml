@@ -117,6 +117,57 @@
 			<ArmorRating_Blunt>-1</ArmorRating_Blunt>
 			<ArmorRating_Sharp>-1</ArmorRating_Sharp>
 			<WorkSpeedGlobal>-0.225</WorkSpeedGlobal>
+			<XMT_HereditaryCapacity>8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_MechaFertility</defName>
+    <label>mechagestators</label>
+    <description>body is prepared to gestate mechanoids.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>false</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_MechaFertilitySynthesis</defName>
+    <label>synthethized mechagestators</label>
+    <description>body is prepared to gestate mechanoids.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>false</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
 		</statOffsets>
       </li>
     </stages>
@@ -275,6 +326,31 @@
 			</li>
 	</comps>
   </HediffDef>
+  
+  <!-- Crests -->
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_MaternalCrest</defName>
+    <label>maternal Crest</label>
+    <description>a wide imposing crest.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.25</PsychicSensitivity>
+			<SocialImpact>1</SocialImpact>
+			<ArmorRating_Blunt>0.75</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<MechBandwidth MayRequire="Ludeon.RimWorld.Biotech">1</MechBandwidth>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
 
   <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_RoyalCrown</defName>
@@ -298,31 +374,6 @@
 			<PsychicEntropyMax>1.15</PsychicEntropyMax>
 			<PsychicEntropyRecoveryRate>1.1</PsychicEntropyRecoveryRate>
 		</statFactors>
-      </li>
-    </stages>
-  </HediffDef>
-  
-  <!-- Crests -->
-  
-  <HediffDef ParentName="XMT_Bodypart">
-    <defName>XMT_MaternalCrest</defName>
-    <label>maternal Crest</label>
-    <description>a wide imposing crest.</description>
-    <makesSickThought>false</makesSickThought>
-    <makesAlert>false</makesAlert>
-	<tendable>false</tendable>
-	<isInfection>false</isInfection>
-	<initialSeverity>1</initialSeverity>
-    <stages>
-	  <li>
-	    <becomeVisible>true</becomeVisible>
-		<statOffsets>
-			<PsychicSensitivity>1.25</PsychicSensitivity>
-			<SocialImpact>1</SocialImpact>
-			<ArmorRating_Blunt>0.75</ArmorRating_Blunt>
-			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
-			<MechBandwidth MayRequire="Ludeon.RimWorld.Biotech">1</MechBandwidth>
-		</statOffsets>
       </li>
     </stages>
   </HediffDef>
@@ -378,6 +429,8 @@
       </li>
     </stages>
   </HediffDef>
+  
+  <!-- Juggernaut crests -->
 
   <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_FierceCrest</defName>
@@ -443,6 +496,7 @@
 			<SocialImpact>1</SocialImpact>
 			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
 			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>8</XMT_HereditaryCapacity>
 		</statOffsets>
       </li>
     </stages>
@@ -467,6 +521,7 @@
 			<SocialImpact>0.25</SocialImpact>
 			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
 			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+			
 		</statOffsets>
       </li>
     </stages>

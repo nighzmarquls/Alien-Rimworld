@@ -542,6 +542,157 @@ namespace Xenomorphtype
             }
         }
 
+        public static int GeneComplexityTotal(IEnumerable<GeneDef> genes)
+        {
+            if (genes == null)
+            {
+                return 0;
+            }
+
+            int total = 0;
+            foreach (GeneDef gene in genes)
+            {
+                if (gene != null)
+                {
+                    total += gene.biostatCpx;
+                }
+            }
+
+            return total;
+        }
+
+        public static int GetHereditaryCapacity(Pawn pawn, int fallback = 12)
+        {
+            if (pawn == null)
+            {
+                return fallback;
+            }
+
+            return Mathf.Max(0, Mathf.RoundToInt(pawn.GetStatValue(XenoStatDefOf.XMT_HereditaryCapacity)));
+        }
+
+        public static List<GeneDef> FilterGenesWithinComplexity(IEnumerable<GeneDef> genes, int capacity)
+        {
+            List<GeneDef> filteredGenes = new List<GeneDef>();
+
+            if (genes == null || capacity <= 0)
+            {
+                return filteredGenes;
+            }
+
+            int currentComplexity = 0;
+            foreach (GeneDef gene in genes)
+            {
+                if (gene == null)
+                {
+                    continue;
+                }
+
+                if (currentComplexity >= capacity)
+                {
+                    break;
+                }
+
+                int geneComplexity = gene.biostatCpx;
+                if (currentComplexity + geneComplexity > capacity)
+                {
+                    continue;
+                }
+
+                filteredGenes.Add(gene);
+                currentComplexity += geneComplexity;
+            }
+
+            return filteredGenes;
+        }
+
+        public static List<GeneDef> GetCryptimorphInheritableGenes(Pawn pawn)
+        {
+            List<GeneDef> genes = new List<GeneDef>();
+
+            if (pawn == null)
+            {
+                return genes;
+            }
+
+            genes.AddRange(GetExtraHostGenes(pawn));
+
+            if (pawn.genes != null)
+            {
+                genes.AddRange(GetCryptimorphInheritableGenes(pawn.genes.GenesListForReading));
+            }
+
+            return genes;
+        }
+
+        public static List<GeneDef> GetCryptimorphInheritableGenes(IEnumerable<GeneDef> genes)
+        {
+            List<GeneDef> inheritableGenes = new List<GeneDef>();
+
+            if (genes == null)
+            {
+                return inheritableGenes;
+            }
+
+            List<GeneDef> blacklistGenes = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneList;
+            List<String> blacklistTags = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneTags;
+
+            foreach (GeneDef gene in genes)
+            {
+                if (gene == null)
+                {
+                    continue;
+                }
+
+                GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(InternalDefOf.XMT_Starbeast_AlienRace, gene);
+
+                if (blacklistGenes.Contains(remappedGene))
+                {
+                    continue;
+                }
+
+                bool blacklistedByTag = false;
+                foreach (string tag in blacklistTags)
+                {
+                    if (remappedGene.exclusionTags != null && remappedGene.exclusionTags.Contains(tag))
+                    {
+                        blacklistedByTag = true;
+                        break;
+                    }
+                }
+
+                if (blacklistedByTag)
+                {
+                    continue;
+                }
+
+                inheritableGenes.Add(remappedGene);
+            }
+
+            return inheritableGenes;
+        }
+
+        public static List<GeneDef> GetCryptimorphInheritableGenes(IEnumerable<Gene> genes)
+        {
+            if (genes == null)
+            {
+                return new List<GeneDef>();
+            }
+
+            return GetCryptimorphInheritableGenes(genes.Select(x => x.def));
+        }
+
+        public static void ExtractGenesWithinComplexityToGeneset(ref GeneSet geneset, IEnumerable<GeneDef> genes, int capacity)
+        {
+            if (geneset == null || genes == null)
+            {
+                Log.Warning("Invalid arguments on ExtractGenesWithinComplexityToGeneset");
+                return;
+            }
+
+            ExtractGenesToGeneset(ref geneset, FilterGenesWithinComplexity(genes, capacity));
+        }
+
         public static void ExtractCryptimorphGenesToGeneset(ref GeneSet geneset, List<GeneDef> genes)
         {
             if (geneset == null || genes == null)
@@ -550,30 +701,9 @@ namespace Xenomorphtype
                 return;
             }
 
-            List<GeneDef> blacklistGenes = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneList;
-            List<String> blacklistTags = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneTags;
-
-            foreach (var gene in genes)
+            foreach (GeneDef gene in GetCryptimorphInheritableGenes(genes))
             {
-                GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(InternalDefOf.XMT_Starbeast_AlienRace, gene);
-
-                if (blacklistGenes.Contains(remappedGene))
-                {
-                    continue;
-                }
-
-                foreach (string tag in blacklistTags)
-                {
-                    if (remappedGene.exclusionTags != null)
-                    {
-                        if (remappedGene.exclusionTags.Contains(tag))
-                        {
-                            continue;
-                        }
-                    }
-                }
-
-                geneset.AddGene(remappedGene);
+                geneset.AddGene(gene);
             }
         }
         public static void ExtractCryptimorphGenesToGeneset(ref GeneSet geneset, List<Gene> genes)
@@ -584,30 +714,9 @@ namespace Xenomorphtype
                 return;
             }
 
-            List<GeneDef> blacklistGenes = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneList;
-            List<String> blacklistTags = InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.blackGeneTags;
-
-            foreach (var gene in genes)
+            foreach (GeneDef gene in GetCryptimorphInheritableGenes(genes))
             {
-                GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(InternalDefOf.XMT_Starbeast_AlienRace, gene.def);
-
-                if (blacklistGenes.Contains(remappedGene))
-                {
-                    continue;
-                }
-
-                foreach (string tag in blacklistTags)
-                {
-                    if (remappedGene.exclusionTags != null)
-                    {
-                        if (remappedGene.exclusionTags.Contains(tag))
-                        {
-                            continue;
-                        }
-                    }
-                }
-
-                geneset.AddGene(remappedGene);
+                geneset.AddGene(gene);
             }
         }
 

@@ -1383,6 +1383,7 @@ namespace Xenomorphtype
         public bool FindMichief(out Job michief)
         {
             michief = null;
+
             List<XMTMischiefCandidate> candidates = new List<XMTMischiefCandidate>();
 
             if (XMTMischiefUtility.TryFindOffensiveNestMischief(Parent, out Job offensiveJob, out string _))

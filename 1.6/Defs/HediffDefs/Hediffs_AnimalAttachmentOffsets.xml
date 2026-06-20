@@ -11,6 +11,13 @@
 				<west>(-0.45, 0, 0.0)</west>
 			</li>
 			<li>
+				<race>AlphaThrumbo</race>
+				<north>(0.0, 0.0, 0.0)</north>
+				<east>(0.75, 0, 0.9)</east>
+				<south>(0, 0, 0.75)</south>
+				<west>(-0.75, 0, 0.9)</west>
+			</li>
+			<li>
 				<race>Thrumbo</race>
 				<north>(0.0, 0.0, 0.0)</north>
 				<east>(0.5, 0, 0.9)</east>

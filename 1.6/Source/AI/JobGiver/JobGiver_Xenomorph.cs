@@ -512,6 +512,8 @@ namespace Xenomorphtype
 
         protected override Job TryGiveJob(Pawn pawn)
         {
+
+
             if(pawn == null)
             {
                 return null;
@@ -833,21 +835,21 @@ namespace Xenomorphtype
                     return GetFeralJob(pawn);
                 }
 
-                
-            }
+                /*
+                //TODO: Implement this logic elsewhere and in a more performant way.
+                Job surplusHibernateJob = XMTHiveUtility.GetSurplusHibernationJob(pawn);
+                if (surplusHibernateJob != null)
+                {
+                    return surplusHibernateJob;
+                }
 
-            Job surplusHibernateJob = XMTHiveUtility.GetSurplusHibernationJob(pawn);
-            if (surplusHibernateJob != null)
-            {
-                return surplusHibernateJob;
+                Job hiveRestJob = XMTHiveUtility.GetHiveRestJob(pawn);
+                if (hiveRestJob != null && pawn.needs?.rest != null && pawn.needs.rest.CurLevelPercentage < 0.25f)
+                {
+                    return hiveRestJob;
+                }
+                */
             }
-
-            Job hiveRestJob = XMTHiveUtility.GetHiveRestJob(pawn);
-            if (hiveRestJob != null && pawn.needs?.rest != null && pawn.needs.rest.CurLevelPercentage < 0.25f)
-            {
-                return hiveRestJob;
-            }
-
             return null;
         }
     }

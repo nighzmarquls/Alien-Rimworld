@@ -451,6 +451,9 @@
 	    <label>estatic</label>
 	    <becomeVisible>false</becomeVisible>
 		<overrideMoodBase>1.0</overrideMoodBase>
+		<statOffsets>
+			<XMT_HereditaryCapacity>16</XMT_HereditaryCapacity>
+		</statOffsets>
       </li>
     </stages>
 	<comps>

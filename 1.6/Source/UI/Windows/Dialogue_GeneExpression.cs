@@ -1,6 +1,7 @@
 ﻿using AlienRace;
 using RimWorld;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,9 +19,19 @@ namespace Xenomorphtype
         protected List<GeneDef> _chosenGenes;
         protected List<GeneDef> AvailableGenes => _hiveGenes;
         protected List<GeneDef> _hiveGenes;
-        protected override string Header => "Gene Expression Control";
+        protected string headerOverride;
+        protected string acceptButtonLabelOverride;
+        protected int? maxComplexity;
+        protected Action<List<GeneDef>, string> acceptAction;
+        protected override string Header
+        {
+            get
+            {
+                return headerOverride ?? "Gene Expression Control";
+            }
+        }
         public override Vector2 InitialSize => new Vector2(Mathf.Min(UI.screenWidth, 1036), UI.screenHeight - 4);
-        protected override string AcceptButtonLabel => "Accept Genes";
+        protected override string AcceptButtonLabel => acceptButtonLabelOverride ?? "Accept Genes";
 
         protected Thing target;
 
@@ -35,6 +46,17 @@ namespace Xenomorphtype
                     return false;
                 }
             }
+
+            if (maxComplexity.HasValue)
+            {
+                int complexity = BioUtility.GeneComplexityTotal(selectedGenes);
+                if (complexity > maxComplexity.Value)
+                {
+                    Messages.Message("XMT_GeneComplexityTooHigh".Translate(complexity, maxComplexity.Value), null, MessageTypeDefOf.RejectInput, historical: false);
+                    return false;
+                }
+            }
+
             return true;
         }
         protected override void Accept()
@@ -43,8 +65,15 @@ namespace Xenomorphtype
             {
                 Log.Message("attempting to alter genes on " + target);
             }
-            
-            BioUtility.AlterGenes(ref target, SelectedGenes, _originalGenes, xenotypeName);
+
+            if (acceptAction != null)
+            {
+                acceptAction(SelectedGenes.ListFullCopy(), xenotypeName);
+            }
+            else
+            {
+                BioUtility.AlterGenes(ref target, SelectedGenes, _originalGenes, xenotypeName);
+            }
 
             Close();
         }
@@ -55,6 +84,26 @@ namespace Xenomorphtype
             _originalGenes = BioUtility.GetGeneForExpressionList(thing);
             _chosenGenes = _originalGenes.ListFullCopy();
             _hiveGenes = BioUtility.GetAllHiveGenes(thing.Map);
+            xenotypeName = string.Empty;
+            forcePause = true;
+            absorbInputAroundWindow = true;
+            alwaysUseFullBiostatsTableHeight = true;
+            searchWidgetOffsetX = GeneCreationDialogBase.ButSize.x * 2f + 4f;
+        }
+
+        public Dialogue_GeneExpression(List<GeneDef> selectedGenes, List<GeneDef> availableGenes, string header, string acceptButtonLabel, int? maxComplexity, Action<List<GeneDef>, string> acceptAction)
+        {
+            _originalGenes = selectedGenes?.ListFullCopy() ?? new List<GeneDef>();
+            _chosenGenes = selectedGenes?.ListFullCopy() ?? new List<GeneDef>();
+            _hiveGenes = availableGenes?.ListFullCopy() ?? new List<GeneDef>();
+            headerOverride = header;
+            acceptButtonLabelOverride = acceptButtonLabel;
+            this.maxComplexity = maxComplexity;
+            if (maxComplexity.HasValue)
+            {
+                maxGCX = maxComplexity.Value;
+            }
+            this.acceptAction = acceptAction;
             xenotypeName = string.Empty;
             forcePause = true;
             absorbInputAroundWindow = true;
@@ -137,6 +186,12 @@ namespace Xenomorphtype
                     {
                         if (adding)
                         {
+                            if (maxComplexity.HasValue && BioUtility.GeneComplexityTotal(SelectedGenes) + gene.biostatCpx > maxComplexity.Value)
+                            {
+                                Messages.Message("XMT_GeneWouldExceedCapacity".Translate(gene.LabelCap), null, MessageTypeDefOf.RejectInput, historical: false);
+                                break;
+                            }
+
                             SoundDefOf.Tick_High.PlayOneShotOnCamera();
                             _chosenGenes.Add(gene);
                         }

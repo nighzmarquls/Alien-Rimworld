@@ -53,11 +53,7 @@ namespace Xenomorphtype
                 workDone += 0.0017f;
                 if (workDone > 1)
                 {
-                    GeneOvomorph laidGenes = OvomorphLayer.LayOvomorph(TargetA.Cell) as GeneOvomorph;
-                    if (laidGenes != null)
-                    {
-                        Find.WindowStack.Add(new Dialogue_GeneExpression(laidGenes));
-                    }
+                    OvomorphLayer.LayOvomorph(TargetA.Cell);
                     ReadyForNextToil();
                 }
 

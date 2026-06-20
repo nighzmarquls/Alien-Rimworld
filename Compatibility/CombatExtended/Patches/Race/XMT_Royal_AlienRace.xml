@@ -36,6 +36,7 @@
 				<WorkSpeedGlobal>0.75</WorkSpeedGlobal>
 				<PsychicSensitivity>1.25</PsychicSensitivity>
 				<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">250</MinimumContainmentStrength>
+				<XMT_HereditaryCapacity>22</XMT_HereditaryCapacity>
 			</statBases>
 		</value>
 	</Operation>
