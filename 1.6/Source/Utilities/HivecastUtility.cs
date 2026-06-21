@@ -60,7 +60,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        private static void HumanDominateHuman(Pawn subject, Pawn caster)
+        private static bool HumanDominateHuman(Pawn subject, Pawn caster)
         {
 
             bool psychicTestPass = HivecastUtility.PsychicConnectionTest(subject, caster);
@@ -88,6 +88,7 @@ namespace Xenomorphtype
                         subject.SetFaction(caster.Faction);
                     }
                 }
+                return true;
             }
             else
             {
@@ -96,10 +97,11 @@ namespace Xenomorphtype
                     float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
                     subject.TakeDamage(new DamageInfo(DamageDefOf.Stun, 2 * casterSensitivity));
                 }
+                return false;
             }
         }
 
-        internal static void EnactDominion(Pawn subject, Pawn caster, bool xenomorphTarget, bool xenomorphCaster)
+        internal static bool EnactDominion(Pawn subject, Pawn caster, bool xenomorphTarget, bool xenomorphCaster)
         {
             CompPawnInfo info = subject.Info();
             if (xenomorphCaster)
@@ -120,6 +122,7 @@ namespace Xenomorphtype
                     }
                     subject.GetMorphComp().tamingSocializing = 1f;
                     XMTUtility.GiveMemory(subject, HorrorMoodDefOf.XMT_CommuneWithQueen);
+                    return true;
                 }
                 else
                 {
@@ -127,7 +130,6 @@ namespace Xenomorphtype
                     {
 
                         bool psychicTestPass = PsychicChallengeTest(subject, caster);
-
 
                         if (info.IsObsessed())
                         {
@@ -143,6 +145,8 @@ namespace Xenomorphtype
                                 }
                             }
                             MoteMaker.ThrowText(subject.DrawPos, subject.Map, "Submitted");
+
+                            return true;
 
                         }
                         else if (psychicTestPass)
@@ -162,12 +166,16 @@ namespace Xenomorphtype
                             {
                                 subject.guest.SetGuestStatus(caster.Faction, GuestStatus.Slave);
                             }
+
+                            return true;
                         }
                         else
                         {
                             MoteMaker.ThrowText(subject.DrawPos, subject.Map, "Resisted");
                             float casterSensitivity = caster.GetStatValue(StatDefOf.PsychicSensitivity);
                             subject.TakeDamage(new DamageInfo(DamageDefOf.Stun, 2 * casterSensitivity));
+
+                            return false;
                         }
                     }
                 }
@@ -193,7 +201,7 @@ namespace Xenomorphtype
                         }
                         else
                         {
-                            HumanDominateHuman(subject, caster);
+                            return HumanDominateHuman(subject, caster);
                         }
                     }
                     else
@@ -232,6 +240,8 @@ namespace Xenomorphtype
                                 caster.stances.stunner.StunFor(2f.SecondsToTicks(), queen, addBattleLog: false);
                                 casterInfo.GainObsession(0.1f);
                             }
+
+                            return false;
                         }
                         else
                         {
@@ -251,15 +261,19 @@ namespace Xenomorphtype
                                 }
 
                                 casterInfo.GainObsession(1f);
+
+                                return false;
                             }
                             else
                             {
-                                HumanDominateHuman(subject, caster);
+                                return HumanDominateHuman(subject, caster);
                             }
                         }
                     }
                 }
             }
+
+            return false;
         }
     }
 }

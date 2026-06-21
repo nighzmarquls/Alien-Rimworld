@@ -17,15 +17,15 @@ namespace Xenomorphtype
         public bool UnHatched = true;
         public PawnKindDef hatchedPawnKind => Props.hatchedPawnKind;
 
-        public void TrySpawnPawn(IntVec3 position, float age)
+        public Pawn TrySpawnPawn(IntVec3 position, float age)
         {
-            TrySpawnPawn(position,age,parent.MapHeld);
+            return TrySpawnPawn(position,age,parent.MapHeld);
         }
-        public void TrySpawnPawn(IntVec3 position, float age, Map map)
+        public Pawn TrySpawnPawn(IntVec3 position, float age, Map map)
         {
             if(map == null)
             {
-                return;
+                return null;
             }
 
             PawnGenerationRequest request = new PawnGenerationRequest(hatchedPawnKind, parent.Faction);
@@ -43,6 +43,21 @@ namespace Xenomorphtype
                     larvalGenes.genes = genes;
                 }
             }
+
+            CompSubverterGenes subverterGenes = pawn.GetComp<CompSubverterGenes>();
+            if (subverterGenes != null)
+            {
+                subverterGenes.mother = mother;
+                subverterGenes.father = father;
+                subverterGenes.genes = genes;
+            }
+
+            CompHiveGeneHolder geneHolder = pawn.GetComp<CompHiveGeneHolder>();
+            if (geneHolder != null && geneHolder.genes == null)
+            {
+                geneHolder.genes = genes;
+            }
+
             pawn = GenSpawn.Spawn(pawn, position, map) as Pawn;
 
             if (pawn != null)
@@ -52,6 +67,8 @@ namespace Xenomorphtype
                 ResearchUtility.ProgressEvolutionTech(progress, pawn);
                 Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Ovomorph_Hatched, pawn.Named(HistoryEventArgsNames.Doer)));
             }
+
+            return pawn;
         }
 
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)

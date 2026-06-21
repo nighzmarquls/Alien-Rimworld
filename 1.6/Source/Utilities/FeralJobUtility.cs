@@ -164,6 +164,28 @@ namespace Xenomorphtype
             }
         }
 
+        internal static void ClearFeralJobReservationsClaimedByOnTarget(Pawn reserver, LocalTargetInfo reservedItem)
+        {
+            if (reserver == null || reservedItem == null || reserver.MapHeld == null || reserver.jobs == null || reserver.jobs.jobQueue == null)
+            {
+                return;
+            }
+
+
+            foreach (QueuedJob item in reserver.jobs.jobQueue)
+            {
+                if (reserver.MapHeld.reservationManager.ReservedBy(reservedItem, reserver, item.job))
+                {
+                    reserver.MapHeld.reservationManager.Release(reservedItem, reserver, item.job);
+                }
+            }
+
+            if (reserver.MapHeld.physicalInteractionReservationManager.IsReservedBy(reserver, reservedItem))
+            {
+                reserver.MapHeld.physicalInteractionReservationManager.ReleaseAllForTarget(reservedItem);
+            }
+        }
+
         internal static void ClearFeralJobReservationsClaimedBy(Map map, Pawn reserver)
         {
             if (map == null || reserver == null)

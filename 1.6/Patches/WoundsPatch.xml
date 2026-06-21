@@ -1,10 +1,121 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
-	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/FleshTypeDef[defName="Mechanoid"]/hediffWounds</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/FleshTypeDef[defName="Mechanoid"]</xpath>
+			<value>
+				<hediffWounds>
+					<li>
+						<hediff>XMT_SubverterAttachment</hediff>
+						<onlyHumanlikes>true</onlyHumanlikes>
+						<wounds>
+							<li>
+								<texture>Things/Pawn/Wounds/SubverterHead_north</texture>
+								<tintWithSkinColor>false</tintWithSkinColor>
+								<displayOverApparel>true</displayOverApparel>
+								<displayPermanent>true</displayPermanent>
+							</li>
+						</wounds>
+					</li>
+					<li>
+						<hediff>XMT_SubverterAttachment</hediff>
+						<onlyHumanlikes>false</onlyHumanlikes>
+						<wounds>
+							<li>
+								<texture>Things/Pawn/Wounds/SubverterA</texture>
+								<tintWithSkinColor>false</tintWithSkinColor>
+								<displayOverApparel>true</displayOverApparel>
+								<displayPermanent>true</displayPermanent>
+								<scale>2</scale>
+							</li>
+							<li>
+								<texture>Things/Pawn/Wounds/SubverterB</texture>
+								<tintWithSkinColor>false</tintWithSkinColor>
+								<displayOverApparel>true</displayOverApparel>
+								<displayPermanent>true</displayPermanent>
+								<scale>2</scale>
+							</li>
+						</wounds>
+					</li>
+				</hediffWounds>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/FleshTypeDef[defName="Mechanoid"]/hediffWounds</xpath>
+			<value>
+				<li>
+					<hediff>XMT_SubverterAttachment</hediff>
+					<onlyHumanlikes>true</onlyHumanlikes>
+					<wounds>
+						<li>
+							<texture>Things/Pawn/Wounds/SubverterHead_north</texture>
+							<tintWithSkinColor>false</tintWithSkinColor>
+							<displayOverApparel>true</displayOverApparel>
+							<displayPermanent>true</displayPermanent>
+							<scale>1.5</scale>
+						</li>
+					</wounds>
+				</li>
+				<li>
+					<hediff>XMT_SubverterAttachment</hediff>
+					<onlyHumanlikes>false</onlyHumanlikes>
+					<wounds>
+						<li>
+							<texture>Things/Pawn/Wounds/SubverterA</texture>
+							<tintWithSkinColor>false</tintWithSkinColor>
+							<displayOverApparel>true</displayOverApparel>
+							<displayPermanent>true</displayPermanent>
+							<scale>2</scale>
+						</li>
+						<li>
+							<texture>Things/Pawn/Wounds/SubverterB</texture>
+							<tintWithSkinColor>false</tintWithSkinColor>
+							<displayOverApparel>true</displayOverApparel>
+							<displayPermanent>true</displayPermanent>
+							<scale>2</scale>
+						</li>
+					</wounds>
+				</li>
+			</value>
+		</match>
+	</Operation>
 	<Operation Class="PatchOperationAdd">
 		<xpath>Defs/FleshTypeDef[defName="Normal"]/hediffWounds
 		</xpath>
 		<value>
+			<li>
+				<hediff>XMT_SubverterAttachment</hediff>
+				<onlyHumanlikes>true</onlyHumanlikes>
+				<wounds>
+					<li>
+						<texture>Things/Pawn/Wounds/SubverterHead_north</texture>
+						<tintWithSkinColor>false</tintWithSkinColor>
+						<displayOverApparel>true</displayOverApparel>
+						<displayPermanent>true</displayPermanent>
+					</li>
+				</wounds>
+			</li>
+			<li>
+				<hediff>XMT_SubverterAttachment</hediff>
+				<onlyHumanlikes>false</onlyHumanlikes>
+				<wounds>
+					<li>
+						<texture>Things/Pawn/Wounds/SubverterA</texture>
+						<tintWithSkinColor>false</tintWithSkinColor>
+						<displayOverApparel>true</displayOverApparel>
+						<displayPermanent>true</displayPermanent>
+						<scale>2</scale>
+					</li>
+					<li>
+						<texture>Things/Pawn/Wounds/SubverterB</texture>
+						<tintWithSkinColor>false</tintWithSkinColor>
+						<displayOverApparel>true</displayOverApparel>
+						<displayPermanent>true</displayPermanent>
+						<scale>2</scale>
+					</li>
+				</wounds>
+			</li>
 			<li>
 				<hediff>XMT_TickInfestation</hediff>
 				<onlyHumanlikes>false</onlyHumanlikes>

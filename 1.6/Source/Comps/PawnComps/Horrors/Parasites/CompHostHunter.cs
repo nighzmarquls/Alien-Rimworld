@@ -2,12 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype 
 {
@@ -21,7 +18,6 @@ namespace Xenomorphtype
         public override void PostExposeData()
         {
             base.PostExposeData();
-
         }
 
         public virtual bool ShouldHunt()
@@ -32,13 +28,11 @@ namespace Xenomorphtype
         public virtual void StartHunt(Pawn prey)
         {
             Job attachJob = JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, prey);
-
             Parent.jobs.StartJob(attachJob, JobCondition.InterruptForced);
         }
 
         public virtual Pawn GetPreyTarget()
         {
-
             List<Pawn> listOfPawn = parent.Map.mapPawns.AllPawnsSpawned.ToList();
             listOfPawn.Shuffle();
             foreach (Pawn pawn in listOfPawn)
@@ -132,12 +126,25 @@ namespace Xenomorphtype
         }
         public virtual List<BodyPartRecord> GetTargetBodyParts(Pawn target)
         {
+            if (target.RaceProps.Humanlike)
+            {
+                List<BodyPartRecord> list = (from x in target.health.hediffSet.GetNotMissingParts()
+                                             where x.def == BodyPartDefOf.Head
+                                             select x).ToList();
+
+                if (list.Any())
+                {
+                    return list;
+                }
+            }
+
             return (from x in target.health.hediffSet.GetNotMissingParts()
                                            where x.depth == BodyPartDepth.Outside
                                            select x).ToList();
         }
         public void TryAttachToHost(Pawn target)
         {
+           
             if (target == null)
             {
                 return;
@@ -186,6 +193,7 @@ namespace Xenomorphtype
 
                 if (!CanContinueAttach(target))
                 {
+                    Log.Message(target + " failed to attach after mobility check " + parent);
                     return;
                 }
             }
@@ -210,6 +218,7 @@ namespace Xenomorphtype
             }
 
             BodyPartRecord targetPart = source.First();
+
             Hediff hediff = HediffMaker.MakeHediff(Props.parasiteHediff, target, targetPart);
 
             PreattachTarget(target);

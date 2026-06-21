@@ -69,6 +69,7 @@ namespace Xenomorphtype
         public static JobDef XMT_LayOvomorph;
         public static JobDef XMT_GeneDevour;
         public static JobDef XMT_AssimilateQueenItem;
+        public static JobDef XMT_HaulToOvothroneAssimilation;
         public static JobDef XMT_QueenGestateMech;
         public static JobDef XMT_CorpseSculpture;
 

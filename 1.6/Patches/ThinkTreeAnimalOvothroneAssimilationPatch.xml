@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationInsert">
+		<xpath>/Defs/ThinkTreeDef[defName = "Animal"]/thinkRoot//li[@Class = "ThinkNode_ConditionalTrainableCompleted"][trainable = "Haul"]/subNodes/li[@Class = "ThinkNode_Tagger"]/subNodes/li[@Class = "JobGiver_Haul"]</xpath>
+		<order>Prepend</order>
+		<value>
+			<li Class="Xenomorphtype.JobGiver_HaulToOvothroneAssimilation" />
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationInsert">
+		<xpath>/Defs/ThinkTreeDef[defName = "Insect"]/thinkRoot//li[@Class = "ThinkNode_ConditionalTrainableCompleted"][trainable = "Haul"]/subNodes/li[@Class = "ThinkNode_Tagger"]/subNodes/li[@Class = "JobGiver_Haul"]</xpath>
+		<order>Prepend</order>
+		<value>
+			<li Class="Xenomorphtype.JobGiver_HaulToOvothroneAssimilation" />
+		</value>
+	</Operation>
+
+</Patch>

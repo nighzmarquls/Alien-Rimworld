@@ -58,6 +58,7 @@ namespace Xenomorphtype
 
             public float XenoSocial = 0;
             public float CarboSilicate = 0;
+            public float InorganicSubversion = 0;
             public float MesoSkeletalValue = 0;
 
             public float _acidBloodValue = 0;
@@ -313,6 +314,28 @@ namespace Xenomorphtype
             newCache.CarboSilicate = value;
             PawnCache.cache.Add(pawn.thingIDNumber, newCache);
            
+        }
+
+        public static float InorganicSubversionLoad(this Pawn pawn)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                return PawnCache.cache[pawn.thingIDNumber].InorganicSubversion;
+            }
+
+            return 0;
+        }
+
+        public static void UpdateInorganicSubversionLoad(this Pawn pawn, float value)
+        {
+            if (PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                PawnCache.cache[pawn.thingIDNumber].InorganicSubversion = value;
+                return;
+            }
+            PawnCache newCache = new PawnCache(pawn);
+            newCache.InorganicSubversion = value;
+            PawnCache.cache.Add(pawn.thingIDNumber, newCache);
         }
 
         public static CompHoldingPlatformTarget GetHoldingPlatformTarget(this Pawn pawn)

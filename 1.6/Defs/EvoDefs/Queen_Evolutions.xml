@@ -300,17 +300,19 @@
 			<li>Evo_MechanoidGestation</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-<!--
+	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanoidSubversion</defName>
 		<label>Mechanoid Subversion</label>
 		<evoPointCost>4</evoPointCost>
-		<description>Specialized ovamorphs can be prepared for later hijacker mechanics, letting the hive corrupt artificial life and turn hostile mechanoid systems against themselves. This advancement is inert without a mechlink.</description>
+		<description>Specialized ovomorphs which hatch into subverters, letting the hive corrupt artificial life and turn hostile mechanoid systems against themselves. This advancement is inert without a mechlink.</description>
 		<prerequisites>
 			<li>Evo_SignalAmplifyingAntenna</li>
 			<li>Evo_MechanoidGestation</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
+<!--
+	
 
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanitorArray</defName>

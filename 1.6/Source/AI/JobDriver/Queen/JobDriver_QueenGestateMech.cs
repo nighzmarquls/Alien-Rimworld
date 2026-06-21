@@ -143,54 +143,16 @@ namespace Xenomorphtype
         private void FinishGestation()
         {
             RecipeDef recipe = Recipe;
-            CompQueenAssimilation comp = pawn.GetComp<CompQueenAssimilation>();
-            QueenIngestibleResourceDef resource = QueenMechGestationUtility.MechMaterialResource;
-            if (recipe == null || comp == null || resource == null)
+            if (recipe == null)
             {
                 return;
             }
 
-            ThingDef product = QueenMechGestationUtility.ProductFor(recipe);
-            PawnKindDef kind = QueenMechGestationUtility.PawnKindFor(product);
-            if (kind == null)
+            if (!QueenMechGestationUtility.TryFinishGestation(pawn, recipe, GestationCell, pawn.Map, out Pawn _, out string reason))
             {
-                return;
-            }
-
-            PawnGenerationRequest request = new PawnGenerationRequest(kind, pawn.Faction);
-            request.FixedBiologicalAge = 0;
-            request.FixedChronologicalAge = 0;
-            Pawn mech = PawnGenerator.GeneratePawn(request);
-            if (pawn.mechanitor == null || !pawn.mechanitor.CanOverseeSubject(mech))
-            {
-                Messages.Message("XMT_MechGestationNoBandwidth".Translate(), pawn, MessageTypeDefOf.RejectInput, false);
-                return;
-            }
-
-            float cost = QueenMechGestationUtility.MaterialCost(pawn, recipe);
-            if (!comp.TrySpendResource(resource, cost))
-            {
-                return;
-            }
-
-            IntVec3 cell = GestationCell;
-            GenSpawn.Spawn(mech, cell, pawn.Map, WipeMode.Vanish);
-            pawn.relations.AddDirectRelation(PawnRelationDefOf.Overseer, mech);
-            pawn.mechanitor.AssignPawnControlGroup(mech, MechWorkModeDefOf.Work);
-            pawn.mechanitor.Notify_BandwidthChanged();
-            SoundDefOf.CocoonDestroyed.PlayOneShot(new TargetInfo(cell, pawn.Map));
-            MakeGestationFilth(cell);
-            Messages.Message("XMT_MechGestationComplete".Translate(pawn.Named("PAWN"), mech.Named("MECH")).Resolve(), mech, MessageTypeDefOf.PositiveEvent, false);
-        }
-
-        private void MakeGestationFilth(IntVec3 center)
-        {
-            FilthMaker.TryMakeFilth(center, pawn.Map, InternalDefOf.Starbeast_Filth_Resin, count: 8);
-            foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, 1.5f, false))
-            {
-                if (cell.InBounds(pawn.Map) && Rand.Chance(0.45f))
+                if (!reason.NullOrEmpty())
                 {
-                    FilthMaker.TryMakeFilth(cell, pawn.Map, InternalDefOf.Starbeast_Filth_Resin);
+                    Messages.Message(reason, pawn, MessageTypeDefOf.RejectInput, false);
                 }
             }
         }

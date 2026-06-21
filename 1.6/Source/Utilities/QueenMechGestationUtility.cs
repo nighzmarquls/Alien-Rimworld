@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace Xenomorphtype
 {
@@ -11,47 +12,103 @@ namespace Xenomorphtype
         private const int FallbackCycleTicks = 120000;
         private const float CompressionFactor = 0.025f;
         private const float ReferenceLightBodySize = 0.7f;
+        private const float OvothroneAssistedMaxBodySize = 3.6f;
         private const int MinGestationTicks = 1500;
         private const int MaxGestationTicks = 20000;
 
         public static QueenIngestibleResourceDef MechMaterialResource => DefDatabase<QueenIngestibleResourceDef>.GetNamedSilentFail("XMT_MechanoidMaterial");
 
-        public static IEnumerable<RecipeDef> EligibleRecipes(Pawn queen)
+        public static IEnumerable<RecipeDef> EligibleRecipes(Pawn queen, bool ovothroneAssisted = false)
         {
-            ThingDef lightGestator = DefDatabase<ThingDef>.GetNamedSilentFail("MechGestator");
-            if (lightGestator?.recipes == null)
+            if (queen == null)
             {
                 yield break;
             }
-           
-            bool mechanoidSynthesis = false;
-            float queenBodysize = queen.BodySize;
-            if(queen.GetComp<CompQueen>() is CompQueen compQueen)
+
+            foreach (RecipeDef recipe in AllMechGestationRecipes())
             {
-                mechanoidSynthesis = compQueen.HasActiveEvolution(RoyalEvolutionDefOf.Evo_MechanoidSynthesis);
+                if (RecipeAllowedForQueen(queen, recipe, ovothroneAssisted))
+                {
+                    yield return recipe;
+                }
             }
-            foreach (RecipeDef recipe in lightGestator.recipes)
+        }
+
+        private static IEnumerable<RecipeDef> AllMechGestationRecipes()
+        {
+            HashSet<RecipeDef> yielded = new HashSet<RecipeDef>();
+            foreach (string gestatorDefName in new[] { "MechGestator", "LargeMechGestator" })
             {
-                if (!RecipeAvailableByResearch(recipe))
+                ThingDef gestator = DefDatabase<ThingDef>.GetNamedSilentFail(gestatorDefName);
+                if (gestator?.recipes == null)
                 {
                     continue;
                 }
 
-                ThingDef product = ProductFor(recipe);
-                if (product == null || product.race == null || !product.race.IsMechanoid)
+                foreach (RecipeDef recipe in gestator.recipes)
+                {
+                    if (recipe != null && yielded.Add(recipe))
+                    {
+                        yield return recipe;
+                    }
+                }
+            }
+        }
+
+        private static bool RecipeAllowedForQueen(Pawn queen, RecipeDef recipe, bool ovothroneAssisted)
+        {
+            if (!RecipeAvailableByResearch(recipe))
+            {
+                return false;
+            }
+
+            ThingDef product = ProductFor(recipe);
+            if (product?.race == null || !product.race.IsMechanoid)
+            {
+                return false;
+            }
+
+            if (ovothroneAssisted)
+            {
+                return product.race.baseBodySize <= OvothroneAssistedMaxBodySize;
+            }
+
+            bool mechanoidSynthesis = false;
+            float queenBodysize = queen.BodySize;
+            if (queen.GetComp<CompQueen>() is CompQueen compQueen)
+            {
+                mechanoidSynthesis = compQueen.HasActiveEvolution(RoyalEvolutionDefOf.Evo_MechanoidSynthesis);
+            }
+
+            if (mechanoidSynthesis && product.race.baseBodySize < queenBodysize / 2)
+            {
+                return true;
+            }
+
+            return IsLightMech(product, recipe);
+        }
+
+        public static RecipeDef RecipeForProduct(ThingDef product, bool ignoreResearch = false)
+        {
+            if (product == null)
+            {
+                return null;
+            }
+
+            foreach (RecipeDef recipe in AllMechGestationRecipes())
+            {
+                if (!ignoreResearch && !RecipeAvailableByResearch(recipe))
                 {
                     continue;
                 }
-                
-                if(mechanoidSynthesis && product.race.baseBodySize < queenBodysize/2)
+
+                if (ProductFor(recipe) == product)
                 {
-                    yield return recipe;
-                }
-                else if (IsLightMech(product, recipe))
-                {
-                    yield return recipe;
+                    return recipe;
                 }
             }
+
+            return null;
         }
 
         public static ThingDef ProductFor(RecipeDef recipe)
@@ -72,36 +129,7 @@ namespace Xenomorphtype
             return null;
         }
 
-        public static RecipeDef RecipeForProduct(ThingDef product, bool ignoreResearch = false)
-        {
-            if (product == null)
-            {
-                return null;
-            }
-
-            ThingDef lightGestator = DefDatabase<ThingDef>.GetNamedSilentFail("MechGestator");
-            if (lightGestator?.recipes == null)
-            {
-                return null;
-            }
-
-            foreach (RecipeDef recipe in lightGestator.recipes)
-            {
-                if (!ignoreResearch && !RecipeAvailableByResearch(recipe))
-                {
-                    continue;
-                }
-
-                if (ProductFor(recipe) == product)
-                {
-                    return recipe;
-                }
-            }
-
-            return null;
-        }
-
-        public static bool CanGestate(Pawn queen, RecipeDef recipe, out string reason)
+        public static bool CanGestate(Pawn queen, RecipeDef recipe, out string reason, bool ovothroneAssisted = false)
         {
             reason = null;
             CompQueenAssimilation comp = queen?.GetComp<CompQueenAssimilation>();
@@ -118,9 +146,23 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if (recipe == null)
+            {
+                reason = "XMT_MechGestationUnavailable".Translate();
+                return false;
+            }
+
             if (!RecipeAvailableByResearch(recipe))
             {
-                reason = "XMT_MechGestationResearchMissing".Translate(recipe.researchPrerequisite.LabelCap);
+                reason = recipe.researchPrerequisite == null
+                    ? "XMT_MechGestationUnavailable".Translate()
+                    : "XMT_MechGestationResearchMissing".Translate(recipe.researchPrerequisite.LabelCap);
+                return false;
+            }
+
+            if (!RecipeAllowedForQueen(queen, recipe, ovothroneAssisted))
+            {
+                reason = "XMT_MechGestationUnavailable".Translate();
                 return false;
             }
 
@@ -144,6 +186,58 @@ namespace Xenomorphtype
                 return false;
             }
 
+            return true;
+        }
+
+        public static bool TryFinishGestation(Pawn queen, RecipeDef recipe, IntVec3 cell, Map map, out Pawn mech, out string reason, bool ovothroneAssisted = false)
+        {
+            mech = null;
+            reason = null;
+            CompQueenAssimilation comp = queen?.GetComp<CompQueenAssimilation>();
+            QueenIngestibleResourceDef resource = MechMaterialResource;
+            if (queen == null || comp == null || resource == null || map == null)
+            {
+                reason = "XMT_MechGestationUnavailable".Translate();
+                return false;
+            }
+
+            if (!CanGestate(queen, recipe, out reason, ovothroneAssisted))
+            {
+                return false;
+            }
+
+            ThingDef product = ProductFor(recipe);
+            PawnKindDef kind = PawnKindFor(product);
+            if (kind == null)
+            {
+                reason = "XMT_MechGestationUnavailable".Translate();
+                return false;
+            }
+
+            PawnGenerationRequest request = new PawnGenerationRequest(kind, queen.Faction);
+            request.FixedBiologicalAge = 0;
+            request.FixedChronologicalAge = 0;
+            mech = PawnGenerator.GeneratePawn(request);
+            if (queen.mechanitor == null || !queen.mechanitor.CanOverseeSubject(mech))
+            {
+                reason = "XMT_MechGestationNoBandwidth".Translate();
+                return false;
+            }
+
+            float cost = MaterialCost(queen, recipe);
+            if (!comp.TrySpendResource(resource, cost))
+            {
+                reason = "XMT_MechGestationNeedsMaterial".Translate(Mathf.CeilToInt(cost), resource.LabelCap);
+                return false;
+            }
+
+            GenSpawn.Spawn(mech, cell, map, WipeMode.Vanish);
+            queen.relations.AddDirectRelation(PawnRelationDefOf.Overseer, mech);
+            queen.mechanitor.AssignPawnControlGroup(mech, MechWorkModeDefOf.Work);
+            queen.mechanitor.Notify_BandwidthChanged();
+            SoundDefOf.CocoonDestroyed.PlayOneShot(new TargetInfo(cell, map));
+            MakeGestationFilth(cell, map);
+            Messages.Message("XMT_MechGestationComplete".Translate(queen.Named("PAWN"), mech.Named("MECH")).Resolve(), mech, MessageTypeDefOf.PositiveEvent, false);
             return true;
         }
 
@@ -187,6 +281,18 @@ namespace Xenomorphtype
         private static float EggFactor(Pawn queen)
         {
             return XMT_OvomorphLayCostModifierListDef.CostFactorFor(queen);
+        }
+
+        private static void MakeGestationFilth(IntVec3 center, Map map)
+        {
+            FilthMaker.TryMakeFilth(center, map, InternalDefOf.Starbeast_Filth_Resin, count: 8);
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, 1.5f, false))
+            {
+                if (cell.InBounds(map) && Rand.Chance(0.45f))
+                {
+                    FilthMaker.TryMakeFilth(cell, map, InternalDefOf.Starbeast_Filth_Resin);
+                }
+            }
         }
     }
 }

@@ -99,6 +99,7 @@
 	<XMT_EggOptionRequiresGene>Requires gene: {0}.</XMT_EggOptionRequiresGene>
 	<XMT_EggOptionRequiresGeneHolder>{0} cannot hold genes.</XMT_EggOptionRequiresGeneHolder>
 	<XMT_EggSackProduction>Egg production: {0}/{1}</XMT_EggSackProduction>
+	<XMT_EggSackPendingMechGestation>Queued mechanoid: {0} ({1} reserve eggs).</XMT_EggSackPendingMechGestation>
 	<XMT_EggSackNutritionSufficient>Nutrition: sufficient for another egg.</XMT_EggSackNutritionSufficient>
 	<XMT_EggSackNutritionSufficientAmount>Nutrition: sufficient for another egg ({0}/{1}).</XMT_EggSackNutritionSufficientAmount>
 	<XMT_EggSackNutritionInsufficientAmount>Nutrition: insufficient for another egg ({0}/{1}).</XMT_EggSackNutritionInsufficientAmount>
@@ -343,12 +344,17 @@
 	<XMT_AssimilatedResourcesMessage>{PAWN_nameDef} assimilated {1}, recovering {2}.</XMT_AssimilatedResourcesMessage>
 	<XMT_GestateMechanoid>Gestate mechanoid</XMT_GestateMechanoid>
 	<XMT_GestateMechanoidDesc>Gestate a small mechanoid from assimilated mechanoid material.</XMT_GestateMechanoidDesc>
+	<XMT_GestateMechanoidThroneDesc>Use the ovothrone's reserve eggs to gestate a mechanoid behind the throne.</XMT_GestateMechanoidThroneDesc>
 	<XMT_GestateMechanoidOption>Gestate {0}: {1} material, {2}h</XMT_GestateMechanoidOption>
+	<XMT_GestateMechanoidThroneOption>Gestate {0}: {1} material, {2} reserve eggs</XMT_GestateMechanoidThroneOption>
+	<XMT_CancelMechGestation>Cancel queued mechanoid</XMT_CancelMechGestation>
+	<XMT_MechGestationQueued>Queued {0} for ovothrone gestation. Requires {1} reserve eggs.</XMT_MechGestationQueued>
 	<XMT_NoMechGestationOptions>No mechanoid patterns available.</XMT_NoMechGestationOptions>
 	<XMT_MechGestationUnavailable>Unavailable.</XMT_MechGestationUnavailable>
 	<XMT_MechGestationLocked>Requires mechanoid gestation.</XMT_MechGestationLocked>
 	<XMT_MechGestationResearchMissing>Requires {0}.</XMT_MechGestationResearchMissing>
 	<XMT_MechGestationNeedsMaterial>Requires {0} {1}.</XMT_MechGestationNeedsMaterial>
+	<XMT_MechGestationNeedsReserveEggs>Requires {0} reserve eggs ({1}/{2}).</XMT_MechGestationNeedsReserveEggs>
 	<XMT_MechGestationNoBandwidth>Requires mechanitor control.</XMT_MechGestationNoBandwidth>
 	<XMT_MechGestationComplete>{PAWN_nameDef} finished gestating {MECH_labelShort}.</XMT_MechGestationComplete>
 	<XMT_WorkTypeCryptimorphHeader>Cryptimorph behavior:</XMT_WorkTypeCryptimorphHeader>

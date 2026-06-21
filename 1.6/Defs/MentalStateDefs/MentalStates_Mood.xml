@@ -73,6 +73,31 @@
     <allowBeatfire>true</allowBeatfire>
   </MentalStateDef>
 
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>XMT_InorganicSubvertedBerserk</defName>
+    <stateClass>Xenomorphtype.MentalState_XMT_InorganicSubvertedBerserk</stateClass>
+    <workerClass>Xenomorphtype.MentalStateWorker_XMT_InorganicSubvertedBerserk</workerClass>
+    <label>subverted berserk</label>
+    <category>Aggro</category>
+    <blockInteractionInitiationExcept>
+      <li>Insult</li>
+    </blockInteractionInitiationExcept>
+    <blockInteractionRecipientExcept>
+      <li>Insult</li>
+    </blockInteractionRecipientExcept>
+    <blockRandomInteraction>true</blockRandomInteraction>
+    <minTicksBeforeRecovery>100000</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>100000</maxTicksBeforeRecovery>
+    <recoverFromSleep>false</recoverFromSleep>
+    <nameColor>(0.2,0.9,0.5)</nameColor>
+    <blockNormalThoughts>true</blockNormalThoughts>
+    <recoveryMessage>{0} is no longer subverted.</recoveryMessage>
+    <beginLetter>{0} has been subverted.\n\n[PAWN_pronoun] is attacking nearby threats.</beginLetter>
+    <beginLetterDef>ThreatSmall</beginLetterDef>
+    <baseInspectLine>Mental state: Subverted berserk</baseInspectLine>
+    <allowBeatfire>true</allowBeatfire>
+  </MentalStateDef>
+
   <MentalBreakDef>
     <defName>XMT_GiveUpExit</defName>
     <label>horrorified</label>

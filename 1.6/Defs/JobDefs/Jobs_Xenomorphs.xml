@@ -298,6 +298,16 @@
 		<neverFleeFromEnemies>true</neverFleeFromEnemies>
 	</JobDef>
 
+	<JobDef>
+		<defName>XMT_HaulToOvothroneAssimilation</defName>
+		<driverClass>Xenomorphtype.JobDriver_HaulToOvothroneAssimilation</driverClass>
+		<reportString>bringing TargetA to the ovothrone.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+		<carryThingAfterJob>false</carryThingAfterJob>
+	</JobDef>
+
 	<JobDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>XMT_QueenGestateMech</defName>
 		<driverClass>Xenomorphtype.JobDriver_QueenGestateMech</driverClass>

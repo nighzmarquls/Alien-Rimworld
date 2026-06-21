@@ -58,15 +58,19 @@ namespace Xenomorphtype
         }
         private bool TryFindNewTarget()
         {
+            target = FindTarget();
+            return target != null;
+        }
+
+        protected virtual Thing FindTarget()
+        {
             if (XMTUtility.IsXenomorph(pawn) || pawn.Info().IsObsessed())
             {
-                target = XMTMentalStateUtility.FindXenoEnemyToKill(pawn);
-                return target != null;
+                return XMTMentalStateUtility.FindXenoEnemyToKill(pawn);
             }
             else
             {
-                target = XMTMentalStateUtility.FindXenoToKill(pawn);
-                return target != null;
+                return XMTMentalStateUtility.FindXenoToKill(pawn);
             }
         }
 

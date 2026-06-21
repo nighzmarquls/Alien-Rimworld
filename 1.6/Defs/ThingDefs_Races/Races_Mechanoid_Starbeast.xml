@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="BasePawn">
+		<defName>XMT_Subverter</defName>
+		<label>subverter</label>
+		<description>A skittering mechanoid with gleaming green vials, a long flexible tube and eight slender digit like legs.</description>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="Xenomorphtype.CompClimberProperties">
+			</li>
+			<li>
+				<compClass>Xenomorphtype.CompSubverterGenes</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_InorganicSubverterHostHunter">
+				<parasiteHediff>XMT_SubverterAttachment</parasiteHediff>
+				<huntCheckHourInterval>0.2</huntCheckHourInterval>
+			</li>
+			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<ImpossibleHediffs>
+					<li MayRequire="ludeon.rimworld.anomaly">DarknessExposure</li>
+					<li MayRequire="ludeon.rimworld.anomaly">Digested</li>
+				</ImpossibleHediffs>
+			</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech" Class="CompProperties_OverseerSubject">
+				<needsOverseerEffect>MechUncontrolled</needsOverseerEffect>
+				<delayUntilFeralCheck>60000</delayUntilFeralCheck>
+				<feralMtbDays>10</feralMtbDays>
+				<feralCascadeRadialDistance>25</feralCascadeRadialDistance>
+		    </li>			
+		</comps>
+		<statBases>
+			<MoveSpeed>10.0</MoveSpeed>
+			<Flammability>1</Flammability>
+			<ComfyTemperatureMin>-200</ComfyTemperatureMin>
+			<ComfyTemperatureMax>90</ComfyTemperatureMax>
+			<MarketValue>200</MarketValue>
+			<ArmorRating_Blunt>0</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+			<MeleeDodgeChance>4.0</MeleeDodgeChance>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>0</MeatAmount>
+			<ToxicResistance>1.0</ToxicResistance>
+			<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+			<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
+			<Radiation MayRequire="Dubwise.Rimatomics">0</Radiation>
+			<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
+			<BandwidthCost>1</BandwidthCost>
+			<MechEnergyLossPerHP>0.2</MechEnergyLossPerHP>
+			<XMT_GrappleStrength>100</XMT_GrappleStrength>
+			<XMT_Stealth>2.5</XMT_Stealth>
+			<XMT_StealthDetection>0.75</XMT_StealthDetection>
+		</statBases>
+		<uiIconScale>2</uiIconScale>
+		<tools>
+			<li>
+				<label>grab</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>0</power>
+				<cooldownTime>2</cooldownTime>
+				<surpriseAttack>
+				  <extraMeleeDamages>
+					<li>
+					  <def>Stun</def>
+					  <amount>50</amount>
+					</li>
+				  </extraMeleeDamages>
+				</surpriseAttack>
+				<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+				<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			</li>
+			<li>
+				<label>tail</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>10</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+				<surpriseAttack>
+				  <extraMeleeDamages>
+					<li>
+					  <def>Stun</def>
+					  <amount>50</amount>
+					</li>
+				  </extraMeleeDamages>
+				</surpriseAttack>
+				<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+				<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			</li>
+		</tools>
+		<race>
+		  <intelligence>ToolUser</intelligence>
+		  <thinkTreeMain>Mechanoid</thinkTreeMain>
+		  <thinkTreeConstant>MechConstant</thinkTreeConstant>
+		  <hasGenders>false</hasGenders>
+		  <isImmuneToInfections>true</isImmuneToInfections>
+		  <nameGenerator>NamerAnimalGenericFemale</nameGenerator>
+		  <nameGeneratorFemale>NamerAnimalGenericFemale</nameGeneratorFemale>
+		  <trainability>None</trainability>
+		  <canBecomeShambler>false</canBecomeShambler>
+		  <renderTree>Animal</renderTree>
+		  <canBePredatorPrey Inherit="false">false</canBePredatorPrey>
+		  <body>LarvaLike</body>
+		  <baseBodySize>0.2</baseBodySize>
+		  <fleshType>Mechanoid</fleshType>
+          <needsRest>false</needsRest>
+          <hasGenders>false</hasGenders>
+		  <foodType>None</foodType>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+		  <baseHealthScale>0.4</baseHealthScale>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <lifeExpectancy>10</lifeExpectancy>
+		  
+		  <lifeStageAges>
+			<li>
+			  <def>EusocialInsectLarva</def>
+			  <minAge>0</minAge>
+			  <soundWounded>Pawn_Mech_Militor_Wounded</soundWounded>
+			  <soundDeath>Pawn_Mech_Militor_Death</soundDeath>
+			  <soundCall>Pawn_Mech_Militor_Call</soundCall>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_MechanoidSlash_HitPawn</soundMeleeHitPawn>
+          <soundMeleeHitBuilding>Pawn_Melee_MechanoidSlash_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_MechanoidSlash_Miss</soundMeleeMiss>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.12)</li>
+			<li>(0.07, 0, -0.05)</li>
+			<li>(0.0, 0, -0.08)</li>
+			<li>(-0.07, 0, -0.05)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+		</tradeTags>
+		<recipes>
+		</recipes>
+		<butcherProducts>
+			<Steel>1</Steel>
+			<Plasteel>1</Plasteel>
+			<XMT_Acid>1</XMT_Acid>
+		</butcherProducts>
+	</ThingDef>
+	
+	<PawnKindDef>
+		<defName>XMT_Subverter</defName>
+		<label>subverter</label>
+		<race>XMT_Subverter</race>
+		<combatPower>30</combatPower>
+		<ecoSystemWeight>0.30</ecoSystemWeight>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Mechanoid/Subverter/Subverter</texPath>
+						<drawSize>1.5</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+		<modExtensions>
+			<!--<li MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.DefExtension_Paragon">
+				<mechToConvertTo>GR_Mechabear</mechToConvertTo>
+			</li>-->
+		</modExtensions>
+	</PawnKindDef>
+</Defs>

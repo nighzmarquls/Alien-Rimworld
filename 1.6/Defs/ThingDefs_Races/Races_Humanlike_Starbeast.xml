@@ -1515,7 +1515,7 @@
 				<foodCost>2</foodCost>
 				<OvomorphDef>XMT_Ovomorph</OvomorphDef>
 				<geneOvomorphDef>XMT_GeneOvomorph</geneOvomorphDef>
-				<eggOptions>
+				<options>
 					<li>
 						<thingDef>XMT_Ovomorph</thingDef>
 						<iconPath>UI/Abilities/Ovomorph</iconPath>
@@ -1525,6 +1525,23 @@
 						<defaultSelection>true</defaultSelection>
 					</li>
 					<li>
+						<label>Subverter Ovomorph</label>
+						<thingDef>XMT_MechaOvomorph</thingDef>
+						<requiredEvolution>Evo_MechanoidSubversion</requiredEvolution>
+						<iconPath>UI/Abilities/MechaOvomorph</iconPath>
+						<displayOrder>5</displayOrder>
+						<foodCostFactor>0.1</foodCostFactor>
+						<resourceDef>XMT_MechanoidMaterial</resourceDef>
+						<resourceCostFactor>40</resourceCostFactor>
+						<overrideGenes>true</overrideGenes>
+						<progressOverride>1</progressOverride>
+						<persistSelection>true</persistSelection>
+						<genes>
+							<!-- TODO: Implement Mechanoid Cryptimorph K-Series Genes -->
+						</genes>
+					</li>
+					<li>
+						<label>Gene Ovomorph</label>
 						<thingDef>XMT_GeneOvomorph</thingDef>
 						<requiredEvolution>Evo_GeneStorage</requiredEvolution>
 						<iconPath>UI/Abilities/GeneOvomorph</iconPath>
@@ -1533,6 +1550,7 @@
 						<openGeneDialog>true</openGeneDialog>
 					</li>
 					<li>
+						<label>Explosive Ovomorph</label>
 						<thingDef>XMT_ExplosivePod</thingDef>
 						<requiredGene>XMT_Chemfuel_Metabolism</requiredGene>
 						<iconPath>Things/Building/Security/ExplosivePod</iconPath>
@@ -1540,7 +1558,7 @@
 						<foodCostFactor>0.25</foodCostFactor>
 						<persistSelection>true</persistSelection>
 					</li>
-				</eggOptions>
+				</options>
 			</li>
 			<li MayRequire="otyoty.sizedapparel">
 				<compClass>SizedApparel.ApparelRecorderComp</compClass>

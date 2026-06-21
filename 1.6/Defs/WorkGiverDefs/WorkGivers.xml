@@ -32,6 +32,20 @@
 	</WorkGiverDef>
 
 	<WorkGiverDef>
+		<defName>XMT_HaulToOvothroneAssimilation</defName>
+		<label>feed ovothrone queen</label>
+		<giverClass>Xenomorphtype.WorkGiver_HaulToOvothroneAssimilation</giverClass>
+		<workType>Hauling</workType>
+		<verb>feed</verb>
+		<gerund>feeding</gerund>
+		<priorityInType>112</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<nonColonistsCanDo>true</nonColonistsCanDo>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
 		<defName>XMT_ExtractJelly</defName>
 		<label>extract jelly from cryptimorphs</label>
 		<giverClass>Xenomorphtype.WorkGiver_ExtractJelly</giverClass>

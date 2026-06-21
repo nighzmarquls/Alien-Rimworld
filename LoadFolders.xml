@@ -5,6 +5,7 @@
 		<li>Common</li>
 		<li>1.6</li>
 		<li IfModActive="Ludeon.RimWorld.Odyssey">Compatibility/Odyssey</li>
+		<li IfModActive="Neronix17.Asimov">Compatibility/Asimov</li>
 		
 		<li IfModActive="yanzihko.YZRCM">Compatibility/Yanzhiko</li>
 		

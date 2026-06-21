@@ -31,6 +31,17 @@ namespace Xenomorphtype
             return layer?.needs?.food == null || layer.needs.food.CurLevel > foodCost;
         }
 
+        public static bool CanAffordResourceCost(Pawn layer, QueenIngestibleResourceDef resourceDef, float resourceCost)
+        {
+            if (resourceDef == null || resourceCost <= 0f)
+            {
+                return true;
+            }
+
+            CompQueenAssimilation assimilation = layer?.GetComp<CompQueenAssimilation>();
+            return assimilation != null && assimilation.ResourceUnlocked(resourceDef) && assimilation.GetResourceAmount(resourceDef) >= resourceCost;
+        }
+
         public static bool CanLayAt(Pawn layer, IntVec3 loc, ThingDef ovomorphDef, out string reason)
         {
             return CanLayAt(layer, loc, layer, ovomorphDef, out reason);
@@ -81,18 +92,19 @@ namespace Xenomorphtype
             return true;
         }
 
-        public static Thing TryLayOvomorph(Pawn layer, IntVec3 loc, ThingDef ovomorphDef, float baseFoodCost, bool useCostModifiers = true, float initialProgress = 0f)
+        public static Thing TryLayOvomorph(Pawn layer, IntVec3 loc, ThingDef ovomorphDef, float baseFoodCost, bool useCostModifiers = true, float initialProgress = 0f, QueenIngestibleResourceDef resourceDef = null)
         {
             float foodCost = GetAdjustedFoodCost(layer, baseFoodCost, useCostModifiers);
-            return TryLayOvomorphWithCost(layer, loc, ovomorphDef, foodCost, initialProgress);
+            float resourceCost = 0;
+            return TryLayOvomorphWithCost(layer, loc, ovomorphDef, foodCost, initialProgress, resourceDef, resourceCost);
         }
 
-        public static Thing TryLayOvomorphWithCost(Pawn layer, IntVec3 loc, ThingDef ovomorphDef, float foodCost, float initialProgress = 0f)
+        public static Thing TryLayOvomorphWithCost(Pawn layer, IntVec3 loc, ThingDef ovomorphDef, float foodCost, float initialProgress = 0f, QueenIngestibleResourceDef resourceDef = null, float resourceCost = 0)
         {
-            return TryLayOvomorphWithCost(layer, loc, layer, ovomorphDef, foodCost, initialProgress);
+            return TryLayOvomorphWithCost(layer, loc, layer, ovomorphDef, foodCost, initialProgress, resourceDef, resourceCost);
         }
 
-        public static Thing TryLayOvomorphWithCost(Pawn layer, IntVec3 loc, Thing positionSource, ThingDef ovomorphDef, float foodCost, float initialProgress = 0f)
+        public static Thing TryLayOvomorphWithCost(Pawn layer, IntVec3 loc, Thing positionSource, ThingDef ovomorphDef, float foodCost, float initialProgress = 0f, QueenIngestibleResourceDef resourceDef = null, float resourceCost = 0)
         {
             if (!CanLayAt(layer, loc, positionSource, ovomorphDef, out string _))
             {
@@ -104,8 +116,23 @@ namespace Xenomorphtype
                 return null;
             }
 
+            if (!CanAffordResourceCost(layer, resourceDef, resourceCost))
+            {
+                return null;
+            }
+
             Map map = positionSource.MapHeld;
             Thing laidThing = GenSpawn.Spawn(ovomorphDef, loc, map, WipeMode.Vanish);
+
+            if (resourceDef != null && resourceCost > 0f)
+            {
+                CompQueenAssimilation assimilation = layer.GetComp<CompQueenAssimilation>();
+                if (assimilation == null || !assimilation.TrySpendResource(resourceDef, resourceCost))
+                {
+                    laidThing.Destroy();
+                    return null;
+                }
+            }
 
             if (laidThing is Ovomorph ovomorph)
             {

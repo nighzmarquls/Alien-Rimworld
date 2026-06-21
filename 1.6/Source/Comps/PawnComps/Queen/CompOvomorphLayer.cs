@@ -63,17 +63,28 @@ namespace Xenomorphtype
             }
         }
 
-        public string OvomorphDescription(QueenEggLayOption option)
+        public string OvomorphDescription(OvomorphLayOption option)
         {
             ThingDef eggDef = option?.thingDef ?? Props.OvomorphDef;
             string description = "XMT_LayOvomorphDescription".Translate(eggDef?.label ?? "thing");
            
             if (Parent.needs.food == null || Parent.needs.food.CurLevel > FoodCostFor(option))
             {
+                AcceptanceReport resourceReport = ResourceCostReport(option);
+                if (!resourceReport.Accepted)
+                {
+                    description += "\n" + resourceReport.Reason;
+                }
+
                 return description;
             }
 
             description += "\n" + "XMT_InsufficientNutrition".Translate(eggDef?.label ?? "thing");
+            AcceptanceReport missingResourceReport = ResourceCostReport(option);
+            if (!missingResourceReport.Accepted)
+            {
+                description += "\n" + missingResourceReport.Reason;
+            }
 
             return description;
         }
@@ -97,9 +108,19 @@ namespace Xenomorphtype
             return Parent.needs.food != null && Parent.needs.food.CurLevel <= cost;
         }
 
-        public float FoodCostFor(QueenEggLayOption option)
+        public float FoodCostFor(OvomorphLayOption option)
         {
             return FoodCost * (option?.foodCostFactor ?? 1f);
+        }
+
+        public float ResourceCostFor(OvomorphLayOption option)
+        {
+            if (option?.resourceDef == null || option.resourceCostFactor <= 0f)
+            {
+                return 0f;
+            }
+
+            return Mathf.Ceil(FoodCost * option.resourceCostFactor);
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -142,7 +163,7 @@ namespace Xenomorphtype
 
         public Command_Action CreateLaySelectedEggAction(Thing positionSource, bool startJob)
         {
-            QueenEggLayOption selectedOption = ResolveSelectedEggOption();
+            OvomorphLayOption selectedOption = ResolveSelectedEggOption();
             Command_ActionWithOptions action = new Command_ActionWithOptions(delegate
             {
                 return EggOptionFloatMenuOptions();
@@ -194,7 +215,7 @@ namespace Xenomorphtype
 
         private void StartLaySelectedEggTargeting(Thing positionSource, bool startJob)
         {
-            QueenEggLayOption selectedOption = ResolveSelectedEggOption();
+            OvomorphLayOption selectedOption = ResolveSelectedEggOption();
             AcceptanceReport report = CanUseEggOption(selectedOption);
             if (!report.Accepted)
             {
@@ -294,9 +315,9 @@ namespace Xenomorphtype
 
         private IEnumerable<FloatMenuOption> EggOptionFloatMenuOptions()
         {
-            foreach (QueenEggLayOption option in AvailableEggOptions(includeUnavailable: false))
+            foreach (OvomorphLayOption option in AvailableEggOptions(includeUnavailable: false))
             {
-                QueenEggLayOption selectedOption = option;
+                OvomorphLayOption selectedOption = option;
                 string label = selectedOption.Label;
                 FloatMenuOption menuOption = new FloatMenuOption(label, delegate
                 {
@@ -312,9 +333,9 @@ namespace Xenomorphtype
             }
         }
 
-        private List<QueenEggLayOption> AvailableEggOptions(bool includeUnavailable)
+        private List<OvomorphLayOption> AvailableEggOptions(bool includeUnavailable)
         {
-            List<QueenEggLayOption> options = Props.AllEggOptions()
+            List<OvomorphLayOption> options = Props.AllEggOptions()
                 .Where(option => includeUnavailable || CanUseEggOption(option).Accepted)
                 .OrderBy(option => option.displayOrder)
                 .ThenBy(option => option.Label)
@@ -323,10 +344,10 @@ namespace Xenomorphtype
             return options;
         }
 
-        private QueenEggLayOption ResolveSelectedEggOption()
+        private OvomorphLayOption ResolveSelectedEggOption()
         {
-            List<QueenEggLayOption> availableOptions = AvailableEggOptions(includeUnavailable: false);
-            QueenEggLayOption selectedOption = availableOptions.FirstOrDefault(option => option.thingDef == selectedEggDef);
+            List<OvomorphLayOption> availableOptions = AvailableEggOptions(includeUnavailable: false);
+            OvomorphLayOption selectedOption = availableOptions.FirstOrDefault(option => option.thingDef == selectedEggDef);
             if (selectedOption != null)
             {
                 return selectedOption;
@@ -337,12 +358,12 @@ namespace Xenomorphtype
             return selectedOption;
         }
 
-        private QueenEggLayOption DefaultEggOption()
+        private OvomorphLayOption DefaultEggOption()
         {
             return AvailableEggOptions(includeUnavailable: false).FirstOrDefault(option => option.defaultSelection) ?? AvailableEggOptions(includeUnavailable: false).FirstOrDefault();
         }
 
-        private void SelectEggOption(QueenEggLayOption option)
+        private void SelectEggOption(OvomorphLayOption option)
         {
             if (option?.thingDef == null)
             {
@@ -352,7 +373,7 @@ namespace Xenomorphtype
             selectedEggDef = option.thingDef;
         }
 
-        private void ResetSelectedEggOptionIfNeeded(QueenEggLayOption option)
+        private void ResetSelectedEggOptionIfNeeded(OvomorphLayOption option)
         {
             if (option == null || option.persistSelection)
             {
@@ -362,7 +383,7 @@ namespace Xenomorphtype
             selectedEggDef = DefaultEggOption()?.thingDef;
         }
 
-        private AcceptanceReport CanUseEggOption(QueenEggLayOption option)
+        private AcceptanceReport CanUseEggOption(OvomorphLayOption option)
         {
             if (Parent == null || Parent.Destroyed || Parent.Dead)
             {
@@ -390,7 +411,35 @@ namespace Xenomorphtype
                 return "XMT_EggOptionRequiresGeneHolder".Translate(option.thingDef.LabelCap);
             }
 
+            AcceptanceReport resourceReport = ResourceCostReport(option);
+            if (!resourceReport.Accepted)
+            {
+                return resourceReport;
+            }
+
             return true;
+        }
+
+        private AcceptanceReport ResourceCostReport(OvomorphLayOption option)
+        {
+            if (option?.resourceDef == null || option.resourceCostFactor <= 0f)
+            {
+                return AcceptanceReport.WasAccepted;
+            }
+
+            CompQueenAssimilation assimilation = Parent.GetComp<CompQueenAssimilation>();
+            if (assimilation == null || !assimilation.ResourceUnlocked(option.resourceDef))
+            {
+                return "XMT_MechGestationLocked".Translate();
+            }
+
+            float resourceCost = ResourceCostFor(option);
+            if (assimilation.GetResourceAmount(option.resourceDef) < resourceCost)
+            {
+                return "XMT_MechGestationNeedsMaterial".Translate(Mathf.CeilToInt(resourceCost), option.resourceDef.LabelCap);
+            }
+
+            return AcceptanceReport.WasAccepted;
         }
 
         private bool ThingDefHasHiveGeneHolder(ThingDef thingDef)
@@ -411,7 +460,7 @@ namespace Xenomorphtype
 
         public Thing LayOvomorph(IntVec3 loc, Thing positionSource)
         {
-            QueenEggLayOption option = ResolveSelectedEggOption();
+            OvomorphLayOption option = ResolveSelectedEggOption();
             AcceptanceReport report = CanUseEggOption(option);
             if (!report.Accepted)
             {
@@ -420,7 +469,7 @@ namespace Xenomorphtype
             }
 
             float foodCost = FoodCostFor(option);
-            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, loc, positionSource, option.thingDef, foodCost);
+            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, loc, positionSource, option.thingDef, foodCost, resourceDef: option.resourceDef, resourceCost: ResourceCostFor(option), initialProgress: option.progressOverride);
 
             if (laidThing != null)
             {
@@ -455,7 +504,7 @@ namespace Xenomorphtype
             ovomorph.SetParentsWithGenes(Parent, Parent, filteredGenes);
         }
 
-        private void ApplyEggOptionGenes(Thing laidThing, QueenEggLayOption option)
+        private void ApplyEggOptionGenes(Thing laidThing, OvomorphLayOption option)
         {
             if (laidThing == null || option?.genes == null || option.genes.Count == 0)
             {
@@ -489,30 +538,28 @@ namespace Xenomorphtype
         }
     }
 
-
-
     public class CompOvomorphLayerProperties : CompProperties
     {
         public float foodCost;
         public ThingDef OvomorphDef;
         public ThingDef geneOvomorphDef;
-        public List<QueenEggLayOption> eggOptions;
+        public List<OvomorphLayOption> options;
         public CompOvomorphLayerProperties()
         {
             this.compClass = typeof(CompOvomorphLayer);
         }
 
-        public List<QueenEggLayOption> AllEggOptions()
+        public List<OvomorphLayOption> AllEggOptions()
         {
-            if (!eggOptions.NullOrEmpty())
+            if (!options.NullOrEmpty())
             {
-                return eggOptions;
+                return options;
             }
 
-            List<QueenEggLayOption> fallbackOptions = new List<QueenEggLayOption>();
+            List<OvomorphLayOption> fallbackOptions = new List<OvomorphLayOption>();
             if (OvomorphDef != null)
             {
-                fallbackOptions.Add(new QueenEggLayOption
+                fallbackOptions.Add(new OvomorphLayOption
                 {
                     thingDef = OvomorphDef,
                     iconPath = "UI/Abilities/Ovomorph",
@@ -524,7 +571,7 @@ namespace Xenomorphtype
 
             if (geneOvomorphDef != null)
             {
-                fallbackOptions.Add(new QueenEggLayOption
+                fallbackOptions.Add(new OvomorphLayOption
                 {
                     thingDef = geneOvomorphDef,
                     requiredEvolution = RoyalEvolutionDefOf.Evo_GeneStorage,
@@ -539,24 +586,28 @@ namespace Xenomorphtype
         }
     }
 
-    public class QueenEggLayOption
+    public class OvomorphLayOption
     {
+        public string label = string.Empty;
         public ThingDef thingDef;
         public RoyalEvolutionDef requiredEvolution;
         public GeneDef requiredGene;
         public string iconPath;
         public int displayOrder = 0;
+        public float resourceCostFactor = 0f;
+        public float progressOverride = 0f;
+        public QueenIngestibleResourceDef resourceDef = null;
         public float foodCostFactor = 1f;
         public bool persistSelection = false;
         public bool defaultSelection = false;
         public bool openGeneDialog = false;
         public List<GeneDef> genes;
         public bool overrideGenes = false;
-
+        
         [Unsaved(false)]
         private Texture2D icon;
 
-        public string Label => thingDef?.LabelCap ?? "thing";
+        public string Label => label != string.Empty ? label : thingDef?.LabelCap ?? "thing";
         public bool RequiresGeneHolder => openGeneDialog || !genes.NullOrEmpty();
         public Texture2D Icon
         {

@@ -26,7 +26,7 @@ namespace Xenomorphtype
             {
                 Thing spawnedParentOrMe = mentalState_MurderousRage.target.SpawnedParentOrMe;
 
-                if (pawn.needs.food.Starving)
+                if (pawn.needs?.food?.Starving == true)
                 {
                     if (XMTSettings.LogJobGiver)
                     {

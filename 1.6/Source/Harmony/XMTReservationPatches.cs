@@ -43,7 +43,7 @@ namespace Xenomorphtype
             [HarmonyPostfix]
             public static void Postfix(Pawn ___pawn, LocalTargetInfo reservedItem)
             {
-                FeralJobUtility.ClearFeralJobReservationsForTarget(___pawn?.MapHeld, reservedItem);
+                FeralJobUtility.ClearFeralJobReservationsClaimedByOnTarget(___pawn, reservedItem);
             }
         }
 

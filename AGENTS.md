@@ -55,6 +55,7 @@ Add durable observations here when they would help a future agent work safely an
 - Hive building tuning in `XMTNestBuildingUtility` is a multi-session feature area; save durable notes about current behavior, accepted tradeoffs, and tuning knobs when making follow-up changes because the full system exceeds comfortable single-context scope.
 - For hive-building perimeter pocket behavior, `MaxQueuedPocketFloorArea` is the main tuning knob: raise it if tiny ruin/player-structure pockets survive, lower it if perimeter creation defers too much into floor claiming.
 - Last checked RimWorld 1.6 local assembly on 2026-06-01: when exported `Source/` lacks a vanilla method body, load `RimWorldWin64_Data/Managed/*.dll` via PowerShell reflection and recover partial types from `ReflectionTypeLoadException.Types`; this found `Verse.DebugActionsMapManagement.RefogMap()` delegating to `Verse.FloodFillerFog.DebugRefogMap(Map)`. For refog behavior, vanilla bulk-refogs, dirties `MapMeshFlagDefOf.FogOfWar`, then `FloodFillerFog.FloodUnfog` from colonists.
+- Last checked RimWorld 1.6 local assembly on 2026-06-20: when dumping IL/nested iterator methods with PowerShell reflection, pass explicit `[System.Reflection.BindingFlags]` values to `GetMethod`/`GetNestedType`; string overload hints like `"Instance,NonPublic"` can bind the wrong overload and waste time.
 
 ## Agent Update Rule
 

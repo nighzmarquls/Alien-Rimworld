@@ -15,6 +15,13 @@
 		<xpath>/Defs/ThinkTreeDef[defName = "MentalStateNonCritical"]/thinkRoot/subNodes</xpath>
 		<value>
 			<li Class="ThinkNode_ConditionalMentalState">
+				<state>XMT_InorganicSubvertedBerserk</state>
+				<subNodes>
+					<li Class="Xenomorphtype.JobGiver_MurderXenomorph" />
+					<li Class="JobGiver_WanderColony" />
+				</subNodes>
+			</li>
+			<li Class="ThinkNode_ConditionalMentalState">
 				<state>XMT_MurderXenomorph</state>
 				<subNodes>
 					<li Class="Xenomorphtype.JobGiver_MurderXenomorph" />

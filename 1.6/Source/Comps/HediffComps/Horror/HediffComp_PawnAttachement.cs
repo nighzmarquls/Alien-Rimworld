@@ -106,13 +106,13 @@ namespace Xenomorphtype
 
 
         }
-        public void PawnRelease(bool killPawn = false)
+        public virtual void PawnRelease(bool killPawn = false)
         {
             if (removed)
             {
                 return;
             }
-            Pawn released = pawnContainer[0] as Pawn;
+            Pawn released = pawnContainer != null && pawnContainer.Count > 0 ? pawnContainer[0] as Pawn : null;
             if (released != null)
             {
                 if (pawnContainer.TryDropAll(parent.pawn.PositionHeld, parent.pawn.MapHeld, ThingPlaceMode.Near))
@@ -129,6 +129,11 @@ namespace Xenomorphtype
                 }
             }
             removed = true;
+            PostPawnReleased(released, killPawn);
+        }
+
+        protected virtual void PostPawnReleased(Pawn released, bool killPawn)
+        {
         }
 
         public ThingOwner GetDirectlyHeldThings()

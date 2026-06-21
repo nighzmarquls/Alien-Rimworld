@@ -23,7 +23,7 @@ namespace Xenomorphtype
 
         bool accelerated = false;
 
-        private CompHatchingEgg HatchingEgg;
+        protected CompHatchingEgg HatchingEgg;
         public bool Unhatched => (HatchingEgg == null)? true : HatchingEgg.UnHatched;
 
         public bool Ready => gestateProgress >= 1f;
@@ -277,6 +277,12 @@ namespace Xenomorphtype
                 return;
             }
 
+            if (!CanHatchNow(out string reason))
+            {
+                NotifyCannotHatch(reason);
+                return;
+            }
+
             HatchingEgg.UnHatched = false;
             StatDefOf.MarketValue.Worker.ClearCacheForThing(this);
 
@@ -291,7 +297,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (HatchingEgg.mother != null && HatchingEgg.mother.Faction.IsPlayer)
+            if (HatchingEgg.mother?.Faction?.IsPlayer == true)
             {
                 Messages.Message("XMT_MotherEggHatch".Translate(HatchingEgg.mother.LabelShort), MessageTypeDefOf.PositiveEvent);
             }
@@ -301,7 +307,26 @@ namespace Xenomorphtype
             XMTUtility.WitnessOvomorph(PositionHeld, MapHeld, 0.1f, 0.1f);
             
 
-            HatchingEgg.TrySpawnPawn(PositionHeld, HatchingEgg.hatchedPawnKind.race.race.lifeStageAges[0].minAge);
+            Pawn hatchedPawn = HatchingEgg.TrySpawnPawn(PositionHeld, HatchingEgg.hatchedPawnKind.race.race.lifeStageAges[0].minAge);
+            PostHatchPawn(hatchedPawn);
+        }
+
+        protected virtual bool CanHatchNow(out string reason)
+        {
+            reason = null;
+            return true;
+        }
+
+        protected virtual void NotifyCannotHatch(string reason)
+        {
+            if (!reason.NullOrEmpty())
+            {
+                Messages.Message(reason, this, MessageTypeDefOf.RejectInput, historical: false);
+            }
+        }
+
+        protected virtual void PostHatchPawn(Pawn pawn)
+        {
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

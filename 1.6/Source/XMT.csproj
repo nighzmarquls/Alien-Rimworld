@@ -92,7 +92,7 @@
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_ObsessionGiveHediff.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_SirenBroadcast.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_SovereignDominion.cs" />
-    <Compile Include="Abilities\Psycasting\HivecastUtility.cs" />
+    <Compile Include="Utilities\HivecastUtility.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompAdoptionEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompFascinationEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompHiveSongEffect.cs" />
@@ -126,8 +126,10 @@
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_PruneLarder.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_ConsumeGenes.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AssimilateQueenItem.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_HaulToOvothroneAssimilation.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_QueenGestateMech.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_Ritual_Metamorphosis.cs" />
+    <Compile Include="AI\JobGiver\JobGiver_HaulToOvothroneAssimilation.cs" />
     <Compile Include="AI\JobDriver\JobDriver_StarbeastSeduce.cs" />
     <Compile Include="AI\JobDriver\JobDriver_StealthHunt.cs" />
     <Compile Include="AI\JobDriver\JobDriver_LarvaImplant.cs" />
@@ -150,8 +152,10 @@
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Traumatized.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Obsession.cs" />
     <Compile Include="AI\MentalState\States\MentalState_XMT_DestroyOvomorph.cs" />
+    <Compile Include="AI\MentalState\States\MentalState_XMT_InorganicSubvertedBerserk.cs" />
     <Compile Include="AI\MentalState\States\MentalState_XMT_MurderousRage.cs" />
     <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_DestroyOvomorph.cs" />
+    <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_InorganicSubvertedBerserk.cs" />
     <Compile Include="AI\MentalState\Workers\MentalStateWorker_XMT_MurderousRage.cs" />
     <Compile Include="AI\MentalState\XMTMentalStateUtility.cs" />
     <Compile Include="AI\ThoughtWorker\ThoughtWorker_Obsession.cs" />
@@ -162,6 +166,7 @@
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractResin.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractJelly.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractAcid.cs" />
+    <Compile Include="AI\WorkGiver\WorkGiver_HaulToOvothroneAssimilation.cs" />
     <Compile Include="BioHorror\Genes\IbexinGene.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractAcid.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
@@ -251,6 +256,7 @@
     <Compile Include="Building\Horrors\Slumberer.cs" />
     <Compile Include="Building\Royalty\QueenBed.cs" />
     <Compile Include="Building\Reproduction\GeneOvomorph.cs" />
+    <Compile Include="Building\Reproduction\MechaOvomorph.cs" />
     <Compile Include="Building\XMTBase_Building.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompPetrolsump.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompSlumberer.cs" />
@@ -269,16 +275,20 @@
     <Compile Include="Comps\HediffComps\Horror\HediffComp_Mutator.cs" />
     <Compile Include="Comps\HediffComps\HediffComp_Transformation.cs" />
     <Compile Include="Comps\HediffComps\HediffComp_Obsession.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_InorganicSubvertedControl.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_InorganicSubverterAttachment.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_PawnAttachement.cs" />
     <Compile Include="Comps\PawnComps\CompHatchingPod.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompHowler.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompInfector.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompInorganicSubverterHostHunter.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompMundivore.cs" />
     <Compile Include="Comps\PawnComps\Queen\CompQueen.cs" />
     <Compile Include="Comps\PawnComps\Queen\CompQueenAssimilation.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompScreecher.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompFleshTick.cs" />
     <Compile Include="Comps\PawnComps\Horrors\Parasites\CompSmotherer.cs" />
+    <Compile Include="Comps\PawnComps\Horrors\Parasites\CompSubverterGenes.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompSpawner.cs" />
     <Compile Include="Comps\PawnComps\Horrors\CompSpore.cs" />
     <Compile Include="Comps\PawnComps\Queen\CompOvomorphLayer.cs" />
@@ -404,6 +414,7 @@
     <Compile Include="Harmony\XMTUIPatches.cs" />
     <Compile Include="Map\HiveMapComponent.cs" />
     <Compile Include="Utilities\XMTHiveUtility.cs" />
+    <Compile Include="Utilities\InorganicSubversionUtility.cs" />
     <Compile Include="Utilities\InfiltrationUtility.cs" />
     <Compile Include="Utilities\XMTNestBuildingUtility.cs" />
     <Compile Include="ModExtensions\AnimalHostGenes.cs" />

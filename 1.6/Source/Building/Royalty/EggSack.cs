@@ -18,11 +18,14 @@ namespace Xenomorphtype
         bool empty = true;
         int attempts = 2;
 
-        const int maxBacklog = 6;
+        public const int MaxBacklog = 6;
 
         int currentBacklog = 0;
+        RecipeDef pendingMechGestationRecipe;
 
         int CheckInterval = 1000;
+
+        private static Texture2D GestateTexture => ContentFinder<Texture2D>.Get("UI/Abilities/GestateMechanoid");
 
         [Unsaved(false)]
         private Graphic TopGraphic;
@@ -65,6 +68,7 @@ namespace Xenomorphtype
         {
             base.ExposeData();
             Scribe_Values.Look(ref currentBacklog, "currentBacklog", 0);
+            Scribe_Defs.Look(ref pendingMechGestationRecipe, "pendingMechGestationRecipe");
         }
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
@@ -221,6 +225,31 @@ namespace Xenomorphtype
                 {
                     yield return geneManipulator.CreateSelfGeneExpressionAction();
                 }
+
+                CompQueenAssimilation assimilation = occupant.GetComp<CompQueenAssimilation>();
+                if (assimilation != null)
+                {
+                    foreach (Gizmo gizmo in assimilation.CompGetGizmosExtra())
+                    {
+                        if (gizmo is Gizmo_QueenResources)
+                        {
+                            yield return gizmo;
+                        }
+                    }
+                }
+
+                if (occupant.mechanitor != null)
+                {
+                    foreach (Gizmo gizmo in occupant.mechanitor.GetGizmos())
+                    {
+                        yield return gizmo;
+                    }
+                }
+
+                if (assimilation != null && QueenMechGestationUtility.MechMaterialResource != null && assimilation.ResourceUnlocked(QueenMechGestationUtility.MechMaterialResource))
+                {
+                    yield return CreateGestateMechanoidAction(occupant);
+                }
             }
 
             Command_Action command_Action = new Command_Action();
@@ -247,7 +276,12 @@ namespace Xenomorphtype
                 text += "\n";
             }
 
-            text += "XMT_EggSackProduction".Translate(currentBacklog, maxBacklog);
+            text += "XMT_EggSackProduction".Translate(currentBacklog, MaxBacklog);
+            if (pendingMechGestationRecipe != null)
+            {
+                ThingDef product = QueenMechGestationUtility.ProductFor(pendingMechGestationRecipe);
+                text += "\n" + "XMT_EggSackPendingMechGestation".Translate(product?.LabelCap ?? pendingMechGestationRecipe.LabelCap, ReserveEggCostFor(pendingMechGestationRecipe));
+            }
 
             if (Occupant == null || layer == null)
             {
@@ -272,6 +306,147 @@ namespace Xenomorphtype
             }
 
             return text;
+        }
+
+        private Command_Action CreateGestateMechanoidAction(Pawn occupant)
+        {
+            return new Command_Action
+            {
+                defaultLabel = "XMT_GestateMechanoid".Translate(),
+                defaultDesc = "XMT_GestateMechanoidThroneDesc".Translate(),
+                icon = GestateTexture,
+                action = delegate
+                {
+                    OpenMechGestationMenu(occupant);
+                }
+            };
+        }
+
+        private void OpenMechGestationMenu(Pawn occupant)
+        {
+            List<FloatMenuOption> options = new List<FloatMenuOption>();
+            if (pendingMechGestationRecipe != null)
+            {
+                options.Add(new FloatMenuOption("XMT_CancelMechGestation".Translate(), delegate
+                {
+                    pendingMechGestationRecipe = null;
+                }));
+            }
+
+            foreach (RecipeDef recipe in QueenMechGestationUtility.EligibleRecipes(occupant, ovothroneAssisted: true).OrderBy(recipe => recipe.LabelCap.ToString()))
+            {
+                ThingDef product = QueenMechGestationUtility.ProductFor(recipe);
+                int materialCost = Mathf.CeilToInt(QueenMechGestationUtility.MaterialCost(occupant, recipe));
+                int eggCost = ReserveEggCostFor(recipe);
+                string optionLabel = "XMT_GestateMechanoidThroneOption".Translate(product.LabelCap, materialCost, eggCost);
+
+                if (!QueenMechGestationUtility.CanGestate(occupant, recipe, out string reason, ovothroneAssisted: true))
+                {
+                    options.Add(new FloatMenuOption(optionLabel + " (" + reason + ")", null));
+                    continue;
+                }
+
+                options.Add(new FloatMenuOption(optionLabel, delegate
+                {
+                    ScheduleThroneMechGestation(recipe);
+                }));
+            }
+
+            if (options.Count == 0)
+            {
+                options.Add(new FloatMenuOption("XMT_NoMechGestationOptions".Translate(), null));
+            }
+
+            Find.WindowStack.Add(new FloatMenu(options));
+        }
+
+        private void ScheduleThroneMechGestation(RecipeDef recipe)
+        {
+            pendingMechGestationRecipe = recipe;
+            ThingDef product = QueenMechGestationUtility.ProductFor(recipe);
+            Messages.Message("XMT_MechGestationQueued".Translate(product?.LabelCap ?? recipe.LabelCap, ReserveEggCostFor(recipe)), this, MessageTypeDefOf.TaskCompletion, false);
+        }
+
+        private bool TryGestateThroneMech(Pawn occupant, RecipeDef recipe)
+        {
+            if (!CanSpendReserveEggsFor(recipe, out string reason))
+            {
+                Messages.Message(reason, this, MessageTypeDefOf.RejectInput, false);
+                return false;
+            }
+
+            if (!TryFindThroneOutputCell(out IntVec3 cell))
+            {
+                Messages.Message("CannotGenericWorkCustom".Translate("NoPath".Translate()), this, MessageTypeDefOf.RejectInput, false);
+                return false;
+            }
+
+            if (!QueenMechGestationUtility.TryFinishGestation(occupant, recipe, cell, Map, out Pawn _, out reason, ovothroneAssisted: true))
+            {
+                if (!reason.NullOrEmpty())
+                {
+                    Messages.Message(reason, this, MessageTypeDefOf.RejectInput, false);
+                }
+                return false;
+            }
+
+            SpendReserveEggsFor(recipe);
+            pendingMechGestationRecipe = null;
+            return true;
+        }
+
+        private bool TryFindThroneOutputCell(out IntVec3 outputCell)
+        {
+            IntVec3 layingCell = InteractionCell + (Rotation.Opposite.AsIntVec3 * 5);
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(layingCell, 1.5f, true))
+            {
+                if (cell.InBounds(Map)
+                    && cell.Standable(Map)
+                    && cell.GetEdifice(Map) == null
+                    && cell.GetFirstPawn(Map) == null)
+                {
+                    outputCell = cell;
+                    return true;
+                }
+            }
+
+            outputCell = IntVec3.Invalid;
+            return false;
+        }
+
+        private bool CanSpendReserveEggsFor(RecipeDef recipe, out string reason)
+        {
+            int cost = ReserveEggCostFor(recipe);
+            if (currentBacklog < cost)
+            {
+                reason = "XMT_MechGestationNeedsReserveEggs".Translate(cost, currentBacklog, MaxBacklog);
+                return false;
+            }
+
+            reason = null;
+            return true;
+        }
+
+        private void SpendReserveEggsFor(RecipeDef recipe)
+        {
+            currentBacklog = Mathf.Max(0, currentBacklog - ReserveEggCostFor(recipe));
+        }
+
+        private int ReserveEggCostFor(RecipeDef recipe)
+        {
+            ThingDef product = QueenMechGestationUtility.ProductFor(recipe);
+            float bodySize = product?.race == null ? 1f : product.race.baseBodySize;
+            if (bodySize > MaxBacklog)
+            {
+                return MaxBacklog;
+            }
+
+            return Mathf.Clamp(Mathf.CeilToInt(bodySize), 1, MaxBacklog);
+        }
+
+        public void DebugSetReserveEggs(int count)
+        {
+            currentBacklog = Mathf.Clamp(count, 0, MaxBacklog);
         }
 
         public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
@@ -390,7 +565,18 @@ namespace Xenomorphtype
             {
                 if (occupant != null)
                 {
-                    if (currentBacklog >= maxBacklog)
+                    if (pendingMechGestationRecipe != null)
+                    {
+                        if (currentBacklog >= ReserveEggCostFor(pendingMechGestationRecipe))
+                        {
+                            TryGestateThroneMech(occupant, pendingMechGestationRecipe);
+                        }
+                        else
+                        {
+                            currentBacklog = Mathf.Min(MaxBacklog, currentBacklog + 1);
+                        }
+                    }
+                    else if (currentBacklog >= MaxBacklog)
                     {
                         TryLayOvamorph();
                     }

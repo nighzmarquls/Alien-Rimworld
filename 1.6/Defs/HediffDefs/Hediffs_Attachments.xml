@@ -457,4 +457,72 @@
     </comps>
   </HediffDef>
 
+<HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_SubverterAttachment</defName>
+    <label>mechanical parasite</label>
+    <description>a spider like machine has clamped onto the structure and burrowed in.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+    <minSeverity>0.001</minSeverity>
+    <maxSeverity>1</maxSeverity>
+	<tendable>false</tendable>
+	<hediffClass>Hediff_Injury</hediffClass>
+    <displayWound>true</displayWound>
+    <initialSeverity>1</initialSeverity>
+    <stages>
+		<li>
+			<minSeverity>0.0</minSeverity>
+			<lifeThreatening>false</lifeThreatening>
+		</li>
+    </stages>
+    <comps>
+	    <li Class="Xenomorphtype.HediffCompProperties_InorganicSubverterAttachment">
+			<tendQualityToRelease>1</tendQualityToRelease>
+			<attackIfRemoved>false</attackIfRemoved>
+			<tendQualityToKill>4</tendQualityToKill>
+		</li>
+		<li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+	<injuryProps>
+      <painPerSeverity>0.0</painPerSeverity>
+      <bleedRate>0.0</bleedRate>
+      <canMerge>false</canMerge>
+      <destroyedLabel>corroded</destroyedLabel>
+    </injuryProps>
+	<renderNodeProperties>
+      <li Class="PawnRenderNodeProperties">
+        <workerClass>Xenomorphtype.PawnRenderNodeWorker_HeadAttachment</workerClass>
+        <texPath>Things/Pawn/Wounds/SubverterHead</texPath>
+        <parentTagDef>Head</parentTagDef>
+        <drawSize>1</drawSize>
+        <drawData>
+          <defaultData>
+            <layer>56</layer>
+          </defaultData>
+        </drawData>
+      </li>
+    </renderNodeProperties>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_InorganicSubverted</defName>
+    <label>subverted</label>
+    <description>This inorganic pawn is under cryptimorphic signal control.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+    <tendable>false</tendable>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <stages>
+      <li>
+        <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <comps>
+      <li Class="Xenomorphtype.HediffCompProperties_InorganicSubvertedControl" />
+      <li Class="HediffCompProperties_DisappearsOnDeath" />
+    </comps>
+  </HediffDef>
+
 </Defs>

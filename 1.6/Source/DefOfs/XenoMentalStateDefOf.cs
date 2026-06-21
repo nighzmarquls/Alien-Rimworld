@@ -19,6 +19,7 @@ namespace Xenomorphtype
         // Generic
         public static MentalStateDef XMT_MurderousRage;
         public static MentalStateDef XMT_SadisticRage;
+        public static MentalStateDef XMT_InorganicSubvertedBerserk;
 
         // Non-Xenomorph Only
         public static MentalStateDef XMT_DestroyOvomorph;

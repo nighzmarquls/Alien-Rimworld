@@ -1929,6 +1929,10 @@ namespace Xenomorphtype
 
         internal static bool IsHostileAndAwareOf(Thing a, Thing b)
         {
+            if(a == null || b == null)
+            {
+                return false;
+            }
             if(a is Pawn observer)
             {
                 if (observer.Downed)
@@ -1938,6 +1942,11 @@ namespace Xenomorphtype
 
                 CompPawnInfo info = observer.Info();
                 
+                if(info == null)
+                {
+                    return false;
+                }
+
                 if(info.IsObsessed())
                 {
                     return false;

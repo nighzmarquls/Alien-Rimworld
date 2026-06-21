@@ -35,6 +35,7 @@ namespace Xenomorphtype
         public static RoyalEvolutionDef Evo_ElectroMetabolicCatalyst;
         public static RoyalEvolutionDef Evo_SignalAmplifyingAntenna;
         public static RoyalEvolutionDef Evo_MechanoidSynthesis;
+        public static RoyalEvolutionDef Evo_MechanoidSubversion;
 
         public static HediffDef XMT_Fertility;
 

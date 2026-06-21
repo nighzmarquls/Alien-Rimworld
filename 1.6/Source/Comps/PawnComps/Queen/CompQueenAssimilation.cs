@@ -402,6 +402,28 @@ namespace Xenomorphtype
             }
         }
 
+        public void DebugCompleteAssimilation(QueenAssimilationDef def, bool showMessage = true)
+        {
+            if (def == null)
+            {
+                return;
+            }
+
+            ApplyAssimilationResults(def);
+
+            if (!CompletedAssimilations.Contains(def))
+            {
+                CompletedAssimilations.Add(def);
+            }
+
+            EnsureMechanitorBaselineResearch();
+
+            if (showMessage)
+            {
+                Messages.Message("Debug assimilated " + def.LabelCap + " for " + Parent.LabelShort + ".", Parent, MessageTypeDefOf.TaskCompletion, false);
+            }
+        }
+
         private void ApplyAssimilationResults(QueenAssimilationDef def)
         {
             if (def.implantHediff != null)

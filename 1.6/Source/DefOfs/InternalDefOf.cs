@@ -34,6 +34,7 @@ namespace Xenomorphtype
         public static HediffDef             StarbeastStealthHostile;
         public static HediffDef             StarbeastStealthFriendly;
         public static HediffDef             AcidCorrosion;
+        public static HediffDef             XMT_InorganicSubverted;
 
         public static HediffDef             StarbeastCocoon;
         public static HediffDef             PawnInfoHediff;

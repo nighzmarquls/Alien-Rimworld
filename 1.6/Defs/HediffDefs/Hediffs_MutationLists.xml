@@ -131,6 +131,10 @@
 				<hediff>XMT_TorporComa</hediff>
 				<influence>0.01</influence>
 			</li>
+			<li>
+				<hediff>XMT_SubverterAttachment</hediff>
+				<influence>0.01</influence>
+			</li>
 		</influences>
 	</Xenomorphtype.XMT_InfluenceHealthSet>
 	
