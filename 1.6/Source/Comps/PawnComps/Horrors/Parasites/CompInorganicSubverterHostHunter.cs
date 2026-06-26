@@ -23,6 +23,11 @@ namespace Xenomorphtype
             pawns.Shuffle();
             foreach (Pawn pawn in pawns)
             {
+                if(pawn.def == Parent.def)
+                {
+                    continue;
+                }
+
                 if (InorganicSubversionUtility.IsValidSubverterTarget(Parent, pawn))
                 {
                     return pawn;

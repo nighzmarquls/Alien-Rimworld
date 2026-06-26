@@ -388,16 +388,6 @@
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 
-	<Xenomorphtype.RoyalEvolutionDef>
-		<defName>Evo_BiologicalSubjugation</defName>
-		<label>Biological Subjugation</label>
-		<evoPointCost>4</evoPointCost>
-		<description>The hive's biological influence deepens until sufficiently altered minds cannot bring themselves to strike the queen, preparing future enslavement and taming abilities.</description>
-		<prerequisites>
-			<li>Evo_MutantExpression</li>
-			<li>Evo_MaternalCrest</li>
-		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
 -->
 	<!-- 4th tier -->
 	
@@ -433,7 +423,7 @@
 		<defName>Evo_SignalBoostingPylon</defName>
 		<label>Signal Boosting Pylon</label>
 		<evoPointCost>8</evoPointCost>
-		<description>The royal can later lay ovamorphs that grow into bandwidth-amplifying pylons at mechanoid material cost. This advancement is inert without a mechlink.</description>
+		<description>The royal can lay ovamorphs that grow into bandwidth-amplifying pylons at mechanoid material cost. This advancement is inert without a mechlink.</description>
 		<prerequisites>
 			<li>Evo_MechanitorArray</li>
 		</prerequisites>

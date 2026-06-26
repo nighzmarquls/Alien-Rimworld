@@ -208,7 +208,7 @@
         <path>XMT_Hivemother</path>
         <level>5</level>
         <order>1</order>
-        <psyfocusCost>0.06</psyfocusCost>
+        <psyfocusCost>0.1</psyfocusCost>
         <entropyGain>85</entropyGain>
         <psychic>true</psychic>
         <prerequisites>
@@ -251,7 +251,7 @@
         <level>5</level>
         <order>2</order>
         <psyfocusCost>0.5</psyfocusCost>
-        <entropyGain>0</entropyGain>
+        <entropyGain>60</entropyGain>
         <prerequisites>
           <li>XMT_SirenBroadcast</li>
         </prerequisites>

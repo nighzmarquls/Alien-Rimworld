@@ -126,7 +126,26 @@ namespace Xenomorphtype
                 {
                     __result = compCrawler.Crawling;
                     if (__result)
-                    {
+                    {   
+                        if(__instance.jobs.curDriver != null)
+                        {
+                            switch(__instance.jobs.curDriver.CurToilString)
+                            {
+                                case "GotoThing":
+                                case "GotoCell":
+                                case "GotoBuild":
+                                case "MoveOffTargetBlueprint":
+                                case "ClimbToThing":
+                                case "ClimbToCell":
+                                    break;
+                                default:
+                                    if (__instance.jobs.posture == PawnPosture.LayingOnGroundNormal)
+                                    {
+                                        __instance.jobs.posture = PawnPosture.Standing;
+                                    }
+                                    return true;
+                            }
+                        }
                         __instance.jobs.posture = PawnPosture.LayingOnGroundNormal;
                         return false;
                     }

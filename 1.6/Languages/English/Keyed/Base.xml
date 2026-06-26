@@ -26,6 +26,13 @@
 	<XMT_FMO_PruneLarder>Prune Larder</XMT_FMO_PruneLarder>
 	
 	<XMT_FMO_Hibernate>Hibernate</XMT_FMO_Hibernate>
+
+	<XMT_ForcedStartingHediffCountCount>Count</XMT_ForcedStartingHediffCountCount>
+	<XMT_ForcedStartingHediffCountHediff>Hediff</XMT_ForcedStartingHediffCountHediff>
+	<XMT_ForcedStartingHediffCountBodyPart>Body part</XMT_ForcedStartingHediffCountBodyPart>
+	<XMT_ForcedStartingHediffCountUseDefaultSeverity>Use hediff initial severity</XMT_ForcedStartingHediffCountUseDefaultSeverity>
+	<XMT_ForcedStartingHediffCountSeverity>Severity</XMT_ForcedStartingHediffCountSeverity>
+	<XMT_ForcedStartingHediffCountSummary>{0} starting pawns forced to have {1}</XMT_ForcedStartingHediffCountSummary>
 	
 	<XMT_FMO_ClimbTo>Climb To</XMT_FMO_ClimbTo>
 	

@@ -10,5 +10,13 @@
     <scenPartClass>Xenomorphtype.ScenPart_Xenoforming</scenPartClass>
     <maxUses>1</maxUses>
   </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>XMT_ForcedStartingHediffCount</defName>
+    <label>forced starting conditions</label>
+    <category>PlayerPawnModifier</category>
+    <scenPartClass>Xenomorphtype.ScenPart_ForcedStartingHediffCount</scenPartClass>
+    <canBeRandomlyAdded>false</canBeRandomlyAdded>
+  </ScenPartDef>
   
 </Defs>

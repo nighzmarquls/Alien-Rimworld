@@ -386,7 +386,22 @@ namespace Xenomorphtype
             }
         }
 
-        private static void TickManualPatherArrival(Toil toil, IntVec3 targetCell, PathEndMode peMode)
+        private static bool HasArrived(Pawn actor, LocalTargetInfo target, PathEndMode peMode)
+        {
+            if (actor == null || !target.IsValid)
+            {
+                return false;
+            }
+
+            if (actor.Spawned && actor.CanReachImmediate(target, peMode))
+            {
+                return true;
+            }
+
+            return HasArrived(actor, target.Cell, peMode);
+        }
+
+        private static void TickManualPatherArrival(Toil toil, LocalTargetInfo target, PathEndMode peMode)
         {
             Pawn actor = toil.actor;
             if (actor == null || actor.jobs?.curDriver == null)
@@ -400,7 +415,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (HasArrived(actor, targetCell, peMode))
+            if (HasArrived(actor, target, peMode))
             {
                 actor.jobs.curDriver.ReadyForNextToil();
                 return;
@@ -410,10 +425,15 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogClimbing)
                 {
-                    Log.Message(actor + " reports as having not arrived at " + targetCell + " with " + peMode + " for " + actor.jobs?.curJob);
+                    Log.Message(actor + " reports as having not arrived at " + target + " with " + peMode + " for " + actor.jobs?.curJob);
                 }
-                TryStartFallbackPathOrEndJob(actor, targetCell, peMode);
+                TryStartFallbackPathOrEndJob(actor, target, peMode);
             }
+        }
+
+        private static void TickManualPatherArrival(Toil toil, IntVec3 targetCell, PathEndMode peMode)
+        {
+            TickManualPatherArrival(toil, new LocalTargetInfo(targetCell), peMode);
         }
 
         private static bool TryStartFallbackPathOrEndJob(Pawn actor, LocalTargetInfo target, PathEndMode peMode)
@@ -470,7 +490,7 @@ namespace Xenomorphtype
                 Pawn actor = toil.actor;
 
                 LocalTargetInfo target = actor.jobs.curJob.GetTarget(ind);
-                if (actor.Position == target.Cell)
+                if (HasArrived(actor, target, peMode))
                 {
                     actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
@@ -490,17 +510,14 @@ namespace Xenomorphtype
                         Log.Message(actor + " could not get climb parameters in TargetIndex GotoCell Init Action");
                     }
 
-                    if (HasArrived(actor, target.Cell, peMode))
+                    if (HasArrived(actor, target, peMode))
                     {
                         climber.ClearClimberData();
                         actor.jobs.curDriver.ReadyForNextToil();
                         return;
                     }
 
-                    if (TryStartFallbackPathOrEndJob(actor, target, peMode))
-                    {
-                        toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
-                    }
+                    TryStartFallbackPathOrEndJob(actor, target, peMode);
                     return;
                 }
                 InitClimbAction(actor, ref climber, toil, peMode);
@@ -528,8 +545,9 @@ namespace Xenomorphtype
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
-                if (actor.Position == cell)
+                if (HasArrived(actor, cell, peMode))
                 {
+                    actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
                 }
@@ -553,10 +571,7 @@ namespace Xenomorphtype
                         actor.jobs.curDriver.ReadyForNextToil();
                         return;
                     }
-                    if (TryStartFallbackPathOrEndJob(actor, cell, peMode))
-                    {
-                        toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
-                    }
+                    TryStartFallbackPathOrEndJob(actor, cell, peMode);
                     return;
                 }
                 InitClimbAction(actor, ref climber, toil, peMode);
@@ -582,6 +597,7 @@ namespace Xenomorphtype
         {
 
             Toil toil = ToilMaker.MakeToil("ClimbToThing");
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
@@ -589,6 +605,13 @@ namespace Xenomorphtype
                 Pawn actor = toil.actor;
                 LocalTargetInfo dest = actor.jobs.curJob.GetTarget(ind);
                 Thing thing = dest.Thing;
+
+                if (HasArrived(actor, exactCell, PathEndMode.OnCell))
+                {
+                    actor.pather.StopDead();
+                    actor.jobs.curDriver.ReadyForNextToil();
+                    return;
+                }
                 
                 CompClimber climber = actor.GetClimberComp();
                 if (climber == null)
@@ -608,16 +631,13 @@ namespace Xenomorphtype
                     {
                         Log.Message(actor + " could not get climb parameters in dest.cell GotoCell Init Action");
                     }
-                    if (HasArrived(actor, dest.Cell, PathEndMode.OnCell))
+                    if (HasArrived(actor, exactCell, PathEndMode.OnCell))
                     {
                         climber.ClearClimberData();
                         actor.jobs.curDriver.ReadyForNextToil();
                         return;
                     }
-                    if (TryStartFallbackPathOrEndJob(actor, exactCell, PathEndMode.OnCell))
-                    {
-                        toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
-                    }
+                    TryStartFallbackPathOrEndJob(actor, exactCell, PathEndMode.OnCell);
                     return;
                 }
                 toil.defaultCompleteMode = ToilCompleteMode.Never;
@@ -630,6 +650,7 @@ namespace Xenomorphtype
                 CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
+                    TickManualPatherArrival(toil, exactCell, PathEndMode.OnCell);
                     return;
                 }
                 TickClimbIntervalAction(interval, toil.actor, ref climber, toil, PathEndMode.OnCell);
@@ -646,20 +667,30 @@ namespace Xenomorphtype
         {
 
             Toil toil = ToilMaker.MakeToil("ClimbToThing");
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
                 LocalTargetInfo dest = actor.jobs.curJob.GetTarget(ind);
                 Thing thing = dest.Thing;
+
+                if (thing != null && canGotoSpawnedParent)
+                {
+                    dest = thing.SpawnedParentOrMe;
+                }
+
+                if (HasArrived(actor, dest, peMode))
+                {
+                    actor.pather.StopDead();
+                    actor.jobs.curDriver.ReadyForNextToil();
+                    return;
+                }
+
                 CompClimber climber = actor.GetClimberComp();
 
                 if (climber == null)
                 {
-                    if (thing != null && canGotoSpawnedParent)
-                    {
-                        dest = thing.SpawnedParentOrMe;
-                    }
                     toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
                     actor.pather.StartPath(dest, peMode);
                     return;
@@ -670,20 +701,13 @@ namespace Xenomorphtype
                     {
                         Log.Message(actor + " could not get climb parameters in dest.cell GotoThing Init Action");
                     }
-                    if (HasArrived(actor, dest.Cell, peMode))
+                    if (HasArrived(actor, dest, peMode))
                     {
                         climber.ClearClimberData();
                         actor.jobs.curDriver.ReadyForNextToil();
                         return;
                     }
-                    if (thing != null && canGotoSpawnedParent)
-                    {
-                        dest = thing.SpawnedParentOrMe;
-                    }
-                    if (TryStartFallbackPathOrEndJob(actor, dest, peMode))
-                    {
-                        toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
-                    }
+                    TryStartFallbackPathOrEndJob(actor, dest, peMode);
                     return;
                 }
                 toil.defaultCompleteMode = ToilCompleteMode.Never;
@@ -696,6 +720,12 @@ namespace Xenomorphtype
                 CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
+                    LocalTargetInfo dest = actor.jobs.curJob.GetTarget(ind);
+                    if (dest.Thing != null && canGotoSpawnedParent)
+                    {
+                        dest = dest.Thing.SpawnedParentOrMe;
+                    }
+                    TickManualPatherArrival(toil, dest, peMode);
                     return;
                 }
                 TickClimbIntervalAction(interval, toil.actor, ref climber, toil, peMode);
@@ -716,13 +746,14 @@ namespace Xenomorphtype
         public static Toil CarryHauledThingToCell(TargetIndex ind, PathEndMode peMode = PathEndMode.ClosestTouch)
         {
             Toil toil = ToilMaker.MakeToil("ClimbToHaulToCell");
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.AddFailCondition(() => { return FailClimbToil(toil); });
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
 
                 LocalTargetInfo target = actor.jobs.curJob.GetTarget(ind);
-                if (actor.Position == target.Cell)
+                if (HasArrived(actor, target, peMode))
                 {
                     actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
@@ -741,16 +772,13 @@ namespace Xenomorphtype
                     {
                         Log.Message(actor + " could not get climb parameters in target.Cell CarryHauledThingToCell Init Action");
                     }
-                    if (HasArrived(actor, target.Cell, peMode))
+                    if (HasArrived(actor, target, peMode))
                     {
                         climber.ClearClimberData();
                         actor.jobs.curDriver.ReadyForNextToil();
                         return;
                     }
-                    if (TryStartFallbackPathOrEndJob(actor, target, peMode))
-                    {
-                        toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
-                    }
+                    TryStartFallbackPathOrEndJob(actor, target, peMode);
                     return;
                 }
 
@@ -764,6 +792,7 @@ namespace Xenomorphtype
                 CompClimber climber = toil.actor.GetClimberComp();
                 if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
                 {
+                    TickManualPatherArrival(toil, toil.actor.jobs.curJob.GetTarget(ind), peMode);
                     return;
                 }
                 TickClimbIntervalAction(interval, toil.actor, ref climber, toil, peMode);

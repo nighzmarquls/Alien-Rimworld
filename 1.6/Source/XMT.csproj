@@ -443,6 +443,7 @@
     <Compile Include="Comps\WorldComps\XenoformingComp.cs" />
     <Compile Include="Utilities\TamingUtility.cs" />
     <Compile Include="WorldHorror\BiomeWorker\BiomeWorker_DessicatedBlight.cs" />
+    <Compile Include="WorldHorror\ScenPart\ScenPart_ForcedStartingHediffCount.cs" />
     <Compile Include="WorldHorror\ScenPart\ScenPart_Xenoforming.cs" />
     <Compile Include="WorldHorror\WorldDrawLayer_Xenoforming.cs" />
     <Compile Include="Utilities\XenoformingUtility.cs" />

@@ -1048,6 +1048,7 @@
 				  <!-- Ovomorph Crafts -->
 				  <li>HiveSleepingCocoonBuildable</li>
 				  <li>XMT_ExplosivePodBuildable</li>
+				  
 				</buildingList>
 				
 				<whiteBuildingList>
@@ -1065,6 +1066,7 @@
 					<li>XMT_Ovomorph</li>
 					<li>XMT_ExplosivePod</li>
 					<li>XMT_GeneOvomorph</li>
+					<li>XMT_MechaOvomorph</li>
 					<li>XMT_MeatballLarder</li>
 					<li>XMT_JellyWell</li>
 					<li>XMT_HibernationCocoon</li>

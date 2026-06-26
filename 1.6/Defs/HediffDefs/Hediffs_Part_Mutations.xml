@@ -2,6 +2,7 @@
 <Defs>
 	<HediffDef Name="AddedXenomorphPart" ParentName="AddedBodyPartBase" Abstract="True">
 		<organicAddedBodypart>true</organicAddedBodypart>
+		<everCurableByItem>false</everCurableByItem>
 	</HediffDef>
 	
 	<HediffDef ParentName="AddedXenomorphPart">

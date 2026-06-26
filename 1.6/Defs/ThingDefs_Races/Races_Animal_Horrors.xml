@@ -2148,12 +2148,14 @@
 			<li >NonContractable</li>
 		</tradeTags>
 		<comps>
-				<li Class="Xenomorphtype.CompAcidBloodProperties">
-					<appliedHediff>AcidCorrosion</appliedHediff>
-					<splashRange>3</splashRange>
-					<cells>3</cells>
-					<damage>20</damage>
-				</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>3</splashRange>
+				<cells>3</cells>
+				<damage>20</damage>
+			</li>
+			<li MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_HumanoidHybrid">
+			</li>
 		</comps>
 		<modExtensions>
 			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />

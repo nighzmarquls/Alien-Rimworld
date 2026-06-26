@@ -213,7 +213,7 @@
 		<defName>XMT_Purify_Wastepack</defName>
 		<label>purify wastepack</label>
 		<description>melt down toxic wastepacks with molecular acid into benign compounds.</description>
-		<jobString>making cryptizip.</jobString>
+		<jobString>purifying wastepacks.</jobString>
 		<effectWorking>Cremate</effectWorking>
 		<soundWorking>Recipe_Cremate</soundWorking>
 		<workAmount>1500</workAmount>

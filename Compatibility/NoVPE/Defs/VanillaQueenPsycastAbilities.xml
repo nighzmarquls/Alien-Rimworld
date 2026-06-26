@@ -187,7 +187,7 @@
 		<writeCombatLog>True</writeCombatLog>
 		<hostile>True</hostile>
 		<statBases>
-		  <Ability_EntropyGain>10</Ability_EntropyGain>
+		  <Ability_EntropyGain>85</Ability_EntropyGain>
 		  <Ability_PsyfocusCost>0.1</Ability_PsyfocusCost>
 		  <Ability_EffectRadius>21</Ability_EffectRadius>
 		</statBases>
@@ -221,8 +221,8 @@
 		<hotKey>Misc6</hotKey>
 		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
 		<statBases>
-			<Ability_EntropyGain>30</Ability_EntropyGain>
-			<Ability_PsyfocusCost>0.01</Ability_PsyfocusCost>
+			<Ability_EntropyGain>60</Ability_EntropyGain>
+			<Ability_PsyfocusCost>0.5</Ability_PsyfocusCost>
 			<Ability_Duration>1000</Ability_Duration>
 			<Ability_EffectRadius>5.9</Ability_EffectRadius>
 		</statBases>

@@ -31,6 +31,13 @@
 					<visible>false</visible>
 				</li>
 				<!-- Player pawns modifiers -->
+				<li Class="Xenomorphtype.ScenPart_ForcedStartingHediffCount">
+					<def>XMT_ForcedStartingHediffCount</def>
+					<visible>false</visible>
+					<count>1</count>
+					<hediff>XMT_LarvalEmbrace</hediff>
+					<severityRange>0.1~0.1</severityRange>
+				</li>
 				<!-- Player starting things -->
 				<!-- Player starting Research -->
 				<li Class="ScenPart_StartingResearch">
