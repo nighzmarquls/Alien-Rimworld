@@ -134,6 +134,8 @@
     <Compile Include="AI\JobDriver\JobDriver_StealthHunt.cs" />
     <Compile Include="AI\JobDriver\JobDriver_LarvaImplant.cs" />
     <Compile Include="AI\JobDriver\JobDriver_OpenDoorMischief.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_PathRecoveryOpenDoor.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_PathRecoveryBreach.cs" />
     <Compile Include="AI\JobDriver\JobDriver_BreakRoofMischief.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Metamorphosis.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Sabotage.cs" />
@@ -246,6 +248,7 @@
     <Compile Include="Harmony\XMTAnomalyPatches.cs" />
     <Compile Include="Harmony\XMTButcheryPatches.cs" />
     <Compile Include="Harmony\XMTClimbPatches.cs" />
+    <Compile Include="Harmony\XMTJobCleanupPatches.cs" />
     <Compile Include="Harmony\XMTRecordsPatches.cs" />
     <Compile Include="Utilities\ClimbUtility.cs" />
     <Compile Include="Utilities\FeralJobUtility.cs" />

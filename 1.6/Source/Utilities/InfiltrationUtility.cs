@@ -306,6 +306,159 @@ namespace Xenomorphtype
             return false;
         }
 
+        public static bool TryFindAnyInfiltrationEscape(Pawn pawn, out IntVec3 escapeCell, Predicate<IntVec3> destinationValidator = null)
+        {
+            return TryFindAnyInfiltrationEscape(pawn, out escapeCell, out Room ignoredRoom, destinationValidator == null ? null : (candidate, room) => destinationValidator(candidate));
+        }
+
+        public static bool TryFindAnyInfiltrationEscape(Pawn pawn, out IntVec3 escapeCell, out Room escapeRoom, Func<IntVec3, Room, bool> destinationValidator = null)
+        {
+            escapeCell = IntVec3.Invalid;
+            escapeRoom = null;
+            if (pawn?.Map == null || !pawn.Spawned)
+            {
+                return false;
+            }
+
+            Map map = pawn.Map;
+            Room startRoom = pawn.GetRoom();
+            if (startRoom == null)
+            {
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message("[InfiltrationEscape] " + pawn + " has no start room at " + pawn.Position + ".");
+                }
+                return false;
+            }
+
+            if (!cache.ContainsKey(map))
+            {
+                cache.Add(map, new InfiltrationCache());
+            }
+
+            InfiltrationCache infiltrationCache = cache[map];
+            int colonyBuildingCount = map.listerBuildings.allBuildingsColonist.Count;
+            if (infiltrationCache.lastColonyBuildingCount != colonyBuildingCount)
+            {
+                infiltrationCache.networks.Clear();
+                infiltrationCache.lastColonyBuildingCount = colonyBuildingCount;
+            }
+
+            GenerateInfiltrationNetworks(map, startRoom, ref infiltrationCache);
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message("[InfiltrationEscape] " + pawn + " scanning from room=" + MatureMorphPathRecoveryState.RoomSummary(startRoom) + " networks=" + infiltrationCache.networks.Count + ".");
+            }
+
+            int bestDistance = int.MaxValue;
+            foreach (InfiltrationNetwork network in infiltrationCache.networks)
+            {
+                if (!network.connectedRooms.Contains(startRoom))
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message("[InfiltrationEscape] " + pawn + " skipping network type=" + network.type + " because it does not include start room. rooms=" + network.connectedRooms.Count + " endpoints=" + network.endpoints.Count + ".");
+                    }
+                    continue;
+                }
+
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message("[InfiltrationEscape] " + pawn + " checking network type=" + network.type + " rooms=" + network.connectedRooms.Count + " endpoints=" + network.endpoints.Count + ".");
+                }
+
+                foreach (InfiltrationEndPoint endpoint in network.endpoints)
+                {
+                    if (endpoint.building == null || !endpoint.building.Spawned)
+                    {
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message("[InfiltrationEscape] " + pawn + " skipping unspawned/null endpoint.");
+                        }
+                        continue;
+                    }
+
+                    bool reachableEntry = CheckReachable(map, pawn.Position, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
+                    if (!reachableEntry)
+                    {
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message("[InfiltrationEscape] " + pawn + " cannot reach endpoint " + endpoint.building + " at " + endpoint.building.Position + ".");
+                        }
+                        continue;
+                    }
+
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message("[InfiltrationEscape] " + pawn + " reached endpoint " + endpoint.building + " at " + endpoint.building.Position + " connectedRooms=" + endpoint.connectedRooms.Count + ".");
+                    }
+
+                    foreach (Room room in endpoint.connectedRooms)
+                    {
+                        if (room == null || room == startRoom)
+                        {
+                            if (XMTSettings.LogJobGiver && room == startRoom)
+                            {
+                                Log.Message("[InfiltrationEscape] " + pawn + " skipping start room on endpoint " + endpoint.building + ".");
+                            }
+                            continue;
+                        }
+
+                        if(pawn.GetMorphComp().RoomInvalidForEscape(room))
+                        {
+                            continue;
+                        }
+
+                        IntVec3 candidate = IntVec3.Invalid;
+                        foreach (IntVec3 adjacent in endpoint.building.OccupiedRect().AdjacentCells)
+                        {
+                            if (adjacent.InBounds(map) && adjacent.GetRoom(map) == room && adjacent.Standable(map))
+                            {
+                                candidate = adjacent;
+                                break;
+                            }
+                        }
+
+                        if (!candidate.IsValid)
+                        {
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message("[InfiltrationEscape] " + pawn + " found no standable adjacent candidate for endpoint " + endpoint.building + " room=" + MatureMorphPathRecoveryState.RoomSummary(room) + ".");
+                            }
+                            continue;
+                        }
+
+                        if (destinationValidator != null && !destinationValidator(candidate, room))
+                        {
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message("[InfiltrationEscape] " + pawn + " validator rejected candidate=" + candidate + " room=" + MatureMorphPathRecoveryState.RoomSummary(room) + " endpoint=" + endpoint.building + ".");
+                            }
+                            continue;
+                        }
+
+                        int distance = pawn.Position.DistanceToSquared(candidate);
+                        if (distance < bestDistance)
+                        {
+                            bestDistance = distance;
+                            escapeCell = candidate;
+                            escapeRoom = room;
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message("[InfiltrationEscape] " + pawn + " new best candidate=" + candidate + " room=" + MatureMorphPathRecoveryState.RoomSummary(room) + " endpoint=" + endpoint.building + " distance=" + distance + ".");
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message("[InfiltrationEscape] " + pawn + " result escapeCell=" + escapeCell + " escapeRoom=" + MatureMorphPathRecoveryState.RoomSummary(escapeRoom) + ".");
+            }
+            return escapeCell.IsValid;
+        }
+
         protected static bool IsAtomicEntry(ThingDef thing)
         {
             if (thing == null)

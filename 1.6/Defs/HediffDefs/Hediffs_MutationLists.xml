@@ -220,9 +220,9 @@
 				<uiLabel>Mutant transformation</uiLabel>
 				<displayOrder>80</displayOrder>
 				<randomBodypart>false</randomBodypart>
-				<probability>1</probability>
-				<essenceMinimum>1</essenceMinimum>
-				<essenceMaximum>10</essenceMaximum>
+				<probability>0.5</probability>
+				<essenceMinimum>8</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</mutations>
 	</Xenomorphtype.XMT_MutationsHealthSet>
@@ -415,7 +415,7 @@
 				<displayOrder>50</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>1</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>2</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</mutations>
@@ -508,13 +508,6 @@
 				<pawnTransformationTarget>XMT_HybridHorrorBlank</pawnTransformationTarget>
 				<probability>0.5</probability>
 				<essenceMinimum>1</essenceMinimum>
-				<essenceMaximum>2</essenceMaximum>
-			</li>
-			<li>
-				<thingTransformationTarget></thingTransformationTarget>
-				<pawnTransformationTarget>XMT_StarbeastKind</pawnTransformationTarget>
-				<probability>1</probability>
-				<essenceMinimum>2</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</transformations>

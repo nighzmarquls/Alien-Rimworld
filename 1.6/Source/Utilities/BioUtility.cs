@@ -124,12 +124,12 @@ namespace Xenomorphtype
 
         public static void TryMutatingPawn(ref Pawn pawn, XMT_MutationsHealthSet customSet = null, float bonusEssence = 0)
         {
-            if (XMTUtility.IsXenomorph(pawn))
+            if (pawn.health == null)
             {
                 return;
             }
-            
-            if(pawn.health == null)
+
+            if (pawn.GetMorphComp() != null)
             {
                 return;
             }
@@ -139,7 +139,6 @@ namespace Xenomorphtype
                 Log.Message(pawn + " being mutated");
             }
            
-
             float essence = GetXenomorphInfluence(pawn)+bonusEssence;
 
             if(pawn.health.hediffSet.HasPregnancyHediff())
@@ -287,7 +286,7 @@ namespace Xenomorphtype
                 return "XMT_MutationInvalid_NoHealth".Translate(target.LabelShort);
             }
 
-            if (XMTUtility.IsXenomorph(target))
+            if (target.GetMorphComp() != null)
             {
                 return "XMT_MutationInvalid_Xenomorph".Translate(target.LabelShort);
             }

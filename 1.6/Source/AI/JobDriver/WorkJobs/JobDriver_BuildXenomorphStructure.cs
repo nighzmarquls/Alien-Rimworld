@@ -18,6 +18,7 @@ namespace Xenomorphtype {
         private float Ticks = 0;
         private float Progress = 0;
         private bool constructionCompleted;
+        private bool workStarted;
         protected float xpPerTick = 0.085f;
         
         public IntVec3 BuildCell
@@ -42,6 +43,16 @@ namespace Xenomorphtype {
         {
             return BuildingDef == null;
         }
+
+        internal void NotifyCleanup(JobCondition condition)
+        {
+            if (condition == JobCondition.Incompletable && !workStarted && !constructionCompleted)
+            {
+                pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(BuildCell), job);
+                XMTNestBuildingUtility.NotifyHiveBuildJobFailed(pawn, BuildCell, BuildingDef, NestBuildStage.ClaimFloor);
+            }
+        }
+
         protected override IEnumerable<Toil> MakeNewToils()
         {
             buildingDef = job?.plantDefToSow;
@@ -61,6 +72,7 @@ namespace Xenomorphtype {
             toil.atomicWithPrevious = true;
             toil.initAction = delegate
             {
+                workStarted = true;
                 buildingDef = job?.plantDefToSow ?? buildingDef;
                 Thing obstruction = BuildCell.GetEdifice(pawn.Map);
                 if (obstruction != null)
@@ -158,6 +170,7 @@ namespace Xenomorphtype {
 
             Building finishedBuilding = GenSpawn.Spawn(defToBuild, BuildCell, pawn.Map, rotation, WipeMode.FullRefund) as Building;
             finishedBuilding?.SetFaction(pawn.Faction);
+            XMTNestBuildingUtility.NotifyHiveBuildJobSucceeded(pawn, BuildCell, defToBuild, NestBuildStage.ClaimFloor);
             XMTNestBuildingUtility.NotifyHiveConstructionCompleted(pawn.Map, BuildCell, defToBuild);
             if (Prefs.DevMode && job != null && job.playerForced)
             {

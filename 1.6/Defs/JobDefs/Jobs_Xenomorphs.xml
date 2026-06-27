@@ -222,6 +222,21 @@
 		<reportString>breaking roof.</reportString>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
+
+	<JobDef>
+		<defName>XMT_PathRecoveryOpenDoor</defName>
+		<driverClass>Xenomorphtype.JobDriver_PathRecoveryOpenDoor</driverClass>
+		<reportString>forcing open TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_PathRecoveryBreach</defName>
+		<driverClass>Xenomorphtype.JobDriver_PathRecoveryBreach</driverClass>
+		<reportString>breaching TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
 	
 	<JobDef>
 		<defName>XMT_Mature</defName>

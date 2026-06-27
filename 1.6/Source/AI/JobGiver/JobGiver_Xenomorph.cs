@@ -586,6 +586,15 @@ namespace Xenomorphtype
                     }
                 }
 
+                if (compMatureMorph.TryGetPathRecoveryJob(out Job recoveryJob))
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message(pawn + " is performing path recovery job " + recoveryJob);
+                    }
+                    return recoveryJob;
+                }
+
                 if (compMatureMorph.ShouldMature())
                 {
                     if (XMTSettings.LogJobGiver)
@@ -620,8 +629,22 @@ namespace Xenomorphtype
                         }
                         return job;
                     }
+                    else
+                    {
+                        cell = pawn.PositionHeld;
+                        Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, cell);
+                        FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
+                        if (XMTSettings.LogJobGiver)
+                        {
+                            Log.Message(pawn + " is starting mature job at " + cell);
+                        }
+                        return job;
+                    }
 
-                    Messages.Message("XMT_NoRoomToMature".Translate(), MessageTypeDefOf.NegativeEvent);
+                    if (pawn.Faction != null && pawn.Faction.IsPlayer)
+                    {
+                        Messages.Message("XMT_NoRoomToMature".Translate(), MessageTypeDefOf.NegativeEvent);
+                    }
                 }
 
                 if (compMatureMorph.ShouldGorge())
@@ -746,12 +769,34 @@ namespace Xenomorphtype
                     }
                     else
                     {
+                        Job job = XMTHiveUtility.GetHiveRestJob(pawn);
+
+                        if(job == null && !pawn.ageTracker.Adult)
+                        {
+                            if (XMTSettings.LogJobGiver)
+                            {
+                                Log.Message(pawn + " cannot find way to nest.");
+                            }
+                            float brightness = pawn.MapHeld.glowGrid.GroundGlowAt(pawn.PositionHeld);
+
+                            if (brightness < 0.5)
+                            {
+                                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, pawn.PositionHeld);
+                                FeralJobUtility.ReservePlaceForJob(pawn, job, pawn.PositionHeld);
+                                if (XMTSettings.LogJobGiver)
+                                {
+                                    Log.Message(pawn + " is starting mature job at " + pawn.PositionHeld);
+                                }
+                                return job;
+                            }
+                        }
+
                         if (XMTSettings.LogJobGiver)
                         {
                             Log.Message(pawn + " is going to the nest.");
                         }
 
-                        return XMTHiveUtility.GetHiveRestJob(pawn);
+                        return job;
                     }
                 }
 

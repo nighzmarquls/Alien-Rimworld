@@ -59,7 +59,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        private static bool OriginalCanReach(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
+        public static bool OriginalCanReach(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
         {
             if (!pawn.Spawned)
             {
@@ -463,6 +463,7 @@ namespace Xenomorphtype
                         Log.Message(actor + " ending climb fallback as incompletable after repeated idle recovery attempts to " + target + " with " + peMode + " for " + actor.jobs?.curJob);
                     }
                     actor.pather.StopDead();
+                    actor.GetMorphComp()?.NotifyPathFailure(target, actor.jobs?.curJob);
                     actor.jobs.EndCurrentJob(JobCondition.Incompletable);
                     fallbackRecoveryAttempts.Remove(key);
                     return false;
@@ -482,6 +483,7 @@ namespace Xenomorphtype
                 Log.Message(actor + " ending climb fallback as incompletable; cannot reach " + target + " with " + peMode + " for " + actor.jobs?.curJob);
             }
             actor.pather.StopDead();
+            actor.GetMorphComp()?.NotifyPathFailure(target, actor.jobs?.curJob);
             actor.jobs.EndCurrentJob(JobCondition.Incompletable);
             return false;
         }

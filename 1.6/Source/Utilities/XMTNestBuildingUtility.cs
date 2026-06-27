@@ -36,8 +36,23 @@ namespace Xenomorphtype
         private const int MinQueuedWebbingRequests = 2;
         private const int MaxQueuedWebbingRequests = 6;
         private const int MaxQueuedPocketFloorArea = 8;
+        private const int HiveBuildFailureCooldownTicks = 600;
+        private const int HiveBuildDiversionTicks = 180;
+        private const float HiveBuildDiversionRadius = 7f;
         private const float MinimumRefogHiveLightSuitability = 0.5f;
         private const float MinimumBuildHiveLightSuitability = 0.45f;
+
+        private class HiveBuildFailureRecord
+        {
+            public Map map;
+            public int pawnId;
+            public IntVec3 cell;
+            public ThingDef buildDef;
+            public NestBuildStage stage;
+            public int expireTick;
+            public int diversionExpireTick;
+            public bool diversionJobGiven;
+        }
 
         private class NestEncirclementPlan
         {
@@ -47,6 +62,7 @@ namespace Xenomorphtype
         }
 
         private static List<NestEncirclementPlan> encirclementPlans;
+        private static List<HiveBuildFailureRecord> hiveBuildFailureRecords;
         private static List<NestEncirclementPlan> EncirclementPlans
         {
             get
@@ -58,6 +74,177 @@ namespace Xenomorphtype
 
                 return encirclementPlans;
             }
+        }
+
+        private static List<HiveBuildFailureRecord> HiveBuildFailureRecords
+        {
+            get
+            {
+                if (hiveBuildFailureRecords == null)
+                {
+                    hiveBuildFailureRecords = new List<HiveBuildFailureRecord>();
+                }
+
+                return hiveBuildFailureRecords;
+            }
+        }
+
+        private static void PruneHiveBuildFailureRecords()
+        {
+            if (hiveBuildFailureRecords == null || hiveBuildFailureRecords.Count == 0)
+            {
+                return;
+            }
+
+            int ticks = Find.TickManager.TicksGame;
+            hiveBuildFailureRecords.RemoveAll(record => record == null || record.map == null || record.expireTick <= ticks);
+        }
+
+        private static bool IsHiveBuildCellOnCooldown(Pawn builder, IntVec3 cell, ThingDef buildDef, NestBuildStage stage)
+        {
+            if (builder == null || builder.Map == null || !cell.IsValid)
+            {
+                return false;
+            }
+
+            PruneHiveBuildFailureRecords();
+            foreach (HiveBuildFailureRecord record in HiveBuildFailureRecords)
+            {
+                if (record.map == builder.Map &&
+                    record.pawnId == builder.thingIDNumber &&
+                    record.cell == cell &&
+                    record.stage == stage &&
+                    record.buildDef == buildDef)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        internal static void NotifyHiveBuildJobFailed(Pawn builder, IntVec3 cell, ThingDef buildDef, NestBuildStage stage)
+        {
+            if (builder == null || builder.Map == null || !cell.IsValid)
+            {
+                return;
+            }
+
+            PruneHiveBuildFailureRecords();
+            int ticks = Find.TickManager.TicksGame;
+            HiveBuildFailureRecord record = HiveBuildFailureRecords.FirstOrDefault(existing =>
+                existing.map == builder.Map &&
+                existing.pawnId == builder.thingIDNumber &&
+                existing.cell == cell &&
+                existing.stage == stage &&
+                existing.buildDef == buildDef);
+
+            if (record == null)
+            {
+                record = new HiveBuildFailureRecord
+                {
+                    map = builder.Map,
+                    pawnId = builder.thingIDNumber,
+                    cell = cell,
+                    buildDef = buildDef,
+                    stage = stage
+                };
+                HiveBuildFailureRecords.Add(record);
+            }
+
+            record.expireTick = ticks + HiveBuildFailureCooldownTicks;
+            record.diversionExpireTick = ticks + HiveBuildDiversionTicks;
+            record.diversionJobGiven = false;
+        }
+
+        internal static void NotifyHiveBuildJobSucceeded(Pawn builder, IntVec3 cell, ThingDef buildDef, NestBuildStage stage)
+        {
+            if (builder == null || builder.Map == null || hiveBuildFailureRecords == null || hiveBuildFailureRecords.Count == 0)
+            {
+                return;
+            }
+
+            hiveBuildFailureRecords.RemoveAll(record =>
+                record != null &&
+                record.map == builder.Map &&
+                record.pawnId == builder.thingIDNumber &&
+                record.cell == cell &&
+                record.stage == stage &&
+                record.buildDef == buildDef);
+        }
+
+        private static bool TryGetHiveBuildDiversionJob(Pawn builder, out Job job)
+        {
+            job = null;
+            if (builder == null || builder.Map == null || !builder.Spawned)
+            {
+                return false;
+            }
+
+            PruneHiveBuildFailureRecords();
+            int ticks = Find.TickManager.TicksGame;
+            HiveBuildFailureRecord record = HiveBuildFailureRecords
+                .Where(existing => existing.map == builder.Map &&
+                                   existing.pawnId == builder.thingIDNumber &&
+                                   !existing.diversionJobGiven &&
+                                   existing.diversionExpireTick > ticks)
+                .OrderByDescending(existing => existing.diversionExpireTick)
+                .FirstOrDefault();
+
+            if (record == null)
+            {
+                return false;
+            }
+
+            record.diversionJobGiven = true;
+            if (!TryFindHiveBuildDiversionCell(builder, out IntVec3 diversionCell))
+            {
+                return false;
+            }
+
+            job = JobMaker.MakeJob(JobDefOf.Goto, diversionCell);
+            FeralJobUtility.ReservePlaceForJob(builder, job, diversionCell);
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message(builder + " is taking a short hive build diversion after failing access to " + record.cell + ": " + job);
+            }
+
+            return true;
+        }
+
+        private static bool TryFindHiveBuildDiversionCell(Pawn builder, out IntVec3 diversionCell)
+        {
+            diversionCell = IntVec3.Invalid;
+            Map map = builder.Map;
+            List<IntVec3> candidates = GenRadial.RadialCellsAround(builder.Position, HiveBuildDiversionRadius, true)
+                .Where(cell => cell.InBounds(map) &&
+                               cell != builder.Position &&
+                               cell.Standable(map) &&
+                               cell.GetFirstPawn(map) == null &&
+                               FeralJobUtility.IsPlaceAvailableForJobBy(builder, cell))
+                .ToList();
+            candidates.Shuffle();
+
+            TraverseParms traverseParms = TraverseParms.For(builder, Danger.Deadly, TraverseMode.ByPawn);
+            foreach (IntVec3 cell in candidates)
+            {
+                if (map.reachability.CanReach(builder.Position, cell, PathEndMode.OnCell, traverseParms))
+                {
+                    diversionCell = cell;
+                    return true;
+                }
+            }
+
+            foreach (IntVec3 cell in candidates)
+            {
+                if (ClimbUtility.CanReachByWalkingOrExecutableClimb(builder, cell, PathEndMode.OnCell, Danger.Deadly))
+                {
+                    diversionCell = cell;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool TryFindNestApproachCell(Pawn builder, IntVec3 nestSeed, out IntVec3 approachCell)
@@ -128,6 +315,11 @@ namespace Xenomorphtype
                 }
             }
 
+            if (TryGetHiveBuildDiversionJob(builder, out Job diversionJob))
+            {
+                return diversionJob;
+            }
+
             if (!TryFindNestBuildRequest(builder, nestSeed, sightLimit, out NestBuildRequest request))
             {
                 return null;
@@ -161,6 +353,11 @@ namespace Xenomorphtype
                 }
             }
 
+            if (TryGetHiveBuildDiversionJob(builder, out Job diversionJob))
+            {
+                return diversionJob;
+            }
+
             if (!TryFindNestBuildRequest(builder.Map, nestSeed, nestSeed, sightLimit, out NestBuildRequest request, builder))
             {
                 return null;
@@ -179,6 +376,11 @@ namespace Xenomorphtype
             if (builder == null || builder.Map == null || !builder.Spawned || builder.Dead || room == null || room.Map != builder.Map)
             {
                 return null;
+            }
+
+            if (TryGetHiveBuildDiversionJob(builder, out Job diversionJob))
+            {
+                return diversionJob;
             }
 
             if (!TryFindHiveRoomExpansionRequest(builder.Map, anchorCell, room, anchorCell, builder, out NestBuildRequest request))
@@ -964,12 +1166,22 @@ namespace Xenomorphtype
 
             if (request.buildDef == XenoBuildingDefOf.Hivemass)
             {
+                if (IsHiveBuildCellOnCooldown(builder, request.cell, request.buildDef, request.stage))
+                {
+                    return false;
+                }
+
                 return CanPlaceQueuedPerimeterBuildingAt(map, request.cell, builder) &&
                        !WouldBlockWebbingAccess(map, request.cell, plan);
             }
 
             if (request.buildDef == XenoBuildingDefOf.HiveWebbing)
             {
+                if (IsHiveBuildCellOnCooldown(builder, request.cell, request.buildDef, request.stage))
+                {
+                    return false;
+                }
+
                 return CanPlaceQueuedPerimeterBuildingAt(map, request.cell, builder);
             }
 
@@ -1224,12 +1436,22 @@ namespace Xenomorphtype
             if (terrain.affordances != null && terrain.affordances.Contains(TerrainAffordanceDefOf.Bridgeable) && !terrain.affordances.Contains(TerrainAffordanceDefOf.Light))
             {
                 buildDef = XenoBuildingDefOf.HiveBridgeBuildable;
+                if (IsHiveBuildCellOnCooldown(builder, cell, buildDef, NestBuildStage.ClaimFloor))
+                {
+                    return false;
+                }
+
                 return buildDef != null;
             }
 
             if (terrain.affordances != null && terrain.affordances.Contains(TerrainAffordanceDefOf.Light))
             {
                 buildDef = XenoBuildingDefOf.HiveFloorBuildable;
+                if (IsHiveBuildCellOnCooldown(builder, cell, buildDef, NestBuildStage.ClaimFloor))
+                {
+                    return false;
+                }
+
                 return buildDef != null;
             }
 
@@ -1515,6 +1737,11 @@ namespace Xenomorphtype
 
             if (builder != null)
             {
+                if (IsHiveBuildCellOnCooldown(builder, cell, null, NestBuildStage.RoofEnclosedRoom))
+                {
+                    return false;
+                }
+
                 if (!FeralJobUtility.IsPlaceAvailableForJobBy(builder, cell))
                 {
                     return false;

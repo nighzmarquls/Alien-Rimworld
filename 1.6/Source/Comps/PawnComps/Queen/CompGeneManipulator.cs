@@ -87,7 +87,8 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
-                return target.Thing is Pawn pawn && pawn.health != null && !pawn.Dead && !XMTUtility.IsXenomorph(pawn) && BioUtility.HasMutations(pawn, false);
+                return target.Thing is Pawn pawn && pawn.health != null && !pawn.Dead && pawn.GetMorphComp() == null
+                && BioUtility.HasMutations(pawn, false);
             };
 
             Command_Action MutantControl_Action = new Command_Action();

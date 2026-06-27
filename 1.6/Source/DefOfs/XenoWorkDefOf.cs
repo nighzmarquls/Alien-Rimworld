@@ -42,6 +42,8 @@ namespace Xenomorphtype
         public static JobDef XMT_Sabotage;
         public static JobDef XMT_OpenDoorMischief;
         public static JobDef XMT_BreakRoofMischief;
+        public static JobDef XMT_PathRecoveryOpenDoor;
+        public static JobDef XMT_PathRecoveryBreach;
 
         public static JobDef XMT_ImplantHunt;
         public static JobDef XMT_StealthHunt;

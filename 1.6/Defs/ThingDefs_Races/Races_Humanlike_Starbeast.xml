@@ -2748,6 +2748,17 @@
 			</thoughtSettings>
 		</alienRace>
 		<modExtensions>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Starbeast_AlienRace</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_StarbeastKind</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
 		</modExtensions>
 	</ThingDef>
 </Defs>

@@ -11,8 +11,18 @@ namespace Xenomorphtype
 
         private float workLeft = BaseWorkAmount;
         private bool roofCompleted;
+        private bool workStarted;
 
         private IntVec3 RoofCell => job.GetTarget(TargetIndex.A).Cell;
+
+        internal void NotifyCleanup(JobCondition condition)
+        {
+            if (condition == JobCondition.Incompletable && !workStarted && !roofCompleted)
+            {
+                pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(RoofCell), job);
+                XMTNestBuildingUtility.NotifyHiveBuildJobFailed(pawn, RoofCell, null, NestBuildStage.RoofEnclosedRoom);
+            }
+        }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -43,6 +53,7 @@ namespace Xenomorphtype
             toil.atomicWithPrevious = true;
             toil.initAction = delegate
             {
+                workStarted = true;
                 workLeft = BaseWorkAmount;
             };
             toil.tickIntervalAction = delegate(int delta)
@@ -95,6 +106,7 @@ namespace Xenomorphtype
             }
 
             XMTNestBuildingUtility.NotifyHiveRoofCompleted(map, cell);
+            XMTNestBuildingUtility.NotifyHiveBuildJobSucceeded(pawn, cell, null, NestBuildStage.RoofEnclosedRoom);
             EndJobWith(JobCondition.Succeeded);
         }
     }

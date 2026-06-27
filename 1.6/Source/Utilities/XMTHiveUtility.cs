@@ -1659,6 +1659,7 @@ namespace Xenomorphtype
                 Job nestBuildJob = GetHiveRestNestBuildJob(pawn, null);
                 if (nestBuildJob != null)
                 {
+                    pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(localNest.Position), nestBuildJob);
                     ReportHiveRestFailure(pawn, "No tracked hive rooms available for rest; delegating to nest build job " + nestBuildJob.def.defName + " at " + nestBuildJob.targetA + ".");
                     return nestBuildJob;
                 }
@@ -1722,6 +1723,7 @@ namespace Xenomorphtype
             Job fallbackNestBuildJob = GetHiveRestNestBuildJob(pawn, fullRestRooms);
             if (fallbackNestBuildJob != null)
             {
+                pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(localNest.Position), fallbackNestBuildJob);
                 ReportHiveRestFailure(pawn, "Tracked hive rest room is full; expanding from room edge with " + fallbackNestBuildJob.def.defName + " at " + fallbackNestBuildJob.targetA + ".");
                 return fallbackNestBuildJob;
             }
@@ -2235,7 +2237,7 @@ namespace Xenomorphtype
 
         private static Job GetHiveRestNestBuildJob(Pawn pawn, List<HiveRoomRecord> restRooms)
         {
-            if (pawn == null || pawn.Map == null)
+            if (pawn == null || pawn.Map == null || !pawn.ageTracker.Adult)
             {
                 return null;
             }
@@ -2315,7 +2317,7 @@ namespace Xenomorphtype
 
         private static Job TryGetActiveHiveRestExpansionJob(Pawn pawn, NestSite localNest)
         {
-            if (pawn == null || pawn.Map == null || localNest == null || localNest.map != pawn.Map)
+            if (pawn == null || pawn.Map == null || localNest == null || localNest.map != pawn.Map || !pawn.ageTracker.Adult)
             {
                 return null;
             }
@@ -2637,6 +2639,10 @@ namespace Xenomorphtype
 
         private static void ReportHiveRestFailure(Pawn pawn, string reason)
         {
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message(pawn + " failed HiveRestJob with Reason: " + reason);
+            }
         }
 
         internal static Job GetHiveWanderJob(Pawn pawn)
