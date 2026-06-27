@@ -164,6 +164,12 @@
 	<XMT_CommandInvestigateSiteDesc>No one seems to be home? that's odd.</XMT_CommandInvestigateSiteDesc>
 	<XMT_LetterLabelCaravanEnteredAftermathBase>Investigating Settlement</XMT_LetterLabelCaravanEnteredAftermathBase>
 	<XMT_LetterCaravanEnteredAftermathBase>The Settlement is eeriely quiet, the area pockmarked with signs of corrosive acid burned into the ground.</XMT_LetterCaravanEnteredAftermathBase>
+	<XMT_LetterLabelSettlementDistressSignal>Distress signal</XMT_LetterLabelSettlementDistressSignal>
+	<XMT_LetterSettlementDistressSignal>A broken transmission from {0} has reached you. {1} reports the settlement has gone silent after confused calls for help. They are asking anyone nearby to investigate and return word of what happened. They will remember a truthful report.</XMT_LetterSettlementDistressSignal>
+	<XMT_LetterLabelSettlementDistressSignals>Distress signals</XMT_LetterLabelSettlementDistressSignals>
+	<XMT_LetterSettlementDistressSignals>{0} settlements have gone silent in rapid succession: {1}. Their factions are circulating confused distress calls and asking for confirmation of what happened. Those who bring back reliable reports will earn their gratitude.</XMT_LetterSettlementDistressSignals>
+	<XMT_UnknownFaction>Unknown faction</XMT_UnknownFaction>
+	<XMT_MoreSettlements>others</XMT_MoreSettlements>
 
 	<XMT_LetterLabelCaravanAttackedByBase>Settlement Attacking!</XMT_LetterLabelCaravanAttackedByBase>
 	<XMT_LetterCaravanAttackedByBase> Negotiations with {1} have broken down, and they are attacking {0}!</XMT_LetterCaravanAttackedByBase>

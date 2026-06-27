@@ -95,6 +95,7 @@ namespace Xenomorphtype
             {
                 NoWallToClimb = true,
                 FinalGoalCell = IntVec3.Invalid,
+                FinalGoalTarget = LocalTargetInfo.Invalid,
                 ClimbStarts = new List<IntVec3>(),
                 ClimbEnds = new List<IntVec3>(),
                 Tunneling = false

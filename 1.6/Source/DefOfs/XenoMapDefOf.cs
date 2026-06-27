@@ -20,6 +20,7 @@ namespace Xenomorphtype
         public static GenStepDef XMT_AbductPopulation;
 
         public static IncidentDef XMT_GiveQuest_queenNest;
+        public static QuestScriptDef XMT_SettlementDistressSignal;
     }
     
 }

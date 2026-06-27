@@ -27,6 +27,40 @@ namespace Xenomorphtype
         DeathAccounted = 8
     }
 
+    internal class XenoformingDistressSignalRecord : IExposable
+    {
+        public Settlement settlement;
+        public Faction faction;
+        public int questId = -1;
+        public string signalTag;
+        public int settlementDestroyedTick = int.MaxValue;
+        public string settlementLabel;
+
+        public XenoformingDistressSignalRecord()
+        {
+        }
+
+        public XenoformingDistressSignalRecord(Settlement settlement, int questId, string signalTag, int settlementDestroyedTick)
+        {
+            this.settlement = settlement;
+            this.faction = settlement?.Faction;
+            this.questId = questId;
+            this.signalTag = signalTag;
+            this.settlementDestroyedTick = settlementDestroyedTick;
+            this.settlementLabel = settlement?.Label;
+        }
+
+        public void ExposeData()
+        {
+            Scribe_References.Look(ref settlement, "settlement");
+            Scribe_References.Look(ref faction, "faction");
+            Scribe_Values.Look(ref questId, "questId", -1);
+            Scribe_Values.Look(ref signalTag, "signalTag");
+            Scribe_Values.Look(ref settlementDestroyedTick, "settlementDestroyedTick", int.MaxValue);
+            Scribe_Values.Look(ref settlementLabel, "settlementLabel");
+        }
+    }
+
     public class GameComponent_Xenomorph : GameComponent
     {
         public Pawn Queen = null;
@@ -113,6 +147,9 @@ namespace Xenomorphtype
 
         private List<Faction> _reprisalFactions;
         private float _totalReprisalRaidPoints;
+        private List<XenoformingDistressSignalRecord> _pendingDistressSignals = new List<XenoformingDistressSignalRecord>();
+        private int _nextDistressSignalLetterTick = -1;
+        private const int DistressSignalBatchTicks = 2500;
 
         //countdown
         private const float ScreenFadeSeconds = 6f;
@@ -179,6 +216,7 @@ namespace Xenomorphtype
         {
             base.GameComponentTick();
             QueenAidTick();
+            LaunchCachedDistressSignals();
 
             if (_xenoforming <= 0)
             {
@@ -431,6 +469,8 @@ namespace Xenomorphtype
 
             Scribe_Values.Look(ref _totalReprisalRaidPoints, "_totalReprisalRaidPoints", 0);
             Scribe_Collections.Look(ref _reprisalFactions, "ReprisalFactions",LookMode.Reference);
+            Scribe_Collections.Look(ref _pendingDistressSignals, "pendingDistressSignals", LookMode.Deep);
+            Scribe_Values.Look(ref _nextDistressSignalLetterTick, "nextDistressSignalLetterTick", -1);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -441,6 +481,9 @@ namespace Xenomorphtype
                 xenoformingPawnAccounting ??= new Dictionary<string, XenoformingPawnAccountingState>();
                 deadMorphs ??= new List<string>();
                 queenAidPawnIDs ??= new List<int>();
+                _reprisalFactions ??= new List<Faction>();
+                _pendingDistressSignals ??= new List<XenoformingDistressSignalRecord>();
+                _pendingDistressSignals.RemoveAll(record => record == null || record.settlement == null || record.settlement.Destroyed);
                 foreach (int thingID in queenAidPawnIDs)
                 {
                     AddPawnAccountingState(ThingIDAccountingKey(thingID), XenoformingPawnAccountingState.QueenAidBorrowed);
@@ -471,6 +514,113 @@ namespace Xenomorphtype
             }
             _totalReprisalRaidPoints += points;
         }
+
+        internal void CacheDistressSignal(Settlement settlement, int questId, string signalTag, int settlementDestroyedTick)
+        {
+            if (settlement == null || settlement.Destroyed)
+            {
+                return;
+            }
+
+            _pendingDistressSignals ??= new List<XenoformingDistressSignalRecord>();
+            XenoformingDistressSignalRecord existing = _pendingDistressSignals.FirstOrDefault(record => record != null && record.settlement == settlement);
+            if (existing == null)
+            {
+                _pendingDistressSignals.Add(new XenoformingDistressSignalRecord(settlement, questId, signalTag, settlementDestroyedTick));
+            }
+            else
+            {
+                existing.faction = settlement.Faction;
+                existing.questId = questId;
+                existing.signalTag = signalTag;
+                existing.settlementDestroyedTick = settlementDestroyedTick;
+                existing.settlementLabel = settlement.Label;
+            }
+
+            int tick = Find.TickManager.TicksGame;
+            if (_nextDistressSignalLetterTick < tick)
+            {
+                _nextDistressSignalLetterTick = tick + DistressSignalBatchTicks;
+            }
+        }
+
+        internal void RemoveCachedDistressSignal(Settlement settlement, int questId = -1, string signalTag = null)
+        {
+            if (_pendingDistressSignals == null)
+            {
+                return;
+            }
+
+            _pendingDistressSignals.RemoveAll(record =>
+                record == null
+                || (settlement != null && record.settlement == settlement)
+                || (questId >= 0 && record.questId == questId)
+                || (!signalTag.NullOrEmpty() && record.signalTag == signalTag)
+                || record.settlement == null
+                || record.settlement.Destroyed);
+
+            if (_pendingDistressSignals.Count == 0)
+            {
+                _nextDistressSignalLetterTick = -1;
+            }
+        }
+
+        private void LaunchCachedDistressSignals()
+        {
+            if (_pendingDistressSignals.NullOrEmpty())
+            {
+                _nextDistressSignalLetterTick = -1;
+                return;
+            }
+
+            int tick = Find.TickManager.TicksGame;
+            if (_nextDistressSignalLetterTick < 0 || tick < _nextDistressSignalLetterTick)
+            {
+                return;
+            }
+
+            _pendingDistressSignals.RemoveAll(record => record == null || record.settlement == null || record.settlement.Destroyed);
+            if (_pendingDistressSignals.Count == 0)
+            {
+                _nextDistressSignalLetterTick = -1;
+                return;
+            }
+
+            List<Settlement> settlements = _pendingDistressSignals
+                .Where(record => record.settlement != null && !record.settlement.Destroyed)
+                .Select(record => record.settlement)
+                .Distinct()
+                .ToList();
+            if (settlements.Count == 0)
+            {
+                _nextDistressSignalLetterTick = -1;
+                return;
+            }
+
+            TaggedString label;
+            TaggedString text;
+            if (settlements.Count == 1)
+            {
+                Settlement settlement = settlements[0];
+                label = "XMT_LetterLabelSettlementDistressSignal".Translate();
+                text = "XMT_LetterSettlementDistressSignal".Translate(settlement.Label, settlement.Faction?.Name ?? "XMT_UnknownFaction".Translate().ToString()).CapitalizeFirst();
+            }
+            else
+            {
+                string settlementLabels = string.Join(", ", settlements.Take(4).Select(settlement => settlement.Label).ToArray());
+                if (settlements.Count > 4)
+                {
+                    settlementLabels += ", " + "XMT_MoreSettlements".Translate();
+                }
+                label = "XMT_LetterLabelSettlementDistressSignals".Translate();
+                text = "XMT_LetterSettlementDistressSignals".Translate(settlements.Count, settlementLabels).CapitalizeFirst();
+            }
+
+            Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NeutralEvent, new LookTargets(settlements));
+            _pendingDistressSignals.Clear();
+            _nextDistressSignalLetterTick = -1;
+        }
+
         public void LaunchCachedReprisal()
         {
             if (XMTSettings.LogWorld)

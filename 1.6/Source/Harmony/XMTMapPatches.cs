@@ -138,16 +138,40 @@ namespace Xenomorphtype
                             {
                                 LongEventHandler.QueueLongEvent(delegate
                                 {
-                                    XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                                    if (settlement.TryGetComponent(out XenoformingComp comp) && comp.DistressQuestSent)
+                                    {
+                                        XenoformingUtility.InvestigateSettlement(settlement, caravan);
+                                    }
+                                    else
+                                    {
+                                        XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                                    }
                                 }, "GeneratingMapForNewEncounter", doAsynchronously: false, null);
                             }
                             else
                             {
-                                XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                                if (settlement.TryGetComponent(out XenoformingComp comp) && comp.DistressQuestSent)
+                                {
+                                    XenoformingUtility.InvestigateSettlement(settlement, caravan);
+                                }
+                                else
+                                {
+                                    XenoformingUtility.SettlementCounterAttack(settlement, caravan);
+                                }
                             } 
                         }
                     };
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(MapParent), nameof(MapParent.Notify_MyMapRemoved))]
+        public static class Patch_MapParent_Notify_MyMapRemoved
+        {
+            [HarmonyPostfix]
+            public static void Postfix(MapParent __instance)
+            {
+                XenoformingUtility.RemoveDestroyedSettlementIfReady(__instance as Settlement);
             }
         }
 

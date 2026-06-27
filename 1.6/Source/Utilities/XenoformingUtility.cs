@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using RimWorld.Planet;
+using RimWorld.QuestGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,8 @@ namespace Xenomorphtype
         public static void InvestigateSettlement(Settlement settlement, Caravan caravan)
         {
             SurfaceTile tile = Find.WorldGrid[settlement.Tile.tileId];
+            XenoformingComp comp = null;
+            bool questInvitedInvestigation = settlement.TryGetComponent(out comp) && comp.DistressQuestSent;
 
             if (!tile.Mutators.Contains(XenoMapDefOf.XMT_SettlementAftermath))
             {
@@ -90,6 +93,17 @@ namespace Xenomorphtype
             Find.LetterStack.ReceiveLetter(letterLabel, letterText, LetterDefOf.NeutralEvent, caravan.PawnsListForReading, settlement.Faction);
             CaravanEnterMapUtility.Enter(caravan, orGenerateMap, CaravanEnterMode.Edge, CaravanDropInventoryMode.DoNotDrop, draftColonists: true);
 
+            if (questInvitedInvestigation)
+            {
+                if (!comp.DistressSignalTag.NullOrEmpty())
+                {
+                    QuestUtility.SendQuestTargetSignals(new List<string> { comp.DistressSignalTag }, "Investigated");
+                }
+
+                AwardDistressInvestigationGoodwill(settlement);
+                gameComponent.RemoveCachedDistressSignal(settlement, comp.DistressQuestId, comp.DistressSignalTag);
+                comp.Notify_Investigated();
+            }
         }
 
         public static bool CellIsFertile(IntVec3 cell, Map map)
@@ -515,6 +529,120 @@ namespace Xenomorphtype
         internal static void AddReprisal(Faction faction, float points)
         {
             gameComponent.CacheReprisal(faction, points);
+        }
+
+        internal static void AddDistressSignal(Settlement settlement, int settlementDestroyedTick)
+        {
+            if (settlement == null || settlement.Destroyed || XenoMapDefOf.XMT_SettlementDistressSignal == null)
+            {
+                return;
+            }
+
+            if (!settlement.TryGetComponent(out XenoformingComp comp))
+            {
+                return;
+            }
+
+            string signalTag = comp.DistressSignalTag;
+            if (signalTag.NullOrEmpty())
+            {
+                signalTag = "XMT_DistressSignal_" + settlement.ID + "_" + settlementDestroyedTick;
+            }
+            QuestUtility.AddQuestTag(settlement, signalTag);
+
+            Slate slate = new Slate();
+            slate.Set("settlement", settlement);
+            slate.Set("faction", settlement.Faction);
+            slate.Set("settlementLabel", settlement.Label);
+            slate.Set("settlement_label", settlement.Label);
+            slate.Set("timeoutTicks", Mathf.Max(1, settlementDestroyedTick - Find.TickManager.TicksGame));
+            slate.Set("distressSignalTag", signalTag);
+            slate.Set("investigatedSignal", signalTag + ".Investigated");
+            slate.Set("expiredSignal", signalTag + ".Expired");
+
+            Quest quest = QuestUtility.GenerateQuestAndMakeAvailable(XenoMapDefOf.XMT_SettlementDistressSignal, slate);
+            int questId = quest?.id ?? -1;
+            comp.Notify_DistressSignalSent(questId, signalTag, settlementDestroyedTick);
+            gameComponent.CacheDistressSignal(settlement, questId, signalTag, settlementDestroyedTick);
+        }
+
+        internal static void ConfirmDestroyedSettlement(Settlement settlement)
+        {
+            if (settlement == null || settlement.Destroyed)
+            {
+                return;
+            }
+
+            XenoformingComp comp = null;
+            settlement.TryGetComponent(out comp);
+            if (comp != null)
+            {
+                if (!comp.DistressSignalTag.NullOrEmpty())
+                {
+                    QuestUtility.SendQuestTargetSignals(new List<string> { comp.DistressSignalTag }, "Expired");
+                }
+
+                EndDistressQuest(comp.DistressQuestId, QuestEndOutcome.Fail);
+                gameComponent.RemoveCachedDistressSignal(settlement, comp.DistressQuestId, comp.DistressSignalTag);
+            }
+
+            if (settlement.HasMap)
+            {
+                comp?.Notify_RemoveWhenMapClears();
+                return;
+            }
+
+            RemoveDestroyedSettlement(settlement, comp);
+        }
+
+        internal static void RemoveDestroyedSettlementIfReady(Settlement settlement)
+        {
+            if (settlement == null || settlement.Destroyed)
+            {
+                return;
+            }
+
+            if (!settlement.TryGetComponent(out XenoformingComp comp) || !comp.RemoveWhenMapClears || settlement.HasMap)
+            {
+                return;
+            }
+
+            RemoveDestroyedSettlement(settlement, comp);
+        }
+
+        private static void RemoveDestroyedSettlement(Settlement settlement, XenoformingComp comp)
+        {
+            if (settlement == null || settlement.Destroyed)
+            {
+                return;
+            }
+
+            // TODO: Consider replacing removed settlements with an Odyssey-style ruined settlement site.
+            comp?.Notify_DestroyedConfirmed();
+            settlement.Destroy();
+        }
+
+        private static void EndDistressQuest(int questId, QuestEndOutcome outcome)
+        {
+            if (questId < 0)
+            {
+                return;
+            }
+
+            Quest quest = Find.QuestManager.ActiveQuestsListForReading.FirstOrDefault(activeQuest => activeQuest != null && activeQuest.id == questId);
+            quest?.End(outcome, sendLetter: false, playSound: false);
+        }
+
+        private static void AwardDistressInvestigationGoodwill(Settlement settlement)
+        {
+            Faction faction = settlement?.Faction;
+            if (faction == null || faction == Faction.OfPlayer || faction.HostileTo(Faction.OfPlayer) || faction.temporary)
+            {
+                return;
+            }
+
+            int goodwill = faction.PlayerRelationKind == FactionRelationKind.Ally ? 10 : 5;
+            Faction.OfPlayer.TryAffectGoodwillWith(faction, goodwill, canSendMessage: true, canSendHostilityLetter: false);
         }
     }
 }

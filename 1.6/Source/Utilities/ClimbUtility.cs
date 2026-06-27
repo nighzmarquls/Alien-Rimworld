@@ -23,6 +23,7 @@ namespace Xenomorphtype
                 && ClimbStarts[0].IsValid && ClimbEnds[0].IsValid);
 
             public IntVec3 FinalGoalCell;
+            public LocalTargetInfo FinalGoalTarget;
             public bool NoWallToClimb ;
             public bool Tunneling;
 
@@ -170,7 +171,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            bool canExecute = GetClimbParameters(pawn, dest.Cell, ref climber);
+            bool canExecute = GetClimbParameters(pawn, dest, ref climber);
             climber.ClearClimberData();
             return canExecute;
         }
@@ -291,9 +292,9 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogClimbing)
                         {
-                            Log.Message(actor + " pathing too " + climber.climbParameters.FinalGoalCell);
+                            Log.Message(actor + " pathing too " + climber.climbParameters.FinalGoalTarget);
                         }
-                        actor.pather.StartPath(climber.climbParameters.FinalGoalCell, peMode);
+                        actor.pather.StartPath(climber.climbParameters.FinalGoalTarget, peMode);
                     }
                     else
                     {
@@ -310,14 +311,14 @@ namespace Xenomorphtype
             
                 if (climber.lastClimb)
                 {
-                    if (HasArrived(actor, climber.climbParameters.FinalGoalCell, peMode))
+                    if (HasArrived(actor, climber.climbParameters.FinalGoalTarget, peMode))
                     {
                         climber.ClearClimberData();
                         actor.jobs.curDriver.ReadyForNextToil();
                     }
                     else
                     {
-                        TryStartFallbackPathOrEndJob(actor, climber.climbParameters.FinalGoalCell, peMode);
+                        TryStartFallbackPathOrEndJob(actor, climber.climbParameters.FinalGoalTarget, peMode);
                     }
                 }
                 else if(!climber.startedClimb)
@@ -396,6 +397,11 @@ namespace Xenomorphtype
             if (actor.Spawned && actor.CanReachImmediate(target, peMode))
             {
                 return true;
+            }
+
+            if (target.Thing != null)
+            {
+                return false;
             }
 
             return HasArrived(actor, target.Cell, peMode);
@@ -503,7 +509,7 @@ namespace Xenomorphtype
                     actor.pather.StartPath(target, peMode);
                     return;
                 }
-                if (!GetClimbParameters(actor, target.Cell, ref climber))
+                if (!GetClimbParameters(actor, target, ref climber))
                 {
                     if (XMTSettings.LogClimbing)
                     {
@@ -527,9 +533,13 @@ namespace Xenomorphtype
             {
                 Pawn actor = toil.actor;
                 CompClimber climber = toil.actor.GetClimberComp();
-                if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
+                if (climber == null)
                 {
-                    TickManualPatherArrival(toil, toil.actor.jobs.curJob.GetTarget(ind).Cell, peMode);
+                    return;
+                }
+                if (!climber.climbParameters.ClimbCellsRegistered)
+                {
+                    TickManualPatherArrival(toil, toil.actor.jobs.curJob.GetTarget(ind), peMode);
                     return;
                 }
                 TickClimbIntervalAction(interval, toil.actor, ref climber, toil, peMode);
@@ -581,7 +591,11 @@ namespace Xenomorphtype
             {
                 Pawn actor = toil.actor;
                 CompClimber climber = toil.actor.GetClimberComp();
-                if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
+                if (climber == null)
+                {
+                    return;
+                }
+                if (!climber.climbParameters.ClimbCellsRegistered)
                 {
                     TickManualPatherArrival(toil, cell, peMode);
                     return;
@@ -625,7 +639,7 @@ namespace Xenomorphtype
                     toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
                     return;
                 }
-                if (!GetClimbParameters(actor, dest.Cell, ref climber))
+                if (!GetClimbParameters(actor, exactCell, ref climber))
                 {
                     if (XMTSettings.LogClimbing)
                     {
@@ -648,7 +662,11 @@ namespace Xenomorphtype
             {
                 Pawn actor = toil.actor;
                 CompClimber climber = toil.actor.GetClimberComp();
-                if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
+                if (climber == null)
+                {
+                    return;
+                }
+                if (!climber.climbParameters.ClimbCellsRegistered)
                 {
                     TickManualPatherArrival(toil, exactCell, PathEndMode.OnCell);
                     return;
@@ -695,7 +713,7 @@ namespace Xenomorphtype
                     actor.pather.StartPath(dest, peMode);
                     return;
                 }
-                if (!GetClimbParameters(actor, dest.Cell, ref climber))
+                if (!GetClimbParameters(actor, dest, ref climber))
                 {
                     if (XMTSettings.LogClimbing)
                     {
@@ -718,7 +736,11 @@ namespace Xenomorphtype
             {
                 Pawn actor = toil.actor;
                 CompClimber climber = toil.actor.GetClimberComp();
-                if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
+                if (climber == null)
+                {
+                    return;
+                }
+                if (!climber.climbParameters.ClimbCellsRegistered)
                 {
                     LocalTargetInfo dest = actor.jobs.curJob.GetTarget(ind);
                     if (dest.Thing != null && canGotoSpawnedParent)
@@ -766,7 +788,7 @@ namespace Xenomorphtype
                     actor.pather.StartPath(target, peMode);
                     return;
                 }
-                if (!GetClimbParameters(actor, target.Cell, ref climber))
+                if (!GetClimbParameters(actor, target, ref climber))
                 {
                     if (XMTSettings.LogClimbing)
                     {
@@ -790,7 +812,11 @@ namespace Xenomorphtype
             {
                 Pawn actor = toil.actor;
                 CompClimber climber = toil.actor.GetClimberComp();
-                if (climber == null || !climber.climbParameters.ClimbCellsRegistered)
+                if (climber == null)
+                {
+                    return;
+                }
+                if (!climber.climbParameters.ClimbCellsRegistered)
                 {
                     TickManualPatherArrival(toil, toil.actor.jobs.curJob.GetTarget(ind), peMode);
                     return;
@@ -998,15 +1024,21 @@ namespace Xenomorphtype
         }
         protected static bool GetClimbParameters(Pawn pawn, IntVec3 FinalGoalCell, ref CompClimber climber)
         {
+            return GetClimbParameters(pawn, new LocalTargetInfo(FinalGoalCell), ref climber);
+        }
+
+        protected static bool GetClimbParameters(Pawn pawn, LocalTargetInfo finalGoal, ref CompClimber climber)
+        {
             if (XMTSettings.LogClimbing)
             {
                 Log.Message(pawn + " gathering climb parameters");
             }
             climber.ClearClimberData();
 
-            climber.climbParameters.FinalGoalCell = FinalGoalCell;
+            climber.climbParameters.FinalGoalTarget = finalGoal;
+            climber.climbParameters.FinalGoalCell = finalGoal.Cell;
 
-            if (!FinalGoalCell.IsValid)
+            if (!finalGoal.IsValid || !finalGoal.Cell.IsValid)
             {
                 if (XMTSettings.LogClimbing)
                 {
@@ -1015,7 +1047,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (pawn?.Map == null || !pawn.Position.InBounds(pawn.Map) || !FinalGoalCell.InBounds(pawn.Map))
+            if (pawn?.Map == null || !pawn.Position.InBounds(pawn.Map) || !finalGoal.Cell.InBounds(pawn.Map))
             {
                 if (XMTSettings.LogClimbing)
                 {
@@ -1024,7 +1056,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if(!CanReachByClimb(pawn, FinalGoalCell,PathEndMode.OnCell,pawn.NormalMaxDanger()))
+            if(!CanReachByClimb(pawn, finalGoal,PathEndMode.OnCell,pawn.NormalMaxDanger()))
             {
                 if (XMTSettings.LogClimbing)
                 {
@@ -1043,10 +1075,10 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(pawn + " Trying infiltrate from Position: " + Start + " to " + FinalGoalCell);
+                Log.Message(pawn + " Trying infiltrate from Position: " + Start + " to " + finalGoal.Cell);
             }
 
-            if (InfiltrationUtility.GetInfiltrationEntry(pawn.Map, Start, FinalGoalCell, out Building entry))
+            if (InfiltrationUtility.GetInfiltrationEntry(pawn.Map, Start, finalGoal.Cell, out Building entry))
             {
                 IntVec3 entrypoint = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(Start, entry);
                 climber.climbParameters.ClimbStarts.Add(entrypoint);
@@ -1055,9 +1087,9 @@ namespace Xenomorphtype
                     Log.Message(pawn + " Found Infiltration Target Entry: " + entry + " at: " + entrypoint);
                 }
 
-                if (InfiltrationUtility.GetInfiltrationExit(entry, FinalGoalCell, out Building exit))
+                if (InfiltrationUtility.GetInfiltrationExit(entry, finalGoal.Cell, out Building exit))
                 {
-                    IntVec3 exitpoint = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(FinalGoalCell, exit);
+                    IntVec3 exitpoint = InfiltrationUtility.GetGoalOnOrAdjacentToFrom(finalGoal.Cell, exit);
                     climber.climbParameters.ClimbEnds.Add(exitpoint);
                     if (XMTSettings.LogClimbing)
                     {
@@ -1077,7 +1109,7 @@ namespace Xenomorphtype
 
             if (ClimbOver)
             {
-                GetClimbCells(pawn, FinalGoalCell, out climber.climbParameters.ClimbStarts, out climber.climbParameters.ClimbEnds);
+                GetClimbCells(pawn, finalGoal.Cell, out climber.climbParameters.ClimbStarts, out climber.climbParameters.ClimbEnds);
             
             }
 
