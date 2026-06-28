@@ -302,7 +302,10 @@ namespace Xenomorphtype
                     }
                 }
             }
-            //Log.Message("No Valid Entry");
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message("No Valid Entry");
+            }
             return false;
         }
 
@@ -324,7 +327,7 @@ namespace Xenomorphtype
             Room startRoom = pawn.GetRoom();
             if (startRoom == null)
             {
-                if (XMTSettings.LogJobGiver)
+                if (XMTSettings.LogClimbing)
                 {
                     Log.Message("[InfiltrationEscape] " + pawn + " has no start room at " + pawn.Position + ".");
                 }
@@ -345,9 +348,9 @@ namespace Xenomorphtype
             }
 
             GenerateInfiltrationNetworks(map, startRoom, ref infiltrationCache);
-            if (XMTSettings.LogJobGiver)
+            if (XMTSettings.LogClimbing)
             {
-                Log.Message("[InfiltrationEscape] " + pawn + " scanning from room=" + MatureMorphPathRecoveryState.RoomSummary(startRoom) + " networks=" + infiltrationCache.networks.Count + ".");
+                Log.Message("[InfiltrationEscape] " + pawn + " scanning from room=" + MatureMorphPathRecovery.RoomSummary(startRoom) + " networks=" + infiltrationCache.networks.Count + ".");
             }
 
             int bestDistance = int.MaxValue;
@@ -355,14 +358,14 @@ namespace Xenomorphtype
             {
                 if (!network.connectedRooms.Contains(startRoom))
                 {
-                    if (XMTSettings.LogJobGiver)
+                    if (XMTSettings.LogClimbing)
                     {
                         Log.Message("[InfiltrationEscape] " + pawn + " skipping network type=" + network.type + " because it does not include start room. rooms=" + network.connectedRooms.Count + " endpoints=" + network.endpoints.Count + ".");
                     }
                     continue;
                 }
 
-                if (XMTSettings.LogJobGiver)
+                if (XMTSettings.LogClimbing)
                 {
                     Log.Message("[InfiltrationEscape] " + pawn + " checking network type=" + network.type + " rooms=" + network.connectedRooms.Count + " endpoints=" + network.endpoints.Count + ".");
                 }
@@ -371,7 +374,7 @@ namespace Xenomorphtype
                 {
                     if (endpoint.building == null || !endpoint.building.Spawned)
                     {
-                        if (XMTSettings.LogJobGiver)
+                        if (XMTSettings.LogClimbing)
                         {
                             Log.Message("[InfiltrationEscape] " + pawn + " skipping unspawned/null endpoint.");
                         }
@@ -381,14 +384,14 @@ namespace Xenomorphtype
                     bool reachableEntry = CheckReachable(map, pawn.Position, endpoint.building, PathEndMode.ClosestTouch, TraverseMode.NoPassClosedDoors);
                     if (!reachableEntry)
                     {
-                        if (XMTSettings.LogJobGiver)
+                        if (XMTSettings.LogClimbing)
                         {
                             Log.Message("[InfiltrationEscape] " + pawn + " cannot reach endpoint " + endpoint.building + " at " + endpoint.building.Position + ".");
                         }
                         continue;
                     }
 
-                    if (XMTSettings.LogJobGiver)
+                    if (XMTSettings.LogClimbing)
                     {
                         Log.Message("[InfiltrationEscape] " + pawn + " reached endpoint " + endpoint.building + " at " + endpoint.building.Position + " connectedRooms=" + endpoint.connectedRooms.Count + ".");
                     }
@@ -397,15 +400,10 @@ namespace Xenomorphtype
                     {
                         if (room == null || room == startRoom)
                         {
-                            if (XMTSettings.LogJobGiver && room == startRoom)
+                            if (XMTSettings.LogClimbing)
                             {
                                 Log.Message("[InfiltrationEscape] " + pawn + " skipping start room on endpoint " + endpoint.building + ".");
                             }
-                            continue;
-                        }
-
-                        if(pawn.GetMorphComp().RoomInvalidForEscape(room))
-                        {
                             continue;
                         }
 
@@ -421,18 +419,18 @@ namespace Xenomorphtype
 
                         if (!candidate.IsValid)
                         {
-                            if (XMTSettings.LogJobGiver)
+                            if (XMTSettings.LogClimbing)
                             {
-                                Log.Message("[InfiltrationEscape] " + pawn + " found no standable adjacent candidate for endpoint " + endpoint.building + " room=" + MatureMorphPathRecoveryState.RoomSummary(room) + ".");
+                                Log.Message("[InfiltrationEscape] " + pawn + " found no standable adjacent candidate for endpoint " + endpoint.building + " room=" + MatureMorphPathRecovery.RoomSummary(room) + ".");
                             }
                             continue;
                         }
 
                         if (destinationValidator != null && !destinationValidator(candidate, room))
                         {
-                            if (XMTSettings.LogJobGiver)
+                            if (XMTSettings.LogClimbing)
                             {
-                                Log.Message("[InfiltrationEscape] " + pawn + " validator rejected candidate=" + candidate + " room=" + MatureMorphPathRecoveryState.RoomSummary(room) + " endpoint=" + endpoint.building + ".");
+                                Log.Message("[InfiltrationEscape] " + pawn + " validator rejected candidate=" + candidate + " room=" + MatureMorphPathRecovery.RoomSummary(room) + " endpoint=" + endpoint.building + ".");
                             }
                             continue;
                         }
@@ -443,18 +441,18 @@ namespace Xenomorphtype
                             bestDistance = distance;
                             escapeCell = candidate;
                             escapeRoom = room;
-                            if (XMTSettings.LogJobGiver)
+                            if (XMTSettings.LogClimbing)
                             {
-                                Log.Message("[InfiltrationEscape] " + pawn + " new best candidate=" + candidate + " room=" + MatureMorphPathRecoveryState.RoomSummary(room) + " endpoint=" + endpoint.building + " distance=" + distance + ".");
+                                Log.Message("[InfiltrationEscape] " + pawn + " new best candidate=" + candidate + " room=" + MatureMorphPathRecovery.RoomSummary(room) + " endpoint=" + endpoint.building + " distance=" + distance + ".");
                             }
                         }
                     }
                 }
             }
 
-            if (XMTSettings.LogJobGiver)
+            if (XMTSettings.LogClimbing)
             {
-                Log.Message("[InfiltrationEscape] " + pawn + " result escapeCell=" + escapeCell + " escapeRoom=" + MatureMorphPathRecoveryState.RoomSummary(escapeRoom) + ".");
+                Log.Message("[InfiltrationEscape] " + pawn + " result escapeCell=" + escapeCell + " escapeRoom=" + MatureMorphPathRecovery.RoomSummary(escapeRoom) + ".");
             }
             return escapeCell.IsValid;
         }
@@ -691,7 +689,10 @@ namespace Xenomorphtype
 
                 if (IsAtomicEntry(building.def))
                 {
-                    Log.Message("Found Atomic Entry");
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message("Found Atomic Entry");
+                    }
                     InfiltrationNetwork newNetwork = new InfiltrationNetwork();
                     newNetwork.connectedRooms = new List<Room>();
                     newNetwork.connectedBuildings = new List<Building>();
@@ -722,7 +723,10 @@ namespace Xenomorphtype
 
                 if (IsOilEntry(building.def))
                 {
-                    Log.Message("Found Oil Entry");
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message("Found Oil Entry");
+                    }
                     InfiltrationNetwork newNetwork = new InfiltrationNetwork();
                     newNetwork.connectedRooms = new List<Room>();
                     newNetwork.connectedBuildings = new List<Building>();
@@ -790,7 +794,10 @@ namespace Xenomorphtype
             IEnumerable<Building> endpoints = GetAllConnectedEndPoints(map, endPoint.building, new ThingDef[] { ExternalDefOf.Ship_Beam, ExternalDefOf.ShipHeatConduit}, EndPointType.SOS2);
             foreach (Building endpoint in endpoints)
             {
-                Log.Message(endpoint + " being checked");
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(endpoint + " being checked");
+                }
                 InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = endpoint as Building, type = EndPointType.SOS2 };
                 AddEndpointToNetwork(map, infiltrationEndPoint, ref network);
             }
@@ -903,7 +910,10 @@ namespace Xenomorphtype
             IEnumerable<Building> endpoints = GetAllConnectedEndPoints(map, endPoint.building, new ThingDef[] { ExternalDefOf.OilPipeline, ExternalDefOf.OilPipelineHidden, ExternalDefOf.pipelineValve }, EndPointType.Rimafeller);
             foreach (Building endpoint in endpoints)
             {
-                Log.Message(endpoint + " being checked");
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(endpoint + " being checked");
+                }
                 InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = endpoint as Building, type = EndPointType.Rimafeller };
                 AddEndpointToNetwork(map, infiltrationEndPoint, ref network);
             }
@@ -918,7 +928,10 @@ namespace Xenomorphtype
             IEnumerable<Building> endpoints = GetAllConnectedEndPoints(map, endPoint.building, new ThingDef[] { ExternalDefOf.waterPipe, ExternalDefOf.waterValve, ExternalDefOf.coolingPipe, ExternalDefOf.coolantValve }, EndPointType.Rimatomics);
             foreach (Building endpoint in endpoints)
             {
-                Log.Message(endpoint + " being checked");
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(endpoint + " being checked");
+                }
                 InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = endpoint as Building, type = EndPointType.Rimatomics };
                 AddEndpointToNetwork(map, infiltrationEndPoint, ref network);
             }
@@ -934,7 +947,10 @@ namespace Xenomorphtype
             IEnumerable<Building> endpoints = GetAllConnectedEndPoints(map, endPoint.building, new ThingDef[] { ExternalDefOf.sewagePipeStuff}, EndPointType.DubPlumbing);
             foreach (Building endpoint in endpoints)
             {
-                Log.Message(endpoint + " being checked");
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message(endpoint + " being checked");
+                }
                 InfiltrationEndPoint infiltrationEndPoint = new InfiltrationEndPoint { building = endpoint as Building, type = EndPointType.DubPlumbing };
                 AddEndpointToNetwork(map, infiltrationEndPoint, ref network);
             }
@@ -1013,7 +1029,10 @@ namespace Xenomorphtype
 
             if (!network.endpoints.Contains(endPoint))
             {
-                Log.Message("added " +  endPoint.building);
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message("added " + endPoint.building);
+                }
                 network.endpoints.Add(endPoint);
             }
         }

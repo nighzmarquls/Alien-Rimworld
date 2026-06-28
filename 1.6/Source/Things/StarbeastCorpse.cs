@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using AlienRace;
+using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -91,14 +92,19 @@ namespace Xenomorphtype
 
         }
 
-        protected bool TryRevive()
+        protected bool TryRevive(CompPawnInfo aggressor = null)
         {
+            Pawn reference = InnerPawn;
             if (!ResurrectionUtility.TryResurrect(InnerPawn, new ResurrectionParams { restoreMissingParts = false, gettingScarsChance = 0.75f }))
             {
                 _notActuallyDead = false;
                 return false;
             }
 
+            if (aggressor != null)
+            {
+                aggressor.ApplyThreatPheromone(reference);
+            }
             return true;
         }
 
@@ -111,7 +117,8 @@ namespace Xenomorphtype
 
                 if (NotActuallyDead)
                 {
-                    TryRevive();
+                    CompPawnInfo info = ingester.Info();
+                    TryRevive(info);
                 }
             }
         }
@@ -122,7 +129,14 @@ namespace Xenomorphtype
             {
                 if (HitPoints > MaxHitPoints / 2)
                 {
-                    TryRevive();
+                    CompPawnInfo info = null;
+                    if (dinfo.Instigator is Pawn pawn)
+                    {
+
+                        info = pawn.Info();
+                    }
+
+                    TryRevive(info);
                 }
                 else
                 {
@@ -179,7 +193,9 @@ namespace Xenomorphtype
         {
             if(NotActuallyDead)
             {
-                if (TryRevive())
+                CompPawnInfo info = butcher.Info();
+
+                if (TryRevive(info))
                 {
                     yield break;
                 }
@@ -220,6 +236,16 @@ namespace Xenomorphtype
             }
 
             ResearchUtility.ProgressCryptobioTech(10, butcher);
+        }
+
+        public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
+        {
+            if(!Spawned)
+            {
+                return;
+            }
+
+            base.Destroy(mode);
         }
     }
 }

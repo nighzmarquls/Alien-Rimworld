@@ -20,7 +20,7 @@ namespace Xenomorphtype
 
         CompJellyMaker JellyMaker = null;
         CompMatureMorphProperties Props => props as CompMatureMorphProperties;
-        Pawn Parent => parent as Pawn;
+        internal Pawn Parent => parent as Pawn;
         public float abductRange => Props.abductRange;
         
         int canNuzzleTick = 0;
@@ -32,7 +32,8 @@ namespace Xenomorphtype
         int canHuntTick = 0;
         int canTendLairTick = 0;
         int canTunnelTick = 0;
-        MatureMorphPathRecoveryState pathRecovery;
+        MatureMorphPathRecoveryState pathRecoveryState;
+        private MatureMorphPathRecovery pathRecovery;
 
         //Taming mechanics
 
@@ -136,7 +137,17 @@ namespace Xenomorphtype
 
             Scribe_Values.Look(ref canTendLairTick, "canTendLairTick", 0);
             Scribe_Values.Look(ref canTunnelTick, "canTunnelTick", 0);
-            Scribe_Deep.Look(ref pathRecovery, "pathRecovery");
+            Scribe_Deep.Look(ref pathRecoveryState, "pathRecovery");
+        }
+
+        internal MatureMorphPathRecovery PathRecovery
+        {
+            get
+            {
+                pathRecoveryState ??= new MatureMorphPathRecoveryState();
+                pathRecovery ??= new MatureMorphPathRecovery(this, pathRecoveryState);
+                return pathRecovery;
+            }
         }
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -820,423 +831,17 @@ namespace Xenomorphtype
 
         public void NotifyPathFailure(LocalTargetInfo target, Job job)
         {
-            if (Parent == null || Parent.Dead || Parent.MapHeld == null || !target.IsValid || !target.Cell.IsValid)
-            {
-                return;
-            }
-
-            pathRecovery ??= new MatureMorphPathRecoveryState();
-            if (XMTSettings.LogJobGiver)
-            {
-                Log.Message("[PathRecovery] " + Parent + " NotifyPathFailure tick=" + Find.TickManager.TicksGame + " target=" + target.Cell + " job=" + job?.def?.defName + " before=" + pathRecovery.DebugSummary(Parent.MapHeld));
-            }
-
-            pathRecovery.NotifyFailure(target.Cell, job?.def, job != null && job.playerForced, Parent.MapHeld, Parent.PositionHeld);
-            if (XMTSettings.LogJobGiver)
-            {
-                Log.Message("[PathRecovery] " + Parent + " NotifyPathFailure after=" + pathRecovery.DebugSummary(Parent.MapHeld));
-            }
+            PathRecovery.NotifyPathFailure(target, job);
         }
 
         public void ClearPathRecovery()
         {
-            pathRecovery?.Clear();
+            PathRecovery.Clear();
         }
 
         public bool TryGetPathRecoveryJob(out Job job)
         {
-            job = null;
-            if (Parent == null || Parent.Dead || Parent.MapHeld == null || pathRecovery == null || !pathRecovery.Active)
-            {
-                if (XMTSettings.LogJobGiver && Parent != null)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " no active recovery state.");
-                }
-                return false;
-            }
-
-            if (XMTSettings.LogJobGiver)
-            {
-                Log.Message("[PathRecovery] " + Parent + " evaluating recovery tick=" + Find.TickManager.TicksGame + " state=" + pathRecovery.DebugSummary(Parent.MapHeld));
-            }
-
-            if (!pathRecovery.IsForMap(Parent.MapHeld) || !pathRecovery.TargetCell.InBounds(Parent.MapHeld))
-            {
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " clearing recovery because map/target is invalid. state=" + pathRecovery.DebugSummary(Parent.MapHeld));
-                }
-                ClearPathRecovery();
-                return false;
-            }
-
-            if (ClimbUtility.OriginalCanReach(Parent, pathRecovery.TargetCell, PathEndMode.Touch, Danger.Deadly))
-            {
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " clearing recovery because target is reachable by normal pathing. target=" + pathRecovery.TargetCell + " state=" + pathRecovery.DebugSummary(Parent.MapHeld));
-                }
-                ClearPathRecovery();
-                return false;
-            }
-
-            if (!CanUsePathRecovery())
-            {
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " cannot use recovery due faction/player sabotage gate. faction=" + Parent.Faction + " playerForced=" + pathRecovery.PlayerForced + " state=" + pathRecovery.DebugSummary(Parent.MapHeld));
-                }
-                return false;
-            }
-
-            if (!pathRecovery.InfiltrationProbeUsed && InfiltrationUtility.TryFindAnyInfiltrationEscape(Parent, out IntVec3 escapeCell, out Room escapeRoom, (candidate, room) => !pathRecovery.IsRecentInfiltrationBacktrack(Parent.MapHeld, Parent.PositionHeld, candidate, room)))
-            {
-                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_WallClimb, escapeCell);
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " selected infiltration escape cell=" + escapeCell + " room=" + MatureMorphPathRecoveryState.RoomSummary(escapeRoom) + " job=" + job + ".");
-                }
-                pathRecovery.MarkInfiltrationEscape(Parent.MapHeld, Parent.PositionHeld, escapeCell, escapeRoom);
-                return true;
-            }
-
-            if (!Parent.DevelopmentalStage.Adult())
-            {
-                if (TryGetLocalMatureRecoveryJob(out job))
-                {
-                    if (XMTSettings.LogJobGiver)
-                    {
-                        Log.Message("[PathRecovery] " + Parent + " selected juvenile mature recovery job " + job + ".");
-                    }
-                    ClearPathRecovery();
-                    return true;
-                }
-
-                if (TryGetLocalFoodRecoveryJob(out job))
-                {
-                    if (XMTSettings.LogJobGiver)
-                    {
-                        Log.Message("[PathRecovery] " + Parent + " selected juvenile food recovery job " + job + ".");
-                    }
-                    return true;
-                }
-            }
-
-            if (TryGetUnpoweredDoorRecoveryJob(out job))
-            {
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " selected unpowered door recovery job " + job + ".");
-                }
-                ClearPathRecovery();
-                return true;
-            }
-
-            /*if (TryGetLocalPowerSabotageRecoveryJob(out job))
-            {
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " selected local power sabotage recovery job " + job + ".");
-                }
-                ClearPathRecovery();
-                return true;
-            }*/
-
-            if (TryGetBreachRecoveryJob(out job))
-            {
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] " + Parent + " selected breach recovery job " + job + ".");
-                }
-                ClearPathRecovery();
-                return true;
-            }
-            ClearPathRecovery();
-            return false;
-        }
-
-        private bool CanUsePathRecovery()
-        {
-            return Parent.Faction == null ||
-                   !Parent.Faction.IsPlayer ||
-                   pathRecovery.PlayerForced ||
-                   (XMTUtility.NoQueenPresent() && XMTSettings.PlayerSabotage);
-        }
-
-        private bool TryGetLocalMatureRecoveryJob(out Job job)
-        {
-            job = null;
-            if (Parent.needs?.food == null || Parent.needs.food.CurLevelPercentage < 0.9f)
-            {
-                return false;
-            }
-
-            if (!Parent.PositionHeld.InBounds(Parent.MapHeld) || !Parent.PositionHeld.Standable(Parent.MapHeld))
-            {
-                return false;
-            }
-
-            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Mature, Parent.PositionHeld);
-            FeralJobUtility.ReservePlaceForJob(Parent, job, Parent.PositionHeld);
-            return true;
-        }
-
-        private bool TryGetLocalFoodRecoveryJob(out Job job)
-        {
-            job = null;
-            Room room = Parent.GetRoom();
-            if (room == null)
-            {
-                return false;
-            }
-
-            Thing bestFood = null;
-            float bestScore = float.MinValue;
-            foreach (IntVec3 cell in room.Cells)
-            {
-                if (!cell.InBounds(Parent.MapHeld))
-                {
-                    continue;
-                }
-
-                foreach (Thing thing in cell.GetThingList(Parent.MapHeld))
-                {
-                    ThingDef foodDef = FoodUtility.GetFinalIngestibleDef(thing, false);
-                    if (foodDef?.ingestible == null || !FeralJobUtility.IsThingAvailableForJobBy(Parent, thing))
-                    {
-                        continue;
-                    }
-
-                    if (!ClimbUtility.CanReachByWalkingOrClimb(Parent, thing, PathEndMode.Touch, Danger.Deadly))
-                    {
-                        continue;
-                    }
-
-                    float nutrition = FoodUtility.GetNutrition(Parent, thing, foodDef);
-                    if (nutrition <= 0f)
-                    {
-                        continue;
-                    }
-
-                    float score = nutrition * 100f - Parent.Position.DistanceToSquared(thing.PositionHeld);
-                    if (score > bestScore)
-                    {
-                        bestScore = score;
-                        bestFood = thing;
-                    }
-                }
-            }
-
-            if (bestFood != null)
-            {
-                ThingDef foodDef = FoodUtility.GetFinalIngestibleDef(bestFood, false);
-                job = JobMaker.MakeJob(JobDefOf.Ingest, bestFood);
-                job.count = FoodUtility.WillIngestStackCountOf(Parent, foodDef, FoodUtility.GetNutrition(Parent, bestFood, foodDef));
-                FeralJobUtility.ReserveThingForJob(Parent, job, bestFood);
-                return true;
-            }
-
-            Pawn prey = room.Cells
-                .Select(cell => cell.GetFirstPawn(Parent.MapHeld))
-                .Where(candidate => candidate != null && candidate != Parent && candidate.Spawned && !candidate.Dead && !XMTUtility.NotPrey(candidate) && !XMTUtility.IsInorganic(candidate))
-                .OrderBy(candidate => Parent.Position.DistanceToSquared(candidate.PositionHeld))
-                .FirstOrDefault(candidate => FeralJobUtility.IsThingAvailableForJobBy(Parent, candidate) && ClimbUtility.CanReachByWalkingOrClimb(Parent, candidate, PathEndMode.Touch, Danger.Deadly));
-
-            if (prey == null)
-            {
-                return false;
-            }
-
-            job = JobMaker.MakeJob(JobDefOf.PredatorHunt, prey);
-            job.killIncappedTarget = true;
-            FeralJobUtility.ReserveThingForJob(Parent, job, prey);
-            return true;
-        }
-
-        private bool TryGetUnpoweredDoorRecoveryJob(out Job job)
-        {
-            job = null;
-            Building_Door door = CurrentRoomBoundaryDoors()
-                .Where(doorCandidate => IsPathRecoveryDoorCandidate(Parent, doorCandidate))
-                .OrderBy(doorCandidate => Parent.Position.DistanceToSquared(doorCandidate.Position))
-                .FirstOrDefault(doorCandidate => TryFindDoorInteractionCell(Parent, doorCandidate, out IntVec3 _));
-
-            if (door == null || !TryFindDoorInteractionCell(Parent, door, out IntVec3 interactionCell))
-            {
-                return false;
-            }
-
-            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PathRecoveryOpenDoor, door, interactionCell);
-            return true;
-        }
-
-        private bool TryGetLocalPowerSabotageRecoveryJob(out Job job)
-        {
-            job = null;
-            Thing target = CurrentRoomBoundaryBuildings()
-                .Where(thing => thing != null && !(thing is Building_Door) && FeralJobUtility.IsThingAvailableForJobBy(Parent, thing))
-                .Where(HasActivePowerOrBreakdown)
-                .OrderBy(thing => Parent.Position.DistanceToSquared(thing.PositionHeld))
-                .FirstOrDefault(thing => ClimbUtility.OriginalCanReach(Parent, thing, PathEndMode.Touch, Danger.Deadly));
-
-            if (target == null)
-            {
-                return false;
-            }
-
-            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, target);
-            FeralJobUtility.ReserveThingForJob(Parent, job, target);
-            return true;
-        }
-
-        private bool TryGetBreachRecoveryJob(out Job job)
-        {
-            job = null;
-            List<Building> buildings = CurrentRoomBoundaryBuildings()
-                .Where(building => IsPathRecoveryBreachCandidate(Parent, building, out IntVec3 _)).ToList();
-
-            if(buildings == null || buildings.Count == 0)
-            {
-                return false;
-            }
-
-            buildings.Shuffle();
-            Building blocker = buildings.FirstOrDefault();
-
-            if (blocker == null || !IsPathRecoveryBreachCandidate(Parent, blocker, out IntVec3 interactionCell))
-            {
-                return false;
-            }
-
-            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PathRecoveryBreach, blocker, interactionCell);
-            return true;
-        }
-
-        private IEnumerable<Building> CurrentRoomBoundaryBuildings()
-        {
-            Room room = Parent.GetRoom();
-            if (room == null)
-            {
-                yield break;
-            }
-
-            HashSet<Building> seen = new HashSet<Building>();
-            foreach (IntVec3 roomCell in room.Cells)
-            {
-                foreach (IntVec3 direction in GenAdj.CardinalDirections)
-                {
-                    IntVec3 borderCell = roomCell + direction;
-                    if (!borderCell.InBounds(Parent.MapHeld) || borderCell.GetRoom(Parent.MapHeld) == room)
-                    {
-                        continue;
-                    }
-
-                    Building building = borderCell.GetEdifice(Parent.MapHeld);
-                    if (building != null && seen.Add(building))
-                    {
-                        yield return building;
-                    }
-                }
-            }
-        }
-
-        private IEnumerable<Building_Door> CurrentRoomBoundaryDoors()
-        {
-            return CurrentRoomBoundaryBuildings().OfType<Building_Door>();
-        }
-
-        private static bool TryFindDoorInteractionCell(Pawn pawn, Building_Door door, out IntVec3 interactionCell)
-        {
-            interactionCell = IntVec3.Invalid;
-            Room pawnRoom = pawn.GetRoom();
-            if (pawnRoom == null || door?.Map == null)
-            {
-                return false;
-            }
-
-            foreach (IntVec3 cell in door.OccupiedRect().AdjacentCells)
-            {
-                if (cell.InBounds(pawn.Map) &&
-                    cell.GetRoom(pawn.Map) == pawnRoom &&
-                    cell.Standable(pawn.Map) &&
-                    FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell) &&
-                    ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly))
-                {
-                    interactionCell = cell;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        internal static bool IsPathRecoveryDoorCandidate(Pawn pawn, Building_Door door, bool requireAvailability = true)
-        {
-            if (pawn?.Map == null || door == null || door.Destroyed || door.Open || door.HoldOpen || door is Building_MultiTileDoor)
-            {
-                return false;
-            }
-
-            CompPowerTrader power = door.TryGetComp<CompPowerTrader>();
-            return (power == null || !power.PowerOn) && (!requireAvailability || FeralJobUtility.IsThingAvailableForJobBy(pawn, door));
-        }
-
-        internal static bool IsPathRecoveryBreachCandidate(Pawn pawn, Building blocker, out IntVec3 interactionCell, bool requireAvailability = true)
-        {
-            interactionCell = IntVec3.Invalid;
-            if (pawn?.Map == null || blocker == null || blocker.Destroyed || blocker is Building_Door || blocker.def.passability != Traversability.Impassable)
-            {
-                return false;
-            }
-
-            if (requireAvailability && !FeralJobUtility.IsThingAvailableForJobBy(pawn, blocker))
-            {
-                return false;
-            }
-
-            if (XMTUtility.IsSpace(pawn.Map) && !XMTBreachReplacementUtility.TryGetReplacement(blocker.def, out XMT_BreachReplacementPair _))
-            {
-                return false;
-            }
-
-            Room pawnRoom = pawn.GetRoom();
-            if (pawnRoom == null)
-            {
-                return false;
-            }
-
-            foreach (IntVec3 adjacent in blocker.OccupiedRect().AdjacentCells)
-            {
-                if (adjacent.InBounds(pawn.Map) &&
-                    adjacent.GetRoom(pawn.Map) == pawnRoom &&
-                    adjacent.Standable(pawn.Map) &&
-                    (!requireAvailability || FeralJobUtility.IsPlaceAvailableForJobBy(pawn, adjacent)) &&
-                    ClimbUtility.CanReachByWalkingOrClimb(pawn, adjacent, PathEndMode.OnCell, Danger.Deadly))
-                {
-                    interactionCell = adjacent;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private static bool HasActivePowerOrBreakdown(Thing thing)
-        {
-            CompBreakdownable breakdownable = thing.TryGetComp<CompBreakdownable>();
-            if (breakdownable != null)
-            {
-                return true;
-            }
-
-            CompPowerTrader trader = thing.TryGetComp<CompPowerTrader>();
-            if (trader != null && trader.PowerOn)
-            {
-                return true;
-            }
-
-            CompPower power = thing.TryGetComp<CompPower>();
-            return power?.PowerNet != null && power.PowerNet.hasPowerSource;
+            return PathRecovery.TryGetJob(out job);
         }
         public Job GetCandidateFeedJob(Pawn candidate)
         {
@@ -2162,8 +1767,7 @@ namespace Xenomorphtype
             if (Find.TickManager.TicksGame >= canTunnelTick &&
                 !ClimbUtility.CanReachByWalkingOrExecutableClimb(Parent, NestPosition, PathEndMode.Touch, Danger.Deadly, canBashDoors: true, canBashFences: true))
             {
-                pathRecovery ??= new MatureMorphPathRecoveryState();
-                pathRecovery.NotifyFailure(NestPosition, XenoWorkDefOf.XMT_HiveBuilding, false, Parent.MapHeld, Parent.PositionHeld);
+                PathRecovery.NotifyPathFailure(NestPosition, XenoWorkDefOf.XMT_HiveBuilding, false);
                 canTunnelTick = Find.TickManager.TicksGame + Mathf.CeilToInt(2500);
                 if (TryGetPathRecoveryJob(out job))
                 {
@@ -2822,10 +2426,6 @@ namespace Xenomorphtype
             Parent.jobs.StartJob(job, JobCondition.InterruptForced);
         }
 
-        internal bool RoomInvalidForEscape(Room room)
-        {
-            return pathRecovery.IsRoomBacktrack(room);
-        }
     }
 
     public class CompMatureMorphProperties : CompProperties
@@ -2850,233 +2450,4 @@ namespace Xenomorphtype
         }
     }
 
-    public class MatureMorphPathRecoveryState : IExposable
-    {
-        private const int RequiredFailures = 2;
-        private const int RetryDelayTicks = 900;
-        private const int InfiltrationBacktrackCooldownTicks = 5000;
-
-        private IntVec3 targetCell = IntVec3.Invalid;
-        private JobDef failedJobDef;
-        private int lastFailureTick = -1;
-        private int totalAttempts;
-        private bool playerForced;
-        private int mapId = -1;
-        private IntVec3 recoveryRoomCell = IntVec3.Invalid;
-        private IntVec3 lastInfiltrationSourceCell = IntVec3.Invalid;
-        private IntVec3 lastInfiltrationDestinationCell = IntVec3.Invalid;
-        private IntVec3 lastInfiltrationSourceRoomCell = IntVec3.Invalid;
-        private IntVec3 lastInfiltrationDestinationRoomCell = IntVec3.Invalid;
-        private int lastInfiltrationTick = -1;
-        private bool infiltrationProbeUsed;
-
-        public bool Active => targetCell.IsValid && totalAttempts > 0;
-        public bool InfiltrationProbeUsed => infiltrationProbeUsed;
-        public IntVec3 TargetCell => targetCell;
-        public bool PlayerForced => playerForced;
-
-        public string DebugSummary(Map map)
-        {
-            return "active=" + Active +
-                   " target=" + targetCell +
-                   " failedJob=" + failedJobDef?.defName +
-                   " attempts=" + totalAttempts +
-                   " lastFailureTick=" + lastFailureTick +
-                   " mapId=" + mapId +
-                   " playerForced=" + playerForced +
-                   " recoveryRoom=" + RoomSummary(GetStoredRoom(map, recoveryRoomCell, recoveryRoomCell)) +
-                   " lastInfSourceRoom=" + RoomSummary(GetStoredRoom(map, lastInfiltrationSourceRoomCell, lastInfiltrationSourceCell)) +
-                   " lastInfDestinationRoom=" + RoomSummary(GetStoredRoom(map, lastInfiltrationDestinationRoomCell, lastInfiltrationDestinationCell)) +
-                   " lastInfTick=" + lastInfiltrationTick +
-                   " infiltrationProbeUsed=" + infiltrationProbeUsed;
-        }
-
-        public static string RoomSummary(Room room)
-        {
-            return room == null ? "null" : room.ToString() + " cells=" + room.CellCount;
-        }
-
-        public void NotifyFailure(IntVec3 cell, JobDef jobDef, bool wasPlayerForced, Map map, IntVec3 roomCell)
-        {
-            if (map == null)
-            {
-                return;
-            }
-
-            int tick = Find.TickManager.TicksGame;
-            bool sameFailure = Active &&
-                               mapId == map.uniqueID &&
-                               ((targetCell == cell && failedJobDef == jobDef) || SameRecoveryRoom(map, roomCell));
-            if (sameFailure && lastFailureTick == tick)
-            {
-                playerForced |= wasPlayerForced;
-                if (XMTSettings.LogJobGiver)
-                {
-                    Log.Message("[PathRecovery] same-tick duplicate failure ignored. tick=" + tick + " cell=" + cell + " job=" + jobDef?.defName + " state=" + DebugSummary(map));
-                }
-                return;
-            }
-
-            if (!sameFailure)
-            {
-                targetCell = cell;
-                failedJobDef = jobDef;
-                totalAttempts = 0;
-                mapId = map.uniqueID;
-                playerForced = false;
-                recoveryRoomCell = roomCell;
-                infiltrationProbeUsed = false;
-            }
-
-            totalAttempts++;
-            playerForced |= wasPlayerForced;
-            lastFailureTick = tick;
-            if (XMTSettings.LogJobGiver)
-            {
-                Log.Message("[PathRecovery] failure recorded. tick=" + tick + " sameFailure=" + sameFailure + " cell=" + cell + " job=" + jobDef?.defName + " roomCell=" + roomCell + " state=" + DebugSummary(map));
-            }
-        }
-
-        private bool SameRecoveryRoom(Map map, IntVec3 roomCell)
-        {
-            if (map == null || !recoveryRoomCell.IsValid || !roomCell.IsValid || !recoveryRoomCell.InBounds(map) || !roomCell.InBounds(map))
-            {
-                return false;
-            }
-
-            Room recoveryRoom = recoveryRoomCell.GetRoom(map);
-            Room currentRoom = roomCell.GetRoom(map);
-            return recoveryRoom != null && recoveryRoom == currentRoom;
-        }
-
-        public bool IsForMap(Map map)
-        {
-            return map != null && map.uniqueID == mapId;
-        }
-
-        public void MarkInfiltrationEscape(Map map, IntVec3 sourceCell, IntVec3 destinationCell, Room destinationRoom)
-        {
-            lastInfiltrationSourceCell = sourceCell;
-            lastInfiltrationDestinationCell = destinationCell;
-            lastInfiltrationSourceRoomCell = GetRoomAnchorCell(map, sourceCell.GetRoom(map));
-            lastInfiltrationDestinationRoomCell = GetRoomAnchorCell(map, destinationRoom);
-            if (!lastInfiltrationDestinationRoomCell.IsValid)
-            {
-                lastInfiltrationDestinationRoomCell = GetRoomAnchorCell(map, destinationCell.GetRoom(map));
-            }
-            lastInfiltrationTick = Find.TickManager.TicksGame;
-            infiltrationProbeUsed = true;
-            if (XMTSettings.LogJobGiver)
-            {
-                Log.Message("[PathRecovery] marked infiltration escape sourceCell=" + sourceCell + " destinationCell=" + destinationCell + " destinationRoom=" + RoomSummary(destinationRoom) + " state=" + DebugSummary(map));
-            }
-        }
-
-        public bool IsRecentInfiltrationBacktrack(Map map, IntVec3 currentCell, IntVec3 candidateDestination, Room candidateDestinationRoom)
-        {
-            if (map == null ||
-                Find.TickManager.TicksGame > lastInfiltrationTick + InfiltrationBacktrackCooldownTicks ||
-                !lastInfiltrationSourceCell.IsValid ||
-                !lastInfiltrationDestinationCell.IsValid ||
-                !currentCell.IsValid ||
-                !candidateDestination.IsValid ||
-                !lastInfiltrationSourceCell.InBounds(map) ||
-                !lastInfiltrationDestinationCell.InBounds(map) ||
-                !currentCell.InBounds(map) ||
-                !candidateDestination.InBounds(map))
-            {
-                return false;
-            }
-
-            Room currentRoom = currentCell.GetRoom(map);
-            Room lastDestinationRoom = GetStoredRoom(map, lastInfiltrationDestinationRoomCell, lastInfiltrationDestinationCell);
-            Room candidateRoom = candidateDestinationRoom ?? candidateDestination.GetRoom(map);
-            Room lastSourceRoom = GetStoredRoom(map, lastInfiltrationSourceRoomCell, lastInfiltrationSourceCell);
-            bool backtrack = currentRoom != null &&
-                             currentRoom == lastDestinationRoom &&
-                             candidateRoom != null &&
-                             candidateRoom == lastSourceRoom;
-            if (backtrack && XMTSettings.LogJobGiver)
-            {
-                Log.Message("[PathRecovery] rejecting recent infiltration backtrack currentRoom=" + RoomSummary(currentRoom) + " candidateRoom=" + RoomSummary(candidateRoom) + " lastSourceRoom=" + RoomSummary(lastSourceRoom) + " lastDestinationRoom=" + RoomSummary(lastDestinationRoom) + " candidate=" + candidateDestination + " state=" + DebugSummary(map));
-            }
-
-            return backtrack;
-        }
-
-        private static IntVec3 GetRoomAnchorCell(Map map, Room room)
-        {
-            if (map == null || room == null)
-            {
-                return IntVec3.Invalid;
-            }
-
-            foreach (IntVec3 cell in room.Cells)
-            {
-                if (cell.InBounds(map))
-                {
-                    return cell;
-                }
-            }
-
-            return IntVec3.Invalid;
-        }
-
-        private static Room GetStoredRoom(Map map, IntVec3 roomAnchorCell, IntVec3 fallbackCell)
-        {
-            if (map != null && roomAnchorCell.IsValid && roomAnchorCell.InBounds(map))
-            {
-                Room room = roomAnchorCell.GetRoom(map);
-                if (room != null)
-                {
-                    return room;
-                }
-            }
-
-            return map != null && fallbackCell.IsValid && fallbackCell.InBounds(map) ? fallbackCell.GetRoom(map) : null;
-        }
-
-        public void Clear()
-        {
-            targetCell = IntVec3.Invalid;
-            failedJobDef = null;
-            lastFailureTick = -1;
-            totalAttempts = 0;
-            playerForced = false;
-            mapId = -1;
-            recoveryRoomCell = IntVec3.Invalid;
-            lastInfiltrationSourceCell = IntVec3.Invalid;
-            lastInfiltrationDestinationCell = IntVec3.Invalid;
-            lastInfiltrationSourceRoomCell = IntVec3.Invalid;
-            lastInfiltrationDestinationRoomCell = IntVec3.Invalid;
-            lastInfiltrationTick = -1;
-            infiltrationProbeUsed = false;
-        }
-
-        public void ExposeData()
-        {
-            Scribe_Values.Look(ref targetCell, "targetCell");
-            Scribe_Defs.Look(ref failedJobDef, "failedJobDef");
-            Scribe_Values.Look(ref lastFailureTick, "lastFailureTick", -1);
-            Scribe_Values.Look(ref totalAttempts, "totalAttempts", 0);
-            Scribe_Values.Look(ref playerForced, "playerForced", false);
-            Scribe_Values.Look(ref mapId, "mapId", -1);
-            Scribe_Values.Look(ref recoveryRoomCell, "recoveryRoomCell");
-            Scribe_Values.Look(ref lastInfiltrationSourceCell, "lastInfiltrationSourceCell");
-            Scribe_Values.Look(ref lastInfiltrationDestinationCell, "lastInfiltrationDestinationCell");
-            Scribe_Values.Look(ref lastInfiltrationSourceRoomCell, "lastInfiltrationSourceRoomCell");
-            Scribe_Values.Look(ref lastInfiltrationDestinationRoomCell, "lastInfiltrationDestinationRoomCell");
-            Scribe_Values.Look(ref lastInfiltrationTick, "lastInfiltrationTick", -1);
-            Scribe_Values.Look(ref infiltrationProbeUsed, "infiltrationProbeUsed", false);
-        }
-
-        internal bool IsRoomBacktrack(Room room)
-        {
-            if (room == null)
-            {
-                return false;
-            }
-            return room.ContainsCell(lastInfiltrationDestinationRoomCell);
-        }
-    }
 }

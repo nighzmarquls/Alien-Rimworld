@@ -23,24 +23,24 @@
 		</things>
 	</Xenomorphtype.XMT_ThingDefList>
 
-	<Xenomorphtype.XMT_BreachReplacementListDef>
-		<defName>XMT_SOS2BreachReplacementList</defName>
+	<Xenomorphtype.XMT_SabotageReplacementListDef>
+		<defName>XMT_SOS2SabotageReplacementList</defName>
 		<replacements>
 			<li>
 				<sourceThing>Ship_Beam</sourceThing>
-				<replacementThing>HiveWebbing</replacementThing>
+				<replacementThing>Ship_Beam_Unpowered</replacementThing>
 				<replacementFloorThing>ShipHullTile</replacementFloorThing>
 			</li>
 			<li>
 				<sourceThing>Ship_BeamMech</sourceThing>
-				<replacementThing>HiveWebbing</replacementThing>
+				<replacementThing>Ship_BeamMech_Unpowered</replacementThing>
 				<replacementFloorThing>ShipHullTileMech</replacementFloorThing>
 			</li>
 			<li>
 				<sourceThing>Ship_BeamArchotech</sourceThing>
-				<replacementThing>HiveWebbing</replacementThing>
+				<replacementThing>Ship_BeamArchotech_Unpowered</replacementThing>
 				<replacementFloorThing>ShipHullTileArchotech</replacementFloorThing>
 			</li>
 		</replacements>
-	</Xenomorphtype.XMT_BreachReplacementListDef>
+	</Xenomorphtype.XMT_SabotageReplacementListDef>
 </Defs>

@@ -9,6 +9,7 @@ namespace Xenomorphtype
     {
         private Building_Door Door => TargetThingA as Building_Door;
         private IntVec3 InteractionCell => job.GetTarget(TargetIndex.B).Cell;
+        private IntVec3 GoalCell => job.GetTarget(TargetIndex.C).Cell;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -28,14 +29,26 @@ namespace Xenomorphtype
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOnDespawnedOrNull(TargetIndex.A);
-            AddFailCondition(() => Door == null || Door.Open || Door.HoldOpen || !CompMatureMorph.IsPathRecoveryDoorCandidate(pawn, Door, requireAvailability: false));
+            bool openedByJob = false;
+            IntVec3 passageDestination = IntVec3.Invalid;
+
+            AddFailCondition(() => !openedByJob && (Door == null || Door.Destroyed || Door.Open || Door.HoldOpen || !MatureMorphPathRecovery.IsPathRecoveryDoorCandidate(pawn, Door, requireAvailability: false)));
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
             yield return Toils_General.Do(delegate
             {
+                Building_Door door = Door;
+                if (door == null || door.Destroyed)
+                {
+                    EndJobWith(JobCondition.Incompletable);
+                    return;
+                }
+
                 XMTDoorUtility.ForceHoldOpenAndOpen(Door, pawn);
+                openedByJob = true;
+                PathRecoveryJobUtility.TryFindPassageDestination(pawn, door.OccupiedRect(), InteractionCell, requireSafeExit: false, goalCell: GoalCell, out passageDestination);
                 pawn.GetMorphComp()?.ClearPathRecovery();
             });
+            yield return PathRecoveryJobUtility.GotoCellIfValid(() => passageDestination);
         }
     }
 }

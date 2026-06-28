@@ -168,6 +168,18 @@ namespace Xenomorphtype {
                 }
             }
 
+            Building blocker = BuildCell.GetEdifice(pawn.Map);
+            if (blocker != null)
+            {
+                XMT_SabotageReplacementPair replacement = null;
+                bool hasReplacement = XMTSabotageReplacementUtility.TryGetReplacement(blocker.def, out replacement);
+
+                if (hasReplacement && replacement.replacementFloorThing != null)
+                {
+                    GenSpawn.Spawn(replacement.replacementFloorThing, BuildCell, pawn.Map, WipeMode.VanishOrMoveAside);
+                    pawn.Map.terrainGrid.SetTerrain(BuildCell, InternalDefOf.HiveFloor);
+                }
+            }
             Building finishedBuilding = GenSpawn.Spawn(defToBuild, BuildCell, pawn.Map, rotation, WipeMode.FullRefund) as Building;
             finishedBuilding?.SetFaction(pawn.Faction);
             XMTNestBuildingUtility.NotifyHiveBuildJobSucceeded(pawn, BuildCell, defToBuild, NestBuildStage.ClaimFloor);

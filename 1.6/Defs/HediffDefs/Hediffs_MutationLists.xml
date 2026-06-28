@@ -313,22 +313,40 @@
 				<essenceMaximum>0.1</essenceMaximum>
 			</li>
 			<li>
+				<horror>XMT_DebuffEssence</horror>
+				<uiLabel>Unstable tissue</uiLabel>
+				<displayOrder>10</displayOrder>
+				<randomBodypart>true</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>0</essenceMinimum>
+				<essenceMaximum>0.45</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_MildEssence</horror>
+				<uiLabel>Mild adaptation</uiLabel>
+				<displayOrder>20</displayOrder>
+				<randomBodypart>true</randomBodypart>
+				<probability>0.5</probability>
+				<essenceMinimum>0</essenceMinimum>
+				<essenceMaximum>0.45</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_SilicateEssence</horror>
+				<uiLabel>Silicate tissue</uiLabel>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>true</randomBodypart>
+				<probability>0.5</probability>
+				<essenceMinimum>0</essenceMinimum>
+				<essenceMaximum>0.45</essenceMaximum>
+			</li>
+			<li>
 				<horror>XMT_EssenceAddiction</horror>
 				<uiLabel>Essence dependency</uiLabel>
-				<displayOrder>10</displayOrder>
+				<displayOrder>50</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0</essenceMinimum>
 				<essenceMaximum>0.8</essenceMaximum>
-			</li>
-			<li>
-				<horror>XMT_BoostingEssence</horror>
-				<uiLabel>Metabolic acceleration</uiLabel>
-				<displayOrder>20</displayOrder>
-				<randomBodypart>true</randomBodypart>
-				<probability>0.25</probability>
-				<essenceMinimum>0.5</essenceMinimum>
-				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_Enthralled</horror>
@@ -342,6 +360,22 @@
 			<li>
 				<horror>XMT_Docile</horror>
 				<uiLabel>Docility conditioning</uiLabel>
+				<displayOrder>40</displayOrder>
+				<specificBodyPart>Brain</specificBodyPart>
+				<probability>1</probability>
+				<essenceMinimum>0.0</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_SoftBone</horror>
+				<displayOrder>40</displayOrder>
+				<specificBodyPart>Brain</specificBodyPart>
+				<probability>1</probability>
+				<essenceMinimum>0.0</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_Narcoleptic</horror>
 				<displayOrder>40</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>
 				<probability>1</probability>
@@ -392,21 +426,153 @@
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
+				<horror>XMT_Enthralled</horror>
+				<uiLabel>Enthrallment</uiLabel>
+				<displayOrder>25</displayOrder>
+				<specificBodyPart>Brain</specificBodyPart>
+				<probability>0.25</probability>
+				<essenceMinimum>0.0</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
 				<horror>XMT_FriendlyGland</horror>
 				<uiLabel>Friendly pheromone gland</uiLabel>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.75</essenceMinimum>
-				<essenceMaximum>2</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			
+			<li>
+				<horror>XMT_ImprovedStomach</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
-				<horror>XMT_Enthralled</horror>
-				<uiLabel>Enthrallment</uiLabel>
-				<displayOrder>40</displayOrder>
-				<specificBodyPart>Brain</specificBodyPart>
-				<probability>0.25</probability>
-				<essenceMinimum>0.0</essenceMinimum>
+				<horror>XMT_SpikeTongue</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_SecondJaw</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_BladedTail</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_BreathingTubes</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_BreathingWafers</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_WarpedNeck</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_InternalNose</horror>
+				<uiLabel>Internalize nose</uiLabel>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_InternalEar</horror>
+				<uiLabel>Internalize ear</uiLabel>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_InternalEye</horror>
+				<uiLabel>Internalize eye</uiLabel>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_AcidFat</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_MuscleRestructure</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_Mesoskeleton</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_AcidbloodMarrow</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_Predatory</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_Unasthetic</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>

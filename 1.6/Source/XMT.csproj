@@ -324,6 +324,7 @@
     <Compile Include="Hediffs\DisplayHediff.cs" />
     <Compile Include="Hediffs\RevealedHediff.cs" />
     <Compile Include="Utilities\ArtUtility.cs" />
+    <Compile Include="Utilities\PathRecoveryJobUtility.cs" />
     <Compile Include="Utilities\XMTDoorUtility.cs" />
     <Compile Include="Utilities\XMTMischiefUtility.cs" />
     <Compile Include="Utilities\XMTStealthUtility.cs" />
@@ -378,6 +379,7 @@
     <Compile Include="Comps\BuildingComps\CompHatchingEgg.cs" />
     <Compile Include="Comps\HediffComps\Reproduction\HediffComp_HorrorPregnant.cs" />
     <Compile Include="Comps\CompJellyMaker.cs" />
+    <Compile Include="Comps\PawnComps\CompBehavior\MatureMorphPathRecovery.cs" />
     <Compile Include="Comps\PawnComps\CompMatureMorph.cs" />
     <Compile Include="Comps\PawnComps\CompPawnInfo.cs" />
     <Compile Include="Comps\PawnComps\CompPerfectOrganism.cs" />

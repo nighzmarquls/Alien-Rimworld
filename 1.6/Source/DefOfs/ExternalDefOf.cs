@@ -205,7 +205,7 @@ namespace Xenomorphtype
         public static XMT_ThingDefList XMT_SOS2InfiltrationList;
 
         [MayRequire("kentington.saveourship2")]
-        public static XMT_BreachReplacementListDef XMT_SOS2BreachReplacementList;
+        public static XMT_SabotageReplacementListDef XMT_SOS2SabotageReplacementList;
 
         //RJW
 

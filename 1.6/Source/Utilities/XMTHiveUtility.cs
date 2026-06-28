@@ -687,6 +687,12 @@ namespace Xenomorphtype
                 {
                     continue;
                 }
+
+                if(building.IsBrokenDown())
+                {
+                    continue;
+                }
+
                 float currentOffense = 0f;
                 Building_Turret turret = building as Building_Turret;
                 if (turret != null)
@@ -1007,7 +1013,15 @@ namespace Xenomorphtype
             return building.def.passability == Traversability.Impassable;
         }
 
-        internal static float HiveLightSuitabilityAt(IntVec3 cell, Map map)
+        public static bool IsLightSuitableAt(IntVec3 cell, Map map)
+        {
+            if (map == null || !cell.InBounds(map))
+            {
+                return false;
+            }
+            return map.glowGrid.GroundGlowAt(cell, true, true) < 0.5f;
+        }
+        public static float HiveLightSuitabilityAt(IntVec3 cell, Map map)
         {
             if (map == null || !cell.InBounds(map))
             {
@@ -1955,6 +1969,7 @@ namespace Xenomorphtype
             }
 
             int score = record.score;
+            score += (record.room.Temperature > 0) ? (record.room.Temperature < 30) ? 50 : -10 : -50;
             score += Mathf.CeilToInt(HiveLightSuitabilityAt(record.anchorCell, pawn.Map) * 45f);
             score += record.anchorCell.Roofed(pawn.Map) ? 25 : 0;
             score -= Mathf.CeilToInt(record.anchorCell.DistanceTo(pawn.Position));

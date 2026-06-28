@@ -1735,17 +1735,9 @@ namespace Xenomorphtype
             {
                 breakdownable.DoBreakdown();
             }
-            else if(target.def == ExternalDefOf.Ship_Beam)
+            else if (XMTSabotageReplacementUtility.TryGetReplacement(target.def, out XMT_SabotageReplacementPair replacement) && replacement.replacementThing != null)
             {
-                GenSpawn.Spawn(ExternalDefOf.Ship_Beam_Unpowered, target.Position, target.Map);
-            }
-            else if (target.def == ExternalDefOf.Ship_BeamMech)
-            {
-                GenSpawn.Spawn(ExternalDefOf.Ship_BeamMech_Unpowered, target.Position, target.Map);
-            }
-            else if (target.def == ExternalDefOf.Ship_BeamArchotech)
-            {
-                GenSpawn.Spawn(ExternalDefOf.Ship_BeamArchotech_Unpowered, target.Position, target.Map);
+                GenSpawn.Spawn(replacement.replacementThing, target.Position, target.Map);
             }
             else
             {

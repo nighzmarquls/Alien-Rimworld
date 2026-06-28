@@ -10,23 +10,23 @@ namespace Xenomorphtype
         public List<ThingDef> things;
     }
 
-    public class XMT_BreachReplacementListDef : Def
+    public class XMT_SabotageReplacementListDef : Def
     {
-        public List<XMT_BreachReplacementPair> replacements;
+        public List<XMT_SabotageReplacementPair> replacements;
     }
 
-    public class XMT_BreachReplacementPair
+    public class XMT_SabotageReplacementPair
     {
         public ThingDef sourceThing;
         public ThingDef replacementThing;
         public ThingDef replacementFloorThing;
     }
 
-    internal static class XMTBreachReplacementUtility
+    internal static class XMTSabotageReplacementUtility
     {
-        private static Dictionary<ThingDef, XMT_BreachReplacementPair> cachedReplacements;
+        private static Dictionary<ThingDef, XMT_SabotageReplacementPair> cachedReplacements;
 
-        internal static bool TryGetReplacement(ThingDef sourceThing, out XMT_BreachReplacementPair replacement)
+        internal static bool TryGetReplacement(ThingDef sourceThing, out XMT_SabotageReplacementPair replacement)
         {
             replacement = null;
             if (sourceThing == null)
@@ -36,15 +36,15 @@ namespace Xenomorphtype
 
             if (cachedReplacements == null)
             {
-                cachedReplacements = new Dictionary<ThingDef, XMT_BreachReplacementPair>();
-                foreach (XMT_BreachReplacementListDef listDef in DefDatabase<XMT_BreachReplacementListDef>.AllDefsListForReading)
+                cachedReplacements = new Dictionary<ThingDef, XMT_SabotageReplacementPair>();
+                foreach (XMT_SabotageReplacementListDef listDef in DefDatabase<XMT_SabotageReplacementListDef>.AllDefsListForReading)
                 {
                     if (listDef.replacements == null)
                     {
                         continue;
                     }
 
-                    foreach (XMT_BreachReplacementPair pair in listDef.replacements.Where(pair => pair?.sourceThing != null))
+                    foreach (XMT_SabotageReplacementPair pair in listDef.replacements.Where(pair => pair?.sourceThing != null))
                     {
                         cachedReplacements[pair.sourceThing] = pair;
                     }

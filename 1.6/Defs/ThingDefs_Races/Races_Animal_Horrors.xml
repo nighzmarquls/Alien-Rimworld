@@ -1671,7 +1671,7 @@
 			  <drawSize>1.0</drawSize>
 			</bodyGraphicData>
 			<dessicatedBodyGraphicData>
-			  <texPath>Things/Pawn/Animal/Peacock/Dessicated_PeacockFemale</texPath>
+			  <texPath>Things/Pawn/Animal/Turkey/Dessicated_TurkeyHen</texPath>
 			  <drawSize>1.0</drawSize>
 			</dessicatedBodyGraphicData>
 		  </li>
@@ -1685,7 +1685,7 @@
 			  </shadowData>
 			</bodyGraphicData>
 			<dessicatedBodyGraphicData>
-			  <texPath>Things/Pawn/Animal/Peacock/Dessicated_PeacockFemale</texPath>
+			  <texPath>Things/Pawn/Animal/Turkey/Dessicated_TurkeyHen</texPath>
 			  <drawSize>1.2</drawSize>
 			</dessicatedBodyGraphicData>
 		  </li>
@@ -1699,7 +1699,7 @@
 			  </shadowData>
 			</bodyGraphicData>
 			<dessicatedBodyGraphicData>
-			  <texPath>Things/Pawn/Animal/Peacock/Dessicated_PeacockMale</texPath>
+			  <texPath>Things/Pawn/Animal/Turkey/Dessicated_TurkeyHen</texPath>
 			  <drawSize>1.4</drawSize>
 			</dessicatedBodyGraphicData>
 		  </li>

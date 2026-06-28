@@ -585,45 +585,42 @@ namespace Xenomorphtype
 
         private IEnumerable<FloatMenuOption> SuppressMutationMenuOptions(Pawn target)
         {
-            HashSet<HediffDef> seenMutationDefs = new HashSet<HediffDef>();
-            foreach (QueenMutationOption option in AvailableMutationOptions())
+            foreach (Hediff hediff in target.health.hediffSet.hediffs)
             {
-                XMT_MutationsHealthSet selectedSet = option.mutationSet;
-                IEnumerable<MutationHealth> mutations = BioUtility.AllMutationsForSet(selectedSet)
-                    .OrderBy(mutation => mutation.displayOrder)
-                    .ThenBy(BioUtility.LabelForMutation)
-                    .ThenBy(mutation => mutation.horror.defName);
-
-                foreach (MutationHealth mutation in mutations)
+                foreach (QueenMutationOption option in AvailableMutationOptions())
                 {
-                    if (!target.health.hediffSet.hediffs.Any(hediff => hediff.def == mutation.horror))
-                    {
-                        continue;
-                    }
+                    XMT_MutationsHealthSet selectedSet = option.mutationSet;
+                    IEnumerable<MutationHealth> mutations = BioUtility.AllMutationsForSet(selectedSet)
+                        .OrderBy(mutation => mutation.displayOrder)
+                        .ThenBy(BioUtility.LabelForMutation)
+                        .ThenBy(mutation => mutation.horror.defName);
 
-                    if (!seenMutationDefs.Add(mutation.horror))
+                    foreach (MutationHealth mutation in mutations)
                     {
-                        continue;
-                    }
+                        if (!(hediff.def == mutation.horror))
+                        {
+                            continue;
+                        }
 
-                    MutationHealth selectedMutation = mutation;
-                    FloatMenuOption menuOption = new FloatMenuOption(BioUtility.LabelForMutation(selectedMutation), delegate
-                    {
-                        StartMutationOrder(target, QueenMutationOperation.Remove, selectedSet, selectedMutation.horror);
-                    });
+                        MutationHealth selectedMutation = mutation;
+                        FloatMenuOption menuOption = new FloatMenuOption(BioUtility.LabelForMutation(selectedMutation), delegate
+                        {
+                            StartMutationOrder(target, QueenMutationOperation.Remove, selectedSet, selectedMutation.horror);
+                        });
 
-                    AcceptanceReport report = BioUtility.CanRemoveMutation(target, selectedMutation.horror);
-                    if (!report.Accepted)
-                    {
-                        menuOption.Disabled = true;
-                        menuOption.tooltip = report.Reason;
-                    }
-                    else if (!selectedMutation.horror.description.NullOrEmpty())
-                    {
-                        menuOption.tooltip = selectedMutation.horror.description;
-                    }
+                        AcceptanceReport report = BioUtility.CanRemoveMutation(target, selectedMutation.horror);
+                        if (!report.Accepted)
+                        {
+                            menuOption.Disabled = true;
+                            menuOption.tooltip = report.Reason;
+                        }
+                        else if (!selectedMutation.horror.description.NullOrEmpty())
+                        {
+                            menuOption.tooltip = selectedMutation.horror.description;
+                        }
 
-                    yield return menuOption;
+                        yield return menuOption;
+                    }
                 }
             }
         }

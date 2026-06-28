@@ -11,6 +11,7 @@ namespace Xenomorphtype
 
         private Thing Blocker => TargetThingA;
         private IntVec3 InteractionCell => job.GetTarget(TargetIndex.B).Cell;
+        private IntVec3 GoalCell => job.GetTarget(TargetIndex.C).Cell;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -30,8 +31,10 @@ namespace Xenomorphtype
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            this.FailOnDespawnedOrNull(TargetIndex.A);
-            AddFailCondition(() => !CompMatureMorph.IsPathRecoveryBreachCandidate(pawn, Blocker as Building, out IntVec3 _, requireAvailability: false));
+            bool breachedByJob = false;
+            IntVec3 passageDestination = IntVec3.Invalid;
+
+            AddFailCondition(() => !breachedByJob && (Blocker == null || Blocker.Destroyed || !MatureMorphPathRecovery.IsPathRecoveryBreachCandidate(pawn, Blocker as Building, out IntVec3 _, requireAvailability: false)));
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
 
             Toil breach = Toils_General.Wait(BreachTicks);
@@ -50,28 +53,28 @@ namespace Xenomorphtype
                 }
 
                 IntVec3 breachCell = blocker.Position;
-                XMT_BreachReplacementPair replacement = null;
-                bool hasReplacement = XMTBreachReplacementUtility.TryGetReplacement(blocker.def, out replacement);
+                CellRect blockerRect = blocker.OccupiedRect();
+                XMT_SabotageReplacementPair replacement = null;
+                bool hasReplacement = XMTSabotageReplacementUtility.TryGetReplacement(blocker.def, out replacement);
 
                 blocker.Destroy(DestroyMode.Deconstruct);
 
                 if (hasReplacement && replacement.replacementFloorThing != null)
                 {
                     GenSpawn.Spawn(replacement.replacementFloorThing, breachCell, map, WipeMode.VanishOrMoveAside);
+                    map.terrainGrid.SetTerrain(breachCell, InternalDefOf.HiveFloor);
                 }
-
-                ThingDef passageDef = hasReplacement && replacement.replacementThing != null
-                    ? replacement.replacementThing
-                    : XenoBuildingDefOf.HiveWebbing;
-
-                if (passageDef != null)
+                else if (InternalDefOf.HiveFloor != null && breachCell.InBounds(map) && !PathRecoveryJobUtility.IsUnsafeBreachDestination(map, breachCell))
                 {
-                    GenSpawn.Spawn(passageDef, breachCell, map, WipeMode.VanishOrMoveAside);
+                    map.terrainGrid.SetTerrain(breachCell, InternalDefOf.HiveFloor);
                 }
 
+                breachedByJob = true;
                 pawn.GetMorphComp()?.ClearPathRecovery();
-                EndJobWith(JobCondition.Succeeded);
+                PathRecoveryJobUtility.TryFindPassageDestination(pawn, blockerRect, InteractionCell, requireSafeExit: false, goalCell: GoalCell, out passageDestination);
             });
+
+            yield return PathRecoveryJobUtility.GotoCellIfValid(() => passageDestination);
         }
     }
 }

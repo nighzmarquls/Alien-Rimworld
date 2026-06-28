@@ -34,6 +34,12 @@ namespace Xenomorphtype
             }
 
             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, cell);
+            if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, target, PathEndMode.Touch, Danger.Deadly))
+            {
+                pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(target.Position), job);
+                return null;
+            }
+            
             FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
             FeralJobUtility.ReserveThingForJob(pawn, job, target);
             job.count = 1;
@@ -462,6 +468,12 @@ namespace Xenomorphtype
                     }
                     Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, foodPawn);
                     job.killIncappedTarget = true;
+
+                    if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, foodPawn, PathEndMode.Touch, Danger.Deadly))
+                    {
+                        pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(foodPawn.PositionHeld), job);
+                        return null;
+                    }
                     return job;
                 }
             }
@@ -506,6 +518,12 @@ namespace Xenomorphtype
             }
 
             Job job3 = JobMaker.MakeJob(JobDefOf.Ingest, foodSource);
+
+            if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, foodSource, PathEndMode.Touch, Danger.Deadly))
+            {
+                pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(foodSource.PositionHeld), job3);
+                return null;
+            }
             job3.count = FoodUtility.WillIngestStackCountOf(pawn, foodDef, nutrition);
             return job3;
         }
@@ -604,9 +622,8 @@ namespace Xenomorphtype
 
                     if (!XMTUtility.IsSpace(pawn.MapHeld))
                     {
-                        float brightness = pawn.MapHeld.glowGrid.GroundGlowAt(compMatureMorph.NestPosition);
 
-                        if (brightness > 0.45 && pawn.Faction == null && !XMTHiveUtility.HasCocooned(pawn.Map))
+                        if (XMTHiveUtility.IsLightSuitableAt(pawn.PositionHeld, pawn.MapHeld) && pawn.Faction == null && !XMTHiveUtility.HasCocooned(pawn.Map))
                         {
                             if (XMTSettings.LogJobGiver)
                             {

@@ -212,14 +212,14 @@
 			<li>Evo_MaternalCrest</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-
+-->
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_FierceCrest</defName>
 		<label>Fierce Crest</label>
 		<evoPointCost>2</evoPointCost>
 		<evolutionHediff>XMT_FierceCrest</evolutionHediff>
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>The crest thickens into a brutal shield of chitin, sacrificing psychic delicacy for impact protection and predatory presence.</description>
+		<description>The crest thickens into a brutal shield of chitin and aggressive hormones over develop. sacrificing psychic delicacy and reproductive capacity for impact protection and predatory presence.</description>
 		<replaces>
 			<li>Evo_MaternalCrest</li>
 		</replaces>
@@ -227,7 +227,7 @@
 			<li>Evo_MaternalCrest</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
--->
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_SignalAmplifyingAntenna</defName>
 		<label>Signal Amplifying Antenna</label>
