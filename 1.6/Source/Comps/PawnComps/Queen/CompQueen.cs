@@ -377,6 +377,68 @@ namespace Xenomorphtype
             return (evolution.incompatible != null && evolution.incompatible.Contains(other))
                 || (other.incompatible != null && other.incompatible.Contains(evolution));
         }
+
+        private void AddUnlockedAbilities(RoyalEvolutionDef evolution)
+        {
+            if (evolution?.unlockedAbilities == null || Parent?.abilities == null)
+            {
+                return;
+            }
+
+            foreach (AbilityDef abilityDef in evolution.unlockedAbilities)
+            {
+                if (abilityDef != null && Parent.abilities.GetAbility(abilityDef) == null)
+                {
+                    Parent.abilities.GainAbility(abilityDef);
+                }
+            }
+        }
+
+        private void RemoveUnlockedAbilities(RoyalEvolutionDef evolution, RoyalEvolutionDef replacement = null)
+        {
+            if (evolution?.unlockedAbilities == null || Parent?.abilities == null)
+            {
+                return;
+            }
+
+            foreach (AbilityDef abilityDef in evolution.unlockedAbilities)
+            {
+                if (abilityDef == null || ShouldKeepUnlockedAbility(abilityDef, evolution, replacement))
+                {
+                    continue;
+                }
+
+                Ability ability = Parent.abilities.GetAbility(abilityDef);
+                if (ability != null)
+                {
+                    Parent.abilities.RemoveAbility(abilityDef);
+                }
+            }
+        }
+
+        private bool ShouldKeepUnlockedAbility(AbilityDef abilityDef, RoyalEvolutionDef removingEvolution, RoyalEvolutionDef replacement)
+        {
+            if (replacement?.unlockedAbilities != null && replacement.unlockedAbilities.Contains(abilityDef))
+            {
+                return true;
+            }
+
+            foreach (RoyalEvolutionDef chosenEvolution in ChosenEvolutions)
+            {
+                if (chosenEvolution == null || chosenEvolution == removingEvolution || !HasActiveEvolution(chosenEvolution))
+                {
+                    continue;
+                }
+
+                if (chosenEvolution.unlockedAbilities != null && chosenEvolution.unlockedAbilities.Contains(abilityDef))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void RemoveEvolutionFeatures(RoyalEvolutionDef evolution, bool replacing = false)
         {
             if (evolution.replaces != null)
@@ -426,6 +488,8 @@ namespace Xenomorphtype
                     }
                 }
             }
+
+            RemoveUnlockedAbilities(evolution);
         }
 
         private void AddEvolutionFeatures(RoyalEvolutionDef evolution)
@@ -436,6 +500,8 @@ namespace Xenomorphtype
                 {
                     if (chosenEvolutions.Contains(replaced))
                     {
+                        RemoveUnlockedAbilities(replaced, evolution);
+
                         if (replaced.evolutionHediff != null)
                         {
                             List<Hediff> hediffs = Parent.health.hediffSet.hediffs.ListFullCopy() ;
@@ -481,6 +547,7 @@ namespace Xenomorphtype
                 }
             }
 
+            AddUnlockedAbilities(evolution);
         }
 
         internal void AddEvolution(RoyalEvolutionDef evolution)

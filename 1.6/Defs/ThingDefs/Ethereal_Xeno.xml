@@ -46,4 +46,15 @@
 			</progressCurve>
 		</pawnFlyer>
 	</ThingDef>
+
+	<ThingDef ParentName="EtherealThingBase">
+		<defName>XMT_QueenTrampler</defName>
+		<label>trampling</label>
+		<thingClass>Xenomorphtype.PawnTrampler</thingClass>
+		<useHitPoints>false</useHitPoints>
+		<drawOffscreen>false</drawOffscreen>
+		<tickerType>Normal</tickerType>
+		<altitudeLayer>Skyfaller</altitudeLayer>
+		<drawerType>RealtimeOnly</drawerType>
+	</ThingDef>
 </Defs>

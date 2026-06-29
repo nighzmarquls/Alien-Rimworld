@@ -95,6 +95,9 @@
 	<XMT_EvolutionBlockedByIncompatible>Blocked by incompatible advancement: {0}</XMT_EvolutionBlockedByIncompatible>
 	<XMT_EvolutionAdd>Add</XMT_EvolutionAdd>
 	<XMT_EvolutionRemove>Remove</XMT_EvolutionRemove>
+	<XMT_TrampleInvalid_NoPath>No room to trample.</XMT_TrampleInvalid_NoPath>
+	<XMT_BattleLog_QueenTrampled>{QUEEN_nameDef} trampled {TARGET_labelShort}.</XMT_BattleLog_QueenTrampled>
+	<XMT_BattleLog_QueenGrazed>{QUEEN_nameDef} grazed {TARGET_labelShort} in her charge.</XMT_BattleLog_QueenGrazed>
 	
 	<XMT_LayOvomorphLabel>Lay {0}</XMT_LayOvomorphLabel>
 	<XMT_LayOvomorphDescription>Lay {0} at the designated location.</XMT_LayOvomorphDescription>

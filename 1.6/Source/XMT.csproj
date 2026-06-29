@@ -85,7 +85,9 @@
     <Compile Include="Abilities\Comps\CompAbilityLayOvomorph.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodLet.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
+    <Compile Include="Abilities\Comps\CompAbilityTrample.cs" />
     <Compile Include="Abilities\Climber\PawnClimber.cs" />
+    <Compile Include="Abilities\Trample\PawnTrampler.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_Adoption.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_Hivemind.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_ObsessionForceJob.cs" />
@@ -436,6 +438,7 @@
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_DevourSpecial.cs" />
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
     <Compile Include="UI\Gizmos\Gizmo_QueenResources.cs" />
+    <Compile Include="UI\BattleLogEntry_QueenTrample.cs" />
     <Compile Include="UI\PlayLogEntry_QueenResourceAssimilation.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_EmptyOvomorph.cs" />

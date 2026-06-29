@@ -129,6 +129,41 @@
 			</li>
 		</comps>
 	</AbilityDef>
+
+	<AbilityDef>
+		<defName>XMT_Ability_Trample</defName>
+		<label>trample</label>
+		<description>Charge through a line of targets, crushing those in the queen's direct path and grazing those nearby.</description>
+		<iconPath>UI/Abilities/Starbeast_Leap</iconPath>
+		<hostile>true</hostile>
+		<aiCanUse>false</aiCanUse>
+		<category>Xenomorph</category>
+		<cooldownTicksRange>1250</cooldownTicksRange>
+		<sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
+		<uiOrder>5</uiOrder>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<label>trample</label>
+			<warmupTime>0.25</warmupTime>
+			<range>10</range>
+			<drawAimPie>false</drawAimPie>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+				<canTargetPawns>true</canTargetPawns>
+				<canTargetBuildings>true</canTargetBuildings>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Xenomorphtype.CompProperties_AbilityTrample">
+				<trampledHediff>XMT_Trampled</trampledHediff>
+				<tramplerDef>XMT_QueenTrampler</tramplerDef>
+				<stunTicks>180</stunTicks>
+				<blockerHitCount>2</blockerHitCount>
+				<flightTicks>15</flightTicks>
+			</li>
+		</comps>
+	</AbilityDef>
 	
 
 </Defs>

@@ -219,6 +219,9 @@
 		<evoPointCost>2</evoPointCost>
 		<evolutionHediff>XMT_FierceCrest</evolutionHediff>
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<unlockedAbilities>
+			<li>XMT_Ability_Trample</li>
+		</unlockedAbilities>
 		<description>The crest thickens into a brutal shield of chitin and aggressive hormones over develop. sacrificing psychic delicacy and reproductive capacity for impact protection and predatory presence.</description>
 		<replaces>
 			<li>Evo_MaternalCrest</li>

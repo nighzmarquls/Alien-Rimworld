@@ -41,6 +41,7 @@ namespace Xenomorphtype
         public static HediffDef             XMT_Ambushed;
         public static HediffDef             XMT_Enthroned;
         public static HediffDef             XMT_Stabilize;
+        public static HediffDef             XMT_Trampled;
 
         //Xenomorph bodyparts
         public static BodyPartGroupDef      StarbeastTailAttackTool;
@@ -58,6 +59,7 @@ namespace Xenomorphtype
         //Xenomorph Climber
         public static ThingDef              PawnClimber;
         public static ThingDef              PawnClimbUnder;
+        public static ThingDef              XMT_QueenTrampler;
 
         //Effectors
         public static EffecterDef           ResinBuild;

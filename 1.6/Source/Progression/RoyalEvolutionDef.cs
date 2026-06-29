@@ -17,6 +17,8 @@ namespace Xenomorphtype
 
         public BodyPartDef targetBodyPart;
 
+        public List<AbilityDef> unlockedAbilities;
+
         public List<RoyalEvolutionDef> replaces;
         public List<RoyalEvolutionDef> prerequisites;
         public List<RoyalEvolutionDef> incompatible;

@@ -476,6 +476,32 @@
       </li>
     </stages>
   </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Trampled</defName>
+    <label>trampled</label>
+    <description>crushed under a queen's charging bulk.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+	<comps>
+	  <li Class="HediffCompProperties_Disappears">
+		<disappearsAfterTicks>60</disappearsAfterTicks>
+	  </li>
+	</comps>
+  </HediffDef>
   
   <!-- Fleshcrafter Crests-->
   
