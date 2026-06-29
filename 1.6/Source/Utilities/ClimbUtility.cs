@@ -73,6 +73,10 @@ namespace Xenomorphtype
 
         public static bool CanReachByInfiltration(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
         {
+            return false;
+
+            //TODO: Fix Infiltration.
+
             if (InfiltrationUtility.GetInfiltrationEntry(pawn.Map, pawn.Position, dest.Cell, out Building entry))
             {
                 if (InfiltrationUtility.GetInfiltrationExit(entry, dest.Cell, out Building exit))

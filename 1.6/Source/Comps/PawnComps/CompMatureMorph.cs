@@ -515,28 +515,42 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (Parent.needs?.joy?.tolerances != null && Parent.needs.joy.tolerances.BoredOf(InternalDefOf.NestTending))
+            if (Parent.needs?.joy?.tolerances != null)
             {
-                if (HiveNeedsTending)
+                if (!Parent.needs.joy.tolerances.BoredOf(ExternalDefOf.Gaming_Dexterity))
                 {
-                    int hiveCount = XMTHiveUtility.TotalHivePopulation(parent.Map);
-                    int stackLimit = HorrorMoodDefOf.TooMuchNestWork.stackLimit;
-                    int maxOverwork = stackLimit - hiveCount;
+                    IEnumerable<Designation> huntTargets = Parent.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Hunt);
 
-                    if (XMTUtility.QueenPresent())
+                    if (huntTargets.Any() && Parent.workSettings.WorkIsActive(XenoWorkDefOf.Hunting))
                     {
-                        maxOverwork -= 4;
-                    }
-
-                    if (maxOverwork > 0)
-                    {
-                        XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.TooMuchNestWork, maxOverwork);
-                        XMTHiveUtility.RegisterHiveOverextensionSignal(Parent, maxOverwork);
+                        canTendLairTick = Find.TickManager.TicksGame + Rand.Range(350, 900);
+                        return true;
                     }
                 }
-                else
+
+                if (Parent.needs.joy.tolerances.BoredOf(InternalDefOf.NestTending))
                 {
-                    return false;
+                    if (HiveNeedsTending)
+                    {
+                        int hiveCount = XMTHiveUtility.TotalHivePopulation(parent.Map);
+                        int stackLimit = HorrorMoodDefOf.TooMuchNestWork.stackLimit;
+                        int maxOverwork = stackLimit - hiveCount;
+
+                        if (XMTUtility.QueenPresent())
+                        {
+                            maxOverwork -= 4;
+                        }
+
+                        if (maxOverwork > 0)
+                        {
+                            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.TooMuchNestWork, maxOverwork);
+                            XMTHiveUtility.RegisterHiveOverextensionSignal(Parent, maxOverwork);
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             canTendLairTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
@@ -1548,6 +1562,12 @@ namespace Xenomorphtype
 
         protected bool GetJellyJob(out Job job, bool requireLightLevel = false)
         {
+            job = null;
+            if (Parent.Faction == null)
+            {
+                return false;
+            }
+
             if(JellyMaker == null)
             {
                 JellyMaker = parent.GetComp<CompJellyMaker>();
@@ -1558,7 +1578,6 @@ namespace Xenomorphtype
                 return JellyMaker.GetJellyMakingJob(out job, requireLightLevel);
             }
 
-            job = null;
             return false;
         }
         protected bool GetFeedJob(out Job job)
@@ -1807,6 +1826,8 @@ namespace Xenomorphtype
         {
             job = null;
 
+
+
             IEnumerable<Designation> huntTargets = Parent.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Hunt);
 
             if (huntTargets.Any())
@@ -1827,6 +1848,7 @@ namespace Xenomorphtype
                         {
                             continue;
                         }
+
                         job = JobMaker.MakeJob(JobDefOf.PredatorHunt, prey);
                         job.killIncappedTarget = true;
                         Parent.needs.joy.GainJoy(0.12f, ExternalDefOf.Gaming_Dexterity);
@@ -2083,12 +2105,12 @@ namespace Xenomorphtype
 
             if (workType == XenoWorkDefOf.Hunting)
             {
-                if (GetEnemyJob(out job))
+                if (GetHuntJob(out job))
                 {
                     return true;
                 }
 
-                if (GetHuntJob(out job))
+                if (GetEnemyJob(out job))
                 {
                     return true;
                 }
