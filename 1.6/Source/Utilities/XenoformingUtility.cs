@@ -412,7 +412,7 @@ namespace Xenomorphtype
         public static Pawn GenerateFeralXenomorph()
         {
             PawnGenerationRequest request = new PawnGenerationRequest(
-                               InternalDefOf.XMT_FeralStarbeastKind, faction: null, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, fixedGender: Gender.Female);
+                               XenoPawnKindDefOf.XMT_FeralStarbeastKind, faction: null, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, fixedGender: Gender.Female);
 
             request.ForceNoIdeo = true;
             request.ForceNoBackstory = true;
@@ -442,7 +442,7 @@ namespace Xenomorphtype
         public static Pawn GenerateFeralQueen(RoyalEvolutionSet advancementSet = null)
         {
             PawnGenerationRequest request = new PawnGenerationRequest(
-                                   InternalDefOf.XMT_RoyaltyKind, faction: null, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, fixedGender: Gender.Female);
+                                   XenoPawnKindDefOf.XMT_RoyaltyKind, faction: null, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, fixedGender: Gender.Female);
 
             request.ForceNoIdeo = true;
             request.ForceNoBackstory = true;

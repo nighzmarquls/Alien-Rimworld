@@ -35,7 +35,7 @@ namespace Xenomorphtype
                 }
                 else
                 {
-                    if (!XMTUtility.TransformPawnIntoPawn(pawn, InternalDefOf.XMT_RoyaltyKind, out queen))
+                    if (!XMTUtility.TransformPawnIntoPawn(pawn, XenoPawnKindDefOf.XMT_RoyaltyKind, out queen))
                     {
                         Log.Error("Failed to Transform into Queen!");
                         return;

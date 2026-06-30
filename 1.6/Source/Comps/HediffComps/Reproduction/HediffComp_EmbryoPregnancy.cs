@@ -125,7 +125,7 @@ namespace Xenomorphtype
 
         protected bool TryBirth()
         {
-            PawnKindDef ChildKind = InternalDefOf.XMT_StarbeastKind;
+            PawnKindDef ChildKind = XenoPawnKindDefOf.XMT_StarbeastKind;
 
             IEnumerable<BodyPartRecord> coreparts = from x in base.Pawn.health.hediffSet.GetNotMissingParts()
                                                     where

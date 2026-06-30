@@ -1147,7 +1147,7 @@ namespace Xenomorphtype
             if (queen?.Faction == Faction.OfPlayer)
             {
                 TaggedString label = "XMT_LetterLabelQueenDefendersArrived".Translate();
-                TaggedString text = "XMT_QueenDefendersArrived".Translate(InternalDefOf.XMT_FeralStarbeastKind.GetLabelPlural());
+                TaggedString text = "XMT_QueenDefendersArrived".Translate(XenoPawnKindDefOf.XMT_FeralStarbeastKind.GetLabelPlural());
                 Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, new LookTargets(spawnedPawns));
             }
             else if (queenAidThreatProfile != null && queenAidThreatProfile.AggressorIsPlayerFaction && queenAidThreatProfile.AggressorIsHumanlike)

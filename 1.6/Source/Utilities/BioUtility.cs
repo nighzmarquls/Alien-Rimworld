@@ -1523,7 +1523,7 @@ namespace Xenomorphtype
                     }
                 }
             }
-            return InternalDefOf.XMT_StarbeastKind;
+            return XenoPawnKindDefOf.XMT_StarbeastKind;
         }
     }
 }

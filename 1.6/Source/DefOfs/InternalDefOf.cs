@@ -17,10 +17,8 @@ namespace Xenomorphtype
         public static FactionDef            XMT_QueenAidDefenders;
 
         //Xenomorphtype Defs
-        public static PawnKindDef           XMT_StarbeastKind;
-        public static PawnKindDef           XMT_RoyaltyKind;
-        public static PawnKindDef           XMT_Droplet;
-        public static PawnKindDef           XMT_FeralStarbeastKind;
+
+
 
         public static ThingDef              XMT_Larva;
         public static ThingDef_AlienRace    XMT_Starbeast_AlienRace;

@@ -334,7 +334,13 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                return BioUtility.TryApplyMutation(target, mutation, out Hediff _, requireExistingMutations: true);
+                if (BioUtility.TryApplyMutation(target, mutation, out Hediff AppliedMutation, requireExistingMutations: true))
+                {
+                    AppliedMutation.Severity = AppliedMutation.def.maxSeverity;
+                    return true;
+                }
+
+                return false;
             }
 
             report = BioUtility.CanRemoveMutation(target, order.mutationDef);
@@ -344,7 +350,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            return BioUtility.TryRemoveMutation(target, order.mutationDef, out Hediff _);
+            return BioUtility.TryRemoveMutation(target, order.mutationDef, out Hediff RemovedMutation);
         }
 
         public bool CanRemoveMutationFromOptions(Pawn target, HediffDef mutationDef)
@@ -585,6 +591,7 @@ namespace Xenomorphtype
 
         private IEnumerable<FloatMenuOption> SuppressMutationMenuOptions(Pawn target)
         {
+            List<Hediff> foundMutationHediffs = new List<Hediff>();
             foreach (Hediff hediff in target.health.hediffSet.hediffs)
             {
                 foreach (QueenMutationOption option in AvailableMutationOptions())
@@ -601,6 +608,13 @@ namespace Xenomorphtype
                         {
                             continue;
                         }
+
+                        if(foundMutationHediffs.Contains(hediff))
+                        {
+                            continue;
+                        }
+
+                        foundMutationHediffs.Add(hediff);
 
                         MutationHealth selectedMutation = mutation;
                         FloatMenuOption menuOption = new FloatMenuOption(BioUtility.LabelForMutation(selectedMutation), delegate

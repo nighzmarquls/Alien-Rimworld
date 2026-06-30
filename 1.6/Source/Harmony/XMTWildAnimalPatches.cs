@@ -37,7 +37,7 @@ namespace Xenomorphtype
                             {
                                 Log.Message("spawning feral xenomorph ");
                             }
-                            GenSpawn.Spawn(PawnGenerator.GeneratePawn(InternalDefOf.XMT_FeralStarbeastKind), loc2, ___map);
+                            GenSpawn.Spawn(PawnGenerator.GeneratePawn(XenoPawnKindDefOf.XMT_FeralStarbeastKind), loc2, ___map);
                             __result = true;
                             return false;
                         }

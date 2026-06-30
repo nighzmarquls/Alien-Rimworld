@@ -218,12 +218,19 @@ namespace Xenomorphtype
                     IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compMatureMorph.abductRange, false).OfType<Pawn>().Where(x => !x.Downed && !XMTUtility.NotPrey(x));
                     if (pawns.Any())
                     {
+                        Pawn target = pawns.RandomElement();
                         if (XMTSettings.LogJobGiver)
                         {
                             Log.Message(pawn + " is defending nest.");
                         }
-                    
-                        return JobMaker.MakeJob(JobDefOf.AttackMelee, pawns.RandomElement());
+                        Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, target);
+
+                        if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, target, PathEndMode.Touch, Danger.Deadly))
+                        {
+                            pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(target.Position), job);
+                            return null;
+                        }
+                        return job;
                     }
                     else
                     {

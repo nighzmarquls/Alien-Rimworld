@@ -267,6 +267,11 @@ namespace Xenomorphtype
                 return null;
             }
 
+
+            if(kind == null)
+            {
+                kind = XenoPawnKindDefOf.XMT_Larva;
+            }
             Faction spawnFaction = (mother != null && !spent) ? mother.Faction : null;
             PawnGenerationRequest request = new PawnGenerationRequest(kind, spawnFaction);
             request.FixedBiologicalAge = age;

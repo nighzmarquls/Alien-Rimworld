@@ -94,6 +94,7 @@
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_ObsessionGiveHediff.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_SirenBroadcast.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_SovereignDominion.cs" />
+    <Compile Include="DefOfs\XenoPawnKindDefOf.cs" />
     <Compile Include="Utilities\HivecastUtility.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompAdoptionEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompFascinationEffect.cs" />

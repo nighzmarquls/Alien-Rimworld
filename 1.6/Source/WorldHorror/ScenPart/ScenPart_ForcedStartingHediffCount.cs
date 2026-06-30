@@ -13,7 +13,6 @@ namespace Xenomorphtype
         private BodyPartDef bodyPart;
         private FloatRange severityRange = new FloatRange(-1f, -1f);
         private string countBuffer;
-        private bool applied;
 
         public override void DoEditInterface(Listing_ScenEdit listing)
         {
@@ -94,7 +93,7 @@ namespace Xenomorphtype
         {
             base.PostGameStart();
 
-            if (applied || count <= 0 || hediff == null)
+            if ( count <= 0 || hediff == null)
             {
                 return;
             }
@@ -109,8 +108,6 @@ namespace Xenomorphtype
                     AddHediff(pawn);
                 }
             }
-
-            applied = true;
         }
 
         private List<Pawn> StartingPawns()
@@ -201,7 +198,6 @@ namespace Xenomorphtype
             Scribe_Defs.Look(ref hediff, "hediff");
             Scribe_Defs.Look(ref bodyPart, "bodyPart");
             Scribe_Values.Look(ref severityRange, "severityRange", new FloatRange(-1f, -1f));
-            Scribe_Values.Look(ref applied, "applied", false);
         }
     }
 }
