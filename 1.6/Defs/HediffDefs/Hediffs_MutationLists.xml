@@ -367,14 +367,6 @@
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
-				<horror>XMT_SoftBone</horror>
-				<displayOrder>40</displayOrder>
-				<specificBodyPart>Brain</specificBodyPart>
-				<probability>1</probability>
-				<essenceMinimum>0.0</essenceMinimum>
-				<essenceMaximum>-1</essenceMaximum>
-			</li>
-			<li>
 				<horror>XMT_Narcoleptic</horror>
 				<displayOrder>40</displayOrder>
 				<specificBodyPart>Brain</specificBodyPart>

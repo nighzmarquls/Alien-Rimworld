@@ -151,6 +151,8 @@
 		<label>subverter</label>
 		<race>XMT_Subverter</race>
 		<combatPower>30</combatPower>
+		<maxPerGroup>0</maxPerGroup>
+		<allowInMechClusters>false</allowInMechClusters>
 		<ecoSystemWeight>0.30</ecoSystemWeight>
 		<lifeStages>
 				<li>

@@ -417,26 +417,12 @@ namespace Xenomorphtype
                 return false;
             }
 
-            float reduction = mutationDef.initialSeverity > 0 ? mutationDef.initialSeverity : 1f;
-            if (hediff.Severity > reduction)
+            target.health.RemoveHediff(hediff);
+            if (feedback)
             {
-                hediff.Severity -= reduction;
-                changedHediff = hediff;
-                RevealMutation(changedHediff);
-                if (feedback)
-                {
-                    ThrowMutationMote(target, "XMT_MutationMote_Reduced".Translate(mutationDef.LabelCap));
-                }
+                ThrowMutationMote(target, "XMT_MutationMote_Removed".Translate(mutationDef.LabelCap));
             }
-            else
-            {
-                target.health.RemoveHediff(hediff);
-                if (feedback)
-                {
-                    ThrowMutationMote(target, "XMT_MutationMote_Removed".Translate(mutationDef.LabelCap));
-                }
-            }
-
+            
             return true;
         }
 
