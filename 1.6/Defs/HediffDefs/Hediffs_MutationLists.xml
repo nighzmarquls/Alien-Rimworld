@@ -239,7 +239,7 @@
 				<randomBodypart>false</randomBodypart>
 				<probability>0.85</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.1</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_BoostingEssence</horror>
@@ -257,7 +257,7 @@
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.8</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_LoverGland</horror>
@@ -265,8 +265,8 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
-				<essenceMinimum>0.75</essenceMinimum>
-				<essenceMaximum>2</essenceMaximum>
+				<essenceMinimum>0.5</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_FriendlyGland</horror>
@@ -274,8 +274,8 @@
 				<displayOrder>40</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>0.75</essenceMinimum>
-				<essenceMaximum>2</essenceMaximum>
+				<essenceMinimum>0.5</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_Enthralled</horror>
@@ -310,7 +310,7 @@
 				<randomBodypart>false</randomBodypart>
 				<probability>0.85</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.1</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_DebuffEssence</horror>
@@ -319,7 +319,7 @@
 				<randomBodypart>true</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.45</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_MildEssence</horror>
@@ -328,7 +328,7 @@
 				<randomBodypart>true</randomBodypart>
 				<probability>0.5</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.45</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_SilicateEssence</horror>
@@ -337,7 +337,7 @@
 				<randomBodypart>true</randomBodypart>
 				<probability>0.5</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.45</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_EssenceAddiction</horror>
@@ -346,7 +346,7 @@
 				<randomBodypart>false</randomBodypart>
 				<probability>0.25</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.8</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_Enthralled</horror>
@@ -397,7 +397,7 @@
 				<randomBodypart>false</randomBodypart>
 				<probability>0.85</probability>
 				<essenceMinimum>0</essenceMinimum>
-				<essenceMaximum>0.1</essenceMaximum>
+				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_SilicateEssence</horror>
@@ -432,7 +432,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>0.75</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			
@@ -441,7 +441,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -457,7 +457,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -465,7 +465,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -473,7 +473,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -481,7 +481,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -489,7 +489,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -498,7 +498,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -507,7 +507,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -516,7 +516,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -524,7 +524,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -532,7 +532,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -540,7 +540,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -548,7 +548,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -556,7 +556,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -564,7 +564,7 @@
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
-				<essenceMinimum>1</essenceMinimum>
+				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
@@ -573,7 +573,7 @@
 				<displayOrder>50</displayOrder>
 				<randomBodypart>false</randomBodypart>
 				<probability>1</probability>
-				<essenceMinimum>2</essenceMinimum>
+				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</mutations>
