@@ -865,6 +865,7 @@
 		<label>chlorofluoridic marrow</label>
 		<labelNoun>acidic marrow</labelNoun>
 		<initialSeverity>0.01</initialSeverity>
+		<maxSeverity>3</maxSeverity>
 		<description>the bone marrow has begun producing a chloroflouridic fluid instead of plasma.</description>
 		<stages>
 			<li>
@@ -933,6 +934,7 @@
 		<label>osteomalacia</label>
 		<labelNoun>osteomalacia</labelNoun>
 		<initialSeverity>0.01</initialSeverity>
+		<maxSeverity>2</maxSeverity>
 		<description>the bone is losing mineralization and stability, becoming soft, less rigid.</description>
 		<stages>
 			<li>

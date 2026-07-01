@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,9 @@ namespace Xenomorphtype
     {
         public HediffDef    horror;
         public bool         randomBodypart = true;
+        public bool         unique = false;
         public BodyPartDef  specificBodyPart = null;
+        public List<BodyPartDef> variedBodyPart = new List<BodyPartDef>();
         public float        probability = 0;
         public float        essenceMinimum = 0;
         public float        essenceMaximum = 1;

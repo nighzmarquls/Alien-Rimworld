@@ -336,7 +336,7 @@ namespace Xenomorphtype
 
                 if (BioUtility.TryApplyMutation(target, mutation, out Hediff AppliedMutation, requireExistingMutations: true))
                 {
-                    AppliedMutation.Severity = AppliedMutation.def.maxSeverity;
+                    AppliedMutation.Severity = 1;
                     return true;
                 }
 

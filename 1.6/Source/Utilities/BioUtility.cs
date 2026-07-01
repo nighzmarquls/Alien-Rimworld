@@ -285,6 +285,11 @@ namespace Xenomorphtype
             {
                 return "XMT_MutationInvalid_NoHealth".Translate(target.LabelShort);
             }
+            
+            if(target.IsHorror())
+            {
+                return "XMT_MutationInvalid_Xenomorph".Translate(target.LabelShort);
+            }
 
             if (target.GetMorphComp() != null)
             {
@@ -323,12 +328,14 @@ namespace Xenomorphtype
                 return "XMT_MutationInvalid_NoBodyPart".Translate();
             }
 
-            Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
-            if (existing != null && existing.Severity >= mutation.horror.maxSeverity)
+            if (mutation.unique)
             {
-                return "XMT_MutationInvalid_MaxSeverity".Translate(LabelForMutation(mutation));
-            }
-
+                Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
+                if (existing != null && existing.Severity >= mutation.horror.maxSeverity)
+                {
+                    return "XMT_MutationInvalid_MaxSeverity".Translate(LabelForMutation(mutation));
+                }
+            } 
             return true;
         }
 
@@ -375,7 +382,7 @@ namespace Xenomorphtype
             Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
             bool intensified = existing != null;
 
-            if (existing != null)
+            if (existing != null && mutation.unique)
             {
                 existing.Severity = Mathf.Min(existing.Severity + mutation.horror.initialSeverity, mutation.horror.maxSeverity);
                 changedHediff = existing;
@@ -428,8 +435,55 @@ namespace Xenomorphtype
 
         private static BodyPartRecord SpecificMutationPart(Pawn target, MutationHealth mutation)
         {
-            if (target?.health?.hediffSet == null || mutation?.specificBodyPart == null)
+            if (target?.health?.hediffSet == null || mutation == null)
             {
+                return null;
+            }
+
+            if (mutation.specificBodyPart == null)
+            {
+                if (mutation.variedBodyPart != null)
+                {
+                    if (mutation?.variedBodyPart.Count > 0)
+                    {
+                        IEnumerable<BodyPartRecord> bodyparts =target.health.hediffSet.GetNotMissingParts();
+                        List<Hediff> foundHediffs = new List<Hediff>();
+                        foreach(Hediff hediff in target?.health?.hediffSet.hediffs)
+                        {
+                            if(hediff.def != mutation.horror)
+                            {
+                                continue;
+                            }
+
+                            foundHediffs.Add(hediff);
+                        }
+                        foreach (BodyPartDef part in mutation?.variedBodyPart)
+                        {
+                            foreach (BodyPartRecord bodypart in bodyparts)
+                            {
+                                if(bodypart.def != part)
+                                {
+                                    continue;
+                                }
+                                bool skip = false;
+                                foreach(Hediff hediff in foundHediffs)
+                                {
+                                    if(hediff.Part == bodypart)
+                                    {
+                                        skip = true;
+                                        break;
+                                    }
+                                }
+                                if(skip)
+                                {
+                                    continue;
+                                }
+
+                                return bodypart;
+                            }
+                        }
+                    }
+                }
                 return null;
             }
 

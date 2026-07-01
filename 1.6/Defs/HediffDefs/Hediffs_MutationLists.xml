@@ -382,6 +382,28 @@
 				<essenceMinimum>0.51</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
+			<li>
+				<horror>XMT_SoftBone</horror>
+				<displayOrder>30</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<variedBodyPart>
+					<li>Ribcage</li>
+					<li>Spine</li>
+					<li>Pelvis</li>
+				</variedBodyPart>
+				<probability>0.75</probability>
+				<essenceMinimum>0.5</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
+				<horror>XMT_Lardering</horror>
+				<uiLabel>Larder growth</uiLabel>
+				<displayOrder>60</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.1</probability>
+				<essenceMinimum>2</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
 		</mutations>
 	</Xenomorphtype.XMT_MutationsHealthSet>
 	
@@ -430,7 +452,7 @@
 				<horror>XMT_FriendlyGland</horror>
 				<uiLabel>Friendly pheromone gland</uiLabel>
 				<displayOrder>30</displayOrder>
-				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Torso</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -439,7 +461,7 @@
 			<li>
 				<horror>XMT_ImprovedStomach</horror>
 				<displayOrder>30</displayOrder>
-				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Stomach</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -447,7 +469,7 @@
 			<li>
 				<horror>XMT_SpikeTongue</horror>
 				<displayOrder>30</displayOrder>
-				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Tongue</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -455,7 +477,7 @@
 			<li>
 				<horror>XMT_SecondJaw</horror>
 				<displayOrder>30</displayOrder>
-				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Jaw</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -463,7 +485,7 @@
 			<li>
 				<horror>XMT_BladedTail</horror>
 				<displayOrder>30</displayOrder>
-				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Pelvis</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -471,7 +493,7 @@
 			<li>
 				<horror>XMT_BreathingTubes</horror>
 				<displayOrder>30</displayOrder>
-				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Spine</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -479,7 +501,7 @@
 			<li>
 				<horror>XMT_BreathingWafers</horror>
 				<displayOrder>30</displayOrder>
-				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Lung</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -487,6 +509,7 @@
 			<li>
 				<horror>XMT_WarpedNeck</horror>
 				<displayOrder>30</displayOrder>
+				<specificBodyPart>Neck</specificBodyPart>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -496,6 +519,7 @@
 				<horror>XMT_InternalNose</horror>
 				<uiLabel>Internalize nose</uiLabel>
 				<displayOrder>30</displayOrder>
+				<specificBodyPart>Nose</specificBodyPart>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -505,6 +529,9 @@
 				<horror>XMT_InternalEar</horror>
 				<uiLabel>Internalize ear</uiLabel>
 				<displayOrder>30</displayOrder>
+				<variedBodyPart>
+					<li>Ear</li>
+				</variedBodyPart>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -514,6 +541,9 @@
 				<horror>XMT_InternalEye</horror>
 				<uiLabel>Internalize eye</uiLabel>
 				<displayOrder>30</displayOrder>
+				<variedBodyPart>
+					<li>Eye</li>
+				</variedBodyPart>
 				<randomBodypart>false</randomBodypart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
@@ -523,30 +553,41 @@
 				<horror>XMT_AcidFat</horror>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Torso</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
+				<unique>true</unique>
 			</li>
 			<li>
 				<horror>XMT_MuscleRestructure</horror>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Torso</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
+				<unique>true</unique>
 			</li>
 			<li>
 				<horror>XMT_Mesoskeleton</horror>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Torso</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
+				<unique>true</unique>
 			</li>
 			<li>
 				<horror>XMT_AcidbloodMarrow</horror>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
+				<variedBodyPart>
+					<li>Ribcage</li>
+					<li>Spine</li>
+					<li>Pelvis</li>
+				</variedBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
@@ -555,17 +596,21 @@
 				<horror>XMT_Predatory</horror>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Brain</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
+				<unique>true</unique>
 			</li>
 			<li>
 				<horror>XMT_Unasthetic</horror>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
+				<specificBodyPart>Brain</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
+				<unique>true</unique>
 			</li>
 			<li>
 				<horror>XMT_BecomingMutant</horror>
@@ -575,6 +620,7 @@
 				<probability>1</probability>
 				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
+				<unique>true</unique>
 			</li>
 		</mutations>
 	</Xenomorphtype.XMT_MutationsHealthSet>
