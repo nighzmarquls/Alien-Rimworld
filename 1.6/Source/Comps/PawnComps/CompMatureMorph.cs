@@ -377,6 +377,7 @@ namespace Xenomorphtype
 
             return 0;
         }
+
         public override float GetStatFactor(StatDef stat)
         {
             if (stat == StatDefOf.MinimumContainmentStrength)

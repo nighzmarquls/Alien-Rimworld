@@ -2442,6 +2442,7 @@
 	    <label>hybrid</label>
 		<comps>
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<perfection>XMT_HybridOrganism</perfection>
 				<ImpossibleHediffs>
 					<li>Anesthetic</li>
 					<li>CryptosleepSickness</li>

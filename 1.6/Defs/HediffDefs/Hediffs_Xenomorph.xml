@@ -62,6 +62,61 @@
   </HediffDef>
   
   <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_HybridOrganism</defName>
+    <label>perfect</label>
+    <description>this being is a perfectly adaptable organism.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+		<hungerRateFactorOffset>-0.85</hungerRateFactorOffset>
+	    <becomeVisible>false</becomeVisible>
+		<foodPoisoningChanceFactor>0</foodPoisoningChanceFactor>
+		<makeImmuneTo>
+			<li>XMT_EssenceAddiction</li>
+            <li>Malaria</li>
+            <li>SleepingSickness</li>
+            <li>Plague</li>
+            <li>Hangover</li>
+            <li>Heatstroke</li>
+			<li>Hypothermia</li>
+            <li>Heatstroke</li>
+			<li>Carcinoma</li>
+			<li>Dementia</li>
+			<li>GutWorms</li>
+			<li>MuscleParasites</li>
+			<li>FibrousMechanites</li>
+			<li>SensoryMechanites</li>
+			<li>WoundInfection</li>
+			<li>Flu</li>
+			<li>Animal_Flu</li>
+			<li>Animal_Plague</li>
+			<li>LungRotExposure</li>
+			<li>LungRot</li>
+			<li>BadBack</li>
+			<li>Frail</li>
+			<li>Cataract</li>
+			<li>Blindness</li>
+			<li>HearingLoss</li>
+			<li>Alzheimers</li>
+			<li>Asthma</li>
+			<li>HeartArteryBlockage</li>
+			<li>OrganDecay</li>
+        </makeImmuneTo>
+      </li>
+    </stages>
+    <comps>
+		<li Class="Xenomorphtype.HediffCompProperties_RemoveOnXenomorph">
+			<ifXenomorph>false</ifXenomorph>
+		</li>
+    </comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase">
     <defName>StarbeastOrganism</defName>
     <label>perfect</label>
     <description>this being is a perfectly adaptable organism.</description>

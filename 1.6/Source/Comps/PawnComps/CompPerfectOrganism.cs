@@ -99,11 +99,12 @@ namespace Xenomorphtype
                     
                 }
                 
-                if(pawn.health.hediffSet.HasHediff(InternalDefOf.StarbeastOrganism))
+                HediffDef perfectionHediff = Props.perfection == null ? InternalDefOf.StarbeastOrganism : Props.perfection;
+                if (pawn.health.hediffSet.HasHediff(perfectionHediff))
                 {
                     return;
                 }
-                Hediff perfection = HediffMaker.MakeHediff(InternalDefOf.StarbeastOrganism, pawn);
+                Hediff perfection = HediffMaker.MakeHediff(perfectionHediff, pawn);
                 pawn.health.hediffSet.AddDirect(perfection);
             }
         }
@@ -111,6 +112,7 @@ namespace Xenomorphtype
 
     public class CompPerfectOrganismProperties : CompProperties
     {
+        public HediffDef perfection = null;
         public List<HediffDef> ImpossibleHediffs = new List<HediffDef>();
         public CompPerfectOrganismProperties()
         {

@@ -377,6 +377,7 @@
 			<li>
 				<horror>XMT_HorrorPregnant</horror>
 				<uiLabel>Embryo implantation</uiLabel>
+				<specificBodyPart>Torso</specificBodyPart>
 				<displayOrder>50</displayOrder>
 				<probability>1</probability>
 				<essenceMinimum>0.51</essenceMinimum>
@@ -501,7 +502,9 @@
 			<li>
 				<horror>XMT_BreathingWafers</horror>
 				<displayOrder>30</displayOrder>
-				<specificBodyPart>Lung</specificBodyPart>
+				<variedBodyPart>
+					<li>Lung</li>
+				</variedBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
