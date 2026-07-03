@@ -3,6 +3,7 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
@@ -504,6 +505,10 @@ namespace Xenomorphtype
                 LocalTargetInfo target = actor.jobs.curJob.GetTarget(ind);
                 if (HasArrived(actor, target, peMode))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " already arrived at  " + target);
+                    }
                     actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
@@ -563,6 +568,10 @@ namespace Xenomorphtype
                 Pawn actor = toil.actor;
                 if (HasArrived(actor, cell, peMode))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " already arrived at  " + cell);
+                    }
                     actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
@@ -628,6 +637,11 @@ namespace Xenomorphtype
 
                 if (HasArrived(actor, exactCell, PathEndMode.OnCell))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " already arrived at  " + thing);
+                    }
+
                     actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
@@ -704,8 +718,12 @@ namespace Xenomorphtype
                     dest = thing.SpawnedParentOrMe;
                 }
 
-                if (HasArrived(actor, dest, peMode))
+                if (HasArrived(actor, thing, peMode))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " already arrived at  " + thing);
+                    }
                     actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
@@ -783,6 +801,10 @@ namespace Xenomorphtype
                 LocalTargetInfo target = actor.jobs.curJob.GetTarget(ind);
                 if (HasArrived(actor, target, peMode))
                 {
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(actor + " already arrived at  " + target);
+                    }
                     actor.pather.StopDead();
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
