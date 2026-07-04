@@ -382,7 +382,7 @@ namespace Xenomorphtype
             Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
             bool intensified = existing != null;
 
-            if (existing != null && mutation.unique)
+            if (existing != null && existing.Severity < 1 || mutation.unique)
             {
                 existing.Severity = Mathf.Min(existing.Severity + mutation.horror.initialSeverity, mutation.horror.maxSeverity);
                 changedHediff = existing;
@@ -470,6 +470,10 @@ namespace Xenomorphtype
                                 {
                                     if(hediff.Part == bodypart)
                                     {
+                                        if(hediff.Severity < 1)
+                                        {
+                                            break;
+                                        }
                                         skip = true;
                                         break;
                                     }

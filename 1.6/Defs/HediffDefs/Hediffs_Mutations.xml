@@ -8,7 +8,7 @@
 		<makesSickThought>true</makesSickThought>
 		<hediffClass>Hediff_Injury</hediffClass>
 		<makesAlert>true</makesAlert>
-		<minSeverity>0.001</minSeverity>
+		<minSeverity>0.01</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<initialSeverity>1</initialSeverity>
 		<stages>
@@ -48,8 +48,9 @@
 				<severityPerDay>-1</severityPerDay>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
+				<onlyOneMutation>true</onlyOneMutation>
 				<probability>0.75</probability>
-				<mutateHourInterval>0.25</mutateHourInterval>
+				<mutateHourInterval>0.1</mutateHourInterval>
 				<customMutationSet>XMT_ProtofluidMutationSet</customMutationSet>
 			</li>
 		</comps>

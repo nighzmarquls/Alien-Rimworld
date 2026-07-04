@@ -15,8 +15,11 @@ namespace Xenomorphtype
         public int mutateTick = -1;
         HediffCompProperties_Mutator Props => props as HediffCompProperties_Mutator;
 
+
+        public override bool CompShouldRemove => parent.Severity <= parent.def.minSeverity;
         public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
+            base.CompPostTickInterval(ref severityAdjustment, delta);
             if (Pawn == null || Pawn.health == null)
             {
                 return;
