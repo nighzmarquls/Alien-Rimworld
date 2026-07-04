@@ -679,7 +679,7 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if (Parent.needs.mood.CurLevelPercentage > 0.5f && Parent.needs.joy.CurLevelPercentage < 0.25)
+                if (Parent.needs.mood.CurLevelPercentage > 0.5f || Parent.needs.joy.CurLevelPercentage < 0.25)
                 {
                     canNuzzleTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
                     return true;
