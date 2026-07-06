@@ -576,7 +576,6 @@
 				<horror>XMT_Mesoskeleton</horror>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
-				<specificBodyPart>Torso</specificBodyPart>
 				<probability>0.75</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>

@@ -380,10 +380,11 @@ namespace Xenomorphtype
 
             BodyPartRecord specificPart = SpecificMutationPart(target, mutation);
             Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
-            bool intensified = existing != null;
+            bool intensified = false;
 
-            if (existing != null && existing.Severity < 1 || mutation.unique)
+            if (existing != null && (existing.Severity < 1 || mutation.unique))
             {
+                intensified = true;
                 existing.Severity = Mathf.Min(existing.Severity + mutation.horror.initialSeverity, mutation.horror.maxSeverity);
                 changedHediff = existing;
             }
