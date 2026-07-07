@@ -40,6 +40,8 @@
 		<li>me.samboycoding.betterloading.dev</li>
 		<li>Zeracronius.Unpatcher</li>
 		<li>Hautarche.HautsFramework</li>
+		<li>anomalypatch.1trickPwnyta</li>
+		<li>biotechpatch.1trickPwnyta</li>
 	</incompatibleWith>
 	<loadAfter>
 		<li>Ludeon.RimWorld</li>
