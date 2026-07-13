@@ -64,6 +64,7 @@ namespace Xenomorphtype
         // hybrid genes
         public static XMT_GeneSetDef    XMT_HybridGenes;
         public static XMT_GeneSetDef    XMT_UnknownGenes;
+        public static GeneDef           XMT_XenogermReimplanter;
 
         // transformations
         public static XMT_TransformationSet XMT_DefaultTransformationSet;

@@ -23,6 +23,7 @@
         <psychic>true</psychic>
       </li>
 	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<knowledgeProfile>XMT_Profile_Psychic</knowledgeProfile>
 		<psychicHorrorGain>0.1</psychicHorrorGain>
 		<obsessionGain>0.1</obsessionGain>
       </li>
@@ -66,6 +67,7 @@
         </prerequisites>
       </li>
 	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<knowledgeProfile>XMT_Profile_Psychic</knowledgeProfile>
 		<psychicHorrorGain>0.2</psychicHorrorGain>
 		<obsessionGain>0.2</obsessionGain>
       </li>
@@ -112,6 +114,7 @@
         </prerequisites>
       </li>
 	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<knowledgeProfile>XMT_Profile_Psychic</knowledgeProfile>
 		<psychicHorrorGain>0.2</psychicHorrorGain>
 		<obsessionGain>0.2</obsessionGain>
       </li>
@@ -159,6 +162,7 @@
         </prerequisites>
       </li>
 	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<knowledgeProfile>XMT_Profile_Psychic</knowledgeProfile>
 		<psychicHorrorGain>1</psychicHorrorGain>
 		<obsessionGain>1</obsessionGain>
       </li>
@@ -216,6 +220,7 @@
         </prerequisites>
       </li>
 	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<knowledgeProfile>XMT_Profile_Psychic</knowledgeProfile>
 		<psychicHorrorGain>0.5</psychicHorrorGain>
 		<obsessionGain>0.5</obsessionGain>
       </li>
@@ -257,6 +262,7 @@
         </prerequisites>
       </li>
 	  <li Class="Xenomorphtype.AbilityExtension_Hivemind">
+		<knowledgeProfile>XMT_Profile_Psychic</knowledgeProfile>
 		<psychicHorrorGain>0.5</psychicHorrorGain>
 		<obsessionGain>0.5</obsessionGain>
       </li>

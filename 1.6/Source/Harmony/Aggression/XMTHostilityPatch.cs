@@ -70,7 +70,7 @@ namespace Xenomorphtype
                     return true;
                 }
 
-                if (XMTUtility.IsXenomorph(__instance) || info.IsObsessed())
+                if (XMTUtility.IsXenomorph(__instance) || KnowledgeUtility.IsObsessed(__instance))
                 {
                     return true;
                 }

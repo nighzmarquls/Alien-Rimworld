@@ -31,8 +31,8 @@ namespace Xenomorphtype
 
                 if (info != null)
                 {
-                    info.WitnessPsychicHorror(obsession);
-                    info.GainObsession(obsession);
+                    KnowledgeUtility.ApplyExposure(pawn, KnowledgeDefOf.XMT_Profile_Psychic, obsession, KnowledgeAcquisition.PsychicExposure, pawn);
+                    KnowledgeUtility.GainObsession(pawn, obsession);
                 }
             }
         }

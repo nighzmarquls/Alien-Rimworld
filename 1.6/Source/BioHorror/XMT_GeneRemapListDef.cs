@@ -15,11 +15,16 @@ namespace Xenomorphtype
     {
         public static GeneDef GetRemappedGeneFor(ThingDef raceDef, GeneDef targetGeneDef)
         {
-            if (Remap.ContainsKey(raceDef.defName))
+            if (raceDef == null || targetGeneDef == null || Remap == null)
             {
-                foreach (GeneRemap geneRemap in Remap[raceDef.defName])
+                return targetGeneDef;
+            }
+
+            if (Remap.TryGetValue(raceDef.defName, out List<GeneRemap> remaps))
+            {
+                foreach (GeneRemap geneRemap in remaps)
                 {
-                    if (geneRemap.targetGeneDef.defName == targetGeneDef.defName)
+                    if (geneRemap?.targetGeneDef == targetGeneDef && geneRemap.replacementGeneDef != null)
                     {
                         return geneRemap.replacementGeneDef;
                     }
@@ -31,6 +36,12 @@ namespace Xenomorphtype
 
         public static void AddRemapping(GeneRemap geneRemap)
         {
+            if (geneRemap?.raceDef == null || geneRemap.targetGeneDef == null || geneRemap.replacementGeneDef == null)
+            {
+                Log.Error("Invalid gene remap entry; race, target gene, and replacement gene are required.");
+                return;
+            }
+
             if(Remap == null)
             {
                 Remap = new Dictionary<string, List<GeneRemap>>();
@@ -58,6 +69,11 @@ namespace Xenomorphtype
             else
             {
                 Log.Message("Loaded " + defName );
+            }
+
+            if (geneRemaps == null)
+            {
+                return;
             }
 
             foreach (GeneRemap geneRemap in geneRemaps)

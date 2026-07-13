@@ -19,7 +19,7 @@ namespace Xenomorphtype
             {
                 return new List<DebugActionNode>
                 {
-                    new DebugActionNode("Spawn gene ovamorph by host source", DebugActionType.Action, SpawnGeneOvomorphByHostSource),
+                    HostSourceSpawnNode(),
                     new DebugActionNode("Spawn all custom host gene examples", DebugActionType.Action, SpawnAllCustomHostGeneExamples),
                     new DebugActionNode("Spawn all host source gene ovamorphs", DebugActionType.Action, SpawnAllHostSourceGeneOvomorphs)
                 };
@@ -28,31 +28,39 @@ namespace Xenomorphtype
             yield return root;
         }
 
-        private static void SpawnGeneOvomorphByHostSource()
+        private static DebugActionNode HostSourceSpawnNode()
         {
-            List<HostGeneSource> sources = AllHostGeneSources().OrderBy(source => source.MenuLabel).ToList();
-
-            if (sources.NullOrEmpty())
+            DebugActionNode node = new DebugActionNode("Spawn gene ovamorph by host source", DebugActionType.Action, null);
+            node.childGetter = delegate
             {
-                Messages.Message("No host gene sources found.", MessageTypeDefOf.RejectInput, false);
-                return;
-            }
+                List<DebugActionNode> children = AllHostGeneSources()
+                    .OrderBy(source => source.DebugLabel)
+                    .Select(HostSourceNode)
+                    .ToList();
 
-            List<FloatMenuOption> options = new List<FloatMenuOption>();
-
-            foreach (HostGeneSource source in sources)
-            {
-                HostGeneSource selectedSource = source;
-                options.Add(new FloatMenuOption(selectedSource.MenuLabel, delegate
+                if (children.NullOrEmpty())
                 {
-                    BeginSpawnTargeter(new List<SpawnRequest>
+                    children.Add(new DebugActionNode("No host gene sources found.", DebugActionType.Action, delegate
                     {
-                        new SpawnRequest(selectedSource.MenuLabel, selectedSource.Genes)
-                    });
-                }));
-            }
+                        Messages.Message("No host gene sources found.", MessageTypeDefOf.RejectInput, false);
+                    }));
+                }
 
-            Find.WindowStack.Add(new FloatMenu(options));
+                return children;
+            };
+
+            return node;
+        }
+
+        private static DebugActionNode HostSourceNode(HostGeneSource source)
+        {
+            return new DebugActionNode(source.DebugLabel, DebugActionType.Action, delegate
+            {
+                BeginSpawnTargeter(new List<SpawnRequest>
+                {
+                    new SpawnRequest(source.DebugLabel, source.Genes)
+                });
+            });
         }
 
         private static void SpawnAllCustomHostGeneExamples()
@@ -83,8 +91,8 @@ namespace Xenomorphtype
         private static void SpawnAllHostSourceGeneOvomorphs()
         {
             List<SpawnRequest> requests = AllHostGeneSources()
-                .OrderBy(source => source.MenuLabel)
-                .Select(source => new SpawnRequest(source.MenuLabel, source.Genes))
+                .OrderBy(source => source.DebugLabel)
+                .Select(source => new SpawnRequest(source.DebugLabel, source.Genes))
                 .ToList();
 
             BeginSpawnTargeter(requests);
@@ -109,22 +117,27 @@ namespace Xenomorphtype
 
             Find.Targeter.BeginTargeting(targetingParameters, delegate (LocalTargetInfo target)
             {
-                Map map = Find.CurrentMap;
-                if (map == null)
-                {
-                    Messages.Message("No current map found.", MessageTypeDefOf.RejectInput, false);
-                    return;
-                }
-
-                int spawned = SpawnRequestsAround(target.Cell, map, requests);
-                Messages.Message("Spawned " + spawned + " gene ovamorph example(s).", MessageTypeDefOf.TaskCompletion, false);
+                SpawnRequestsAtTarget(target, requests);
             });
         }
 
-        private static int SpawnRequestsAround(IntVec3 center, Map map, List<SpawnRequest> requests)
+        private static void SpawnRequestsAtTarget(LocalTargetInfo target, List<SpawnRequest> requests)
+        {
+            Map map = Find.CurrentMap;
+            if (map == null)
+            {
+                Messages.Message("No current map found.", MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            int spawned = SpawnRequestsNear(target.Cell, map, requests);
+            Messages.Message("Spawned " + spawned + " gene ovamorph example(s).", MessageTypeDefOf.TaskCompletion, false);
+        }
+
+        private static int SpawnRequestsNear(IntVec3 center, Map map, List<SpawnRequest> requests)
         {
             int spawned = 0;
-            IEnumerator<IntVec3> cellEnumerator = SpawnCellsAround(center, map).GetEnumerator();
+            IEnumerator<IntVec3> cellEnumerator = ValidSpawnCellsNear(center, map).GetEnumerator();
 
             foreach (SpawnRequest request in requests)
             {
@@ -140,14 +153,14 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                AssignGenes(ovamorph, request);
+                AssignGenesToOvomorph(ovamorph, request);
                 spawned++;
             }
 
             return spawned;
         }
 
-        private static IEnumerable<IntVec3> SpawnCellsAround(IntVec3 center, Map map)
+        private static IEnumerable<IntVec3> ValidSpawnCellsNear(IntVec3 center, Map map)
         {
             foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, 20f, true))
             {
@@ -158,7 +171,7 @@ namespace Xenomorphtype
             }
         }
 
-        private static void AssignGenes(GeneOvomorph ovamorph, SpawnRequest request)
+        private static void AssignGenesToOvomorph(GeneOvomorph ovamorph, SpawnRequest request)
         {
             CompHiveGeneHolder geneHolder = ovamorph.GetComp<CompHiveGeneHolder>();
             if (geneHolder == null)
@@ -223,7 +236,7 @@ namespace Xenomorphtype
 
             public List<GeneDef> Genes { get; private set; }
 
-            public string MenuLabel
+            public string DebugLabel
             {
                 get
                 {

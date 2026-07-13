@@ -68,19 +68,29 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (ovothroneAssisted)
-            {
-                return product.race.baseBodySize <= OvothroneAssistedMaxBodySize;
-            }
+            
 
             bool mechanoidSynthesis = false;
-            float queenBodysize = queen.BodySize;
+            bool integratedEggSack = false;
+            float maxMechSize = queen.BodySize / 2;
             if (queen.GetComp<CompQueen>() is CompQueen compQueen)
             {
                 mechanoidSynthesis = compQueen.HasActiveEvolution(RoyalEvolutionDefOf.Evo_MechanoidSynthesis);
+                integratedEggSack = compQueen.HasActiveEvolution(RoyalEvolutionDefOf.Evo_IntegratedEggSac);
+                
             }
 
-            if (mechanoidSynthesis && product.race.baseBodySize < queenBodysize / 2)
+            if (ovothroneAssisted)
+            {
+                maxMechSize = OvothroneAssistedMaxBodySize;
+            }
+
+            if (integratedEggSack)
+            {
+                maxMechSize = queen.BodySize + 0.6f;
+            }
+
+            if (mechanoidSynthesis && product.race.baseBodySize <= maxMechSize)
             {
                 return true;
             }

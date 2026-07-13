@@ -124,6 +124,34 @@
   </HediffDef>
   
   <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_HyperFertility</defName>
+    <label>Integrated Ovipositor</label>
+    <description>an extended translucent abdomen, trailing behind. It churns with activity.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <offset>-0.84</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<SocialImpact>0.25</SocialImpact>
+			<ArmorRating_Blunt>-1.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>-1.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>24</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_MechaFertility</defName>
     <label>mechagestators</label>
     <description>body is prepared to gestate mechanoids.</description>

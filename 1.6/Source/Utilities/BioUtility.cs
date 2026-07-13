@@ -557,17 +557,17 @@ namespace Xenomorphtype
                 
                 foreach (GeneDef gene in geneset.GenesListForReading)
                 {
-                    GeneDef remappedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(pawn.def, gene);
-                    if (forbidUnknown && remappedGene.geneClass == typeof(UnknownGene))
+                    GeneDef geneForPawn = XMT_GeneRemapListDef.GetRemappedGeneFor(pawn.def, gene);
+                    if (forbidUnknown && geneForPawn.geneClass == typeof(UnknownGene))
                     {
                         continue;
                     }
 
                     if (XMTSettings.LogBiohorror)
                     {
-                        Log.Warning("Adding Gene " + remappedGene);
+                        Log.Warning("Adding Gene " + gene);
                     }
-                    pawn.genes.AddGene(remappedGene, xenogene);
+                    pawn.genes.AddGene(gene, xenogene);
                 }
             }
         }
@@ -1170,10 +1170,7 @@ namespace Xenomorphtype
                 }
                 geneHolder.genes = new GeneSet();
                 ExtractGenesToGeneset(ref geneHolder.genes, genes);
-                if (!xenotypeName.NullOrEmpty())
-                {
-                   geneHolder.templateName = xenotypeName;
-                }
+                geneHolder.templateName = xenotypeName ?? string.Empty;
             }
 
             
@@ -1323,17 +1320,20 @@ namespace Xenomorphtype
                 }
             }
 
-            if (differences > 0)
+            bool nameChanged = targetPawn.genes != null && targetPawn.genes.xenotypeName != (xenotypeName ?? string.Empty);
+
+            if (differences > 0 || nameChanged)
             {
-                Hediff geneIntegration = HediffMaker.MakeHediff(XenoGeneDefOf.XMT_GeneIntegration, targetPawn);
-
-                geneIntegration.Severity = (1.0f * differences) / 24;
-
-                targetPawn.health.AddHediff(geneIntegration);
+                if (differences > 0)
+                {
+                    Hediff geneIntegration = HediffMaker.MakeHediff(XenoGeneDefOf.XMT_GeneIntegration, targetPawn);
+                    geneIntegration.Severity = (1.0f * differences) / 24;
+                    targetPawn.health.AddHediff(geneIntegration);
+                }
 
                 if (targetPawn.genes != null)
                 {
-                    targetPawn.genes.xenotypeName = xenotypeName;
+                    targetPawn.genes.xenotypeName = xenotypeName ?? string.Empty;
                 }
                 AssignAlteredGeneExpression(ref targetPawn, selectedGenes);
 
@@ -1380,6 +1380,12 @@ namespace Xenomorphtype
                 {
                     differences++;
                 }
+            }
+
+            CompHiveGeneHolder geneHolder = target.TryGetComp<CompHiveGeneHolder>();
+            if (geneHolder != null && geneHolder.templateName != (xenotypeName ?? string.Empty))
+            {
+                differences++;
             }
 
             if (differences > 0)

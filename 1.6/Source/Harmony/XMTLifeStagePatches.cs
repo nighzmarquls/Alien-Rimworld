@@ -43,7 +43,7 @@ namespace Xenomorphtype
 
                     if (info != null)
                     {
-                        info.GainObsession(0.25f);
+                        KnowledgeUtility.GainObsession(pawn, 0.25f);
                     }
                 }
             }

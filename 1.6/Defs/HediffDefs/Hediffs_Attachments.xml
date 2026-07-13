@@ -87,6 +87,10 @@
     </stages>
     <comps>
 	    <li Class="Xenomorphtype.HediffCompProperties_LarvalAttachment">
+			<attachKnowledgeProfile>XMT_Profile_Larva</attachKnowledgeProfile>
+			<acidKnowledgeProfile>XMT_Profile_Acid</acidKnowledgeProfile>
+			<tendKnowledgeProfile>XMT_Profile_Larva</tendKnowledgeProfile>
+			<squeezeKnowledgeProfile>XMT_Profile_Larva</squeezeKnowledgeProfile>
 			<minimumTendToAvoidInjury>0.5</minimumTendToAvoidInjury>
 			<embryoHediff>XMT_Embryo</embryoHediff>
 			<severityPerDay>1</severityPerDay>

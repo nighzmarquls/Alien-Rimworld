@@ -91,7 +91,7 @@ namespace Xenomorphtype
                     DamageBiter(dinfo.Instigator as Pawn, Damage);
                 }
 
-                AcidUtility.TrySplashAcid(Pawn, GetBloodFullness(), SplashRange, 3, true, Props.appliedHediff, Props.damageToSeverity, Damage);
+                AcidUtility.TrySplashAcid(Pawn, GetBloodFullness(), SplashRange, 3, true, Props.appliedHediff, Props.damageToSeverity, Damage, Props.knowledgeProfile);
             }
 
             if (totalDamageDealt < 4)
@@ -109,7 +109,7 @@ namespace Xenomorphtype
                 float bloodfullness = GetBloodFullness();
 
                 AcidUtility.TryDamageAdjacentWeapon(Pawn, dinfo.Instigator, Damage + totalDamageDealt);
-                AcidUtility.TrySplashAcidFromWound(Pawn, bloodfullness, totalDamageDealt, SplashRange, 5, Props.appliedHediff, Props.damageToSeverity, Damage);
+                AcidUtility.TrySplashAcidFromWound(Pawn, bloodfullness, totalDamageDealt, SplashRange, 5, Props.appliedHediff, Props.damageToSeverity, Damage, Props.knowledgeProfile);
             }
         }
 
@@ -188,6 +188,7 @@ namespace Xenomorphtype
         public float splashRangePerSeverity = 5;
         public float damageToSeverity = 1;
         public HediffDef appliedHediff;
+        public KnowledgeProfileDef knowledgeProfile;
         public HediffCompProperties_AcidBloodGiver()
         {
             compClass = typeof(HediffComp_AcidBloodGiver);

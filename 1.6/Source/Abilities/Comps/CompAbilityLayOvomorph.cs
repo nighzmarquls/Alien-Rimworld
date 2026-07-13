@@ -20,7 +20,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            Thing laidThing = OvomorphLayUtility.TryLayOvomorph(parent.pawn, target.Cell, Props.ovomorphDef, Props.baseFoodCost, Props.useCostModifiers, Props.initialProgress);
+            Thing laidThing = OvomorphLayUtility.TryLayOvomorph(parent.pawn, target.Cell, Props.ovomorphDef, Props.baseFoodCost, Props.useCostModifiers, Props.initialProgress, knowledgeProfile: Props.knowledgeProfile);
             if (laidThing == null)
             {
                 return;
@@ -42,6 +42,7 @@ namespace Xenomorphtype
         public bool useCostModifiers = true;
         public float initialProgress;
         public bool openGeneDialog;
+        public KnowledgeProfileDef knowledgeProfile;
 
         public CompProperties_AbilityLayOvomorph()
         {

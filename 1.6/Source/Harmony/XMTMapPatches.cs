@@ -78,7 +78,7 @@ namespace Xenomorphtype
                         CompPawnInfo info = faction.leader.Info();
                         if(info != null)
                         {
-                            if(info.IsObsessed())
+                            if(KnowledgeUtility.IsObsessed(faction.leader))
                             {
                                 worshipers = true;
                             }

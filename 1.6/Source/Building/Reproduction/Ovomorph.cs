@@ -233,7 +233,7 @@ namespace Xenomorphtype
                         float bonusDodge = 0;
                         if (info != null)
                         {
-                            bonusDodge += info.LarvaAwareness / 6;
+                            bonusDodge += KnowledgeUtility.GetEffectiveKnowledge(host, KnowledgeDefOf.XMT_Knowledge_Larva) / 6;
                         }
                         if (Rand.Chance(SpringChance(host) - bonusDodge))
                         {
@@ -304,7 +304,7 @@ namespace Xenomorphtype
 
             XMTHiveUtility.RemoveOvomorph(this, MapHeld);
 
-            XMTUtility.WitnessOvomorph(PositionHeld, MapHeld, 0.1f, 0.1f);
+            XMTUtility.WitnessOvomorph(PositionHeld, MapHeld, 0.1f, 0.1f, knowledgeProfile: HatchingEgg?.Props?.hatchKnowledgeProfile);
             
 
             Pawn hatchedPawn = HatchingEgg.TrySpawnPawn(PositionHeld, HatchingEgg.hatchedPawnKind.race.race.lifeStageAges[0].minAge);

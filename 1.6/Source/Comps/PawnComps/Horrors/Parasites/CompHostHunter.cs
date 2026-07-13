@@ -175,7 +175,7 @@ namespace Xenomorphtype
 
             if (XMTUtility.IsXenomorph(parent))
             {
-                XMTUtility.WitnessLarva(target.PositionHeld, target.MapHeld, 0.01f, 0.1f);
+                XMTUtility.WitnessLarva(target.PositionHeld, target.MapHeld, 0.01f, 0.1f, knowledgeProfile: Props.attackKnowledgeProfile);
             }
 
             if (!XMTUtility.IsTargetImmobile(target))
@@ -232,6 +232,7 @@ namespace Xenomorphtype
         public HediffDef parasiteHediff;
         public float huntCheckHourInterval = 1;
         public ThoughtDef thoughtGivenOnAttach;
+        public KnowledgeProfileDef attackKnowledgeProfile;
         public CompHostHunterProperties()
         {
             this.compClass = typeof(CompHostHunter);

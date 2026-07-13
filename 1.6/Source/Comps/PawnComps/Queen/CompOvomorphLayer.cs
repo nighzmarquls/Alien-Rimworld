@@ -12,13 +12,43 @@ namespace Xenomorphtype
     {
 
         static private Texture2D OvomorphTexture => ContentFinder<Texture2D>.Get("UI/Abilities/Ovomorph");
+        static private Texture2D MassLayTexture => ContentFinder<Texture2D>.Get("UI/Abilities/OvomorphCluster");
         static private Texture2D LineageTexture => ContentFinder<Texture2D>.Get("UI/Abilities/Lineage");
+        private const int MaxStoredEggs = 255;
+        private const int AutoLayRetryInterval = 250;
+        private const float SpillRadius = 10f;
+        private const int MassLayLimit = 22;
         Pawn Parent => parent as Pawn;
         CompOvomorphLayerProperties Props => props as CompOvomorphLayerProperties;
 
         ThingDef selectedEggDef = null;
         GeneSet broodTemplateGenes;
         string broodTemplateName;
+        int storedEggs;
+        float eggProductionProgress;
+        bool autoLay;
+        int lastKnownCapacity = -1;
+        int nextAutoLayTick;
+
+        public int StoredEggs => storedEggs;
+        public float EggProductionProgress => eggProductionProgress;
+        public bool AutoLay => autoLay;
+        public int EggCapacity => HyperFertilityActive ? CapacityForBodySize(Parent.BodySize) : 0;
+        public float TicksPerStoredEgg => Mathf.Max(1f, 90000f / Mathf.Max(0.01f, Parent.BodySize * Parent.BodySize));
+        public bool HyperFertilityActive => Parent?.GetComp<CompQueen>()?.HasActiveEvolution(RoyalEvolutionDefOf.Evo_IntegratedEggSac) == true;
+
+        public int PreferredLayingDistance
+        {
+            get
+            {
+                if (!HyperFertilityActive)
+                {
+                    return 1;
+                }
+                float bodySize = Mathf.Clamp(Parent.BodySize, 3f, 10f);
+                return Mathf.RoundToInt(Mathf.Lerp(2f, 4f, Mathf.InverseLerp(3f, 10f, bodySize)));
+            }
+        }
 
         public override void PostExposeData()
         {
@@ -26,6 +56,75 @@ namespace Xenomorphtype
             Scribe_Defs.Look(ref selectedEggDef, "selectedEggDef");
             Scribe_Deep.Look(ref broodTemplateGenes, "broodTemplateGenes");
             Scribe_Values.Look(ref broodTemplateName, "broodTemplateName", "");
+            Scribe_Values.Look(ref storedEggs, "storedOvomorphs", 0);
+            Scribe_Values.Look(ref eggProductionProgress, "storedOvomorphProgress", 0f);
+            Scribe_Values.Look(ref autoLay, "autoLayOvomorphs", false);
+            Scribe_Values.Look(ref lastKnownCapacity, "lastOvomorphCapacity", -1);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                storedEggs = Mathf.Clamp(storedEggs, 0, MaxStoredEggs);
+                eggProductionProgress = Mathf.Clamp01(eggProductionProgress);
+            }
+        }
+
+        public override void CompTickInterval(int delta)
+        {
+            base.CompTickInterval(delta);
+            if (Parent == null || Parent.Dead || Parent.Destroyed)
+            {
+                return;
+            }
+
+            int capacity = EggCapacity;
+            if (capacity != lastKnownCapacity)
+            {
+                lastKnownCapacity = capacity;
+                if (!HyperFertilityActive)
+                {
+                    autoLay = false;
+                }
+                ResolveOverflow(capacity);
+            }
+
+            if (HyperFertilityActive && autoLay && storedEggs >= capacity && Find.TickManager.TicksGame >= nextAutoLayTick)
+            {
+                TryAutoLay();
+            }
+
+            if (!HyperFertilityActive || storedEggs >= capacity || Parent.needs?.food?.Starving == true)
+            {
+                return;
+            }
+
+            eggProductionProgress = Mathf.Min(1f, eggProductionProgress + delta / TicksPerStoredEgg);
+            if (eggProductionProgress < 1f)
+            {
+                return;
+            }
+
+            float cost = FoodCost;
+            if (Parent.needs?.food != null && Parent.needs.food.CurLevel <= cost)
+            {
+                return;
+            }
+
+            if (Parent.needs?.food != null)
+            {
+                Parent.needs.food.CurLevel -= cost;
+            }
+            storedEggs = Mathf.Min(capacity, storedEggs + 1);
+            eggProductionProgress = 0f;
+
+            if (autoLay && storedEggs >= capacity)
+            {
+                TryAutoLay();
+            }
+        }
+
+        private static int CapacityForBodySize(float bodySize)
+        {
+            float normalized = Mathf.Max(0f, bodySize) / 3f;
+            return Mathf.Clamp(Mathf.FloorToInt(6f * normalized * normalized), 1, MaxStoredEggs);
         }
 
         public void SetNextOvomorphAsGene()
@@ -130,24 +229,67 @@ namespace Xenomorphtype
                 yield break;
             }
 
-            if (Parent.Drafted)
+            if (Parent.Downed)
             {
                 yield break;
             }
 
-            if (Parent.Downed)
+            if (HyperFertilityActive)
+            {
+                yield return new Gizmo_OvomorphStock(this);
+                yield return CreateAutoLayToggle();
+                yield return CreateMassLayAction();
+            }
+
+            if (Parent.Drafted)
             {
                 yield break;
             }
 
             yield return ShapeBroodLineageAction();
 
-            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_OvoThrone))
+            CompQueen queen = Parent.GetComp<CompQueen>();
+            if (queen?.HasActiveEvolution(RoyalEvolutionDefOf.Evo_OvoThrone) == true)
             {
                 yield break;
             }
 
             yield return CreateLaySelectedEggAction(parent, startJob: true);
+        }
+
+        private Command_Toggle CreateAutoLayToggle()
+        {
+            return new Command_Toggle
+            {
+                defaultLabel = "XMT_AutoLayOvomorphs".Translate(),
+                defaultDesc = "XMT_AutoLayOvomorphsDesc".Translate(),
+                icon = OvomorphTexture,
+                isActive = () => autoLay,
+                toggleAction = delegate
+                {
+                    autoLay = !autoLay;
+                    if (autoLay && storedEggs >= EggCapacity)
+                    {
+                        TryAutoLay();
+                    }
+                }
+            };
+        }
+
+        private Command_Action CreateMassLayAction()
+        {
+            Command_Action action = new Command_Action
+            {
+                defaultLabel = "XMT_MassLayOvomorphs".Translate(),
+                defaultDesc = "XMT_MassLayOvomorphsDesc".Translate(MassLayLimit),
+                icon = MassLayTexture,
+                action = MassLayStoredEggs
+            };
+            if (storedEggs <= 0)
+            {
+                action.Disable("XMT_NoStoredOvomorphs".Translate());
+            }
+            return action;
         }
 
         public IEnumerable<Gizmo> GetThroneManagementGizmos(Thing positionSource)
@@ -468,11 +610,16 @@ namespace Xenomorphtype
                 return null;
             }
 
+            bool useStoredEgg = HyperFertilityActive && storedEggs > 0;
             float foodCost = FoodCostFor(option);
-            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, loc, positionSource, option.thingDef, foodCost, resourceDef: option.resourceDef, resourceCost: ResourceCostFor(option), initialProgress: option.progressOverride);
+            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, loc, positionSource, option.thingDef, foodCost, resourceDef: option.resourceDef, resourceCost: ResourceCostFor(option), initialProgress: useStoredEgg ? 1f : option.progressOverride, knowledgeProfile: Props.layKnowledgeProfile, chargeFood: !useStoredEgg);
 
             if (laidThing != null)
             {
+                if (useStoredEgg)
+                {
+                    storedEggs--;
+                }
                 ApplyEggOptionGenes(laidThing, option);
                 if (option.openGeneDialog && laidThing.TryGetComp<CompHiveGeneHolder>() != null)
                 {
@@ -483,6 +630,219 @@ namespace Xenomorphtype
             }
 
             return laidThing;
+        }
+
+        private void TryAutoLay()
+        {
+            nextAutoLayTick = Find.TickManager.TicksGame + AutoLayRetryInterval;
+            OvomorphLayOption option = ResolveSelectedEggOption();
+            if (option == null || !CanUseEggOption(option).Accepted)
+            {
+                option = DefaultEggOption();
+                SelectEggOption(option);
+            }
+            if (option == null || !ResourceCostReport(option).Accepted)
+            {
+                return;
+            }
+
+            IntVec3 layingCenter = Parent.PositionHeld + Parent.Rotation.Opposite.AsIntVec3 * PreferredLayingDistance;
+            List<IntVec3> cells = FindLayCells(option.thingDef, 1, SpillRadius, layingCenter);
+            if (cells.Count > 0)
+            {
+                LayStoredEgg(option, cells[0], playSound: true, recordEvent: true, witness: true);
+            }
+        }
+
+        private void MassLayStoredEggs()
+        {
+            OvomorphLayOption option = ResolveSelectedEggOption();
+            if (option == null)
+            {
+                return;
+            }
+
+            int wanted = Mathf.Min(MassLayLimit, storedEggs);
+            IntVec3 layingCenter = Parent.PositionHeld + Parent.Rotation.Opposite.AsIntVec3 * PreferredLayingDistance;
+            List<IntVec3> cells = FindLayCells(option.thingDef, wanted, SpillRadius, layingCenter);
+            int laid = 0;
+            string stopReason = null;
+            for (int i = 0; i < cells.Count && laid < wanted; i++)
+            {
+                AcceptanceReport resourceReport = ResourceCostReport(option);
+                if (!resourceReport.Accepted)
+                {
+                    stopReason = resourceReport.Reason;
+                    break;
+                }
+
+                bool playSound = i < 4;
+                Thing result = LayStoredEgg(option, cells[i], playSound, recordEvent: laid == 0, witness: laid == 0);
+                if (result != null)
+                {
+                    laid++;
+                }
+            }
+
+            if (Parent.Faction == Faction.OfPlayer)
+            {
+                if (!stopReason.NullOrEmpty())
+                {
+                    Messages.Message("XMT_MassLayStopped".Translate(laid, stopReason), Parent, MessageTypeDefOf.RejectInput, false);
+                }
+                else
+                {
+                    Messages.Message("XMT_MassLayComplete".Translate(laid), Parent, MessageTypeDefOf.TaskCompletion, false);
+                }
+            }
+        }
+
+        private Thing LayStoredEgg(OvomorphLayOption option, IntVec3 cell, bool playSound, bool recordEvent, bool witness, bool allowDeadLayer = false)
+        {
+            if (storedEggs <= 0 || option?.thingDef == null)
+            {
+                return null;
+            }
+
+            Thing laidThing = OvomorphLayUtility.TryLayOvomorphWithCost(Parent, cell, Parent, option.thingDef, 0f,
+                initialProgress: 1f,
+                resourceDef: option.resourceDef,
+                resourceCost: ResourceCostFor(option),
+                knowledgeProfile: Props.layKnowledgeProfile,
+                chargeFood: false,
+                playSound: playSound,
+                makeFilth: true,
+                recordEvent: recordEvent,
+                witness: witness,
+                requireReachability: false,
+                allowDeadLayer: allowDeadLayer);
+            if (laidThing == null)
+            {
+                return null;
+            }
+
+            storedEggs--;
+            ApplyEggOptionGenes(laidThing, option);
+            return laidThing;
+        }
+
+        private List<IntVec3> FindLayCells(ThingDef ovomorphDef, int wanted, float radius, IntVec3? searchCenter = null)
+        {
+            List<IntVec3> result = new List<IntVec3>();
+            Map map = Parent.MapHeld;
+            if (map == null || ovomorphDef == null || wanted <= 0)
+            {
+                return result;
+            }
+
+            IntVec3 center = searchCenter ?? Parent.PositionHeld;
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(center, radius, true))
+            {
+                if (result.Count >= wanted)
+                {
+                    break;
+                }
+                if (cell == Parent.PositionHeld || !cell.InBounds(map))
+                {
+                    continue;
+                }
+                if (OvomorphLayUtility.CanLayAt(Parent, cell, Parent, ovomorphDef, out string _, requireReachability: false, allowDeadLayer: Parent.Dead))
+                {
+                    result.Add(cell);
+                }
+            }
+            return result;
+        }
+
+        private OvomorphLayOption SpillOption()
+        {
+            OvomorphLayOption selected = ResolveSelectedEggOption();
+            if (selected != null && selected.resourceDef == null && CanUseEggOption(selected).Accepted)
+            {
+                return selected;
+            }
+            return Props.AllEggOptions().FirstOrDefault(option => option.thingDef == Props.OvomorphDef)
+                ?? new OvomorphLayOption { thingDef = Props.OvomorphDef };
+        }
+
+        private void ResolveOverflow(int capacity)
+        {
+            int overflow = Mathf.Max(0, storedEggs - capacity);
+            if (overflow <= 0 || !Parent.Spawned || Parent.MapHeld == null)
+            {
+                return;
+            }
+
+            OvomorphLayOption option = SpillOption();
+            List<IntVec3> cells = FindLayCells(option.thingDef, overflow, SpillRadius);
+            int laid = SpillIntoCells(option, cells, overflow);
+            int discarded = overflow - laid;
+            if (discarded > 0)
+            {
+                storedEggs = Mathf.Max(capacity, storedEggs - discarded);
+                if (Parent.Faction == Faction.OfPlayer)
+                {
+                    Messages.Message("XMT_OvomorphOverflowLost".Translate(discarded), Parent, MessageTypeDefOf.NegativeEvent, false);
+                }
+            }
+        }
+
+        private int SpillIntoCells(OvomorphLayOption option, List<IntVec3> cells, int limit, bool allowDeadLayer = false)
+        {
+            int laid = 0;
+            for (int i = 0; i < cells.Count && laid < limit && storedEggs > 0; i++)
+            {
+                bool playSound = i < 4;
+                Thing result = LayStoredEgg(option, cells[i], playSound, recordEvent: laid == 0, witness: laid == 0, allowDeadLayer: allowDeadLayer);
+                if (result != null)
+                {
+                    laid++;
+                }
+            }
+            return laid;
+        }
+
+        public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
+        {
+            base.Notify_Killed(prevMap, dinfo);
+            if (storedEggs <= 0)
+            {
+                return;
+            }
+
+            if (prevMap != null && Parent.PositionHeld.IsValid)
+            {
+                OvomorphLayOption option = SpillOption();
+                List<IntVec3> cells = FindLayCells(option.thingDef, storedEggs, SpillRadius);
+                SpillIntoCells(option, cells, storedEggs, allowDeadLayer: true);
+                storedEggs = 0;
+            }
+            else
+            {
+                Current.Game?.GetComponent<GameComponent_Xenomorph>()?.ReleaseStoredOvomorphsOnWorld(storedEggs);
+                storedEggs = 0;
+            }
+            eggProductionProgress = 0f;
+            autoLay = false;
+        }
+
+        public string StockTooltip()
+        {
+            string state = "XMT_OvomorphStockProducing".Translate();
+            if (Parent.needs?.food?.Starving == true)
+            {
+                state = "XMT_OvomorphStockStarving".Translate();
+            }
+            else if (storedEggs >= EggCapacity)
+            {
+                state = "XMT_OvomorphStockFull".Translate();
+            }
+            else if (Parent.needs?.food != null && eggProductionProgress >= 1f && Parent.needs.food.CurLevel <= FoodCost)
+            {
+                state = "XMT_OvomorphStockNeedsFood".Translate();
+            }
+            int ticksRemaining = Mathf.CeilToInt((1f - eggProductionProgress) * TicksPerStoredEgg);
+            return "XMT_OvomorphStockTooltip".Translate(storedEggs, EggCapacity, Parent.BodySize.ToString("F2"), ticksRemaining.ToStringTicksToPeriod(), FoodCost.ToString("F2"), ResolveSelectedEggOption()?.Label ?? "thing", state, autoLay ? "On".Translate() : "Off".Translate());
         }
 
         public void TryApplyBroodLineage(Ovomorph ovomorph, ThingDef ovomorphDef)
@@ -544,6 +904,7 @@ namespace Xenomorphtype
         public ThingDef OvomorphDef;
         public ThingDef geneOvomorphDef;
         public List<OvomorphLayOption> options;
+        public KnowledgeProfileDef layKnowledgeProfile;
         public CompOvomorphLayerProperties()
         {
             this.compClass = typeof(CompOvomorphLayer);

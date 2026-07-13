@@ -146,11 +146,11 @@ namespace Xenomorphtype
 
             if (Parent.def == InternalDefOf.XMT_Starbeast_AlienRace || Parent.def == InternalDefOf.XMT_Royal_AlienRace)
             {
-                XMTUtility.WitnessHorror(Parent.PositionHeld, Parent.Map, 0.25f);
+                XMTUtility.WitnessHorror(Parent.PositionHeld, Parent.Map, 0.25f, knowledgeProfile: Props.adultRevealKnowledgeProfile);
             }
             else if(Parent.def == InternalDefOf.XMT_Larva)
             {
-                XMTUtility.WitnessLarva(Parent.PositionHeld, Parent.Map, 0.25f);
+                XMTUtility.WitnessLarva(Parent.PositionHeld, Parent.Map, 0.25f, knowledgeProfile: Props.larvaRevealKnowledgeProfile);
             }
             
         }
@@ -292,6 +292,8 @@ namespace Xenomorphtype
         public float spotRange = 4f;
         public float hideBrightness = 0.45f;
         public float minVisibleBrightness = 0.1f;
+        public KnowledgeProfileDef adultRevealKnowledgeProfile;
+        public KnowledgeProfileDef larvaRevealKnowledgeProfile;
         public CompStealthProperties()
         {
             this.compClass = typeof(CompStealth);

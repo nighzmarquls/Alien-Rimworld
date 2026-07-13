@@ -13,27 +13,27 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NoWarn>$(NoWarn);CS0649</NoWarn>
+    <LangVersion>9.0</LangVersion>
+    <OutputPath>..\Assemblies\</OutputPath>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Knowledge\KnowledgeSystem.cs" />
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
@@ -205,7 +205,6 @@
     <Compile Include="Progression\Quests\QuestNode_RequiresQueenNotPlayer.cs" />
     <Compile Include="Progression\Records\HistoryAutoRecorderWorker_Xenoforming.cs" />
     <Compile Include="SocialHorror\Interactions\InteractionWorker_AdvancedTameAttempt.cs" />
-    <Compile Include="SocialHorror\SocialHorrorDefs.cs" />
     <Compile Include="Things\XMTDefs.cs" />
     <Compile Include="UI\Designators\Designator_Larder.cs" />
     <Compile Include="UI\Designators\Designator_MakeJelly.cs" />
@@ -219,6 +218,7 @@
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
+	<Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractJelly.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_XMT_HaulToGeneBank.cs" />
@@ -249,6 +249,7 @@
     <Compile Include="DefOfs\XenoMapDefOf.cs" />
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Harmony\XMTAnomalyPatches.cs" />
+	<Compile Include="Harmony\XMTGenePatches.cs" />
     <Compile Include="Harmony\XMTButcheryPatches.cs" />
     <Compile Include="Harmony\XMTClimbPatches.cs" />
     <Compile Include="Harmony\XMTJobCleanupPatches.cs" />
@@ -439,6 +440,7 @@
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_DevourSpecial.cs" />
     <Compile Include="UI\Gizmos\Command_Evolution.cs" />
     <Compile Include="UI\Gizmos\Gizmo_QueenResources.cs" />
+    <Compile Include="UI\Gizmos\Gizmo_OvomorphStock.cs" />
     <Compile Include="UI\BattleLogEntry_QueenTrample.cs" />
     <Compile Include="UI\PlayLogEntry_QueenResourceAssimilation.cs" />
     <Compile Include="UI\PlaceWorker\Placeworker_AttachedToHive.cs" />

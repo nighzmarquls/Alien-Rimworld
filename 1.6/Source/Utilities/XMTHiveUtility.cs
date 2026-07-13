@@ -3675,7 +3675,7 @@ namespace Xenomorphtype
                 CompPawnInfo info = colonist.Info();
                 if (info != null)
                 {
-                    if (!info.IsObsessed())
+                    if (!KnowledgeUtility.IsObsessed(colonist))
                     {
                         if (colonist.WorkTagIsDisabled(WorkTags.Violent))
                         {
@@ -3704,7 +3704,7 @@ namespace Xenomorphtype
 
                 if (animal.Info() is CompPawnInfo info)
                 {
-                    if (info.IsObsessed())
+                    if (KnowledgeUtility.IsObsessed(animal))
                     {
                         continue;
                     }

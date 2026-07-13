@@ -578,6 +578,7 @@
 				<compClass>Xenomorphtype.HediffComp_CarboSilicateMeat</compClass>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_AcidBloodGiver">
+				<knowledgeProfile>XMT_Profile_Acid</knowledgeProfile>
 				<appliedHediff>AcidCorrosion</appliedHediff>
 			</li>
 		</comps>
@@ -924,6 +925,7 @@
 				<compClass>Xenomorphtype.HediffComp_NoHeal</compClass>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_AcidBloodGiver">
+				<knowledgeProfile>XMT_Profile_Acid</knowledgeProfile>
 				<appliedHediff>AcidCorrosion</appliedHediff>
 			</li>
 		</comps>

@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+	<AbilityDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="AbilityTouchBase">
+		<defName>XMT_ReimplantXenogerm</defName>
+		<label>implant genes</label>
+		<description>Implant this person's xenogenes into a willing subject using a special injector organ. If this person's genes are currently regrowing, they will implant their xenogerm and die in the process.\n\nWhen implanted, a xenogerm will overwrite the target's xenogenes. Germline genes will be unaffected.</description>
+		<iconPath>UI/Icons/Genes/Gene_XenogermReimplanter</iconPath>
+		<warmupStartSound>ReimplantXenogerm_Cast</warmupStartSound>
+		<warmupEffecter>Implant_Xenogerm</warmupEffecter>
+		<category>Sanguophage</category>
+		<displayOrder>500</displayOrder>
+		<hostile>false</hostile>
+		<casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+		<verbProperties>
+			<verbClass>Verb_CastAbilityTouch</verbClass>
+			<drawAimPie>false</drawAimPie>
+			<range>-1</range>
+			<warmupTime>4</warmupTime>
+			<stunTargetOnCastStart>true</stunTargetOnCastStart>
+			<targetParams>
+				<canTargetAnimals>false</canTargetAnimals>
+				<canTargetSelf>false</canTargetSelf>
+				<canTargetBuildings>false</canTargetBuildings>
+				<canTargetMechs>false</canTargetMechs>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Xenomorphtype.CompProperties_AbilityCryptimorphReimplantXenogerm" />
+		</comps>
+	</AbilityDef>
 
 	<AbilityCategoryDef>
 		<defName>Xenomorph</defName>
@@ -122,6 +150,7 @@
 		</verbProperties>
 		<comps>
 			<li Class="Xenomorphtype.CompProperties_AbilityLayOvomorph">
+				<knowledgeProfile>XMT_Profile_Ovomorph</knowledgeProfile>
 				<ovomorphDef>XMT_Ovomorph</ovomorphDef>
 				<baseFoodCost>2</baseFoodCost>
 				<useCostModifiers>true</useCostModifiers>

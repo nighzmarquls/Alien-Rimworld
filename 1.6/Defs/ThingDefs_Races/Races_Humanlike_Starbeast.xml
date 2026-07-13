@@ -5,6 +5,8 @@
 		<description>a bipedal creature with hardened exoskeleton, phallic shaped cranium and a sharp bladed tail with prominent vertebral processes.</description>
 		<comps>
 			<li Class="Xenomorphtype.CompMatureMorphProperties">
+				<grabKnowledgeProfile>XMT_Profile_Adult</grabKnowledgeProfile>
+				<contactKnowledgeProfile>XMT_Profile_Adult</contactKnowledgeProfile>
 				<grabHediff>StarbeastGrab</grabHediff>
 				<cocoonHediff>StarbeastCocoon</cocoonHediff>
 				<OvomorphHediff>XMT_Ovomorphing</OvomorphHediff>
@@ -13,12 +15,15 @@
 				<hibernationCocoon>XMT_HibernationCocoon</hibernationCocoon>
 			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<knowledgeProfile>XMT_Profile_Acid</knowledgeProfile>
 				<appliedHediff>AcidCorrosion</appliedHediff>
 				<splashRange>1.5</splashRange>
 				<cells>5</cells>
 				<acidFilth>Starbeast_Filth_AcidBlood</acidFilth>
 			</li>
 			<li Class="Xenomorphtype.CompStealthProperties">
+				<adultRevealKnowledgeProfile>XMT_Profile_Adult</adultRevealKnowledgeProfile>
+				<larvaRevealKnowledgeProfile>XMT_Profile_Larva</larvaRevealKnowledgeProfile>
 			</li>
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
 				<ImpossibleHediffs>
@@ -1398,6 +1403,8 @@
 		<label>queen</label>
 		<comps Inherit="False">
 			<li Class="Xenomorphtype.CompMatureMorphProperties">
+				<grabKnowledgeProfile>XMT_Profile_Adult</grabKnowledgeProfile>
+				<contactKnowledgeProfile>XMT_Profile_Adult</contactKnowledgeProfile>
 				<grabHediff>StarbeastGrab</grabHediff>
 				<cocoonHediff>StarbeastCocoon</cocoonHediff>
 				<OvomorphHediff>XMT_Ovomorphing</OvomorphHediff>
@@ -1406,12 +1413,15 @@
 				<hibernationCocoon>XMT_HibernationCocoon</hibernationCocoon>
 			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<knowledgeProfile>XMT_Profile_Acid</knowledgeProfile>
 				<appliedHediff>AcidCorrosion</appliedHediff>
 				<splashRange>1.5</splashRange>
 				<cells>6</cells>
 				<damage>26</damage>
 			</li>
 			<li Class="Xenomorphtype.CompStealthProperties">
+				<adultRevealKnowledgeProfile>XMT_Profile_Adult</adultRevealKnowledgeProfile>
+				<larvaRevealKnowledgeProfile>XMT_Profile_Larva</larvaRevealKnowledgeProfile>
 				<hideBrightness>0.25</hideBrightness>
 			</li>
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
@@ -1514,6 +1524,7 @@
 				</mutationOptions>
 			</li>
 			<li Class="Xenomorphtype.CompOvomorphLayerProperties">
+				<layKnowledgeProfile>XMT_Profile_Ovomorph</layKnowledgeProfile>
 				<foodCost>2</foodCost>
 				<OvomorphDef>XMT_Ovomorph</OvomorphDef>
 				<geneOvomorphDef>XMT_GeneOvomorph</geneOvomorphDef>
@@ -2313,6 +2324,94 @@
 								</offsets>
 							</li>
 							<li>
+								<name>EggsackOverlay</name>
+								<path>Pawn/Royalty/EggSack/EggSackOverlay</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<drawSize>(1.0,1.0)</drawSize>
+								<drawSizePortrait>(1.0,1.0)</drawSizePortrait>
+								<conditions>
+									<BodyPart>
+										<bodyPart>Pelvis</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Hediff>XMT_HyperFertility</Hediff>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Not>
+										<Hediff>XMT_Enthroned</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+									<offset>( -0.052, -0.37)</offset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+									<offset>( 0.048, -0.9)</offset>
+								  </north>
+								  <east>
+									<layerOffset>-0.301</layerOffset>
+									<offset>(0.85, -0.58)</offset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>Eggsack</name>
+								<path>Pawn/Royalty/EggSack/EggSack</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<drawSize>(1.0,1.0)</drawSize>
+								<drawSizePortrait>(1.0,1.0)</drawSizePortrait>
+								<conditions>
+									<BodyPart>
+										<bodyPart>Pelvis</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Hediff>XMT_HyperFertility</Hediff>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Not>
+										<Hediff>XMT_Enthroned</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>0.2</layerOffset>
+									<offset>( -0.052, -0.37)</offset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+									<offset>( 0.048, -0.9)</offset>
+								  </north>
+								  <east>
+									<layerOffset>-0.301</layerOffset>
+									<offset>(0.85, -0.58)</offset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
 								<name>TailWithSack</name>
 								<path>Pawn/SkeletalTail/RoyalSackSkeletalTail</path>
 								<userCustomizable>false</userCustomizable>
@@ -2333,6 +2432,12 @@
 										<Or>
 											<Hediff>XMT_GeneIntegration</Hediff>
 											<Hediff>Maturation</Hediff>
+											<And>
+												<BodyPart>
+													<bodyPart>Pelvis</bodyPart>
+												</BodyPart>
+												<Hediff>XMT_HyperFertility</Hediff>
+											</And>
 											<And>
 												<BodyPart>
 													<bodyPart>Torso</bodyPart>
@@ -2382,13 +2487,27 @@
 										<drawnInBed>false</drawnInBed>
 									</Posture>
 									<Not>
-										<Hediff>XMT_GeneIntegration</Hediff>
-									</Not>
-									<Not>
-										<Hediff>Maturation</Hediff>
-									</Not>
-									<Not>
-										<Hediff>XMT_Enthroned</Hediff>
+										<Or>
+											<Hediff>XMT_GeneIntegration</Hediff>
+											<Hediff>Maturation</Hediff>
+											<And>
+												<BodyPart>
+													<bodyPart>Pelvis</bodyPart>
+												</BodyPart>
+												<Hediff>XMT_HyperFertility</Hediff>
+											</And>
+											<And>
+												<BodyPart>
+													<bodyPart>Torso</bodyPart>
+												</BodyPart>
+												<Or>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX1</Hediff>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX2</Hediff>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX3</Hediff>
+													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX4</Hediff>
+												</Or>
+											</And>
+										</Or>
 									</Not>
 								</conditions>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>

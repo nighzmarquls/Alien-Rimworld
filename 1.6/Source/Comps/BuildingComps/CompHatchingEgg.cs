@@ -192,6 +192,7 @@ namespace Xenomorphtype
     public class CompHatchingEggProperties : CompProperties
     {
         public PawnKindDef hatchedPawnKind;
+        public KnowledgeProfileDef hatchKnowledgeProfile;
 
         public CompHatchingEggProperties()
         {

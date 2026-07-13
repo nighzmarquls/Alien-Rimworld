@@ -12,6 +12,7 @@ namespace Xenomorphtype
     {
         public float psychicHorrorGain = 0.1f;
         public float obsessionGain = 0.1f;
+        public KnowledgeProfileDef knowledgeProfile;
         public override void Cast(GlobalTargetInfo[] targets, Ability ability)
         {
 
@@ -42,7 +43,7 @@ namespace Xenomorphtype
                             if (bonding.CanBondToNewPawn)
                             {
                                 ability.pawn.interactions.TryInteractWith(targetInfo.Pawn, InteractionDefOf.RomanceAttempt);
-                                subjectInfo.GainObsession(1f);
+                                KnowledgeUtility.GainObsession(targetInfo.Pawn, 1f);
                             }
                         }
                     }
@@ -50,8 +51,8 @@ namespace Xenomorphtype
                     if(failedTargetPsycastCheck)
                     {
                         
-                        subjectInfo.WitnessPsychicHorror(psychicHorrorGain);
-                        subjectInfo.GainObsession(obsessionGain);
+                        KnowledgeUtility.ApplyExposure(targetInfo.Pawn, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Psychic, psychicHorrorGain, KnowledgeAcquisition.PsychicExposure, ability.pawn);
+                        KnowledgeUtility.GainObsession(targetInfo.Pawn, obsessionGain);
 
                     }
                 }
@@ -68,12 +69,12 @@ namespace Xenomorphtype
                                 if (bonding.CanBondToNewPawn)
                                 {
                                     targetInfo.Pawn.interactions.TryInteractWith(ability.pawn, InteractionDefOf.RomanceAttempt);
-                                    casterInfo.GainObsession(obsessionGain);
+                                    KnowledgeUtility.GainObsession(ability.pawn, obsessionGain);
                                 }
                             }
                         }
-                        casterInfo.WitnessPsychicHorror(psychicHorrorGain);
-                        casterInfo.GainObsession(obsessionGain);
+                        KnowledgeUtility.ApplyExposure(ability.pawn, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Psychic, psychicHorrorGain, KnowledgeAcquisition.PsychicExposure, targetInfo.Pawn);
+                        KnowledgeUtility.GainObsession(ability.pawn, obsessionGain);
                     }
                     else
                     {
@@ -97,8 +98,8 @@ namespace Xenomorphtype
             if (failedPsycastCheck)
             {
                 float queenPsychicPower = queen.GetStatValue(StatDefOf.PsychicSensitivity);
-                casterInfo.WitnessPsychicHorror(queenPsychicPower);
-                casterInfo.GainObsession(queenPsychicPower);
+                KnowledgeUtility.ApplyExposure(ability.pawn, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Psychic, queenPsychicPower, KnowledgeAcquisition.PsychicExposure, queen);
+                KnowledgeUtility.GainObsession(ability.pawn, queenPsychicPower);
             }
             
         }

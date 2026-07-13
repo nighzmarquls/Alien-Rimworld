@@ -196,7 +196,7 @@ namespace Xenomorphtype
                 }
             }
 
-            XMTUtility.WitnessLarva(Parent.PositionHeld, Parent.MapHeld, 0.5f);
+            XMTUtility.WitnessLarva(Parent.PositionHeld, Parent.MapHeld, 0.5f, knowledgeProfile: Props.attackKnowledgeProfile);
 
             if (unwilling && !XMTUtility.IsTargetImmobile(target) && !Parent.IsPsychologicallyInvisible())
             {
@@ -204,7 +204,7 @@ namespace Xenomorphtype
                 float bonusDodge = 0;
                 if (info != null)
                 {
-                    bonusDodge += info.LarvaAwareness / 2;
+                    bonusDodge += KnowledgeUtility.GetEffectiveKnowledge(target, KnowledgeDefOf.XMT_Knowledge_Larva) / 2;
                 }
 
                 if (Rand.Chance(XMTUtility.GetDodgeChance(target, true) + bonusDodge))
@@ -325,6 +325,7 @@ namespace Xenomorphtype
         public HediffDef larvaHediff;
         public float leapRange;
         public int hoursTilDeathAfterImplant;
+        public KnowledgeProfileDef attackKnowledgeProfile;
         public CompLarvalGenesProperties()
         {
             this.compClass = typeof(CompLarvalGenes);

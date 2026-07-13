@@ -7,6 +7,7 @@
 		<comps>
 			<li Class="Xenomorphtype.CompHatchingEggProperties">
 				<hatchedPawnKind>XMT_Larva</hatchedPawnKind>
+				<hatchKnowledgeProfile>XMT_Profile_Ovomorph</hatchKnowledgeProfile>
 			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
 				<appliedHediff>AcidCorrosion</appliedHediff>
@@ -73,6 +74,7 @@
 		<comps>
 			<li Class="Xenomorphtype.CompHatchingEggProperties">
 				<hatchedPawnKind>XMT_Subverter</hatchedPawnKind>
+				<hatchKnowledgeProfile>XMT_Profile_Ovomorph</hatchKnowledgeProfile>
 			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
 				<appliedHediff>AcidCorrosion</appliedHediff>
@@ -136,6 +138,7 @@
 		<defName>XMT_GeneOvomorph</defName>
 		<thingClass>Xenomorphtype.GeneOvomorph</thingClass>
 		<label>Ovomorph</label>
+		<drawGUIOverlay>true</drawGUIOverlay>
 		<comps>
 			<li>
 				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>

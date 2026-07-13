@@ -6,14 +6,18 @@
 		<description>A skittering pale skinend organism with a long flexible tail and eight slender digit like legs.</description>
 		<comps>
 			<li Class="Xenomorphtype.CompLarvalGenesProperties">
+				<attackKnowledgeProfile>XMT_Profile_Larva</attackKnowledgeProfile>
 				<larvaHediff>XMT_LarvalEmbrace</larvaHediff>
 				<leapRange>4</leapRange>
 				<hoursTilDeathAfterImplant>1</hoursTilDeathAfterImplant>
 			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<knowledgeProfile>XMT_Profile_Acid</knowledgeProfile>
 				<appliedHediff>AcidCorrosion</appliedHediff>
 			</li>
 			<li Class="Xenomorphtype.CompStealthProperties">
+				<adultRevealKnowledgeProfile>XMT_Profile_Adult</adultRevealKnowledgeProfile>
+				<larvaRevealKnowledgeProfile>XMT_Profile_Larva</larvaRevealKnowledgeProfile>
 				<hideBrightness>0.2</hideBrightness>
 				<minVisibleBrightness>0.0</minVisibleBrightness>
 			</li>

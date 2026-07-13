@@ -116,8 +116,8 @@ namespace Xenomorphtype
 
             if (!Pawn.Dead)
             {
-                XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, out larvaBonus, 1f);
-                XMTUtility.WitnessAcid(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, out acidBonus, 1f);
+                XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, out larvaBonus, 1f, knowledgeProfile: Props.attachKnowledgeProfile);
+                XMTUtility.WitnessAcid(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, out acidBonus, 1f, knowledgeProfile: Props.acidKnowledgeProfile);
 
 
                 if (!spent)
@@ -171,7 +171,7 @@ namespace Xenomorphtype
             }
             base.CompTended(quality, maxQuality, batchPosition);
             float witnessBonus;
-            bool XenomorphTending = XMTUtility.WitnessLarva(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.1f, out witnessBonus, 1f);
+            bool XenomorphTending = XMTUtility.WitnessLarva(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.1f, out witnessBonus, 1f, knowledgeProfile: Props.tendKnowledgeProfile);
 
             if (XenomorphTending)
             {
@@ -217,7 +217,7 @@ namespace Xenomorphtype
             {
                 Log.Message(parent + " is squeezing ");
             }
-            XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.Map, 1f);
+            XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.Map, 1f, knowledgeProfile: Props.squeezeKnowledgeProfile);
 
             parent.Severity += 0.25f;
 
@@ -363,6 +363,10 @@ namespace Xenomorphtype
         public float minimumTendToRemove = 1;
         public float severityPerDay;
         public HediffDef embryoHediff;
+        public KnowledgeProfileDef attachKnowledgeProfile;
+        public KnowledgeProfileDef acidKnowledgeProfile;
+        public KnowledgeProfileDef tendKnowledgeProfile;
+        public KnowledgeProfileDef squeezeKnowledgeProfile;
         public HediffCompProperties_LarvalAttachment()
         {
             compClass = typeof(HediffComp_LarvalAttachment);

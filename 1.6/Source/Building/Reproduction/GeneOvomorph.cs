@@ -53,7 +53,8 @@ namespace Xenomorphtype
             string text = description;
 
 
-            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl) && !DebugSettings.godMode)
+            if ((!XMTUtility.QueenIsPlayer() || !XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneStorage)) &&
+                !DebugSettings.godMode)
             {
                 return text;
             }
@@ -83,6 +84,25 @@ namespace Xenomorphtype
             }
 
             return text + ("Genes".Translate().CapitalizeFirst() + ":\n" + tmpGeneLabelsDesc.ToLineList("  - ", capitalizeItems: true));
+        }
+
+        public override void DrawGUIOverlay()
+        {
+            base.DrawGUIOverlay();
+
+            if (geneHolder == null || geneHolder.templateName.NullOrEmpty())
+            {
+                return;
+            }
+
+            if (!DebugSettings.godMode &&
+                (!XMTUtility.QueenIsPlayer() || !XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneStorage)))
+            {
+                return;
+            }
+
+            Vector2 labelPosition = GenMapUI.LabelDrawPosFor(this, -0.4f);
+            GenMapUI.DrawThingLabel(labelPosition, geneHolder.templateName, GenMapUI.DefaultThingLabelColor);
         }
 
         public override IEnumerable<Gizmo> GetGizmos()

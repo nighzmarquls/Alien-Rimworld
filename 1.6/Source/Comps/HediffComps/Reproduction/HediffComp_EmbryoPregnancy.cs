@@ -148,7 +148,7 @@ namespace Xenomorphtype
 
             if (!Pawn.Dead)
             {
-                XMTUtility.WitnessHorror(Pawn.PositionHeld, Pawn.MapHeld, 0.1f);
+                XMTUtility.WitnessHorror(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, knowledgeProfile: Props.burstKnowledgeProfile);
             }
 
             if ((damageDealt >= ChestBurstTarget || Pawn.Dead || Pawn.health.hediffSet.PartIsMissing(result.LastHitPart)) && unbirthed)
@@ -365,7 +365,7 @@ namespace Xenomorphtype
 
             if (child.Map != null)
             {
-                XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f);
+                XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f, knowledgeProfile: Props.emergenceKnowledgeProfile);
             }
 
             int progress = 250;
@@ -421,6 +421,8 @@ namespace Xenomorphtype
 
         public float burstDamage = 25;
         public float severityPerDay;
+        public KnowledgeProfileDef burstKnowledgeProfile;
+        public KnowledgeProfileDef emergenceKnowledgeProfile;
         public HediffCompProperties_EmbryoPregnancy()
         {
             compClass = typeof(HediffComp_EmbryoPregnancy);

@@ -93,7 +93,7 @@ namespace Xenomorphtype
                 if (!tamer.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent) && tamer.equipment.HasAnything())
                 {
                     XMTUtility.GiveInteractionMemory(recipient, ThoughtDefOf.HarmedMe, tamer);
-                    morph.tamingConditioning += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.005f) * tamer.Info().TotalHorrorAwareness();
+                    morph.tamingConditioning += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.005f) * KnowledgeUtility.GetEffectiveKnowledge(tamer, KnowledgeDefOf.XMT_Knowledge_Adult);
                     if (recipient.IsOnHoldingPlatform)
                     {
                         if (recipient.ParentHolder is Building_HoldingPlatform platform)
@@ -124,7 +124,7 @@ namespace Xenomorphtype
                 if (tamer.Info().XenomorphPheromoneValue() > 0f)
                 {
                     XMTUtility.GiveInteractionMemory(recipient, HorrorMoodDefOf.SnuggledVictim, tamer);
-                    morph.tamingPheromones += tamer.Info().XenomorphPheromoneValue() * 0.01f * tamer.Info().TotalHorrorAwareness();
+                    morph.tamingPheromones += tamer.Info().XenomorphPheromoneValue() * 0.01f * KnowledgeUtility.GetEffectiveKnowledge(tamer, KnowledgeDefOf.XMT_Knowledge_Adult);
                 }
                 else if(tamer.Info().XenomorphPheromoneValue() < 0f)
                 {
@@ -158,7 +158,7 @@ namespace Xenomorphtype
                 if (tamer.XenoSocial() >= 1 && !recipient.ageTracker.Adult)
                 {
                     XMTUtility.GiveInteractionMemory(recipient, HorrorMoodDefOf.SnuggledVictim, tamer);
-                    morph.tamingSocializing += tamer.XenoSocial() * tamer.skills.GetSkill(SkillDefOf.Social).Level * 0.01f * tamer.Info().TotalHorrorAwareness();
+                    morph.tamingSocializing += tamer.XenoSocial() * tamer.skills.GetSkill(SkillDefOf.Social).Level * 0.01f * KnowledgeUtility.GetEffectiveKnowledge(tamer, KnowledgeDefOf.XMT_Knowledge_Adult);
                 }
             }
 
@@ -167,7 +167,7 @@ namespace Xenomorphtype
                 if (!tamer.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent) && tamer.equipment.HasAnything())
                 {
                     XMTUtility.GiveInteractionMemory(recipient, ThoughtDefOf.HarmedMe, tamer);
-                    morph.tamingHostage += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.0025f)*tamer.Info().TotalHorrorAwareness();
+                    morph.tamingHostage += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.0025f) * KnowledgeUtility.GetEffectiveKnowledge(tamer, KnowledgeDefOf.XMT_Knowledge_Adult);
                     if (recipient.IsOnHoldingPlatform)
                     {
                         if (recipient.ParentHolder is Building_HoldingPlatform platform)

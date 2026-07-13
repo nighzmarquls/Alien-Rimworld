@@ -54,10 +54,10 @@ namespace Xenomorphtype
             return Mathf.Clamp(totalDamageDealt / 12f, 0.15f, 0.75f);
         }
 
-        public static bool TrySplashAcidFromWound(Thing bleeder, float bloodFullness, float totalDamageDealt, float splashRange, int maxCells, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26)
+        public static bool TrySplashAcidFromWound(Thing bleeder, float bloodFullness, float totalDamageDealt, float splashRange, int maxCells, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26, KnowledgeProfileDef knowledgeProfile = null)
         {
             float splashSeverity = (bloodFullness * 0.5f) + (totalDamageDealt / 12f);
-            return TrySplashAcid(bleeder, splashSeverity, splashRange, maxCells, true, appliedHediff, damageToSeverity, damage);
+            return TrySplashAcid(bleeder, splashSeverity, splashRange, maxCells, true, appliedHediff, damageToSeverity, damage, knowledgeProfile);
         }
 
         public static void TryDamageAdjacentWeapon(Thing bleeder, Thing instigator, float damage)
@@ -136,7 +136,7 @@ namespace Xenomorphtype
 
             }
         }
-        public static bool TrySplashAcid(Thing bleeder, float severity = 1, float splashRange = -1f, int maxCells = 3, bool cellLimit = true, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26)
+        public static bool TrySplashAcid(Thing bleeder, float severity = 1, float splashRange = -1f, int maxCells = 3, bool cellLimit = true, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26, KnowledgeProfileDef knowledgeProfile = null)
         {
             if (bleeder == null || bleeder.MapHeld == null)
             {
@@ -155,7 +155,7 @@ namespace Xenomorphtype
             float modifiedSplashRange = severity > 0f ? Mathf.Max(1f, splashRange * severity) : 0f;
             int modifiedCells = cellLimit ? Mathf.Max(1, Mathf.CeilToInt(maxCells * severity)) : int.MaxValue;
 
-            XMTUtility.WitnessAcid(bleeder.PositionHeld, bleeder.MapHeld, 0.1f);
+            XMTUtility.WitnessAcid(bleeder.PositionHeld, bleeder.MapHeld, 0.1f, knowledgeProfile: knowledgeProfile);
 
             List<IntVec3> Cells = GenRadial.RadialCellsAround(bleeder.Position, modifiedSplashRange, true).ToList();
             int hitCells = 0;

@@ -19,8 +19,12 @@ namespace Xenomorphtype
         public static class Pawn_InteractionsTracker_TryInteractWith
         {
             [HarmonyPostfix]
-            public static void Postfix(Pawn recipient, Pawn ___pawn)
+            public static void Postfix(Pawn recipient, Pawn ___pawn, bool __result)
             {
+                if (__result && recipient != null && ___pawn != null)
+                {
+                    KnowledgeUtility.TryShareKnowledge(___pawn, recipient);
+                }
                 bool recipientXenomorph = XMTUtility.IsXenomorph(recipient);
                 bool initiatorXenomorph = XMTUtility.IsXenomorph(___pawn);
                 if ((!recipientXenomorph && !initiatorXenomorph) || (recipientXenomorph && initiatorXenomorph))

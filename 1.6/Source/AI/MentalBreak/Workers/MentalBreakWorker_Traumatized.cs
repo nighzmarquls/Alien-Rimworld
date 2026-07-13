@@ -16,12 +16,12 @@ namespace Xenomorphtype
             CompPawnInfo info = pawn.Info();
             if (info != null)
             {
-                if(info.IsObsessed())
+                if(KnowledgeUtility.IsObsessed(pawn))
                 {
                     return false;
                 }
 
-                if(info.TotalHorrorTrauma() > 1f && XMTHiveUtility.XenosOnMap(pawn.Map))
+                if(KnowledgeUtility.GetTrauma(pawn) > 1f && XMTHiveUtility.XenosOnMap(pawn.Map))
                 {
                     return base.BreakCanOccur(pawn);
                 }

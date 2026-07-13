@@ -12,8 +12,6 @@ namespace Xenomorphtype
             DefOfHelper.EnsureInitializedInCtor(typeof(XenoStoryDefOf));
         }
 
-        public static XMT_BackstorySet XMT_ObsessedBackstories;
-
         public static AlienBackstoryDef StarbeastChildDeveloped10;
         public static AlienBackstoryDef StarbeastChildPremature15;
         public static AlienBackstoryDef StarbeastChildAlone16;

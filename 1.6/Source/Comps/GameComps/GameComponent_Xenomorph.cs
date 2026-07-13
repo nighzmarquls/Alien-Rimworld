@@ -195,7 +195,7 @@ namespace Xenomorphtype
                 }
             }
 
-            GameVictoryUtility.ShowCredits(GameVictoryUtility.MakeEndCredits("XMT_GameOverXenoformedIntro".Translate(), "XMT_GameOverXenoformedEnding".Translate(), stringBuilder.ToString(), "XMT_GameOverChildren", list), SongDefOf.EndCreditsSong, exitToMainMenu: true, 2.5f);
+            GameVictoryUtility.ShowCredits(GameVictoryUtility.MakeEndCredits("XMT_GameOverXenoformedIntro".Translate(), "XMT_GameOverXenoformedEnding".Translate(), stringBuilder.ToString(), "XMT_GameOverChildren", list), SongDefOf.EndCreditsSong, exitToMainMenu: false, 2.5f);
         }
 
         public override void GameComponentUpdate()
@@ -793,6 +793,20 @@ namespace Xenomorphtype
             if (XMTSettings.LogWorld)
             {
                 Log.Message("Adjusting Xenoforming for " + Ovomorph + " leaving the map. total: " + _xenoforming);
+            }
+            EvaluateXenoforming();
+        }
+
+        public void ReleaseStoredOvomorphsOnWorld(int count)
+        {
+            if (count <= 0)
+            {
+                return;
+            }
+            _xenoforming = Mathf.Max(_xenoforming, Mathf.Min(OvomorphSaturationLimit, _xenoforming + OvomorphImpact * count));
+            if (XMTSettings.LogWorld)
+            {
+                Log.Message("Adjusting xenoforming for " + count + " stored ovomorphs released on the world. Total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }

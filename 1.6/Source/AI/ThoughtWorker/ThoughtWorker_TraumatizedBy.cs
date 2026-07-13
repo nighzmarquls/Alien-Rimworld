@@ -35,12 +35,12 @@ namespace Xenomorphtype
 
             CompPawnInfo info = p.Info();
 
-            if(info.IsObsessed())
+            if(KnowledgeUtility.IsObsessed(p))
             {
                 return false;
             }
 
-            float Awareness = info.HorrorAwareness;
+            float Awareness = KnowledgeUtility.GetTrauma(p);
 
             if (Awareness <= 0)
             {
@@ -49,25 +49,19 @@ namespace Xenomorphtype
 
             if (XMTUtility.IsXenomorph(other))
             {
-                if (Awareness > 0f)
-                {
-                    return ThoughtState.ActiveAtStage(0);
-                }
-
-                if (Awareness >= 0.25f)
-                {
-                    return ThoughtState.ActiveAtStage(1);
-                }
-
-                if (Awareness >= 0.5f)
-                {
-                    return ThoughtState.ActiveAtStage(2);
-                }
-
                 if (Awareness >= 0.75f)
                 {
                     return ThoughtState.ActiveAtStage(3);
                 }
+                if (Awareness >= 0.5f)
+                {
+                    return ThoughtState.ActiveAtStage(2);
+                }
+                if (Awareness >= 0.25f)
+                {
+                    return ThoughtState.ActiveAtStage(1);
+                }
+                return ThoughtState.ActiveAtStage(0);
             }
 
             return ThoughtState.Inactive;

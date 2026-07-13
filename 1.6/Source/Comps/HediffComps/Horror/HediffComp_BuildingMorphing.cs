@@ -67,7 +67,7 @@ namespace Xenomorphtype
         {
             base.CompTended(quality, maxQuality, batchPosition);
 
-            bool XenomorphTending = XMTUtility.WitnessHorror(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.1f, 1f);
+            bool XenomorphTending = XMTUtility.WitnessHorror(parent.pawn.PositionHeld, parent.pawn.MapHeld, 0.1f, 1f, knowledgeProfile: Props.tendKnowledgeProfile);
 
             if (XenomorphTending)
             {
@@ -178,6 +178,7 @@ namespace Xenomorphtype
 
         public BodyTypeDef forcedBodyType = null;
         public float ApparantMorphingSeverity = 0.5f;
+        public KnowledgeProfileDef tendKnowledgeProfile;
         public HediffCompProperties_BuildingMorphing()
         {
             compClass = typeof(HediffComp_BuildingMorphing);

@@ -313,6 +313,31 @@
 	
 	<XMT_Info_Psychic>Is haunted by strange whispers just outside of legibility. \n</XMT_Info_Psychic>
 	<XMT_Info_Psychic_Obsessed>Hears beautiful voices whispering, calling out. \n</XMT_Info_Psychic_Obsessed>
+
+	<XMT_Info_Informed>cryptimorph informed</XMT_Info_Informed>
+	<XMT_Trauma_Concerned>concerned</XMT_Trauma_Concerned>
+	<XMT_Trauma_Anxious>anxious</XMT_Trauma_Anxious>
+	<XMT_Trauma_Paranoid>paranoid</XMT_Trauma_Paranoid>
+	<XMT_Trauma_Traumatized>traumatized</XMT_Trauma_Traumatized>
+	<XMT_Obsession_Intrigued>intrigued</XMT_Obsession_Intrigued>
+	<XMT_Obsession_Fascinated>fascinated</XMT_Obsession_Fascinated>
+	<XMT_Obsession_Obsessed>obsessed</XMT_Obsession_Obsessed>
+	<XMT_Obsession_Enthralled>enthralled</XMT_Obsession_Enthralled>
+	<XMT_KnowledgeLevel_Vague>vague awareness</XMT_KnowledgeLevel_Vague>
+	<XMT_KnowledgeLevel_Basic>basic knowledge</XMT_KnowledgeLevel_Basic>
+	<XMT_KnowledgeLevel_Practical>practical knowledge</XMT_KnowledgeLevel_Practical>
+	<XMT_KnowledgeLevel_Thorough>thorough knowledge</XMT_KnowledgeLevel_Thorough>
+	<XMT_KnowledgeLevel_Complete>complete knowledge</XMT_KnowledgeLevel_Complete>
+	<XMT_Knowledge_Ovomorph_Learned>Has {0} of ovomorphs and their role in the cryptimorph lifecycle. \n</XMT_Knowledge_Ovomorph_Learned>
+	<XMT_Knowledge_Ovomorph_Experienced>Has {0} of ovomorphs through direct experience. \n</XMT_Knowledge_Ovomorph_Experienced>
+	<XMT_Knowledge_Larva_Learned>Has {0} of cryptimorph larvae, implantation, and the danger of close contact. \n</XMT_Knowledge_Larva_Learned>
+	<XMT_Knowledge_Larva_Experienced>Has {0} of cryptimorph larvae and implantation through direct experience. \n</XMT_Knowledge_Larva_Experienced>
+	<XMT_Knowledge_Adult_Learned>Has {0} of adult cryptimorph behavior and danger. \n</XMT_Knowledge_Adult_Learned>
+	<XMT_Knowledge_Adult_Experienced>Has {0} of adult cryptimorphs through direct encounters. \n</XMT_Knowledge_Adult_Experienced>
+	<XMT_Knowledge_Acid_Learned>Has {0} of cryptimorph acid blood and safe handling precautions. \n</XMT_Knowledge_Acid_Learned>
+	<XMT_Knowledge_Acid_Experienced>Has {0} of acid blood through direct exposure. \n</XMT_Knowledge_Acid_Experienced>
+	<XMT_Knowledge_Psychic_Learned>Has {0} of cryptimorph psychic influence. \n</XMT_Knowledge_Psychic_Learned>
+	<XMT_Knowledge_Psychic_Experienced>Recognizes cryptimorph psychic influence through direct experience. \n</XMT_Knowledge_Psychic_Experienced>
 	
 	<XMT_Info_Error>Removing the info hediff does not do anything cheater!</XMT_Info_Error>
 	
@@ -428,6 +453,20 @@
 	<XMT_SettingsPercent>{0}%</XMT_SettingsPercent>
 	<XMT_SettingsPercentChance>{0}% chance</XMT_SettingsPercentChance>
 	<XMT_SettingsPercentEfficient>{0}% efficient</XMT_SettingsPercentEfficient>
+	<XMT_OvomorphStock>Ovomorph stock</XMT_OvomorphStock>
+	<XMT_OvomorphStockTooltip>Stored: {0} / {1}\nBody size: {2}\nNext egg: {3}\nNutrition per egg: {4}\nSelected type: {5}\nStatus: {6}\nAutolay: {7}</XMT_OvomorphStockTooltip>
+	<XMT_OvomorphStockProducing>Producing</XMT_OvomorphStockProducing>
+	<XMT_OvomorphStockStarving>Production halted: starving</XMT_OvomorphStockStarving>
+	<XMT_OvomorphStockFull>Stockpile full</XMT_OvomorphStockFull>
+	<XMT_OvomorphStockNeedsFood>Waiting for nutrition</XMT_OvomorphStockNeedsFood>
+	<XMT_AutoLayOvomorphs>Autolay ovomorphs</XMT_AutoLayOvomorphs>
+	<XMT_AutoLayOvomorphsDesc>Automatically lay the selected ovomorph type whenever the stockpile fills.</XMT_AutoLayOvomorphsDesc>
+	<XMT_MassLayOvomorphs>Mass lay ovomorphs</XMT_MassLayOvomorphs>
+	<XMT_MassLayOvomorphsDesc>Immediately lay up to {0} mature ovomorphs of the selected type around the queen.</XMT_MassLayOvomorphsDesc>
+	<XMT_NoStoredOvomorphs>No stored ovomorphs.</XMT_NoStoredOvomorphs>
+	<XMT_MassLayStopped>Laid {0} ovomorphs before stopping: {1}</XMT_MassLayStopped>
+	<XMT_MassLayComplete>Laid {0} ovomorphs.</XMT_MassLayComplete>
+	<XMT_OvomorphOverflowLost>{0} stored ovomorphs could not be laid and were lost.</XMT_OvomorphOverflowLost>
 	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>

@@ -314,6 +314,21 @@
 			<li>Evo_MechanoidGestation</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
+	
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_IntegratedEggSac</defName>
+		<label>Integrated Egg Sac</label>
+		<evoPointCost>4</evoPointCost>
+		<description>The ovipositor sack fuses into the queen's body, preparing continuous egg production without full immobility.</description>
+		<evolutionHediff>XMT_HyperFertility</evolutionHediff>
+		<targetBodyPart>Pelvis</targetBodyPart>
+		<replaces>
+			<li>Evo_OvoThrone</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_OvoThrone</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
 <!--
 	
 
@@ -361,19 +376,6 @@
 		</replaces>
 		<prerequisites>
 			<li>Evo_FierceCrest</li>
-		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
-
-	<Xenomorphtype.RoyalEvolutionDef>
-		<defName>Evo_IntegratedEggSac</defName>
-		<label>Integrated Egg Sac</label>
-		<evoPointCost>4</evoPointCost>
-		<description>The ovipositor sack fuses into the queen's body, preparing continuous egg production without full immobility.</description>
-		<replaces>
-			<li>Evo_OvoThrone</li>
-		</replaces>
-		<prerequisites>
-			<li>Evo_OvoThrone</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 

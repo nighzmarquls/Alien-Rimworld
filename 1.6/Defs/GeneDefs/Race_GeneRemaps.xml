@@ -18,6 +18,11 @@
 				<targetGeneDef>XMT_Gene_OvomorphSpew</targetGeneDef>
 				<replacementGeneDef>XMT_Egg_Spew</replacementGeneDef>
 			</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>XenogermReimplanter</targetGeneDef>
+				<replacementGeneDef>XMT_XenogermReimplanter</replacementGeneDef>
+			</li>
 		</geneRemaps>
 	</Xenomorphtype.XMT_GeneRemapListDef>
 	
@@ -38,6 +43,11 @@
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>XMT_Egg_Spew</targetGeneDef>
 				<replacementGeneDef>XMT_Gene_OvomorphSpew</replacementGeneDef>
+			</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>XenogermReimplanter</targetGeneDef>
+				<replacementGeneDef>XMT_XenogermReimplanter</replacementGeneDef>
 			</li>
 		</geneRemaps>
 	</Xenomorphtype.XMT_GeneRemapListDef>
@@ -60,6 +70,10 @@
 			<li>
 				<hediff>XMT_Enthroned</hediff>
 				<factor>0.25</factor>
+			</li>
+			<li>
+				<evolution>Evo_IntegratedEggSac</evolution>
+				<factor>0.125</factor>
 			</li>
 		</costModifiers>
 	</Xenomorphtype.XMT_OvomorphLayCostModifierListDef>

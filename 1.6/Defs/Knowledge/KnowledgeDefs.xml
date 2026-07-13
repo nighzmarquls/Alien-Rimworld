@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+<!--
+	*** Example template of Knowledge Modifier ***
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName></defName>
+		*** ONLY USE ONE OF THESE AT A TIME ***
+		<backstory></backstory> 
+		<precept></precept>
+		<trait></trait>
+		<gene></gene>
+		<hediff></hediff>
+		*** USE ONLY IF USING A TRAIT THAT HAS DEGREES ***
+		<traitDegree></traitDegree> 
+		*** OPTIONAL ***
+		<obsessionOffset>0</obsessionOffset>
+		<obsessionResistance>0</obsessionResistance>
+		<traumaGainFactor>0</traumaGainFactor>
+		<traumaTriggerFactor>0</traumaTriggerFactor>
+		<traumaRecoveryFactor>0</traumaRecoveryFactor>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>0</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>0</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>0</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>0</weight>
+			</li>
+		</learnedKnowledge>
+		<experiencedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>0</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>0</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>0</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>0</weight>
+			</li>
+		</experiencedKnowledge>
+	</Xenomorphtype.KnowledgeModifierDef>
+-->
+	<Xenomorphtype.KnowledgeCategoryDef>
+		<defName>XMT_Knowledge_Ovomorph</defName>
+		<label>ovomorph lifecycle</label>
+		<learnedDescriptionKey>XMT_Knowledge_Ovomorph_Learned</learnedDescriptionKey>
+		<experiencedDescriptionKey>XMT_Knowledge_Ovomorph_Experienced</experiencedDescriptionKey>
+		<obsessedDescriptionKey>XMT_Info_Ovomorph_Obsessed</obsessedDescriptionKey>
+	</Xenomorphtype.KnowledgeCategoryDef>
+	
+	<Xenomorphtype.KnowledgeCategoryDef>
+		<defName>XMT_Knowledge_Larva</defName>
+		<label>larvae and implantation</label>
+		<learnedDescriptionKey>XMT_Knowledge_Larva_Learned</learnedDescriptionKey>
+		<experiencedDescriptionKey>XMT_Knowledge_Larva_Experienced</experiencedDescriptionKey>
+		<obsessedDescriptionKey>XMT_Info_Larva_Obsessed</obsessedDescriptionKey>
+	</Xenomorphtype.KnowledgeCategoryDef>
+	
+	<Xenomorphtype.KnowledgeCategoryDef>
+		<defName>XMT_Knowledge_Adult</defName>
+		<label>adult cryptimorphs</label>
+		<learnedDescriptionKey>XMT_Knowledge_Adult_Learned</learnedDescriptionKey>
+		<experiencedDescriptionKey>XMT_Knowledge_Adult_Experienced</experiencedDescriptionKey>
+		<obsessedDescriptionKey>XMT_Info_Horror_Obsessed</obsessedDescriptionKey>
+	</Xenomorphtype.KnowledgeCategoryDef>
+	
+	<Xenomorphtype.KnowledgeCategoryDef>
+		<defName>XMT_Knowledge_Acid</defName>
+		<label>acid blood</label>
+		<learnedDescriptionKey>XMT_Knowledge_Acid_Learned</learnedDescriptionKey>
+		<experiencedDescriptionKey>XMT_Knowledge_Acid_Experienced</experiencedDescriptionKey>
+		<obsessedDescriptionKey>XMT_Info_Acid_Obsessed</obsessedDescriptionKey>
+	</Xenomorphtype.KnowledgeCategoryDef>
+	
+	<Xenomorphtype.KnowledgeCategoryDef>
+		<defName>XMT_Knowledge_Psychic</defName>
+		<label>psychic influence</label>
+		<learnedEffectiveness>0.25</learnedEffectiveness>
+		<learnedDescriptionKey>XMT_Knowledge_Psychic_Learned</learnedDescriptionKey>
+		<experiencedDescriptionKey>XMT_Knowledge_Psychic_Experienced</experiencedDescriptionKey>
+		<obsessedDescriptionKey>XMT_Info_Psychic_Obsessed</obsessedDescriptionKey>
+	</Xenomorphtype.KnowledgeCategoryDef>
+	
+	<Xenomorphtype.KnowledgeProfileDef>
+		<defName>XMT_Profile_Ovomorph</defName>
+		<knowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+		</knowledge>
+	</Xenomorphtype.KnowledgeProfileDef>
+	
+	<Xenomorphtype.KnowledgeProfileDef>
+		<defName>XMT_Profile_Larva</defName>
+		<knowledge>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>0.35</weight>
+			</li>
+		</knowledge>
+	</Xenomorphtype.KnowledgeProfileDef>
+	
+	<Xenomorphtype.KnowledgeProfileDef>
+		<defName>XMT_Profile_Adult</defName>
+		<knowledge>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>0.25</weight>
+			</li>
+		</knowledge>
+	</Xenomorphtype.KnowledgeProfileDef>
+	
+	<Xenomorphtype.KnowledgeProfileDef>
+		<defName>XMT_Profile_Acid</defName>
+		<knowledge>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>1</weight>
+			</li>
+		</knowledge>
+	</Xenomorphtype.KnowledgeProfileDef>
+	
+	<Xenomorphtype.KnowledgeProfileDef>
+		<defName>XMT_Profile_Psychic</defName>
+		<acquisition>PsychicExposure</acquisition>
+		<knowledge>
+			<li>
+				<category>XMT_Knowledge_Psychic</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>0.5</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>0.5</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>0.5</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>0.5</weight>
+			</li>
+		</knowledge>
+	</Xenomorphtype.KnowledgeProfileDef>
+	
+	
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Greedy</defName>
+		<trait>Greedy</trait>
+		<obsessionOffset>0.5</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Survivor</defName>
+		<trait>XMT_Survivor</trait>
+		<experiencedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>1</weight>
+			</li>
+		</experiencedKnowledge>
+		<traumaGainFactor>2</traumaGainFactor>
+		<traumaTriggerFactor>2</traumaTriggerFactor>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef MayRequire="Ludeon.RimWorld.Ideology">
+		<defName>XMT_KM_BiomorphWorship</defName>
+		<precept>XMT_Biomorph_Worship</precept>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>0.25</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>0.25</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>0.25</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>0.25</weight>
+			</li>
+		</learnedKnowledge>
+		<obsessionOffset>2</obsessionOffset>
+		<traumaGainFactor>0.25</traumaGainFactor>
+		<traumaTriggerFactor>0.25</traumaTriggerFactor>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef MayRequire="Ludeon.RimWorld.Ideology">
+		<defName>XMT_KM_BiomorphStudy</defName>
+		<precept>XMT_Biomorph_Study</precept>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>1</weight>
+			</li>
+		</learnedKnowledge>
+		<obsessionOffset>1</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef MayRequire="Ludeon.RimWorld.Ideology">
+		<defName>XMT_KM_BiomorphAbhorrent</defName>
+		<precept>XMT_Biomorph_Abhorrent</precept>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>0.1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>0.1</weight>
+			</li>
+		</learnedKnowledge>
+		<obsessionOffset>-2</obsessionOffset>
+		<traumaGainFactor>1.25</traumaGainFactor>
+		<traumaTriggerFactor>1.25</traumaTriggerFactor>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef MayRequire="Ludeon.RimWorld.Ideology">
+		<defName>XMT_KM_ParasiteReincarnation</defName>
+		<precept>XMT_Parasite_Reincarnation</precept>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>1</weight>
+			</li>
+		</learnedKnowledge>
+		<obsessionOffset>2</obsessionOffset>
+		<traumaGainFactor>0.1</traumaGainFactor>
+		<traumaTriggerFactor>0.1</traumaTriggerFactor>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef MayRequire="Ludeon.RimWorld.Ideology">
+		<defName>XMT_KM_ParasiteRevered</defName>
+		<precept>XMT_Parasite_Revered</precept>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+		</learnedKnowledge>
+		<obsessionOffset>1</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef MayRequire="Ludeon.RimWorld.Ideology">
+		<defName>XMT_KM_ParasiteAbhorrent</defName>
+		<precept>XMT_Parasite_Abhorrent</precept>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+		</learnedKnowledge>
+		<obsessionOffset>-2</obsessionOffset>
+		<traumaGainFactor>1.5</traumaGainFactor>
+		<traumaTriggerFactor>1.5</traumaTriggerFactor>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef MayRequire="Ludeon.RimWorld.Ideology">
+		<defName>XMT_KM_Biomorph_Hunt</defName>
+		<precept>XMT_Biomorph_Hunt</precept>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>1</weight>
+			</li>
+		</learnedKnowledge>
+		<traumaGainFactor>0.25</traumaGainFactor>
+		<traumaTriggerFactor>0.25</traumaTriggerFactor>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_SpaceMerchant97</defName>
+		<backstory>SpaceMerchant97</backstory>
+		<obsessionOffset>0.1</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_BusinessGangster58</defName>
+		<backstory>BusinessGangster58</backstory>
+		<obsessionOffset>0.25</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_UrbworldEntrepreneur14</defName>
+		<backstory>UrbworldEntrepreneur14</backstory>
+		<obsessionOffset>0.5</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_MafiaBoss17</defName>
+		<backstory>MafiaBoss17</backstory>
+		<obsessionOffset>0.1</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_Taxonomist0</defName>
+		<backstory>Taxonomist0</backstory>
+		<obsessionOffset>0.1</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_ConArtist80</defName>
+		<backstory>ConArtist80</backstory>
+		<obsessionOffset>0.1</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_CorporateManager76</defName>
+		<backstory>CorporateManager76</backstory>
+		<obsessionOffset>0.25</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_MissionAdjunct</defName>
+		<backstory>XMT_AdultMissionAdjunct03</backstory>
+		<obsessionOffset>1</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+	
+	<Xenomorphtype.KnowledgeModifierDef>
+		<defName>XMT_KM_Backstory_PhantasmagoricalArtist</defName>
+		<backstory>XMT_PhantasmagoricalArtist04</backstory>
+		<learnedKnowledge>
+			<li>
+				<category>XMT_Knowledge_Ovomorph</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Larva</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Adult</category>
+				<weight>1</weight>
+			</li>
+			<li>
+				<category>XMT_Knowledge_Acid</category>
+				<weight>1</weight>
+			</li>
+		</learnedKnowledge>
+		<obsessionOffset>10</obsessionOffset>
+	</Xenomorphtype.KnowledgeModifierDef>
+</Defs>

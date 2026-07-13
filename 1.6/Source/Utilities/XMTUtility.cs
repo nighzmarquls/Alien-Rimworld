@@ -886,7 +886,7 @@ namespace Xenomorphtype
         }
 
 
-        public static bool WitnessAcid(IntVec3 positionHeld, Map mapHeld, float strength, out float bonus, float maxAwareness = 1.0f, float radius = 1.5f)
+        public static bool WitnessAcid(IntVec3 positionHeld, Map mapHeld, float strength, out float bonus, float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
@@ -904,20 +904,20 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            float thisAwareness = info.AcidAwareness;
+                            float thisAwareness = KnowledgeUtility.GetEffectiveKnowledge(witness, KnowledgeDefOf.XMT_Knowledge_Acid);
                             if (thisAwareness > bonus)
                             {
                                 bonus = thisAwareness;
                             }
                             
-                            info.WitnessAcidHorror(strength, maxAwareness);
+                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Acid, strength, source: positionHeld.GetFirstPawn(mapHeld));
                         }
                     }
                 }
             }
             return XenomorphWitness;
         }
-        public static bool WitnessAcid(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
+        public static bool WitnessAcid(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
         {
             if(mapHeld == null)
             {
@@ -940,7 +940,7 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            info.WitnessAcidHorror(strength, maxAwareness);
+                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Acid, strength, source: positionHeld.GetFirstPawn(mapHeld));
                             ResearchUtility.ProgressAcidTech(10, witness);
                         }
                     }
@@ -948,7 +948,7 @@ namespace Xenomorphtype
             }
             return XenomorphWitness;
         }
-        public static bool WitnessHorror(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
+        public static bool WitnessHorror(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
@@ -967,7 +967,7 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            info.WitnessHorror(strength, maxAwareness);
+                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Adult, strength, source: horror);
                             ResearchUtility.ProgressCryptobioTech(10, witness);
                             if (horror != null)
                             {
@@ -979,7 +979,7 @@ namespace Xenomorphtype
             }
             return XenomorphWitness;
         }
-        public static bool WitnessOvomorph(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
+        public static bool WitnessOvomorph(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
@@ -1000,7 +1000,7 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            info.WitnessOvomorphHorror(strength, maxAwareness);
+                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Ovomorph, strength, source: horror);
                             ResearchUtility.ProgressCryptobioTech(10, witness);
                             if (horror != null)
                             {
@@ -1014,7 +1014,7 @@ namespace Xenomorphtype
             return XenomorphWitness;
         }
 
-        public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f)
+        public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
@@ -1040,7 +1040,7 @@ namespace Xenomorphtype
                         ResearchUtility.ProgressCryptobioTech(10, witness);
                         if (info != null)
                         {
-                            info.WitnessLarvaHorror(strength, maxAwareness);
+                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Larva, strength, source: horror);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1051,7 +1051,7 @@ namespace Xenomorphtype
             }
             return XenomorphWitness;
         }
-        public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, out float bonus, float maxAwareness = 1.0f, float radius = 1.5f)
+        public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, out float bonus, float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
         {
             bonus = 0;
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
@@ -1083,12 +1083,12 @@ namespace Xenomorphtype
                         ResearchUtility.ProgressCryptobioTech(1, witness);
                         if (info != null)
                         {
-                            float thisAwareness = info.LarvaAwareness;
+                            float thisAwareness = KnowledgeUtility.GetEffectiveKnowledge(witness, KnowledgeDefOf.XMT_Knowledge_Larva);
                             if (thisAwareness > bonus)
                             {
                                 bonus = thisAwareness;
                             }
-                            info.WitnessLarvaHorror(strength, maxAwareness);
+                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Larva, strength, source: horror);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1760,7 +1760,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                if (witnessInfo.IsObsessed(out float awareness))
+                if (KnowledgeUtility.IsObsessed(witness, out float awareness))
                 {
                     return;
                 }
@@ -1939,7 +1939,7 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if(info.IsObsessed())
+                if(KnowledgeUtility.IsObsessed(observer))
                 {
                     return false;
                 }
@@ -1949,7 +1949,7 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                return info.TotalHorrorAwareness() > XMTSettings.MinAwarenessAutoAggression || observer.Drafted;
+                return KnowledgeUtility.GetEffectiveKnowledge(observer, KnowledgeDefOf.XMT_Knowledge_Adult) > XMTSettings.MinAwarenessAutoAggression || observer.Drafted;
 
             }
             return false;

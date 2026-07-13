@@ -47,12 +47,12 @@ namespace Xenomorphtype
 
         public void TrySplashAcid(float severity)
         {
-            AcidUtility.TrySplashAcid(parent, severity, Props.splashRange, Props.cells, false, Props.appliedHediff, Props.damageToSeverity, Props.damage);
+            AcidUtility.TrySplashAcid(parent, severity, Props.splashRange, Props.cells, false, Props.appliedHediff, Props.damageToSeverity, Props.damage, Props.knowledgeProfile);
         }
 
         public void CreateAcidExplosion(float radius)
         {
-            AcidUtility.TrySplashAcid(parent, 1, Props.splashRange, Props.cells, false, Props.appliedHediff, Props.damageToSeverity, Props.damage);
+            AcidUtility.TrySplashAcid(parent, 1, Props.splashRange, Props.cells, false, Props.appliedHediff, Props.damageToSeverity, Props.damage, Props.knowledgeProfile);
         }
         public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
         {
@@ -97,7 +97,7 @@ namespace Xenomorphtype
                     DamageBiter(dinfo.Instigator as Pawn);
                 }
 
-                AcidUtility.TrySplashAcid(parent,GetBloodFullness(), Props.splashRange,Props.cells,true, Props.appliedHediff, Props.damageToSeverity, Props.damage);
+                AcidUtility.TrySplashAcid(parent,GetBloodFullness(), Props.splashRange,Props.cells,true, Props.appliedHediff, Props.damageToSeverity, Props.damage, Props.knowledgeProfile);
             }
 
             if(totalDamageDealt < 4)
@@ -121,7 +121,7 @@ namespace Xenomorphtype
                 float bloodfullness = GetBloodFullness();
 
                 AcidUtility.TryDamageAdjacentWeapon(parent, dinfo.Instigator, Props.damage + totalDamageDealt);
-                AcidUtility.TrySplashAcidFromWound(parent, bloodfullness, totalDamageDealt, Props.splashRange, Props.cells, Props.appliedHediff, Props.damageToSeverity, Props.damage);
+                AcidUtility.TrySplashAcidFromWound(parent, bloodfullness, totalDamageDealt, Props.splashRange, Props.cells, Props.appliedHediff, Props.damageToSeverity, Props.damage, Props.knowledgeProfile);
             }
         }
 
@@ -141,6 +141,7 @@ namespace Xenomorphtype
         public float bloodLossSeverity = 0.05f;
         public HediffDef appliedHediff;
         public ThingDef  acidFilth = null;
+        public KnowledgeProfileDef knowledgeProfile;
         public CompAcidBloodProperties()
         {
             this.compClass = typeof(CompAcidBlood);

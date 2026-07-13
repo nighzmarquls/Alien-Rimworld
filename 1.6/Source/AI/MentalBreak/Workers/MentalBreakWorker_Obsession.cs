@@ -16,7 +16,7 @@ namespace Xenomorphtype
             CompPawnInfo info = pawn.Info();
             if (info != null)
             {
-                if(info.IsObsessed())
+                if(KnowledgeUtility.IsObsessed(pawn))
                 {
                     return base.BreakCanOccur(pawn);
                 }

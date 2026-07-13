@@ -41,12 +41,12 @@ namespace Xenomorphtype
                 CompPawnInfo info = actor.Info();
                 if (info != null)
                 {
-                    if (info.IsObsessed())
+                    if (KnowledgeUtility.IsObsessed(actor))
                     {
                         return;
                     }
 
-                    float totalTrauma = info.TotalHorrorTrauma();
+                    float totalTrauma = KnowledgeUtility.GetTrauma(actor);
 
                     if (totalTrauma <= 0)
                     {

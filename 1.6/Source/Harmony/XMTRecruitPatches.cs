@@ -38,8 +38,8 @@ namespace Xenomorphtype
 
                 if(pawn.Info() is CompPawnInfo info)
                 {
-                    float awareness = info.TotalHorrorAwareness();
-                    if (info.IsObsessed() || awareness > 0)
+                    float awareness = KnowledgeUtility.GetTotalEffectiveKnowledge(pawn);
+                    if (KnowledgeUtility.IsObsessed(pawn) || awareness > 0)
                     {
                         ResearchUtility.ProgressCryptobioTech(10 + Mathf.FloorToInt(awareness*500), pawn);
                     }

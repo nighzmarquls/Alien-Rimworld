@@ -55,7 +55,7 @@ namespace Xenomorphtype
                                 relief += 4;
                             }
 
-                            info.GainRelief(relief);
+                            KnowledgeUtility.RelieveTrauma(killer, relief);
 
                         }
                     }

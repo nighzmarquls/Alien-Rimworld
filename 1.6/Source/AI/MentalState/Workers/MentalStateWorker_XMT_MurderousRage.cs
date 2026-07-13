@@ -14,7 +14,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (XMTUtility.IsXenomorph(pawn) || pawn.Info().IsObsessed())
+            if (XMTUtility.IsXenomorph(pawn) || KnowledgeUtility.IsObsessed(pawn))
             {
                 return XMTMentalStateUtility.FindXenoEnemyToKill(pawn) != null;
             }

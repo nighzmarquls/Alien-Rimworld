@@ -12,8 +12,27 @@
 			<li>XMT_Fertile</li>
 			<li>XMT_Immunity_Weak</li>
 			<li>XMT_ViolenceDisabled</li>
+			<li>XMT_XenogermReimplanter</li>
 		</genes>
 	</Xenomorphtype.XMT_GeneSetDef>
+
+	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_XenogermReimplanter</defName>
+		<label>gene implanter</label>
+		<labelShortAdj>reimplanter</labelShortAdj>
+		<description>Carriers of this gene can implant a copy of their xenogerm into another person through a somewhat gross-looking injector organ. Their own genetic material will then regrow very slowly. If they implant while their genes are regrowing, they will die. Germline genes will be unaffected.</description>
+		<iconPath>UI/Icons/Genes/Gene_XenogermReimplanter</iconPath>
+		<displayCategory>Archite</displayCategory>
+		<abilities>
+			<li>XMT_ReimplantXenogerm</li>
+		</abilities>
+		<descriptionHyperlinks>
+			<AbilityDef>XMT_ReimplantXenogerm</AbilityDef>
+		</descriptionHyperlinks>
+		<biostatCpx>3</biostatCpx>
+		<biostatMet>-3</biostatMet>
+		<biostatArc>1</biostatArc>
+	</GeneDef>
 	
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech" ParentName="LibidoBase">
 		<defName>XMT_Libido</defName>

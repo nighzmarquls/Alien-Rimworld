@@ -69,6 +69,7 @@ namespace Xenomorphtype
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_Values.Look(ref improperRemoval, "improperRemoval", true);
         }
     }
 }

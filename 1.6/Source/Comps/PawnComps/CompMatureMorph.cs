@@ -1303,7 +1303,7 @@ namespace Xenomorphtype
                 return true;
             }
 
-            XMTUtility.WitnessHorror(target.PositionHeld, target.MapHeld, 0.25f);
+            XMTUtility.WitnessHorror(target.PositionHeld, target.MapHeld, 0.25f, knowledgeProfile: Props.grabKnowledgeProfile);
 
             if (Parent.Faction != null && Parent.Faction != target.Faction && !Parent.IsPsychologicallyInvisible())
             {
@@ -1375,7 +1375,7 @@ namespace Xenomorphtype
 
             if (info != null)
             {
-                XMTUtility.WitnessHorror(target.PositionHeld, target.MapHeld, 0.1f);
+                XMTUtility.WitnessHorror(target.PositionHeld, target.MapHeld, 0.1f, knowledgeProfile: Props.contactKnowledgeProfile);
                 if(info.IsObsessed())
                 {
                     likesIt = true;
@@ -2462,6 +2462,8 @@ namespace Xenomorphtype
         public HediffDef    larderHediff;
         public HediffDef    maturingHediff;
         public ThingDef     hibernationCocoon;
+        public KnowledgeProfileDef grabKnowledgeProfile;
+        public KnowledgeProfileDef contactKnowledgeProfile;
         public CompMatureMorphProperties()
         {
             this.compClass = typeof(CompMatureMorph);

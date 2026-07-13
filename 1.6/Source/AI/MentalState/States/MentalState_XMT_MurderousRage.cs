@@ -64,7 +64,7 @@ namespace Xenomorphtype
 
         protected virtual Thing FindTarget()
         {
-            if (XMTUtility.IsXenomorph(pawn) || pawn.Info().IsObsessed())
+            if (XMTUtility.IsXenomorph(pawn) || KnowledgeUtility.IsObsessed(pawn))
             {
                 return XMTMentalStateUtility.FindXenoEnemyToKill(pawn);
             }

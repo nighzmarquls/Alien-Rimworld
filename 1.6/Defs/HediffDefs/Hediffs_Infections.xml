@@ -153,6 +153,8 @@
     </stages>
     <comps>
 	    <li Class="Xenomorphtype.HediffCompProperties_EmbryoPregnancy">
+			<burstKnowledgeProfile>XMT_Profile_Adult</burstKnowledgeProfile>
+			<emergenceKnowledgeProfile>XMT_Profile_Adult</emergenceKnowledgeProfile>
 			<armMaturationRate>0.5</armMaturationRate>
 			<legMaturationRate>0.1</legMaturationRate>
 			<coreMaturationRate>1</coreMaturationRate>
@@ -160,7 +162,9 @@
 			<burstDamage>5</burstDamage>
 		    <severityPerDay>1</severityPerDay>
 		</li>
-		<li Class="HediffCompProperties_SurgeryInspectable">
+		<li Class="Xenomorphtype.HediffCompProperties_SurgeryInspectableEmbryo">
+			<knowledgeProfile>XMT_Profile_Larva</knowledgeProfile>
+			<knowledgeMagnitude>0.25</knowledgeMagnitude>
 			<surgicalDetectionDesc>{PAWN_nameDef} has a foreign body present in the torso.</surgicalDetectionDesc> 
 		</li>
     </comps>
@@ -266,6 +270,7 @@
 			</hediffs>
 		</li>
 	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">
+			<tendKnowledgeProfile>XMT_Profile_Adult</tendKnowledgeProfile>
 			<MorphedBuilding>XMT_MeatballLarder</MorphedBuilding>
 			<SeverityPerDay>0.25</SeverityPerDay>
 			<DeathTriggerSeverity>0.25</DeathTriggerSeverity>
@@ -341,6 +346,7 @@
 			</hediffs>
 		</li>
 	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">
+			<tendKnowledgeProfile>XMT_Profile_Adult</tendKnowledgeProfile>
 			<MorphedBuilding>XMT_Ovomorph</MorphedBuilding>
 			<SeverityPerDay>0.25</SeverityPerDay>
 			<DeathTriggerSeverity>0.75</DeathTriggerSeverity>

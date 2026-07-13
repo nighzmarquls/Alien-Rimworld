@@ -19,8 +19,8 @@ namespace Xenomorphtype
             {
                 return new List<DebugActionNode>
                 {
-                    new DebugActionNode("Apply mutation...", DebugActionType.Action, delegate { OpenMutationSetMenu(QueenMutationOperation.Add); }),
-                    new DebugActionNode("Remove mutation...", DebugActionType.Action, delegate { OpenMutationSetMenu(QueenMutationOperation.Remove); }),
+                    MutationOperationNode("Apply mutation...", QueenMutationOperation.Add),
+                    MutationOperationNode("Remove mutation...", QueenMutationOperation.Remove),
                     new DebugActionNode("Report mutation eligibility...", DebugActionType.Action, ReportMutationEligibility)
                 };
             };
@@ -28,103 +28,130 @@ namespace Xenomorphtype
             yield return root;
         }
 
-        private static void OpenMutationSetMenu(QueenMutationOperation operation)
+        private static DebugActionNode MutationOperationNode(string label, QueenMutationOperation operation)
         {
-            List<FloatMenuOption> options = MutationSets()
-                .Select(set =>
-                {
-                    XMT_MutationsHealthSet selectedSet = set;
-                    return new FloatMenuOption(BioUtility.LabelForMutationSet(selectedSet), delegate
-                    {
-                        OpenMutationMenu(selectedSet, operation);
-                    });
-                })
-                .ToList();
-
-            if (options.NullOrEmpty())
+            DebugActionNode node = new DebugActionNode(label, DebugActionType.Action, null);
+            node.childGetter = delegate
             {
-                Messages.Message("No mutation sets found.", MessageTypeDefOf.RejectInput, false);
-                return;
-            }
+                List<DebugActionNode> children = MutationSets()
+                    .Select(set => MutationSetNode(set, operation))
+                    .ToList();
 
-            Find.WindowStack.Add(new FloatMenu(options));
+                if (children.NullOrEmpty())
+                {
+                    children.Add(MessageNode("No mutation sets found.", "No mutation sets found."));
+                }
+
+                return children;
+            };
+
+            return node;
         }
 
-        private static void OpenMutationMenu(XMT_MutationsHealthSet set, QueenMutationOperation operation)
+        private static DebugActionNode MutationSetNode(XMT_MutationsHealthSet set, QueenMutationOperation operation)
         {
-            List<FloatMenuOption> options = BioUtility.AllMutationsForSet(set)
-                .OrderBy(mutation => mutation.displayOrder)
-                .ThenBy(BioUtility.LabelForMutation)
-                .ThenBy(mutation => mutation.horror.defName)
-                .Select(mutation =>
-                {
-                    MutationHealth selectedMutation = mutation;
-                    return new FloatMenuOption(BioUtility.LabelForMutation(selectedMutation), delegate
-                    {
-                        BeginPawnTargeting("Select pawn.", delegate (Pawn pawn)
-                        {
-                            if (operation == QueenMutationOperation.Add)
-                            {
-                                AcceptanceReport report = BioUtility.CanApplyMutation(pawn, selectedMutation);
-                                if (!report.Accepted)
-                                {
-                                    Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
-                                    return;
-                                }
-
-                                BioUtility.TryApplyMutation(pawn, selectedMutation, out Hediff _);
-                            }
-                            else
-                            {
-                                AcceptanceReport report = BioUtility.CanRemoveMutation(pawn, selectedMutation.horror);
-                                if (!report.Accepted)
-                                {
-                                    Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
-                                    return;
-                                }
-
-                                BioUtility.TryRemoveMutation(pawn, selectedMutation.horror, out Hediff _);
-                            }
-                        });
-                    });
-                })
-                .ToList();
-
-            if (options.NullOrEmpty())
+            DebugActionNode node = new DebugActionNode(BioUtility.LabelForMutationSet(set), DebugActionType.Action, null);
+            node.childGetter = delegate
             {
-                Messages.Message("No mutations found in " + set.defName + ".", MessageTypeDefOf.RejectInput, false);
+                List<DebugActionNode> children = BioUtility.AllMutationsForSet(set)
+                    .OrderBy(mutation => mutation.displayOrder)
+                    .ThenBy(BioUtility.LabelForMutation)
+                    .ThenBy(mutation => mutation.horror.defName)
+                    .Select(mutation => MutationNode(mutation, operation))
+                    .ToList();
+
+                if (children.NullOrEmpty())
+                {
+                    string message = "No mutations found in " + set.defName + ".";
+                    children.Add(MessageNode(message, message));
+                }
+
+                return children;
+            };
+
+            return node;
+        }
+
+        private static DebugActionNode MutationNode(MutationHealth mutation, QueenMutationOperation operation)
+        {
+            return new DebugActionNode(BioUtility.LabelForMutation(mutation), DebugActionType.Action, delegate
+            {
+                BeginPawnTargeting("Select pawn.", pawn => ExecuteMutationOperation(pawn, mutation, operation));
+            });
+        }
+
+        private static DebugActionNode MessageNode(string label, string message)
+        {
+            return new DebugActionNode(label, DebugActionType.Action, delegate
+            {
+                Messages.Message(message, MessageTypeDefOf.RejectInput, false);
+            });
+        }
+
+        private static void ExecuteMutationOperation(Pawn pawn, MutationHealth mutation, QueenMutationOperation operation)
+        {
+            if (operation == QueenMutationOperation.Add)
+            {
+                TryApplyMutation(pawn, mutation);
+            }
+            else
+            {
+                TryRemoveMutation(pawn, mutation);
+            }
+        }
+
+        private static void TryApplyMutation(Pawn pawn, MutationHealth mutation)
+        {
+            AcceptanceReport report = BioUtility.CanApplyMutation(pawn, mutation);
+            if (!report.Accepted)
+            {
+                Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
                 return;
             }
 
-            Find.WindowStack.Add(new FloatMenu(options));
+            BioUtility.TryApplyMutation(pawn, mutation, out Hediff _);
+        }
+
+        private static void TryRemoveMutation(Pawn pawn, MutationHealth mutation)
+        {
+            AcceptanceReport report = BioUtility.CanRemoveMutation(pawn, mutation.horror);
+            if (!report.Accepted)
+            {
+                Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            BioUtility.TryRemoveMutation(pawn, mutation.horror, out Hediff _);
         }
 
         private static void ReportMutationEligibility()
         {
-            BeginPawnTargeting("Select pawn.", delegate (Pawn pawn)
+            BeginPawnTargeting("Select pawn.", WriteMutationEligibilityReport);
+        }
+
+        private static void WriteMutationEligibilityReport(Pawn pawn)
+        {
+            List<string> lines = new List<string>();
+            foreach (XMT_MutationsHealthSet set in MutationSets())
             {
-                List<string> lines = new List<string>();
-                foreach (XMT_MutationsHealthSet set in MutationSets())
+                foreach (MutationHealth mutation in BioUtility.AllMutationsForSet(set).OrderBy(mutation => mutation.displayOrder).ThenBy(BioUtility.LabelForMutation))
                 {
-                    foreach (MutationHealth mutation in BioUtility.AllMutationsForSet(set).OrderBy(mutation => mutation.displayOrder).ThenBy(BioUtility.LabelForMutation))
-                    {
-                        AcceptanceReport apply = BioUtility.CanApplyMutation(pawn, mutation);
-                        AcceptanceReport remove = BioUtility.CanRemoveMutation(pawn, mutation.horror);
-                        lines.Add(BioUtility.LabelForMutationSet(set) + " / " + BioUtility.LabelForMutation(mutation)
-                            + " | apply: " + (apply.Accepted ? "valid" : apply.Reason)
-                            + " | remove: " + (remove.Accepted ? "valid" : remove.Reason));
-                    }
+                    AcceptanceReport apply = BioUtility.CanApplyMutation(pawn, mutation);
+                    AcceptanceReport remove = BioUtility.CanRemoveMutation(pawn, mutation.horror);
+                    lines.Add(BioUtility.LabelForMutationSet(set) + " / " + BioUtility.LabelForMutation(mutation)
+                        + " | apply: " + (apply.Accepted ? "valid" : apply.Reason)
+                        + " | remove: " + (remove.Accepted ? "valid" : remove.Reason));
                 }
+            }
 
-                string output = string.Join("\n", lines);
-                if (output.NullOrEmpty())
-                {
-                    output = "No mutation eligibility entries found.";
-                }
+            string output = string.Join("\n", lines);
+            if (output.NullOrEmpty())
+            {
+                output = "No mutation eligibility entries found.";
+            }
 
-                Log.Message("Mutation eligibility for " + pawn + ":\n" + output);
-                Messages.Message("Wrote mutation eligibility to log.", MessageTypeDefOf.TaskCompletion, false);
-            });
+            Log.Message("Mutation eligibility for " + pawn + ":\n" + output);
+            Messages.Message("Wrote mutation eligibility to log.", MessageTypeDefOf.TaskCompletion, false);
         }
 
         private static IEnumerable<XMT_MutationsHealthSet> MutationSets()

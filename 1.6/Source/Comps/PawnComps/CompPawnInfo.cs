@@ -2,6 +2,8 @@
 using RimWorld;
 using RimWorld.Planet;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using static AlienRace.AlienPartGenerator;
@@ -92,7 +94,7 @@ namespace Xenomorphtype
         float totalPheromone => LoverPheromone + FriendlyPheromone + ThreatPheromone;
         bool pheromonesPresent => LoverPheromone != 0 || FriendlyPheromone != 0 || ThreatPheromone != 0;
 
-        bool isAware => OvomorphAwareness != 0 || larvaAwareness != 0 || horrorAwareness != 0;
+        bool isAware => ParentPawn != null && KnowledgeUtility.GetAssessment(ParentPawn).categories.Values.Any(value => value.effective > 0f);
 
         // Xenomorph Naivety System
         float ovomorphAwareness = 0;
@@ -101,14 +103,32 @@ namespace Xenomorphtype
         float acidAwareness = 0;
         float psychicAwareness = 0;
         float obsession = 0;
-        float Obsession => obsession + TraitObsessionModifier();
+        List<PawnKnowledgeRecord> knowledgeRecords = new List<PawnKnowledgeRecord>();
+        float cryptimorphTrauma;
+        bool knowledgeMigrated;
+        float Obsession => ParentPawn == null ? obsession : KnowledgeUtility.GetAssessment(ParentPawn).obsessionPressure;
+        Pawn ParentPawn => parent as Pawn;
 
-        public float OvomorphAwareness => ovomorphAwareness + TraitAwarenessModifier() + IdeoReproductionModifier();
-        public float LarvaAwareness => larvaAwareness + TraitAwarenessModifier() + IdeoReproductionModifier();
-        public float HorrorAwareness => horrorAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
-        public float AcidAwareness => acidAwareness + TraitAwarenessModifier() + IdeoAdultModifier();
+        internal float RawTrauma { get => cryptimorphTrauma; set => cryptimorphTrauma = Mathf.Max(0f, value); }
+        internal float RawObsession { get => obsession; set => obsession = value; }
+        internal PawnKnowledgeRecord RawKnowledge(KnowledgeCategoryDef category, bool create = false)
+        {
+            if (category == null) return null;
+            knowledgeRecords ??= new List<PawnKnowledgeRecord>();
+            PawnKnowledgeRecord record = knowledgeRecords.FirstOrDefault(entry => entry.category == category);
+            if (record == null && create)
+            {
+                record = new PawnKnowledgeRecord { category = category };
+                knowledgeRecords.Add(record);
+            }
+            return record;
+        }
 
-        public float PsychicAwareness => psychicAwareness;
+        public float OvomorphAwareness => ParentPawn == null ? 0f : KnowledgeUtility.GetEffectiveKnowledge(ParentPawn, KnowledgeDefOf.XMT_Knowledge_Ovomorph);
+        public float LarvaAwareness => ParentPawn == null ? 0f : KnowledgeUtility.GetEffectiveKnowledge(ParentPawn, KnowledgeDefOf.XMT_Knowledge_Larva);
+        public float HorrorAwareness => ParentPawn == null ? 0f : KnowledgeUtility.GetEffectiveKnowledge(ParentPawn, KnowledgeDefOf.XMT_Knowledge_Adult);
+        public float AcidAwareness => ParentPawn == null ? 0f : KnowledgeUtility.GetEffectiveKnowledge(ParentPawn, KnowledgeDefOf.XMT_Knowledge_Acid);
+        public float PsychicAwareness => ParentPawn == null ? 0f : KnowledgeUtility.GetEffectiveKnowledge(ParentPawn, KnowledgeDefOf.XMT_Knowledge_Psychic);
 
         public override float GetStatFactor(StatDef stat)
         {
@@ -175,11 +195,6 @@ namespace Xenomorphtype
                         }
                     }
 
-                    if (_traumaRelief > TotalHorrorTrauma())
-                    {
-                        //Log.Message(Parent + " still has " + _traumaRelief + " relief");
-                        _traumaRelief += 0.001f;
-                    }
                 }
             }
         }
@@ -245,13 +260,6 @@ namespace Xenomorphtype
                     if (story.traits.HasTrait(TraitDefOf.Greedy))
                     {
                         modifier += 0.5f;
-                    }
-                    foreach(BackstoryHorror horror in XenoStoryDefOf.XMT_ObsessedBackstories.backstories)
-                    {
-                        if(story.AllBackstories.Contains(horror.backstory))
-                        {
-                            modifier += horror.obsession;
-                        }
                     }
                 }
                 
@@ -345,10 +353,41 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref acidAwareness, "AcidAwareness", 0);
             Scribe_Values.Look(ref psychicAwareness, "psychicAwareness", 0);
             Scribe_Values.Look(ref obsession, "HorrorObsession", 0);
+            Scribe_Collections.Look(ref knowledgeRecords, "CryptimorphKnowledge", LookMode.Deep);
+            Scribe_Values.Look(ref cryptimorphTrauma, "CryptimorphTrauma", 0f);
+            Scribe_Values.Look(ref knowledgeMigrated, "KnowledgeMigrated", false);
 
             Scribe_Values.Look(ref extractJelly, "extractJelly", false);
             Scribe_Values.Look(ref extractResin, "extractResin", false); 
             Scribe_Values.Look(ref extractAcid, "extractAcid", false);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                knowledgeRecords ??= new List<PawnKnowledgeRecord>();
+                if (!knowledgeMigrated)
+                {
+                    MigrateLegacyKnowledge();
+                }
+                if (ParentPawn != null) KnowledgeUtility.Invalidate(ParentPawn);
+            }
+        }
+
+        private void MigrateLegacyKnowledge()
+        {
+            MigrateLegacyCategory(KnowledgeDefOf.XMT_Knowledge_Ovomorph, ovomorphAwareness);
+            MigrateLegacyCategory(KnowledgeDefOf.XMT_Knowledge_Larva, larvaAwareness);
+            MigrateLegacyCategory(KnowledgeDefOf.XMT_Knowledge_Adult, horrorAwareness);
+            MigrateLegacyCategory(KnowledgeDefOf.XMT_Knowledge_Acid, acidAwareness);
+            MigrateLegacyCategory(KnowledgeDefOf.XMT_Knowledge_Psychic, psychicAwareness);
+            cryptimorphTrauma = Mathf.Max(0f, ovomorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness - _traumaRelief);
+            knowledgeMigrated = true;
+        }
+
+        private void MigrateLegacyCategory(KnowledgeCategoryDef category, float value)
+        {
+            if (category == null || value <= 0f) return;
+            PawnKnowledgeRecord record = RawKnowledge(category, true);
+            record.experienced = Mathf.Max(record.experienced, value);
         }
 
         public bool ShouldDisplay()
@@ -436,7 +475,7 @@ namespace Xenomorphtype
                 else if (severity >= 0.25f)
                 {
                     hasSmell = true;
-                    output += "";
+                    output += "XMT_Info_Cloying".Translate();
                 }
                 else if (severity >= 0.1f)
                 {
@@ -453,30 +492,14 @@ namespace Xenomorphtype
 
             if (isAware)
             {
-                if (IsObsessed())
+                KnowledgeAssessment assessment = KnowledgeUtility.GetAssessment(ParentPawn);
+                if (assessment.obsessionSeverity != ObsessionSeverity.None)
                 {
-                    output += "XMT_Obsessed".Translate();
+                    output += ("XMT_Obsession_" + assessment.obsessionSeverity).Translate();
                 }
                 else
                 {
-                    float awareness = TotalHorrorAwareness();
-
-                    if (awareness >= 1)
-                    {
-                        output += "XMT_Info_Traumatized".Translate();
-                    }
-                    else if (awareness >= 0.5f)
-                    {
-                        output += "XMT_Info_Paranoid".Translate();
-                    }
-                    else if (awareness >= 0.25f)
-                    {
-                        output += "XMT_Info_Anxious".Translate();
-                    }
-                    else
-                    {
-                        output += "XMT_Info_Concern".Translate();
-                    }
+                    output += assessment.traumaSeverity == TraumaSeverity.None ? "XMT_Info_Informed".Translate() : ("XMT_Trauma_" + assessment.traumaSeverity).Translate();
                 }
             }
             return output;
@@ -486,7 +509,7 @@ namespace Xenomorphtype
         {
             string output = "";
             bool IsPlayerXenomorph = XMTUtility.PlayerXenosOnMap(parent.MapHeld);
-            if (IsPlayerXenomorph)
+            if (IsPlayerXenomorph && pheromonesPresent)
             {
                 switch (StrongestPheromone)
                 {
@@ -535,53 +558,16 @@ namespace Xenomorphtype
 
             if (isAware)
             {
-                bool obsessed = IsObsessed();
-                if (OvomorphAwareness > 0)
+                KnowledgeAssessment assessment = KnowledgeUtility.GetAssessment(ParentPawn);
+                foreach (CategoryKnowledgeAssessment category in assessment.categories.Values.Where(value => value.level != KnowledgeLevel.None).OrderBy(value => value.category.defName))
                 {
-                    output += obsessed ? "XMT_Info_Ovomorph_Obsessed".Translate() : "XMT_Info_Ovomorph".Translate();
-                    if (DebugSettings.ShowDevGizmos)
-                    {
-                        output += "\nDEV Ovomorph Awareness: " + OvomorphAwareness + "\n";
-                    }
+                    string key = assessment.obsessed && !category.category.obsessedDescriptionKey.NullOrEmpty()
+                        ? category.category.obsessedDescriptionKey
+                        : category.experienced > 0f ? category.category.experiencedDescriptionKey : category.category.learnedDescriptionKey;
+                    if (!key.NullOrEmpty()) output += key.Translate(("XMT_KnowledgeLevel_" + category.level).Translate());
+                    if (DebugSettings.ShowDevGizmos) output += "\nDEV " + category.category.defName + ": learned " + category.learned + ", experienced " + category.experienced + ", effective " + category.effective + "\n";
                 }
-                if (LarvaAwareness > 0)
-                {
-                    output += obsessed ? "XMT_Info_Larva_Obsessed".Translate() : "XMT_Info_Larva".Translate();
-                    if (DebugSettings.ShowDevGizmos)
-                    {
-                        output += "\nDEV Larva Awareness: " + LarvaAwareness + "\n";
-                    }
-                }
-                if (HorrorAwareness > 0)
-                {
-                    output += obsessed ? "XMT_Info_Horror_Obsessed".Translate() : "XMT_Info_Horror".Translate();
-                    if (DebugSettings.ShowDevGizmos)
-                    {
-                        output += "\nDEV Cryptimorph Awareness: " + HorrorAwareness + "\n";
-                    }
-                }
-                if (AcidAwareness > 0)
-                {
-                    output += obsessed ? "XMT_Info_Acid_Obsessed".Translate() : "XMT_Info_Acid".Translate();
-                    if (DebugSettings.ShowDevGizmos)
-                    {
-                        output += "\nDEV Acid Awareness: " + AcidAwareness + "\n";
-                    }
-                }
-
-                if (PsychicAwareness > 0)
-                {
-                    output += obsessed ? "XMT_Info_Psychic_Obsessed".Translate() : "XMT_Info_Psychic".Translate();
-                    if (DebugSettings.ShowDevGizmos)
-                    {
-                        output += "\nDEV Psychic Awareness: " + PsychicAwareness +"\n";
-                    }
-                }
-
-                if(DebugSettings.ShowDevGizmos)
-                {
-                    output += "\nDEV Total Awareness: " + TotalHorrorAwareness();
-                }
+                if (DebugSettings.ShowDevGizmos) output += "\nDEV Trauma: " + assessment.trauma + "; obsession balance: " + assessment.obsessionBalance;
             }
             return output;
         }
@@ -607,7 +593,7 @@ namespace Xenomorphtype
                         Parent.health.GetOrAddHediff(InternalDefOf.PawnInfoHediff);
                     }
                 }
-                Parent.health.GetOrAddHediff(InternalDefOf.PawnInfoHediff);
+                if (ShouldDisplay()) Parent.health.GetOrAddHediff(InternalDefOf.PawnInfoHediff);
             }
         }
 
@@ -640,152 +626,54 @@ namespace Xenomorphtype
 
         public void WitnessPsychicHorror(float strength, float maxAwareness = 1.0f)
         {
-            _traumaRelief -= strength;
-            if (PsychicAwareness >= maxAwareness)
-            {
-                return;
-            }
-            _traumaRelief = 0;
-            psychicAwareness = Mathf.Min(psychicAwareness + strength, maxAwareness);
-
-            if (!Rand.Chance(psychicAwareness))
-            {
-                TryApplyDisplayHediff();
-                return;
-            }
-
-            float maxPsychicBleed = maxAwareness / 2;
-            float psychicBleed = strength / 2;
-
-            if (AcidAwareness < maxPsychicBleed)
-            {
-                WitnessAcidHorror(psychicBleed, maxPsychicBleed);
-            }
-
-            if (HorrorAwareness < maxPsychicBleed)
-            {
-                WitnessHorror(psychicBleed, maxPsychicBleed);
-            }
-
-            if (LarvaAwareness < maxPsychicBleed)
-            {
-                WitnessLarvaHorror(psychicBleed, maxPsychicBleed);
-            }
-
-            if (OvomorphAwareness < maxPsychicBleed)
-            {
-                WitnessOvomorphHorror(psychicBleed, maxPsychicBleed);
-            }
-
-            TryApplyDisplayHediff();
-
+            KnowledgeUtility.ApplyExposure(ParentPawn, KnowledgeDefOf.XMT_Profile_Psychic, strength, KnowledgeAcquisition.PsychicExposure, parent);
         }
 
         public void WitnessAcidHorror(float strength, float maxAwareness = 1.0f)
         {
-            if (AcidAwareness >= maxAwareness)
-            {
-                return;
-            }
-            _traumaRelief = 0;
-            acidAwareness = Mathf.Min(acidAwareness + strength, maxAwareness);
-
-            if (OvomorphAwareness > 0)
-            {
-                WitnessOvomorphHorror(strength, maxAwareness);
-            }
-            if (LarvaAwareness > 0)
-            {
-                WitnessLarvaHorror(strength, maxAwareness);
-            }
-            if (HorrorAwareness > 0)
-            {
-                WitnessHorror(strength, maxAwareness);
-            }
-
-            TryApplyDisplayHediff();
-
+            KnowledgeUtility.ApplyExposure(ParentPawn, KnowledgeDefOf.XMT_Profile_Acid, strength, KnowledgeAcquisition.TraumaticExperience, parent);
         }
         public void WitnessOvomorphHorror(float strength, float maxAwareness = 1.0f)
         {
-            _traumaRelief -= strength;
-            if (OvomorphAwareness >= maxAwareness)
-            {
-                return;
-            }
-            _traumaRelief = 0;
-            ovomorphAwareness = Mathf.Min(OvomorphAwareness + strength, maxAwareness);
-
-            TryApplyDisplayHediff();
-
+            KnowledgeUtility.ApplyExposure(ParentPawn, KnowledgeDefOf.XMT_Profile_Ovomorph, strength, KnowledgeAcquisition.TraumaticExperience, parent);
         }
 
         public void WitnessLarvaHorror(float strength, float maxAwareness = 1.0f)
         {
-            _traumaRelief -= strength;
-            if (LarvaAwareness >= maxAwareness)
-            {
-                return;
-            }
-            _traumaRelief = 0;
-            larvaAwareness = Mathf.Min(larvaAwareness + strength, maxAwareness);
-            if (OvomorphAwareness > 0)
-            {
-                WitnessOvomorphHorror(strength, maxAwareness);
-            }
-            TryApplyDisplayHediff();
+            KnowledgeUtility.ApplyExposure(ParentPawn, KnowledgeDefOf.XMT_Profile_Larva, strength, KnowledgeAcquisition.TraumaticExperience, parent);
         }
 
         public void WitnessHorror(float strength, float maxAwareness = 1.0f)
         {
-            
-            if (HorrorAwareness >= maxAwareness)
-            {
-                return;
-            }
-            _traumaRelief = 0;
-            horrorAwareness = Mathf.Min(horrorAwareness + strength, maxAwareness);
-
-            if (LarvaAwareness > 0)
-            {
-                WitnessLarvaHorror(strength, maxAwareness);
-            }
-            TryApplyDisplayHediff();
+            KnowledgeUtility.ApplyExposure(ParentPawn, KnowledgeDefOf.XMT_Profile_Adult, strength, KnowledgeAcquisition.TraumaticExperience, parent);
         }
 
         public void GainObsession(float strength)
         {
-            if (XMTUtility.IsXenomorph(parent))
-            {
-                return;
-            }
-            obsession += strength;
-            TryApplyDisplayHediff();
+            KnowledgeUtility.GainObsession(ParentPawn, strength);
         }
 
         public void GainRelief(float strength, float max = 5f)
         {
-            _traumaRelief = Mathf.Min(max, _traumaRelief + strength);
-
+            KnowledgeUtility.RelieveTrauma(ParentPawn, Mathf.Min(max, strength));
         }
 
         public float TotalHorrorTrauma()
         {
-            return OvomorphAwareness + larvaAwareness + horrorAwareness + acidAwareness + psychicAwareness + TraitAwarenessModifier() - _traumaRelief;
+            return ParentPawn == null ? 0f : KnowledgeUtility.GetTrauma(ParentPawn);
         }
         public float TotalHorrorAwareness()
         {
-            return TotalHorrorTrauma() + IdeoReproductionModifier() + IdeoAdultModifier();
+            return ParentPawn == null ? 0f : KnowledgeUtility.GetTotalEffectiveKnowledge(ParentPawn);
         }
 
         public bool IsObsessed(out float awareness)
         {
-            awareness = TotalHorrorAwareness();
-            return Obsession > awareness;
+            return KnowledgeUtility.IsObsessed(ParentPawn, out awareness);
         }
         public bool IsObsessed()
         {
-            return Obsession > TotalHorrorAwareness();
+            return KnowledgeUtility.IsObsessed(ParentPawn);
         }
 
         public float XenomorphPheromoneValue()

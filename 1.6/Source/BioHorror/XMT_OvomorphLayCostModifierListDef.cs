@@ -9,6 +9,7 @@ namespace Xenomorphtype
         public GeneDef gene;
         public HediffDef hediff;
         public TraitDef trait;
+        public RoyalEvolutionDef evolution;
         public float factor = 1f;
 
         public bool AppliesTo(Pawn pawn)
@@ -35,6 +36,11 @@ namespace Xenomorphtype
             }
 
             if (trait != null && pawn.story?.traits?.HasTrait(trait) == true)
+            {
+                return true;
+            }
+
+            if (evolution != null && pawn.GetComp<CompQueen>()?.HasActiveEvolution(evolution) == true)
             {
                 return true;
             }
