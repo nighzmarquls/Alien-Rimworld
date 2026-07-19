@@ -12,7 +12,6 @@ namespace Xenomorphtype
         int initializationAttemptsLeft = 1000;
         protected Pawn Parent => parent as Pawn;
 
-        GeneSet pawnGenes = null;
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
@@ -45,7 +44,8 @@ namespace Xenomorphtype
             hatchingPawn = true;
             initialized = true;
             pawnDef = target;
-            pawnGenes = genes;
+            CompHiveGeneHolder holder = parent.TryGetComp<CompHiveGeneHolder>();
+            holder?.ReplaceGenes(genes?.GenesListForReading, replaceNativeGenes: true);
             tickToHatch = Find.TickManager.TicksGame + ticksToHatch;
         }
 
@@ -77,7 +77,6 @@ namespace Xenomorphtype
             {
                 Log.Message(parent + " attempting to hatch ");
             }
-            hatched = true;
             Pawn target = parent as Pawn;
 
             if (parent != null)
@@ -86,10 +85,7 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.TransformPawnIntoPawn(target, pawnDef, out Pawn result))
                     {
-                        if(pawnGenes != null)
-                        {
-                            BioUtility.InsertGenesetToPawn(pawnGenes, ref result);
-                        }
+                        hatched = true;
                         if(XMTUtility.IsXenomorph(result))
                         {
                             return;
@@ -111,6 +107,7 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.TransformPawnIntoThing(target, thingDef, out Thing result))
                     {
+                        hatched = true;
                         return;
                     }
                 }

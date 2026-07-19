@@ -30,6 +30,7 @@ namespace Xenomorphtype
         public static RoyalEvolutionDef Evo_IntegratedEggSac;
         public static RoyalEvolutionDef Evo_NovelGenes;
         public static RoyalEvolutionDef Evo_SubjugatorCrest;
+        public static RoyalEvolutionDef Evo_RoyalCrown;
 
 
         public static RoyalEvolutionDef Evo_CryptomechanicalCircuitry;

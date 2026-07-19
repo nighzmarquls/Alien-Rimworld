@@ -4,6 +4,9 @@
 	    <label>xenomorph</label>
 		<description>a bipedal creature with hardened exoskeleton, phallic shaped cranium and a sharp bladed tail with prominent vertebral processes.</description>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompMatureMorphProperties">
 				<grabKnowledgeProfile>XMT_Profile_Adult</grabKnowledgeProfile>
 				<contactKnowledgeProfile>XMT_Profile_Adult</contactKnowledgeProfile>
@@ -1402,6 +1405,9 @@
 		<defName>XMT_Royal_AlienRace</defName>
 		<label>queen</label>
 		<comps Inherit="False">
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompMatureMorphProperties">
 				<grabKnowledgeProfile>XMT_Profile_Adult</grabKnowledgeProfile>
 				<contactKnowledgeProfile>XMT_Profile_Adult</contactKnowledgeProfile>
@@ -1686,6 +1692,7 @@
 					</bodyTypes>
 					<bodyAddons Inherit="False">
 							<li>
+								<name>Crest</name>
 								<path>Pawn/Royalty/Crests/Crest_Princess</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -1814,7 +1821,7 @@
 									<layerOffset>-0.33</layerOffset>
 								  </south>
 								  <north>
-									<layerOffset>0.75</layerOffset>
+									<layerOffset>0.74</layerOffset>
 								  </north>
 								  <east>
 									<layerOffset>-0.33</layerOffset>
@@ -1822,6 +1829,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Scythe_L</name>
 								<path>Pawn/Royalty/Arms/Scythe_L</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -1860,6 +1868,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Scythe_R</name>
 								<path>Pawn/Royalty/Arms/Scythe_R</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -1898,6 +1907,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Arm_L</name>
 								<path>Pawn/Royalty/Arms/Mainarm_L</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -1936,6 +1946,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Arm_R</name>
 								<path>Pawn/Royalty/Arms/Mainarm_R</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -1974,6 +1985,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Miniarm_L</name>
 								<path>Pawn/Royalty/Miniarms/Miniarm_L</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -2012,6 +2024,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Miniarm_R</name>
 								<path>Pawn/Royalty/Miniarms/Miniarm_R</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -2050,6 +2063,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Belly</name>
 								<path>Pawn/Royalty/Belly/FertileBelly</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -2084,6 +2098,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Teeth</name>
 								<path>Pawn/Teeth/RoyalTeeth</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>base</colorChannel>
@@ -2127,6 +2142,7 @@
 								
 							</li>
 							<li>
+								<name>Thrumbo_Head</name>
 								<path>Pawn/HostVariation/RoyalThrumbo_Head</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -2155,6 +2171,7 @@
 								<!--<inFrontOfBody>true</inFrontOfBody>-->
 							</li>
 							<li>
+								<name>Muffalo_Body</name>
 								<path>Pawn/HostVariation/Muffalo_Body</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -2188,6 +2205,7 @@
 
 							</li>
 							<li>
+								<name>Boomalope_Head</name>
 								<path>Pawn/HostVariation/RoyalBoomalope_Head</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>base</colorChannel>
@@ -2216,26 +2234,28 @@
 								</offsets>
 							</li>
 							<li>
-									<path>Pawn/Conditions/Chrysalis/Chrysalis</path>
-									<userCustomizable>false</userCustomizable>
-									<colorChannel>base</colorChannel>
-									<conditions>
-										<Hediff>Maturation</Hediff>
-									</conditions>
-									<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
-									<offsets>
-									  <south>
-										<layerOffset>-2</layerOffset>
-									  </south>
-									  <north>
-										<layerOffset>2</layerOffset>
-									  </north>
-									  <east>
-										<layerOffset>-2</layerOffset>
-									  </east>
-									</offsets>
+								<name>Chrysalis</name>
+								<path>Pawn/Conditions/Chrysalis/Chrysalis</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>base</colorChannel>
+								<conditions>
+									<Hediff>Maturation</Hediff>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-2</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>2</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-2</layerOffset>
+								  </east>
+								</offsets>
 							</li>
 							<li>
+								<name>GeneChrysalis</name>
 								<path>Pawn/Conditions/Chrysalis/RoyalGeneChrysalis</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>base</colorChannel>
@@ -2256,6 +2276,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Spine</name>
 								<path>Pawn/Royalty/Back/Royal_Spine</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -2290,6 +2311,7 @@
 								</offsets>
 							</li>
 							<li>
+								<name>Tubes</name>
 								<path>Pawn/Royalty/Back/Tubes</path>
 								<userCustomizable>false</userCustomizable>
 								<colorChannel>skin</colorChannel>
@@ -2438,17 +2460,6 @@
 												</BodyPart>
 												<Hediff>XMT_HyperFertility</Hediff>
 											</And>
-											<And>
-												<BodyPart>
-													<bodyPart>Torso</bodyPart>
-												</BodyPart>
-												<Or>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX1</Hediff>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX2</Hediff>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX3</Hediff>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX4</Hediff>
-												</Or>
-											</And>
 										</Or>
 									</Not>
 									<Hediff>XMT_Enthroned</Hediff>
@@ -2495,17 +2506,6 @@
 													<bodyPart>Pelvis</bodyPart>
 												</BodyPart>
 												<Hediff>XMT_HyperFertility</Hediff>
-											</And>
-											<And>
-												<BodyPart>
-													<bodyPart>Torso</bodyPart>
-												</BodyPart>
-												<Or>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX1</Hediff>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX2</Hediff>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX3</Hediff>
-													<Hediff MayRequire="RedMattis.BetterPrerequisites">XMT_SizeX4</Hediff>
-												</Or>
 											</And>
 										</Or>
 									</Not>
@@ -2559,7 +2559,16 @@
 	<ThingDef Class="AlienRace.ThingDef_AlienRace" ParentName="Human">
 		<defName>XMT_Hybrid_AlienRace</defName>
 	    <label>hybrid</label>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_FetalHorror</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
 				<perfection>XMT_HybridOrganism</perfection>
 				<ImpossibleHediffs>

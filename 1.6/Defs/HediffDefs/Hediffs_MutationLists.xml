@@ -397,6 +397,15 @@
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
+				<horror>XMT_FriendlyGland</horror>
+				<uiLabel>Friendly pheromone gland</uiLabel>
+				<displayOrder>40</displayOrder>
+				<randomBodypart>false</randomBodypart>
+				<probability>0.75</probability>
+				<essenceMinimum>0.5</essenceMinimum>
+				<essenceMaximum>-1</essenceMaximum>
+			</li>
+			<li>
 				<horror>XMT_Lardering</horror>
 				<uiLabel>Larder growth</uiLabel>
 				<displayOrder>60</displayOrder>

@@ -8,6 +8,20 @@
 			<shaderType>Mote</shaderType>
 		</graphicData>
 	</ThingDef>
+
+	<FleckDef ParentName="FleckBase_Thrown">
+		<defName>XMT_MutagenicMiasmaSmoke</defName>
+		<graphicData>
+			<texPath>Things/Mote/Smoke</texPath>
+			<color>(0.18,0.19,0.21)</color>
+			<renderInstanced>true</renderInstanced>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<fadeInTime>0.5</fadeInTime>
+		<solidTime>6</solidTime>
+		<fadeOutTime>3.2</fadeOutTime>
+		<growthRate>0.005</growthRate>
+	</FleckDef>
   
   	<EffecterDef>
 		<defName>ResinBuild</defName>

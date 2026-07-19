@@ -41,5 +41,16 @@ namespace Xenomorphtype
         {
             slumberer.SetProgenitor(pawn);
         }
+
+        public override void TransformingInto(Pawn pawn, Pawn instigator = null)
+        {
+            CompAwakenedSlumberer awakenedSlumberer = pawn?.GetComp<CompAwakenedSlumberer>();
+            if (awakenedSlumberer != null)
+            {
+                awakenedSlumberer.InitializeSleeper(bodySize);
+            }
+
+            pawn?.ageTracker?.DebugSetAge(0);
+        }
     }
 }

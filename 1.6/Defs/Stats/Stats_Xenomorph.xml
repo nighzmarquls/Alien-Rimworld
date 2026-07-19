@@ -89,7 +89,7 @@
   <StatDef>
     <defName>XMT_HereditaryCapacity</defName>
     <label>hereditary capacity</label>
-    <description>The depth of inherited genetic patterning this organism can impress into new brood forms.</description>
+    <description>The depth of inherited genetic patterning this organism can impress into new brood forms. For a royal queen, every 16 points above her natural capacity doubles the biomass efficiency of Sovereign Crown transformations.</description>
     <category>PawnHealth</category>
     <defaultBaseValue>0</defaultBaseValue>
     <minValue>0</minValue>

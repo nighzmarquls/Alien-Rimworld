@@ -86,6 +86,7 @@
     <Compile Include="Abilities\Comps\CompAbilityBloodLet.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
     <Compile Include="Abilities\Comps\CompAbilityTrample.cs" />
+    <Compile Include="Abilities\Comps\CompAbilityMutagenicMiasma.cs" />
     <Compile Include="Abilities\Climber\PawnClimber.cs" />
     <Compile Include="Abilities\Trample\PawnTrampler.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_Adoption.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_Protofluid.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_MutateTarget.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_AdvanceHorror.cs" />
     <Compile Include="AI\JobDriver\Ritual\JobDriver_PrepareChrysalisWithJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
@@ -192,8 +194,11 @@
     <Compile Include="Debug\DebugActions_GrappleStealth.cs" />
     <Compile Include="Debug\DebugActions_HiveTesting.cs" />
     <Compile Include="Debug\DebugActions_HostGenes.cs" />
+    <Compile Include="Debug\DebugActions_HorrorAdvancement.cs" />
+    <Compile Include="Debug\DebugActions_GeneContinuity.cs" />
     <Compile Include="Debug\DebugActions_Mutations.cs" />
     <Compile Include="Debug\DebugActions_QueenTesting.cs" />
+    <Compile Include="Debug\DebugActions_Transformations.cs" />
     <Compile Include="Debug\XMTHiveDebug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTRecruitPatches.cs" />
@@ -217,12 +222,14 @@
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
+    <Compile Include="Utilities\HorrorAdvancementUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
 	<Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractJelly.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_XMT_HaulToGeneBank.cs" />
     <Compile Include="BioHorror\XMT_GeneRemapListDef.cs" />
+    <Compile Include="BioHorror\HorrorGenePayload.cs" />
     <Compile Include="BioHorror\XMT_OvomorphLayCostModifierListDef.cs" />
     <Compile Include="Building\AmbushTrap.cs" />
     <Compile Include="Building\Fillable\JellyPod.cs" />

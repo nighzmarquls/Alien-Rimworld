@@ -43,6 +43,24 @@
 	<XMT_AlterMutationsDescription>Encourage mutated tissues to spread.</XMT_AlterMutationsDescription>
 	<XMT_ManageMutationLabel>Manage Mutation</XMT_ManageMutationLabel>
 	<XMT_ManageMutationDescription>Direct or suppress existing mutated tissues.</XMT_ManageMutationDescription>
+	<XMT_HorrorAdvanceLabel>Reshape Mutant</XMT_HorrorAdvanceLabel>
+	<XMT_HorrorAdvanceDescription>Use the Sovereign Crown to advance or regress a fully expressed mutant. Increasing its biological mass consumes the caster's nutrition.</XMT_HorrorAdvanceDescription>
+	<XMT_HorrorPromoteLabel>Promote</XMT_HorrorPromoteLabel>
+	<XMT_HorrorDemoteLabel>Demote</XMT_HorrorDemoteLabel>
+	<XMT_HorrorAdvanceOptionCost>{0} ({1} food)</XMT_HorrorAdvanceOptionCost>
+	<XMT_HorrorAdvanceOptionFree>{0} (no biomass needed)</XMT_HorrorAdvanceOptionFree>
+	<XMT_HorrorAdvanceOptionTooltip>Source biological size: {0}\nDestination biological size: {1}\nFood per added size: {2}\nQueen food required: {3}</XMT_HorrorAdvanceOptionTooltip>
+	<XMT_HorrorAdvanceInvalid_NoCrown>The queen does not have an active Sovereign Crown.</XMT_HorrorAdvanceInvalid_NoCrown>
+	<XMT_HorrorAdvanceInvalid_Target>Must select a spawned horror or mutated animal.</XMT_HorrorAdvanceInvalid_Target>
+	<XMT_HorrorAdvanceInvalid_Self>The queen cannot reshape herself with this command.</XMT_HorrorAdvanceInvalid_Self>
+	<XMT_HorrorAdvanceInvalid_Dead>{0} is dead.</XMT_HorrorAdvanceInvalid_Dead>
+	<XMT_HorrorAdvanceInvalid_Map>{0} is not on the queen's map.</XMT_HorrorAdvanceInvalid_Map>
+	<XMT_HorrorAdvanceInvalid_Hostile>{0} is hostile to the queen.</XMT_HorrorAdvanceInvalid_Hostile>
+	<XMT_HorrorAdvanceInvalid_NoOptions>{0} has no Crown transformation options.</XMT_HorrorAdvanceInvalid_NoOptions>
+	<XMT_HorrorAdvanceInvalid_Option>The selected Crown transformation is no longer valid.</XMT_HorrorAdvanceInvalid_Option>
+	<XMT_HorrorAdvanceInvalid_Adjacent>The queen is no longer adjacent to {0}.</XMT_HorrorAdvanceInvalid_Adjacent>
+	<XMT_HorrorAdvanceInvalid_Placement>There is not enough clear space to become {0}.</XMT_HorrorAdvanceInvalid_Placement>
+	<XMT_HorrorAdvanceInvalid_Food>Requires {0} food; the queen has {1}.</XMT_HorrorAdvanceInvalid_Food>
 	<XMT_InduceMutationLabel>Induce Mutation</XMT_InduceMutationLabel>
 	<XMT_InduceMutationDescription>Direct mutated tissues to spread in a chosen pattern.</XMT_InduceMutationDescription>
 	<XMT_RemoveMutationLabel>Remove Mutation</XMT_RemoveMutationLabel>
@@ -96,6 +114,9 @@
 	<XMT_EvolutionAdd>Add</XMT_EvolutionAdd>
 	<XMT_EvolutionRemove>Remove</XMT_EvolutionRemove>
 	<XMT_TrampleInvalid_NoPath>No room to trample.</XMT_TrampleInvalid_NoPath>
+	<XMT_MutagenicMiasmaStats>Current range: {0} cells\nCone angle: {1:0.#}°\nCooldown: {2}</XMT_MutagenicMiasmaStats>
+	<XMT_MutagenicMiasmaProtected>Protected ({0})</XMT_MutagenicMiasmaProtected>
+	<XMT_MutagenicMiasmaOutOfRange>Target is outside mutagenic miasma range ({0} cells).</XMT_MutagenicMiasmaOutOfRange>
 	<XMT_BattleLog_QueenTrampled>{QUEEN_nameDef} trampled {TARGET_labelShort}.</XMT_BattleLog_QueenTrampled>
 	<XMT_BattleLog_QueenGrazed>{QUEEN_nameDef} grazed {TARGET_labelShort} in her charge.</XMT_BattleLog_QueenGrazed>
 	

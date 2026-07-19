@@ -52,6 +52,10 @@ namespace Xenomorphtype
             string description = base.GetInspectString(); ;
             string text = description;
 
+            if (DebugSettings.godMode)
+            {
+                return text;
+            }
 
             if ((!XMTUtility.QueenIsPlayer() || !XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneStorage)) &&
                 !DebugSettings.godMode)
@@ -60,7 +64,7 @@ namespace Xenomorphtype
             }
 
 
-            if (geneHolder.genes == null || !geneHolder.genes.GenesListForReading.Any())
+            if (geneHolder == null || !geneHolder.GenesListForReading.Any())
             {
                 return text;
             }
@@ -71,16 +75,16 @@ namespace Xenomorphtype
                 text += "\n\n";
             }
 
-            if (!geneHolder.templateName.NullOrEmpty())
+            if (!geneHolder.EffectiveTemplateName.NullOrEmpty())
             {
-                text += geneHolder.templateName + "\n";
+                text += geneHolder.EffectiveTemplateName + "\n";
             }
 
             tmpGeneLabelsDesc.Clear();
 
-            for (int i = 0; i < geneHolder.genes.GenesListForReading.Count; i++)
+            for (int i = 0; i < geneHolder.GenesListForReading.Count; i++)
             {
-                tmpGeneLabelsDesc.Add(geneHolder.genes.GenesListForReading[i].label);
+                tmpGeneLabelsDesc.Add(geneHolder.GenesListForReading[i].label);
             }
 
             return text + ("Genes".Translate().CapitalizeFirst() + ":\n" + tmpGeneLabelsDesc.ToLineList("  - ", capitalizeItems: true));
@@ -90,7 +94,7 @@ namespace Xenomorphtype
         {
             base.DrawGUIOverlay();
 
-            if (geneHolder == null || geneHolder.templateName.NullOrEmpty())
+            if (geneHolder == null || geneHolder.EffectiveTemplateName.NullOrEmpty())
             {
                 return;
             }
@@ -102,7 +106,7 @@ namespace Xenomorphtype
             }
 
             Vector2 labelPosition = GenMapUI.LabelDrawPosFor(this, -0.4f);
-            GenMapUI.DrawThingLabel(labelPosition, geneHolder.templateName, GenMapUI.DefaultThingLabelColor);
+            GenMapUI.DrawThingLabel(labelPosition, geneHolder.EffectiveTemplateName, GenMapUI.DefaultThingLabelColor);
         }
 
         public override IEnumerable<Gizmo> GetGizmos()
@@ -170,18 +174,10 @@ namespace Xenomorphtype
 
         protected void RecieveGenesFrom(Pawn pawn)
         {
-            List<GeneDef> hostGenes = BioUtility.GetExtraHostGenes(pawn);
-            if(hostGenes != null)
+            HorrorGenePayload payload = BioUtility.CaptureHorrorGenePayload(pawn, inheritableOnly: true);
+            if (payload != null)
             {
-                if (hostGenes.Count > 0)
-                {
-                    BioUtility.ExtractGenesToGeneset(ref geneHolder.genes, hostGenes);
-                }
-            }
-
-            if(pawn.genes != null)
-            {
-                BioUtility.ExtractCryptimorphGenesToGeneset(ref geneHolder.genes, pawn.genes.GenesListForReading);
+                geneHolder.AddGenes(payload.Genes, payload.TemplateName);
             }
         }
 

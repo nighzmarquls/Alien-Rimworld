@@ -128,7 +128,8 @@ namespace Xenomorphtype
 
                
                 _isInorganic = XMTUtility.CacheIsInorganic(_pawn);
-                _isHorror = _pawn.def.HasModExtension<XMT_HorrorPawnExtension>();
+                _isHorror = _pawn.kindDef?.HasModExtension<XMT_HorrorPawnExtension>() == true ||
+                    _pawn.def.HasModExtension<XMT_HorrorPawnExtension>();
                 _brainMutationCount = CountBrainMutations(_pawn);
 
                 if (XMTSettings.LogBiohorror)

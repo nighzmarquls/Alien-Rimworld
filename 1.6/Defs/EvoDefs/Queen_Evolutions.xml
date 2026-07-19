@@ -140,22 +140,6 @@
 	</Xenomorphtype.RoyalEvolutionDef>
 
 	<Xenomorphtype.RoyalEvolutionDef>
-		<defName>Evo_SubjugatorCrest</defName>
-		<label>Subjugator Crest</label>
-		<evoPointCost>4</evoPointCost>
-		<evolutionHediff>XMT_SubjugatorCrest</evolutionHediff>
-		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>The maternal crest collapses into a fleshcrafting organ tuned for biological dominance and forced expression.</description>
-		<replaces>
-			<li>Evo_MaternalCrest</li>
-		</replaces>
-		<prerequisites>
-			<li>Evo_MaternalCrest</li>
-			<li>Evo_MutantExpression</li>
-		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
-	
-	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_NovelGenes</defName>
 		<label>novel gene expression</label>
 		<evoPointCost>2</evoPointCost>
@@ -196,23 +180,7 @@
 			<li>Evo_CryptomechanicalCircuitry</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
-<!--
-	<Xenomorphtype.RoyalEvolutionDef>
-		<defName>Evo_RoyalCrown</defName>
-		<label>Royal Crown</label>
-		<evoPointCost>2</evoPointCost>
-		<evolutionHediff>XMT_RoyalCrown</evolutionHediff>
-		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>The maternal crest rises into a crown of neural vanes, improving psychic resonance, neural heat handling and social awe.</description>
-		<replaces>
-			<li>Evo_MaternalCrest</li>
-		</replaces>
-		<prerequisites>
-			<li>Evo_MaternalCrest</li>
-		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
--->
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_FierceCrest</defName>
 		<label>Fierce Crest</label>
@@ -262,7 +230,21 @@
 	-->
 	<!-- 3rd tier -->
 	
-
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_SubjugatorCrest</defName>
+		<label>Subjugator Crest</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_SubjugatorCrest</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The maternal crest collapses into a fleshcrafting organ tuned for biological dominance and forced expression.</description>
+		<replaces>
+			<li>Evo_MaternalCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_MaternalCrest</li>
+			<li>Evo_MutantExpression</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
 	
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX3</defName>
@@ -421,6 +403,24 @@
 		<description>Unlocks the ability to alter one's own genes.</description>
 		<prerequisites>
 			<li>Evo_GeneDigestion</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+		<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_RoyalCrown</defName>
+		<label>Sovereign Crown</label>
+		<evoPointCost>8</evoPointCost>
+		<evolutionHediff>XMT_RoyalCrown</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The Subjugator crest rises into a crown of neural vanes and a prodigious quantity of specialized genetic processing lobes.</description>
+		<unlockedAbilities>
+			<li>XMT_Ability_MutagenicMiasma</li>
+		</unlockedAbilities>
+		<replaces>
+			<li>Evo_SubjugatorCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_SubjugatorCrest</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 <!--

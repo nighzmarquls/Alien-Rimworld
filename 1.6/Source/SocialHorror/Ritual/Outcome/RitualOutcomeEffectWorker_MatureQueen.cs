@@ -27,6 +27,11 @@ namespace Xenomorphtype
             
             if (progress >= 1)
             {
+                List<BodyPartDef> missingPartDefs = pawn.def.race.body.AllParts
+                    .Where(part => pawn.health.hediffSet.PartIsMissing(part) && !pawn.health.hediffSet.AncestorHasDirectlyAddedParts(part))
+                    .Select(part => part.def)
+                    .Distinct()
+                    .ToList();
                 Pawn queen;
                 if (XMTUtility.IsQueen(pawn))
                 {
@@ -42,12 +47,14 @@ namespace Xenomorphtype
                     }
                 }
 
-                var missingParts = pawn.def.race.body.AllParts.Where(x => pawn.health.hediffSet.PartIsMissing(x) && !pawn.health.hediffSet.AncestorHasDirectlyAddedParts(x)).ToList();
-                if (missingParts.Any())
+                if (missingPartDefs.Any())
                 {
-                    foreach(BodyPartRecord missingPart in missingParts)
+                    foreach (BodyPartRecord missingPart in queen.def.race.body.AllParts.Where(part => missingPartDefs.Contains(part.def)).ToList())
                     {
-                        pawn.health.RestorePart(missingPart);
+                        if (queen.health.hediffSet.PartIsMissing(missingPart))
+                        {
+                            queen.health.RestorePart(missingPart);
+                        }
                     }
                 }
 

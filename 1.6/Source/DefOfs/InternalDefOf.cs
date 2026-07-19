@@ -40,6 +40,7 @@ namespace Xenomorphtype
         public static HediffDef             XMT_Enthroned;
         public static HediffDef             XMT_Stabilize;
         public static HediffDef             XMT_Trampled;
+        public static HediffDef             XMT_Flu;
 
         //Xenomorph bodyparts
         public static BodyPartGroupDef      StarbeastTailAttackTool;
@@ -53,6 +54,7 @@ namespace Xenomorphtype
         //Xenomorph filth
         public static ThingDef              Starbeast_Filth_AcidBlood;
         public static ThingDef              Starbeast_Filth_Resin;
+        public static FleckDef              XMT_MutagenicMiasmaSmoke;
 
         //Xenomorph Climber
         public static ThingDef              PawnClimber;

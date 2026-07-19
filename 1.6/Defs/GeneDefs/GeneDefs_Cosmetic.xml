@@ -35,21 +35,25 @@
 				<raceDef>XMT_Starbeast_AlienRace</raceDef>
 				<targetGeneDef>Head_Gaunt</targetGeneDef>
 				<replacementGeneDef>XMT_VisibleSkull</replacementGeneDef>
+				<canonicalGeneDef>Head_Gaunt</canonicalGeneDef>
 			</li>
 			<li>
 				<raceDef>XMT_Starbeast_AlienRace</raceDef>
 				<targetGeneDef>XMT_RoyalVisibleSkull</targetGeneDef>
 				<replacementGeneDef>XMT_VisibleSkull</replacementGeneDef>
+				<canonicalGeneDef>Head_Gaunt</canonicalGeneDef>
 			</li>
 			<li>
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>XMT_VisibleSkull</targetGeneDef>
 				<replacementGeneDef>XMT_RoyalVisibleSkull</replacementGeneDef>
+				<canonicalGeneDef>Head_Gaunt</canonicalGeneDef>
 			</li>
 			<li>
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>Head_Gaunt</targetGeneDef>
 				<replacementGeneDef>XMT_RoyalVisibleSkull</replacementGeneDef>
+				<canonicalGeneDef>Head_Gaunt</canonicalGeneDef>
 			</li>
 		</geneRemaps>
 	</Xenomorphtype.XMT_GeneRemapListDef>

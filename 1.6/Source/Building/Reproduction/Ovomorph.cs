@@ -73,25 +73,23 @@ namespace Xenomorphtype
 
             HatchingEgg.mother = mother;
             HatchingEgg.father = father == null ? HatchingEgg.father : father;
-            HatchingEgg.genes = new GeneSet();
-
-            //Log.Message("Geneset: " + HatchingEgg.genes);
-
-            if (mother != null && mother.genes != null)
+            List<GeneDef> inheritedGenes = new List<GeneDef>();
+            HorrorGenePayload motherGenes = BioUtility.CaptureHorrorGenePayload(mother, inheritableOnly: true);
+            if (motherGenes != null)
             {
-                //Log.Message("Mother ExtractGenes");
-                BioUtility.ExtractCryptimorphGenesToGeneset(ref HatchingEgg.genes, mother.genes.GenesListForReading);
+                inheritedGenes.AddRange(motherGenes.Genes);
             }
 
             if (father != null && father != mother)
             {
-                BioUtility.ExtractGenesToGeneset(ref HatchingEgg.genes, BioUtility.GetExtraHostGenes(father));
-                if (father.genes != null)
+                HorrorGenePayload fatherGenes = BioUtility.CaptureHorrorGenePayload(father, inheritableOnly: true);
+                if (fatherGenes != null)
                 {
-                    //Log.Message("Father ExtractGenes");
-                    BioUtility.ExtractCryptimorphGenesToGeneset(ref HatchingEgg.genes, father.genes.GenesListForReading);
+                    inheritedGenes.AddRange(fatherGenes.Genes);
                 }
             }
+
+            HatchingEgg.ReplaceGenes(inheritedGenes);
 
         }
 
@@ -110,12 +108,7 @@ namespace Xenomorphtype
 
             HatchingEgg.mother = mother;
             HatchingEgg.father = father == null ? HatchingEgg.father : father;
-            HatchingEgg.genes = new GeneSet();
-
-            if (genes != null)
-            {
-                BioUtility.ExtractGenesToGeneset(ref HatchingEgg.genes, genes.ToList());
-            }
+            HatchingEgg.ReplaceGenes(genes);
         }
 
         private List<GeneDef> GetOvomorphingGenes(Pawn transformedPawn, Pawn instigator)
@@ -124,17 +117,21 @@ namespace Xenomorphtype
 
             if (transformedPawn != null)
             {
-                genes.AddRange(BioUtility.GetExtraHostGenes(transformedPawn));
-                if (transformedPawn.genes != null)
+                HorrorGenePayload transformedGenes = BioUtility.CaptureHorrorGenePayload(transformedPawn, inheritableOnly: true);
+                if (transformedGenes != null)
                 {
-                    genes.AddRange(BioUtility.GetCryptimorphInheritableGenes(transformedPawn.genes.GenesListForReading));
+                    genes.AddRange(transformedGenes.Genes);
                 }
             }
 
             if (instigator != null)
             {
                 int hereditaryCapacity = BioUtility.GetHereditaryCapacity(instigator, 12);
-                genes.AddRange(BioUtility.FilterGenesWithinComplexity(BioUtility.GetCryptimorphInheritableGenes(instigator), hereditaryCapacity));
+                HorrorGenePayload instigatorGenes = BioUtility.CaptureHorrorGenePayload(instigator, inheritableOnly: true);
+                if (instigatorGenes != null)
+                {
+                    genes.AddRange(BioUtility.FilterCanonicalGenesWithinComplexity(instigatorGenes.Genes, hereditaryCapacity));
+                }
             }
 
             return genes;
@@ -374,12 +371,12 @@ namespace Xenomorphtype
                 }
             }
             
-            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
+            if (DebugSettings.godMode || !XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
             {
                 return text;
             }
 
-            if (!HatchingEgg.UnHatched || HatchingEgg.genes == null || !HatchingEgg.genes.GenesListForReading.Any())
+            if (!HatchingEgg.UnHatched || !HatchingEgg.GenesListForReading.Any())
             {
                 return text;
             }
@@ -393,9 +390,9 @@ namespace Xenomorphtype
 
             tmpGeneLabelsDesc.Clear();
 
-            for (int i = 0; i < HatchingEgg.genes.GenesListForReading.Count; i++)
+            for (int i = 0; i < HatchingEgg.GenesListForReading.Count; i++)
             {
-                tmpGeneLabelsDesc.Add(HatchingEgg.genes.GenesListForReading[i].label);
+                tmpGeneLabelsDesc.Add(HatchingEgg.GenesListForReading[i].label);
             }
 
             return text + ("Genes".Translate().CapitalizeFirst() + ":\n" + tmpGeneLabelsDesc.ToLineList("  - ", capitalizeItems: true));

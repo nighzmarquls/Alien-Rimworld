@@ -18,6 +18,7 @@ namespace Xenomorphtype
         public bool unbirthed = true;
         float damageDealt = 0;
         public Pawn Host;
+        private int geneStorageVersion = 1;
 
         HediffCompProperties_EmbryoPregnancy Props => props as HediffCompProperties_EmbryoPregnancy;
         public override void CompExposeData()
@@ -29,6 +30,13 @@ namespace Xenomorphtype
             Scribe_Deep.Look(ref genes, "genes");
             Scribe_Values.Look(ref unbirthed, "unbirthed", defaultValue: true);
             Scribe_Values.Look(ref damageDealt, "chestburstDamage", defaultValue: 0);
+            Scribe_Values.Look(ref geneStorageVersion, "geneStorageVersion", 0);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && geneStorageVersion < 1)
+            {
+                genes = new HorrorGenePayload(BioUtility.NormalizeGenesForStorage(InternalDefOf.XMT_Starbeast_AlienRace, genes?.GenesListForReading)).ToGeneSet();
+                geneStorageVersion = 1;
+            }
         }
 
         public override bool CompShouldRemove
@@ -258,8 +266,8 @@ namespace Xenomorphtype
             BioUtility.ClearGenes(ref child);
 
             child.genes.SetXenotype(XenotypeDefOf.Baseliner);
-            BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetXenomorphGenes()); 
-            BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetExtraHostGenes(Pawn));
+            BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.NormalizeGenesForStorage(InternalDefOf.XMT_Starbeast_AlienRace, BioUtility.GetXenomorphGenes()));
+            BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetCanonicalPawnGenes(Pawn));
            
             if (Pawn.genes != null)
             {
@@ -267,7 +275,6 @@ namespace Xenomorphtype
                 {
                     child.genes.xenotypeName = Pawn.genes.xenotypeName;
                 }
-                BioUtility.ExtractCryptimorphGenesToGeneset(ref genes, Pawn.genes.GenesListForReading);
             }
 
             if (headMaturity >= 0.8f)

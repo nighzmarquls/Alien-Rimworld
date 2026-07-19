@@ -129,7 +129,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (pawn.GetMorphComp() != null)
+            if (pawn.GetMorphComp() != null || XMTUtility.IsMorphing(pawn))
             {
                 return;
             }
@@ -291,7 +291,7 @@ namespace Xenomorphtype
                 return "XMT_MutationInvalid_Xenomorph".Translate(target.LabelShort);
             }
 
-            if (target.GetMorphComp() != null)
+            if (target.GetMorphComp() != null || XMTUtility.IsMorphing(target))
             {
                 return "XMT_MutationInvalid_Xenomorph".Translate(target.LabelShort);
             }
@@ -537,14 +537,14 @@ namespace Xenomorphtype
 
         public static void InsertGenesetToPawn(GeneSet geneset, ref Pawn pawn, bool xenogene = false, bool forbidUnknown = true)
         {
+            if (geneset == null || pawn?.genes == null)
+            {
+                return;
+            }
+
             if (XMTSettings.LogBiohorror)
             {
                 Log.Message("Verifying Humanlike " + pawn);
-            }
-
-            if(pawn.IsAnimal)
-            {
-                return;
             }
 
             if (XMTSettings.LogBiohorror)
@@ -552,24 +552,183 @@ namespace Xenomorphtype
                 Log.Message("assigning geneset to " + pawn);
             }
 
-            if (pawn.genes != null)
+            foreach (GeneDef gene in geneset.GenesListForReading)
             {
-                
-                foreach (GeneDef gene in geneset.GenesListForReading)
+                GeneDef geneForPawn = XMT_GeneRemapListDef.GetRemappedGeneFor(pawn.def, gene);
+                if (geneForPawn == null || forbidUnknown && geneForPawn.geneClass == typeof(UnknownGene))
                 {
-                    GeneDef geneForPawn = XMT_GeneRemapListDef.GetRemappedGeneFor(pawn.def, gene);
-                    if (forbidUnknown && geneForPawn.geneClass == typeof(UnknownGene))
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (XMTSettings.LogBiohorror)
-                    {
-                        Log.Warning("Adding Gene " + gene);
-                    }
-                    pawn.genes.AddGene(gene, xenogene);
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Warning("Adding Gene " + geneForPawn);
+                }
+                pawn.genes.AddGene(geneForPawn, xenogene);
+            }
+        }
+
+        public static List<GeneDef> NormalizeGenesForStorage(ThingDef sourceRace, IEnumerable<GeneDef> genes)
+        {
+            List<GeneDef> canonicalGenes = new List<GeneDef>();
+            if (genes == null)
+            {
+                return canonicalGenes;
+            }
+
+            foreach (GeneDef gene in genes)
+            {
+                GeneDef canonicalGene = XMT_GeneRemapListDef.GetCanonicalGeneFor(sourceRace, gene);
+                if (canonicalGene != null)
+                {
+                    canonicalGenes.AddDistinct(canonicalGene);
                 }
             }
+            return canonicalGenes;
+        }
+
+        public static List<GeneDef> GetGenesForExpression(ThingDef destinationRace, IEnumerable<GeneDef> canonicalGenes)
+        {
+            List<GeneDef> expressedGenes = new List<GeneDef>();
+            if (canonicalGenes == null)
+            {
+                return expressedGenes;
+            }
+
+            foreach (GeneDef gene in canonicalGenes)
+            {
+                GeneDef expressedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(destinationRace, gene);
+                if (expressedGene != null)
+                {
+                    expressedGenes.AddDistinct(expressedGene);
+                }
+            }
+            return expressedGenes;
+        }
+
+        public static List<GeneDef> GetCanonicalPawnGenes(Pawn pawn)
+        {
+            List<GeneDef> genes = new List<GeneDef>();
+            if (pawn == null)
+            {
+                return genes;
+            }
+
+            foreach (GeneDef hostGene in GetExtraHostGenes(pawn))
+            {
+                genes.AddDistinct(hostGene);
+            }
+
+            if (pawn.genes != null)
+            {
+                foreach (GeneDef gene in NormalizeGenesForStorage(pawn.def, pawn.genes.GenesListForReading.Select(entry => entry.def)))
+                {
+                    genes.AddDistinct(gene);
+                }
+            }
+
+            return genes;
+        }
+
+        public static List<GeneDef> GetCanonicalCryptimorphInheritableGenes(IEnumerable<GeneDef> canonicalGenes)
+        {
+            List<GeneDef> inheritableGenes = new List<GeneDef>();
+            if (canonicalGenes == null)
+            {
+                return inheritableGenes;
+            }
+
+            foreach (GeneDef canonicalGene in canonicalGenes)
+            {
+                if (canonicalGene != null)
+                {
+                    inheritableGenes.AddDistinct(canonicalGene);
+                }
+            }
+            return inheritableGenes;
+        }
+
+        public static HorrorGenePayload CaptureHorrorGenePayload(Thing source, bool inheritableOnly = false)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            CompHiveGeneHolder holder = source.TryGetComp<CompHiveGeneHolder>();
+            List<GeneDef> canonicalGenes;
+            string templateName = holder?.EffectiveTemplateName ?? string.Empty;
+
+            if (source is Pawn pawn)
+            {
+                canonicalGenes = GetCanonicalPawnGenes(pawn);
+                if (pawn.genes == null && holder != null)
+                {
+                    foreach (GeneDef storedGene in holder.GenesListForReading)
+                    {
+                        canonicalGenes.AddDistinct(storedGene);
+                    }
+                }
+                if (templateName.NullOrEmpty() && pawn.genes != null)
+                {
+                    templateName = pawn.genes.xenotypeName ?? string.Empty;
+                }
+            }
+            else if (holder != null)
+            {
+                canonicalGenes = holder.GenesListForReading.ToList();
+            }
+            else
+            {
+                return null;
+            }
+
+            if (inheritableOnly)
+            {
+                canonicalGenes = GetCanonicalCryptimorphInheritableGenes(canonicalGenes);
+            }
+
+            return new HorrorGenePayload(canonicalGenes, templateName);
+        }
+
+        public static bool TryApplyHorrorGenePayload(Thing destination, HorrorGenePayload payload, bool replaceNativeGenes = false)
+        {
+            if (destination == null || payload == null)
+            {
+                return false;
+            }
+
+            CompHiveGeneHolder holder = destination.TryGetComp<CompHiveGeneHolder>();
+            if (holder != null)
+            {
+                holder.ReplaceGenes(payload.Genes, payload.TemplateName, replaceNativeGenes);
+                return true;
+            }
+
+            if (destination is Pawn pawn && pawn.genes != null)
+            {
+                if (replaceNativeGenes)
+                {
+                    foreach (Gene gene in pawn.genes.GenesListForReading.ToList())
+                    {
+                        pawn.genes.RemoveGene(gene);
+                    }
+                }
+
+                GeneSet geneSet = new HorrorGenePayload(payload.Genes).ToGeneSet();
+                InsertGenesetToPawn(geneSet, ref pawn);
+                if (!payload.TemplateName.NullOrEmpty())
+                {
+                    pawn.genes.xenotypeName = payload.TemplateName;
+                }
+                return true;
+            }
+
+            if (!payload.Empty && XMTSettings.LogBiohorror)
+            {
+                Log.Message("Discarding unsupported horror gene payload while transferring to " + destination + ".");
+            }
+            return false;
         }
         public static void ExtractGenesToGeneset(ref GeneSet geneset, List<GeneDef> genes)
         {
@@ -644,6 +803,32 @@ namespace Xenomorphtype
                 }
 
                 filteredGenes.Add(gene);
+                currentComplexity += geneComplexity;
+            }
+
+            return filteredGenes;
+        }
+
+        public static List<GeneDef> FilterCanonicalGenesWithinComplexity(IEnumerable<GeneDef> canonicalGenes, int capacity, ThingDef expressionRace = null)
+        {
+            List<GeneDef> filteredGenes = new List<GeneDef>();
+            if (canonicalGenes == null || capacity <= 0)
+            {
+                return filteredGenes;
+            }
+
+            expressionRace ??= InternalDefOf.XMT_Starbeast_AlienRace;
+            int currentComplexity = 0;
+            foreach (GeneDef canonicalGene in canonicalGenes)
+            {
+                GeneDef expressedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(expressionRace, canonicalGene);
+                int geneComplexity = expressedGene?.biostatCpx ?? canonicalGene?.biostatCpx ?? 0;
+                if (canonicalGene == null || currentComplexity + geneComplexity > capacity)
+                {
+                    continue;
+                }
+
+                filteredGenes.AddDistinct(canonicalGene);
                 currentComplexity += geneComplexity;
             }
 
@@ -1051,22 +1236,13 @@ namespace Xenomorphtype
 
             CompHiveGeneHolder hiveGeneHolder = target.TryGetComp<CompHiveGeneHolder>();
             
-            if (hiveGeneHolder != null)
+            if (hiveGeneHolder != null && !hiveGeneHolder.UsesNativeGeneTracker)
             {
-                if(hiveGeneHolder.genes != null)
+                foreach (GeneDef gene in hiveGeneHolder.GenesListForReading)
                 {
-                    if (hiveGeneHolder.genes.GenesListForReading.Count > 0)
+                    if (!genes.Contains(gene))
                     {
-                        foreach (GeneDef gene in hiveGeneHolder.genes.GenesListForReading)
-                        {
-                            if (genes.Contains(gene))
-                            {
-                                continue;
-                            }
-
-                            genes.Add(gene);
-
-                        }
+                        genes.Add(gene);
                     }
                 }
             }
@@ -1092,12 +1268,13 @@ namespace Xenomorphtype
                             continue;
                         }
 
-                        if (genes.Contains(gene.def))
+                        GeneDef canonicalGene = XMT_GeneRemapListDef.GetCanonicalGeneFor(pawn.def, gene.def);
+                        if (genes.Contains(canonicalGene))
                         {
                             continue;
                         }
 
-                        genes.Add(gene.def);
+                        genes.Add(canonicalGene);
                     }
                 }
             }
@@ -1157,7 +1334,7 @@ namespace Xenomorphtype
 
             if (target is Pawn pawn)
             {
-                AssignAlteredGeneExpression(ref pawn, genes);
+                AssignAlteredGeneExpression(ref pawn, genes, xenotypeName);
                 return;
             }
 
@@ -1168,9 +1345,7 @@ namespace Xenomorphtype
                 {
                     Log.Message("confirmed Gene Holder " + target);
                 }
-                geneHolder.genes = new GeneSet();
-                ExtractGenesToGeneset(ref geneHolder.genes, genes);
-                geneHolder.templateName = xenotypeName ?? string.Empty;
+                geneHolder.ReplaceGenes(genes, xenotypeName);
             }
 
             
@@ -1383,7 +1558,7 @@ namespace Xenomorphtype
             }
 
             CompHiveGeneHolder geneHolder = target.TryGetComp<CompHiveGeneHolder>();
-            if (geneHolder != null && geneHolder.templateName != (xenotypeName ?? string.Empty))
+            if (geneHolder != null && geneHolder.EffectiveTemplateName != (xenotypeName ?? string.Empty))
             {
                 differences++;
             }

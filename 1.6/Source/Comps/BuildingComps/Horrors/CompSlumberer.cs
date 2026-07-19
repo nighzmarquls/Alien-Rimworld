@@ -81,33 +81,24 @@ namespace Xenomorphtype {
             cells.Shuffle();
             if ((parent.MaxHitPoints / 2 ) < parent.HitPoints)
             {
-                AwakenSleeper(parent.PositionHeld, parent.MapHeld);
+                AwakenSleeper();
             }
             base.PostPostApplyDamage(dinfo, totalDamageDealt);
         }
 
-        public void AwakenSleeper(IntVec3 cell, Map targetMap)
+        public void AwakenSleeper()
         {
-            PawnGenerationRequest request = new PawnGenerationRequest(Props.slumbererKindDef, parent.Faction);
-            request.FixedBiologicalAge = 0;
-            Pawn slumberer = PawnGenerator.GeneratePawn(request);
-            CompAwakenedSlumberer comp = slumberer.GetComp<CompAwakenedSlumberer>();
-            if (comp != null)
-            {
-                comp.InitializeSleeper(bodySize);
-            }
+            float healthPercentage = parent.HitPoints < parent.MaxHitPoints
+                ? (float)parent.HitPoints / parent.MaxHitPoints
+                : 1f;
 
-            slumberer = GenSpawn.Spawn(slumberer, cell, targetMap) as Pawn;
-
-            if (slumberer.Spawned)
+            if (XMTUtility.TransformThingIntoPawn(parent, Props.slumbererKindDef, out Pawn slumberer))
             {
-                if(parent.HitPoints < parent.MaxHitPoints)
+                if (healthPercentage < 1f)
                 {
-                    float percentage = (float) parent.HitPoints / (float)parent.MaxHitPoints;
                     float max = slumberer.health.LethalDamageThreshold;
-
-                    float hitpoint = max * percentage;
-                    Log.Message(parent + " percentage:" + percentage + " max:" + max + " hitpoint:" + hitpoint);
+                    float hitpoint = max * healthPercentage;
+                    Log.Message(parent + " percentage:" + healthPercentage + " max:" + max + " hitpoint:" + hitpoint);
 
                     while (hitpoint < max)
                     {
@@ -117,8 +108,6 @@ namespace Xenomorphtype {
                     }
                 }
                 slumberer.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, forced: true);
-        
-                parent.Destroy();
             }
         }
 
@@ -142,7 +131,7 @@ namespace Xenomorphtype {
                     {
                         if (NotFedThisHour)
                         {
-                            AwakenSleeper(parent.PositionHeld, parent.MapHeld);
+                            AwakenSleeper();
                         }
 
                     }

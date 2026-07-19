@@ -17,15 +17,17 @@ namespace Xenomorphtype
     {
         static private Texture2D geneticTexture => ContentFinder<Texture2D>.Get("UI/Abilities/AlterGenes");
         static private Texture2D mutantTexture => ContentFinder<Texture2D>.Get("UI/GeneIcons/XMT_Gene_Unknown");
-
         static private Texture2D consumeTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ConsumeGenes");
         static private Texture2D selfTexture => ContentFinder<Texture2D>.Get("UI/Abilities/ExpressGenes");
         static private Texture2D subjugateTexture => ContentFinder<Texture2D>.Get("UI/Abilities/DominateMutant");
+        static private Texture2D controlMutantTexture => ContentFinder<Texture2D>.Get("UI/Abilities/Starbeast_Dominate");
+        
         private const float DominionBaselineRange = 21f;
         private const float BaselineQueenPsychicSensitivity = 1.25f;
         Pawn Parent => parent as Pawn;
         CompGeneManipulatorProperties Props => props as CompGeneManipulatorProperties;
         private List<QueenMutationOrder> mutationOrders = new List<QueenMutationOrder>();
+        private List<HorrorAdvancementOrder> horrorAdvancementOrders = new List<HorrorAdvancementOrder>();
 
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
@@ -108,6 +110,11 @@ namespace Xenomorphtype
                 yield return MutantControl_Action;
             }
 
+            if (Parent.GetComp<CompQueen>()?.HasActiveEvolution(RoyalEvolutionDefOf.Evo_RoyalCrown) == true)
+            {
+                yield return CreateHorrorAdvancementAction();
+            }
+
             TargetingParameters CorpseParameters = new TargetingParameters();
 
             CorpseParameters.canTargetCorpses = true;
@@ -163,6 +170,160 @@ namespace Xenomorphtype
             }
 
             yield return CreateSelfGeneExpressionAction();
+        }
+
+        private Command_Action CreateHorrorAdvancementAction()
+        {
+            TargetingParameters targetParameters = new TargetingParameters
+            {
+                canTargetPawns = true,
+                canTargetBuildings = true,
+                canTargetItems = false,
+                validator = target => HorrorAdvancementUtility.CanSelectTarget(Parent, target.Thing).Accepted
+            };
+
+            return new Command_Action
+            {
+                defaultLabel = "XMT_HorrorAdvanceLabel".Translate(),
+                defaultDesc = "XMT_HorrorAdvanceDescription".Translate(),
+                icon = controlMutantTexture,
+                action = delegate
+                {
+                    Find.Targeter.BeginTargeting(targetParameters, target => OpenHorrorAdvancementMenu(target.Thing));
+                }
+            };
+        }
+
+        private void OpenHorrorAdvancementMenu(Thing target)
+        {
+            AcceptanceReport report = HorrorAdvancementUtility.CanSelectTarget(Parent, target);
+            if (!report.Accepted)
+            {
+                Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            List<HorrorAdvancementOption> promotions = HorrorAdvancementUtility.GetOptions(target, HorrorAdvancementDirection.Promote);
+            List<HorrorAdvancementOption> demotions = HorrorAdvancementUtility.GetOptions(target, HorrorAdvancementDirection.Demote);
+            if (promotions.Any() && demotions.Any())
+            {
+                Find.WindowStack.Add(new FloatMenu(new List<FloatMenuOption>
+                {
+                    new FloatMenuOption("XMT_HorrorPromoteLabel".Translate(), () => OpenHorrorCandidateMenu(target, HorrorAdvancementDirection.Promote)),
+                    new FloatMenuOption("XMT_HorrorDemoteLabel".Translate(), () => OpenHorrorCandidateMenu(target, HorrorAdvancementDirection.Demote))
+                }));
+                return;
+            }
+
+            OpenHorrorCandidateMenu(target, promotions.Any() ? HorrorAdvancementDirection.Promote : HorrorAdvancementDirection.Demote);
+        }
+
+        private void OpenHorrorCandidateMenu(Thing target, HorrorAdvancementDirection direction)
+        {
+            List<FloatMenuOption> menuOptions = new List<FloatMenuOption>();
+            foreach (HorrorAdvancementOption option in HorrorAdvancementUtility.GetOptions(target, direction))
+            {
+                HorrorAdvancementOption selectedOption = option;
+                float foodCost = HorrorAdvancementUtility.FoodCost(Parent, target, selectedOption);
+                string label = foodCost > 0f
+                    ? "XMT_HorrorAdvanceOptionCost".Translate(selectedOption.Label, foodCost.ToString("0.##"))
+                    : "XMT_HorrorAdvanceOptionFree".Translate(selectedOption.Label);
+                FloatMenuOption menuOption = new FloatMenuOption(label, () => StartHorrorAdvancementOrder(target, selectedOption));
+                AcceptanceReport report = HorrorAdvancementUtility.CanExecute(Parent, target, selectedOption, false);
+                if (!report.Accepted)
+                {
+                    menuOption.Disabled = true;
+                    menuOption.tooltip = report.Reason;
+                }
+                else
+                {
+                    menuOption.tooltip = "XMT_HorrorAdvanceOptionTooltip".Translate(
+                        HorrorAdvancementUtility.EffectiveBodySize(target).ToString("0.##"),
+                        HorrorAdvancementUtility.DestinationBodySize(target, selectedOption).ToString("0.##"),
+                        HorrorAdvancementUtility.FoodPerBodySize(Parent).ToString("0.###"),
+                        foodCost.ToString("0.##"));
+                }
+
+                menuOptions.Add(menuOption);
+            }
+
+            if (menuOptions.NullOrEmpty())
+            {
+                Messages.Message("XMT_HorrorAdvanceInvalid_NoOptions".Translate(target.LabelShort), MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            Find.WindowStack.Add(new FloatMenu(menuOptions));
+        }
+
+        private void StartHorrorAdvancementOrder(Thing target, HorrorAdvancementOption option)
+        {
+            AcceptanceReport report = HorrorAdvancementUtility.CanExecute(Parent, target, option, false);
+            if (!report.Accepted)
+            {
+                Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
+                return;
+            }
+
+            RegisterHorrorAdvancementOrder(target, option);
+            FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target);
+            Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AdvanceHorror, target);
+            job.count = 1;
+            Parent.jobs.StartJob(job, JobCondition.InterruptForced);
+        }
+
+        public HorrorAdvancementOrder FindHorrorAdvancementOrder(Thing target)
+        {
+            ClearStaleHorrorAdvancementOrders();
+            return horrorAdvancementOrders.FirstOrDefault(order => order?.target == target);
+        }
+
+        public void CancelHorrorAdvancementOrder(Thing target)
+        {
+            horrorAdvancementOrders.RemoveAll(order => order?.target == target);
+        }
+
+        public bool TryExecuteHorrorAdvancementOrder(Thing target, out bool foundOrder)
+        {
+            HorrorAdvancementOrder order = FindHorrorAdvancementOrder(target);
+            foundOrder = order != null;
+            if (order == null)
+            {
+                return false;
+            }
+
+            horrorAdvancementOrders.Remove(order);
+            HorrorAdvancementOption option = HorrorAdvancementUtility.MakeOption(order.direction, order.pawnKind, order.thingDef);
+            AcceptanceReport report = HorrorAdvancementUtility.CanExecute(Parent, target, option);
+            if (!report.Accepted)
+            {
+                if (Parent.Faction == Faction.OfPlayer)
+                {
+                    Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
+                }
+                return false;
+            }
+
+            return HorrorAdvancementUtility.TryExecute(Parent, target, option, out Thing _);
+        }
+
+        private void RegisterHorrorAdvancementOrder(Thing target, HorrorAdvancementOption option)
+        {
+            ClearStaleHorrorAdvancementOrders();
+            CancelHorrorAdvancementOrder(target);
+            horrorAdvancementOrders.Add(new HorrorAdvancementOrder
+            {
+                target = target,
+                direction = option.direction,
+                pawnKind = option.pawnKind,
+                thingDef = option.thingDef
+            });
+        }
+
+        private void ClearStaleHorrorAdvancementOrders()
+        {
+            horrorAdvancementOrders.RemoveAll(order => order == null || order.target == null || order.target.Destroyed ||
+                (order.pawnKind == null && order.thingDef == null));
         }
 
         public Command_Action CreateSelfGeneExpressionAction()
@@ -509,8 +670,13 @@ namespace Xenomorphtype
             return true;
         }
 
-        private void ApplySubjugation(Pawn target)
+        internal void ApplySubjugation(Pawn target)
         {
+            if (target == null || Parent?.Faction == null)
+            {
+                return;
+            }
+
             if (ModsConfig.IdeologyActive && target.RaceProps.Humanlike && target.guest != null)
             {
                 target.guest.SetGuestStatus(Parent.Faction, GuestStatus.Slave);
@@ -672,9 +838,14 @@ namespace Xenomorphtype
         {
             base.PostExposeData();
             Scribe_Collections.Look(ref mutationOrders, "mutationOrders", LookMode.Deep);
+            Scribe_Collections.Look(ref horrorAdvancementOrders, "horrorAdvancementOrders", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && mutationOrders == null)
             {
                 mutationOrders = new List<QueenMutationOrder>();
+            }
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && horrorAdvancementOrders == null)
+            {
+                horrorAdvancementOrders = new List<HorrorAdvancementOrder>();
             }
         }
     }
@@ -716,6 +887,22 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref operation, "operation", QueenMutationOperation.Add);
             Scribe_Defs.Look(ref mutationDef, "mutationDef");
             Scribe_Defs.Look(ref sourceSet, "sourceSet");
+        }
+    }
+
+    public class HorrorAdvancementOrder : IExposable
+    {
+        public Thing target;
+        public HorrorAdvancementDirection direction;
+        public PawnKindDef pawnKind;
+        public ThingDef thingDef;
+
+        public void ExposeData()
+        {
+            Scribe_References.Look(ref target, "target");
+            Scribe_Values.Look(ref direction, "direction", HorrorAdvancementDirection.Promote);
+            Scribe_Defs.Look(ref pawnKind, "pawnKind");
+            Scribe_Defs.Look(ref thingDef, "thingDef");
         }
     }
 }

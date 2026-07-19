@@ -200,7 +200,7 @@
 	<HediffDef ParentName="AddictionBase">
 		<defName>XMT_EssenceAddiction</defName>
 		<label>immunological failure</label>
-		<description>This sibject's immune system has completely been suplanted by a mutagenic biopolymer which they must ingest to avoid lethal organ failure.</description>
+		<description>This subject's immune system has completely been suplanted by a mutagenic biopolymer which they must ingest to avoid lethal organ failure.</description>
 		<hediffClass>Hediff_Addiction</hediffClass>
 		<chemicalNeed>XMT_Chemical_Essence</chemicalNeed>
 		<everCurableByItem>false</everCurableByItem>

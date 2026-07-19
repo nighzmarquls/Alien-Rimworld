@@ -31,6 +31,8 @@ namespace Xenomorphtype
             PawnGenerationRequest request = new PawnGenerationRequest(hatchedPawnKind, parent.Faction);
             request.FixedBiologicalAge = age;
             Pawn pawn = PawnGenerator.GeneratePawn(request);
+            HorrorGenePayload payload = new HorrorGenePayload(GenesListForReading, EffectiveTemplateName);
+            BioUtility.TryApplyHorrorGenePayload(pawn, payload);
 
             CompLarvalGenes larvalGenes = pawn.GetComp<CompLarvalGenes>();
 
@@ -40,7 +42,6 @@ namespace Xenomorphtype
                 {
                     larvalGenes.mother = mother;
                     larvalGenes.father = father;
-                    larvalGenes.genes = genes;
                 }
             }
 
@@ -49,13 +50,6 @@ namespace Xenomorphtype
             {
                 subverterGenes.mother = mother;
                 subverterGenes.father = father;
-                subverterGenes.genes = genes;
-            }
-
-            CompHiveGeneHolder geneHolder = pawn.GetComp<CompHiveGeneHolder>();
-            if (geneHolder != null && geneHolder.genes == null)
-            {
-                geneHolder.genes = genes;
             }
 
             pawn = GenSpawn.Spawn(pawn, position, map) as Pawn;

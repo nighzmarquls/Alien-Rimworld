@@ -85,7 +85,7 @@ namespace Xenomorphtype
             _chosenGenes = _originalGenes.ListFullCopy();
             _hiveGenes = BioUtility.GetAllHiveGenes(thing.Map);
             CompHiveGeneHolder geneHolder = thing.TryGetComp<CompHiveGeneHolder>();
-            xenotypeName = geneHolder?.templateName ?? (thing as Pawn)?.genes?.xenotypeName ?? string.Empty;
+            xenotypeName = geneHolder?.EffectiveTemplateName ?? (thing as Pawn)?.genes?.xenotypeName ?? string.Empty;
             forcePause = true;
             absorbInputAroundWindow = true;
             alwaysUseFullBiostatsTableHeight = true;

@@ -24,6 +24,7 @@ namespace Xenomorphtype
         public bool removed;
         public string name;
         public float age;
+        private int geneStorageVersion = 1;
        
         public HediffCompProperties_LarvalAttachment Props => (HediffCompProperties_LarvalAttachment)props;
 
@@ -38,6 +39,13 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref removed, "removed", defaultValue: false);
             Scribe_Values.Look(ref name, "name", defaultValue: "larva");
             Scribe_Values.Look(ref age, "age", defaultValue: 0.0f);
+            Scribe_Values.Look(ref geneStorageVersion, "geneStorageVersion", 0);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && geneStorageVersion < 1)
+            {
+                genes = new HorrorGenePayload(BioUtility.NormalizeGenesForStorage(InternalDefOf.XMT_Starbeast_AlienRace, genes?.GenesListForReading)).ToGeneSet();
+                geneStorageVersion = 1;
+            }
 
         }
         public override bool CompShouldRemove
@@ -285,7 +293,7 @@ namespace Xenomorphtype
             {
                 larvalGenes.mother = mother;
                 larvalGenes.father = father;
-                larvalGenes.genes = genes;
+                larvalGenes.ReplaceGenes(genes?.GenesListForReading);
                 larvalGenes.spent = spent;
                 larva.Named(name);
 
@@ -318,7 +326,7 @@ namespace Xenomorphtype
 
             if (embryoPregnancy != null)
             {
-                embryoPregnancy.genes = genes;
+                embryoPregnancy.genes = new HorrorGenePayload(genes?.GenesListForReading).ToGeneSet();
 
                 if (embryoPregnancy.genes == null)
                 {
@@ -336,7 +344,7 @@ namespace Xenomorphtype
                         {
                             embryoPregnancy.father = Pawn;
                             
-                            BioUtility.ExtractCryptimorphGenesToGeneset(ref embryoPregnancy.genes, Pawn.genes.GenesListForReading);
+                            BioUtility.ExtractGenesToGeneset(ref embryoPregnancy.genes, BioUtility.GetCanonicalPawnGenes(Pawn));
                         }
                     }
                 }
@@ -345,7 +353,7 @@ namespace Xenomorphtype
                     if (Pawn.genes != null)
                     {
                         embryoPregnancy.father = Pawn;
-                        BioUtility.ExtractCryptimorphGenesToGeneset(ref embryoPregnancy.genes, Pawn.genes.GenesListForReading);
+                        BioUtility.ExtractGenesToGeneset(ref embryoPregnancy.genes, BioUtility.GetCanonicalPawnGenes(Pawn));
                     }
                 }
             }

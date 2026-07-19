@@ -210,6 +210,16 @@
 	</JobDef>
 
 	<JobDef>
+		<defName>XMT_AdvanceHorror</defName>
+		<driverClass>Xenomorphtype.JobDriver_AdvanceHorror</driverClass>
+		<reportString>reshaping TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
+
+	<JobDef>
 		<defName>XMT_OpenDoorMischief</defName>
 		<driverClass>Xenomorphtype.JobDriver_OpenDoorMischief</driverClass>
 		<reportString>opening TargetA.</reportString>

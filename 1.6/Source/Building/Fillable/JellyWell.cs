@@ -84,6 +84,13 @@ namespace Xenomorphtype
         public override void TransformedFrom(Thing thing, Pawn instigator)
         {
             compJellyWell.SetProgenitor(thing);
+
+            HorrorGenePayload actorGenes = BioUtility.CaptureHorrorGenePayload(instigator);
+            CompHiveGeneHolder holder = GetComp<CompHiveGeneHolder>();
+            if (actorGenes != null && holder != null)
+            {
+                holder.ReplaceGenes(actorGenes.Genes, actorGenes.TemplateName);
+            }
         }
     }
 }

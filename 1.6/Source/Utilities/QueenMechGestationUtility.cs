@@ -68,8 +68,6 @@ namespace Xenomorphtype
                 return false;
             }
 
-            
-
             bool mechanoidSynthesis = false;
             bool integratedEggSack = false;
             float maxMechSize = queen.BodySize / 2;

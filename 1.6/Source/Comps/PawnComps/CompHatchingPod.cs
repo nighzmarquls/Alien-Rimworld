@@ -88,7 +88,6 @@ namespace Xenomorphtype
             {
                 return;
             }
-            hatched = true;
             Pawn target = parent as Pawn;
 
             if (parent != null)
@@ -97,6 +96,7 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.TransformPawnIntoPawn(target, pawnDef, out Pawn result))
                     {
+                        hatched = true;
                         return;
                     }
                 }
@@ -104,6 +104,7 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.TransformPawnIntoThing(target, thingDef, out Thing result))
                     {
+                        hatched = true;
                         return;
                     }
                 }

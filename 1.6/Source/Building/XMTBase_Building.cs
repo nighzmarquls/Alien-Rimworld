@@ -17,5 +17,10 @@ namespace Xenomorphtype
 
         }
 
+        public virtual void TransformingInto(Pawn pawn, Pawn instigator = null)
+        {
+
+        }
+
     }
 }

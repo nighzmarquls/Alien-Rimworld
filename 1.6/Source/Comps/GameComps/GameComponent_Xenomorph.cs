@@ -149,7 +149,7 @@ namespace Xenomorphtype
         private float _totalReprisalRaidPoints;
         private List<XenoformingDistressSignalRecord> _pendingDistressSignals = new List<XenoformingDistressSignalRecord>();
         private int _nextDistressSignalLetterTick = -1;
-        private const int DistressSignalBatchTicks = 2500;
+        private const int DistressSignalBatchTicks = 30000;
 
         //countdown
         private const float ScreenFadeSeconds = 6f;

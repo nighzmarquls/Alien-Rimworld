@@ -33,6 +33,45 @@
 		<defName>Xenomorph</defName>
 		<displayOrder>1200</displayOrder>
 	</AbilityCategoryDef>
+
+	<AbilityDef>
+		<defName>XMT_Ability_MutagenicMiasma</defName>
+		<label>mutagenic miasma</label>
+		<description>Releases a cloud of mutagenic spores which infiltrate and subvert exposed tissue.</description>
+		<abilityClass>Xenomorphtype.Ability_MutagenicMiasma</abilityClass>
+		<iconPath>UI/Abilities/MutagenicMiasma</iconPath>
+		<hostile>true</hostile>
+		<aiCanUse>true</aiCanUse>
+		<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+		<category>Xenomorph</category>
+		<cooldownTicksRange>60</cooldownTicksRange>
+		<sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
+		<uiOrder>6</uiOrder>
+		<warmupStartSound>FireSpew_Warmup</warmupStartSound>
+		<verbProperties>
+			<verbClass>Xenomorphtype.Verb_CastMutagenicMiasma</verbClass>
+			<label>release miasma</label>
+			<warmupTime>1</warmupTime>
+			<range>12</range>
+			<drawAimPie>false</drawAimPie>
+			<requireLineOfSight>true</requireLineOfSight>
+			<soundCast>FireSpew_Resolve</soundCast>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Xenomorphtype.CompProperties_AbilityMutagenicMiasma">
+				<filthDef>Starbeast_Filth_Resin</filthDef>
+				<fleckDef>XMT_MutagenicMiasmaSmoke</fleckDef>
+				<fluHediff>XMT_Flu</fluHediff>
+				<minimumFluDurationTicks>120000</minimumFluDurationTicks>
+				<canHitFilledCells>true</canHitFilledCells>
+			</li>
+		</comps>
+	</AbilityDef>
 	
 	<AbilityDef Name="LongJump">
 		<defName>Starbeast_Leap</defName>

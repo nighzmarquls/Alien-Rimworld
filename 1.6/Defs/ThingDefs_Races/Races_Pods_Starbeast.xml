@@ -4,6 +4,9 @@
 		<label>pod</label>
 		<description>A translucent fleshy orb with a body shifting within.</description>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
 				<appliedHediff>AcidCorrosion</appliedHediff>
 			</li>

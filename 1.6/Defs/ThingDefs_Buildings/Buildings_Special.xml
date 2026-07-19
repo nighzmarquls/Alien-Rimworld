@@ -6,6 +6,9 @@
 		<thingClass>Xenomorphtype.MeatballLarder</thingClass>
 		<label>meatball Larder</label>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompMeatBallProperties"/>
 			<li Class="CompProperties_Forbiddable" />
 		</comps>
@@ -61,6 +64,9 @@
 		<thingClass>Xenomorphtype.JellyWell</thingClass>
 		<label>Resinous Jelly Fountain</label>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
 				<jellyIngredientFilter>
 					<categories>

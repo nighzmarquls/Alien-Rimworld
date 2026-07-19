@@ -85,7 +85,13 @@
 					</li>
 				</resultCandidates>
 			</li>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets>
+					<li><pawnKind>XMT_HybridFunctional</pawnKind></li>
+					<li><pawnKind>XMT_HybridHorrorMatured</pawnKind></li>
+				</promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -245,7 +251,10 @@
 			</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_BeautifulHarmonizer</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -402,7 +411,10 @@
 			</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_AbominableMaw</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -529,7 +541,11 @@
 				</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_MedicineToad</pawnKind></li></promotionTargets>
+				<demotionTargets><li><pawnKind>XMT_Fleshspawn</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -638,7 +654,10 @@
 				</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>1</tier>
+				<promotionTargets><li><pawnKind>XMT_Fleshtoad</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -755,7 +774,10 @@
 		</li>
 	</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Fleshtoad</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -963,7 +985,10 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Exterminator</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -1135,7 +1160,10 @@
 			<li >NonContractable</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Smotherer</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -1259,7 +1287,10 @@
 					</li>
 				</resultCandidates>
 			</li>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Hivehound</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -1440,7 +1471,10 @@
 		  <li>AnimalPet</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Howler</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	  
@@ -1574,7 +1608,10 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Ovocloner</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -1653,7 +1690,10 @@
 			<li >NonContractable</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Barnacle</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -1727,7 +1767,9 @@
 			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
 		</race>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>-1</tier>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -1849,7 +1891,10 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>1</tier>
+				<promotionTargets><li><pawnKind>XMT_Hammerpede</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -1968,7 +2013,9 @@
 				</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -2060,7 +2107,10 @@
 				</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Jagerbar</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -2158,7 +2208,10 @@
 			</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Slumberbeast</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -2249,7 +2302,10 @@
 				</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Jellyrat</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -2318,7 +2374,10 @@
 				</li>
 		</comps>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Plaguerat</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -2415,7 +2474,10 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Sleipnir</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -2559,7 +2621,10 @@
 		  </li>
 		</tools>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Umbilical</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -2702,7 +2767,10 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Threadbeast</pawnKind></li></promotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -2855,7 +2923,10 @@
 		  </li>
 		</tools>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_StrangleMoss</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 
@@ -3001,7 +3072,11 @@
 			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
 		</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_AcidAphid</pawnKind></li></promotionTargets>
+				<demotionTargets><li><pawnKind>XMT_FleshTick</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
 	
@@ -3111,7 +3186,10 @@
 			<li >NonContractable</li>
 	</tradeTags>
 		<modExtensions>
-			<li Class="Xenomorphtype.XMT_HorrorPawnExtension" />
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Hammerpede</pawnKind></li></demotionTargets>
+			</li>
 		</modExtensions>
 	</ThingDef>
   

@@ -6,6 +6,9 @@
 		<thingClass>Xenomorphtype.Petrolsump</thingClass>
 		<label>Oozing Fleshmass</label>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompPetrolsumpProperties">
 				<sporeKindDef>XMT_Petrolspore</sporeKindDef>
 			</li>
@@ -19,6 +22,13 @@
 				<thingHorrifiedByThis>Boomalope</thingHorrifiedByThis>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><thingDef>XMT_PetrolPool</thingDef></li></promotionTargets>
+				<demotionTargets><li><pawnKind>XMT_Petrolspore</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
 		<description>a strange amorpheous mass of quivering flesh, covered in sloshing, turgid sacks. It writhes at the ground wet and hungrily, it trembles and heaves in a terribly pained manner, it oozes rank secretions.</description>
 		<graphicData>
 			<texPath>Things/Building/PetrolSump</texPath>
@@ -68,6 +78,9 @@
 		<thingClass>Xenomorphtype.JellyWell</thingClass>
 		<label>chemfuel fountain</label>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
 				<jellyIngredientFilter>
 					<categories>
@@ -119,6 +132,12 @@
 				</startWickOnDamageTaken>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><thingDef>XMT_Petrolsump</thingDef></li></demotionTargets>
+			</li>
+		</modExtensions>
 		<description>A strange fountain which draws in organic materials through its roots and converts it into high grade chemfuel. Did it just move?</description>
 		<graphicData>
 			<texPath>Things/Building/PetrolPool/PetrolPool</texPath>
@@ -172,6 +191,9 @@
 		<thingClass>Xenomorphtype.Slumberer</thingClass>
 		<label>Slumbering Mass</label>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompSlumbererProperties">
 				<slumbererKindDef>XMT_Slumberbeast</slumbererKindDef>
 			</li>
@@ -182,6 +204,12 @@
 				<damage>20</damage>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Jagerbar</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
 		<description>a heaving mass of jellid flesh riddled in veins with a skeleton floating within, it trembles and heaves in a slow, ponderous manner.</description>
 		<graphicData>
 			<texPath>Things/Building/SlumberBeast</texPath>

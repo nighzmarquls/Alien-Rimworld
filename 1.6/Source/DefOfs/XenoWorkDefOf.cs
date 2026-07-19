@@ -67,6 +67,7 @@ namespace Xenomorphtype
         public static JobDef XMT_ProduceJelly;
         public static JobDef XMT_AlterGenes;
         public static JobDef XMT_MutateTarget;
+        public static JobDef XMT_AdvanceHorror;
         public static JobDef XMT_CopyGenes;
         public static JobDef XMT_LayOvomorph;
         public static JobDef XMT_GeneDevour;

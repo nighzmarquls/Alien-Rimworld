@@ -41,13 +41,16 @@ namespace Xenomorphtype
                                 PawnGenerationRequest request = new PawnGenerationRequest(Props.pawnKindSpawned, null);
                                 request.FixedBiologicalAge = 0;
                                 Pawn spawn = PawnGenerator.GeneratePawn(request);
+                                ApplyLineageIfSupported(spawn);
                                 GenSpawn.Spawn(spawn, Parent.PositionHeld, Parent.MapHeld);
                                 return;
                             }
                             if (Props.thingSpawned != null)
                             {
-                                Thing spawnedThing = GenSpawn.Spawn(Props.thingSpawned, Parent.PositionHeld, Parent.MapHeld);
+                                Thing spawnedThing = ThingMaker.MakeThing(Props.thingSpawned);
                                 spawnedThing.stackCount = Props.spawnStackCount;
+                                ApplyLineageIfSupported(spawnedThing);
+                                GenSpawn.Spawn(spawnedThing, Parent.PositionHeld, Parent.MapHeld);
                             }
                         }
                     }
@@ -64,16 +67,31 @@ namespace Xenomorphtype
                         PawnGenerationRequest request = new PawnGenerationRequest(Props.pawnKindSpawned, null);
                         request.FixedBiologicalAge = 0;
                         Pawn spawn = PawnGenerator.GeneratePawn(request);
+                        ApplyLineageIfSupported(spawn);
                         GenSpawn.Spawn(spawn, parent.PositionHeld, parent.MapHeld);
                         return;
                     }
 
                     if (Props.thingSpawned != null)
                     {
-                        GenSpawn.Spawn(Props.thingSpawned, parent.PositionHeld, parent.MapHeld);
+                        Thing spawnedThing = ThingMaker.MakeThing(Props.thingSpawned);
+                        spawnedThing.stackCount = Props.spawnStackCount;
+                        ApplyLineageIfSupported(spawnedThing);
+                        GenSpawn.Spawn(spawnedThing, parent.PositionHeld, parent.MapHeld);
                     }
                 }
             }
+        }
+
+        private void ApplyLineageIfSupported(Thing product)
+        {
+            if (product?.TryGetComp<CompHiveGeneHolder>() == null)
+            {
+                return;
+            }
+
+            HorrorGenePayload payload = BioUtility.CaptureHorrorGenePayload(parent);
+            BioUtility.TryApplyHorrorGenePayload(product, payload);
         }
     }
 

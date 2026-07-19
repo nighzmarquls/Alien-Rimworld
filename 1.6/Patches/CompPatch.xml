@@ -10,4 +10,14 @@
 			</li>
 		</value>
 	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<success>Always</success>
+		<xpath>/Defs/ThingDef[modExtensions/li[@Class="Xenomorphtype.XMT_HorrorPawnExtension"] and not(@ParentName="XMT_Base_Pod") and not(comps/li/compClass="Xenomorphtype.CompHiveGeneHolder")]/comps</xpath>
+		<value>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
+		</value>
+	</Operation>
 </Patch>

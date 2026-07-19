@@ -739,9 +739,15 @@ namespace Xenomorphtype
         }
         public static bool IsMorphing(Pawn pawn)
         {
+            if (pawn?.health?.hediffSet == null)
+            {
+                return false;
+            }
+
             IEnumerable<Hediff> source = from x in pawn.health.hediffSet.hediffs
                                          where
-                                         x.TryGetComp<HediffComp_BuildingMorphing>() != null
+                                         x.TryGetComp<HediffComp_BuildingMorphing>() != null ||
+                                         x.TryGetComp<HediffComp_Transformation>() != null
                                          select x;
             if (source.Any())
             {
@@ -1100,7 +1106,7 @@ namespace Xenomorphtype
             return XenomorphWitness;
         }
 
-        public static bool TransformPawnIntoPawn(Pawn target, PawnKindDef targetDef, out Pawn result, Pawn instigator = null)
+        public static bool TransformPawnIntoPawn(Pawn target, PawnKindDef targetDef, out Pawn result, Pawn instigator = null, long? biologicalAgeTicksOverride = null)
         {
             result = null;
             if (targetDef == null)
@@ -1112,9 +1118,14 @@ namespace Xenomorphtype
             {
                 return false;
             }
+            HorrorGenePayload genePayload = BioUtility.CaptureHorrorGenePayload(target);
             //Log.Message("began transforming "+ target + " into " + targetDef);
             PawnGenerationRequest request = new PawnGenerationRequest(
                 targetDef, faction: target.Faction, PawnGenerationContext.PlayerStarter, null, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, target.ageTracker.AgeBiologicalYears, target.ageTracker.AgeChronologicalYears);
+            if (biologicalAgeTicksOverride.HasValue)
+            {
+                request.FixedBiologicalAge = (float)biologicalAgeTicksOverride.Value / GenDate.TicksPerYear;
+            }
 
             if (targetDef.race.race.hasGenders)
             {
@@ -1134,11 +1145,16 @@ namespace Xenomorphtype
             //Log.Message("completed request generation for " + target + " into " + targetDef);
             Pawn NewPawn = PawnGenerator.GeneratePawn(request);
 
+            if (NewPawn == null)
+            {
+                return false;
+            }
+
             //Log.Message("generated pawn " + NewPawn );
             if (NewPawn != null)
             {
                 
-                NewPawn.ageTracker.DebugSetAge(target.ageTracker.AgeBiologicalTicks);
+                NewPawn.ageTracker.DebugSetAge(biologicalAgeTicksOverride ?? target.ageTracker.AgeBiologicalTicks);
 
                 if (NewPawn.BodySize < target.BodySize)
                 {
@@ -1150,9 +1166,13 @@ namespace Xenomorphtype
                             meat = ThingDefOf.Meat_Human;
                         }
 
-                        int ExcessAmount = Mathf.FloorToInt((target.GetStatValue(StatDefOf.Mass) - NewPawn.GetStatValue(StatDefOf.Mass))/NewPawn.RaceProps.meatDef.BaseMass);
-
-                        DropAmountThing(meat, ExcessAmount, target.PositionHeld, target.MapHeld, InternalDefOf.Starbeast_Filth_Resin);
+                        int excessAmount = Mathf.FloorToInt((target.GetStatValue(StatDefOf.Mass) - NewPawn.GetStatValue(StatDefOf.Mass)) / meat.BaseMass);
+                        int sourceButcherYield = Mathf.Max(0, Mathf.FloorToInt(target.GetStatValue(StatDefOf.MeatAmount)));
+                        excessAmount = Mathf.Min(excessAmount, sourceButcherYield);
+                        if (excessAmount > 0)
+                        {
+                            DropAmountThing(meat, excessAmount, target.PositionHeld, target.MapHeld, InternalDefOf.Starbeast_Filth_Resin);
+                        }
                     }
                 }
 
@@ -1319,27 +1339,7 @@ namespace Xenomorphtype
                     }
                 }
 
-                if(target.genes != null)
-                {
-                    if(NewPawn.genes != null)
-                    {
-                        GeneSet geneset = new GeneSet();
-                        List<GeneDef> genes = BioUtility.GetExtraHostGenes(target);
-                        BioUtility.ExtractGenesToGeneset(ref geneset, genes);
-                        BioUtility.ExtractCryptimorphGenesToGeneset(ref geneset, target.genes.GenesListForReading);
-                        BioUtility.InsertGenesetToPawn(geneset, ref NewPawn);
-                    }
-                }
-                else
-                {
-                    if (NewPawn.genes != null)
-                    {
-                        GeneSet geneset = new GeneSet();
-                        List<GeneDef> genes = BioUtility.GetExtraHostGenes(target);
-                        BioUtility.ExtractGenesToGeneset(ref geneset, genes);
-                        BioUtility.InsertGenesetToPawn(geneset, ref NewPawn);
-                    }
-                }
+                BioUtility.TryApplyHorrorGenePayload(NewPawn, genePayload);
 
                 if (target.ideo != null)
                 {
@@ -1393,6 +1393,11 @@ namespace Xenomorphtype
 
             NewPawn = TrySpawnPawnFromTarget(NewPawn, target) as Pawn;
 
+            if (NewPawn == null)
+            {
+                return false;
+            }
+
             Log.Message("spawned " + NewPawn);
             target.Destroy();
             Log.Message("cleaned up original");
@@ -1403,26 +1408,164 @@ namespace Xenomorphtype
         internal static bool TransformThingIntoThing(Thing target, ThingDef targetDef, out Thing result, Pawn instigator = null)
         {
             result = null;
-            if (targetDef == null)
+            if (targetDef == null || target == null || target.Destroyed || target is Pawn)
             {
                 return false;
             }
 
-            if (target == null)
+            if (!target.Spawned || target.Map == null)
             {
                 return false;
             }
 
-            Thing NewThing = ThingMaker.MakeThing(targetDef);
-           
-            XMTBase_Building building = NewThing as XMTBase_Building;
-            if (building != null)
+            Map map = target.Map;
+            IntVec3 position = target.Position;
+            Rot4 rotation = target.Rotation;
+            Thing newThing = null;
+            HorrorGenePayload genePayload = BioUtility.CaptureHorrorGenePayload(target);
+
+            try
             {
-                building.TransformedFrom(target, instigator);
+                newThing = ThingMaker.MakeThing(targetDef);
+                if (newThing == null)
+                {
+                    return false;
+                }
+
+                BioUtility.TryApplyHorrorGenePayload(newThing, genePayload);
+                if (newThing is XMTBase_Building building)
+                {
+                    building.TransformedFrom(target, instigator);
+                }
+
+                target.DeSpawn(DestroyMode.Vanish);
+                Thing spawnedThing = GenSpawn.Spawn(newThing, position, map, rotation, WipeMode.VanishOrMoveAside);
+                if (spawnedThing == null)
+                {
+                    GenSpawn.Spawn(target, position, map, rotation, WipeMode.VanishOrMoveAside);
+                    newThing.Destroy(DestroyMode.Vanish);
+                    return false;
+                }
+
+                target.Destroy(DestroyMode.Vanish);
+                result = spawnedThing;
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Log.Error("Failed to transform " + target + " into " + targetDef + ": " + exception);
+
+                if (newThing != null && !newThing.Destroyed)
+                {
+                    if (newThing.Spawned)
+                    {
+                        newThing.DeSpawn(DestroyMode.Vanish);
+                    }
+                    newThing.Destroy(DestroyMode.Vanish);
+                }
+
+                if (!target.Destroyed && !target.Spawned)
+                {
+                    GenSpawn.Spawn(target, position, map, rotation, WipeMode.VanishOrMoveAside);
+                }
+
+                return false;
+            }
+        }
+
+        public static bool TransformThingIntoPawn(Thing target, PawnKindDef targetDef, out Pawn result, Pawn instigator = null, long? biologicalAgeTicksOverride = null)
+        {
+            result = null;
+            if (target == null || target.Destroyed || target is Pawn)
+            {
+                return false;
             }
 
-            result = GenSpawn.Spawn(NewThing, target.PositionHeld, target.MapHeld, WipeMode.Vanish);
-            return true;
+            if (targetDef?.race?.race == null)
+            {
+                return false;
+            }
+
+            if (!target.Spawned || target.Map == null)
+            {
+                return false;
+            }
+
+            Map map = target.Map;
+            IntVec3 position = target.Position;
+            Rot4 rotation = target.Rotation;
+            Faction faction = target.Faction ?? instigator?.Faction;
+            Pawn newPawn = null;
+            HorrorGenePayload genePayload = BioUtility.CaptureHorrorGenePayload(target);
+
+            try
+            {
+                PawnGenerationRequest request = new PawnGenerationRequest(targetDef, faction);
+                if (biologicalAgeTicksOverride.HasValue)
+                {
+                    request.FixedBiologicalAge = (float)biologicalAgeTicksOverride.Value / GenDate.TicksPerYear;
+                }
+                if (!targetDef.race.race.hasGenders)
+                {
+                    request.FixedGender = Gender.None;
+                }
+                else if (targetDef.race is ThingDef_AlienRace alienRace &&
+                         alienRace.alienRace.generalSettings.maleGenderProbability <= 0f)
+                {
+                    request.FixedGender = Gender.Female;
+                }
+
+                newPawn = PawnGenerator.GeneratePawn(request);
+                if (newPawn == null)
+                {
+                    return false;
+                }
+
+                BioUtility.TryApplyHorrorGenePayload(newPawn, genePayload);
+
+                if (target is XMTBase_Building biologicalBuilding)
+                {
+                    biologicalBuilding.TransformingInto(newPawn, instigator);
+                }
+
+                if (biologicalAgeTicksOverride.HasValue)
+                {
+                    newPawn.ageTracker.DebugSetAge(biologicalAgeTicksOverride.Value);
+                }
+
+                target.DeSpawn(DestroyMode.Vanish);
+                Pawn spawnedPawn = GenSpawn.Spawn(newPawn, position, map, rotation, WipeMode.VanishOrMoveAside) as Pawn;
+                if (spawnedPawn == null)
+                {
+                    GenSpawn.Spawn(target, position, map, rotation, WipeMode.VanishOrMoveAside);
+                    newPawn.Discard();
+                    return false;
+                }
+
+                target.Destroy(DestroyMode.Vanish);
+                result = spawnedPawn;
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Log.Error("Failed to transform " + target + " into " + targetDef + ": " + exception);
+
+                if (newPawn != null && !newPawn.Destroyed)
+                {
+                    if (newPawn.Spawned)
+                    {
+                        newPawn.DeSpawn(DestroyMode.Vanish);
+                    }
+                    newPawn.Discard();
+                }
+
+                if (!target.Destroyed && !target.Spawned)
+                {
+                    GenSpawn.Spawn(target, position, map, rotation, WipeMode.VanishOrMoveAside);
+                }
+
+                return false;
+            }
         }
 
         internal static bool TransformPawnIntoThing(Pawn target, ThingDef targetDef, out Thing result, Pawn instigator = null)
@@ -1438,10 +1581,18 @@ namespace Xenomorphtype
                 return false;
             }
 
-            IntVec3 spawnPosition = target.Dead ? target.Corpse.Position : target.Position;
-            Map spawnMap = target.Dead ? target.Corpse.Map : target.MapHeld;
+            Thing spawnAnchor = target.Dead ? target.Corpse : target.SpawnedParentOrMe;
+            IntVec3 spawnPosition = spawnAnchor?.PositionHeld ?? target.PositionHeld;
+            Map spawnMap = spawnAnchor?.MapHeld ?? target.MapHeld;
+            if (spawnMap == null)
+            {
+                return false;
+            }
+
+            HorrorGenePayload genePayload = BioUtility.CaptureHorrorGenePayload(target);
 
             Thing NewThing = ThingMaker.MakeThing(targetDef);
+            BioUtility.TryApplyHorrorGenePayload(NewThing, genePayload);
             if(!GenPlace.TryPlaceThing(NewThing, spawnPosition, spawnMap, ThingPlaceMode.Near))
             {
                 Log.Warning("Failure to place " + NewThing);

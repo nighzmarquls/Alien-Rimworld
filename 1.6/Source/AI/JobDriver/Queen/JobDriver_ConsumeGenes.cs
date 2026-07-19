@@ -70,8 +70,7 @@ namespace Xenomorphtype
                         {
                             Log.Message(Ovomorph + " getting " + consumedGenes.Count() + " genes!");
                         }
-                        geneHolder.genes = new GeneSet();
-                        BioUtility.ExtractGenesToGeneset(ref geneHolder.genes, consumedGenes);
+                        geneHolder.ReplaceGenes(consumedGenes);
 
                         if(Target.Spawned)
                         {

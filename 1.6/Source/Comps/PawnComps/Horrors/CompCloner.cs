@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -12,6 +13,7 @@ namespace Xenomorphtype
         static private Texture2D SampleTexture => ContentFinder<Texture2D>.Get("UI/Abilities/GeneOvomorph");
         PawnKindDef sampleKindDef = null;
         GeneSet sampleGenes = null;
+        int sampleGeneStorageVersion = 1;
         int eggMaturationTicks = 2000;
         int eggProductionTicks = 2000;
 
@@ -24,8 +26,16 @@ namespace Xenomorphtype
             base.PostExposeData();
             Scribe_Defs.Look(ref sampleKindDef, "sampleKindDef");
             Scribe_Deep.Look(ref sampleGenes, "sampleGenes");
+            Scribe_Values.Look(ref sampleGeneStorageVersion, "sampleGeneStorageVersion", 0);
             Scribe_Values.Look(ref eggMaturationTicks, "eggMaturationTicks");
             Scribe_Values.Look(ref eggProductionTicks, "eggProductionTicks");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && sampleGeneStorageVersion < 1 && sampleGenes != null)
+            {
+                List<GeneDef> canonicalGenes = BioUtility.NormalizeGenesForStorage(sampleKindDef?.race, sampleGenes.GenesListForReading);
+                sampleGenes = new HorrorGenePayload(canonicalGenes).ToGeneSet();
+                sampleGeneStorageVersion = 1;
+            }
         }
 
         public void SamplePawn(Pawn pawn)
@@ -36,9 +46,9 @@ namespace Xenomorphtype
             if (pawn.genes != null)
             {
                 sampleGenes = new GeneSet();
-                foreach(Gene gene in pawn.genes.Endogenes)
+                foreach (GeneDef gene in BioUtility.NormalizeGenesForStorage(pawn.def, pawn.genes.Endogenes.Select(entry => entry.def)))
                 {
-                    sampleGenes.AddGene(gene.def);
+                    sampleGenes.AddGene(gene);
                 }
             }
             else
@@ -47,6 +57,7 @@ namespace Xenomorphtype
             }
 
             sampleKindDef = pawn.kindDef;
+            sampleGeneStorageVersion = 1;
             int currentTick = Find.TickManager.TicksGame;
             nextSpawnTick = currentTick + Mathf.CeilToInt(eggProductionTicks);
             if (XMTSettings.LogBiohorror)

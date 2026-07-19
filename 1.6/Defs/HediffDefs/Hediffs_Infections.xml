@@ -44,6 +44,7 @@
 	  <li Class="Xenomorphtype.HediffCompProperties_Mutator">
 		<probability>0.1</probability>
 	  </li>
+	  <li Class="Xenomorphtype.HediffCompProperties_MiasmaMinimumDuration" />
     </comps>
     <stages>
       <li>
@@ -342,7 +343,6 @@
 			<hediffs>
 				<li>XMT_Embryo</li>
 				<li>XMT_LarvalEmbrace</li>
-				<li>XMT_BecomingMutant</li>
 			</hediffs>
 		</li>
 	    <li Class="Xenomorphtype.HediffCompProperties_BuildingMorphing">

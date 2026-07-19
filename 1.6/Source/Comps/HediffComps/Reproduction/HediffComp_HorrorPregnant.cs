@@ -140,9 +140,11 @@ namespace Xenomorphtype
             PawnGenerationRequest request = new PawnGenerationRequest(childKind, Pawn.Faction);
             request.FixedBiologicalAge = 0;
             Pawn child = PawnGenerator.GeneratePawn(request);
+            HorrorGenePayload inheritedGenes = BioUtility.CaptureHorrorGenePayload(Pawn, inheritableOnly: true);
 
             if (child != null)
             {
+                BioUtility.TryApplyHorrorGenePayload(child, inheritedGenes);
                 if(child.relations != null)
                 {
                     child.relations.AddDirectRelation(PawnRelationDefOf.ParentBirth, Pawn);
@@ -155,12 +157,6 @@ namespace Xenomorphtype
                 if (larvalGenes != null)
                 {
                     larvalGenes.mother = Pawn;
-
-                    BioUtility.ExtractGenesToGeneset(ref larvalGenes.genes, BioUtility.GetExtraHostGenes(Pawn));
-                    if (Pawn.genes != null)
-                    {
-                        BioUtility.ExtractCryptimorphGenesToGeneset(ref larvalGenes.genes, Pawn.genes.GenesListForReading);
-                    }
                 }
 
                 XMTUtility.TrySpawnPawnFromTarget(child, Pawn);

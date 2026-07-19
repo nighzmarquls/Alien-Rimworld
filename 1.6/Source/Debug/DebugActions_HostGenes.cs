@@ -180,9 +180,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            geneHolder.templateName = request.TemplateName;
-            geneHolder.genes = new GeneSet();
-            BioUtility.ExtractGenesToGeneset(ref geneHolder.genes, request.Genes);
+            geneHolder.ReplaceGenes(request.Genes, request.TemplateName);
         }
 
         private static IEnumerable<HostGeneSource> AllHostGeneSources()

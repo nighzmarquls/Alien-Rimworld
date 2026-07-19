@@ -183,14 +183,17 @@ namespace Xenomorphtype
                 yield break;
             }
 
-            if (Parent.Downed)
+            foreach(Hediff hediff in Parent.health.hediffSet.hediffs)
             {
-                yield break;
-            }
+                if(hediff.def == XenoGeneDefOf.XMT_GeneIntegration)
+                {
+                    yield break;
+                }
 
-            if (Parent.health.hediffSet.GetFirstHediffOfDef(RoyalEvolutionDefOf.XMT_TornEggSack) is Hediff EggSackTorn)
-            {
-                yield break;
+                if(hediff.def == RoyalEvolutionDefOf.XMT_TornEggSack)
+                {
+                    yield break;
+                }
             }
 
             Command Command_Evolution = new Command_Evolution
@@ -233,6 +236,14 @@ namespace Xenomorphtype
         {
             base.PostSpawnSetup(respawningAfterLoad);
             XMTUtility.DeclareQueen(Parent);
+
+            foreach (RoyalEvolutionDef evolution in ChosenEvolutions)
+            {
+                if (HasActiveEvolution(evolution))
+                {
+                    AddUnlockedAbilities(evolution);
+                }
+            }
         }
 
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)

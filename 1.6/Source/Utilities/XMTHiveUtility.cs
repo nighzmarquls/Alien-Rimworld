@@ -640,22 +640,24 @@ namespace Xenomorphtype
         public static List<Thing> GetAllGeneCarriers(Map map)
         {
             List<Thing> result = new List<Thing>();
-
-            NestSite localNest = GetLocalNest(map);
-
-            if (localNest == null)
+            if (map == null)
             {
                 return result;
             }
 
-            result.AddRange(localNest.Ovomorphs);
-            result.AddRange(localNest.GeneOvomorphs);
+            foreach (Thing thing in map.listerThings.AllThings)
+            {
+                if (thing?.TryGetComp<CompHiveGeneHolder>() != null)
+                {
+                    result.AddDistinct(thing);
+                }
+            }
 
             foreach(Pawn pawn in map.mapPawns.AllPawnsSpawned)
             {
                 if(XMTUtility.IsXenomorph(pawn))
                 {
-                    result.Add(pawn);
+                    result.AddDistinct(pawn);
                 }
 
             }

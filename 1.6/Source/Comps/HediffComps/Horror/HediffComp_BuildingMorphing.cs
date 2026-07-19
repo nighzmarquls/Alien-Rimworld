@@ -89,7 +89,10 @@ namespace Xenomorphtype
             else if(Pawn.IsHashIntervalTick(2500) && parent.Severity > Props.ApparantMorphingSeverity)
             {
                 XMTUtility.GiveMemory(Pawn, HorrorMoodDefOf.OvomorphedAdvancedMood);
-                FilthMaker.TryMakeFilth(Pawn.Position, Pawn.Map, InternalDefOf.Starbeast_Filth_Resin);
+                if (Pawn.MapHeld != null)
+                {
+                    FilthMaker.TryMakeFilth(Pawn.PositionHeld, Pawn.MapHeld, InternalDefOf.Starbeast_Filth_Resin);
+                }
                 
                 if(Props.forcedBodyType != null)
                 {
@@ -145,7 +148,6 @@ namespace Xenomorphtype
         }
         private void TryMorphBuilding()
         {
-            unMorphed = false;
             Pawn target = parent.pawn;
 
             ThingDef newThingDef = Props.MorphedBuilding;
@@ -155,10 +157,13 @@ namespace Xenomorphtype
                 return;
             }
 
-            XMTUtility.TransformPawnIntoThing(target, newThingDef, out spawnedThing, instigator);
-            if(spawnedThing != null)
+            if (XMTUtility.TransformPawnIntoThing(target, newThingDef, out spawnedThing, instigator))
             {
-                FilthMaker.TryMakeFilth(spawnedThing.Position, spawnedThing.Map, InternalDefOf.Starbeast_Filth_Resin,count: 10);
+                unMorphed = false;
+                if (spawnedThing?.Spawned == true)
+                {
+                    FilthMaker.TryMakeFilth(spawnedThing.PositionHeld, spawnedThing.MapHeld, InternalDefOf.Starbeast_Filth_Resin,count: 10);
+                }
             }
         }
 

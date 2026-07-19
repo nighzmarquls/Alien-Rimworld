@@ -254,7 +254,7 @@ namespace Xenomorphtype
                 latched = true;
                 LarvalAttachment.mother = mother;
                 LarvalAttachment.father = father;
-                LarvalAttachment.genes = genes;
+                LarvalAttachment.genes = CaptureGeneSet();
                 LarvalAttachment.kind = pawn.kindDef;
                 LarvalAttachment.name = pawn.Name?.ToString();
                 LarvalAttachment.age = pawn.ageTracker.AgeBiologicalYearsFloat;

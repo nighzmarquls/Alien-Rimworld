@@ -416,7 +416,8 @@ namespace Xenomorphtype
 
             if (!selectedGenes.Any())
             {
-                selectedGenes = BioUtility.FilterGenesWithinComplexity(BioUtility.GetCryptimorphInheritableGenes(Parent), hereditaryCapacity);
+                HorrorGenePayload parentGenes = BioUtility.CaptureHorrorGenePayload(Parent, inheritableOnly: true);
+                selectedGenes = BioUtility.FilterCanonicalGenesWithinComplexity(parentGenes?.Genes, hereditaryCapacity);
             }
 
             List<GeneDef> availableGenes = GetAvailableBroodLineageGenes();
@@ -452,7 +453,7 @@ namespace Xenomorphtype
                 return BioUtility.GetAllHiveGenes(parent.MapHeld);
             }
 
-            return BioUtility.GetCryptimorphInheritableGenes(Parent);
+            return BioUtility.CaptureHorrorGenePayload(Parent, inheritableOnly: true)?.Genes.ToList() ?? new List<GeneDef>();
         }
 
         private IEnumerable<FloatMenuOption> EggOptionFloatMenuOptions()
@@ -857,10 +858,10 @@ namespace Xenomorphtype
 
             if (!geneSource.Any())
             {
-                geneSource = BioUtility.GetCryptimorphInheritableGenes(Parent);
+                geneSource = BioUtility.CaptureHorrorGenePayload(Parent, inheritableOnly: true)?.Genes.ToList() ?? new List<GeneDef>();
             }
 
-            List<GeneDef> filteredGenes = BioUtility.FilterGenesWithinComplexity(geneSource, hereditaryCapacity);
+            List<GeneDef> filteredGenes = BioUtility.FilterCanonicalGenesWithinComplexity(geneSource, hereditaryCapacity);
             ovomorph.SetParentsWithGenes(Parent, Parent, filteredGenes);
         }
 
@@ -877,12 +878,13 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (option.overrideGenes || geneHolder.genes == null)
+            if (option.overrideGenes || geneHolder.GenesListForReading.Count == 0)
             {
-                geneHolder.genes = new GeneSet();
+                geneHolder.ReplaceGenes(option.genes);
+                return;
             }
 
-            BioUtility.ExtractGenesToGeneset(ref geneHolder.genes, option.genes);
+            geneHolder.AddGenes(option.genes);
         }
 
         internal class Command_ActionWithOptions : Command_Action

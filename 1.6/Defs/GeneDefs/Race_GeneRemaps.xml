@@ -7,21 +7,25 @@
 				<raceDef>XMT_Starbeast_AlienRace</raceDef>
 				<targetGeneDef>XMT_Royal_MiniHorns</targetGeneDef>
 				<replacementGeneDef>Headbone_MiniHorns</replacementGeneDef>
+				<canonicalGeneDef>Headbone_MiniHorns</canonicalGeneDef>
 			</li>
 			<li>
 				<raceDef>XMT_Starbeast_AlienRace</raceDef>
 				<targetGeneDef>XMT_Royal_CenterHorn</targetGeneDef>
 				<replacementGeneDef>Headbone_CenterHorn</replacementGeneDef>
+				<canonicalGeneDef>Headbone_CenterHorn</canonicalGeneDef>
 			</li>
 			<li MayRequire="Ludeon.RimWorld.Odyssey">
 				<raceDef>XMT_Starbeast_AlienRace</raceDef>
 				<targetGeneDef>XMT_Gene_OvomorphSpew</targetGeneDef>
 				<replacementGeneDef>XMT_Egg_Spew</replacementGeneDef>
+				<canonicalGeneDef>XMT_Gene_OvomorphSpew</canonicalGeneDef>
 			</li>
 			<li MayRequire="Ludeon.RimWorld.Biotech">
 				<raceDef>XMT_Starbeast_AlienRace</raceDef>
 				<targetGeneDef>XenogermReimplanter</targetGeneDef>
 				<replacementGeneDef>XMT_XenogermReimplanter</replacementGeneDef>
+				<canonicalGeneDef>XenogermReimplanter</canonicalGeneDef>
 			</li>
 		</geneRemaps>
 	</Xenomorphtype.XMT_GeneRemapListDef>
@@ -33,21 +37,25 @@
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>Headbone_MiniHorns</targetGeneDef>
 				<replacementGeneDef>XMT_Royal_MiniHorns</replacementGeneDef>
+				<canonicalGeneDef>Headbone_MiniHorns</canonicalGeneDef>
 			</li>
 			<li>
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>Headbone_CenterHorn</targetGeneDef>
 				<replacementGeneDef>XMT_Royal_CenterHorn</replacementGeneDef>
+				<canonicalGeneDef>Headbone_CenterHorn</canonicalGeneDef>
 			</li>
 			<li MayRequire="Ludeon.RimWorld.Odyssey">
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>XMT_Egg_Spew</targetGeneDef>
 				<replacementGeneDef>XMT_Gene_OvomorphSpew</replacementGeneDef>
+				<canonicalGeneDef>XMT_Gene_OvomorphSpew</canonicalGeneDef>
 			</li>
 			<li MayRequire="Ludeon.RimWorld.Biotech">
 				<raceDef>XMT_Royal_AlienRace</raceDef>
 				<targetGeneDef>XenogermReimplanter</targetGeneDef>
 				<replacementGeneDef>XMT_XenogermReimplanter</replacementGeneDef>
+				<canonicalGeneDef>XenogermReimplanter</canonicalGeneDef>
 			</li>
 		</geneRemaps>
 	</Xenomorphtype.XMT_GeneRemapListDef>

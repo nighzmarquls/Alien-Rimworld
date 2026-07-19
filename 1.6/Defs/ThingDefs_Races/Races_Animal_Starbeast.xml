@@ -191,6 +191,9 @@
 		<label>droplet</label>
 		<description>a small gelatinous blob of black goo. It oozes slowly.</description>
 		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
 			<li Class="Xenomorphtype.CompStealthProperties">
 				<hideBrightness>0.2</hideBrightness>
 				<minVisibleBrightness>0.0</minVisibleBrightness>

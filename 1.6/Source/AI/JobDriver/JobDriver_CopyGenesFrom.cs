@@ -126,7 +126,7 @@ namespace Xenomorphtype
                 {
                     Log.Message("applying alter genes on " + actor);
                 }
-                BioUtility.AlterGenes(ref actor, newGenes, originalGenes, geneHolder.templateName);
+                BioUtility.AlterGenes(ref actor, newGenes, originalGenes, geneHolder.EffectiveTemplateName);
                 return JobCondition.Succeeded;
             }
             catch (Exception exception)

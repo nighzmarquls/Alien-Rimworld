@@ -138,10 +138,11 @@
 		<capMods>
 		  <li>
             <capacity>Moving</capacity>
-            <offset>-0.84</offset>
+            <offset>-0.75</offset>
           </li>
         </capMods>
 		<statOffsets>
+			<MoveSpeed>-3</MoveSpeed>
 			<SocialImpact>0.25</SocialImpact>
 			<ArmorRating_Blunt>-1.25</ArmorRating_Blunt>
 			<ArmorRating_Sharp>-1.25</ArmorRating_Sharp>
@@ -381,32 +382,6 @@
   </HediffDef>
 
   <HediffDef ParentName="XMT_Bodypart">
-    <defName>XMT_RoyalCrown</defName>
-    <label>royal crown</label>
-    <description>a raised crown of psychic neural tissue and polished chitin.</description>
-    <makesSickThought>false</makesSickThought>
-    <makesAlert>false</makesAlert>
-	<tendable>false</tendable>
-	<isInfection>false</isInfection>
-	<initialSeverity>1</initialSeverity>
-    <stages>
-	  <li>
-	    <becomeVisible>true</becomeVisible>
-		<statOffsets>
-			<PsychicSensitivity>1.5</PsychicSensitivity>
-			<SocialImpact>1.5</SocialImpact>
-			<ArmorRating_Blunt>0.9</ArmorRating_Blunt>
-			<ArmorRating_Sharp>0.9</ArmorRating_Sharp>
-		</statOffsets>
-		<statFactors>
-			<PsychicEntropyMax>1.15</PsychicEntropyMax>
-			<PsychicEntropyRecoveryRate>1.1</PsychicEntropyRecoveryRate>
-		</statFactors>
-      </li>
-    </stages>
-  </HediffDef>
-
-  <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_ImperialCrown</defName>
     <label>imperial crown</label>
     <description>a towering crest of dense neural folds and sovereign psychic presence.</description>
@@ -551,6 +526,29 @@
 			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
 			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
 			<XMT_HereditaryCapacity>8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_RoyalCrown</defName>
+    <label>royal crown</label>
+    <description>a raised crown of psychic neural tissue and polished chitin.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.00</PsychicSensitivity>
+			<SocialImpact>2</SocialImpact>
+			<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>16</XMT_HereditaryCapacity>
 		</statOffsets>
       </li>
     </stages>
