@@ -109,39 +109,6 @@ namespace Xenomorphtype
         [MayRequire("Dubwise.DubsBadHygiene")]
         public static NeedDef Hygiene;
 
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static XMT_ThingDefList XMT_DBHInfiltrationList;
-
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef sewagePipeStuff;
-
-        [MayRequire("Dubwise.DubsBadHygiene")]
-        public static ThingDef airPipe;
-
-        //Rimefeller
-        [MayRequire("Dubwise.Rimefeller")]
-        public static ThingDef OilPipeline;
-        [MayRequire("Dubwise.Rimefeller")]
-        public static ThingDef OilPipelineHidden;
-        [MayRequire("Dubwise.Rimefeller")]
-        public static ThingDef pipelineValve;
-
-        [MayRequire("Dubwise.Rimefeller")]
-        internal static XMT_ThingDefList XMT_OilInfiltrationList;
-
-        //Rimatomics
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef waterPipe;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef coolingPipe;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef waterValve;
-        [MayRequire("Dubwise.Rimatomics")]
-        public static ThingDef coolantValve;
-
-        [MayRequire("Dubwise.Rimatomics")]
-        internal static XMT_ThingDefList XMT_AtomicInfiltrationList;
-
         //Vanilla Biotech
         [MayRequire("ludeon.rimWorld.biotech")]
         public static GeneDef DarkVision;
@@ -186,9 +153,6 @@ namespace Xenomorphtype
         public static ThingDef Ship_Beam;
 
         [MayRequire("kentington.saveourship2")]
-        public static ThingDef ShipHeatConduit;
-
-        [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_BeamMech_Unpowered;
         [MayRequire("kentington.saveourship2")]
         public static ThingDef Ship_BeamMech;
@@ -200,9 +164,6 @@ namespace Xenomorphtype
 
         [MayRequire("kentington.saveourship2")]
         public static BiomeDef OuterSpaceBiome;
-
-        [MayRequire("kentington.saveourship2")]
-        public static XMT_ThingDefList XMT_SOS2InfiltrationList;
 
         [MayRequire("kentington.saveourship2")]
         public static XMT_SabotageReplacementListDef XMT_SOS2SabotageReplacementList;

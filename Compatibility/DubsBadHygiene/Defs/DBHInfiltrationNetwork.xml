@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 	
-	<Xenomorphtype.XMT_ThingDefList>
+	<Xenomorphtype.InfiltrationNetworkDef>
 		<defName>XMT_DBHInfiltrationList</defName>
-		<things>
+		<settingsKey>DubsBadHygienePlumbing</settingsKey>
+		<endpointDefs>
 			<li>PitLatrine</li>
 			<li>BasinStuff</li>
 			<li>KitchenSink</li>
@@ -17,6 +18,25 @@
 			<li>WaterTrough</li>
 			<li>DBHSwimmingPool</li>
 			<li>HotTub</li>
-		</things>
-	</Xenomorphtype.XMT_ThingDefList>
+		</endpointDefs>
+		<connectorDefs>
+			<li>sewagePipeStuff</li>
+			<li>sewagePipeHidden</li>
+			<li>plumbingValve</li>
+		</connectorDefs>
+	</Xenomorphtype.InfiltrationNetworkDef>
+
+	<Xenomorphtype.InfiltrationNetworkDef>
+		<defName>XMT_DBHAirConditioningInfiltration</defName>
+		<settingsKey>DubsBadHygieneAirConditioning</settingsKey>
+		<endpointDefs>
+			<li>AirConOutdoorUnit</li>
+			<li>AirconIndoorUnit</li>
+			<li>FreezerUnit</li>
+		</endpointDefs>
+		<connectorDefs>
+			<li>airPipe</li>
+			<li>airPipeHidden</li>
+		</connectorDefs>
+	</Xenomorphtype.InfiltrationNetworkDef>
 </Defs>

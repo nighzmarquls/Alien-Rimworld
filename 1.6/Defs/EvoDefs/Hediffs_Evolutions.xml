@@ -533,8 +533,8 @@
   
   <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_RoyalCrown</defName>
-    <label>royal crown</label>
-    <description>a raised crown of psychic neural tissue and polished chitin.</description>
+    <label>Sovereign Crown</label>
+    <description>a raised portion of gene processing neural tissue and polished chitin.</description>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>
 	<tendable>false</tendable>

@@ -768,8 +768,8 @@
 		</li>
 		<li Class="CompProperties_Milkable">
 			<milkDef>XMT_Medicine_Jelly</milkDef>
-			<milkIntervalDays>0.25</milkIntervalDays>
-			<milkAmount>5</milkAmount>
+			<milkIntervalDays>0.5</milkIntervalDays>
+			<milkAmount>1</milkAmount>
 			<milkFemaleOnly>false</milkFemaleOnly>
 		</li>
 	</comps>
@@ -793,10 +793,10 @@
           <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
           <drawSize>1.0</drawSize>
         </bodyGraphicData>
-        <dessicatedBodyGraphicData>
+        <!-- <dessicatedBodyGraphicData MayRequire="Ludeon.RimWorld.Odyssey">
           <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
           <drawSize>1.0</drawSize>
-        </dessicatedBodyGraphicData>
+        </dessicatedBodyGraphicData>-->
         <swimmingGraphicData>
           <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -808,10 +808,10 @@
           <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
           <drawSize>1.5</drawSize>
         </bodyGraphicData>
-        <dessicatedBodyGraphicData>
+<!--                <dessicatedBodyGraphicData MayRequire="Ludeon.RimWorld.Odyssey">
           <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
           <drawSize>1.5</drawSize>
-        </dessicatedBodyGraphicData>
+        </dessicatedBodyGraphicData>-->
         <swimmingGraphicData>
           <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
           <graphicClass>Graphic_Multi</graphicClass>
@@ -827,10 +827,10 @@
             <offset>(0,0,0)</offset>
           </shadowData>
         </bodyGraphicData>
-        <dessicatedBodyGraphicData>
+<!--        <dessicatedBodyGraphicData MayRequire="Ludeon.RimWorld.Odyssey">
           <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
           <drawSize>1.75</drawSize>
-        </dessicatedBodyGraphicData>
+        </dessicatedBodyGraphicData> -->
         <swimmingGraphicData>
           <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
           <graphicClass>Graphic_Multi</graphicClass>

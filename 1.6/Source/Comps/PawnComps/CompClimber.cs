@@ -26,13 +26,9 @@ namespace Xenomorphtype
                 }
             }
         }
-        public bool lastClimb => climbStep == climbParameters.ClimbStarts.Count;
+        public bool lastClimb => climbStep >= (climbParameters.TraversalLegs?.Count ?? 0);
         int climbStep = 0;
-        private bool jobSuspended;
-        private Job suspendedJob;
-        private JobDriver suspendedDriver;
-
-        public bool JobSuspended => jobSuspended;
+        private int activeClimbJobLoadId = -1;
 
         public bool climbing
         {
@@ -52,41 +48,29 @@ namespace Xenomorphtype
             }
         }
 
-        public IntVec3 EndClimbCell => lastClimb ? climbParameters.ClimbEnds.Last() : climbParameters.ClimbEnds[climbStep];
-        public IntVec3 StartClimbCell => lastClimb ? climbParameters.ClimbStarts.Last() : climbParameters.ClimbStarts[climbStep];
+        public TraversalLeg CurrentTraversalLeg => lastClimb ? climbParameters.TraversalLegs?.LastOrDefault() : climbParameters.TraversalLegs[climbStep];
+        public IntVec3 EndClimbCell => CurrentTraversalLeg?.end ?? IntVec3.Invalid;
+        public IntVec3 StartClimbCell => CurrentTraversalLeg?.start ?? IntVec3.Invalid;
+        public bool CurrentLegIsInfiltration => CurrentTraversalLeg?.IsInfiltration ?? false;
 
-        public void SuspendJobForClimb(Pawn pawn)
+        public void MarkClimbToilActive(Job job)
         {
-            if (jobSuspended || pawn?.jobs == null)
-            {
-                return;
-            }
-
-            suspendedJob = pawn.jobs.curJob;
-            suspendedDriver = pawn.jobs.curDriver;
-            jobSuspended = true;
+            activeClimbJobLoadId = job?.loadID ?? -1;
         }
 
-        public void ResumeJobAfterClimb(Pawn pawn)
+        public bool HasActiveClimbToilFor(Job job)
         {
-            if (!jobSuspended || pawn?.jobs == null)
-            {
-                return;
-            }
+            return job != null && activeClimbJobLoadId >= 0 && activeClimbJobLoadId == job.loadID;
+        }
 
-            if (pawn.jobs.curJob == null && suspendedJob != null)
-            {
-                pawn.jobs.curJob = suspendedJob;
-            }
+        public void RestoreLoadedClimber(PawnClimber loadedClimber, Job detachedJob)
+        {
+            pawnClimber = loadedClimber;
 
-            if (pawn.jobs.curDriver == null && suspendedDriver != null)
+            if (activeClimbJobLoadId < 0 && detachedJob != null)
             {
-                pawn.jobs.curDriver = suspendedDriver;
+                MarkClimbToilActive(detachedJob);
             }
-
-            suspendedJob = null;
-            suspendedDriver = null;
-            jobSuspended = false;
         }
 
         public void ClearClimberData()
@@ -96,6 +80,7 @@ namespace Xenomorphtype
                 NoWallToClimb = true,
                 FinalGoalCell = IntVec3.Invalid,
                 FinalGoalTarget = LocalTargetInfo.Invalid,
+                TraversalLegs = new List<TraversalLeg>(),
                 ClimbStarts = new List<IntVec3>(),
                 ClimbEnds = new List<IntVec3>(),
                 Tunneling = false
@@ -105,6 +90,58 @@ namespace Xenomorphtype
             startedClimb = false;
             _finishedClimb = false;
             climbStep = 0;
+            activeClimbJobLoadId = -1;
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+
+            ClimbParameters parameters = climbParameters;
+            Scribe_Values.Look(ref parameters.FinalGoalCell, "xmtClimbFinalGoalCell", IntVec3.Invalid);
+            Scribe_TargetInfo.Look(ref parameters.FinalGoalTarget, "xmtClimbFinalGoalTarget");
+            Scribe_Values.Look(ref parameters.NoWallToClimb, "xmtClimbNoWall", true);
+            Scribe_Values.Look(ref parameters.Tunneling, "xmtClimbTunneling", false);
+            Scribe_Collections.Look(ref parameters.TraversalLegs, "xmtTraversalLegs", LookMode.Deep);
+            Scribe_Collections.Look(ref parameters.ClimbStarts, "xmtClimbStarts", LookMode.Value);
+            Scribe_Collections.Look(ref parameters.ClimbEnds, "xmtClimbEnds", LookMode.Value);
+            climbParameters = parameters;
+
+            Scribe_References.Look(ref pawnClimber, "xmtPawnClimber");
+            Scribe_Values.Look(ref startedClimb, "xmtClimbStarted", false);
+            Scribe_Values.Look(ref _finishedClimb, "xmtClimbFinished", false);
+            Scribe_Values.Look(ref climbStep, "xmtClimbStep", 0);
+            Scribe_Values.Look(ref activeClimbJobLoadId, "xmtClimbJobLoadId", -1);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                climbParameters.ClimbStarts ??= new List<IntVec3>();
+                climbParameters.ClimbEnds ??= new List<IntVec3>();
+                climbParameters.TraversalLegs ??= new List<TraversalLeg>();
+
+                if (climbParameters.ClimbStarts.Count != climbParameters.ClimbEnds.Count)
+                {
+                    climbParameters.ClimbStarts.Clear();
+                    climbParameters.ClimbEnds.Clear();
+                    climbStep = 0;
+                    startedClimb = false;
+                    _finishedClimb = false;
+                }
+
+                if (climbParameters.TraversalLegs.Count == 0 && climbParameters.ClimbStarts.Count == climbParameters.ClimbEnds.Count)
+                {
+                    for (int i = 0; i < climbParameters.ClimbStarts.Count; i++)
+                    {
+                        climbParameters.TraversalLegs.Add(TraversalLeg.WallClimb(climbParameters.ClimbStarts[i], climbParameters.ClimbEnds[i]));
+                    }
+                }
+
+                climbParameters.TraversalLegs.RemoveAll(leg => leg == null || !leg.start.IsValid || !leg.end.IsValid);
+                if (climbParameters.TraversalLegs.Count > 0)
+                {
+                    climbStep = Math.Max(0, Math.Min(climbStep, climbParameters.TraversalLegs.Count));
+                }
+            }
         }
     }
 

@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 	
-	<Xenomorphtype.XMT_ThingDefList>
+	<Xenomorphtype.InfiltrationNetworkDef>
 		<defName>XMT_SOS2InfiltrationList</defName>
-		<things>
-			<!--<li>ShipAirlock</li>
+		<settingsKey>SaveOurShipHullAndHeat</settingsKey>
+		<endpointDefs>
+			<li>ShipAirlock</li>
 			<li>ShipInside_SolarGenerator</li>
 			<li>ShipInside_PassiveVent</li>
 			<li>Ship_LifeSupport</li>
@@ -19,9 +20,13 @@
 			<li>ShipHeatManifold</li>
 			<li>ShipHeatBankLarge</li>
 			<li>ShipPurgePortLarge</li>
-			<li>ShipPurgePort</li>-->
-		</things>
-	</Xenomorphtype.XMT_ThingDefList>
+			<li>ShipPurgePort</li>
+		</endpointDefs>
+		<connectorDefs>
+			<li>Ship_Beam</li>
+			<li>ShipHeatConduit</li>
+		</connectorDefs>
+	</Xenomorphtype.InfiltrationNetworkDef>
 
 	<Xenomorphtype.XMT_SabotageReplacementListDef>
 		<defName>XMT_SOS2SabotageReplacementList</defName>

@@ -1,5 +1,6 @@
 using RimWorld;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -7,11 +8,21 @@ namespace Xenomorphtype
 {
     internal class JobDriver_PathRecoveryBreach : JobDriver
     {
-        private const int BreachTicks = 220;
+        private float breachWorkRequired = 1f;
+        private float breachWorkLeft = 1f;
+        private bool breachWorkInitialized;
 
         private Thing Blocker => TargetThingA;
         private IntVec3 InteractionCell => job.GetTarget(TargetIndex.B).Cell;
         private IntVec3 GoalCell => job.GetTarget(TargetIndex.C).Cell;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref breachWorkRequired, "breachWorkRequired", 1f);
+            Scribe_Values.Look(ref breachWorkLeft, "breachWorkLeft", 1f);
+            Scribe_Values.Look(ref breachWorkInitialized, "breachWorkInitialized", false);
+        }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -37,10 +48,7 @@ namespace Xenomorphtype
             AddFailCondition(() => !breachedByJob && (Blocker == null || Blocker.Destroyed || !MatureMorphPathRecovery.IsPathRecoveryBreachCandidate(pawn, Blocker as Building, out IntVec3 _, requireAvailability: false)));
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
 
-            Toil breach = Toils_General.Wait(BreachTicks);
-            breach.WithProgressBarToilDelay(TargetIndex.A);
-            breach.WithEffect(InternalDefOf.ResinBuild, TargetIndex.A);
-            yield return breach;
+            yield return BreachEdifice();
 
             yield return Toils_General.Do(delegate
             {
@@ -75,6 +83,33 @@ namespace Xenomorphtype
             });
 
             yield return PathRecoveryJobUtility.GotoCellIfValid(() => passageDestination);
+        }
+
+        private Toil BreachEdifice()
+        {
+            Toil toil = ToilMaker.MakeToil("BreachEdifice");
+            toil.atomicWithPrevious = true;
+            toil.initAction = delegate
+            {
+                breachWorkRequired = Mathf.Max(1f, Blocker?.HitPoints ?? 1);
+                breachWorkLeft = breachWorkRequired;
+                breachWorkInitialized = true;
+            };
+            toil.tickIntervalAction = delegate(int delta)
+            {
+                float constructionSpeed = Mathf.Max(0.1f, pawn.GetStatValue(StatDefOf.ConstructionSpeed));
+                breachWorkLeft -= constructionSpeed * delta;
+                if (breachWorkLeft <= 0f)
+                {
+                    ReadyForNextToil();
+                }
+            };
+            toil.WithProgressBar(TargetIndex.A, () => breachWorkInitialized
+                ? Mathf.Clamp01(1f - breachWorkLeft / breachWorkRequired)
+                : 0f);
+            toil.WithEffect(InternalDefOf.ResinBuild, TargetIndex.A);
+            toil.defaultCompleteMode = ToilCompleteMode.Never;
+            return toil;
         }
     }
 }

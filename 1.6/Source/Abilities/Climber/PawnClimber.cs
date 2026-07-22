@@ -17,6 +17,12 @@ namespace Xenomorphtype
 
         private IntVec3 destCell;
 
+        private IntVec3 plannedDestCell;
+
+        private IntVec3 lastUnresolvedDestinationLogged = IntVec3.Invalid;
+
+        public bool strictDestination;
+
         private float flightDistance;
 
         private bool pawnWasDrafted;
@@ -26,6 +32,10 @@ namespace Xenomorphtype
         protected int ticksFlightTime = 120;
 
         protected int ticksClimbing;
+
+        private Job detachedJob;
+
+        private JobDriver detachedDriver;
 
         private JobQueue jobQueue;
 
@@ -147,14 +157,47 @@ namespace Xenomorphtype
                 ticksFlightTime = a.SecondsToTicks();
                 ticksClimbing = 0;
             }
+            else
+            {
+                RestoreClimberCompLink();
+            }
+        }
+
+        private void RestoreClimberCompLink()
+        {
+            Pawn pawn = ClimbingPawn;
+            CompClimber climber = pawn?.GetClimberComp();
+            if (climber != null && climber.pawnClimber != this)
+            {
+                climber.RestoreLoadedClimber(this, detachedJob);
+            }
+        }
+
+        private void RestoreDetachedDriverLinks()
+        {
+            if (detachedDriver == null)
+            {
+                return;
+            }
+
+            detachedDriver.pawn = ClimbingPawn;
+            detachedDriver.job = detachedJob;
+            XMTClimbPatches.RestoreDetachedClimbToil(detachedDriver, detachedJob);
         }
 
         protected virtual void RespawnPawn()
         {
             Thing flyingThing = ClimbingThing;
             LandingEffects();
-            innerContainer.TryDrop(flyingThing, destCell, flyingThing.MapHeld, ThingPlaceMode.Direct, out var lastResultingThing, null, null, playDropSound: false);
+            bool droppedPawn = innerContainer.TryDrop(flyingThing, destCell, flyingThing.MapHeld, ThingPlaceMode.Direct, out var lastResultingThing, null, null, playDropSound: false);
             Pawn pawn = flyingThing as Pawn;
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message(pawn + " completed climb flyer drop; originally planned landing=" + plannedDestCell +
+                    "; resolved landing=" + destCell + "; drop succeeded=" + droppedPawn +
+                    "; actual position=" + (lastResultingThing?.PositionHeld ?? IntVec3.Invalid) +
+                    "; spawned=" + (lastResultingThing?.Spawned ?? false));
+            }
             if (pawn?.drafter != null)
             {
                 pawn.drafter.Drafted = pawnWasDrafted;
@@ -177,13 +220,49 @@ namespace Xenomorphtype
             }
 
             CompClimber climber = pawn.GetClimberComp();
-            if (climber != null)
+            if (climber != null && XMTSettings.LogClimbing)
             {
-                climber.ResumeJobAfterClimb(pawn);
+                Log.Message(pawn + " restoring detached climb job after landing; detached job=" + detachedJob +
+                    "; detached driver=" + detachedDriver + "; temporary job=" + pawn.jobs?.curJob +
+                    "; captured queue=" + (jobQueue != null) + "; final target=" + climber.climbParameters.FinalGoalTarget +
+                    "; route registered=" + climber.climbParameters.ClimbCellsRegistered);
             }
-            if (pawn.jobs.curJob == null)
+
+            if (pawn.jobs.curJob != null && pawn.jobs.curJob != detachedJob)
             {
-                pawn.jobs.CheckForJobOverride();
+                pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false, canReturnToPool: true);
+            }
+
+            if (pawn.jobs.jobQueue != null && pawn.jobs.jobQueue != jobQueue)
+            {
+                pawn.jobs.jobQueue.Clear(pawn, canReturnToPool: true);
+            }
+
+            pawn.jobs.jobQueue = jobQueue ?? new JobQueue();
+            jobQueue = null;
+
+            if (detachedJob != null && detachedDriver != null)
+            {
+                pawn.jobs.curJob = detachedJob;
+                pawn.jobs.curDriver = detachedDriver;
+                detachedDriver.pawn = pawn;
+                detachedDriver.job = detachedJob;
+                XMTClimbPatches.RestoreDetachedClimbToil(detachedDriver, detachedJob);
+            }
+            else
+            {
+                pawn.jobs.curJob = null;
+                pawn.jobs.curDriver = null;
+                pawn.jobs.CheckForJobOverride(0f, ignoreQueue: false);
+            }
+
+            detachedJob = null;
+            detachedDriver = null;
+
+            if (climber != null && XMTSettings.LogClimbing)
+            {
+                Log.Message(pawn + " restored detached climb job after landing; current job=" + pawn.jobs?.curJob +
+                    "; driver=" + pawn.jobs?.curDriver);
             }
 
             if (def.pawnFlyer.stunDurationTicksRange != IntRange.Zero)
@@ -219,6 +298,8 @@ namespace Xenomorphtype
 
         protected override void Tick()
         {
+            RestoreClimberCompLink();
+
             if (climbEffector == null && climbEffectorDef != null)
             {
                 climbEffector = climbEffectorDef.Spawn();
@@ -253,6 +334,18 @@ namespace Xenomorphtype
                 return;
             }
 
+            if (strictDestination)
+            {
+                if (XMTSettings.LogClimbing && lastUnresolvedDestinationLogged != destCell)
+                {
+                    lastUnresolvedDestinationLogged = destCell;
+                    Log.Message(ClimbingPawn + " has an invalid strict infiltration landing at " + destCell +
+                        "; radial climb landing correction is disabled for this traversal.");
+                }
+                return;
+            }
+
+            IntVec3 rejectedDestination = destCell;
             int num = GenRadial.NumCellsInRadius(3.9f);
             for (int i = 0; i < num; i++)
             {
@@ -260,8 +353,21 @@ namespace Xenomorphtype
                 if (JumpUtility.ValidJumpTarget(ClimbingPawn, base.Map, cell))
                 {
                     destCell = cell;
-                    break;
+                    lastUnresolvedDestinationLogged = IntVec3.Invalid;
+                    if (XMTSettings.LogClimbing)
+                    {
+                        Log.Message(ClimbingPawn + " adjusted climb landing from rejected cell " + rejectedDestination + " to " + destCell +
+                            "; originally planned landing=" + plannedDestCell + "; flyer position=" + Position);
+                    }
+                    return;
                 }
+            }
+
+            if (XMTSettings.LogClimbing && lastUnresolvedDestinationLogged != rejectedDestination)
+            {
+                lastUnresolvedDestinationLogged = rejectedDestination;
+                Log.Message(ClimbingPawn + " could not find a valid replacement climb landing within 3.9 cells of " + rejectedDestination +
+                    "; originally planned landing=" + plannedDestCell + "; flyer position=" + Position);
             }
         }
 
@@ -290,7 +396,7 @@ namespace Xenomorphtype
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
             DrawShadow(groundPos, effectiveHeight);
-            if (CarriedThing != null && ClimbingPawn != null)
+            if (!underground && CarriedThing != null && ClimbingPawn != null)
             {
                 PawnRenderUtility.DrawCarriedThing(ClimbingPawn, effectivePos, CarriedThing);
             }
@@ -321,6 +427,7 @@ namespace Xenomorphtype
             pawnClimber.Rotation = pawn.Rotation;
             pawnClimber.flightDistance = pawn.Position.DistanceTo(destCell);
             pawnClimber.destCell = destCell;
+            pawnClimber.plannedDestCell = destCell;
             pawnClimber.pawnWasDrafted = pawn.Drafted;
             pawnClimber.climbEffectorDef = flightEffecterDef;
             pawnClimber.soundLanding = landingSound;
@@ -332,11 +439,12 @@ namespace Xenomorphtype
                 pawnClimber.pawnCanFireAtWill = pawn.drafter.FireAtWill;
             }
 
-            CompClimber climber = pawn.GetClimberComp();
-            if (climber != null)
-            {
-                climber.SuspendJobForClimb(pawn);
-            }
+            pawnClimber.detachedJob = pawn.jobs.curJob;
+            pawnClimber.detachedDriver = pawn.jobs.curDriver;
+            pawnClimber.jobQueue = pawn.jobs.jobQueue;
+            pawn.jobs.curJob = null;
+            pawn.jobs.curDriver = null;
+            pawn.jobs.jobQueue = new JobQueue();
 
             if (flyWithCarriedThing && pawn.carryTracker.CarriedThing != null && pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Direct, out pawnClimber.carriedThing))
             {
@@ -372,7 +480,10 @@ namespace Xenomorphtype
             base.ExposeData();
             Scribe_Values.Look(ref startVec, "startVec");
             Scribe_Values.Look(ref destCell, "destCell");
+            Scribe_Values.Look(ref plannedDestCell, "plannedDestCell", IntVec3.Invalid);
+            Scribe_Values.Look(ref strictDestination, "strictDestination", false);
             Scribe_Values.Look(ref flightDistance, "flightDistance", 0f);
+            Scribe_Values.Look(ref underground, "underground", false);
             Scribe_Values.Look(ref pawnWasDrafted, "pawnWasDrafted", defaultValue: false);
             Scribe_Values.Look(ref pawnCanFireAtWill, "pawnCanFireAtWill", defaultValue: true);
             Scribe_Values.Look(ref ticksFlightTime, "ticksFlightTime", 0);
@@ -382,8 +493,20 @@ namespace Xenomorphtype
             Scribe_Defs.Look(ref triggeringAbility, "triggeringAbility");
             Scribe_References.Look(ref carriedThing, "carriedThing");
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
+            Scribe_Deep.Look(ref detachedJob, "detachedJob");
+            Scribe_Deep.Look(ref detachedDriver, "detachedDriver");
             Scribe_Deep.Look(ref jobQueue, "jobQueue");
             Scribe_TargetInfo.Look(ref target, "target");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                if (!plannedDestCell.IsValid)
+                {
+                    plannedDestCell = destCell;
+                }
+
+                RestoreDetachedDriverLinks();
+            }
         }
     }
 }

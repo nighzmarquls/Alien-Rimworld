@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 	
-	<Xenomorphtype.XMT_ThingDefList>
+	<Xenomorphtype.InfiltrationNetworkDef>
 		<defName>XMT_AtomicInfiltrationList</defName>
-		<things>
+		<settingsKey>RimatomicsCooling</settingsKey>
+		<endpointDefs>
 			<li>CoolingTower</li>
 			<li>CoolingWater</li>
 			<li>ReactorCoreA</li>
@@ -12,6 +13,14 @@
 			<li>Turbine</li>
 			<li>BigTurbine</li>
 			<li>CoolingRadiator</li>
-		</things>
-	</Xenomorphtype.XMT_ThingDefList>
+		</endpointDefs>
+		<connectorDefs>
+			<li>waterPipe</li>
+			<li>waterPipeHidden</li>
+			<li>waterValve</li>
+			<li>coolingPipe</li>
+			<li>coolingPipeHidden</li>
+			<li>coolantValve</li>
+		</connectorDefs>
+	</Xenomorphtype.InfiltrationNetworkDef>
 </Defs>

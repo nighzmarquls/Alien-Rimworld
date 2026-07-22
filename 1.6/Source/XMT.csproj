@@ -191,6 +191,9 @@
     <Compile Include="Comps\ThingCompHorror\CompJellyDrug.cs" />
     <Compile Include="Comps\ThingCompHorror\CompDetonateOnTemperature.cs" />
     <Compile Include="Debug\DebugActions_Mischief.cs" />
+    <Compile Include="Debug\DebugActions_ClimbNavigation.cs" />
+    <Compile Include="Debug\DebugActions_InfiltrationNavigation.cs" />
+    <Compile Include="Debug\DebugActions_TraversalValidation.cs" />
     <Compile Include="Debug\DebugActions_GrappleStealth.cs" />
     <Compile Include="Debug\DebugActions_HiveTesting.cs" />
     <Compile Include="Debug\DebugActions_HostGenes.cs" />
@@ -384,7 +387,6 @@
     <Compile Include="Building\PassableRoomborder.cs" />
     <Compile Include="Comps\BuildingComps\CompAtmosphericPylon.cs" />
     <Compile Include="Comps\BuildingComps\CompChanceSpawnOnDestroy.cs" />
-    <Compile Include="Comps\BuildingComps\CompInfiltrationPoint.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompMeatBall.cs" />
     <Compile Include="Comps\ThingCompHorror\CompAcidBlood.cs" />
     <Compile Include="Comps\BuildingComps\CompHatchingEgg.cs" />
@@ -432,6 +434,7 @@
     <Compile Include="Utilities\XMTHiveUtility.cs" />
     <Compile Include="Utilities\InorganicSubversionUtility.cs" />
     <Compile Include="Utilities\InfiltrationUtility.cs" />
+    <Compile Include="Utilities\TraversalReachabilityUtility.cs" />
     <Compile Include="Utilities\XMTNestBuildingUtility.cs" />
     <Compile Include="ModExtensions\AnimalHostGenes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

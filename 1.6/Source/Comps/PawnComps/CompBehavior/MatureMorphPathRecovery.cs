@@ -86,11 +86,6 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (TryGetInfiltrationEscapeRecoveryJob(out job))
-            {
-                return true;
-            }
-
             if (TryGetDoorwayEscapeRecoveryJob(out job))
             {
                 Clear();
@@ -139,12 +134,6 @@ namespace Xenomorphtype
                    !Parent.Faction.IsPlayer ||
                    state.PlayerForced ||
                    (XMTUtility.NoQueenPresent() && XMTSettings.PlayerSabotage);
-        }
-
-        private bool TryGetInfiltrationEscapeRecoveryJob(out Job job)
-        {
-            job = null;
-            return false;
         }
 
         private bool TryGetDoorwayEscapeRecoveryJob(out Job job)
