@@ -70,7 +70,7 @@ namespace Xenomorphtype
                 FilthMaker.TryMakeFilth(Pawn.PositionHeld, Pawn.MapHeld, InternalDefOf.Starbeast_Filth_Resin);
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(parent + " will mature in " + (matureTick - tick));
+                    Log.Message("[XMT][Biohorror] " + parent + " will mature in " + (matureTick - tick));
                 }
             }
 
@@ -80,7 +80,7 @@ namespace Xenomorphtype
                 float ticksToMature = 60000/GeneMaturationFactor();
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(parent + " will mature in " + ticksToMature);
+                    Log.Message("[XMT][Biohorror] " + parent + " will mature in " + ticksToMature);
                 }
                 matureTick = tick + Mathf.FloorToInt(ticksToMature);
             }

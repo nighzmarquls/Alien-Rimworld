@@ -4,6 +4,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -196,7 +197,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(pawn + " is trying to spawn from " + target);
+                Log.Message("[XMT][Biohorror][PawnTransformation] " + pawn + " is trying to spawn from " + target);
             }
             Thing ValidSpawnTarget = target;
 
@@ -233,7 +234,9 @@ namespace Xenomorphtype
 
            if(ValidSpawnTarget.MapHeld == null)
             {
-                Find.WorldPawns.PassToWorld(pawn);
+                Find.WorldPawns.PassToWorld(
+                    pawn,
+                    TargetPawn != null ? PawnDiscardDecideMode.KeepForever : PawnDiscardDecideMode.Decide);
                 return pawn;
             }
 
@@ -780,6 +783,17 @@ namespace Xenomorphtype
 
             return IsHost(pawn);
         }
+
+        public static bool IsAcceptableHost(Pawn pawn)
+        {
+            //If you are friendly you're not a host.
+            if (IsXenomorphFriendly(pawn))
+            {
+                return false;
+            }
+
+            return TriggersOvomorph(pawn);
+        }
         public static bool IsHost(Thing thing)
         {
             Pawn pawn = thing as Pawn;
@@ -798,12 +812,6 @@ namespace Xenomorphtype
 
             //If your too small you're not a host.
             if (pawn.BodySize <= 0.58f)
-            {
-                return false;
-            }
-
-            //If you are friendly you're not a host.
-            if (IsXenomorphFriendly(pawn))
             {
                 return false;
             }
@@ -1119,6 +1127,7 @@ namespace Xenomorphtype
                 return false;
             }
             HorrorGenePayload genePayload = BioUtility.CaptureHorrorGenePayload(target);
+            List<ThingDef> removedHediffDrops = new List<ThingDef>();
             //Log.Message("began transforming "+ target + " into " + targetDef);
             PawnGenerationRequest request = new PawnGenerationRequest(
                 targetDef, faction: target.Faction, PawnGenerationContext.PlayerStarter, null, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, target.ageTracker.AgeBiologicalYears, target.ageTracker.AgeChronologicalYears);
@@ -1127,21 +1136,7 @@ namespace Xenomorphtype
                 request.FixedBiologicalAge = (float)biologicalAgeTicksOverride.Value / GenDate.TicksPerYear;
             }
 
-            if (targetDef.race.race.hasGenders)
-            {
-                ThingDef_AlienRace NewRaceDef = targetDef.race as ThingDef_AlienRace;
-                if (NewRaceDef != null)
-                {
-                    if (NewRaceDef.alienRace.generalSettings.maleGenderProbability <= 0)
-                    {
-                        request.FixedGender = Gender.Female;
-                    }
-                }
-            }
-            else
-            {
-                request.FixedGender = Gender.None;
-            }
+            request.FixedGender = ResolveTransformationGender(target, targetDef);
             //Log.Message("completed request generation for " + target + " into " + targetDef);
             Pawn NewPawn = PawnGenerator.GeneratePawn(request);
 
@@ -1236,36 +1231,6 @@ namespace Xenomorphtype
                     }
                 }
 
-                if (target.relations != null)
-                {
-                    if (NewPawn.relations != null)
-                    {
-                        NewPawn.relations.ClearAllRelations();
-
-                        foreach (DirectPawnRelation relation in target.relations.DirectRelations)
-                        {
-                            NewPawn.relations.AddDirectRelation(relation.def, relation.otherPawn);
-                        }
-
-                        foreach (Pawn relatedPawn in target.relations.RelatedPawns)
-                        {
-                            List<DirectPawnRelation> pawnRelations = relatedPawn.relations.DirectRelations.ToList();
-                            foreach (DirectPawnRelation relation in pawnRelations)
-                            {
-                                if (relation.otherPawn == target)
-                                {
-                                    relatedPawn.relations.AddDirectRelation(relation.def, NewPawn);
-                                }
-                            }
-                        }
-
-                        target.relations.ClearAllRelations();
-
-
-                    }
-
-                }
-
                 if (target?.health.hediffSet != null)
                 {
                     List<Hediff> hediffList = target.health.hediffSet.hediffs.ToList();
@@ -1279,27 +1244,15 @@ namespace Xenomorphtype
                             continue;
                         }
 
-                        BodyPartDef partDef = hediff.Part?.def;
-                        string label = hediff.Part?.Label;
-                        if (partDef == null || label == null)
+                        BodyPartRecord sourcePart = hediff.Part;
+                        if (sourcePart == null)
                         {
-                            if (XMTSettings.LogBiohorror)
-                            {
-                                Log.Message("part or label is null in TransformPawnIntoPawn on " + target);
-                            }
                             continue;
                         }
 
-                        if(partDef == ExternalDefOf.Brain)
-                        {
-                            if (IsXenomorph(NewPawn))
-                            {
-                                partDef = InternalDefOf.StarbeastBrain;
-                                label = partDef.label;
-                            }
-                        }
-
-                        BodyPartRecord newPart = NewPawn.def.race.body.AllParts.FirstOrDefault(part => part.def == partDef && part.Label == label);
+                        BodyPartDef partDef = sourcePart.def;
+                        string label = sourcePart.Label;
+                        BodyPartRecord newPart = FindCorrespondingBodyPart(target, NewPawn, sourcePart, partDef, label);
                         if (newPart != null)
                         {
                             //RJW part stupidity;
@@ -1311,8 +1264,14 @@ namespace Xenomorphtype
                                     continue;
                             }
 
-                            
-                
+                            // Missing-part and added-part hediffs make their descendants unavailable.
+                            // The source can contain redundant descendant hediffs, so revalidate after
+                            // every addition rather than asking AddHediff to attach to a missing part.
+                            if (NewPawn.health.hediffSet.PartIsMissing(newPart))
+                            {
+                                continue;
+                            }
+
                             Hediff newHediff = HediffMaker.MakeHediff(hediff.def, NewPawn, newPart);
                             NewPawn.health.AddHediff(newHediff, newHediff.Part);
                             
@@ -1321,33 +1280,13 @@ namespace Xenomorphtype
                         ThingDef thingToSpawn = hediff.def.spawnThingOnRemoved;
                         if (thingToSpawn != null)
                         {
-                            GenSpawn.Spawn(thingToSpawn, NewPawn.Position, NewPawn.Map);
-                            
+                            removedHediffDrops.Add(thingToSpawn);
                             continue;
                         }                        
                     }
                 }
 
-                if (target?.needs?.mood?.thoughts?.memories != null)
-                {
-                    if (NewPawn?.needs?.mood?.thoughts?.memories != null)
-                    {
-                        foreach (Thought_Memory thought in target.needs.mood.thoughts.memories.Memories)
-                        {
-                            NewPawn.needs.mood.thoughts.memories.Memories.Add(thought);
-                        }
-                    }
-                }
-
                 BioUtility.TryApplyHorrorGenePayload(NewPawn, genePayload);
-
-                if (target.ideo != null)
-                {
-                    if (NewPawn.ideo != null)
-                    {
-                        NewPawn.ideo.SetIdeo(target.ideo.Ideo);
-                    }
-                }
 
                 /*
                 if(target.records != null)
@@ -1366,30 +1305,15 @@ namespace Xenomorphtype
                 }
                 */
 
-                if(target.apparel != null)
-                {
-                    target.apparel.DropAll(target.Position);
-                }
-
-                if(target.inventory != null)
-                {
-                    target.inventory.DropAllNearPawn(target.Position);
-                }
-
-                if(target.carryTracker != null)
-                {
-                    if (target.carryTracker.CarriedThing != null)
-                    {
-                        target.carryTracker.TryDropCarriedThing(target.Position, ThingPlaceMode.Near, out Thing resultingThing);
-                    }
-                }
-
                 /*
                  * Find.PlayLog.AllEntries.Where((LogEntry e) => e.Concerns(pawn)).ToArray()
                  */
             }
 
-            Log.Message("finished assigning target to " + NewPawn);
+            if (XMTSettings.LogBiohorror)
+            {
+                Log.Message("[XMT][Biohorror][PawnTransformation] finished assigning source state to " + NewPawn);
+            }
 
             NewPawn = TrySpawnPawnFromTarget(NewPawn, target) as Pawn;
 
@@ -1398,11 +1322,152 @@ namespace Xenomorphtype
                 return false;
             }
 
-            Log.Message("spawned " + NewPawn);
-            target.Destroy();
-            Log.Message("cleaned up original");
+            if (!PawnTransformationIdentityUtility.TryTransferAndRetire(target, NewPawn, out _))
+            {
+                return false;
+            }
+
+            PlaceRemovedHediffDrops(NewPawn, removedHediffDrops);
             result = NewPawn;
             return true;
+        }
+
+        internal static Gender? ResolveTransformationGender(Pawn source, PawnKindDef targetDef)
+        {
+            RaceProperties race = targetDef?.race?.race;
+            if (race == null)
+            {
+                return null;
+            }
+            if (!race.hasGenders)
+            {
+                return Gender.None;
+            }
+
+            bool maleAllowed = true;
+            bool femaleAllowed = true;
+            if (targetDef.race is ThingDef_AlienRace alienRace)
+            {
+                float maleProbability = alienRace.alienRace.generalSettings.maleGenderProbability;
+                maleAllowed = maleProbability > 0f;
+                femaleAllowed = maleProbability < 1f;
+            }
+
+            bool IsAllowed(Gender gender)
+            {
+                return gender == Gender.Male && maleAllowed
+                    || gender == Gender.Female && femaleAllowed;
+            }
+
+            if (targetDef.fixedGender.HasValue && IsAllowed(targetDef.fixedGender.Value))
+            {
+                return targetDef.fixedGender.Value;
+            }
+            if (source != null && IsAllowed(source.gender))
+            {
+                return source.gender;
+            }
+            if (femaleAllowed && !maleAllowed)
+            {
+                return Gender.Female;
+            }
+            if (maleAllowed && !femaleAllowed)
+            {
+                return Gender.Male;
+            }
+
+            // A gendered race accepting both vanilla genders can choose normally when
+            // the source is genderless or carries a value the destination cannot use.
+            return null;
+        }
+
+        private static BodyPartRecord FindCorrespondingBodyPart(
+            Pawn source,
+            Pawn successor,
+            BodyPartRecord sourcePart,
+            BodyPartDef destinationPartDef,
+            string destinationLabel)
+        {
+            if (sourcePart == null || destinationPartDef == null || destinationLabel.NullOrEmpty())
+            {
+                return null;
+            }
+
+            List<BodyPartRecord> sourceMatches = source.def.race.body.AllParts
+                .Where(part => part.def == sourcePart.def && part.Label == sourcePart.Label)
+                .ToList();
+            int occurrence = sourceMatches.IndexOf(sourcePart);
+            if (occurrence < 0)
+            {
+                occurrence = 0;
+            }
+
+            List<BodyPartRecord> destinationMatches = successor.def.race.body.AllParts
+                .Where(part => part.def == destinationPartDef && part.Label == destinationLabel)
+                .ToList();
+
+            // Human, hybrid, starbeast, and royal bodies use different brain defs.
+            // Treat their single consciousness source as the same anatomical role so
+            // mechlinks and other brain implants survive otherwise-compatible forms.
+            if (destinationMatches.Count == 0
+                && (sourcePart.def == ExternalDefOf.Brain
+                    || sourcePart.def.tags?.Contains(BodyPartTagDefOf.ConsciousnessSource) == true))
+            {
+                destinationMatches = successor.def.race.body.AllParts
+                    .Where(part => part.def.tags?.Contains(BodyPartTagDefOf.ConsciousnessSource) == true)
+                    .ToList();
+                occurrence = 0;
+            }
+
+            return occurrence < destinationMatches.Count ? destinationMatches[occurrence] : null;
+        }
+
+        private static void PlaceRemovedHediffDrops(Pawn successor, IEnumerable<ThingDef> dropDefs)
+        {
+            if (successor == null || dropDefs == null)
+            {
+                return;
+            }
+
+            foreach (ThingDef dropDef in dropDefs)
+            {
+                if (dropDef == null)
+                {
+                    continue;
+                }
+
+                Thing drop = null;
+                try
+                {
+                    drop = ThingMaker.MakeThing(dropDef);
+                    Map map = successor.MapHeld;
+                    if (map != null && GenPlace.TryPlaceThing(drop, successor.PositionHeld, map, ThingPlaceMode.Near))
+                    {
+                        continue;
+                    }
+
+                    if (successor.inventory?.innerContainer != null
+                        && successor.inventory.innerContainer.TryAdd(drop, false))
+                    {
+                        continue;
+                    }
+
+                    Log.Warning("[XMT][PawnTransformation] Could not place removed implant " + dropDef.defName
+                        + " for " + successor + ".");
+                }
+                catch (Exception exception)
+                {
+                    Log.Warning("[XMT][PawnTransformation] Failed to create or place removed implant "
+                        + dropDef.defName + " for " + successor + ": " + exception.Message);
+                }
+                finally
+                {
+                    if (drop != null && drop.holdingOwner == null && !drop.Spawned && !drop.Destroyed)
+                    {
+                        drop.Destroy(DestroyMode.Vanish);
+                    }
+                }
+            }
         }
 
         internal static bool TransformThingIntoThing(Thing target, ThingDef targetDef, out Thing result, Pawn instigator = null)
@@ -1610,7 +1675,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogBiohorror)
                         {
-                            Log.Message("part or label is null in TransformPawnIntoThing on " + target);
+                            Log.Message("[XMT][Biohorror] part or label is null in TransformPawnIntoThing on " + target);
                         }
                         continue;
                     }
@@ -1730,7 +1795,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("Queen reported as dead: " + p);
+                    Log.Message("[XMT][World] Queen reported as dead: " + p);
                 }
                 Queen = null;
             }

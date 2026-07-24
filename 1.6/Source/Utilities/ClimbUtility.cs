@@ -135,7 +135,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(pawn + " rejected traversal route step " + (i + 1) + "/" + legs.Count + " " + leg.type +
+                        Log.Message("[XMT][Climbing] " + pawn + " rejected traversal route step " + (i + 1) + "/" + legs.Count + " " + leg.type +
                             ": approach=" + approachFrom + ", start=" + start + ", end=" + end +
                             ", validCells=" + validCells + ", startWalkable=" + startWalkable +
                             ", endWalkable=" + endWalkable + ", endpointsValid=" + endpointsValid +
@@ -150,7 +150,7 @@ namespace Xenomorphtype
             bool finalReachable = CanReachFrom(pawn, approachFrom, climber.climbParameters.FinalGoalTarget, finalPathEndMode);
             if (!finalReachable && XMTSettings.LogClimbing)
             {
-                Log.Message(pawn + " rejected climb route because final landing " + approachFrom +
+                Log.Message("[XMT][Climbing] " + pawn + " rejected climb route because final landing " + approachFrom +
                     " cannot reach " + climber.climbParameters.FinalGoalTarget + " with " + finalPathEndMode);
             }
             return finalReachable;
@@ -166,11 +166,11 @@ namespace Xenomorphtype
             List<TraversalLeg> legs = climber.climbParameters.TraversalLegs;
             if (legs == null)
             {
-                Log.Message(pawn + " generated an invalid traversal route list.");
+                Log.Message("[XMT][Climbing] " + pawn + " generated an invalid traversal route list.");
                 return;
             }
 
-            Log.Message(pawn + " generated " + legs.Count + " traversal step(s) from " + pawn.Position + " to " + climber.climbParameters.FinalGoalTarget + " with final mode " + finalPathEndMode + " for " + pawn.jobs?.curJob);
+            Log.Message("[XMT][Climbing] " + pawn + " generated " + legs.Count + " traversal step(s) from " + pawn.Position + " to " + climber.climbParameters.FinalGoalTarget + " with final mode " + finalPathEndMode + " for " + pawn.jobs?.curJob);
             for (int i = 0; i < legs.Count; i++)
             {
                 TraversalLeg leg = legs[i];
@@ -183,7 +183,7 @@ namespace Xenomorphtype
                 bool downstreamReachable = CanReachFrom(pawn, leg.end, downstreamTarget, downstreamMode);
                 bool plannedLandingWalkable = leg.end.InBounds(pawn.Map) && leg.end.Walkable(pawn.Map);
 
-                Log.Message(pawn + " traversal route step " + (i + 1) + "/" + legs.Count + " " + leg.type +
+                Log.Message("[XMT][Climbing] " + pawn + " traversal route step " + (i + 1) + "/" + legs.Count + " " + leg.type +
                     ": approach " + approachFrom + " -> " + leg.start + " OnCell reachable=" + approachReachable +
                     "; traverse " + leg.start + " -> " + leg.end + " landingWalkable=" + plannedLandingWalkable +
                     "; downstream " + leg.end + " -> " + downstreamTarget + " with " + downstreamMode + " reachable=" + downstreamReachable);
@@ -320,7 +320,7 @@ namespace Xenomorphtype
             bool hasDistrictRoute = TryGetDistrictDistance(pawn, dest, peMode, traverseParms, out int districtDistance);
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(pawn + " climb preference check for " + dest + " with " + peMode +
+                Log.Message("[XMT][Climbing] " + pawn + " climb preference check for " + dest + " with " + peMode +
                     ": districtDistance=" + (hasDistrictRoute ? districtDistance.ToString() : "unavailable") +
                     ", threshold=" + PreferredClimbDistrictThreshold);
             }
@@ -433,7 +433,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogClimbing)
                 {
-                    Log.Message(actor + " rejected stale infiltration step " + leg + " from actual position " + position + ".");
+                    Log.Message("[XMT][Climbing] " + actor + " rejected stale infiltration step " + leg + " from actual position " + position + ".");
                 }
                 actor.pather.StopDead();
                 climber.ClearClimberData();
@@ -446,7 +446,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(actor + " beginning climb from actual position " + position +
+                Log.Message("[XMT][Climbing] " + actor + " beginning climb from actual position " + position +
                     "; planned start=" + climber.StartClimbCell + "; planned end=" + cell +
                     "; start matched=" + (position == climber.StartClimbCell) +
                     "; end walkable=" + (cell.InBounds(map) && cell.Walkable(map)) +
@@ -479,7 +479,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(actor + " preparing climb approach from " + actor.Position + " to " + climber.StartClimbCell +
+                Log.Message("[XMT][Climbing] " + actor + " preparing climb approach from " + actor.Position + " to " + climber.StartClimbCell +
                     " with OnCell reachable=" + CanReachFrom(actor, actor.Position, climber.StartClimbCell, PathEndMode.OnCell) +
                     "; planned climb end=" + climber.EndClimbCell + "; final target=" + climber.climbParameters.FinalGoalTarget +
                     " for " + actor.jobs?.curJob);
@@ -538,7 +538,7 @@ namespace Xenomorphtype
                     IntVec3 plannedClimbEnd = climber.EndClimbCell;
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " restored after climb at " + actor.Position + "; planned landing=" + plannedClimbEnd +
+                        Log.Message("[XMT][Climbing] " + actor + " restored after climb at " + actor.Position + "; planned landing=" + plannedClimbEnd +
                             "; planned landing matched=" + (actor.Position == plannedClimbEnd) + "; current job=" + actor.jobs?.curJob);
                     }
 
@@ -548,7 +548,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogClimbing)
                         {
-                            Log.Message(actor + " requesting final post-climb path from " + actor.Position + " to " + climber.climbParameters.FinalGoalTarget +
+                            Log.Message("[XMT][Climbing] " + actor + " requesting final post-climb path from " + actor.Position + " to " + climber.climbParameters.FinalGoalTarget +
                                 " with " + peMode + " reachable=" + OriginalCanReach(actor, climber.climbParameters.FinalGoalTarget, peMode, actor.NormalMaxDanger()) +
                                 " for " + actor.jobs?.curJob);
                         }
@@ -560,7 +560,7 @@ namespace Xenomorphtype
                         climber.finishedClimb = false;
                         if (XMTSettings.LogClimbing)
                         {
-                            Log.Message(actor + " requesting next climb approach from " + actor.Position + " to " + climber.StartClimbCell +
+                            Log.Message("[XMT][Climbing] " + actor + " requesting next climb approach from " + actor.Position + " to " + climber.StartClimbCell +
                                 " with OnCell reachable=" + CanReachFrom(actor, actor.Position, climber.StartClimbCell, PathEndMode.OnCell) +
                                 " for " + actor.jobs?.curJob);
                         }
@@ -585,7 +585,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " is checking climb approach arrival; position=" + actor.Position + " start=" + climber.StartClimbCell +
+                        Log.Message("[XMT][Climbing] " + actor + " is checking climb approach arrival; position=" + actor.Position + " start=" + climber.StartClimbCell +
                             " moving=" + actor.pather.Moving + " movingNow=" + actor.pather.MovingNow +
                             " curPathNull=" + (actor.pather.curPath == null) + " curPathFinished=" + (actor.pather.curPath?.Finished ?? true) +
                             " for " + actor.jobs?.curJob);
@@ -699,7 +699,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogClimbing)
                 {
-                    Log.Message(actor + " reports as having not arrived at " + target + " with " + peMode + " for " + actor.jobs?.curJob);
+                    Log.Message("[XMT][Climbing] " + actor + " reports as having not arrived at " + target + " with " + peMode + " for " + actor.jobs?.curJob);
                 }
                 TryStartFallbackPathOrEndJob(actor, target, peMode);
             }
@@ -728,7 +728,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " ending climb fallback as incompletable after repeated idle recovery attempts to " + target + " with " + peMode + " for " + actor.jobs?.curJob);
+                        Log.Message("[XMT][Climbing] " + actor + " ending climb fallback as incompletable after repeated idle recovery attempts to " + target + " with " + peMode + " for " + actor.jobs?.curJob);
                     }
                     actor.pather.StopDead();
                     actor.GetMorphComp()?.NotifyPathFailure(target, actor.jobs?.curJob);
@@ -740,7 +740,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogClimbing)
                 {
-                    Log.Message(actor + " requesting climb fallback path to " + target + " with " + peMode + " after the pather became idle for " + actor.jobs?.curJob + " attempt " + attempts);
+                    Log.Message("[XMT][Climbing] " + actor + " requesting climb fallback path to " + target + " with " + peMode + " after the pather became idle for " + actor.jobs?.curJob + " attempt " + attempts);
                 }
 
                 actor.pather.StartPath(target, peMode);
@@ -749,7 +749,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(actor + " ending climb fallback as incompletable; cannot reach " + target + " with " + peMode + " for " + actor.jobs?.curJob);
+                Log.Message("[XMT][Climbing] " + actor + " ending climb fallback as incompletable; cannot reach " + target + " with " + peMode + " for " + actor.jobs?.curJob);
             }
             actor.pather.StopDead();
             actor.GetMorphComp()?.NotifyPathFailure(target, actor.jobs?.curJob);
@@ -795,7 +795,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " already arrived at  " + target);
+                        Log.Message("[XMT][Climbing] " + actor + " already arrived at  " + target);
                     }
                     actor.pather.StopDead();
                     climber.ClearClimberData();
@@ -806,7 +806,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " could not get climb parameters in TargetIndex GotoCell Init Action");
+                        Log.Message("[XMT][Climbing] " + actor + " could not get climb parameters in TargetIndex GotoCell Init Action");
                     }
 
                     if (HasArrived(actor, target, peMode))
@@ -928,7 +928,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " already arrived at  " + cell);
+                        Log.Message("[XMT][Climbing] " + actor + " already arrived at  " + cell);
                     }
                     actor.pather.StopDead();
                     climber.ClearClimberData();
@@ -940,7 +940,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " could not get climb parameters in cell GotoCell Init Action");
+                        Log.Message("[XMT][Climbing] " + actor + " could not get climb parameters in cell GotoCell Init Action");
                     }
                     if (HasArrived(actor, cell, peMode))
                     {
@@ -994,7 +994,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " already arrived at  " + thing);
+                        Log.Message("[XMT][Climbing] " + actor + " already arrived at  " + thing);
                     }
 
                     actor.pather.StopDead();
@@ -1007,7 +1007,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " could not get climb parameters in dest.cell GotoCell Init Action");
+                        Log.Message("[XMT][Climbing] " + actor + " could not get climb parameters in dest.cell GotoCell Init Action");
                     }
                     if (HasArrived(actor, exactCell, PathEndMode.OnCell))
                     {
@@ -1066,7 +1066,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " already arrived at  " + thing);
+                        Log.Message("[XMT][Climbing] " + actor + " already arrived at  " + thing);
                     }
                     actor.pather.StopDead();
                     climber.ClearClimberData();
@@ -1078,7 +1078,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " could not get climb parameters in dest.cell GotoThing Init Action");
+                        Log.Message("[XMT][Climbing] " + actor + " could not get climb parameters in dest.cell GotoThing Init Action");
                     }
                     if (HasArrived(actor, dest, peMode))
                     {
@@ -1135,7 +1135,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " already arrived at  " + target);
+                        Log.Message("[XMT][Climbing] " + actor + " already arrived at  " + target);
                     }
                     actor.pather.StopDead();
                     climber.ClearClimberData();
@@ -1146,7 +1146,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(actor + " could not get climb parameters in target.Cell CarryHauledThingToCell Init Action");
+                        Log.Message("[XMT][Climbing] " + actor + " could not get climb parameters in target.Cell CarryHauledThingToCell Init Action");
                     }
                     if (HasArrived(actor, target, peMode))
                     {
@@ -1211,7 +1211,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogClimbing)
                 {
-                    Log.Message(pawn + " is checking " + point + ":" + i);
+                    Log.Message("[XMT][Climbing] " + pawn + " is checking " + point + ":" + i);
                 }
                 if (climbEnd.Count == 0)
                 {
@@ -1221,13 +1221,13 @@ namespace Xenomorphtype
                        {
                             if (XMTSettings.LogClimbing)
                             {
-                                Log.Message(destinationRoom + " is the room of " + point + ":" + i);
+                                Log.Message("[XMT][Climbing] " + destinationRoom + " is the room of " + point + ":" + i);
                             }
                             if (destinationRoom.OpenRoofCount != 0)
                             {
                                 if (XMTSettings.LogClimbing)
                                 {
-                                    Log.Message(destinationRoom + " room has open roof tiles " + point + ":" + i);
+                                    Log.Message("[XMT][Climbing] " + destinationRoom + " room has open roof tiles " + point + ":" + i);
                                 }
 
                                 foreach (IntVec3 roomCell in destinationRoom.Cells)
@@ -1241,7 +1241,7 @@ namespace Xenomorphtype
                                     {
                                         if (XMTSettings.LogClimbing)
                                         {
-                                        Log.Message(pawn + " selected enclosed-goal climb end " + roomCell + " from " + destinationRoom + " at line index " + i);
+                                        Log.Message("[XMT][Climbing] " + pawn + " selected enclosed-goal climb end " + roomCell + " from " + destinationRoom + " at line index " + i);
                                         }
                                         climbEnd.Add(roomCell);
                                         wasBlocked = true;
@@ -1273,7 +1273,7 @@ namespace Xenomorphtype
                             climbEnd.Add(lastClear);
                             if (XMTSettings.LogClimbing)
                             {
-                                Log.Message(pawn + " selected line-side climb end " + lastClear + " before blocked cell " + point + " at line index " + i);
+                                Log.Message("[XMT][Climbing] " + pawn + " selected line-side climb end " + lastClear + " before blocked cell " + point + " at line index " + i);
                             }
                             wasBlocked = true;
                         }
@@ -1284,7 +1284,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(pawn + " has found a start point" + point + ":" + i);
+                        Log.Message("[XMT][Climbing] " + pawn + " has found a start point" + point + ":" + i);
                     }
                     climbStart.Add(point);
                     wasBlocked = false;
@@ -1318,7 +1318,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogClimbing)
                             {
-                                Log.Message(pawn + " selected enclosed-departure climb start " + roomCell + " from " + departureRoom + " at line index " + i);
+                                Log.Message("[XMT][Climbing] " + pawn + " selected enclosed-departure climb start " + roomCell + " from " + departureRoom + " at line index " + i);
                             }
                             climbStart.Add(roomCell);
                             break;
@@ -1329,7 +1329,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(climbEnd.Count + " ends and " + climbStart.Count + "starts");
+                Log.Message("[XMT][Climbing] " + climbEnd.Count + " ends and " + climbStart.Count + "starts");
             }
 
             climbStart.Reverse();
@@ -1380,7 +1380,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(pawn + " gathering climb parameters");
+                Log.Message("[XMT][Climbing] " + pawn + " gathering climb parameters");
             }
             climber.ClearClimberData();
             climber.MarkClimbToilActive(pawn.jobs?.curJob);
@@ -1392,7 +1392,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogClimbing)
                 {
-                    Log.Message(pawn + " final goal invalid");
+                    Log.Message("[XMT][Climbing] " + pawn + " final goal invalid");
                 }
                 return false;
             }
@@ -1401,7 +1401,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogClimbing)
                 {
-                    Log.Message(pawn + " final goal invalid");
+                    Log.Message("[XMT][Climbing] " + pawn + " final goal invalid");
                 }
                 return false;
             }
@@ -1444,7 +1444,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogClimbing)
             {
-                Log.Message("Traversal cells failed to register for " + pawn + "; climbDecision=" + decision + "; normallyReachable=" + normallyReachable);
+                Log.Message("[XMT][Climbing] Traversal cells failed to register for " + pawn + "; climbDecision=" + decision + "; normallyReachable=" + normallyReachable);
             }
             climber.ClearClimberData();
             return false;

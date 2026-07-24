@@ -136,7 +136,7 @@ namespace Xenomorphtype
                 {
                     if (_isInorganic)
                     {
-                        Log.Message(_pawn + " is caching inorganic status  as " + _isInorganic);
+                        Log.Message("[XMT][Biohorror] " + _pawn + " is caching inorganic status  as " + _isInorganic);
                     }
                     if (_brainMutationCount > 0)
                     {

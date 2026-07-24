@@ -62,7 +62,7 @@ namespace Xenomorphtype
             nextSpawnTick = currentTick + Mathf.CeilToInt(eggProductionTicks);
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(parent + " has sampled " + pawn + " as a " + sampleKindDef);
+                Log.Message("[XMT][Biohorror] " + parent + " has sampled " + pawn + " as a " + sampleKindDef);
             }
         }
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -129,7 +129,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(parent + " has no saved kind def for cloning ");
+                    Log.Message("[XMT][Biohorror] " + parent + " has no saved kind def for cloning ");
                 }
                 return;
             }
@@ -157,7 +157,7 @@ namespace Xenomorphtype
 
                                 if (XMTSettings.LogBiohorror)
                                 {
-                                    Log.Message(parent + " spawned a cloning egg as " + spawn + " the comp is " + cloningEgg);
+                                    Log.Message("[XMT][Biohorror] " + parent + " spawned a cloning egg as " + spawn + " the comp is " + cloningEgg);
                                 }
                                 if (cloningEgg != null)
                                 {
@@ -184,7 +184,7 @@ namespace Xenomorphtype
                         CompCloningEgg cloningEgg = spawn.GetComp<CompCloningEgg>();
                         if (XMTSettings.LogBiohorror)
                         {
-                            Log.Message(parent + " spawned a cloning egg as " + spawn + " the comp is " + cloningEgg);
+                            Log.Message("[XMT][Biohorror] " + parent + " spawned a cloning egg as " + spawn + " the comp is " + cloningEgg);
                         }
                         if (cloningEgg != null)
                         {

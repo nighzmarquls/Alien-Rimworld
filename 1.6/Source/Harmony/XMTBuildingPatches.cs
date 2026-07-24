@@ -15,8 +15,45 @@ namespace Xenomorphtype
     /*
      * harmony.Patch(AccessTools.Method(typeof(GenConstruct), nameof(GenConstruct.CanConstruct), [typeof(Thing), typeof(Pawn), typeof(bool), typeof(bool), typeof(JobDef)]), 
          postfix: new HarmonyMethod(patchType, nameof(CanConstructPostfix)));
-     */
+    */
     internal class XMTBuildingPatches {
+        [HarmonyPatch(typeof(Frame), nameof(Frame.CompleteConstruction), new Type[] { typeof(Pawn) })]
+        public static class Patch_Frame_CompleteConstruction
+        {
+            private struct ConstructionState
+            {
+                public Map map;
+                public IntVec3 position;
+                public ThingDef builtDef;
+            }
+
+            [HarmonyPrefix]
+            private static void Prefix(Frame __instance, out ConstructionState __state)
+            {
+                __state = new ConstructionState
+                {
+                    map = __instance.Map,
+                    position = __instance.Position,
+                    builtDef = __instance.BuildDef as ThingDef
+                };
+            }
+
+            [HarmonyPostfix]
+            private static void Postfix(Pawn worker, ConstructionState __state)
+            {
+                if (worker == null || __state.map == null || __state.builtDef == null || !__state.position.InBounds(__state.map))
+                {
+                    return;
+                }
+
+                Thing finishedThing = __state.map.thingGrid.ThingAt(__state.position, __state.builtDef);
+                if (finishedThing is SelfOccupyingBuilding selfOccupyingBuilding)
+                {
+                    selfOccupyingBuilding.Notify_ConstructionCompleted(worker);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(RaceRestrictionSettings), nameof(RaceRestrictionSettings.CanColonyBuild))]
         public static class Patch_RaceRestrictionSettings_CanColonyBuild
         {

@@ -178,7 +178,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogWorld)
             {
-                Log.Message(pawn + " is being evaluated for xenoforming impact");
+                Log.Message("[XMT][World] " + pawn + " is being evaluated for xenoforming impact");
             }
             if (pawn != null)
             {
@@ -186,7 +186,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(pawn + " is in a caravan. Skipping.");
+                        Log.Message("[XMT][World] " + pawn + " is in a caravan. Skipping.");
                     }
                     return;
                 }
@@ -194,7 +194,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(pawn + " is a xenomorph");
+                        Log.Message("[XMT][World] " + pawn + " is a xenomorph");
                     }
                     gameComponent.ReleaseXenomorphOnWorld(pawn);
                 }
@@ -204,7 +204,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogWorld)
                         {
-                            Log.Message(pawn + " has an embryo");
+                            Log.Message("[XMT][World] " + pawn + " has an embryo");
                         }
                         gameComponent.ReleaseEmbryoOnWorld(pawn);
                     }
@@ -213,7 +213,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogWorld)
                         {
-                            Log.Message(pawn + " has mutations");
+                            Log.Message("[XMT][World] " + pawn + " has mutations");
                         }
                         gameComponent.ReleaseMutagenOnWorld(essence);
                     }
@@ -223,7 +223,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("checking inventory for " + pawn);
+                    Log.Message("[XMT][World] checking inventory for " + pawn);
                 }
                 if (carriedThings != null)
                 {
@@ -238,13 +238,18 @@ namespace Xenomorphtype
 
         public static void HandleXenoformingImpact(HibernationCocoon hibernationCocoon)
         {
-            if (hibernationCocoon != null)
+            HandleXenoformingImpact((SelfOccupyingBuilding)hibernationCocoon);
+        }
+
+        public static void HandleXenoformingImpact(SelfOccupyingBuilding selfOccupyingBuilding)
+        {
+            if (selfOccupyingBuilding != null)
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(hibernationCocoon + " is a hibernation cocoon");
+                    Log.Message("[XMT][World] " + selfOccupyingBuilding + " is a self-occupying building");
                 }
-                HandleXenoformingImpact(hibernationCocoon.ContainedThing as Pawn);
+                HandleXenoformingImpact(selfOccupyingBuilding.ContainedThing as Pawn);
             }
 
 
@@ -258,7 +263,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(Ovomorph + " is viable Ovomorph");
+                        Log.Message("[XMT][World] " + Ovomorph + " is viable Ovomorph");
                     }
                     gameComponent.ReleaseOvomorphOnWorld(Ovomorph);
                     return;
@@ -276,14 +281,14 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("thing is null");
+                    Log.Message("[XMT][World] thing is null");
                 }
                 return;
             }
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message(thing + " is being evaluated for xenoforming impact");
+                Log.Message("[XMT][World] " + thing + " is being evaluated for xenoforming impact");
             }
 
             if(thing is StarbeastCorpse corpse)
@@ -292,7 +297,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(thing + " is a not actually dead corpse!");
+                        Log.Message("[XMT][World] " + thing + " is a not actually dead corpse!");
                     }
                     HandleXenoformingImpact(corpse.InnerPawn);
                     return;
@@ -305,7 +310,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(thing + " is a minified thing");
+                    Log.Message("[XMT][World] " + thing + " is a minified thing");
                 }
                 HandleXenoformingImpact(minifiedThing.InnerThing);
                 return;
@@ -319,22 +324,22 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(thing + " is viable Ovomorph");
+                        Log.Message("[XMT][World] " + thing + " is viable Ovomorph");
                     }
                     gameComponent.ReleaseOvomorphOnWorld(Ovomorph);
                     return;
                 }
             }
 
-            HibernationCocoon hibernationCocoon = thing as HibernationCocoon;
+            SelfOccupyingBuilding selfOccupyingBuilding = thing as SelfOccupyingBuilding;
 
-            if(hibernationCocoon != null)
+            if(selfOccupyingBuilding != null)
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(thing + " is a hibernation cocoon");
+                    Log.Message("[XMT][World] " + thing + " is a self-occupying building");
                 }
-                HandleXenoformingImpact(hibernationCocoon.ContainedThing as Pawn);
+                HandleXenoformingImpact(selfOccupyingBuilding.ContainedThing as Pawn);
             }
             
             XMTGenePack genePack = thing as XMTGenePack;
@@ -343,7 +348,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(thing + " is a genepack");
+                    Log.Message("[XMT][World] " + thing + " is a genepack");
                 }
                 gameComponent.ReleaseMutagenOnWorld(genePack.Potency*genePack.stackCount);
                 return;

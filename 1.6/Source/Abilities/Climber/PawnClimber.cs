@@ -193,7 +193,7 @@ namespace Xenomorphtype
             Pawn pawn = flyingThing as Pawn;
             if (XMTSettings.LogClimbing)
             {
-                Log.Message(pawn + " completed climb flyer drop; originally planned landing=" + plannedDestCell +
+                Log.Message("[XMT][Climbing] " + pawn + " completed climb flyer drop; originally planned landing=" + plannedDestCell +
                     "; resolved landing=" + destCell + "; drop succeeded=" + droppedPawn +
                     "; actual position=" + (lastResultingThing?.PositionHeld ?? IntVec3.Invalid) +
                     "; spawned=" + (lastResultingThing?.Spawned ?? false));
@@ -222,7 +222,7 @@ namespace Xenomorphtype
             CompClimber climber = pawn.GetClimberComp();
             if (climber != null && XMTSettings.LogClimbing)
             {
-                Log.Message(pawn + " restoring detached climb job after landing; detached job=" + detachedJob +
+                Log.Message("[XMT][Climbing] " + pawn + " restoring detached climb job after landing; detached job=" + detachedJob +
                     "; detached driver=" + detachedDriver + "; temporary job=" + pawn.jobs?.curJob +
                     "; captured queue=" + (jobQueue != null) + "; final target=" + climber.climbParameters.FinalGoalTarget +
                     "; route registered=" + climber.climbParameters.ClimbCellsRegistered);
@@ -261,7 +261,7 @@ namespace Xenomorphtype
 
             if (climber != null && XMTSettings.LogClimbing)
             {
-                Log.Message(pawn + " restored detached climb job after landing; current job=" + pawn.jobs?.curJob +
+                Log.Message("[XMT][Climbing] " + pawn + " restored detached climb job after landing; current job=" + pawn.jobs?.curJob +
                     "; driver=" + pawn.jobs?.curDriver);
             }
 
@@ -339,7 +339,7 @@ namespace Xenomorphtype
                 if (XMTSettings.LogClimbing && lastUnresolvedDestinationLogged != destCell)
                 {
                     lastUnresolvedDestinationLogged = destCell;
-                    Log.Message(ClimbingPawn + " has an invalid strict infiltration landing at " + destCell +
+                    Log.Message("[XMT][Climbing] " + ClimbingPawn + " has an invalid strict infiltration landing at " + destCell +
                         "; radial climb landing correction is disabled for this traversal.");
                 }
                 return;
@@ -356,7 +356,7 @@ namespace Xenomorphtype
                     lastUnresolvedDestinationLogged = IntVec3.Invalid;
                     if (XMTSettings.LogClimbing)
                     {
-                        Log.Message(ClimbingPawn + " adjusted climb landing from rejected cell " + rejectedDestination + " to " + destCell +
+                        Log.Message("[XMT][Climbing] " + ClimbingPawn + " adjusted climb landing from rejected cell " + rejectedDestination + " to " + destCell +
                             "; originally planned landing=" + plannedDestCell + "; flyer position=" + Position);
                     }
                     return;
@@ -366,7 +366,7 @@ namespace Xenomorphtype
             if (XMTSettings.LogClimbing && lastUnresolvedDestinationLogged != rejectedDestination)
             {
                 lastUnresolvedDestinationLogged = rejectedDestination;
-                Log.Message(ClimbingPawn + " could not find a valid replacement climb landing within 3.9 cells of " + rejectedDestination +
+                Log.Message("[XMT][Climbing] " + ClimbingPawn + " could not find a valid replacement climb landing within 3.9 cells of " + rejectedDestination +
                     "; originally planned landing=" + plannedDestCell + "; flyer position=" + Position);
             }
         }

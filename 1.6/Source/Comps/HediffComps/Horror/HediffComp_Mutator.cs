@@ -30,7 +30,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(parent + " is trying to mutate " + Pawn);
+                    Log.Message("[XMT][Biohorror] " + parent + " is trying to mutate " + Pawn);
                 }
                
                 mutateTick = currentTick + Mathf.CeilToInt(Props.mutateHourInterval * 2500);

@@ -50,7 +50,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Executing Xenomorph Hunt Incident.");
+                Log.Message("[XMT][World] Executing Xenomorph Hunt Incident.");
             }
 
             Map map = (Map)parms.target;
@@ -63,7 +63,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Pawnkind found hunting pack with " + animalKind);
+                Log.Message("[XMT][World] Pawnkind found hunting pack with " + animalKind);
             }
 
             IntVec3 result = parms.spawnCenter;
@@ -74,7 +74,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Found position to spawn from");
+                Log.Message("[XMT][World] Found position to spawn from");
             }
 
             List<Pawn> list = AggressiveAnimalIncidentUtility.GenerateAnimals(animalKind, map.Tile, parms.points * PointsFactor, parms.pawnCount);
@@ -90,7 +90,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Generated animals");
+                Log.Message("[XMT][World] Generated animals");
             }
 
             SendStandardLetter("LetterLabelManhunterPackArrived".Translate(), "ManhunterPackArrived".Translate(animalKind.GetLabelPlural()), LetterDefOf.ThreatBig, parms, list[0]);

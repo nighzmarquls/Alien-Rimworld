@@ -63,7 +63,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message("attempting to alter genes on " + target);
+                Log.Message("[XMT][Biohorror] attempting to alter genes on " + target);
             }
 
             if (acceptAction != null)

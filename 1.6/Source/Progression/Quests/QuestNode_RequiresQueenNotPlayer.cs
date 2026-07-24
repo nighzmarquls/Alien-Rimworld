@@ -16,7 +16,7 @@ namespace Xenomorphtype
             bool hasQueen = XMTUtility.QueenIsPlayer();
             if (XMTSettings.LogWorld)
             {
-                Log.Message("checking if player has queen: " + hasQueen);
+                Log.Message("[XMT][World] checking if player has queen: " + hasQueen);
             }
 
             return !hasQueen;

@@ -8,10 +8,12 @@ namespace Xenomorphtype
 {
     public class CompHiveGeneHolder : ThingComp
     {
-        private const int CurrentStorageVersion = 1;
+        private const int CurrentStorageVersion = 2;
 
         public GeneSet genes;
         public string templateName;
+        private GeneSet legacyGenes;
+        private string legacyTemplateName;
         private int storageVersion = CurrentStorageVersion;
 
         public int StorageVersion => storageVersion;
@@ -105,28 +107,57 @@ namespace Xenomorphtype
             Scribe_Deep.Look(ref genes, "xmtHiveGenes");
             Scribe_Values.Look(ref storageVersion, "xmtHiveGeneStorageVersion", 0);
 
+            if (ShouldReadLegacyStorage())
+            {
+                Scribe_Values.Look(ref legacyTemplateName, "templateName", "");
+                Scribe_Deep.Look(ref legacyGenes, "genes");
+            }
+
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 MigrateLegacyStorage();
             }
         }
 
+        private bool ShouldReadLegacyStorage()
+        {
+            if (Scribe.mode == LoadSaveMode.Saving || storageVersion >= 1)
+            {
+                return false;
+            }
+
+            return !(parent is Pawn) || this is CompLarvalGenes || this is CompSubverterGenes;
+        }
+
         private void MigrateLegacyStorage()
         {
-            if (storageVersion >= CurrentStorageVersion)
+            if (storageVersion < 1)
             {
-                if (UsesNativeGeneTracker && genes != null && genes.GenesListForReading.Count > 0)
-                {
-                    List<GeneDef> redundantGenes = genes.GenesListForReading.ToList();
-                    genes = null;
-                    AddGenes(redundantGenes, templateName);
-                }
+                GeneSet sourceGenes = genes ?? legacyGenes;
+                string sourceTemplateName = !templateName.NullOrEmpty() ? templateName : legacyTemplateName;
+                List<GeneDef> canonicalGenes = BioUtility.NormalizeGenesForStorage(
+                    LegacyExpressionRace,
+                    sourceGenes?.GenesListForReading);
+                ReplaceGenes(canonicalGenes, sourceTemplateName, replaceNativeGenes: false);
+                ClearLegacyStorage();
                 return;
             }
 
-            List<GeneDef> legacyGenes = genes?.GenesListForReading ?? new List<GeneDef>();
-            List<GeneDef> canonicalGenes = BioUtility.NormalizeGenesForStorage(LegacyExpressionRace, legacyGenes);
-            ReplaceGenes(canonicalGenes, templateName, replaceNativeGenes: false);
+            if (UsesNativeGeneTracker && genes != null && genes.GenesListForReading.Count > 0)
+            {
+                List<GeneDef> redundantGenes = genes.GenesListForReading.ToList();
+                genes = null;
+                AddGenes(redundantGenes, templateName);
+            }
+
+            storageVersion = CurrentStorageVersion;
+            ClearLegacyStorage();
+        }
+
+        private void ClearLegacyStorage()
+        {
+            legacyGenes = null;
+            legacyTemplateName = string.Empty;
         }
 
         public bool DebugMarkLegacy(ThingDef expressionRace)

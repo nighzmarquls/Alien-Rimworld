@@ -30,7 +30,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is starving and doing a predator hunt on " + spawnedParentOrMe);
+                        Log.Message("[XMT][JobGiver] " + pawn + " is starving and doing a predator hunt on " + spawnedParentOrMe);
                     }
                     pawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
                     Job job = JobMaker.MakeJob(JobDefOf.PredatorHunt, spawnedParentOrMe);
@@ -47,7 +47,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is not hungry and going to murder " + spawnedParentOrMe);
+                        Log.Message("[XMT][JobGiver] " + pawn + " is not hungry and going to murder " + spawnedParentOrMe);
                     }
                     Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, spawnedParentOrMe);
                     job.canBashDoors = true;

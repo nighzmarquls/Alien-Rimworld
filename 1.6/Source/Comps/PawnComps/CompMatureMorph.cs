@@ -821,7 +821,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(Parent + " cannot mature, no nest on map ");
+                    Log.Message("[XMT][JobGiver] " + Parent + " cannot mature, no nest on map ");
                 }
                 return false;
             }
@@ -835,7 +835,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(Parent + " cannot mature, need food ");
+                    Log.Message("[XMT][JobGiver] " + Parent + " cannot mature, need food ");
                 }
                 return false;
             }
@@ -980,7 +980,7 @@ namespace Xenomorphtype
             {
                 score += 30;
             }
-            else if (XMTUtility.IsHost(candidate))
+            else if (XMTUtility.IsAcceptableHost(candidate))
             {
                 score += 50;
                 if (candidate.health.capacities.GetLevel(PawnCapacityDefOf.Breathing) > 0.80f)
@@ -1586,7 +1586,7 @@ namespace Xenomorphtype
             job = null;
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(Parent + " is trying to get feeding job.");
+                Log.Message("[XMT][JobGiver] " + Parent + " is trying to get feeding job.");
             }
             if (GetCocoonedFeedJob(out job))
             {
@@ -2382,8 +2382,7 @@ namespace Xenomorphtype
             cocoon = GenSpawn.Spawn(cocoon, Parent.Position, Parent.Map,WipeMode.VanishOrMoveAside) as HibernationCocoon;
 
             cocoon.Rotation = Rot4.Random;
-            bool flag = Parent.DeSpawnOrDeselect();
-            if (cocoon.TryAcceptThing(Parent) && flag)
+            if (cocoon.TryAssignOccupant(Parent))
             {
                 Find.Selector.Select(Parent, playSound: false, forceDesignatorDeselect: false);
             }

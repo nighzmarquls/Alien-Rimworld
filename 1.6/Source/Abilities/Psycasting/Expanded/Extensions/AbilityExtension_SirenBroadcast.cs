@@ -239,7 +239,7 @@ namespace Xenomorphtype
                 Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(faction + " is sending a trade caravan to investigate the Siren Broadcast. Arriving in " + TicksToArrive / 2400 + " hours");
+                    Log.Message("[XMT][World] " + faction + " is sending a trade caravan to investigate the Siren Broadcast. Arriving in " + TicksToArrive / 2400 + " hours");
                 }
             }
             else
@@ -255,7 +255,7 @@ namespace Xenomorphtype
                 Find.Storyteller.incidentQueue.Add(IncidentDefOf.RaidEnemy, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(faction + " is sending a raid of points: " + parms.points + " to investigate the Siren Broadcast. Arriving in " + TicksToArrive / 2400 + " hours");
+                    Log.Message("[XMT][World] " + faction + " is sending a raid of points: " + parms.points + " to investigate the Siren Broadcast. Arriving in " + TicksToArrive / 2400 + " hours");
                 }
             }
 

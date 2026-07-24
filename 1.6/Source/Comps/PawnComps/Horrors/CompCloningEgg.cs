@@ -25,7 +25,7 @@ namespace Xenomorphtype
                 int timeToHatch = tickToHatch - Find.TickManager.TicksGame;
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(parent + " has spawned with CompCloningEgg with pawndef " + pawnDef + " will hatch in " + timeToHatch);
+                    Log.Message("[XMT][Biohorror] " + parent + " has spawned with CompCloningEgg with pawndef " + pawnDef + " will hatch in " + timeToHatch);
                 }
                 if(timeToHatch < 0)
                 {
@@ -39,7 +39,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(parent + " has had pawnkind setup assigned with " + target + " hatching in " + ticksToHatch + " ticks");
+                Log.Message("[XMT][Biohorror] " + parent + " has had pawnkind setup assigned with " + target + " hatching in " + ticksToHatch + " ticks");
             }
             hatchingPawn = true;
             initialized = true;
@@ -59,7 +59,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(parent + " failed to initialize before attempts ran out ");
+                    Log.Message("[XMT][Biohorror] " + parent + " failed to initialize before attempts ran out ");
                 }
                 parent.Destroy();
             }
@@ -75,7 +75,7 @@ namespace Xenomorphtype
             }
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(parent + " attempting to hatch ");
+                Log.Message("[XMT][Biohorror] " + parent + " attempting to hatch ");
             }
             Pawn target = parent as Pawn;
 

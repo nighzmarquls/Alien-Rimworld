@@ -104,27 +104,27 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("finished activating gene copy " + actor);
+                    Log.Message("[XMT][Biohorror] finished activating gene copy " + actor);
                 }
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("gene holder found in " + geneSource);
+                    Log.Message("[XMT][Biohorror] gene holder found in " + geneSource);
                 }
                 List<GeneDef> originalGenes = BioUtility.GetGeneForExpressionList(actor);
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("got original genes on " + actor);
+                    Log.Message("[XMT][Biohorror] got original genes on " + actor);
                 }
                 List<GeneDef> newGenes = BioUtility.GetGeneForExpressionList(geneSource);
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("got new genes from " + geneSource);
+                    Log.Message("[XMT][Biohorror] got new genes from " + geneSource);
                 }
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("applying alter genes on " + actor);
+                    Log.Message("[XMT][Biohorror] applying alter genes on " + actor);
                 }
                 BioUtility.AlterGenes(ref actor, newGenes, originalGenes, geneHolder.EffectiveTemplateName);
                 return JobCondition.Succeeded;

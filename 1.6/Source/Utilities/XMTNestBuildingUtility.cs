@@ -206,7 +206,7 @@ namespace Xenomorphtype
             FeralJobUtility.ReservePlaceForJob(builder, job, diversionCell);
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(builder + " is taking a short hive build diversion after failing access to " + record.cell + ": " + job);
+                Log.Message("[XMT][JobGiver] " + builder + " is taking a short hive build diversion after failing access to " + record.cell + ": " + job);
             }
 
             return true;
@@ -309,7 +309,7 @@ namespace Xenomorphtype
                     Job approachJob = JobMaker.MakeJob(JobDefOf.Goto, approachCell);
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(builder + " is approaching nest build seed before building: " + approachJob);
+                        Log.Message("[XMT][JobGiver] " + builder + " is approaching nest build seed before building: " + approachJob);
                     }
                     return approachJob;
                 }
@@ -347,7 +347,7 @@ namespace Xenomorphtype
                     Job approachJob = JobMaker.MakeJob(JobDefOf.Goto, approachCell);
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(builder + " is approaching cocoon expansion seed before building: " + approachJob);
+                        Log.Message("[XMT][JobGiver] " + builder + " is approaching cocoon expansion seed before building: " + approachJob);
                     }
                     return approachJob;
                 }

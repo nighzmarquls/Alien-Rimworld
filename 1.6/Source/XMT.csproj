@@ -202,6 +202,7 @@
     <Compile Include="Debug\DebugActions_Mutations.cs" />
     <Compile Include="Debug\DebugActions_QueenTesting.cs" />
     <Compile Include="Debug\DebugActions_Transformations.cs" />
+    <Compile Include="Debug\PawnTransformationDebugHarness.cs" />
     <Compile Include="Debug\XMTHiveDebug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTRecruitPatches.cs" />
@@ -235,6 +236,7 @@
     <Compile Include="BioHorror\HorrorGenePayload.cs" />
     <Compile Include="BioHorror\XMT_OvomorphLayCostModifierListDef.cs" />
     <Compile Include="Building\AmbushTrap.cs" />
+    <Compile Include="Building\SelfOccupyingBuilding.cs" />
     <Compile Include="Building\Fillable\JellyPod.cs" />
     <Compile Include="Building\Fillable\JellyWell.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_BuildHiveRoof.cs" />
@@ -260,6 +262,7 @@
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Harmony\XMTAnomalyPatches.cs" />
 	<Compile Include="Harmony\XMTGenePatches.cs" />
+    <Compile Include="Harmony\XMTSaveRecoveryPatches.cs" />
     <Compile Include="Harmony\XMTButcheryPatches.cs" />
     <Compile Include="Harmony\XMTClimbPatches.cs" />
     <Compile Include="Harmony\XMTJobCleanupPatches.cs" />
@@ -473,6 +476,7 @@
     <Compile Include="Settings\XMTMod.cs" />
     <Compile Include="Utilities\QueenIngestibleResourceUtility.cs" />
     <Compile Include="Utilities\QueenMechGestationUtility.cs" />
+    <Compile Include="Utilities\PawnTransformationIdentityUtility.cs" />
     <Compile Include="Utilities\XMTUtility.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -38,13 +38,13 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message("[PathRecovery] " + Parent + " NotifyPathFailure tick=" + Find.TickManager.TicksGame + " target=" + targetCell + " job=" + jobDef?.defName + " before=" + state.DebugSummary(Parent.MapHeld));
+                Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " NotifyPathFailure tick=" + Find.TickManager.TicksGame + " target=" + targetCell + " job=" + jobDef?.defName + " before=" + state.DebugSummary(Parent.MapHeld));
             }
 
             state.NotifyFailure(targetCell, jobDef, playerForced, Parent.MapHeld, Parent.PositionHeld);
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message("[PathRecovery] " + Parent + " NotifyPathFailure after=" + state.DebugSummary(Parent.MapHeld));
+                Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " NotifyPathFailure after=" + state.DebugSummary(Parent.MapHeld));
             }
         }
 
@@ -63,7 +63,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message("[PathRecovery] " + Parent + " evaluating recovery tick=" + Find.TickManager.TicksGame + " state=" + state.DebugSummary(Parent.MapHeld));
+                Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " evaluating recovery tick=" + Find.TickManager.TicksGame + " state=" + state.DebugSummary(Parent.MapHeld));
             }
 
             if (!state.IsForMap(Parent.MapHeld) || !state.TargetCell.InBounds(Parent.MapHeld))
@@ -531,7 +531,7 @@ namespace Xenomorphtype
                 playerForced |= wasPlayerForced;
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message("[PathRecovery] same-tick duplicate failure ignored. tick=" + tick + " cell=" + cell + " job=" + jobDef?.defName + " state=" + DebugSummary(map));
+                    Log.Message("[XMT][JobGiver][PathRecovery] same-tick duplicate failure ignored. tick=" + tick + " cell=" + cell + " job=" + jobDef?.defName + " state=" + DebugSummary(map));
                 }
                 return;
             }
@@ -551,7 +551,7 @@ namespace Xenomorphtype
             lastFailureTick = tick;
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message("[PathRecovery] failure recorded. tick=" + tick + " sameFailure=" + sameFailure + " cell=" + cell + " job=" + jobDef?.defName + " roomCell=" + roomCell + " state=" + DebugSummary(map));
+                Log.Message("[XMT][JobGiver][PathRecovery] failure recorded. tick=" + tick + " sameFailure=" + sameFailure + " cell=" + cell + " job=" + jobDef?.defName + " roomCell=" + roomCell + " state=" + DebugSummary(map));
             }
         }
 

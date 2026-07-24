@@ -181,7 +181,11 @@ namespace Xenomorphtype
 
             if (spawnThrone)
             {
-                GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovothrone, map.Center, map, Rot4.Random);
+                EggSack throne = GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovothrone, map.Center, map, Rot4.Random) as EggSack;
+                if (throne == null || !throne.TryAssignOccupant(queen))
+                {
+                    Log.Warning("Failed to assign " + queen + " to its generated ovothrone.");
+                }
                 XMTHiveUtility.ForceNestPosition(map.Center+(Rot4.Random.FacingCell*5), map);
                 return;
             }

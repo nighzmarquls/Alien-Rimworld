@@ -20,6 +20,9 @@ namespace Xenomorphtype
             {
                 return new List<DebugActionNode>
                 {
+                    new DebugActionNode("Run pawn identity handoff suite", DebugActionType.Action, PawnTransformationDebugHarness.RunCombinedSuite),
+                    new DebugActionNode("Prepare pawn identity save/reload check", DebugActionType.Action, PawnTransformationDebugHarness.PrepareSaveReloadCheck),
+                    new DebugActionNode("Verify/cleanup pawn identity save/reload check", DebugActionType.Action, PawnTransformationDebugHarness.VerifyAndCleanupSaveReloadCheck),
                     MakePawnDestinationRoute("Pawn to pawn", TransformPawnToPawn),
                     MakeThingDestinationRoute("Pawn to thing", TransformPawnToThing),
                     MakePawnDestinationRoute("Thing to pawn", TransformThingToPawn),
@@ -209,6 +212,16 @@ namespace Xenomorphtype
             {
                 continuity = "PASS";
             }
+            else if (OnlyDestinationRestrictedGenesAreMissing(before, after, result.def, out List<GeneDef> filteredGenes))
+            {
+                continuity = "PASS (filtered " + filteredGenes.Count + " incompatible)";
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message("[XMT][Biohorror][PawnTransformation] " + route
+                        + " intentionally filtered destination-incompatible genes: "
+                        + string.Join(", ", filteredGenes.Select(gene => gene.defName)));
+                }
+            }
             else
             {
                 continuity = "FAIL";
@@ -231,6 +244,42 @@ namespace Xenomorphtype
             }
 
             return before.Genes.All(gene => after.Genes.Contains(gene));
+        }
+
+        private static bool OnlyDestinationRestrictedGenesAreMissing(
+            HorrorGenePayload before,
+            HorrorGenePayload after,
+            ThingDef destinationRace,
+            out List<GeneDef> filteredGenes)
+        {
+            filteredGenes = new List<GeneDef>();
+            if (before == null
+                || after == null
+                || !before.TemplateName.NullOrEmpty() && before.TemplateName != after.TemplateName)
+            {
+                return false;
+            }
+
+            foreach (GeneDef canonicalGene in before.Genes)
+            {
+                if (after.Genes.Contains(canonicalGene))
+                {
+                    continue;
+                }
+
+                GeneDef expressedGene = XMT_GeneRemapListDef.GetRemappedGeneFor(destinationRace, canonicalGene);
+                if (expressedGene == null
+                    || expressedGene.geneClass == typeof(UnknownGene)
+                    || !AlienRace.RaceRestrictionSettings.CanHaveGene(expressedGene, destinationRace, false))
+                {
+                    filteredGenes.Add(canonicalGene);
+                    continue;
+                }
+
+                return false;
+            }
+
+            return filteredGenes.Count > 0;
         }
 
         private static string GeneNames(HorrorGenePayload payload)

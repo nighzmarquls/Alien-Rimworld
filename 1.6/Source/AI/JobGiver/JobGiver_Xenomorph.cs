@@ -67,14 +67,14 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(pawn + " thinks a host should be abducted");
+                Log.Message("[XMT][JobGiver] " + pawn + " thinks a host should be abducted");
             }
 
             if (compMatureMorph.ShouldDoMichief() && XMTMischiefUtility.TryFindRoofBreakMischief(pawn, out Job roofBreakJob, out string roofBreakReason))
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(pawn + " is starting roof breaking mischief during abduction search: " + roofBreakReason);
+                    Log.Message("[XMT][JobGiver] " + pawn + " is starting roof breaking mischief during abduction search: " + roofBreakReason);
                 }
 
                 job = roofBreakJob;
@@ -89,7 +89,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(pawn + " thinks " + target + " should be abducted");
+                Log.Message("[XMT][JobGiver] " + pawn + " thinks " + target + " should be abducted");
             }
 
             job = GetAbductJob(pawn, target, allowExpansion);
@@ -100,14 +100,14 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(pawn + " is getting Feral Job");
+                Log.Message("[XMT][JobGiver] " + pawn + " is getting Feral Job");
             }
 
             if(!pawn.ageTracker.Adult)
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(pawn + " is fleeing the map due to age");
+                    Log.Message("[XMT][JobGiver] " + pawn + " is fleeing the map due to age");
                 }
 
                 Need_Food juvenileFood = pawn.needs.food;
@@ -142,7 +142,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(pawn + " is prioritizing host feeding.");
+                    Log.Message("[XMT][JobGiver] " + pawn + " is prioritizing host feeding.");
                 }
 
                 return priorityFeedJob;
@@ -152,7 +152,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(pawn + " is getting fed Job there are " + hostPawns.Count() + " possible hosts");
+                    Log.Message("[XMT][JobGiver] " + pawn + " is getting fed Job there are " + hostPawns.Count() + " possible hosts");
                 }
                 if (TryGetFeralAbductionJob(pawn, compMatureMorph, hostPawns, allowExpansion: true, blockedByOvomorphNest: shouldOvomorph && hasCocoonedHosts, out Job abductJob))
                 {
@@ -171,7 +171,7 @@ namespace Xenomorphtype
                {
                    if (XMTSettings.LogJobGiver)
                    {
-                       Log.Message(pawn + " is abducting a host after failing to find food.");
+                       Log.Message("[XMT][JobGiver] " + pawn + " is abducting a host after failing to find food.");
                    }
                    return abductJob;
                }
@@ -181,7 +181,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(pawn + " is doing Feral Activity");
+                    Log.Message("[XMT][JobGiver] " + pawn + " is doing Feral Activity");
                 }
 
                 if (XMTHiveUtility.IsInsideNest(pawn.Position,pawn.Map) && XMTHiveUtility.IsCloseToNest(pawn.Position, pawn.Map))
@@ -190,7 +190,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " thinks a candidate should be Ovomorphed.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " thinks a candidate should be Ovomorphed.");
                         }
                         Pawn target = XMTHiveUtility.GetOvomorphingCandidate(pawn.Map);
                         if (target != null)
@@ -198,7 +198,7 @@ namespace Xenomorphtype
                             FeralJobUtility.ClearFeralJobReservationsForTarget(pawn.Map, target);
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is going to Ovomorph " + target);
+                                Log.Message("[XMT][JobGiver] " + pawn + " is going to Ovomorph " + target);
                             }
                             if (!target.Spawned)
                             {
@@ -212,7 +212,7 @@ namespace Xenomorphtype
                     }
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is inside nest");
+                        Log.Message("[XMT][JobGiver] " + pawn + " is inside nest");
                     }
                     
                     IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compMatureMorph.abductRange, false).OfType<Pawn>().Where(x => !x.Downed && !XMTUtility.NotPrey(x));
@@ -221,7 +221,7 @@ namespace Xenomorphtype
                         Pawn target = pawns.RandomElement();
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is defending nest.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " is defending nest.");
                         }
                         Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, target);
 
@@ -240,7 +240,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is abducting the last colony pawn.");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is abducting the last colony pawn.");
                             }
                            
                             Pawn target = UndownedPawns.First();
@@ -252,7 +252,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is napping.");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is napping.");
                             }
 
                             Job restJob = XMTHiveUtility.GetHiveRestJob(pawn);
@@ -262,14 +262,14 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is abducting a random colony pawn.");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is abducting a random colony pawn.");
                             }
                             
                             Pawn target = UndownedPawns.RandomElement();
 
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is going to abduct " + target);
+                                Log.Message("[XMT][JobGiver] " + pawn + " is going to abduct " + target);
                             }
 
                             return GetAbductJob(pawn, target, allowExpansion: true);
@@ -281,7 +281,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + "should be in the nest.");
+                            Log.Message("[XMT][JobGiver] " + pawn + "should be in the nest.");
                         }
 
                         return XMTHiveUtility.GetHiveRestJob(pawn);
@@ -289,7 +289,7 @@ namespace Xenomorphtype
 
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " has nothing else to do.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " has nothing else to do.");
                     }
 
                     Job hibernateJob = XMTHiveUtility.GetSurplusHibernationJob(pawn);
@@ -328,7 +328,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is feeding a cocooned pawn instead of leaving the map.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " is feeding a cocooned pawn instead of leaving the map.");
                     }
                     return feedJob;
                 }
@@ -338,7 +338,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is expanding cocoon space instead of leaving the map: " + buildJob);
+                        Log.Message("[XMT][JobGiver] " + pawn + " is expanding cocoon space instead of leaving the map: " + buildJob);
                     }
                     return buildJob;
                 }
@@ -348,7 +348,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is doing hive building work instead of leaving the map.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " is doing hive building work instead of leaving the map.");
                     }
                     return buildJob;
                 }
@@ -358,7 +358,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is returning to hive rest instead of leaving the map.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " is returning to hive rest instead of leaving the map.");
                     }
                     return restJob;
                 }
@@ -368,7 +368,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is wandering in the hive instead of leaving the map.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " is wandering in the hive instead of leaving the map.");
                     }
                     return wanderJob;
                 }
@@ -376,7 +376,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(pawn + " has no feral jobs valid.");
+                Log.Message("[XMT][JobGiver] " + pawn + " has no feral jobs valid.");
             }
 
             return null;
@@ -387,7 +387,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(pawn + " is getting food Job");
+                Log.Message("[XMT][JobGiver] " + pawn + " is getting food Job");
             }
 
             if (pawn?.Map == null)
@@ -411,7 +411,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Warning(pawn + " failed vanilla food source scan: " + ex.Message);
+                    Log.Warning("[XMT][JobGiver] " + pawn + " failed vanilla food source scan: " + ex.Message);
                 }
                 foodSource = null;
                 foodDef = null;
@@ -581,14 +581,14 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(pawn + " is looking for base xenomorph jobs.");
+                    Log.Message("[XMT][JobGiver] " + pawn + " is looking for base xenomorph jobs.");
                 }
 
                 if (pawn.MentalState is MentalState_XMT_MurderousRage rage)
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is seeking to hunt " + rage.target);
+                        Log.Message("[XMT][JobGiver] " + pawn + " is seeking to hunt " + rage.target);
                     }
                     if (rage.target is Pawn living)
                     {
@@ -615,7 +615,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is performing path recovery job " + recoveryJob);
+                        Log.Message("[XMT][JobGiver] " + pawn + " is performing path recovery job " + recoveryJob);
                     }
                     return recoveryJob;
                 }
@@ -624,7 +624,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is trying to mature.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " is trying to mature.");
                     }
 
                     if (!XMTUtility.IsSpace(pawn.MapHeld))
@@ -634,7 +634,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is leaving the map");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is leaving the map");
                             }
                             return base.TryGiveJob(pawn);
                         }
@@ -649,7 +649,7 @@ namespace Xenomorphtype
                         FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is starting mature job at " + cell);
+                            Log.Message("[XMT][JobGiver] " + pawn + " is starting mature job at " + cell);
                         }
                         return job;
                     }
@@ -660,7 +660,7 @@ namespace Xenomorphtype
                         FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is starting mature job at " + cell);
+                            Log.Message("[XMT][JobGiver] " + pawn + " is starting mature job at " + cell);
                         }
                         return job;
                     }
@@ -675,7 +675,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " is gorging");
+                        Log.Message("[XMT][JobGiver] " + pawn + " is gorging");
                     }
                     Job foodJob = !pawn.ageTracker.Adult?  GetFoodJob(pawn, true, 0.45f) : GetFoodJob(pawn, true);
 
@@ -714,7 +714,7 @@ namespace Xenomorphtype
 
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is leaving the map for safe food");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is leaving the map for safe food");
                             }
 
                             return base.TryGiveJob(pawn);
@@ -732,7 +732,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is seducing " + SnuggleTarget);
+                                Log.Message("[XMT][JobGiver] " + pawn + " is seducing " + SnuggleTarget);
                             }
                             return JobMaker.MakeJob(XenoWorkDefOf.XMT_Seduce, SnuggleTarget);
                         }
@@ -745,14 +745,14 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " thinks they should be in the nest.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " thinks they should be in the nest.");
                     }
 
                     if (XMTHiveUtility.IsInsideNest(pawn.Position, pawn.Map))
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is inside the nest.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " is inside the nest.");
                         }
 
                         Thing offensiveThing = XMTHiveUtility.GetMostOffensiveThingInNest(pawn.Position, pawn.Map);
@@ -760,7 +760,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is clearing offensive thing " + offensiveThing + " from the nest.");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is clearing offensive thing " + offensiveThing + " from the nest.");
                             }
 
                             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_Sabotage, offensiveThing);
@@ -772,7 +772,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is feeding a cocooned pawn while staying in the nest.");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is feeding a cocooned pawn while staying in the nest.");
                             }
 
                             return feedJob;
@@ -780,7 +780,7 @@ namespace Xenomorphtype
 
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is sleeping in the nest.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " is sleeping in the nest.");
                         }
 
 
@@ -799,7 +799,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " cannot find way to nest.");
+                                Log.Message("[XMT][JobGiver] " + pawn + " cannot find way to nest.");
                             }
                             float brightness = pawn.MapHeld.glowGrid.GroundGlowAt(pawn.PositionHeld);
 
@@ -809,7 +809,7 @@ namespace Xenomorphtype
                                 FeralJobUtility.ReservePlaceForJob(pawn, job, pawn.PositionHeld);
                                 if (XMTSettings.LogJobGiver)
                                 {
-                                    Log.Message(pawn + " is starting mature job at " + pawn.PositionHeld);
+                                    Log.Message("[XMT][JobGiver] " + pawn + " is starting mature job at " + pawn.PositionHeld);
                                 }
                                 return job;
                             }
@@ -817,7 +817,7 @@ namespace Xenomorphtype
 
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is going to the nest.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " is going to the nest.");
                         }
 
                         return job;
@@ -828,7 +828,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " thinks the nest needs tending.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " thinks the nest needs tending.");
                     }
 
                     Job TendNestJob = compMatureMorph.GetTendNestJob();
@@ -837,7 +837,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is doing nest tending job.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " is doing nest tending job.");
                         }
 
                         return TendNestJob;
@@ -848,14 +848,14 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " thinks they should abduct hosts.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " thinks they should abduct hosts.");
                     }
 
                     if (pawn.IsPsychologicallyInvisible())
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " is hidden.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " is hidden.");
                         }
 
                         IEnumerable<Pawn> pawns = GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, compMatureMorph.abductRange, true).OfType<Pawn>();
@@ -863,7 +863,7 @@ namespace Xenomorphtype
                         {
                             if (XMTSettings.LogJobGiver)
                             {
-                                Log.Message(pawn + " is near some pawns.");
+                                Log.Message("[XMT][JobGiver] " + pawn + " is near some pawns.");
                             }
 
                             Pawn target = compMatureMorph.BestAbductCandidate(pawns);
@@ -871,7 +871,7 @@ namespace Xenomorphtype
                             {
                                 if (XMTSettings.LogJobGiver)
                                 {
-                                    Log.Message(pawn + " is going to abduct " + target);
+                                    Log.Message("[XMT][JobGiver] " + pawn + " is going to abduct " + target);
                                 }
 
 
@@ -885,7 +885,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogJobGiver)
                     {
-                        Log.Message(pawn + " thinks they should do michief.");
+                        Log.Message("[XMT][JobGiver] " + pawn + " thinks they should do michief.");
                     }
 
                     Job michief;
@@ -893,7 +893,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogJobGiver)
                         {
-                            Log.Message(pawn + " found some michief to do.");
+                            Log.Message("[XMT][JobGiver] " + pawn + " found some michief to do.");
                         }
                         return michief;
                     }

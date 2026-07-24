@@ -21,7 +21,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message("adding incident to options " + XenoIncidentDefOf.XMT_HuntingPack);
+                        Log.Message("[XMT][World] adding incident to options " + XenoIncidentDefOf.XMT_HuntingPack);
                     }
                     __result.AddItem(XenoIncidentDefOf.XMT_HuntingPack);
                 }
@@ -58,7 +58,7 @@ namespace Xenomorphtype
                             p.health.AddHediff(embryo);
                             if (XMTSettings.LogWorld)
                             {
-                                Log.Message("spawning pawn with embryo " + p);
+                                Log.Message("[XMT][World] spawning pawn with embryo " + p);
                             }
 
                         }

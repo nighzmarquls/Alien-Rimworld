@@ -9,14 +9,11 @@ using Verse;
 
 namespace Xenomorphtype
 {
-    internal class EggSack : HibernationCocoon, IThingHolderWithDrawnPawn
+    internal class EggSack : SelfOccupyingBuilding, IThingHolderWithDrawnPawn
     {
-        CompMatureMorph containedMorph = null;
         CompOvomorphLayer layer = null;
         CompRefuelable refuelable = null;
         public Pawn Occupant = null;
-        bool empty = true;
-        int attempts = 2;
 
         public const int MaxBacklog = 6;
 
@@ -31,6 +28,8 @@ namespace Xenomorphtype
         private Graphic TopGraphic;
 
         public override bool CanOpen => false;
+        protected override bool DestroyWhenEmptyAfterLoad => true;
+        protected override bool HasFallbackOccupant => true;
 
         public float HeldPawnDrawPos_Y => DrawPos.y - 0.03658537f;
         public float HeldPawnBodyAngle => Rotation.AsAngle;
@@ -73,51 +72,42 @@ namespace Xenomorphtype
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            if (respawningAfterLoad)
-            {
-                if (ContainedThing == null)
-                {
-                    Destroy();
-                    return;
-                }
-                else
-                {
-                    RegisterOccupant(ContainedThing);
-                }
-            }
             refuelable = GetComp<CompRefuelable>();
         }
-        protected void RegisterOccupant(Thing thing)
+
+        protected override bool CanOccupy(Pawn pawn)
         {
-            if (thing == null)
+            return base.CanOccupy(pawn) && XMTUtility.IsQueen(pawn);
+        }
+
+        protected override Pawn GenerateFallbackOccupant()
+        {
+            Pawn queen = XenoformingUtility.GenerateFeralQueen();
+            XenoformingUtility.EnsureQueenHasOvoThrone(queen);
+            return queen;
+        }
+
+        protected override void Notify_OccupantRegistered(Pawn pawn)
+        {
+            layer = pawn.TryGetComp<CompOvomorphLayer>();
+            Occupant = pawn;
+
+            Occupant.health.GetOrAddHediff(InternalDefOf.XMT_Enthroned);
+
+            CompStealth compStealth = Occupant.GetComp<CompStealth>();
+            if (compStealth != null)
             {
-                return;
+                compStealth.ForceVisible();
             }
 
-            containedMorph = thing.TryGetComp<CompMatureMorph>();
-            layer = thing.TryGetComp<CompOvomorphLayer>();
-            if (thing is Pawn pawn)
+            AlienPartGenerator.AlienComp.RegenerateAddonsForced(Occupant);
+            Occupant.Drawer?.renderer?.SetAllGraphicsDirty();
+            if (Spawned && Map != null)
             {
-                Occupant = pawn;
-                empty = false;
-
-                Occupant.health.GetOrAddHediff(InternalDefOf.XMT_Enthroned);
-
-                CompStealth compStealth = Occupant.GetComp<CompStealth>();
-                if (compStealth != null)
-                {
-                    compStealth.ForceVisible();
-                }
-
-                AlienPartGenerator.AlienComp.RegenerateAddonsForced(Occupant);
-                Occupant.Drawer?.renderer?.SetAllGraphicsDirty();
-                if (Spawned && Map != null)
-                {
-                    Map.mapDrawer.MapMeshDirty(Position, MapMeshFlagDefOf.Things);
-                }
-
-                XMTUtility.DeclareQueen(Occupant);
+                Map.mapDrawer.MapMeshDirty(Position, MapMeshFlagDefOf.Things);
             }
+
+            XMTUtility.DeclareQueen(Occupant);
         }
 
         private Pawn GetOccupant()
@@ -125,80 +115,15 @@ namespace Xenomorphtype
             Pawn pawn = ContainedThing as Pawn ?? Occupant;
             if (pawn != null && pawn != Occupant)
             {
-                RegisterOccupant(pawn);
+                Notify_OccupantRegistered(pawn);
             }
 
             return pawn;
         }
 
-        public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
-        {
-            if (base.TryAcceptThing(thing, allowSpecialEffects))
-            {
-                RegisterOccupant(thing);
-                return true;
-            }
-            return false;
-        }
-
         public bool TryEnthronePawn(Pawn pawn)
         {
-            if (pawn == null || (ContainedThing != null && ContainedThing != pawn))
-            {
-                return false;
-            }
-
-            if (!pawn.Spawned && Spawned && Map != null)
-            {
-                IntVec3 warmupCell = InteractionCell;
-                if (!warmupCell.IsValid || !warmupCell.InBounds(Map) || !warmupCell.Standable(Map))
-                {
-                    warmupCell = CellFinder.RandomClosewalkCellNear(Position, Map, 2);
-                }
-
-                GenSpawn.Spawn(pawn, warmupCell, Map, WipeMode.VanishOrMoveAside);
-            }
-
-            if (pawn.Spawned && !pawn.DeSpawnOrDeselect())
-            {
-                return false;
-            }
-
-            if (TryAcceptThing(pawn, allowSpecialEffects: false) && ContainedThing == pawn)
-            {
-                if (pawn.jobs.curJob != null)
-                {
-                    pawn.jobs.curJob.Clear();
-                }
-                return true;
-            }
-
-            return false;
-        }
-
-        private bool TryContainGeneratedQueen(Pawn queen)
-        {
-            if (queen == null || ContainedThing != null)
-            {
-                return false;
-            }
-
-            if (queen.Spawned && !queen.DeSpawnOrDeselect())
-            {
-                return false;
-            }
-
-            if (GetDirectlyHeldThings().TryAddOrTransfer(queen, canMergeWithExistingStacks: false))
-            {
-                if (queen.jobs.curJob != null)
-                {
-                    queen.jobs.curJob.Clear();
-                }
-                RegisterOccupant(queen);
-                return true;
-            }
-
-            return false;
+            return TryAssignOccupant(pawn);
         }
 
         public override IEnumerable<Gizmo> GetGizmos()
@@ -252,14 +177,10 @@ namespace Xenomorphtype
                 }
             }
 
-            Command_Action command_Action = new Command_Action();
-            command_Action.action = Open;
-            command_Action.defaultLabel = "CommandPodEject".Translate();
-            command_Action.defaultDesc = "CommandPodEjectDesc".Translate();
-
-            command_Action.hotKey = KeyBindingDefOf.Misc8;
-            command_Action.icon = ContentFinder<Texture2D>.Get("UI/Abilities/Starbeast_Leap");
-            yield return command_Action;
+            foreach (Gizmo gizmo in base.GetGizmos())
+            {
+                yield return gizmo;
+            }
         }
 
         public override string GetInspectString()
@@ -501,66 +422,9 @@ namespace Xenomorphtype
             }
             base.EjectContents();
         }
-
-
-        public void Initialize()
+        protected override void TickSelfOccupyingBuilding(int delta)
         {
-            IEnumerable<Thing> possibleMaker = GenRadial.RadialDistinctThingsAround(Position, Map, 5f, true);
-            foreach (Thing thing in possibleMaker)
-            {
-                if(!empty)
-                {
-                    return;
-                }
-                if (thing is Pawn pawn)
-                {
-                    if (XMTUtility.IsXenomorph(pawn))
-                    {
-                        if (!XMTUtility.IsQueen(pawn))
-                        {
-                            continue;
-                        }
-                        if (TryEnthronePawn(pawn))
-                        {
-                            Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
-                            return;
-                        }
-                    }
-
-                }
-            }
-
-            if (attempts > 0)
-            {
-                attempts--;
-            }
-            else
-            {
-                Pawn Queen = XenoformingUtility.GenerateFeralQueen();
-                XenoformingUtility.EnsureQueenHasOvoThrone(Queen);
-                if (Faction != null && Queen.Faction != Faction)
-                {
-                    Queen.SetFaction(Faction);
-                }
-                if (TryContainGeneratedQueen(Queen))
-                {
-                    return;
-                }
-            }
-
-        }
-
-        protected override void TickInterval(int delta)
-        {
-            base.TickInterval(delta);
-
             Pawn occupant = GetOccupant();
-            if (containedMorph == null && occupant == null && empty)
-            {
-                Initialize();
-                return;
-            }
-
             if (this.IsHashIntervalTick(CheckInterval))
             {
                 if (occupant != null)

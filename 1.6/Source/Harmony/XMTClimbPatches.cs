@@ -311,7 +311,7 @@ namespace Xenomorphtype
                 }
 
                 int warningKey = ___pawn.thingIDNumber * 397 ^ dest.Cell.GetHashCode() ^ (___pawn.CurJob?.GetHashCode() ?? 0);
-                Log.WarningOnce(___pawn + " started an unwrapped vanilla path to traversal-only destination " + dest +
+                Log.WarningOnce("[XMT][Climbing] " + ___pawn + " started an unwrapped vanilla path to traversal-only destination " + dest +
                     " with " + peMode + "; job=" + ___pawn.CurJob + ", driver=" + ___pawn.jobs?.curDriver?.GetType().FullName +
                     ", toil=" + currentToil?.debugName, warningKey);
             }

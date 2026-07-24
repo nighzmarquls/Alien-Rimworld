@@ -109,7 +109,7 @@ namespace Xenomorphtype
                 }
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("Adjusting Xenoforming by total: " + _xenoforming);
+                    Log.Message("[XMT][World] Adjusting Xenoforming by total: " + _xenoforming);
                 }
                 EvaluateXenoforming();
                 
@@ -231,7 +231,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message("Iterating Embryo birth time");
+                        Log.Message("[XMT][World] Iterating Embryo birth time");
                     }
                     _xenoforming += (_xenoforming/100) * XMTSettings.XenoformingGrowthFactor;
                 }
@@ -239,7 +239,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message("Iterating Embryo birth time");
+                        Log.Message("[XMT][World] Iterating Embryo birth time");
                     }
                     _xenoforming += 0.1f * XMTSettings.XenoformingGrowthFactor;
                 }
@@ -247,7 +247,7 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message("Iterating Egg encounter");
+                        Log.Message("[XMT][World] Iterating Egg encounter");
                     }
                     _xenoforming += 0.01f * XMTSettings.XenoformingGrowthFactor;
                 }
@@ -282,7 +282,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("Xenoforming Biomes");
+                    Log.Message("[XMT][World] Xenoforming Biomes");
                 }
 
                 if (CandidateTiles == null || CandidateTiles.Count == 0)
@@ -326,7 +326,7 @@ namespace Xenomorphtype
 
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message("Xenoforming biome score: " + score);
+                        Log.Message("[XMT][World] Xenoforming biome score: " + score);
                     }
 
                     if (score > 1)
@@ -383,7 +383,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Evaluating current Xenoforming: " + _xenoforming);
+                Log.Message("[XMT][World] Evaluating current Xenoforming: " + _xenoforming);
             }
 
             if (_xenoforming == _lastxenoforming)
@@ -399,7 +399,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("Xenoforming has begun with: " + _xenoforming);
+                    Log.Message("[XMT][World] Xenoforming has begun with: " + _xenoforming);
                 }
             }
 
@@ -411,7 +411,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("Xenoforming has ended.");
+                    Log.Message("[XMT][World] Xenoforming has ended.");
                 }
             }
             _lastxenoforming = _xenoforming;
@@ -490,7 +490,7 @@ namespace Xenomorphtype
                 }
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("loaded " + _reprisalFactions.Count + " factions for a total reprisal raid points: " + _totalReprisalRaidPoints);
+                    Log.Message("[XMT][World] loaded " + _reprisalFactions.Count + " factions for a total reprisal raid points: " + _totalReprisalRaidPoints);
                 }
             }
 
@@ -501,7 +501,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Caching Reprisal for " + faction + " with " + points + " points");
+                Log.Message("[XMT][World] Caching Reprisal for " + faction + " with " + points + " points");
             }
             if (_reprisalFactions == null)
             {
@@ -625,7 +625,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Checking for Reprisal");
+                Log.Message("[XMT][World] Checking for Reprisal");
             }
 
             Pawn queen = XMTUtility.GetQueen();
@@ -717,7 +717,7 @@ namespace Xenomorphtype
                     Find.Storyteller.incidentQueue.Add(IncidentDefOf.RaidEnemy, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(faction + " is sending a siege of points: " + parms.points + " in reprisal to losing a settlement. Arriving in " + TicksToArrive / 2400 + " hours");
+                        Log.Message("[XMT][World] " + faction + " is sending a siege of points: " + parms.points + " in reprisal to losing a settlement. Arriving in " + TicksToArrive / 2400 + " hours");
                     }
                 }
                 else
@@ -725,7 +725,7 @@ namespace Xenomorphtype
                     Find.Storyteller.incidentQueue.Add(IncidentDefOf.RaidEnemy, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(faction + " is sending a raid of points: " + parms.points + " in reprisal to losing a settlement. Arriving in " + TicksToArrive / 2400 + " hours");
+                        Log.Message("[XMT][World] " + faction + " is sending a raid of points: " + parms.points + " in reprisal to losing a settlement. Arriving in " + TicksToArrive / 2400 + " hours");
                     }
                 }
                 _totalReprisalRaidPoints = Mathf.Max(0, _totalReprisalRaidPoints - raidpoints);
@@ -761,7 +761,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("Queen aid pawn " + pawn + " died; aid cost remains spent and normal xenoforming death adjustment is skipped.");
+                    Log.Message("[XMT][World] Queen aid pawn " + pawn + " died; aid cost remains spent and normal xenoforming death adjustment is skipped.");
                 }
                 return;
             }
@@ -779,7 +779,7 @@ namespace Xenomorphtype
 
             if (adjustedXenoforming && XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting Xenoforming for death of " + pawn.ToString() + " total: " + _xenoforming);
+                Log.Message("[XMT][World] Adjusting Xenoforming for death of " + pawn.ToString() + " total: " + _xenoforming);
             }
             if (adjustedXenoforming)
             {
@@ -792,7 +792,7 @@ namespace Xenomorphtype
             _xenoforming = Mathf.Max(_xenoforming, Mathf.Min(OvomorphSaturationLimit, _xenoforming + (OvomorphImpact*Ovomorph.stackCount)));
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting Xenoforming for " + Ovomorph + " leaving the map. total: " + _xenoforming);
+                Log.Message("[XMT][World] Adjusting Xenoforming for " + Ovomorph + " leaving the map. total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }
@@ -806,7 +806,7 @@ namespace Xenomorphtype
             _xenoforming = Mathf.Max(_xenoforming, Mathf.Min(OvomorphSaturationLimit, _xenoforming + OvomorphImpact * count));
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting xenoforming for " + count + " stored ovomorphs released on the world. Total: " + _xenoforming);
+                Log.Message("[XMT][World] Adjusting xenoforming for " + count + " stored ovomorphs released on the world. Total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }
@@ -817,7 +817,7 @@ namespace Xenomorphtype
             MutationProliferation += intensity;
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting mutation proliferation by " + intensity);
+                Log.Message("[XMT][World] Adjusting mutation proliferation by " + intensity);
             }
             EvaluateXenoforming();
         }
@@ -835,7 +835,7 @@ namespace Xenomorphtype
                 _xenoforming += QueenAidCostPerPawn;
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("Queen aid pawn " + pawn + " returned to the xenoforming pool. Xenoforming total: " + _xenoforming);
+                    Log.Message("[XMT][World] Queen aid pawn " + pawn + " returned to the xenoforming pool. Xenoforming total: " + _xenoforming);
                 }
                 EvaluateXenoforming();
                 return;
@@ -845,7 +845,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message("World cryptimorph " + pawn + " returned from a site without changing xenoforming.");
+                    Log.Message("[XMT][World] World cryptimorph " + pawn + " returned from a site without changing xenoforming.");
                 }
                 return;
             }
@@ -865,7 +865,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting Xenoforming for " + pawn + " leaving the map. total: " + _xenoforming);
+                Log.Message("[XMT][World] Adjusting Xenoforming for " + pawn + " leaving the map. total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }
@@ -876,7 +876,7 @@ namespace Xenomorphtype
             _xenoforming = Mathf.Max(_xenoforming,Mathf.Min(EmbryoSaturationLimit, _xenoforming + (EmbryoImpact)));
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting Xenoforming for " + pawn + " leaving the map with an embryo. total: " + _xenoforming);
+                Log.Message("[XMT][World] Adjusting Xenoforming for " + pawn + " leaving the map with an embryo. total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }
@@ -1052,7 +1052,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Queen aid wave spawned " + spawnedPawns.Count + " cryptimorphs for " + queen + " against " + CountQueenAidThreats(queen, threatProfile) + " threats. Xenoforming total: " + _xenoforming);
+                Log.Message("[XMT][World] Queen aid wave spawned " + spawnedPawns.Count + " cryptimorphs for " + queen + " against " + CountQueenAidThreats(queen, threatProfile) + " threats. Xenoforming total: " + _xenoforming);
             }
 
             EvaluateXenoforming();
@@ -1273,7 +1273,7 @@ namespace Xenomorphtype
             AddPawnAccountingState(selected, useState);
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Using world cryptimorph " + selected + " for " + useState + ".");
+                Log.Message("[XMT][World] Using world cryptimorph " + selected + " for " + useState + ".");
             }
             return selected;
         }
@@ -1387,7 +1387,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogWorld)
             {
-                Log.Message("Adjusting Xenoforming for " + Queen + " calling aid to the map. total: " + _xenoforming);
+                Log.Message("[XMT][World] Adjusting Xenoforming for " + Queen + " calling aid to the map. total: " + _xenoforming);
             }
             EvaluateXenoforming();
         }

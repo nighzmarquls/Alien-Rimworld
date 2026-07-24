@@ -18,7 +18,7 @@ namespace Xenomorphtype
             bool isGood = XenoformingUtility.XenoformingMeets(minimumXenoforming);
             if (XMTSettings.LogWorld)
             {
-                Log.Message("checking Xenoforming: " + isGood);
+                Log.Message("[XMT][World] checking Xenoforming: " + isGood);
             }
             return isGood;
         }

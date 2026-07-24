@@ -2,139 +2,38 @@
 
 using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
 {
-    public class AmbushTrap : HibernationCocoon
+    public class AmbushTrap : SelfOccupyingBuilding
     {
         CompMatureMorph containedMorph = null;
-
-        int attempts = 2;
-
-        bool empty = true;
         int CheckInterval = 120;
 
         public override bool CanOpen => false;
-        public override void SpawnSetup(Map map, bool respawningAfterLoad)
-        {
-            base.SpawnSetup(map, respawningAfterLoad);
-            if(respawningAfterLoad)
-            {
-                if(ContainedThing == null)
-                {
-                    Destroy();
-                }
-                else
-                {
-                    containedMorph = ContainedThing.TryGetComp<CompMatureMorph>();
-                }
-            }
-        }
-        public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
-        {
-            if (ContainedThing != null)
-            {
-                return false;
-            }
 
-            if (base.TryAcceptThing(thing, allowSpecialEffects))
-            {
-                containedMorph = thing.TryGetComp<CompMatureMorph>();
-                return true;
-            }
-            return false;
+        protected override bool DestroyWhenEmptyAfterLoad => true;
+        protected override bool HasFallbackOccupant => true;
+
+        protected override bool CanOccupy(Pawn pawn)
+        {
+            return base.CanOccupy(pawn) && !XMTUtility.IsQueen(pawn);
         }
 
-        public override IEnumerable<Gizmo> GetGizmos()
+        protected override Pawn GenerateFallbackOccupant()
         {
-            if(Faction == null || !Faction.IsPlayer)
-            {
-                yield break;
-            }
-
-            Command_Action command_Action = new Command_Action();
-            command_Action.action = Open;
-            command_Action.defaultLabel = "CommandPodEject".Translate();
-            command_Action.defaultDesc = "CommandPodEjectDesc".Translate();
-
-            command_Action.hotKey = KeyBindingDefOf.Misc8;
-            command_Action.icon = ContentFinder<Texture2D>.Get("UI/Abilities/Starbeast_Leap");
-            yield return command_Action;
+            return XenoformingUtility.GenerateFeralXenomorph();
         }
 
-        public void Initialize()
+        protected override void Notify_OccupantRegistered(Pawn pawn)
         {
-            IEnumerable<Thing> possibleMaker = GenRadial.RadialDistinctThingsAround(Position, Map, 1.5f, true);
-            foreach (Thing thing in possibleMaker)
-            {
-                if(!empty)
-                {
-                    return;
-                }
-                if (thing is Pawn pawn)
-                {
-
-                    if (XMTUtility.IsXenomorph(pawn))
-                    {
-                        if (XMTUtility.IsQueen(pawn))
-                        {
-                            continue;
-                        }
-                        empty = false;
-                        bool flag = pawn.DeSpawnOrDeselect();
-                        if (TryAcceptThing(pawn, allowSpecialEffects: false) && flag)
-                        {
-
-                            containedMorph = ContainedThing.TryGetComp<CompMatureMorph>();
-                            if (pawn.jobs.curJob != null)
-                            {
-                                pawn.jobs.curJob.Clear();
-                            }
-                            Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
-                            return;
-                        }
-                    }
-
-                }
-            }
-
-            if(attempts > 0)
-            {
-                attempts--;
-            }
-            else
-            {
-                Pawn gaurdian = XenoformingUtility.GenerateFeralXenomorph();
-                if (gaurdian.Faction != Faction)
-                {
-                    gaurdian.SetFaction(Faction);
-                }
-                GenSpawn.Spawn(gaurdian, Position, Map);
-                bool flag = gaurdian.DeSpawnOrDeselect();
-                if (TryAcceptThing(gaurdian, allowSpecialEffects: false) && flag)
-                {
-                    if (gaurdian.jobs.curJob != null)
-                    {
-                        gaurdian.jobs.curJob.Clear();
-                    }
-                    return;
-                }
-            }
+            containedMorph = pawn.TryGetComp<CompMatureMorph>();
         }
 
-        protected override void TickInterval(int delta)
+        protected override void TickSelfOccupyingBuilding(int delta)
         {
-            base.TickInterval(delta);
-
-            if(ContainedThing == null && empty)
-            {
-                Initialize();
-                return;
-            }
-
             if (this.IsHashIntervalTick(CheckInterval))
             {
                 IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(Position, def.specialDisplayRadius, true);
@@ -170,7 +69,7 @@ namespace Xenomorphtype
 
                     if (Rand.Chance(SpringChance(pawn)))
                     {
-                        if (XMTUtility.IsHost(pawn))
+                        if (XMTUtility.IsAcceptableHost(pawn))
                         {
                             EjectContents();
                             containedMorph.TryAmbushAbduct(pawn);

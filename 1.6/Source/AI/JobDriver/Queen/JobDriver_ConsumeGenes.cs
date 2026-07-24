@@ -68,7 +68,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogBiohorror)
                         {
-                            Log.Message(Ovomorph + " getting " + consumedGenes.Count() + " genes!");
+                            Log.Message("[XMT][Biohorror] " + Ovomorph + " getting " + consumedGenes.Count() + " genes!");
                         }
                         geneHolder.ReplaceGenes(consumedGenes);
 

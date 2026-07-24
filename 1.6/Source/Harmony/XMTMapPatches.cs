@@ -217,9 +217,9 @@ namespace Xenomorphtype
                     {
                         XenoformingUtility.HandleXenoformingImpact(Ovomorph);
                     }
-                    if(thing is HibernationCocoon hibernationCocoon)
+                    if(thing is SelfOccupyingBuilding selfOccupyingBuilding)
                     {
-                        XenoformingUtility.HandleXenoformingImpact(hibernationCocoon);
+                        XenoformingUtility.HandleXenoformingImpact(selfOccupyingBuilding);
                     }
                 }
               
@@ -235,7 +235,7 @@ namespace Xenomorphtype
             {
                 if(XMTSettings.LogWorld)
                 {
-                    Log.Message(__instance + " is leaving the map");
+                    Log.Message("[XMT][World] " + __instance + " is leaving the map");
                 }
 
                 XenoformingUtility.HandleXenoformingImpact(__instance);
@@ -252,7 +252,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(__instance + " is being kidnapped");
+                    Log.Message("[XMT][World] " + __instance + " is being kidnapped");
                 }
                 XenoformingUtility.HandleXenoformingImpact(__instance);
             }

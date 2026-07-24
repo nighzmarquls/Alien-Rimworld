@@ -35,7 +35,7 @@ namespace Xenomorphtype
                             IntVec3 loc2 = CellFinder.RandomClosewalkCellNear(loc, ___map, 2);
                             if (XMTSettings.LogWorld)
                             {
-                                Log.Message("spawning feral xenomorph ");
+                                Log.Message("[XMT][World] spawning feral xenomorph ");
                             }
                             GenSpawn.Spawn(PawnGenerator.GeneratePawn(XenoPawnKindDefOf.XMT_FeralStarbeastKind), loc2, ___map);
                             __result = true;
@@ -61,7 +61,7 @@ namespace Xenomorphtype
                             {
                                 if(XMTSettings.LogWorld)
                                 {
-                                    Log.Message("spawning animal with embryo " + animal);
+                                    Log.Message("[XMT][World] spawning animal with embryo " + animal);
                                 }
                                 Hediff embryo = BioUtility.MakeEmbryoPregnancy(animal);
                                 animal.health.AddHediff(embryo);

@@ -172,7 +172,7 @@ namespace Xenomorphtype
                 spent = true;
                 if (XMTSettings.LogWorld)
                 {
-                    Log.Message(Pawn + " has a larva attached and will develop an embryo.");
+                    Log.Message("[XMT][World] " + Pawn + " has a larva attached and will develop an embryo.");
                 }
                 XenoformingUtility.ReleaseEmbryoOnWorld(Pawn);
                 return;
@@ -223,7 +223,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(parent + " is squeezing ");
+                Log.Message("[XMT][Biohorror] " + parent + " is squeezing ");
             }
             XMTUtility.WitnessLarva(Pawn.PositionHeld, Pawn.Map, 1f, knowledgeProfile: Props.squeezeKnowledgeProfile);
 
@@ -267,7 +267,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(parent + " is releasing ");
+                Log.Message("[XMT][Biohorror] " + parent + " is releasing ");
             }
 
             if (removed)

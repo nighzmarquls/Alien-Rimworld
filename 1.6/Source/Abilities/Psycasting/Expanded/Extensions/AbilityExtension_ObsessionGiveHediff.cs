@@ -36,7 +36,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(targetPawn + " identified as morph adding hediff " + morphHediff);
+                    Log.Message("[XMT][Biohorror] " + targetPawn + " identified as morph adding hediff " + morphHediff);
                 }
                 return ability.ApplyHediff(targetPawn, morphHediff, bodyPart, duration, severity);
             }
@@ -49,7 +49,7 @@ namespace Xenomorphtype
                     {
                         if (XMTSettings.LogBiohorror)
                         {
-                            Log.Message(targetPawn + " identified as obsessed adding hediff " + obsessedHediff);
+                            Log.Message("[XMT][Biohorror] " + targetPawn + " identified as obsessed adding hediff " + obsessedHediff);
                         }
                         return ability.ApplyHediff(targetPawn, obsessedHediff, bodyPart, duration, severity);
                     }
@@ -57,7 +57,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(targetPawn + " identified as default adding hediff " + defaultHediff);
+                    Log.Message("[XMT][Biohorror] " + targetPawn + " identified as default adding hediff " + defaultHediff);
                 }
                 return ability.ApplyHediff(targetPawn, defaultHediff, bodyPart, duration, severity);
             }

@@ -55,7 +55,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(target + " has essence of " + essence);
+                    Log.Message("[XMT][Biohorror] " + target + " has essence of " + essence);
                 }
 
                 if (target.def != null)
@@ -114,7 +114,8 @@ namespace Xenomorphtype
 
                         if (XMTSettings.LogBiohorror)
                         {
-                            Log.Message(host + " has extra genes " + hostGenes);
+                            Log.Message("[XMT][Biohorror][GeneContinuity] " + host
+                                + " has " + hostGenes.Count + " extra host gene(s).");
                         }
                     }
                 }
@@ -136,7 +137,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(pawn + " being mutated");
+                Log.Message("[XMT][Biohorror] " + pawn + " being mutated");
             }
            
             float essence = GetXenomorphInfluence(pawn)+bonusEssence;
@@ -151,7 +152,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("testing essence: " + essence);
+                    Log.Message("[XMT][Biohorror] testing essence: " + essence);
                 }
                
                 if (health.essenceMinimum > 0 && health.essenceMinimum > essence)
@@ -166,7 +167,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("probability:  " + health.probability);
+                    Log.Message("[XMT][Biohorror] probability:  " + health.probability);
                 }
                 
                 if (Rand.Chance(health.probability))
@@ -544,12 +545,12 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message("Verifying Humanlike " + pawn);
+                Log.Message("[XMT][Biohorror][GeneContinuity] Verifying gene payload for " + pawn + ".");
             }
 
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message("assigning geneset to " + pawn);
+                Log.Message("[XMT][Biohorror][GeneContinuity] Assigning gene payload to " + pawn + ".");
             }
 
             foreach (GeneDef gene in geneset.GenesListForReading)
@@ -562,7 +563,8 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Warning("Adding Gene " + geneForPawn);
+                    Log.Message("[XMT][Biohorror][GeneContinuity] Adding gene "
+                        + geneForPawn.defName + " to " + pawn + ".");
                 }
                 pawn.genes.AddGene(geneForPawn, xenogene);
             }
@@ -726,7 +728,7 @@ namespace Xenomorphtype
 
             if (!payload.Empty && XMTSettings.LogBiohorror)
             {
-                Log.Message("Discarding unsupported horror gene payload while transferring to " + destination + ".");
+                Log.Message("[XMT][Biohorror] Discarding unsupported horror gene payload while transferring to " + destination + ".");
             }
             return false;
         }
@@ -957,7 +959,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("Hybrid Gene was Null!");
+                    Log.Message("[XMT][Biohorror] Hybrid Gene was Null!");
                 }
 
                 hybridGene = XenoGeneDefOf.XMT_Libido;
@@ -965,7 +967,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message("Giving Hybrid Gene " + hybridGene);
+                Log.Message("[XMT][Biohorror] Giving Hybrid Gene " + hybridGene);
             }
             return hybridGene;
         }
@@ -1176,14 +1178,14 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message("Getting Genes from consumption of " + target);
+                Log.Message("[XMT][Biohorror] Getting Genes from consumption of " + target);
             }
             Corpse corpse = target as Corpse;
             if (corpse != null)
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(target + " identified as corpse");
+                    Log.Message("[XMT][Biohorror] " + target + " identified as corpse");
                 }
 
                 if (corpse.IsNotFresh())
@@ -1193,7 +1195,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("confirmed fresh " + target);
+                    Log.Message("[XMT][Biohorror] confirmed fresh " + target);
                 }
 
                 if (XMTUtility.IsInorganic(corpse.InnerPawn))
@@ -1203,13 +1205,13 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("confirmed organic " + target);
+                    Log.Message("[XMT][Biohorror] confirmed organic " + target);
                 }
                 genes.AddRange(GetGeneForExpressionList(corpse.InnerPawn));
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("total genes extracted " + genes.Count);
+                    Log.Message("[XMT][Biohorror] total genes extracted " + genes.Count);
                 }
                 return genes;
             }
@@ -1292,14 +1294,14 @@ namespace Xenomorphtype
                 {
                     if (XMTSettings.LogBiohorror)
                     {
-                        Log.Message("confirmed has genes " + pawn);
+                        Log.Message("[XMT][Biohorror] confirmed has genes " + pawn);
                     }
 
                     List<Gene> genesToRemove = pawn.genes.GenesListForReading.ToList();
 
                     if (XMTSettings.LogBiohorror)
                     {
-                        Log.Message("removing original genes on " + pawn);
+                        Log.Message("[XMT][Biohorror] removing original genes on " + pawn);
                     }
 
                     foreach (Gene gene in genesToRemove)
@@ -1309,7 +1311,7 @@ namespace Xenomorphtype
 
                     if (XMTSettings.LogBiohorror)
                     {
-                        Log.Message("generating new geneset " + pawn);
+                        Log.Message("[XMT][Biohorror] generating new geneset " + pawn);
                     }
 
                     GeneSet geneSet = new GeneSet();
@@ -1328,7 +1330,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message("assigning Altered Gene Expression to " + target);
+                Log.Message("[XMT][Biohorror] assigning Altered Gene Expression to " + target);
             }
 
 
@@ -1343,7 +1345,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("confirmed Gene Holder " + target);
+                    Log.Message("[XMT][Biohorror] confirmed Gene Holder " + target);
                 }
                 geneHolder.ReplaceGenes(genes, xenotypeName);
             }
@@ -1526,7 +1528,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("applied altered genes to " + targetPawn);
+                    Log.Message("[XMT][Biohorror] applied altered genes to " + targetPawn);
                 }
 
             }
@@ -1570,7 +1572,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("applied altered genes to " + target);
+                    Log.Message("[XMT][Biohorror] applied altered genes to " + target);
                 }
             }
         }
@@ -1718,7 +1720,7 @@ namespace Xenomorphtype
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message("returning base gene: " + geneChance.entry);
+                    Log.Message("[XMT][Biohorror] returning base gene: " + geneChance.entry);
                 }
                 genes.Add(geneChance.entry);
             }

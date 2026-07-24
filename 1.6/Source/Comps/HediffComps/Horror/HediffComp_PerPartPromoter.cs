@@ -95,14 +95,14 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogBiohorror)
             {
-                Log.Message(parent + " promoting hediff " + hediffDef);
+                Log.Message("[XMT][Biohorror] " + parent + " promoting hediff " + hediffDef);
             }
             bool partAdded = false;
             if (useParentPart)
             {
                 if (XMTSettings.LogBiohorror)
                 {
-                    Log.Message(parent + " promoting to part " + parent.Part.customLabel);
+                    Log.Message("[XMT][Biohorror] " + parent + " promoting to part " + parent.Part.customLabel);
                 }
                 Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, parent.Part);
                 if(promoted.Part != parent.Part)

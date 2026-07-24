@@ -310,9 +310,9 @@ namespace Xenomorphtype
 
             foreach (Thing thing in GenRadial.RadialDistinctThingsAround(eventPosition, map, radius, true))
             {
-                if (thing is HibernationCocoon cocoon && cocoon.ContainedThing is Pawn contained && XMTUtility.IsXenomorph(contained))
+                if (thing is SelfOccupyingBuilding selfOccupyingBuilding && selfOccupyingBuilding.ContainedThing is Pawn contained && XMTUtility.IsXenomorph(contained))
                 {
-                    cocoon.Open();
+                    selfOccupyingBuilding.Open();
                 }
             }
         }
@@ -1557,7 +1557,7 @@ namespace Xenomorphtype
 
         internal static IntVec3 GetBestEggCellNearHost(Pawn host, Pawn forPawn = null, float radius = 2.5f)
         {
-            if (!XMTUtility.IsHost(host))
+            if (!XMTUtility.IsAcceptableHost(host))
             {
                 return IntVec3.Invalid;
             }
@@ -2658,7 +2658,7 @@ namespace Xenomorphtype
         {
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(pawn + " failed HiveRestJob with Reason: " + reason);
+                Log.Message("[XMT][JobGiver] " + pawn + " failed HiveRestJob with Reason: " + reason);
             }
         }
 
@@ -2741,7 +2741,7 @@ namespace Xenomorphtype
 
             if (XMTSettings.LogJobGiver)
             {
-                Log.Message(forPawn + " found no valid hive room cell for cocoon.");
+                Log.Message("[XMT][JobGiver] " + forPawn + " found no valid hive room cell for cocoon.");
             }
 
             return IntVec3.Invalid;
@@ -2938,7 +2938,7 @@ namespace Xenomorphtype
                     if (ova.Ready)
                     {
                         IEnumerable<Pawn> PossibleHosts = GenRadial.RadialDistinctThingsAround(ova.Position, map, 1.5f, true).OfType<Pawn>()
-                            .Where(x => XMTUtility.IsHost(x));
+                            .Where(x => XMTUtility.IsAcceptableHost(x));
 
                         if (PossibleHosts.Any())
                         {
@@ -3244,7 +3244,7 @@ namespace Xenomorphtype
                         }
 
                         int Score = 0;
-                        if (XMTUtility.IsHost(candidate))
+                        if (XMTUtility.IsAcceptableHost(candidate))
                         {
                             Score -= 20;
                         }
@@ -3283,7 +3283,7 @@ namespace Xenomorphtype
                     }
 
                     int Score = 0;
-                    if (XMTUtility.IsHost(candidate))
+                    if (XMTUtility.IsAcceptableHost(candidate))
                     {
                         Score -= 20;
                     }
@@ -3311,7 +3311,7 @@ namespace Xenomorphtype
 
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message(forPawn + " is searching " + CurrentNest.Cocooned.Count + " cocooned candidates for feeding.");
+                    Log.Message("[XMT][JobGiver] " + forPawn + " is searching " + CurrentNest.Cocooned.Count + " cocooned candidates for feeding.");
                 }
                 foreach (Pawn candidate in CurrentNest.Cocooned)
                 {
@@ -3730,7 +3730,10 @@ namespace Xenomorphtype
                     {
                         continue;
                     }
-                    hiveMate.SetFaction(Faction.OfPlayer);
+                    if (hiveMate.Faction != Faction.OfPlayer)
+                    {
+                        hiveMate.SetFaction(Faction.OfPlayer);
+                    }
                 }
             }
 

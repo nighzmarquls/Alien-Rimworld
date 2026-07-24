@@ -184,6 +184,10 @@ namespace Xenomorphtype {
             finishedBuilding?.SetFaction(pawn.Faction);
             XMTNestBuildingUtility.NotifyHiveBuildJobSucceeded(pawn, BuildCell, defToBuild, NestBuildStage.ClaimFloor);
             XMTNestBuildingUtility.NotifyHiveConstructionCompleted(pawn.Map, BuildCell, defToBuild);
+            if (finishedBuilding is SelfOccupyingBuilding selfOccupyingBuilding)
+            {
+                selfOccupyingBuilding.Notify_ConstructionCompleted(pawn);
+            }
             if (Prefs.DevMode && job != null && job.playerForced)
             {
                 Messages.Message("Forced hive build completed: " + defToBuild + " at " + BuildCell + ".", MessageTypeDefOf.TaskCompletion, false);

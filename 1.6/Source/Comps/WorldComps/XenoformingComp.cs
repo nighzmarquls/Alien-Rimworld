@@ -75,7 +75,7 @@ namespace Xenomorphtype
 
                     if (XMTSettings.LogWorld)
                     {
-                        Log.Message(parent + " was attacked by cryptimorphs!");
+                        Log.Message("[XMT][World] " + parent + " was attacked by cryptimorphs!");
                     }
 
                     if(XMTUtility.QueenIsPlayer())
