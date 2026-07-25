@@ -78,12 +78,12 @@ namespace Xenomorphtype
             Close();
         }
 
-        public Dialogue_GeneExpression(Thing thing)
+        public Dialogue_GeneExpression(Thing thing, Pawn actingQueen)
         {
             target = thing;
             _originalGenes = BioUtility.GetGeneForExpressionList(thing);
             _chosenGenes = _originalGenes.ListFullCopy();
-            _hiveGenes = BioUtility.GetAllHiveGenes(thing.Map);
+            _hiveGenes = BioUtility.GetAllHiveGenes(thing.Map, actingQueen);
             CompHiveGeneHolder geneHolder = thing.TryGetComp<CompHiveGeneHolder>();
             xenotypeName = geneHolder?.EffectiveTemplateName ?? (thing as Pawn)?.genes?.xenotypeName ?? string.Empty;
             forcePause = true;

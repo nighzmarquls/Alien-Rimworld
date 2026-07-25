@@ -1353,15 +1353,27 @@ namespace Xenomorphtype
             
         }
 
-        internal static List<GeneDef> GetAllHiveGenes(Map map)
+        internal static List<GeneDef> GetAllHiveGenes(Map map, Pawn actingQueen)
         {
             List<GeneDef> genes = new List<GeneDef>();
+            CompQueen queenComp = actingQueen?.GetComp<CompQueen>();
 
-            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_NovelGenes))
+            if (queenComp != null)
             {
-                foreach (GeneDef gene in XenoGeneDefOf.XMT_NovelGenes.genes)
+                foreach (RoyalEvolutionDef evolution in queenComp.ChosenEvolutions)
                 {
-                    genes.AddDistinct(gene);
+                    if (!queenComp.HasActiveEvolution(evolution) || evolution.unlockedGenes == null)
+                    {
+                        continue;
+                    }
+
+                    foreach (GeneDef gene in evolution.unlockedGenes)
+                    {
+                        if (gene != null)
+                        {
+                            genes.AddDistinct(gene);
+                        }
+                    }
                 }
             }
 

@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
 
-	<Xenomorphtype.XMT_GeneSetDef>
-		<defName>XMT_NovelGenes</defName>
-		<genes>
-			<li>XMT_GuardianCrest</li>
-			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
-			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Standard</li>
-			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
-		</genes>
-	</Xenomorphtype.XMT_GeneSetDef>
-
 	<GeneDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>XMT_KillThirst</defName>
 		<geneClass>Xenomorphtype.XenomorphGene</geneClass>

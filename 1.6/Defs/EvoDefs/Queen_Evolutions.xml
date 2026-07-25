@@ -144,6 +144,12 @@
 		<label>novel gene expression</label>
 		<evoPointCost>2</evoPointCost>
 		<description>Unlocks the ability to access novel cryptimorph genes.</description>
+		<unlockedGenes>
+			<li>XMT_GuardianCrest</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Hulk</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Standard</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech">Body_Thin</li>
+		</unlockedGenes>
 		<prerequisites>
 			<li>Evo_GeneControl</li>
 		</prerequisites>
@@ -214,12 +220,27 @@
 			<li>Evo_MaternalCrest</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-<!--
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>Evo_PsychicDefense</defName>
+		<label>psychic defense</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Unlocks the ability to shield the rest of the hive from psychic influence.</description>
+		<unlockedAbilities>
+			<li>XMT_Ability_PsychicDefense</li>
+		</unlockedAbilities>
+		<prerequisites>
+			<li>Evo_MaternalCrest</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_QuadrupedalStance</defName>
 		<label>Quadrupedal Stance</label>
 		<evoPointCost>2</evoPointCost>
-		<description>The secondary arms lengthen into a supporting pair of legs, preparing a more mobile stance at the loss of fine manipulation.</description>
+		<evolutionHediff>XMT_QuadrupedalStance</evolutionHediff>
+		<targetBodyPart>XMT_LesserShoulder</targetBodyPart>
+		<description>The secondary arms lengthen into a supporting pair of legs, greatly increasing mobility at the loss of fine manipulation.</description>
 		<replaces>
 			<li>Evo_DelicateHands</li>
 		</replaces>
@@ -227,9 +248,9 @@
 			<li>Evo_DelicateHands</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	-->
+
 	<!-- 3rd tier -->
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_SubjugatorCrest</defName>
 		<label>Subjugator Crest</label>
@@ -246,6 +267,22 @@
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>Evo_WitchCrest</defName>
+		<label>Witch Crest</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_WitchCrest</evolutionHediff>
+		<targetBodyPart>StarbeastCrest</targetBodyPart>
+		<description>The maternal crest extends into an even more specialized psychic organ, deepening neural heat capacity, heat loss and social command.</description>
+		<replaces>
+			<li>Evo_MaternalCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_MaternalCrest</li>
+			<li>Evo_PsychicDefense</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX3</defName>
 		<label>Royal Stature</label>
@@ -263,7 +300,7 @@
 			<li>Evo_OvoThrone</li>
 		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_GeneDigestion</defName>
 		<label>Genetic Digestion</label>
@@ -311,6 +348,22 @@
 			<li>Evo_OvoThrone</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_HexapedalStance</defName>
+		<label>Hexapedal Stance</label>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>XMT_HexapedalStance</evolutionHediff>
+		<targetBodyPart>Shoulder</targetBodyPart>
+		<description>The primary arms become a second pair of powerful supporting legs, granting immense mobility at further cost to delicate handling.</description>
+		<replaces>
+			<li>Evo_RendingClaws</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_QuadrupedalStance</li>
+			<li>Evo_RendingClaws</li>
+		</prerequisites>
+	</Xenomorphtype.RoyalEvolutionDef>
 <!--
 	
 
@@ -331,20 +384,7 @@
 
 	
 	
-	<Xenomorphtype.RoyalEvolutionDef>
-		<defName>Evo_ImperialCrown</defName>
-		<label>Imperial Crown</label>
-		<evoPointCost>4</evoPointCost>
-		<evolutionHediff>XMT_ImperialCrown</evolutionHediff>
-		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>The royal crown widens into an imperial psychic organ, deepening neural heat capacity, heat loss and social command.</description>
-		<replaces>
-			<li>Evo_RoyalCrown</li>
-		</replaces>
-		<prerequisites>
-			<li>Evo_RoyalCrown</li>
-		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
+
 
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_JuggernautsCrest</defName>
@@ -361,23 +401,9 @@
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 
-	<Xenomorphtype.RoyalEvolutionDef>
-		<defName>Evo_HexapedalStance</defName>
-		<label>Hexapedal Stance</label>
-		<evoPointCost>4</evoPointCost>
-		<description>The royal posture settles into a fully hexapedal gait, preparing immense mobility at further cost to delicate handling.</description>
-		<replaces>
-			<li>Evo_QuadrupedalStance</li>
-		</replaces>
-		<prerequisites>
-			<li>Evo_QuadrupedalStance</li>
-			<li>Evo_RendingClaws</li>
-		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
-
 -->
 	<!-- 4th tier -->
-	
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX4</defName>
 		<label>Imperial Stature</label>

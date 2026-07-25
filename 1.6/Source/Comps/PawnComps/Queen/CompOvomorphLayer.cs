@@ -448,9 +448,9 @@ namespace Xenomorphtype
 
         private List<GeneDef> GetAvailableBroodLineageGenes()
         {
-            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
+            if (Parent.GetComp<CompQueen>()?.HasActiveEvolution(RoyalEvolutionDefOf.Evo_GeneControl) == true)
             {
-                return BioUtility.GetAllHiveGenes(parent.MapHeld);
+                return BioUtility.GetAllHiveGenes(parent.MapHeld, Parent);
             }
 
             return BioUtility.CaptureHorrorGenePayload(Parent, inheritableOnly: true)?.Genes.ToList() ?? new List<GeneDef>();
@@ -624,7 +624,7 @@ namespace Xenomorphtype
                 ApplyEggOptionGenes(laidThing, option);
                 if (option.openGeneDialog && laidThing.TryGetComp<CompHiveGeneHolder>() != null)
                 {
-                    Find.WindowStack.Add(new Dialogue_GeneExpression(laidThing));
+                    Find.WindowStack.Add(new Dialogue_GeneExpression(laidThing, Parent));
                 }
 
                 ResetSelectedEggOptionIfNeeded(option);

@@ -831,7 +831,7 @@ namespace Xenomorphtype
 
         public void AlterGenes(Thing Target)
         {
-            Find.WindowStack.Add(new Dialogue_GeneExpression(Target));
+            Find.WindowStack.Add(new Dialogue_GeneExpression(Target, Parent));
         }
 
         public override void PostExposeData()

@@ -34,6 +34,51 @@
 		<displayOrder>1200</displayOrder>
 	</AbilityCategoryDef>
 
+	<Xenomorphtype.PsychicDefenseSettingsDef MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>XMT_PsychicDefenseSettings</defName>
+		<targetedHeatCost>6</targetedHeatCost>
+		<ambientHeatCost>8</ambientHeatCost>
+		<ambientIntervalTicks>600</ambientIntervalTicks>
+		<minimumContestChance>0.05</minimumContestChance>
+		<maximumContestChance>0.95</maximumContestChance>
+		<basePsylinkPower>1</basePsylinkPower>
+		<alwaysHarmfulVanillaAbilities>
+			<li>Neuroquake</li>
+		</alwaysHarmfulVanillaAbilities>
+		<internallyEnumeratedVanillaAbilities>
+			<li>Neuroquake</li>
+		</internallyEnumeratedVanillaAbilities>
+		<alwaysHarmfulVefAbilities>
+			<li>VPE_Neuroquake</li>
+		</alwaysHarmfulVefAbilities>
+		<ignoredVefAbilities>
+			<li>VPE_PsychicDrone</li>
+			<li>VPE_Neuroquake</li>
+		</ignoredVefAbilities>
+	</Xenomorphtype.PsychicDefenseSettingsDef>
+
+	<AbilityDef MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>XMT_Ability_PsychicDefense</defName>
+		<label>psychic defense</label>
+		<description>Maintain a psychic barrier around the queen's aligned cryptimorphs and pawns bearing brain mutations. Hostile psycasts can be opposed at the cost of neural heat.</description>
+		<abilityClass>Xenomorphtype.Ability_PsychicDefense</abilityClass>
+		<iconPath>UI/Abilities/Painblock</iconPath>
+		<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+		<targetRequired>false</targetRequired>
+		<aiCanUse>false</aiCanUse>
+		<category>Xenomorph</category>
+		<uiOrder>7</uiOrder>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<drawAimPie>false</drawAimPie>
+			<range>0</range>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
+	</AbilityDef>
+
 	<AbilityDef>
 		<defName>XMT_Ability_MutagenicMiasma</defName>
 		<label>mutagenic miasma</label>

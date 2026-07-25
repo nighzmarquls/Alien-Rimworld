@@ -28,7 +28,7 @@ namespace Xenomorphtype
 
             if (Props.openGeneDialog && laidThing is GeneOvomorph geneOvomorph)
             {
-                Find.WindowStack.Add(new Dialogue_GeneExpression(geneOvomorph));
+                Find.WindowStack.Add(new Dialogue_GeneExpression(geneOvomorph, parent.pawn));
             }
 
             base.Apply(target, dest);

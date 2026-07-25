@@ -87,6 +87,8 @@
     <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
     <Compile Include="Abilities\Comps\CompAbilityTrample.cs" />
     <Compile Include="Abilities\Comps\CompAbilityMutagenicMiasma.cs" />
+    <Compile Include="Abilities\PsychicDefense\Ability_PsychicDefense.cs" />
+    <Compile Include="Abilities\PsychicDefense\PsychicDefenseSettingsDef.cs" />
     <Compile Include="Abilities\Climber\PawnClimber.cs" />
     <Compile Include="Abilities\Trample\PawnTrampler.cs" />
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_Adoption.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Abilities\Psycasting\Expanded\Extensions\AbilityExtension_SovereignDominion.cs" />
     <Compile Include="DefOfs\XenoPawnKindDefOf.cs" />
     <Compile Include="Utilities\HivecastUtility.cs" />
+    <Compile Include="Utilities\PsychicDefenseUtility.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompAdoptionEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompFascinationEffect.cs" />
     <Compile Include="Abilities\Psycasting\Vanilla\AbilityEffect\CompHiveSongEffect.cs" />
@@ -206,6 +209,7 @@
     <Compile Include="Debug\XMTHiveDebug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
     <Compile Include="Harmony\XMTRecruitPatches.cs" />
+    <Compile Include="Harmony\XMTPsychicDefensePatches.cs" />
     <Compile Include="Harmony\XMTCaveInPatches.cs" />
     <Compile Include="Harmony\XMTDoorPatches.cs" />
     <Compile Include="Harmony\Aggression\XMTHostilityPatch.cs" />

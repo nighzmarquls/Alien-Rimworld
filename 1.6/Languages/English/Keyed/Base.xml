@@ -488,6 +488,14 @@
 	<XMT_MassLayStopped>Laid {0} ovomorphs before stopping: {1}</XMT_MassLayStopped>
 	<XMT_MassLayComplete>Laid {0} ovomorphs.</XMT_MassLayComplete>
 	<XMT_OvomorphOverflowLost>{0} stored ovomorphs could not be laid and were lost.</XMT_OvomorphOverflowLost>
+	<XMT_PsychicDefenseToggle>Psychic defense</XMT_PsychicDefenseToggle>
+	<XMT_PsychicDefenseToggleDesc>Toggle the queen's protection against hostile psychic influence.</XMT_PsychicDefenseToggleDesc>
+	<XMT_PsychicDefenseStatusActive>Active</XMT_PsychicDefenseStatusActive>
+	<XMT_PsychicDefenseStatusInactive>Inactive</XMT_PsychicDefenseStatusInactive>
+	<XMT_PsychicDefenseTooltip>Status: {0}\nTargeted defense: {1} neural heat per contest\nAmbient defense: {2} neural heat every {3}</XMT_PsychicDefenseTooltip>
+	<XMT_PsychicDefenseRepelled>{0}'s {1} was repelled by psychic defense.</XMT_PsychicDefenseRepelled>
+	<XMT_UnknownPsycaster>Unknown psycaster</XMT_UnknownPsycaster>
+	<XMT_UnknownPsycast>psychic effect</XMT_UnknownPsycast>
 	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>

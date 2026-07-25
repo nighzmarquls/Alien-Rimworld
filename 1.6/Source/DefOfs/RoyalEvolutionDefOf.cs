@@ -28,10 +28,11 @@ namespace Xenomorphtype
         public static RoyalEvolutionDef Evo_MutantExpression;
         public static RoyalEvolutionDef Evo_OvoThrone;
         public static RoyalEvolutionDef Evo_IntegratedEggSac;
-        public static RoyalEvolutionDef Evo_NovelGenes;
         public static RoyalEvolutionDef Evo_SubjugatorCrest;
         public static RoyalEvolutionDef Evo_RoyalCrown;
 
+        [MayRequireRoyalty]
+        public static RoyalEvolutionDef Evo_PsychicDefense;
 
         public static RoyalEvolutionDef Evo_CryptomechanicalCircuitry;
         public static RoyalEvolutionDef Evo_ElectroMetabolicCatalyst;

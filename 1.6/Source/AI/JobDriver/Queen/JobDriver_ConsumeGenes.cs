@@ -80,7 +80,7 @@ namespace Xenomorphtype
                                 
                             }
                         }
-                        Find.WindowStack.Add(new Dialogue_GeneExpression(Ovomorph));
+                        Find.WindowStack.Add(new Dialogue_GeneExpression(Ovomorph, pawn));
 
 
                     }

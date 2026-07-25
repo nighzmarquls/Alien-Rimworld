@@ -34,7 +34,9 @@ namespace Xenomorphtype
                 }
                
                 mutateTick = currentTick + Mathf.CeilToInt(Props.mutateHourInterval * 2500);
-                if (Rand.Chance(Props.probability))
+
+                float chance = Props.useSeverityAsProbability ? parent.Severity : Props.probability;
+                if (Rand.Chance(chance))
                 {
                     if(Props.onlyOneMutation)
                     {
@@ -72,6 +74,7 @@ namespace Xenomorphtype
         public bool  onlyOneMutation = false;
         public float mutateHourInterval = 1;
         public float probability = 0.1f;
+        public bool useSeverityAsProbability = false;
         public XMT_MutationsHealthSet customMutationSet = null;
         public HediffCompProperties_Mutator()
         {

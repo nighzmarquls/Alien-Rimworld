@@ -1719,9 +1719,9 @@
 										</conditions>
 									</li>
 									<li>
-										<path>Pawn/Royalty/Crests/Crest_ImperialCrown</path>
+										<path>Pawn/Royalty/Crests/Crest_Witch</path>
 										<conditions>
-											<Hediff>XMT_ImperialCrown</Hediff>
+											<Hediff>XMT_WitchCrest</Hediff>
 											<Not>
 												<Hediff>XMT_GeneIntegration</Hediff>
 											</Not>
@@ -1916,7 +1916,6 @@
 										<bodyPartLabel>left shoulder</bodyPartLabel>
 										<drawWithoutPart>false</drawWithoutPart>
 									</BodyPart>
-									<Hediff>XMT_RendingClaw</Hediff>
 									<Posture>
 										<drawnStanding>true</drawnStanding>
 										<drawnLaying>true</drawnLaying>
@@ -1929,6 +1928,14 @@
 										<Hediff>Maturation</Hediff>
 									</Not>
 								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Arms/Blank</path>
+										<conditions>
+											<Hediff>XMT_HexapedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
 								  <south>
@@ -1955,7 +1962,6 @@
 										<bodyPartLabel>right shoulder</bodyPartLabel>
 										<drawWithoutPart>false</drawWithoutPart>
 									</BodyPart>
-									<Hediff>XMT_RendingClaw</Hediff>
 									<Posture>
 										<drawnStanding>true</drawnStanding>
 										<drawnLaying>true</drawnLaying>
@@ -1968,6 +1974,14 @@
 										<Hediff>Maturation</Hediff>
 									</Not>
 								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Arms/Blank</path>
+										<conditions>
+											<Hediff>XMT_HexapedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
 								  <south>
@@ -1994,7 +2008,6 @@
 										<bodyPartLabel>lesser left shoulder</bodyPartLabel>
 										<drawWithoutPart>false</drawWithoutPart>
 									</BodyPart>
-									<Hediff>XMT_DelicateHand</Hediff>
 									<Posture>
 										<drawnStanding>true</drawnStanding>
 										<drawnLaying>true</drawnLaying>
@@ -2007,6 +2020,14 @@
 										<Hediff>Maturation</Hediff>
 									</Not>
 								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Miniarms/Blank</path>
+										<conditions>
+											<Hediff>XMT_QuadrupedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
 								  <south>
@@ -2033,7 +2054,6 @@
 										<bodyPartLabel>lesser right shoulder</bodyPartLabel>
 										<drawWithoutPart>false</drawWithoutPart>
 									</BodyPart>
-									<Hediff>XMT_DelicateHand</Hediff>
 									<Posture>
 										<drawnStanding>true</drawnStanding>
 										<drawnLaying>true</drawnLaying>
@@ -2046,6 +2066,14 @@
 										<Hediff>Maturation</Hediff>
 									</Not>
 								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Miniarms/Blank</path>
+										<conditions>
+											<Hediff>XMT_QuadrupedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
 								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 								<offsets>
 								  <south>
