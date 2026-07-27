@@ -36,6 +36,17 @@ namespace Xenomorphtype
                 return;
             }
 
+            if (jobDef != null &&
+                (jobDef == XenoWorkDefOf.XMT_PathRecoveryOpenDoor || jobDef == XenoWorkDefOf.XMT_PathRecoveryBreach))
+            {
+                if (XMTSettings.LogJobGiver)
+                {
+                    Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " ignoring path failure from structural recovery job " + jobDef.defName + " at " + targetCell + ".");
+                }
+                Clear();
+                return;
+            }
+
             if (XMTSettings.LogJobGiver)
             {
                 Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " NotifyPathFailure tick=" + Find.TickManager.TicksGame + " target=" + targetCell + " job=" + jobDef?.defName + " before=" + state.DebugSummary(Parent.MapHeld));
@@ -376,7 +387,7 @@ namespace Xenomorphtype
                                         FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
                          .OrderByRecoveryScore(pawn, goalCell, cell => cell))
             {
-                if (ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly))
+                if (ClimbUtility.OriginalCanReach(pawn, cell, PathEndMode.OnCell, Danger.Deadly))
                 {
                     interactionCell = cell;
                     return true;
@@ -434,7 +445,7 @@ namespace Xenomorphtype
                                             adjacent.Standable(pawn.Map) &&
                                             (!requireAvailability || FeralJobUtility.IsPlaceAvailableForJobBy(pawn, adjacent))))
             {
-                if (ClimbUtility.CanReachByWalkingOrClimb(pawn, adjacent, PathEndMode.OnCell, Danger.Deadly) &&
+                if (ClimbUtility.OriginalCanReach(pawn, adjacent, PathEndMode.OnCell, Danger.Deadly) &&
                     PathRecoveryJobUtility.TryFindPassageDestination(pawn, blocker.OccupiedRect(), adjacent, requireSafeExit: true, goalCell: goalCell, out IntVec3 passageDestination))
                 {
                     candidates.Add(new CellRecoveryCandidate(adjacent, passageDestination));

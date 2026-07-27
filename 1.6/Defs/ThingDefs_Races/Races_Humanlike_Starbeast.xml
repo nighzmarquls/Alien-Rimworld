@@ -1927,6 +1927,7 @@
 									<Not>
 										<Hediff>Maturation</Hediff>
 									</Not>
+									<Hediff>XMT_RendingClaw</Hediff>
 								</conditions>
 								<extendedGraphics>
 									<li>
@@ -1973,6 +1974,7 @@
 									<Not>
 										<Hediff>Maturation</Hediff>
 									</Not>
+									<Hediff>XMT_RendingClaw</Hediff>
 								</conditions>
 								<extendedGraphics>
 									<li>
@@ -2019,6 +2021,9 @@
 									<Not>
 										<Hediff>Maturation</Hediff>
 									</Not>
+									
+									<Hediff>XMT_DelicateHand</Hediff>
+
 								</conditions>
 								<extendedGraphics>
 									<li>
@@ -2065,6 +2070,7 @@
 									<Not>
 										<Hediff>Maturation</Hediff>
 									</Not>
+									<Hediff>XMT_DelicateHand</Hediff>
 								</conditions>
 								<extendedGraphics>
 									<li>

@@ -421,6 +421,17 @@
 	<XMT_MechGestationComplete>{PAWN_nameDef} finished gestating {MECH_labelShort}.</XMT_MechGestationComplete>
 	<XMT_WorkTypeCryptimorphHeader>Cryptimorph behavior:</XMT_WorkTypeCryptimorphHeader>
 	<XMT_WorkTypeNote_Childcare>Moves Ovomorphs into place and applies ovomorphing to valid hosts.</XMT_WorkTypeNote_Childcare>
+	<XMT_WorkTypeNote_Hauling>Installs unused ovomorphs inside designated ovomorph storage zones.</XMT_WorkTypeNote_Hauling>
+	<XMT_HostPlacementZone>Host placement zone</XMT_HostPlacementZone>
+	<XMT_HostPlacementZoneDescription>Preferred enclosed-room area for cryptimorphs to install cocoons containing abducted hosts.</XMT_HostPlacementZoneDescription>
+	<XMT_OvomorphStorageZone>Ovomorph storage zone</XMT_OvomorphStorageZone>
+	<XMT_OvomorphStorageZoneDescription>Area where hauling cryptimorphs install unused ovomorphs until they are needed beside a host.</XMT_OvomorphStorageZoneDescription>
+	<XMT_ZoneNeedsPlayerQueen>A player cryptimorph queen must be active before these zones can be changed.</XMT_ZoneNeedsPlayerQueen>
+	<XMT_ZoneCannotIncludeDoorway>Doors and resin webbing cannot be included in this zone.</XMT_ZoneCannotIncludeDoorway>
+	<XMT_ZoneMustBeEnclosed>These zones can only be placed inside an enclosed room.</XMT_ZoneMustBeEnclosed>
+	<XMT_HostZoneInvalidRoom>A host placement zone is not inside an enclosed room and will be skipped.</XMT_HostZoneInvalidRoom>
+	<XMT_HostZonesUnavailable>Host placement zones are full or invalid. The host will be taken elsewhere in the nest.</XMT_HostZonesUnavailable>
+	<XMT_OvomorphStorageFull>Ovomorph storage zones are full or unreachable.</XMT_OvomorphStorageFull>
 	<XMT_WorkTypeNote_Doctor>Feeds hive dependents and electro-metabolically charges mechs.</XMT_WorkTypeNote_Doctor>
 	<XMT_WorkTypeNote_Warden>Feeds or cocoons prisoners and electro-metabolically charges mechs.</XMT_WorkTypeNote_Warden>
 	<XMT_WorkTypeNote_Handling>Befriends or abducts marked targets.</XMT_WorkTypeNote_Handling>

@@ -17,7 +17,7 @@ namespace Xenomorphtype
         protected Job GetAbductJob(Pawn pawn, Pawn target, bool allowExpansion = false)
         {
             IntVec3 cell = IntVec3.Invalid;
-            XMTHiveUtility.TryGetHiveCocoonCell(pawn, out cell);
+            XMTZoneUtility.TryGetAbductionCocoonCell(pawn, out cell);
             if(!cell.IsValid)
             {
                 if (allowExpansion)
@@ -34,6 +34,7 @@ namespace Xenomorphtype
             }
 
             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, target, cell);
+            XMTZoneUtility.MarkPreferredHostDestination(job, pawn.Map, cell);
             if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, target, PathEndMode.Touch, Danger.Deadly))
             {
                 pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(target.Position), job);

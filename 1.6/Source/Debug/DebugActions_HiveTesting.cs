@@ -57,6 +57,100 @@ namespace Xenomorphtype
             });
         }
 
+        [DebugAction(Category, "Test path recovery escape", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        private static void TestPathRecoveryEscape()
+        {
+            BeginPawnTargeting("Select an adult feral cryptimorph.", delegate (Pawn pawn, Map map)
+            {
+                if (pawn.Faction?.IsPlayer == true)
+                {
+                    Messages.Message("Select a feral or non-player cryptimorph.", MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+
+                if (!pawn.DevelopmentalStage.Adult())
+                {
+                    Messages.Message("Select an adult cryptimorph so juvenile recovery jobs do not affect the test.", MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+
+                CompMatureMorph morph = pawn.GetMorphComp();
+                if (morph == null)
+                {
+                    Messages.Message("Selected pawn has no mature morph component.", MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+
+                BeginCellTargeting("Select an unreachable destination beyond the intended escape door.", delegate (IntVec3 failedTarget, Map targetMap)
+                {
+                    if (map != targetMap || !pawn.Spawned || pawn.Map != map)
+                    {
+                        Messages.Message("Pawn and destination must remain on the same map.", MessageTypeDefOf.RejectInput, false);
+                        return;
+                    }
+
+                    if (ClimbUtility.CanReachByWalkingOrExecutableClimb(
+                        pawn,
+                        failedTarget,
+                        PathEndMode.Touch,
+                        Danger.Deadly,
+                        canBashDoors: true,
+                        canBashFences: true))
+                    {
+                        Messages.Message("Destination is still reachable by walking or traversal; select a genuinely blocked destination.", MessageTypeDefOf.RejectInput, false);
+                        return;
+                    }
+
+                    morph.ClearPathRecovery();
+                    Job failedJob = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, failedTarget);
+                    morph.NotifyPathFailure(new LocalTargetInfo(failedTarget), failedJob);
+
+                    if (!morph.TryGetPathRecoveryJob(out Job recoveryJob))
+                    {
+                        string noJobReport = "[XMT][PathRecoveryTest] PASS " + pawn + " found no recovery job for blocked target " + failedTarget +
+                            "; no normally reachable structural escape was available.";
+                        Log.Message(noJobReport);
+                        Messages.Message("PASS: no invalid structural recovery job was selected.", MessageTypeDefOf.TaskCompletion, false);
+                        return;
+                    }
+
+                    bool structuralRecovery = recoveryJob.def == XenoWorkDefOf.XMT_PathRecoveryOpenDoor ||
+                                              recoveryJob.def == XenoWorkDefOf.XMT_PathRecoveryBreach;
+                    if (structuralRecovery)
+                    {
+                        LocalTargetInfo approach = recoveryJob.GetTarget(TargetIndex.B);
+                        bool approachWalkReachable = approach.IsValid &&
+                                                     approach.Cell.InBounds(map) &&
+                                                     ClimbUtility.OriginalCanReach(pawn, approach, PathEndMode.OnCell, Danger.Deadly);
+                        if (!approachWalkReachable)
+                        {
+                            string invalidApproachReport = "[XMT][PathRecoveryTest] FAIL " + pawn + " selected " + recoveryJob +
+                                " with non-walk-reachable approach " + approach + " from " + pawn.Position + ".";
+                            Log.Error(invalidApproachReport);
+                            Messages.Message("FAIL: recovery selected a non-walk-reachable approach cell.", MessageTypeDefOf.RejectInput, false);
+                            return;
+                        }
+
+                        morph.NotifyPathFailure(approach, recoveryJob);
+                        if (morph.TryGetPathRecoveryJob(out Job recursiveRecoveryJob))
+                        {
+                            string recursionReport = "[XMT][PathRecoveryTest] FAIL " + pawn + " generated recursive recovery " +
+                                recursiveRecoveryJob + " after simulated failure of " + recoveryJob + ".";
+                            morph.ClearPathRecovery();
+                            Log.Error(recursionReport);
+                            Messages.Message("FAIL: structural recovery generated another recovery job.", MessageTypeDefOf.RejectInput, false);
+                            return;
+                        }
+                    }
+
+                    Log.Message("[XMT][PathRecoveryTest] PASS " + pawn + " selected " + recoveryJob +
+                        " for blocked target " + failedTarget + "; starting job for observation.");
+                    Messages.Message("PASS: starting " + recoveryJob.def.defName + " for observation.", MessageTypeDefOf.TaskCompletion, false);
+                    pawn.jobs.StartJob(recoveryJob, JobCondition.InterruptForced);
+                });
+            });
+        }
+
         private static void ClearHiveBuildStimuli()
         {
             XMTHiveUtility.ClearHiveBuildStimuli(Find.CurrentMap);
@@ -351,6 +445,35 @@ namespace Xenomorphtype
                     thing.Destroy(DestroyMode.Vanish);
                 }
             }
+        }
+
+        private static void BeginPawnTargeting(string prompt, System.Action<Pawn, Map> onSelected)
+        {
+            Messages.Message(prompt, MessageTypeDefOf.NeutralEvent, false);
+            TargetingParameters targetingParameters = new TargetingParameters
+            {
+                canTargetLocations = false,
+                canTargetPawns = true,
+                canTargetBuildings = false,
+                canTargetItems = false,
+                validator = target => target.Thing is Pawn targetPawn &&
+                                      targetPawn.Spawned &&
+                                      targetPawn.Map == Find.CurrentMap &&
+                                      XMTUtility.IsXenomorph(targetPawn)
+            };
+
+            Find.Targeter.BeginTargeting(targetingParameters, delegate (LocalTargetInfo target)
+            {
+                Map map = Find.CurrentMap;
+                Pawn pawn = target.Pawn;
+                if (map == null || pawn == null || !pawn.Spawned || pawn.Map != map)
+                {
+                    Messages.Message("No valid cryptimorph selected.", MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+
+                onSelected(pawn, map);
+            });
         }
 
         private static void BeginCellTargeting(string prompt, System.Action<IntVec3, Map> onSelected)

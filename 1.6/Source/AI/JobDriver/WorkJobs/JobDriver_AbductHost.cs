@@ -49,6 +49,13 @@ namespace Xenomorphtype
 
         public bool IsNoLongerValidTarget()
         {
+            if (job.GetTarget(TargetIndex.C).IsValid &&
+                !XMTZoneUtility.PreferredHostDestinationStillValid(pawn, FinalGoalCell))
+            {
+                XMTZoneUtility.WarnPreferredHostDestinationLost(pawn.Map);
+                return true;
+            }
+
             if (XMTHiveUtility.IsCellValidCocoon(FinalGoalCell, pawn.Map, fast:true))
             {
                 return FailedGrab;

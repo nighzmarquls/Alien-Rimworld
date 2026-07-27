@@ -27,4 +27,12 @@
 			<li>XMT_queenPlushie</li>
 		</things>
 	</Xenomorphtype.XMT_ThingDefList>
+	
+	<Xenomorphtype.XMT_ThingDefList>
+		<defName>XMT_OvomorphStorageEligible</defName>
+		<things>
+			<li>XMT_Ovomorph</li>
+			<li>XMT_MechaOvomorph</li>
+		</things>
+	</Xenomorphtype.XMT_ThingDefList>
 </Defs>

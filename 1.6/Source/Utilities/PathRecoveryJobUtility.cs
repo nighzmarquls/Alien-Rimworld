@@ -213,7 +213,7 @@ namespace Xenomorphtype
                          .Where(cell => IsUsableDestination(pawn, cell) && !IsDoorwayCell(map, cell))
                          .OrderByRecoveryScore(pawn, goalCell, cell => cell, cell => -cell.DistanceToSquared(pawn.PositionHeld)))
             {
-                if (ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly))
+                if (ClimbUtility.OriginalCanReach(pawn, cell, PathEndMode.OnCell, Danger.Deadly))
                 {
                     escapeCell = cell;
                     return true;

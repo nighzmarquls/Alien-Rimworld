@@ -12,6 +12,8 @@ namespace Xenomorphtype
     public class HiveMapComponent : MapComponent
     {
         bool Uninitialized = true;
+        private int nextZoneMaintenanceTick;
+
         public HiveMapComponent(Map map) : base(map)
         {
             
@@ -30,6 +32,12 @@ namespace Xenomorphtype
             if(Uninitialized)
             {
                 Initialize();
+            }
+
+            if (Find.TickManager.TicksGame >= nextZoneMaintenanceTick)
+            {
+                nextZoneMaintenanceTick = Find.TickManager.TicksGame + 250;
+                XMTZoneUtility.ReconcileDoorwayCells(map);
             }
         }
 

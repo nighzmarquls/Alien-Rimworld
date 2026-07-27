@@ -205,6 +205,7 @@
     <Compile Include="Debug\DebugActions_Mutations.cs" />
     <Compile Include="Debug\DebugActions_QueenTesting.cs" />
     <Compile Include="Debug\DebugActions_Transformations.cs" />
+    <Compile Include="Debug\DebugActions_XMTZones.cs" />
     <Compile Include="Debug\PawnTransformationDebugHarness.cs" />
     <Compile Include="Debug\XMTHiveDebug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
@@ -219,8 +220,10 @@
     <Compile Include="Progression\Records\HistoryAutoRecorderWorker_Xenoforming.cs" />
     <Compile Include="SocialHorror\Interactions\InteractionWorker_AdvancedTameAttempt.cs" />
     <Compile Include="Things\XMTDefs.cs" />
+    <Compile Include="Zones\XMTZones.cs" />
     <Compile Include="UI\Designators\Designator_Larder.cs" />
     <Compile Include="UI\Designators\Designator_MakeJelly.cs" />
+    <Compile Include="UI\Designators\Designator_XMTZones.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_AdvancedTame.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_Abduct.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />
@@ -231,6 +234,7 @@
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
     <Compile Include="Utilities\HorrorAdvancementUtility.cs" />
+    <Compile Include="Utilities\XMTZoneUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
 	<Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />

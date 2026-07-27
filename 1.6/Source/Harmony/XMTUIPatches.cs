@@ -46,6 +46,10 @@ namespace Xenomorphtype
                 {
                     return "XMT_WorkTypeNote_Childcare";
                 }
+                if (workType == XenoWorkDefOf.Hauling)
+                {
+                    return "XMT_WorkTypeNote_Hauling";
+                }
                 if (workType == XenoWorkDefOf.Doctor)
                 {
                     return "XMT_WorkTypeNote_Doctor";

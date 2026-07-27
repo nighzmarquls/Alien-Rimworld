@@ -15,6 +15,7 @@ namespace Xenomorphtype
 
         //AcidImmune Building List
         public static XMT_ThingDefList XMT_AcidImmuneBuildings;
+        public static XMT_ThingDefList XMT_OvomorphStorageEligible;
         //Xenomorph buildings
         public static ThingDef XMT_JellyWell;
         public static ThingDef XMT_Ovomorph;

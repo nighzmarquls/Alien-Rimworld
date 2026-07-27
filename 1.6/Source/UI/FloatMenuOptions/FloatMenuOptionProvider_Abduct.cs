@@ -28,12 +28,13 @@ namespace Xenomorphtype
                 if (!XMTUtility.IsXenomorph(clickedPawn))
                 {
 
-                    XMTHiveUtility.TryGetHiveCocoonCell(context.FirstSelectedPawn, out IntVec3 cell);
+                    XMTZoneUtility.TryGetAbductionCocoonCell(context.FirstSelectedPawn, out IntVec3 cell, playerOrdered: true);
                     GrappleCheckReport grappleReport = XMTUtility.GetGrappleCheckReport(context.FirstSelectedPawn, clickedPawn);
                     string label = "XMT_FMO_Abduct".Translate(grappleReport.SuccessChance.ToStringPercent());
                     FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, delegate
                     {
                         Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, clickedPawn, cell);
+                        XMTZoneUtility.MarkPreferredHostDestination(job, context.FirstSelectedPawn.Map, cell);
                         FeralJobUtility.ReservePlaceForJob(context.FirstSelectedPawn, job, cell);
                         FeralJobUtility.ReserveThingForJob(context.FirstSelectedPawn, job, clickedPawn);
                         job.count = 1;

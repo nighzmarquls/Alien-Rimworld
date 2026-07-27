@@ -504,7 +504,9 @@ namespace Xenomorphtype
                 return false;
             }
 
-            bool HiveNeedsTending = XMTHiveUtility.ShouldTendNest(Parent.MapHeld) || XMTHiveUtility.ShouldBuildNest(Parent.MapHeld);
+            bool HiveNeedsTending = XMTHiveUtility.ShouldTendNest(Parent.MapHeld) ||
+                                    XMTHiveUtility.ShouldBuildNest(Parent.MapHeld) ||
+                                    XMTZoneUtility.HasOvomorphStorageWork(Parent);
 
             if (Parent.Faction == null)
             {
@@ -1561,6 +1563,11 @@ namespace Xenomorphtype
             return false;
         }
 
+        protected bool GetOvomorphStorageJob(out Job job)
+        {
+            return XMTZoneUtility.TryMakeOvomorphStorageJob(Parent, out job);
+        }
+
         protected bool GetJellyJob(out Job job, bool requireLightLevel = false)
         {
             job = null;
@@ -2002,12 +2009,13 @@ namespace Xenomorphtype
                         }
 
 
-                        if (!XMTHiveUtility.TryGetHiveCocoonCell(Parent, out IntVec3 cell))
+                        if (!XMTZoneUtility.TryGetAbductionCocoonCell(Parent, out IntVec3 cell))
                         {
                             continue;
                         }
 
                         job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, prey, cell);
+                        XMTZoneUtility.MarkPreferredHostDestination(job, Parent.Map, cell);
                         FeralJobUtility.ReservePlaceForJob(Parent, job, cell);
                         FeralJobUtility.ReserveThingForJob(Parent, job, prey);
                         job.count = 1;
@@ -2084,6 +2092,11 @@ namespace Xenomorphtype
                     return true;
                 }
                 return false;
+            }
+
+            if (workType == XenoWorkDefOf.Hauling)
+            {
+                return GetOvomorphStorageJob(out job);
             }
 
             if (workType == XenoWorkDefOf.Doctor)
@@ -2412,7 +2425,7 @@ namespace Xenomorphtype
             targetPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 8));
             if (InitiateGrabCheck(targetPawn))
             {
-                if (!XMTHiveUtility.TryGetHiveCocoonCell(Parent, out IntVec3 cell))
+                if (!XMTZoneUtility.TryGetAbductionCocoonCell(Parent, out IntVec3 cell))
                 {
                     return;
                 }
@@ -2424,6 +2437,7 @@ namespace Xenomorphtype
                 Hediff hediff = HediffMaker.MakeHediff(InternalDefOf.XMT_Ambushed, targetPawn);
                 targetPawn.health.AddHediff(hediff);
                 Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AbductHost, targetPawn, cell);
+                XMTZoneUtility.MarkPreferredHostDestination(job, Parent.Map, cell);
                 job.count = 1;
                 Parent.jobs.StartJob(job, JobCondition.InterruptForced);
             }
