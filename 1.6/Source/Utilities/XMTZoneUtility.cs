@@ -8,6 +8,14 @@ using Verse.AI;
 
 namespace Xenomorphtype
 {
+    [Flags]
+    internal enum AbductionDestinationWarning
+    {
+        None = 0,
+        InvalidHostRoom = 1,
+        HostZoneFallback = 2
+    }
+
     internal static class XMTZoneUtility
     {
         private const int WarningCooldownTicks = 2500;
@@ -142,7 +150,26 @@ namespace Xenomorphtype
 
         internal static bool TryGetAbductionCocoonCell(Pawn pawn, out IntVec3 cell, bool playerOrdered = false)
         {
+            bool found = TryGetAbductionCocoonCellQuiet(pawn, out cell, out AbductionDestinationWarning warnings);
+            if ((warnings & AbductionDestinationWarning.InvalidHostRoom) != 0)
+            {
+                Warn(pawn?.Map, "invalidHostRoom", "XMT_HostZoneInvalidRoom", playerOrdered);
+            }
+            if ((warnings & AbductionDestinationWarning.HostZoneFallback) != 0)
+            {
+                Warn(pawn?.Map, "hostFallback", "XMT_HostZonesUnavailable", playerOrdered);
+            }
+
+            return found;
+        }
+
+        internal static bool TryGetAbductionCocoonCellQuiet(
+            Pawn pawn,
+            out IntVec3 cell,
+            out AbductionDestinationWarning warnings)
+        {
             cell = IntVec3.Invalid;
+            warnings = AbductionDestinationWarning.None;
             if (!CanUsePlayerZones(pawn))
             {
                 return XMTHiveUtility.TryGetHiveCocoonCell(pawn, out cell);
@@ -159,7 +186,7 @@ namespace Xenomorphtype
             {
                 if (foundInvalidRoom)
                 {
-                    Warn(pawn.Map, "invalidHostRoom", "XMT_HostZoneInvalidRoom", playerOrdered);
+                    warnings |= AbductionDestinationWarning.InvalidHostRoom;
                 }
 
                 return true;
@@ -167,11 +194,18 @@ namespace Xenomorphtype
 
             if (foundInvalidRoom)
             {
-                Warn(pawn.Map, "invalidHostRoom", "XMT_HostZoneInvalidRoom", playerOrdered);
+                warnings |= AbductionDestinationWarning.InvalidHostRoom;
             }
 
-            Warn(pawn.Map, "hostFallback", "XMT_HostZonesUnavailable", playerOrdered);
-            return XMTHiveUtility.TryGetHiveCocoonCell(pawn, out cell);
+            warnings |= AbductionDestinationWarning.HostZoneFallback;
+            bool foundFallback = XMTHiveUtility.TryGetHiveCocoonCell(pawn, out cell);
+            XMTSettings.LogStructure(
+                "Host-zone placement fell back for " + pawn +
+                ": zones=" + zones.Count +
+                ", invalidRoomSeen=" + foundInvalidRoom +
+                ", fallbackFound=" + foundFallback +
+                ", fallbackCell=" + (foundFallback ? cell.ToString() : "none") + ".");
+            return foundFallback;
         }
 
         internal static void MarkPreferredHostDestination(Job job, Map map, IntVec3 cell)
@@ -236,6 +270,12 @@ namespace Xenomorphtype
                 {
                     if (!HostRoomHasEstimatedCapacity(roomGroup.Key, roomGroup.Value, pawn.Map))
                     {
+                        XMTSettings.LogStructure(
+                            "Host zone " + zone.ID +
+                            " rejected room " + roomGroup.Key.ID +
+                            " by capacity precheck: zoneCells=" + roomGroup.Value.Count +
+                            ", cardinalPerimeterCells=" + roomGroup.Value.Count(candidate =>
+                                IsCardinalRoomPerimeterCell(candidate, roomGroup.Key, pawn.Map)) + ".");
                         continue;
                     }
 
@@ -315,48 +355,6 @@ namespace Xenomorphtype
             score += cell.Roofed(pawn.Map) ? 25 : 0;
             score -= Mathf.CeilToInt(cell.DistanceTo(pawn.Position));
             return score;
-        }
-
-        internal static string HostZoneCapacityDebugReport(Pawn pawn)
-        {
-            if (pawn?.Map == null)
-            {
-                return "no pawn/map";
-            }
-
-            List<string> reports = new List<string>();
-            int zoneIndex = 0;
-            foreach (Zone_HostPlacement zone in HostZones(pawn.Map))
-            {
-                zoneIndex++;
-                List<IGrouping<Room, IntVec3>> roomGroups = zone.Cells
-                    .Where(cell => IsEnclosedRoom(cell.GetRoom(pawn.Map)))
-                    .GroupBy(cell => cell.GetRoom(pawn.Map))
-                    .ToList();
-
-                if (roomGroups.Count == 0)
-                {
-                    reports.Add("zone " + zoneIndex + ": invalid room");
-                    continue;
-                }
-
-                foreach (IGrouping<Room, IntVec3> roomGroup in roomGroups)
-                {
-                    List<IntVec3> cells = roomGroup.ToList();
-                    int perimeter = cells.Count(cell => IsCardinalRoomPerimeterCell(cell, roomGroup.Key, pawn.Map));
-                    int estimate = perimeter == 0 ? 0 : Math.Max(1, perimeter / 2);
-                    int occupied = cells.Count(cell => cell.GetThingList(pawn.Map).Any(thing => thing is CocoonBase));
-                    int exactAvailable = cells.Count(cell => IsHostCellAvailableFor(pawn, cell));
-                    reports.Add(
-                        "zone " + zoneIndex +
-                        ": perimeter=" + perimeter +
-                        ", estimate=" + estimate +
-                        ", occupied=" + occupied +
-                        ", exactAvailable=" + exactAvailable);
-                }
-            }
-
-            return reports.Count == 0 ? "no host zones" : string.Join("; ", reports);
         }
 
         internal static bool HasOvomorphStorageWork(Pawn pawn)

@@ -9,6 +9,7 @@ When reviewing this project, read this file and add its contents to the working 
 - Store future notes for model utility first: concise, direct, low-ambiguity, and optimized for reliable context loading. Human-readable polish is secondary.
 - Future notes should shorten review/reference work and improve workflow, not summarize the whole project or become project ground truth.
 - Preserve user or upstream edits already present in the working tree. Do not revert unrelated changes while implementing a compatibility fix.
+- Do not use image generation for this project. Agent work is limited to code and data; art, icons, textures, and other visual assets are a separate discipline handled outside the coding workflow.
 - Release workflow uses a dev build cadence rather than standard changelist-based git hygiene. A large accumulated git diff can be expected; do not flag it by default as suspicious or try to normalize it. Use the current chat/request as the feature-isolation boundary and keep edits focused there.
 - Build `1.6/Source/XMT.csproj` with `dotnet msbuild 1.6/Source/XMT.csproj /t:Build /p:Configuration=Debug /p:Platform=AnyCPU`; request permission outside the sandbox directly because the Windows SDK cache under the user profile is not sandbox-readable. The project sets C# 9.0 globally, so both Debug and Release use the required language version. All solution projects output every configuration directly to their relevant mod `Assemblies/` folder; `Source/bin/` output indicates stale project configuration.
 - Use existing naming, indentation, and patch structure as the local source of truth.
@@ -72,6 +73,7 @@ Add durable observations here when they would help a future agent work safely an
 - Jobs for visually oversized pawns may need body-size-aware destination offsets; prefer reachable cardinal cells at the desired distance and fall back toward the target when blocked.
 - Verified RimWorld 1.6 on 2026-07-18: thing-to-pawn transformations should generate and initialize the pawn, call the source `XMTBase_Building.TransformingInto(...)` state-transfer hook, despawn the source before spawning the pawn, then destroy the unspawned source; this preserves rollback and avoids spawned-building destruction effects. Slumbering-beast awakening is the live reference path.
 - Verified RimWorld 1.6 on 2026-07-19: when a transformation must produce a particular pawn life stage, set `PawnGenerationRequest.FixedBiologicalAge` before `PawnGenerator.GeneratePawn`; changing age only after adult generation may not produce the intended stage state. Reapply the exact biological age after source state-transfer hooks when they can alter age.
+- Verified RimWorld 1.6 on 2026-07-27: inherited string fields can resolve to `string.Empty` despite an `IsNull="True"` XML override. When runtime logic distinguishes empty from null (for example, `BuildingProperties.sowTag` makes `SupportsPlants` true and forces `ThingDef.CanOverlapZones` false), normalize the field after def loading; keep unrelated static def properties such as `canOverlapZones` in XML.
 
 ## Agent Update Rule
 

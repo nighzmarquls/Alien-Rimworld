@@ -205,7 +205,6 @@
     <Compile Include="Debug\DebugActions_Mutations.cs" />
     <Compile Include="Debug\DebugActions_QueenTesting.cs" />
     <Compile Include="Debug\DebugActions_Transformations.cs" />
-    <Compile Include="Debug\DebugActions_XMTZones.cs" />
     <Compile Include="Debug\PawnTransformationDebugHarness.cs" />
     <Compile Include="Debug\XMTHiveDebug.cs" />
     <Compile Include="DefOfs\XenoBuildingDefOf.cs" />
@@ -234,6 +233,7 @@
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
     <Compile Include="Utilities\HorrorAdvancementUtility.cs" />
+    <Compile Include="Utilities\XMT_IFFUtility.cs" />
     <Compile Include="Utilities\XMTZoneUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
 	<Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />

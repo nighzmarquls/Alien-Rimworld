@@ -177,6 +177,7 @@
 		<designationCategory></designationCategory>
 		<uiOrder>2000</uiOrder>
 		<passability>Standable</passability>
+		<canOverlapZones>true</canOverlapZones>
 		<drawGUIOverlay>True</drawGUIOverlay>
 		<defaultPlacingRot>South</defaultPlacingRot>
 		<altitudeLayer>FloorEmplacement</altitudeLayer>
@@ -227,6 +228,7 @@
 		<designationCategory></designationCategory>
 		<uiOrder>2000</uiOrder>
 		<passability>Standable</passability>
+		<canOverlapZones>true</canOverlapZones>
 		<drawGUIOverlay>True</drawGUIOverlay>
 		<defaultPlacingRot>South</defaultPlacingRot>
 		<altitudeLayer>MoteOverheadLow</altitudeLayer>

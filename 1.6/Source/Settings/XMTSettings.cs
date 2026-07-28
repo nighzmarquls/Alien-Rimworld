@@ -1,6 +1,7 @@
 ﻿
 using RimWorld;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -8,6 +9,9 @@ namespace Xenomorphtype
 {
     internal class XMTSettings : ModSettings
     {
+        private const int StructureLogRepeatCooldownTicks = 60;
+        private static readonly Dictionary<string, int> lastStructureLogTick = new Dictionary<string, int>();
+
         static private XMTSettings instance;
 
         private static Vector2 scrollPosition;
@@ -17,13 +21,13 @@ namespace Xenomorphtype
         public static bool LogJobGiver => instance != null ? instance._logJobGiver : false;
         public static bool LogClimbing => instance != null ? instance._logClimbing : false;
         public static bool LogBiohorror => instance != null ? instance._logBiohorror : false;
-        public static bool LogRituals => instance != null ? instance._logRituals : false;
+        public static bool LogStructures => instance != null ? instance._logStructures : false;
         public static bool LogWorld => instance != null ? instance._logWorld : false;
 
         private bool _logJobGiver = false;
         private bool _logClimbing = false;
         private bool _logBiohorror = false;
-        private bool _logRituals = false;
+        private bool _logStructures = false;
         private bool _logWorld = false;
 
         public static bool PlayerSabotage => instance != null ? instance._playerSabotage : true;
@@ -68,7 +72,7 @@ namespace Xenomorphtype
             _logJobGiver = false;
             _logClimbing = false;
             _logBiohorror = false;
-            _logRituals = false;
+            _logStructures = false;
             _logWorld = false;
             _playerSabotage = true;
             _horrorPregnancy = true;
@@ -128,7 +132,7 @@ namespace Xenomorphtype
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("XMT_SettingsLogClimbing".Translate(), ref _logClimbing, "XMT_SettingsLogClimbingDesc".Translate());
             listingStandard.Gap(5f);
-            listingStandard.CheckboxLabeled("XMT_SettingsLogRituals".Translate(), ref _logRituals, "XMT_SettingsLogRitualsDesc".Translate());
+            listingStandard.CheckboxLabeled("XMT_SettingsLogStructures".Translate(), ref _logStructures, "XMT_SettingsLogStructuresDesc".Translate());
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("XMT_SettingsLogBioHorror".Translate(), ref _logBiohorror, "XMT_SettingsLogBioHorrorDesc".Translate());
             listingStandard.Gap(5f);
@@ -198,7 +202,13 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _logJobGiver, "logJobGiver", false, false);
             Scribe_Values.Look(ref _logBiohorror, "logBiohorror", false, false);
             Scribe_Values.Look(ref _logClimbing, "logClimbing", false, false);
-            Scribe_Values.Look(ref _logRituals, "logRituals", false, false);
+            Scribe_Values.Look(ref _logStructures, "logStructures", false, false);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && !_logStructures)
+            {
+                bool legacyLogRituals = false;
+                Scribe_Values.Look(ref legacyLogRituals, "logRituals", false, false);
+                _logStructures = legacyLogRituals;
+            }
             Scribe_Values.Look(ref _logWorld, "logWorld", false, false);
 
             Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
@@ -218,6 +228,32 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _xenoformingGrowthFactor, "xenoformingGrowthFactor", 1, false);
             Scribe_Values.Look(ref _minAutoAggression, "minAutoAggression", 1, false);
             instance = this;
+        }
+
+        internal static void LogStructure(string message)
+        {
+            if (!LogStructures || message.NullOrEmpty())
+            {
+                return;
+            }
+
+            int tick = Current.Game?.tickManager?.TicksGame ?? -1;
+            if (lastStructureLogTick.TryGetValue(message, out int lastTick) &&
+                tick >= 0 &&
+                lastTick >= 0 &&
+                tick - lastTick < StructureLogRepeatCooldownTicks)
+            {
+                return;
+            }
+
+            lastStructureLogTick[message] = tick;
+            if (lastStructureLogTick.Count > 256)
+            {
+                lastStructureLogTick.Clear();
+                lastStructureLogTick[message] = tick;
+            }
+
+            Log.Message("[XMT][Structure] " + message);
         }
         
     }

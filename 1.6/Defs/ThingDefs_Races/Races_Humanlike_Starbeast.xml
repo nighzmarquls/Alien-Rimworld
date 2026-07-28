@@ -999,6 +999,9 @@
 				</blackGeneTags>
 				<blackEndoCategories/>
 				<!-- Apparel Restrictions-->
+				<apparelList>
+					<li>XMT_IFFCollar</li>
+				</apparelList>
 				<whiteApparelList>
 					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_Maid</li>
 					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_Maidb</li>

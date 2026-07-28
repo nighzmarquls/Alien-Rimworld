@@ -188,6 +188,11 @@ namespace Xenomorphtype
                     float bestDistanceSquared = float.MaxValue;
                     foreach (Pawn morph in XMTHiveUtility.GetHiveMembersOnMap(__instance.Map))
                     {
+                        if (!XMT_IFFUtility.IsAutomaticTurretAggressionAppropriate(__instance, morph))
+                        {
+                            continue;
+                        }
+
                         float adjustedMaxDistance = (morph.IsPsychologicallyInvisible()) ? maxDistSquared * 0.5f : maxDistSquared;
                         float squaredDistance = (__instance.Position - morph.Position).LengthHorizontalSquared;
                         if (minDistSquared > 0f && squaredDistance < minDistSquared)

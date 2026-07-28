@@ -424,8 +424,10 @@
 	<XMT_WorkTypeNote_Hauling>Installs unused ovomorphs inside designated ovomorph storage zones.</XMT_WorkTypeNote_Hauling>
 	<XMT_HostPlacementZone>Host placement zone</XMT_HostPlacementZone>
 	<XMT_HostPlacementZoneDescription>Preferred enclosed-room area for cryptimorphs to install cocoons containing abducted hosts.</XMT_HostPlacementZoneDescription>
+	<XMT_HostPlacementZoneGroup>Host placement zones</XMT_HostPlacementZoneGroup>
 	<XMT_OvomorphStorageZone>Ovomorph storage zone</XMT_OvomorphStorageZone>
 	<XMT_OvomorphStorageZoneDescription>Area where hauling cryptimorphs install unused ovomorphs until they are needed beside a host.</XMT_OvomorphStorageZoneDescription>
+	<XMT_OvomorphStorageZoneGroup>Ovomorph storage zones</XMT_OvomorphStorageZoneGroup>
 	<XMT_ZoneNeedsPlayerQueen>A player cryptimorph queen must be active before these zones can be changed.</XMT_ZoneNeedsPlayerQueen>
 	<XMT_ZoneCannotIncludeDoorway>Doors and resin webbing cannot be included in this zone.</XMT_ZoneCannotIncludeDoorway>
 	<XMT_ZoneMustBeEnclosed>These zones can only be placed inside an enclosed room.</XMT_ZoneMustBeEnclosed>
@@ -458,8 +460,8 @@
 	<XMT_SettingsLogJobGiverDesc>Enable log reporting on job giver</XMT_SettingsLogJobGiverDesc>
 	<XMT_SettingsLogClimbing>Log Climbing</XMT_SettingsLogClimbing>
 	<XMT_SettingsLogClimbingDesc>Enable log reporting on climbing</XMT_SettingsLogClimbingDesc>
-	<XMT_SettingsLogRituals>Log Rituals</XMT_SettingsLogRituals>
-	<XMT_SettingsLogRitualsDesc>Enable log reporting on rituals</XMT_SettingsLogRitualsDesc>
+	<XMT_SettingsLogStructures>Log Structures</XMT_SettingsLogStructures>
+	<XMT_SettingsLogStructuresDesc>Enable diagnostic logging for hive structures, rooms, zones, and placement.</XMT_SettingsLogStructuresDesc>
 	<XMT_SettingsLogBioHorror>Log Bio Horror</XMT_SettingsLogBioHorror>
 	<XMT_SettingsLogBioHorrorDesc>Enable log reporting on mutations and other biohorror</XMT_SettingsLogBioHorrorDesc>
 	<XMT_SettingsLogWorldHorror>Log World Horror</XMT_SettingsLogWorldHorror>

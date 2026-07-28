@@ -1092,7 +1092,11 @@ namespace Xenomorphtype
             score += room.ContainedThings<Ovomorph>().Count() * 20;
             score += room.ContainedThings<CocoonBase>().Count() * 25;
             score += room.ContainedThings<MeatballLarder>().Count() * 20;
-            score += room.ContainedThings<Building>().Count(building => IsHiveStructure(building) || building.def == XenoBuildingDefOf.HiveSleepingSpot || building.def == XenoBuildingDefOf.AtmospherePylon) * 10;
+            score += room.ContainedThings<Building>().Count(building =>
+                IsHiveStructure(building) ||
+                building is NestSpot ||
+                building.def == XenoBuildingDefOf.HiveSleepingSpot ||
+                building.def == XenoBuildingDefOf.AtmospherePylon) * 10;
 
             int sampled = 0;
             foreach (IntVec3 cell in room.Cells)
@@ -1127,6 +1131,35 @@ namespace Xenomorphtype
             }
 
             AddOrUpdateTrackedHiveRoom(localNest, room);
+        }
+
+        internal static void NotifyZonedHiveRoom(Room room, IntVec3 zoneCell)
+        {
+            if (room?.Map == null || !zoneCell.IsValid || !zoneCell.InBounds(room.Map))
+            {
+                return;
+            }
+
+            NestSite localNest = GetLocalNest(room.Map);
+            bool initializedNest = false;
+            if (localNest == null)
+            {
+                localNest = InitializeNest(zoneCell, room.Map);
+                Hive.Add(localNest);
+                initializedNest = true;
+            }
+
+            bool wasTracked = localNest.HiveRooms.Any(record => record?.room == room);
+            AddOrUpdateTrackedHiveRoom(localNest, room);
+            if (initializedNest || !wasTracked)
+            {
+                XMTSettings.LogStructure(
+                    "Assigned zoned room " + room.ID +
+                    " to nest on map " + room.Map.uniqueID +
+                    ": zoneCell=" + zoneCell +
+                    ", initializedNest=" + initializedNest +
+                    ", nestPosition=" + localNest.Position + ".");
+            }
         }
 
         private static bool TryDiscoverCurrentHiveRoom(Pawn pawn, NestSite localNest)
@@ -1231,7 +1264,17 @@ namespace Xenomorphtype
 
         private static bool IsHiveRoomTrackable(Room room)
         {
-            if (room == null || room.Map == null || room.IsDoorway || room.TouchesMapEdge || room.CellCount <= 0 || room.OpenRoofCount > 0)
+            if (room == null || room.Map == null || room.IsDoorway || room.TouchesMapEdge || room.CellCount <= 0)
+            {
+                return false;
+            }
+
+            if (HasPlayerHiveZone(room))
+            {
+                return true;
+            }
+
+            if (room.OpenRoofCount > 0)
             {
                 return false;
             }
@@ -1249,15 +1292,50 @@ namespace Xenomorphtype
                 foreach (Thing thing in cell.GetThingList(room.Map))
                 {
                     if (thing is Building building &&
-                        (IsHiveStructure(building) || building.def == XenoBuildingDefOf.HiveSleepingSpot || building.def == XenoBuildingDefOf.HiveSleepingCocoon))
+                        (IsHiveStructure(building) ||
+                         building is NestSpot ||
+                         building.def == XenoBuildingDefOf.HiveSleepingSpot ||
+                         building.def == XenoBuildingDefOf.HiveSleepingCocoon))
                     {
                         return true;
                     }
                 }
 
+                if (room.Map.zoneManager.ZoneAt(cell) is Zone_HostPlacement ||
+                    room.Map.zoneManager.ZoneAt(cell) is Zone_OvomorphStorage)
+                {
+                    return true;
+                }
+
                 if (countedCells >= goalCells)
                 {
                     return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool HasPlayerHiveZone(Room room)
+        {
+            if (room?.Map?.zoneManager?.AllZones == null)
+            {
+                return false;
+            }
+
+            foreach (Zone zone in room.Map.zoneManager.AllZones)
+            {
+                if (zone is not Zone_HostPlacement && zone is not Zone_OvomorphStorage)
+                {
+                    continue;
+                }
+
+                foreach (IntVec3 cell in zone.Cells)
+                {
+                    if (cell.GetRoom(room.Map) == room)
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -1783,11 +1861,60 @@ namespace Xenomorphtype
             }
 
             ValidateTrackedHiveRooms(localNest);
+            bool discoveredNestRoom = TryDiscoverHiveRoomAt(localNest.Position, localNest);
+            int discoveredZonedRooms = DiscoverZonedHiveRooms(localNest);
             TryDiscoverCurrentHiveRoom(pawn, localNest);
             TryDiscoverNearbyHiveRooms(pawn, localNest);
             TryDiscoverHiveRoomsNearTrackedRooms(localNest);
             ValidateTrackedHiveRooms(localNest);
+            XMTSettings.LogStructure(
+                "Prepared hive rooms for " + pawn +
+                " on map " + pawn.Map.uniqueID +
+                ": nestPosition=" + localNest.Position +
+                ", nestRoom=" + localNest.Position.GetRoomOrAdjacent(pawn.Map) +
+                ", discoveredNestRoom=" + discoveredNestRoom +
+                ", discoveredZonedRooms=" + discoveredZonedRooms +
+                ", trackedRooms=" + localNest.HiveRooms.Count + ".");
             return localNest;
+        }
+
+        private static int DiscoverZonedHiveRooms(NestSite localNest)
+        {
+            if (localNest?.map?.zoneManager?.AllZones == null)
+            {
+                return 0;
+            }
+
+            HashSet<Room> rooms = new HashSet<Room>();
+            foreach (Zone zone in localNest.map.zoneManager.AllZones)
+            {
+                if (zone is not Zone_HostPlacement && zone is not Zone_OvomorphStorage)
+                {
+                    continue;
+                }
+
+                foreach (IntVec3 cell in zone.Cells)
+                {
+                    Room room = cell.GetRoom(localNest.map);
+                    if (IsHiveRoomTrackable(room))
+                    {
+                        rooms.Add(room);
+                    }
+                }
+            }
+
+            int discovered = 0;
+            foreach (Room room in rooms)
+            {
+                bool wasTracked = localNest.HiveRooms.Any(record => record?.room == room);
+                AddOrUpdateTrackedHiveRoom(localNest, room);
+                if (!wasTracked)
+                {
+                    discovered++;
+                }
+            }
+
+            return discovered;
         }
 
         private static bool TryDiscoverNearbyHiveRooms(Pawn pawn, NestSite localNest)
@@ -1888,16 +2015,31 @@ namespace Xenomorphtype
             NestSite localNest = PrepareHiveRoomRecords(pawn);
             List<HiveRoomRecord> rooms = HiveRoomsForUse(pawn, localNest);
             rooms.SortByDescending(record => HiveCocoonRoomScore(pawn, record));
+            XMTSettings.LogStructure(
+                "Searching hive cocoon fallback for " + pawn +
+                ": trackedRooms=" + (localNest?.HiveRooms.Count ?? 0) +
+                ", usableRooms=" + rooms.Count + ".");
 
             foreach (HiveRoomRecord room in rooms)
             {
                 cell = BestHiveCocoonCell(pawn, room, localNest);
                 if (cell.IsValid)
                 {
+                    XMTSettings.LogStructure(
+                        "Hive cocoon fallback selected " + cell +
+                        " in room " + room.room.ID +
+                        " with anchor " + room.anchorCell + ".");
                     return true;
                 }
+
+                XMTSettings.LogStructure(
+                    "Hive cocoon fallback found no valid cell in room " + room.room.ID +
+                    " (cells=" + room.room.CellCount +
+                    ", anchor=" + room.anchorCell +
+                    ", score=" + HiveCocoonRoomScore(pawn, room) + ").");
             }
 
+            XMTSettings.LogStructure("Hive cocoon fallback found no destination for " + pawn + ".");
             return false;
         }
 
@@ -1987,10 +2129,19 @@ namespace Xenomorphtype
 
             IntVec3 bestCell = IntVec3.Invalid;
             int bestScore = int.MinValue;
+            Dictionary<string, int> rejectionCounts = XMTSettings.LogStructures
+                ? new Dictionary<string, int>()
+                : null;
             foreach (IntVec3 candidate in record.room.Cells)
             {
-                if (!IsHiveCocoonCellAvailableFor(pawn, candidate))
+                string rejectionReason = HiveCocoonCellRejectionReason(pawn, candidate);
+                if (rejectionReason != null)
                 {
+                    if (rejectionCounts != null)
+                    {
+                        rejectionCounts.TryGetValue(rejectionReason, out int count);
+                        rejectionCounts[rejectionReason] = count + 1;
+                    }
                     continue;
                 }
 
@@ -2006,32 +2157,49 @@ namespace Xenomorphtype
                 }
             }
 
+            if (!bestCell.IsValid && rejectionCounts != null)
+            {
+                XMTSettings.LogStructure(
+                    "Cocoon cell rejection summary for room " + record.room.ID +
+                    ": " + string.Join(", ", rejectionCounts.Select(pair => pair.Key + "=" + pair.Value)) + ".");
+            }
+
             return bestCell;
         }
 
         private static bool IsHiveCocoonCellAvailableFor(Pawn pawn, IntVec3 cell)
         {
+            return HiveCocoonCellRejectionReason(pawn, cell) == null;
+        }
+
+        private static string HiveCocoonCellRejectionReason(Pawn pawn, IntVec3 cell)
+        {
             if (pawn == null || pawn.Map == null || !IsCellValidCocoon(cell, pawn.Map))
             {
-                return false;
+                return "invalidCocoonCell";
             }
 
             if (cell.GetFirstPawn(pawn.Map) != null)
             {
-                return false;
+                return "pawnPresent";
             }
 
             if (!FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
             {
-                return false;
+                return "reservedOrForbidden";
             }
 
             if (!HasAdjacentOpenEggPlacementCell(cell, pawn.Map, pawn))
             {
-                return false;
+                return "noAdjacentOvomorphCell";
             }
 
-            return ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly);
+            if (!ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly))
+            {
+                return "unreachable";
+            }
+
+            return null;
         }
 
         private static Job TryGetAnchoredHiveCocoonExpansionJob(Pawn pawn, HiveRoomRecord room)
@@ -2756,6 +2924,18 @@ namespace Xenomorphtype
 
             IntVec3 AvailableCell = startingPosition;
             Map map = target.MapHeld;
+            Zone zoneBefore = map?.zoneManager?.ZoneAt(AvailableCell);
+            XMTSettings.LogStructure(
+                "Placing cocoon " + newThingDef?.defName +
+                " at " + AvailableCell +
+                " for " + target +
+                ": CanOverlapZones=" + (newThingDef?.CanOverlapZones.ToString() ?? "null") +
+                ", sowTag=" + (newThingDef?.building?.sowTag ?? "null") +
+                ", supportsPlants=" + (newThingDef?.building?.SupportsPlants.ToString() ?? "null") +
+                ", surfaceType=" + newThingDef?.surfaceType +
+                ", passability=" + newThingDef?.passability +
+                ", thingClass=" + newThingDef?.thingClass +
+                ", zoneBefore=" + (zoneBefore?.GetType().Name ?? "none") + ".");
 
             Building occupying = AvailableCell.GetEdifice(map);
             if (occupying != null)
@@ -2764,6 +2944,13 @@ namespace Xenomorphtype
             }
             TryPlaceResinFloor(AvailableCell, map);
             CocoonBase building = GenSpawn.Spawn(newThingDef, AvailableCell, map, WipeMode.FullRefund) as CocoonBase;
+            Zone zoneAfter = map.zoneManager.ZoneAt(AvailableCell);
+            XMTSettings.LogStructure(
+                "Cocoon spawn result at " + AvailableCell +
+                ": spawned=" + (building != null) +
+                ", zoneBefore=" + (zoneBefore?.GetType().Name ?? "none") +
+                ", zoneAfter=" + (zoneAfter?.GetType().Name ?? "none") +
+                ", sameZone=" + (zoneBefore != null && zoneBefore == zoneAfter) + ".");
 
             building.SetFaction(target.Faction);
             building.Rotation = Rot4.South;

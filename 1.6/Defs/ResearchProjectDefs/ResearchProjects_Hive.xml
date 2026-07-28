@@ -4,11 +4,18 @@
     <defName>XMT_Hive_Start</defName>
   </ResearchProjectTagDef>
   
+  <KnowledgeCategoryDef>
+    <defName>XMT_Cryptimorph</defName>
+    <label>behaviour</label>
+    <color>(1, 1, 1, 1)</color>
+    <texPath>UI/Research/BehaviorKnowledge</texPath>
+  </KnowledgeCategoryDef>
+  
   <ResearchProjectDef>
     <defName>XMT_Starbeast_Construction</defName>
     <label>Architectural Mimicry</label>
     <description>The Hive has learned from dismantling the structures of others, imitating patterns and forms beyond their natural instincts.</description>
-    <techLevel>Neolithic</techLevel>
+	<knowledgeCategory>XMT_Cryptimorph</knowledgeCategory>
     <baseCost>1500</baseCost>
     <researchViewX>0.00</researchViewX>
     <researchViewY>0.00</researchViewY>
@@ -33,7 +40,7 @@
     <defName>XMT_Starbeast_Sculpture</defName>
     <label>Artistic Mimicry</label>
     <description>The Hive has begun imitating patterns of aesthetics and art.</description>
-    <techLevel>Neolithic</techLevel>
+	<knowledgeCategory>XMT_Cryptimorph</knowledgeCategory>
     <baseCost>3000</baseCost>
     <researchViewX>1.00</researchViewX>
     <researchViewY>0.00</researchViewY>
@@ -59,7 +66,7 @@
     <defName>XMT_Starbeast_Reinforcement</defName>
     <label>Resinous Reinforcement</label>
     <description>Working with the naturally secreted resin has revealed to the hive how to reinforce its construction.</description>
-    <techLevel>Neolithic</techLevel>
+	<knowledgeCategory>XMT_Cryptimorph</knowledgeCategory>
     <baseCost>30000</baseCost>
     <researchViewX>0.00</researchViewX>
     <researchViewY>0.50</researchViewY>
@@ -84,7 +91,7 @@
     <defName>XMT_Starbeast_Chrysalis</defName>
     <label>Metamorphosis</label>
     <description>Conversion of hosts into Ovomorphs and creating resinous jelly has revealed a new stage of development.</description>
-    <techLevel>Neolithic</techLevel>
+	<knowledgeCategory>XMT_Cryptimorph</knowledgeCategory>
     <baseCost>3000</baseCost>
     <researchViewX>0.00</researchViewX>
     <researchViewY>1.5</researchViewY>
@@ -109,7 +116,7 @@
     <defName>XMT_Starbeast_JellyTransport</defName>
     <label>Jelly Storage</label>
     <description>the hive has discovered a means to store and transport jelly.</description>
-    <techLevel>Neolithic</techLevel>
+	<knowledgeCategory>XMT_Cryptimorph</knowledgeCategory>
     <baseCost>6000</baseCost>
     <researchViewX>1.00</researchViewX>
     <researchViewY>1.00</researchViewY>
@@ -136,7 +143,7 @@
     <defName>XMT_Starbeast_Eggs</defName>
     <label>Ovomorph Utilization</label>
     <description>the hive has found more ways to utilize Ovomorphs, spent and otherwise.</description>
-    <techLevel>Neolithic</techLevel>
+	<knowledgeCategory>XMT_Cryptimorph</knowledgeCategory>
     <baseCost>3000</baseCost>
     <researchViewX>2.00</researchViewX>
     <researchViewY>1.5</researchViewY>

@@ -21,6 +21,7 @@ namespace Xenomorphtype
 
 
         public static ThingDef              XMT_Larva;
+        public static ThingDef              XMT_IFFCollar;
         public static ThingDef_AlienRace    XMT_Starbeast_AlienRace;
         public static ThingDef_AlienRace    XMT_Royal_AlienRace;
 

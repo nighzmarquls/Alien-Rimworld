@@ -22,6 +22,7 @@ namespace Xenomorphtype
                 harmony.PatchAll();
                 Log.Message("[Alien|Rimworld] finished harmony patches");
                 UpdateXenomorphCorpses();
+                UpdateCocoonDefs();
             }, "XMT_LoadPatching", doAsynchronously: true, null);
         }
 
@@ -43,6 +44,20 @@ namespace Xenomorphtype
             {
                 Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Larva.race.corpseDef);
                 InternalDefOf.XMT_Larva.race.corpseDef.thingClass = typeof(StarbeastCorpse);
+            }
+        }
+
+        static void UpdateCocoonDefs()
+        {
+            ClearInheritedCocoonSowTag(XenoBuildingDefOf.XMT_CocoonBase);
+            ClearInheritedCocoonSowTag(XenoBuildingDefOf.XMT_CocoonBaseAnimal);
+        }
+
+        static void ClearInheritedCocoonSowTag(ThingDef cocoonDef)
+        {
+            if (cocoonDef?.building != null)
+            {
+                cocoonDef.building.sowTag = null;
             }
         }
     }

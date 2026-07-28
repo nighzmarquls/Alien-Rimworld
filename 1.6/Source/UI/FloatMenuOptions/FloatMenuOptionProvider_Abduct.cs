@@ -28,7 +28,10 @@ namespace Xenomorphtype
                 if (!XMTUtility.IsXenomorph(clickedPawn))
                 {
 
-                    XMTZoneUtility.TryGetAbductionCocoonCell(context.FirstSelectedPawn, out IntVec3 cell, playerOrdered: true);
+                    XMTZoneUtility.TryGetAbductionCocoonCellQuiet(
+                        context.FirstSelectedPawn,
+                        out IntVec3 cell,
+                        out AbductionDestinationWarning destinationWarnings);
                     GrappleCheckReport grappleReport = XMTUtility.GetGrappleCheckReport(context.FirstSelectedPawn, clickedPawn);
                     string label = "XMT_FMO_Abduct".Translate(grappleReport.SuccessChance.ToStringPercent());
                     FloatMenuOption AbductOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, delegate
@@ -47,15 +50,25 @@ namespace Xenomorphtype
                     if (!cell.IsValid)
                     {
                         AbductOption.Disabled = true;
-                        AbductOption.tooltip = "XMT_NoRoomToCocoon".Translate();
+                        AbductOption.tooltip = DestinationTooltip(
+                            destinationWarnings,
+                            "XMT_NoRoomToCocoon".Translate());
                     }
                     else if (grappleReport.BlockedReason.NullOrEmpty())
                     {
-                        AbductOption.tooltip = "XMT_FMO_AbductTooltip".Translate(
-                            grappleReport.SuccessChance.ToStringPercent(),
-                            grappleReport.ResistChance.ToStringPercent(),
-                            grappleReport.ModifiedAttackerStrength.ToString("0.##"),
-                            grappleReport.ModifiedDefenderStrength.ToString("0.##"));
+                        AbductOption.tooltip = DestinationTooltip(
+                            destinationWarnings,
+                            "XMT_FMO_AbductTooltip".Translate(
+                                grappleReport.SuccessChance.ToStringPercent(),
+                                grappleReport.ResistChance.ToStringPercent(),
+                                grappleReport.ModifiedAttackerStrength.ToString("0.##"),
+                                grappleReport.ModifiedDefenderStrength.ToString("0.##")));
+                    }
+                    else if (destinationWarnings != AbductionDestinationWarning.None)
+                    {
+                        AbductOption.tooltip = DestinationTooltip(
+                            destinationWarnings,
+                            AbductOption.tooltip?.ToString());
                     }
 
                     return AbductOption;
@@ -63,6 +76,35 @@ namespace Xenomorphtype
             }
 
             return null;
+        }
+
+        private static string DestinationTooltip(
+            AbductionDestinationWarning warnings,
+            string existingTooltip)
+        {
+            string warningTooltip = null;
+            if ((warnings & AbductionDestinationWarning.InvalidHostRoom) != 0)
+            {
+                warningTooltip = "XMT_HostZoneInvalidRoom".Translate();
+            }
+            if ((warnings & AbductionDestinationWarning.HostZoneFallback) != 0)
+            {
+                string fallback = "XMT_HostZonesUnavailable".Translate();
+                warningTooltip = warningTooltip.NullOrEmpty()
+                    ? fallback
+                    : warningTooltip + "\n" + fallback;
+            }
+
+            if (warningTooltip.NullOrEmpty())
+            {
+                return existingTooltip;
+            }
+            if (existingTooltip.NullOrEmpty())
+            {
+                return warningTooltip;
+            }
+
+            return warningTooltip + "\n\n" + existingTooltip;
         }
     }
 }

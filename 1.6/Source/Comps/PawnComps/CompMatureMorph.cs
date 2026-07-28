@@ -909,11 +909,17 @@ namespace Xenomorphtype
                 {
                     continue;
                 }
+
+                if(colonist.HostileTo(Parent))
+                {
+                    continue;
+                }
+
                 int opinion = Parent.relations.OpinionOf(colonist);
 
                 CompPawnInfo info = Parent.Info();
 
-                if (opinion > bestOpinion)
+                if (opinion > bestOpinion && opinion > XMTSettings.MinimumOpinionForHiveFriend)
                 {
                     bestOpinion = opinion;
                     nuzzleTarget = colonist;

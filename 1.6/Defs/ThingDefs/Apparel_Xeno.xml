@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="HatMakeableBase">
+		<defName>XMT_IFFCollar</defName>
+		<label>IFF collar</label>
+		<description>An identification-friend-or-foe collar adapted to cryptimorphic physiology. Its transponder allows automated turrets belonging to the wearer's faction to recognize the wearer as friendly. It has no effect when worn by humans.</description>
+		<techLevel>Industrial</techLevel>
+		<graphicData>
+			<texPath>Things/Pawn/Humanlike/Apparel/IFFCollar/IFFCollar</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>0.8</drawSize>
+		</graphicData>
+		<costStuffCount>25</costStuffCount>
+		<costList>
+			<ComponentSpacer>1</ComponentSpacer>
+		</costList>
+		<stuffCategories>
+			<li>Metallic</li>
+			<li>Woody</li>
+			<li>Fabric</li>
+			<li>Leathery</li>
+		</stuffCategories>
+		<statBases>
+			<MaxHitPoints>80</MaxHitPoints>
+			<WorkToMake>1800</WorkToMake>
+			<Mass>0.14</Mass>
+			<StuffEffectMultiplierArmor>0.0</StuffEffectMultiplierArmor>
+			<StuffEffectMultiplierInsulation_Cold>0.00</StuffEffectMultiplierInsulation_Cold>
+			<StuffEffectMultiplierInsulation_Heat>0.00</StuffEffectMultiplierInsulation_Heat>
+			<EquipDelay>1.5</EquipDelay>
+		</statBases>
+		<apparel>
+			<countsAsClothingForNudity>false</countsAsClothingForNudity>
+			<bodyPartGroups>
+				<li>Neck</li>
+			</bodyPartGroups>
+			<wornGraphicPath>Things/Pawn/Humanlike/Apparel/IFFCollar/IFFCollar</wornGraphicPath>
+			<layers>
+				<li>Overhead</li>
+			</layers>
+			<renderSkipFlags>
+				<li>None</li>
+			</renderSkipFlags>
+			<canBeDesiredForIdeo>false</canBeDesiredForIdeo>
+			<canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+			<canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+			<drawData>
+				<defaultData>
+					<layer>48</layer>
+				</defaultData>
+				<dataNorth>
+					<layer>58</layer>
+				</dataNorth>
+			</drawData>
+		</apparel>
+		<colorGenerator Class="ColorGenerator_StandardApparel" />
+		<recipeMaker>
+			<researchPrerequisites>
+				<li>MicroelectronicsBasics</li>
+				<li>XMT_Jelly_Extraction</li>
+			</researchPrerequisites>
+			<displayPriority>175</displayPriority>
+		</recipeMaker>
+	</ThingDef>
+</Defs>

@@ -28,7 +28,7 @@ namespace Xenomorphtype
 
         public override bool Disabled => !XMTUtility.QueenIsPlayer();
 
-        public override bool Visible => true;
+        public override bool Visible => XMTUtility.QueenIsPlayer();
 
         protected override string NewZoneLabel => zoneLabelKey.Translate();
 
@@ -56,6 +56,12 @@ namespace Xenomorphtype
             }
 
             return true;
+        }
+
+        public override void DesignateSingleCell(IntVec3 cell)
+        {
+            base.DesignateSingleCell(cell);
+            XMTZoneRoomAssignment.NotifyRoomAt(Map, cell);
         }
     }
 

@@ -37,6 +37,10 @@ namespace Xenomorphtype
 
             }
             XMTHiveUtility.ForceNestPosition(this.Position, map);
+            XMTSettings.LogStructure(
+                "Nest spot " + def.defName + " at " + Position +
+                " set the nest position on map " + map.uniqueID +
+                "; room=" + Position.GetRoomOrAdjacent(map) + ".");
 
         }
     }
