@@ -539,7 +539,7 @@ namespace Xenomorphtype
             }
 
             CompQueen queen = Parent.GetComp<CompQueen>();
-            if (option.requiredEvolution != null && (queen == null || !queen.ChosenEvolutions.Contains(option.requiredEvolution)))
+            if (option.requiredEvolution != null && (queen == null || !queen.HasEvolutionFeature(option.requiredEvolution)))
             {
                 return "XMT_EggOptionRequiresEvolution".Translate(option.requiredEvolution.LabelCap);
             }

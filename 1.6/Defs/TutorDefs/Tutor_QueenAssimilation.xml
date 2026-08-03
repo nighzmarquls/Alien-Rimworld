@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ConceptDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_CryptomechanicalAssimilation</defName>
+		<label>cryptomechanical assimilation</label>
+		<helpText>To begin developing mechanoids, obtain a mechlink or signal chip, select the queen, and use her Assimilate command. A consumed mechlink establishes her mechanoid control, after which signal chips advance her cryptomechanical network.</helpText>
+		<priority>50</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+</Defs>

@@ -44,7 +44,7 @@
 	<XMT_ManageMutationLabel>Manage Mutation</XMT_ManageMutationLabel>
 	<XMT_ManageMutationDescription>Direct or suppress existing mutated tissues.</XMT_ManageMutationDescription>
 	<XMT_HorrorAdvanceLabel>Reshape Mutant</XMT_HorrorAdvanceLabel>
-	<XMT_HorrorAdvanceDescription>Use the Sovereign Crown to advance or regress a fully expressed mutant. Increasing its biological mass consumes the caster's nutrition.</XMT_HorrorAdvanceDescription>
+	<XMT_HorrorAdvanceDescription>Use the Sovereign Crown to advance or regress a fully expressed mutant. The queen must approach the target, and increasing its biological mass consumes her nutrition.</XMT_HorrorAdvanceDescription>
 	<XMT_HorrorPromoteLabel>Promote</XMT_HorrorPromoteLabel>
 	<XMT_HorrorDemoteLabel>Demote</XMT_HorrorDemoteLabel>
 	<XMT_HorrorAdvanceOptionCost>{0} ({1} food)</XMT_HorrorAdvanceOptionCost>
@@ -108,14 +108,34 @@
 	<XMT_EvolutionLabel>Choose Traits</XMT_EvolutionLabel>
 	<XMT_EvolutionDescription>express different morphological traits.</XMT_EvolutionDescription>
 	<XMT_EvolutionRequires>requires: </XMT_EvolutionRequires>
+	<XMT_EvolutionReplaces>replaces: {0}</XMT_EvolutionReplaces>
 	<XMT_EvolutionPrerequisiteFor>is prerequisite for </XMT_EvolutionPrerequisiteFor>
 	<XMT_EvolutionIncompatible>conflicts with: </XMT_EvolutionIncompatible>
 	<XMT_EvolutionBlockedByIncompatible>Blocked by incompatible advancement: {0}</XMT_EvolutionBlockedByIncompatible>
 	<XMT_EvolutionAdd>Add</XMT_EvolutionAdd>
 	<XMT_EvolutionRemove>Remove</XMT_EvolutionRemove>
 	<XMT_TrampleInvalid_NoPath>No room to trample.</XMT_TrampleInvalid_NoPath>
+	<XMT_DefensiveStatureToggle>Defensive Stature</XMT_DefensiveStatureToggle>
+	<XMT_DefensiveStatureToggleDesc>Toggle a guarded stance that reinforces the queen's armor and redirects external violent hits from nearby allies to her.</XMT_DefensiveStatureToggleDesc>
+	<XMT_DefensiveStatureStatusActive>Active</XMT_DefensiveStatureStatusActive>
+	<XMT_DefensiveStatureStatusInactive>Inactive</XMT_DefensiveStatureStatusInactive>
+	<XMT_DefensiveStatureStats>Status: {0}\nProtection radius: {1} cells\nMovement speed: x50%\nBlunt, sharp, and heat armor: x150%\nNo line of sight is required. A downed queen cannot protect allies.</XMT_DefensiveStatureStats>
 	<XMT_MutagenicMiasmaStats>Current range: {0} cells\nCone angle: {1:0.#}°\nCooldown: {2}</XMT_MutagenicMiasmaStats>
+	<XMT_ArrayBodySizeBandwidth>Array Crown body size: +{0} bandwidth (body size {1})</XMT_ArrayBodySizeBandwidth>
+	<XMT_NetworkStunStats>Psychic sensitivity: {0}\nTotal bandwidth: {1}\nCenter range: {2} cells\nEffect radius: {3} cells\nMaximum reach: {4} cells\nStun duration: {5}\nCooldown: {6}\nIgnores line of sight. Mechanoids controlled by this queen and inorganics carrying an attached subverter are immune.</XMT_NetworkStunStats>
+	<XMT_NetworkStunEmpty>No eligible inorganic pawn or automated turret is within the effect area.</XMT_NetworkStunEmpty>
+	<XMT_NetworkStunOutOfRange>The signal center must be within {0} cells.</XMT_NetworkStunOutOfRange>
+	<XMT_NetworkStunNoArray>The Array Crown is not functional.</XMT_NetworkStunNoArray>
+	<XMT_NetworkStunNoBandwidth>A functioning mechlink and positive total bandwidth are required.</XMT_NetworkStunNoBandwidth>
+	<XMT_NetworkStunNoSensitivity>Psychic sensitivity is too low to transmit the payload.</XMT_NetworkStunNoSensitivity>
+	<XMT_SovereignRemoteStats>Sovereign transmission range: {0} cells\nChannel time: {1}\nNo line of sight is required.</XMT_SovereignRemoteStats>
+	<XMT_SovereignAlterationInvalidTarget>The alteration target is no longer available.</XMT_SovereignAlterationInvalidTarget>
+	<XMT_SovereignAlterationNotAdjacent>{0} is no longer within reach.</XMT_SovereignAlterationNotAdjacent>
+	<XMT_SovereignAlterationCasterMoved>The queen moved and lost the alteration channel.</XMT_SovereignAlterationCasterMoved>
+	<XMT_SovereignAlterationTargetMoved>{0} moved and broke the alteration channel.</XMT_SovereignAlterationTargetMoved>
+	<XMT_SovereignAlterationOutOfRange>{0} must remain within the Sovereign Crown's range of {1} cells.</XMT_SovereignAlterationOutOfRange>
 	<XMT_MutagenicMiasmaProtected>Protected ({0})</XMT_MutagenicMiasmaProtected>
+	<XMT_MutagenicMiasmaSuccess>Mutated!</XMT_MutagenicMiasmaSuccess>
 	<XMT_MutagenicMiasmaOutOfRange>Target is outside mutagenic miasma range ({0} cells).</XMT_MutagenicMiasmaOutOfRange>
 	<XMT_BattleLog_QueenTrampled>{QUEEN_nameDef} trampled {TARGET_labelShort}.</XMT_BattleLog_QueenTrampled>
 	<XMT_BattleLog_QueenGrazed>{QUEEN_nameDef} grazed {TARGET_labelShort} in her charge.</XMT_BattleLog_QueenGrazed>

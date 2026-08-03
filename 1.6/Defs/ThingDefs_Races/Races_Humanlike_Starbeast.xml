@@ -1509,7 +1509,7 @@
 				<jellyProduct>Starbeast_RoyalJelly</jellyProduct>
 			</li>
 			<li Class="Xenomorphtype.CompQueenProperties">
-				<subjugationBaseRange>4</subjugationBaseRange>
+				<subjugationBaseRange>10</subjugationBaseRange>
 			</li>
 			<li Class="Xenomorphtype.CompQueenAssimilationProperties">
 			</li>

@@ -95,6 +95,16 @@ namespace Xenomorphtype
                     num += descriptionRect.height + 16f;
                 }
 
+                if (!selectedEvolution.replaces.NullOrEmpty())
+                {
+                    Rect replacementRect = new Rect(0f, num, infoRect.width, 0f);
+                    string replacedLabels = string.Join(", ", selectedEvolution.replaces
+                        .Where(evolution => evolution != null)
+                        .Select(evolution => evolution.LabelCap.ToString()));
+                    Widgets.LabelCacheHeight(ref replacementRect, "XMT_EvolutionReplaces".Translate(replacedLabels));
+                    num += replacementRect.height + 4f;
+                }
+
                 if(selectedEvolution.evoPointCost > 0 && !comp.ChosenEvolutions.Contains(selectedEvolution))
                 {
                     Rect priceRect = new Rect(0f, num, infoRect.width, 0f);
@@ -117,7 +127,7 @@ namespace Xenomorphtype
                     requirementText = requirementText + "\n" + "XMT_EvolutionRequires".Translate();
                     foreach (RoyalEvolutionDef preref in selectedEvolution.prerequisites)
                     {
-                        requirementText = requirementText + preref.label.Colorize(comp.HasActiveEvolution(preref) ? Color.white : ColorLibrary.RedReadable) + " ";
+                        requirementText = requirementText + preref.label.Colorize(comp.HasEvolutionFeature(preref) ? Color.white : ColorLibrary.RedReadable) + " ";
 
                     }
                     Widgets.LabelCacheHeight(ref requirementRect, requirementText.Resolve());
@@ -131,7 +141,7 @@ namespace Xenomorphtype
                     incompatibleText = incompatibleText + "\n" + "XMT_EvolutionIncompatible".Translate();
                     foreach (RoyalEvolutionDef incompatible in selectedEvolution.incompatible)
                     {
-                        incompatibleText = incompatibleText + incompatible.label.Colorize(comp.HasActiveEvolution(incompatible) ? ColorLibrary.RedReadable : Color.white) + " ";
+                        incompatibleText = incompatibleText + incompatible.label.Colorize(comp.HasEvolutionFeature(incompatible) ? ColorLibrary.RedReadable : Color.white) + " ";
                     }
                 }
 
@@ -208,7 +218,7 @@ namespace Xenomorphtype
             }
 
             foreach(RoyalEvolutionDef prereq in  def.prerequisites) {
-                if (!compqueen.HasActiveEvolution(prereq))
+                if (!compqueen.HasEvolutionFeature(prereq))
                 {
                     return false;
                 }
@@ -243,7 +253,7 @@ namespace Xenomorphtype
                 {
                     if (route.Child.Def == selectedEvolution)
                     {
-                        Color color = comp.HasActiveEvolution(route.Parent.Def) ? selectedPrerequisiteLineColor : selectedMissingPrerequisiteLineColor;
+                        Color color = comp.HasEvolutionFeature(route.Parent.Def) ? selectedPrerequisiteLineColor : selectedMissingPrerequisiteLineColor;
                         DrawDependencyLine(route, color, 4f);
                     }
                 }
@@ -526,6 +536,9 @@ namespace Xenomorphtype
         private void Accept()
         {
             int difference = 0;
+            List<RoyalEvolutionDef> newlyUnlocked = comp.ChosenEvolutions
+                .Where(evolution => !originalEvolutions.Contains(evolution))
+                .ToList();
 
             foreach(RoyalEvolutionDef evo in comp.ChosenEvolutions)
             {
@@ -555,6 +568,14 @@ namespace Xenomorphtype
 
                 queen.health.AddHediff(geneIntegration);
                 FilthMaker.TryMakeFilth(queen.PositionHeld, queen.MapHeld, InternalDefOf.Starbeast_Filth_Resin, count: 10*difference);
+            }
+
+            foreach (RoyalEvolutionDef evolution in newlyUnlocked)
+            {
+                if (evolution.tutorialConcept != null)
+                {
+                    LessonAutoActivator.TeachOpportunity(evolution.tutorialConcept, queen, OpportunityType.Important);
+                }
             }
 
             Close();

@@ -157,7 +157,9 @@ namespace Xenomorphtype
                 return;
             }
 
+            CompPawnInfo info = target.Info();
             bool unwilling = true;
+
             if (target.Faction != null && !target.Faction.IsPlayer)
             {
                 int goodWill = -25;
@@ -200,26 +202,34 @@ namespace Xenomorphtype
 
             if (unwilling && !XMTUtility.IsTargetImmobile(target) && !Parent.IsPsychologicallyInvisible())
             {
-                CompPawnInfo info = target.Info();
                 float bonusDodge = 0;
                 if (info != null)
                 {
                     bonusDodge += KnowledgeUtility.GetEffectiveKnowledge(target, KnowledgeDefOf.XMT_Knowledge_Larva) / 2;
                 }
 
+                if(info.IsObsessed())
+                {
+                    bonusDodge *= -2;
+                }
+
                 if (Rand.Chance(XMTUtility.GetDodgeChance(target, true) + bonusDodge))
                 {
                     MoteMaker.ThrowText(target.DrawPos, target.Map, "TextMote_Dodge".Translate(), 1.9f);
+
+                    Parent.TakeDamage(new DamageInfo(DamageDefOf.Stun, 20 ));
                     return;
                 }
                 if (TryResist(target))
                 {
                     MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
+                    Parent.TakeDamage(new DamageInfo(DamageDefOf.Stun, 60));
                     return;
                 }
 
                 if (!CanContinueAttach(target))
                 {
+                    Parent.TakeDamage(new DamageInfo(DamageDefOf.Stun, 120));
                     return;
                 }
             }

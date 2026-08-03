@@ -105,7 +105,7 @@ namespace Xenomorphtype
 
         public static AcceptanceReport CanSelectTarget(Pawn queen, Thing target)
         {
-            if (queen?.GetComp<CompQueen>()?.HasActiveEvolution(RoyalEvolutionDefOf.Evo_RoyalCrown) != true)
+            if (queen?.GetComp<CompQueen>()?.HasFunctionalEvolutionFeature(RoyalEvolutionDefOf.Evo_RoyalCrown) != true)
             {
                 return "XMT_HorrorAdvanceInvalid_NoCrown".Translate();
             }
@@ -272,10 +272,10 @@ namespace Xenomorphtype
             }
         }
 
-        public static bool TryExecute(Pawn queen, Thing target, HorrorAdvancementOption option, out Thing result)
+        public static bool TryExecute(Pawn queen, Thing target, HorrorAdvancementOption option, out Thing result, bool requireAdjacent = true)
         {
             result = null;
-            AcceptanceReport report = CanExecute(queen, target, option);
+            AcceptanceReport report = CanExecute(queen, target, option, requireAdjacent);
             if (!report.Accepted)
             {
                 return false;

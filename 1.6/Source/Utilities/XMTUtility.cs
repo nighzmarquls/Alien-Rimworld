@@ -1842,7 +1842,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            return compQueen.ChosenEvolutions.Contains(EvoDef);
+            return compQueen.HasEvolutionFeature(EvoDef);
         }
 
         internal static BackstoryDef GetChildBackstory(float maturity, Map map, Faction faction)
@@ -2171,7 +2171,7 @@ namespace Xenomorphtype
             return false;
         }
 
-        public static bool QueenSubjugatesThreatPerception(Pawn observer, Pawn queen)
+        public static bool QueenSuppressesThreatPerception(Pawn observer, Pawn queen)
         {
             
             if (observer == null || queen == null || observer == queen)
@@ -2194,29 +2194,55 @@ namespace Xenomorphtype
                 return true;
             }
 
-            if (!observer.HasBrainMutation() && !observer.IsHorror())
-            {
-                return false;
-            }
-
             CompQueen queenComp = queen.GetComp<CompQueen>();
-            if (queenComp == null || !queenComp.HasActiveEvolution(RoyalEvolutionDefOf.Evo_SubjugatorCrest))
+            if (queenComp == null)
             {
                 return false;
             }
 
-            if (!queen.health.hediffSet.GetNotMissingParts().Any(part => part.def == InternalDefOf.StarbeastCrest))
+            bool biologicalSuppression = (observer.HasBrainMutation() || observer.IsHorror())
+                && queenComp.HasFunctionalEvolutionFeature(RoyalEvolutionDefOf.Evo_SubjugatorCrest);
+            bool inorganicSuppression = IsInorganic(observer)
+                && queen.mechanitor != null
+                && queenComp.HasFunctionalEvolutionFeature(RoyalEvolutionDefOf.Evo_MechanitorArray);
+            if (!biologicalSuppression && !inorganicSuppression)
             {
                 return false;
             }
 
-            float range = queenComp.SubjugationBaseRange * Mathf.Max(0f, queen.GetStatValue(StatDefOf.PsychicSensitivity));
+            float range = QueenThreatSuppressionRange(queen, queenComp);
             if (range <= 0f)
             {
                 return false;
             }
 
             return observer.PositionHeld.DistanceToSquared(queen.PositionHeld) <= range * range;
+        }
+
+        public static bool ArraySuppressesAutomatedThreat(Thing observer, Pawn queen)
+        {
+            if (observer == null || queen == null || observer == queen || !observer.Spawned || !queen.Spawned
+                || queen.Dead || observer.MapHeld != queen.MapHeld || !IsQueen(queen) || queen.mechanitor == null)
+            {
+                return false;
+            }
+
+            CompQueen queenComp = queen.GetComp<CompQueen>();
+            if (queenComp?.HasFunctionalEvolutionFeature(RoyalEvolutionDefOf.Evo_MechanitorArray) != true)
+            {
+                return false;
+            }
+
+            float range = QueenThreatSuppressionRange(queen, queenComp);
+            return range > 0f && observer.PositionHeld.DistanceToSquared(queen.PositionHeld) <= range * range;
+        }
+
+        private static float QueenThreatSuppressionRange(Pawn queen, CompQueen queenComp)
+        {
+            float psychicSensitivity = Mathf.Max(0f, queen.GetStatValue(StatDefOf.PsychicSensitivity));
+            return EvolutionScalingUtility.Scale(queenComp.SubjugationBaseRange * 1.25f, 0f, 0f, float.MaxValue,
+                EvolutionScalingCurve.Proportional, EvolutionScalingRounding.None,
+                new EvolutionScalingFactor(psychicSensitivity, 1.25f));
         }
 
         internal static bool IsSpace(Map map)

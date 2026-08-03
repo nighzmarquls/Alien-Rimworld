@@ -1,10 +1,5 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
@@ -23,6 +18,26 @@ namespace Xenomorphtype
         public List<RoyalEvolutionDef> replaces;
         public List<RoyalEvolutionDef> prerequisites;
         public List<RoyalEvolutionDef> incompatible;
+
+        // Replacement advancements normally replace all logic and physical adaptations.
+        // These independent opt-ins let replacement defs retain either category.
+        public bool preserveReplacedFeatures = false;
+        public bool preserveHediff = false;
+
+        public ConceptDef tutorialConcept;
+
+        public override IEnumerable<string> ConfigErrors()
+        {
+            foreach (string error in base.ConfigErrors())
+            {
+                yield return error;
+            }
+
+            if ((preserveReplacedFeatures || preserveHediff) && replaces.NullOrEmpty())
+            {
+                yield return $"{defName} enables replacement preservation but does not define any replaced advancements.";
+            }
+        }
 
         public bool AvailableForPawn(Pawn pawn)
         {

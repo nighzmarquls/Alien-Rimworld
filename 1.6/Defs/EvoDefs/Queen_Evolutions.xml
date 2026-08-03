@@ -1,5 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
+	<!--
+	Developer reference: all RoyalEvolutionDef fields are shown below. This example is not loaded.
+
+	<Xenomorphtype.RoyalEvolutionDef MayRequire="Package.Id">
+		<defName>Evo_ExampleCrown</defName>
+		<label>example crown</label>
+		<description>Player-facing description. State that this advancement replaces another when applicable; preservation details are implementation concerns.</description>
+		<evoPointCost>4</evoPointCost>
+		<evolutionHediff>Example_CrownHediff</evolutionHediff>
+		<targetBodyPart>ExampleBodyPart</targetBodyPart>
+		<unlockedAbilities>
+			<li>Example_Ability</li>
+		</unlockedAbilities>
+		<unlockedGenes>
+			<li>Example_Gene</li>
+		</unlockedGenes>
+		<replaces>
+			<li>Evo_ExampleCrest</li>
+		</replaces>
+		<prerequisites>
+			<li>Evo_ExampleCrest</li>
+		</prerequisites>
+		<incompatible>
+			<li>Evo_IncompatibleExample</li>
+		</incompatible>
+		<preserveReplacedFeatures>true</preserveReplacedFeatures>
+		<preserveHediff>true</preserveHediff>
+		<tutorialConcept>Example_TutorialConcept</tutorialConcept>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	preserveReplacedFeatures defaults to false. When true, purchased replaced advancements remain available through
+	the CompQueen feature resolver for abilities, genes, commands, prerequisites, incompatibilities and passive logic.
+	Each replacement edge must opt in, so preservation is transitive only through consecutive opted-in replacements.
+	Third-party feature code must use HasEvolutionFeature or HasFunctionalEvolutionFeature to participate.
+
+	preserveHediff defaults to false and is independent from feature preservation. When true, the replaced advancement's
+	physical hediff is retained alongside the replacement's hediff. No first-party advancement currently enables it.
+
+	tutorialConcept is optional. Its ConceptDef is offered when the advancement is committed; RimWorld's learned-concept
+	tracking prevents repeat lessons.
+	-->
 	<!-- first tier -->
 
 	<Xenomorphtype.RoyalEvolutionDef>
@@ -56,6 +97,7 @@
 		<defName>Evo_CryptomechanicalCircuitry</defName>
 		<label>Cryptomechanical Circuitry</label>
 		<evoPointCost>1</evoPointCost>
+		<tutorialConcept>XMT_CryptomechanicalAssimilation</tutorialConcept>
 		<description>The queen adapts a mechanitor chip into cryptic nerve and resin, preparing her body to command machines through alien impulse. Other mechanoid chips can later be consumed to unlock equivalent mech technology.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
 	
@@ -207,11 +249,11 @@
 
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_SignalAmplifyingAntenna</defName>
-		<label>Signal Amplifying Antenna</label>
+		<label>Antenna Crest</label>
 		<evoPointCost>2</evoPointCost>
 		<evolutionHediff>XMT_SignalAmplifyingAntenna</evolutionHediff>
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>Metallic nerves thread through the crest, making the queen a living beacon for mechanoid signals and future raid-calling mechanics. This advancement is inert without a mechlink.</description>
+		<description>Metallic nerves thread through the crest, making the queen a living beacon for mechanoid signals. This advancement replaces the Maternal Crest and is inert without a mechlink.</description>
 		<replaces>
 			<li>Evo_MaternalCrest</li>
 		</replaces>
@@ -364,22 +406,23 @@
 			<li>Evo_RendingClaws</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-<!--
-	
-
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanitorArray</defName>
-		<label>Mechanitor Array</label>
+		<label>Array Crown</label>
 		<evoPointCost>4</evoPointCost>
 		<evolutionHediff>XMT_MechanitorArray</evolutionHediff>
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>The antenna blossoms into a crown-array of cryptic receivers, preparing body-size scaling bandwidth and stronger mechanoid summons. This advancement is inert without a mechlink.</description>
+		<description>The antenna blossoms into a crown-array of cryptic receivers, increasing bandwidth with body size and transmitting a stunning network payload. This advancement replaces the Antenna Crest and is inert without a mechlink.</description>
+		<unlockedAbilities>
+			<li>XMT_Ability_NetworkStunPayload</li>
+		</unlockedAbilities>
 		<replaces>
 			<li>Evo_SignalAmplifyingAntenna</li>
 		</replaces>
 		<prerequisites>
 			<li>Evo_SignalAmplifyingAntenna</li>
 		</prerequisites>
+		<preserveReplacedFeatures>true</preserveReplacedFeatures>
 	</Xenomorphtype.RoyalEvolutionDef>
 
 	
@@ -388,11 +431,15 @@
 
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_JuggernautsCrest</defName>
-		<label>Juggernaut's Crest</label>
+		<label>Juggernaut Crown</label>
 		<evoPointCost>4</evoPointCost>
 		<evolutionHediff>XMT_JuggernautsCrest</evolutionHediff>
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>The fierce crest becomes a living bulwark of layered chitin, granting enormous protection at the cost of speed.</description>
+		<description>The fierce crest becomes a living bulwark of layered chitin, unlocking Overrun and Defensive Stature. This advancement replaces the Fierce Crest.</description>
+		<unlockedAbilities>
+			<li>XMT_Ability_Overrun</li>
+			<li>XMT_Ability_DefensiveStature</li>
+		</unlockedAbilities>
 		<replaces>
 			<li>Evo_FierceCrest</li>
 		</replaces>
@@ -400,8 +447,6 @@
 			<li>Evo_FierceCrest</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-
--->
 	<!-- 4th tier -->
 
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
@@ -438,7 +483,7 @@
 		<evoPointCost>8</evoPointCost>
 		<evolutionHediff>XMT_RoyalCrown</evolutionHediff>
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
-		<description>The Subjugator crest rises into a crown of neural vanes and a prodigious quantity of specialized genetic processing lobes.</description>
+		<description>The Subjugator Crest rises into a crown of neural vanes and a prodigious quantity of specialized genetic processing lobes. This advancement replaces the Subjugator Crest.</description>
 		<unlockedAbilities>
 			<li>XMT_Ability_MutagenicMiasma</li>
 		</unlockedAbilities>
@@ -448,6 +493,7 @@
 		<prerequisites>
 			<li>Evo_SubjugatorCrest</li>
 		</prerequisites>
+		<preserveReplacedFeatures>true</preserveReplacedFeatures>
 	</Xenomorphtype.RoyalEvolutionDef>
 <!--
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">

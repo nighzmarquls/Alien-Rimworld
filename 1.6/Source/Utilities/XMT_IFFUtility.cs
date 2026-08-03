@@ -8,7 +8,17 @@ namespace Xenomorphtype
     {
         public static bool IsAutomaticTurretAggressionAppropriate(Thing turret, Pawn target)
         {
-            if (turret == null || target == null || target.def != InternalDefOf.XMT_Starbeast_AlienRace)
+            if (turret == null || target == null)
+            {
+                return true;
+            }
+
+            if (XMTUtility.ArraySuppressesAutomatedThreat(turret, target))
+            {
+                return false;
+            }
+
+            if (target.def != InternalDefOf.XMT_Starbeast_AlienRace)
             {
                 return true;
             }

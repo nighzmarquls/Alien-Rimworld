@@ -87,6 +87,10 @@
     <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
     <Compile Include="Abilities\Comps\CompAbilityTrample.cs" />
     <Compile Include="Abilities\Comps\CompAbilityMutagenicMiasma.cs" />
+    <Compile Include="Abilities\Comps\CompAbilityNetworkStunPayload.cs" />
+    <Compile Include="Abilities\Juggernaut\Ability_DefensiveStature.cs" />
+    <Compile Include="Abilities\Juggernaut\CompAbilityOverrun.cs" />
+    <Compile Include="Abilities\Juggernaut\JuggernautAbilityUtility.cs" />
     <Compile Include="Abilities\PsychicDefense\Ability_PsychicDefense.cs" />
     <Compile Include="Abilities\PsychicDefense\PsychicDefenseSettingsDef.cs" />
     <Compile Include="Abilities\Climber\PawnClimber.cs" />
@@ -121,6 +125,7 @@
     <Compile Include="AI\JobDriver\Ritual\JobDriver_PrepareChrysalisWithJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
+    <Compile Include="AI\JobDriver\Queen\JobDriver_QueenAlterationChannel.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyOvomorph.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_BuildXenomorphStructure.cs" />
@@ -233,6 +238,9 @@
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
     <Compile Include="Utilities\HorrorAdvancementUtility.cs" />
+    <Compile Include="Utilities\EvolutionScalingUtility.cs" />
+    <Compile Include="Utilities\HarmfulAbilityUtility.cs" />
+    <Compile Include="Utilities\SovereignAlterationUtility.cs" />
     <Compile Include="Utilities\XMT_IFFUtility.cs" />
     <Compile Include="Utilities\XMTZoneUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
@@ -388,6 +396,7 @@
     <Compile Include="Rendering\PawnRenderer\PawnRenderNodeWorker_OverlayMesoSkeleton.cs" />
     <Compile Include="Settings\XMTSettings.cs" />
     <Compile Include="Stats\StatPart_GrappleVerbQuality.cs" />
+    <Compile Include="Stats\StatPart_ArrayBodySizeBandwidth.cs" />
     <Compile Include="Things\MutagenGooFilth.cs" />
     <Compile Include="Things\XMTGenePack.cs" />
     <Compile Include="Building\HibernationCocoon.cs" />

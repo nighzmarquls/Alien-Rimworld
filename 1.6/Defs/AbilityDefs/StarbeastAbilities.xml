@@ -117,6 +117,39 @@
 			</li>
 		</comps>
 	</AbilityDef>
+
+	<AbilityDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_Ability_NetworkStunPayload</defName>
+		<label>network stun payload</label>
+		<description>Transmits a stunning cryptomechanical payload into inorganic minds and automated defenses. The signal ignores line of sight, but spares mechanoids controlled by the queen and inorganics carrying an attached subverter.</description>
+		<abilityClass>Xenomorphtype.Ability_NetworkStunPayload</abilityClass>
+		<iconPath>UI/Abilities/GestateMechanoid</iconPath>
+		<hostile>true</hostile>
+		<aiCanUse>false</aiCanUse>
+		<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+		<category>Xenomorph</category>
+		<cooldownTicksRange>60</cooldownTicksRange>
+		<sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
+		<uiOrder>7</uiOrder>
+		<verbProperties>
+			<verbClass>Xenomorphtype.Verb_CastNetworkStunPayload</verbClass>
+			<label>transmit network stun payload</label>
+			<warmupTime>1</warmupTime>
+			<range>12</range>
+			<drawAimPie>false</drawAimPie>
+			<requireLineOfSight>false</requireLineOfSight>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+				<canTargetPawns>true</canTargetPawns>
+				<canTargetBuildings>true</canTargetBuildings>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Xenomorphtype.CompProperties_AbilityNetworkStunPayload" />
+		</comps>
+	</AbilityDef>
 	
 	<AbilityDef Name="LongJump">
 		<defName>Starbeast_Leap</defName>
@@ -256,7 +289,7 @@
 		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
 		<uiOrder>5</uiOrder>
 		<verbProperties>
-			<verbClass>Verb_CastAbility</verbClass>
+			<verbClass>Xenomorphtype.Verb_CastTrample</verbClass>
 			<label>trample</label>
 			<warmupTime>0.25</warmupTime>
 			<range>10</range>
@@ -276,6 +309,66 @@
 				<flightTicks>15</flightTicks>
 			</li>
 		</comps>
+	</AbilityDef>
+
+	<AbilityDef>
+		<defName>XMT_Ability_Overrun</defName>
+		<label>overrun</label>
+		<description>Drive forward with the full mass of the Juggernaut Crown, crushing pawns across a body-sized corridor and smashing through structures until the queen's momentum is spent.</description>
+		<iconPath>UI/Abilities/Starbeast_Leap</iconPath>
+		<hostile>true</hostile>
+		<aiCanUse>false</aiCanUse>
+		<category>Xenomorph</category>
+		<cooldownTicksRange>1250</cooldownTicksRange>
+		<sendMessageOnCooldownComplete>false</sendMessageOnCooldownComplete>
+		<casterMustBeCapableOfViolence>true</casterMustBeCapableOfViolence>
+		<uiOrder>5</uiOrder>
+		<verbProperties>
+			<verbClass>Xenomorphtype.Verb_CastOverrun</verbClass>
+			<label>overrun</label>
+			<warmupTime>0.25</warmupTime>
+			<range>20</range>
+			<drawAimPie>false</drawAimPie>
+			<requireLineOfSight>false</requireLineOfSight>
+			<targetParams>
+				<canTargetLocations>true</canTargetLocations>
+				<canTargetPawns>true</canTargetPawns>
+				<canTargetBuildings>true</canTargetBuildings>
+			</targetParams>
+		</verbProperties>
+		<comps>
+			<li Class="Xenomorphtype.CompProperties_AbilityOverrun">
+				<trampledHediff>XMT_Trampled</trampledHediff>
+				<tramplerDef>XMT_QueenTrampler</tramplerDef>
+				<stunTicks>180</stunTicks>
+				<flightTicks>15</flightTicks>
+				<referenceEdificeDamage>420</referenceEdificeDamage>
+				<momentumRetention>0.75</momentumRetention>
+				<peripheralStructureDamageFactor>0.5</peripheralStructureDamageFactor>
+			</li>
+		</comps>
+	</AbilityDef>
+
+	<AbilityDef>
+		<defName>XMT_Ability_DefensiveStature</defName>
+		<label>defensive stature</label>
+		<description>Adopt a guarded stance that halves movement speed, multiplies armor by 1.5, and intercepts external violent damage aimed at nearby allies. Intercepted hits strike the queen directly and still contend with her defenses.</description>
+		<abilityClass>Xenomorphtype.Ability_DefensiveStature</abilityClass>
+		<iconPath>UI/Abilities/Starbeast_Stand</iconPath>
+		<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+		<disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+		<targetRequired>false</targetRequired>
+		<aiCanUse>false</aiCanUse>
+		<category>Xenomorph</category>
+		<uiOrder>6</uiOrder>
+		<verbProperties>
+			<verbClass>Verb_CastAbility</verbClass>
+			<drawAimPie>false</drawAimPie>
+			<range>0</range>
+			<targetParams>
+				<canTargetSelf>true</canTargetSelf>
+			</targetParams>
+		</verbProperties>
 	</AbilityDef>
 	
 

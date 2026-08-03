@@ -23,7 +23,6 @@ namespace Xenomorphtype
         static private Texture2D controlMutantTexture => ContentFinder<Texture2D>.Get("UI/Abilities/Starbeast_Dominate");
         
         private const float DominionBaselineRange = 21f;
-        private const float BaselineQueenPsychicSensitivity = 1.25f;
         Pawn Parent => parent as Pawn;
         CompGeneManipulatorProperties Props => props as CompGeneManipulatorProperties;
         private List<QueenMutationOrder> mutationOrders = new List<QueenMutationOrder>();
@@ -36,7 +35,8 @@ namespace Xenomorphtype
                 yield break;
             }
 
-            if(!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneControl))
+            CompQueen queenComp = Parent.GetComp<CompQueen>();
+            if (queenComp?.HasEvolutionFeature(RoyalEvolutionDefOf.Evo_GeneControl) != true)
             {
                 yield break;
             }
@@ -47,6 +47,11 @@ namespace Xenomorphtype
                 if (draftedSubjugation != null)
                 {
                     yield return draftedSubjugation;
+                }
+                if (SovereignAlterationUtility.IsRemote(Parent)
+                    && queenComp.HasEvolutionFeature(RoyalEvolutionDefOf.Evo_MutantExpression))
+                {
+                    yield return CreateMutationManagementAction();
                 }
                 yield break;
             }
@@ -59,16 +64,21 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
-                return BioUtility.HasAlterableGenes(target.Thing);
+                return BioUtility.HasAlterableGenes(target.Thing, Parent) && SovereignAlterationUtility.CanSelect(Parent, target.Thing);
             };
 
             Command_Action GeneControl_Action = new Command_Action();
             GeneControl_Action.defaultLabel = "XMT_AlterGenesLabel".Translate();
             GeneControl_Action.defaultDesc = "XMT_AlterGenesDescription".Translate();
+            if (SovereignAlterationUtility.IsRemote(Parent))
+            {
+                GeneControl_Action.defaultDesc += "\n\n" + "XMT_SovereignRemoteStats".Translate(
+                    SovereignAlterationUtility.Range(Parent), SovereignAlterationUtility.ChannelTicks(Parent).ToStringTicksToPeriod());
+            }
             GeneControl_Action.icon = geneticTexture;
             GeneControl_Action.action = delegate
             {
-                Find.Targeter.BeginTargeting(GeneTargetParameters, delegate (LocalTargetInfo target)
+                BeginSovereignAlterationTargeting(GeneTargetParameters, delegate (LocalTargetInfo target)
                 {
                     FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target.Thing);
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_AlterGenes, target);
@@ -81,36 +91,12 @@ namespace Xenomorphtype
 
             yield return GeneControl_Action;
 
-            TargetingParameters MutantTargetParameters = new TargetingParameters();
-
-            MutantTargetParameters.validator = delegate (TargetInfo target)
+            if (queenComp.HasEvolutionFeature(RoyalEvolutionDefOf.Evo_MutantExpression))
             {
-                if (target.Thing == Parent)
-                {
-                    return false;
-                }
-                return target.Thing is Pawn pawn && pawn.health != null && !pawn.Dead && pawn.GetMorphComp() == null
-                && BioUtility.HasMutations(pawn, false);
-            };
-
-            Command_Action MutantControl_Action = new Command_Action();
-            MutantControl_Action.defaultLabel = "XMT_ManageMutationLabel".Translate();
-            MutantControl_Action.defaultDesc = "XMT_ManageMutationDescription".Translate();
-            MutantControl_Action.icon = mutantTexture;
-            MutantControl_Action.action = delegate
-            {
-                Find.Targeter.BeginTargeting(MutantTargetParameters, delegate (LocalTargetInfo target)
-                {
-                    OpenMutationActionMenu(target.Thing as Pawn);
-                });
-            };
-
-            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_MutantExpression))
-            {
-                yield return MutantControl_Action;
+                yield return CreateMutationManagementAction();
             }
 
-            if (Parent.GetComp<CompQueen>()?.HasActiveEvolution(RoyalEvolutionDefOf.Evo_RoyalCrown) == true)
+            if (Parent.GetComp<CompQueen>()?.HasFunctionalEvolutionFeature(RoyalEvolutionDefOf.Evo_RoyalCrown) == true)
             {
                 yield return CreateHorrorAdvancementAction();
             }
@@ -154,22 +140,81 @@ namespace Xenomorphtype
 
             };
 
-            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneDigestion))
+            if (queenComp.HasEvolutionFeature(RoyalEvolutionDefOf.Evo_GeneDigestion))
             {
                 yield return GeneConsume_Action;
             }
 
-            if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_SubjugatorCrest))
+            if (queenComp.HasFunctionalEvolutionFeature(RoyalEvolutionDefOf.Evo_SubjugatorCrest))
             {
                 yield return CreateSubjugationAction();
             }
 
-            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
+            if (!queenComp.HasEvolutionFeature(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
             {
                 yield break;
             }
 
             yield return CreateSelfGeneExpressionAction();
+        }
+
+        private Command_Action CreateMutationManagementAction()
+        {
+            TargetingParameters targetParameters = new TargetingParameters
+            {
+                validator = delegate (TargetInfo target)
+                {
+                    if (target.Thing == Parent)
+                    {
+                        return false;
+                    }
+                    return target.Thing is Pawn pawn && pawn.health != null && !pawn.Dead && pawn.GetMorphComp() == null
+                        && BioUtility.HasMutations(pawn, false) && SovereignAlterationUtility.CanSelect(Parent, pawn);
+                }
+            };
+
+            Command_Action action = new Command_Action
+            {
+                defaultLabel = "XMT_ManageMutationLabel".Translate(),
+                defaultDesc = "XMT_ManageMutationDescription".Translate(),
+                icon = mutantTexture,
+                action = delegate
+                {
+                    BeginSovereignAlterationTargeting(targetParameters, delegate (LocalTargetInfo target)
+                    {
+                        OpenMutationActionMenu(target.Thing as Pawn);
+                    });
+                }
+            };
+            if (SovereignAlterationUtility.IsRemote(Parent))
+            {
+                action.defaultDesc += "\n\n" + "XMT_SovereignRemoteStats".Translate(
+                    SovereignAlterationUtility.Range(Parent), SovereignAlterationUtility.ChannelTicks(Parent).ToStringTicksToPeriod());
+            }
+            return action;
+        }
+
+        private void BeginSovereignAlterationTargeting(TargetingParameters targetParameters, Action<LocalTargetInfo> action)
+        {
+            Find.Targeter.BeginTargeting(
+                targetParameters,
+                action,
+                null,
+                null,
+                Parent,
+                null,
+                null,
+                true,
+                null,
+                DrawSovereignAlterationRange);
+        }
+
+        private void DrawSovereignAlterationRange(LocalTargetInfo target)
+        {
+            if (SovereignAlterationUtility.IsRemote(Parent))
+            {
+                GenDraw.DrawRadiusRing(Parent.Position, SovereignAlterationUtility.Range(Parent));
+            }
         }
 
         private Command_Action CreateHorrorAdvancementAction()
@@ -294,7 +339,7 @@ namespace Xenomorphtype
 
             horrorAdvancementOrders.Remove(order);
             HorrorAdvancementOption option = HorrorAdvancementUtility.MakeOption(order.direction, order.pawnKind, order.thingDef);
-            AcceptanceReport report = HorrorAdvancementUtility.CanExecute(Parent, target, option);
+            AcceptanceReport report = HorrorAdvancementUtility.CanExecute(Parent, target, option, requireAdjacent: true);
             if (!report.Accepted)
             {
                 if (Parent.Faction == Faction.OfPlayer)
@@ -304,7 +349,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            return HorrorAdvancementUtility.TryExecute(Parent, target, option, out Thing _);
+            return HorrorAdvancementUtility.TryExecute(Parent, target, option, out Thing _, requireAdjacent: true);
         }
 
         private void RegisterHorrorAdvancementOrder(Thing target, HorrorAdvancementOption option)
@@ -356,7 +401,7 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                if (option.requiredEvolution != null && (queen == null || !queen.ChosenEvolutions.Contains(option.requiredEvolution)))
+                if (option.requiredEvolution != null && (queen == null || !queen.HasEvolutionFeature(option.requiredEvolution)))
                 {
                     continue;
                 }
@@ -528,7 +573,7 @@ namespace Xenomorphtype
 
         private Command_Action CreateSubjugationAction()
         {
-            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_SubjugatorCrest))
+            if (Parent.GetComp<CompQueen>()?.HasFunctionalEvolutionFeature(RoyalEvolutionDefOf.Evo_SubjugatorCrest) != true)
             {
                 return null;
             }
@@ -595,7 +640,9 @@ namespace Xenomorphtype
         private float BiologicalSubjugationRange()
         {
             float sensitivity = Parent != null ? Mathf.Max(0f, Parent.GetStatValue(StatDefOf.PsychicSensitivity)) : 0f;
-            return DominionBaselineRange * (sensitivity / BaselineQueenPsychicSensitivity);
+            return EvolutionScalingUtility.Scale(DominionBaselineRange, 0f, 0f, float.MaxValue,
+                EvolutionScalingCurve.Proportional, EvolutionScalingRounding.None,
+                new EvolutionScalingFactor(sensitivity, 1.25f));
         }
 
         private AcceptanceReport CanSubjugateTarget(Pawn target)

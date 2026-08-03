@@ -77,7 +77,7 @@ namespace Xenomorphtype
 
                 if(XMTUtility.IsXenomorph(otherPawn))
                 {
-                    if (XMTUtility.QueenSubjugatesThreatPerception(__instance, otherPawn))
+                    if (XMTUtility.QueenSuppressesThreatPerception(__instance, otherPawn))
                     {
                         __result = true;
                         return false;
@@ -104,7 +104,7 @@ namespace Xenomorphtype
                 {
                     if (!XMTUtility.IsXenomorph(b))
                     {
-                        if (XMTUtility.QueenSubjugatesThreatPerception(b as Pawn, a as Pawn))
+                        if (XMTUtility.QueenSuppressesThreatPerception(b as Pawn, a as Pawn))
                         {
                             __result = false;
                             return false;
@@ -121,7 +121,7 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.IsXenomorph(b))
                     {
-                        if (XMTUtility.QueenSubjugatesThreatPerception(a as Pawn, b as Pawn))
+                        if (XMTUtility.QueenSuppressesThreatPerception(a as Pawn, b as Pawn))
                         {
                             __result = false;
                             return false;
@@ -236,7 +236,10 @@ namespace Xenomorphtype
             [HarmonyPostfix]
             public static void Postfix(ref LocalTargetInfo __result, Building_TurretGun __instance)
             {
-                //TODO: Make them acquire Xenomorphs within fractional ranges depending on lighting.
+                if (__result.Thing is Pawn pawn && !XMT_IFFUtility.IsAutomaticTurretAggressionAppropriate(__instance, pawn))
+                {
+                    __result = LocalTargetInfo.Invalid;
+                }
             }
         }
 

@@ -45,43 +45,10 @@ namespace Xenomorphtype
 
             set
             {
-                if (value == null || value.Count == 0)
-                {
-                    foreach (RoyalEvolutionDef e in chosenEvolutions)
-                    {
-                        RemoveEvolutionFeatures(e,true);
-                    }
-                    chosenEvolutions.Clear();
-                    _totalSpentEvoPoints = 0;
-                }
-
-                if (chosenEvolutions == null)
-                {
-                    chosenEvolutions = value;
-                }
-                else
-                {
-                    foreach (RoyalEvolutionDef e in chosenEvolutions)
-                    {
-                        if (!value.Contains(e))
-                        {
-                            RemoveEvolutionFeatures(e, true);
-                            _totalSpentEvoPoints -= e.evoPointCost;
-                        }
-                    }
-                }
-
-                foreach (RoyalEvolutionDef e in value)
-                {
-                    if (!chosenEvolutions.Contains(e))
-                    {
-                        AddEvolutionFeatures(e);
-                        _totalSpentEvoPoints += e.evoPointCost;
-                    }
-                }
-
-                chosenEvolutions = value;
-            
+                chosenEvolutions = value?.Where(evolution => evolution != null).Distinct().ToList()
+                    ?? new List<RoyalEvolutionDef>();
+                _totalSpentEvoPoints = chosenEvolutions.Sum(evolution => evolution.evoPointCost);
+                ReconcileEvolutionFeatures();
             }
         }
         
@@ -230,20 +197,21 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _advancementForPsyLink, "advancementForPsyLink", 1);
             Scribe_Values.Look(ref _advancementForBiotic, "advancementForBiotic", 1);
             Scribe_Values.Look(ref _totalSpentEvoPoints, "totalSpentEvoPoints", 0); 
-            
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                chosenEvolutions = chosenEvolutions?.Where(evolution => evolution != null).Distinct().ToList()
+                    ?? new List<RoyalEvolutionDef>();
+                _totalSpentEvoPoints = chosenEvolutions.Sum(evolution => evolution.evoPointCost);
+                ReconcileEvolutionFeatures();
+            }
         }
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
             base.PostSpawnSetup(respawningAfterLoad);
             XMTUtility.DeclareQueen(Parent);
 
-            foreach (RoyalEvolutionDef evolution in ChosenEvolutions)
-            {
-                if (HasActiveEvolution(evolution))
-                {
-                    AddUnlockedAbilities(evolution);
-                }
-            }
+            ReconcileEvolutionFeatures();
         }
 
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
@@ -335,6 +303,119 @@ namespace Xenomorphtype
             return evolution != null && ChosenEvolutions.Contains(evolution) && !IsEvolutionReplaced(evolution);
         }
 
+        public bool HasEvolutionFeature(RoyalEvolutionDef evolution)
+        {
+            return TryGetEvolutionFeatureProvider(evolution, out _);
+        }
+
+        public bool HasFunctionalEvolutionFeature(RoyalEvolutionDef evolution)
+        {
+            if (!TryGetEvolutionFeatureProvider(evolution, out RoyalEvolutionDef provider))
+            {
+                return false;
+            }
+
+            return EvolutionBodyPartIntact(provider);
+        }
+
+        public bool TryGetEvolutionFeatureProvider(RoyalEvolutionDef evolution, out RoyalEvolutionDef provider)
+        {
+            provider = null;
+            if (evolution == null)
+            {
+                return false;
+            }
+
+            foreach (RoyalEvolutionDef activeEvolution in ActiveEvolutions())
+            {
+                if (EvolutionProvides(activeEvolution, evolution, preserveHediffs: false, new HashSet<RoyalEvolutionDef>()))
+                {
+                    provider = activeEvolution;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public IEnumerable<RoyalEvolutionDef> EvolutionFeatures()
+        {
+            HashSet<RoyalEvolutionDef> features = new HashSet<RoyalEvolutionDef>();
+            foreach (RoyalEvolutionDef activeEvolution in ActiveEvolutions())
+            {
+                CollectProvidedEvolutions(activeEvolution, preserveHediffs: false, features);
+            }
+
+            return features;
+        }
+
+        private IEnumerable<RoyalEvolutionDef> ActiveEvolutions()
+        {
+            return ChosenEvolutions.Where(HasActiveEvolution);
+        }
+
+        private bool EvolutionProvides(RoyalEvolutionDef current, RoyalEvolutionDef requested, bool preserveHediffs, HashSet<RoyalEvolutionDef> visited)
+        {
+            if (current == null || !visited.Add(current))
+            {
+                return false;
+            }
+
+            if (current == requested)
+            {
+                return true;
+            }
+
+            bool preserves = preserveHediffs ? current.preserveHediff : current.preserveReplacedFeatures;
+            if (!preserves || current.replaces.NullOrEmpty())
+            {
+                return false;
+            }
+
+            foreach (RoyalEvolutionDef replaced in current.replaces)
+            {
+                if (replaced != null && ChosenEvolutions.Contains(replaced)
+                    && EvolutionProvides(replaced, requested, preserveHediffs, visited))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void CollectProvidedEvolutions(RoyalEvolutionDef current, bool preserveHediffs, HashSet<RoyalEvolutionDef> results)
+        {
+            if (current == null || !results.Add(current))
+            {
+                return;
+            }
+
+            bool preserves = preserveHediffs ? current.preserveHediff : current.preserveReplacedFeatures;
+            if (!preserves || current.replaces.NullOrEmpty())
+            {
+                return;
+            }
+
+            foreach (RoyalEvolutionDef replaced in current.replaces)
+            {
+                if (replaced != null && ChosenEvolutions.Contains(replaced))
+                {
+                    CollectProvidedEvolutions(replaced, preserveHediffs, results);
+                }
+            }
+        }
+
+        private bool EvolutionBodyPartIntact(RoyalEvolutionDef evolution)
+        {
+            if (evolution?.targetBodyPart == null)
+            {
+                return true;
+            }
+
+            return Parent?.health?.hediffSet?.GetNotMissingParts().Any(part => part.def == evolution.targetBodyPart) == true;
+        }
+
         public bool IsEvolutionReplaced(RoyalEvolutionDef evolution)
         {
             if (evolution == null)
@@ -366,9 +447,9 @@ namespace Xenomorphtype
                 return false;
             }
 
-            foreach (RoyalEvolutionDef chosenEvolution in ChosenEvolutions)
+            foreach (RoyalEvolutionDef chosenEvolution in EvolutionFeatures())
             {
-                if (chosenEvolution == null || chosenEvolution == evolution || !HasActiveEvolution(chosenEvolution))
+                if (chosenEvolution == null || chosenEvolution == evolution)
                 {
                     continue;
                 }
@@ -389,176 +470,99 @@ namespace Xenomorphtype
                 || (other.incompatible != null && other.incompatible.Contains(evolution));
         }
 
-        private void AddUnlockedAbilities(RoyalEvolutionDef evolution)
+        private void ReconcileEvolutionFeatures()
         {
-            if (evolution?.unlockedAbilities == null || Parent?.abilities == null)
+            if (Parent == null)
             {
                 return;
             }
 
-            foreach (AbilityDef abilityDef in evolution.unlockedAbilities)
-            {
-                if (abilityDef != null && Parent.abilities.GetAbility(abilityDef) == null)
-                {
-                    Parent.abilities.GainAbility(abilityDef);
-                }
-            }
+            ReconcileEvolutionHediffs();
+            ReconcileEvolutionAbilities();
         }
 
-        private void RemoveUnlockedAbilities(RoyalEvolutionDef evolution, RoyalEvolutionDef replacement = null)
+        private void ReconcileEvolutionAbilities()
         {
-            if (evolution?.unlockedAbilities == null || Parent?.abilities == null)
+            if (Parent.abilities == null)
             {
                 return;
             }
 
-            foreach (AbilityDef abilityDef in evolution.unlockedAbilities)
-            {
-                if (abilityDef == null || ShouldKeepUnlockedAbility(abilityDef, evolution, replacement))
-                {
-                    continue;
-                }
+            HashSet<AbilityDef> evolutionAbilities = DefDatabase<RoyalEvolutionDef>.AllDefsListForReading
+                .Where(evolution => !evolution.unlockedAbilities.NullOrEmpty())
+                .SelectMany(evolution => evolution.unlockedAbilities)
+                .Where(ability => ability != null)
+                .ToHashSet();
+            HashSet<AbilityDef> desiredAbilities = EvolutionFeatures()
+                .Where(evolution => !evolution.unlockedAbilities.NullOrEmpty())
+                .SelectMany(evolution => evolution.unlockedAbilities)
+                .Where(ability => ability != null)
+                .ToHashSet();
 
+            foreach (AbilityDef abilityDef in evolutionAbilities)
+            {
                 Ability ability = Parent.abilities.GetAbility(abilityDef);
-                if (ability != null)
+                if (desiredAbilities.Contains(abilityDef))
+                {
+                    if (ability == null)
+                    {
+                        Parent.abilities.GainAbility(abilityDef);
+                    }
+                }
+                else if (ability != null)
                 {
                     Parent.abilities.RemoveAbility(abilityDef);
                 }
             }
         }
 
-        private bool ShouldKeepUnlockedAbility(AbilityDef abilityDef, RoyalEvolutionDef removingEvolution, RoyalEvolutionDef replacement)
+        private void ReconcileEvolutionHediffs()
         {
-            if (replacement?.unlockedAbilities != null && replacement.unlockedAbilities.Contains(abilityDef))
+            if (Parent.health?.hediffSet == null)
             {
-                return true;
+                return;
             }
 
-            foreach (RoyalEvolutionDef chosenEvolution in ChosenEvolutions)
+            HashSet<HediffDef> evolutionHediffDefs = DefDatabase<RoyalEvolutionDef>.AllDefsListForReading
+                .Select(evolution => evolution.evolutionHediff)
+                .Where(hediff => hediff != null)
+                .ToHashSet();
+            HashSet<RoyalEvolutionDef> desiredEvolutions = new HashSet<RoyalEvolutionDef>();
+            foreach (RoyalEvolutionDef activeEvolution in ActiveEvolutions())
             {
-                if (chosenEvolution == null || chosenEvolution == removingEvolution || !HasActiveEvolution(chosenEvolution))
+                CollectProvidedEvolutions(activeEvolution, preserveHediffs: true, desiredEvolutions);
+            }
+
+            HashSet<(HediffDef hediff, BodyPartRecord part)> desiredHediffs = new HashSet<(HediffDef, BodyPartRecord)>();
+            foreach (RoyalEvolutionDef evolution in desiredEvolutions.Where(evolution => evolution.evolutionHediff != null))
+            {
+                if (evolution.targetBodyPart == null)
                 {
+                    desiredHediffs.Add((evolution.evolutionHediff, null));
                     continue;
                 }
 
-                if (chosenEvolution.unlockedAbilities != null && chosenEvolution.unlockedAbilities.Contains(abilityDef))
+                foreach (BodyPartRecord part in Parent.health.hediffSet.GetNotMissingParts().Where(part => part.def == evolution.targetBodyPart))
                 {
-                    return true;
+                    desiredHediffs.Add((evolution.evolutionHediff, part));
                 }
             }
 
-            return false;
-        }
-
-        private void RemoveEvolutionFeatures(RoyalEvolutionDef evolution, bool replacing = false)
-        {
-            if (evolution.replaces != null)
+            foreach (Hediff hediff in Parent.health.hediffSet.hediffs.ListFullCopy())
             {
-                if (!replacing)
+                if (evolutionHediffDefs.Contains(hediff.def) && !desiredHediffs.Contains((hediff.def, hediff.Part)))
                 {
-                    foreach (RoyalEvolutionDef replaced in evolution.replaces)
-                    {
-                        if (chosenEvolutions.Contains(replaced))
-                        {
-                            if (replaced.evolutionHediff != null)
-                            {
-                                BodyPartDef bodyPart = replaced.targetBodyPart;
-
-                                if (bodyPart != null)
-                                {
-                                    IEnumerable<BodyPartRecord> bodyparts = Parent.health.hediffSet.GetNotMissingParts();
-
-                                    foreach (BodyPartRecord partRecord in bodyparts)
-                                    {
-                                        if (partRecord.def == bodyPart)
-                                        {
-                                            Hediff evoHediff = HediffMaker.MakeHediff(replaced.evolutionHediff, Parent, partRecord);
-                                            Parent.health.AddHediff(evoHediff);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Hediff evoHediff = HediffMaker.MakeHediff(replaced.evolutionHediff, Parent);
-                                    Parent.health.AddHediff(evoHediff);
-                                }
-                            }
-                        }
-                    }
+                    Parent.health.RemoveHediff(hediff);
                 }
             }
 
-            if (evolution.evolutionHediff != null)
+            foreach ((HediffDef hediffDef, BodyPartRecord part) in desiredHediffs)
             {
-                List<Hediff> hediffList = Parent.health.hediffSet.hediffs.ToList();
-                foreach (Hediff hediff in hediffList)
+                if (!Parent.health.hediffSet.hediffs.Any(hediff => hediff.def == hediffDef && hediff.Part == part))
                 {
-                    if(hediff.def == evolution.evolutionHediff)
-                    {
-                        Parent.health.RemoveHediff(hediff);
-                    }
+                    Parent.health.AddHediff(HediffMaker.MakeHediff(hediffDef, Parent, part));
                 }
             }
-
-            RemoveUnlockedAbilities(evolution);
-        }
-
-        private void AddEvolutionFeatures(RoyalEvolutionDef evolution)
-        {
-            if(evolution.replaces != null)
-            {
-                foreach (RoyalEvolutionDef replaced in evolution.replaces)
-                {
-                    if (chosenEvolutions.Contains(replaced))
-                    {
-                        RemoveUnlockedAbilities(replaced, evolution);
-
-                        if (replaced.evolutionHediff != null)
-                        {
-                            List<Hediff> hediffs = Parent.health.hediffSet.hediffs.ListFullCopy() ;
-                            foreach (Hediff hediff in hediffs)
-                            {
-                                if(hediff == null)
-                                {
-                                    continue;
-                                }
-
-                                if (hediff.def == replaced.evolutionHediff)
-                                {
-                                    Parent.health.RemoveHediff(hediff);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(evolution.evolutionHediff != null)
-            {
-                
-                BodyPartDef bodyPart = evolution.targetBodyPart;
-
-                if (bodyPart != null)
-                {
-                    IEnumerable<BodyPartRecord> bodyparts = Parent.health.hediffSet.GetNotMissingParts();
-
-                    foreach (BodyPartRecord partRecord in bodyparts)
-                    {
-                        if (partRecord.def == bodyPart)
-                        {
-                            Hediff evoHediff = HediffMaker.MakeHediff(evolution.evolutionHediff, Parent, partRecord);
-                            Parent.health.AddHediff(evoHediff);
-                        }
-                    }
-                }
-                else
-                {
-                    Hediff evoHediff = HediffMaker.MakeHediff(evolution.evolutionHediff, Parent);
-                    Parent.health.AddHediff(evoHediff);
-                }
-            }
-
-            AddUnlockedAbilities(evolution);
         }
 
         internal void AddEvolution(RoyalEvolutionDef evolution)
@@ -567,9 +571,9 @@ namespace Xenomorphtype
             {
                 return;
             }
-            AddEvolutionFeatures(evolution);
-            _totalSpentEvoPoints += evolution.evoPointCost;
             chosenEvolutions.Add(evolution);
+            _totalSpentEvoPoints += evolution.evoPointCost;
+            ReconcileEvolutionFeatures();
         }
 
         internal void RemoveEvolution(RoyalEvolutionDef evolution)
@@ -578,9 +582,9 @@ namespace Xenomorphtype
             {
                 return;
             }
-            RemoveEvolutionFeatures(evolution);
-            _totalSpentEvoPoints -= evolution.evoPointCost;
             chosenEvolutions.Remove(evolution);
+            _totalSpentEvoPoints -= evolution.evoPointCost;
+            ReconcileEvolutionFeatures();
         }
     }
 

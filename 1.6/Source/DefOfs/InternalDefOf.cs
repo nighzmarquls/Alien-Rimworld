@@ -41,6 +41,8 @@ namespace Xenomorphtype
         public static HediffDef             XMT_Enthroned;
         public static HediffDef             XMT_Stabilize;
         public static HediffDef             XMT_Trampled;
+        public static HediffDef             XMT_DefensiveStature;
+        public static HediffDef             XMT_DefensiveStatureProtection;
         public static HediffDef             XMT_Flu;
 
         //Xenomorph bodyparts

@@ -504,6 +504,7 @@
 			<SocialImpact>0.75</SocialImpact>
 			<ArmorRating_Blunt>1.5</ArmorRating_Blunt>
 			<ArmorRating_Sharp>1.5</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
 		</statOffsets>
       </li>
     </stages>
@@ -511,7 +512,7 @@
 
   <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_JuggernautsCrest</defName>
-    <label>juggernaut's crest</label>
+    <label>juggernaut crown</label>
     <description>a massive shield crest grown to weather gunfire, shrapnel and impact.</description>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>
@@ -527,9 +528,52 @@
 			<MoveSpeed>-0.4</MoveSpeed>
 			<ArmorRating_Blunt>2.25</ArmorRating_Blunt>
 			<ArmorRating_Sharp>2.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-16</XMT_HereditaryCapacity>
 		</statOffsets>
       </li>
     </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_DefensiveStature</defName>
+    <label>defensive stature</label>
+    <description>The queen braces behind her Juggernaut Crown, sacrificing speed to reinforce her armor and shelter nearby allies.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+		<statFactors>
+			<MoveSpeed>0.5</MoveSpeed>
+			<ArmorRating_Blunt>1.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.5</ArmorRating_Sharp>
+			<ArmorRating_Heat>1.5</ArmorRating_Heat>
+		</statFactors>
+      </li>
+    </stages>
+	<comps>
+	  <li Class="Xenomorphtype.HediffCompProperties_DefensiveStatureState" />
+	</comps>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_DefensiveStatureProtection</defName>
+    <label>protected by defensive stature</label>
+    <description>A nearby queen has interposed her Juggernaut Crown. External violent hits against this pawn are redirected to that queen.</description>
+    <hediffClass>Xenomorphtype.Hediff_DefensiveStatureProtection</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<comps>
+	  <li Class="Xenomorphtype.HediffCompProperties_DefensiveStatureProtection" />
+	  <li Class="HediffCompProperties_Disappears">
+		<disappearsAfterTicks>5</disappearsAfterTicks>
+	  </li>
+	</comps>
   </HediffDef>
 
   <HediffDef ParentName="XenomorphtypeBase">
@@ -562,7 +606,7 @@
   
   <HediffDef ParentName="XMT_Bodypart">
     <defName>XMT_SubjugatorCrest</defName>
-    <label>flesh subjugator crest</label>
+    <label>subjugator crest</label>
     <description>a tall arching crest with pulsing sacks along its sides.</description>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>
@@ -610,7 +654,7 @@
 
   <HediffDef ParentName="XMT_Bodypart" MayRequire="Ludeon.RimWorld.Biotech">
     <defName>XMT_SignalAmplifyingAntenna</defName>
-    <label>signal amplifying antenna</label>
+	<label>antenna crest</label>
     <description>cryptomechanical antennae grown through the crest, ready to carry mechanoid command signals.</description>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>
@@ -625,6 +669,7 @@
 			<SocialImpact>0.25</SocialImpact>
 			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
 			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
 			
 		</statOffsets>
       </li>
@@ -633,7 +678,7 @@
 
   <HediffDef ParentName="XMT_Bodypart" MayRequire="Ludeon.RimWorld.Biotech">
     <defName>XMT_MechanitorArray</defName>
-    <label>mechanitor array</label>
+	<label>array crown</label>
     <description>a living crown-array of metal-threaded chitin and neural receivers.</description>
     <makesSickThought>false</makesSickThought>
     <makesAlert>false</makesAlert>
@@ -648,6 +693,7 @@
 			<SocialImpact>0.5</SocialImpact>
 			<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
 			<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-16</XMT_HereditaryCapacity>
 		</statOffsets>
       </li>
     </stages>

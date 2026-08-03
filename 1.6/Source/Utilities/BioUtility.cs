@@ -17,6 +17,7 @@ namespace Xenomorphtype
         private const float MetabolicLossSeverity = 0.45f;
 
         private const float MinMetabolicLossSeverity = 0.45f;
+        private static readonly HashSet<string> loggedExtraHostGeneSets = new HashSet<string>();
 
         private static bool CheckTransformation(TransformationHorror candidate, float Essence, ref PawnKindDef pawnForm, ref ThingDef thingForm)
         {
@@ -112,10 +113,17 @@ namespace Xenomorphtype
                             }
                         }
 
-                        if (XMTSettings.LogBiohorror)
+                        if (XMTSettings.LogBiohorror && hostGenes.Count > 0)
                         {
-                            Log.Message("[XMT][Biohorror][GeneContinuity] " + host
-                                + " has " + hostGenes.Count + " extra host gene(s).");
+                            string geneSignature = string.Join(",", hostGenes
+                                .Select(gene => gene?.defName ?? "null")
+                                .OrderBy(defName => defName));
+                            string logKey = host.def.defName + ":" + geneSignature;
+                            if (loggedExtraHostGeneSets.Add(logKey))
+                            {
+                                Log.Message("[XMT][Biohorror][GeneContinuity] " + host
+                                    + " has " + hostGenes.Count + " extra host gene(s).");
+                            }
                         }
                     }
                 }
@@ -123,16 +131,16 @@ namespace Xenomorphtype
             return hostGenes;
         }
 
-        public static void TryMutatingPawn(ref Pawn pawn, XMT_MutationsHealthSet customSet = null, float bonusEssence = 0)
+        public static bool TryMutatingPawn(ref Pawn pawn, XMT_MutationsHealthSet customSet = null, float bonusEssence = 0)
         {
             if (pawn.health == null)
             {
-                return;
+                return false;
             }
 
             if (pawn.GetMorphComp() != null || XMTUtility.IsMorphing(pawn))
             {
-                return;
+                return false;
             }
 
             if (XMTSettings.LogBiohorror)
@@ -174,11 +182,12 @@ namespace Xenomorphtype
                 {
                     if (TryApplyMutation(pawn, health, out Hediff _, bonusEssence, false))
                     {
-                        return;
+                        return true;
                     }
                 }
 
             }
+            return false;
         }
 
         public static XMT_MutationsHealthSet GetFallbackMutationSet(Pawn target)
@@ -1360,9 +1369,9 @@ namespace Xenomorphtype
 
             if (queenComp != null)
             {
-                foreach (RoyalEvolutionDef evolution in queenComp.ChosenEvolutions)
+                foreach (RoyalEvolutionDef evolution in queenComp.EvolutionFeatures())
                 {
-                    if (!queenComp.HasActiveEvolution(evolution) || evolution.unlockedGenes == null)
+                    if (evolution.unlockedGenes == null)
                     {
                         continue;
                     }
@@ -1438,7 +1447,7 @@ namespace Xenomorphtype
             }
             return GetXenomorphInfluence(pawn) > 0;
         }
-        internal static bool HasAlterableGenes(Thing thing)
+        internal static bool HasAlterableGenes(Thing thing, Pawn actingQueen = null)
         {
             if (thing is Pawn pawn)
             {
@@ -1446,7 +1455,11 @@ namespace Xenomorphtype
                 {
                     return true;
                 }
-                else if (XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_MutantExpression))
+
+                bool canAlterMutations = actingQueen != null
+                    ? actingQueen.GetComp<CompQueen>()?.HasEvolutionFeature(RoyalEvolutionDefOf.Evo_MutantExpression) == true
+                    : XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_MutantExpression);
+                if (canAlterMutations)
                 {
                     if(HasMutations(pawn, false))
                     {

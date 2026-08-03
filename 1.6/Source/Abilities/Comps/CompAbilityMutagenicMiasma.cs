@@ -25,6 +25,10 @@ namespace Xenomorphtype
         {
         }
 
+        public Ability_MutagenicMiasma(Pawn pawn) : base(pawn)
+        {
+        }
+
         public Ability_MutagenicMiasma(Pawn pawn, AbilityDef def) : base(pawn, def)
         {
         }
@@ -126,7 +130,7 @@ namespace Xenomorphtype
                         continue;
                     }
 
-                    RegisterHostileAct(caster, pawn, angeredFactions);
+                    HarmfulAbilityUtility.RegisterFactionHarm(caster, pawn, angeredFactions, sendHostilityLetter: true);
                     float protectionChance = MutagenicMiasmaUtility.ProtectionChance(pawn);
                     if (Rand.Chance(protectionChance))
                     {
@@ -135,7 +139,11 @@ namespace Xenomorphtype
                     }
 
                     Pawn mutationTarget = pawn;
-                    BioUtility.TryMutatingPawn(ref mutationTarget, XenoGeneDefOf.XMT_HostMeatMutationSet);
+                    if (BioUtility.TryMutatingPawn(ref mutationTarget, XenoGeneDefOf.XMT_HostMeatMutationSet))
+                    {
+                        MoteMaker.ThrowText(mutationTarget.DrawPos, mutationTarget.MapHeld ?? map,
+                            "XMT_MutagenicMiasmaSuccess".Translate(), 1.9f);
+                    }
                     ApplyFlu(pawn);
                 }
             }
@@ -284,16 +292,18 @@ namespace Xenomorphtype
             {
                 return;
             }
+            for (int i = 0; i < 8; i++)
+            {
+                Vector3 position = cell.ToVector3Shifted() + Gen.RandomHorizontalVector(2f);
+                FleckCreationData data = FleckMaker.GetDataStatic(position, map, fleckDef, Rand.Range(0.85f, 1.15f));
+                data.rotation = Rand.Range(0f, 360f);
+                data.rotationRate = Rand.Range(-30f, 30f);
+                data.velocityAngle = Rand.Range(30f, 40f);
+                data.velocitySpeed = Rand.Range(0.25f, 0.45f);
+                map.flecks.CreateFleck(data);
 
-            Vector3 position = cell.ToVector3Shifted() + Gen.RandomHorizontalVector(0.25f);
-            FleckCreationData data = FleckMaker.GetDataStatic(position, map, fleckDef, Rand.Range(0.85f, 1.15f));
-            data.rotation = Rand.Range(0f, 360f);
-            data.rotationRate = Rand.Range(-30f, 30f);
-            data.velocityAngle = Rand.Range(30f, 40f);
-            data.velocitySpeed = Rand.Range(0.25f, 0.45f);
-            map.flecks.CreateFleck(data);
+            }
         }
-
         private void ApplyFlu(Pawn pawn)
         {
             HediffDef fluDef = Props.fluHediff ?? InternalDefOf.XMT_Flu;
@@ -316,20 +326,6 @@ namespace Xenomorphtype
             }
         }
 
-        private static void RegisterHostileAct(Pawn caster, Pawn target, HashSet<Faction> angeredFactions)
-        {
-            Faction casterFaction = caster?.Faction;
-            Faction targetFaction = target?.Faction;
-            if (casterFaction == null || targetFaction == null || casterFaction == targetFaction || target.HostileTo(caster)
-                || !angeredFactions.Add(targetFaction))
-            {
-                return;
-            }
-
-            int goodwillChange = targetFaction.GoodwillToMakeHostile(casterFaction);
-            targetFaction.TryAffectGoodwillWith(casterFaction, goodwillChange, canSendMessage: true,
-                canSendHostilityLetter: true, HistoryEventDefOf.UsedHarmfulAbility);
-        }
     }
 
     public class CompProperties_AbilityMutagenicMiasma : CompProperties_AbilityEffect
@@ -348,9 +344,6 @@ namespace Xenomorphtype
 
     public static class MutagenicMiasmaUtility
     {
-        private const float BaselinePower = 66f;
-        private const float SovereignPower = 114f;
-
         private static StatDef vacuumResistance;
         private static StatDef decompressionResistance;
         private static StatDef toxicEnvironmentResistance;
@@ -367,17 +360,33 @@ namespace Xenomorphtype
 
         public static int Range(Pawn pawn)
         {
-            return Mathf.Clamp(Mathf.RoundToInt(3f + (Power(pawn) - BaselinePower) / 9.6f), 1, 12);
+            return (int)EvolutionScalingUtility.Scale(3f, 6.875f, 1f, 12f,
+                EvolutionScalingCurve.LinearDelta, EvolutionScalingRounding.Round,
+                new EvolutionScalingFactor(pawn?.BodySize ?? 0f, 3f),
+                new EvolutionScalingFactor(GetHereditaryCapacity(pawn), 22f));
         }
 
         public static float Angle(Pawn pawn)
         {
-            return Mathf.Clamp((Power(pawn) - BaselinePower) * 90f / (SovereignPower - BaselinePower), 0f, 180f);
+            return EvolutionScalingUtility.Scale(0f, 123.75f, 0f, 180f,
+                EvolutionScalingCurve.LinearDelta, EvolutionScalingRounding.None,
+                new EvolutionScalingFactor(pawn?.BodySize ?? 0f, 3f),
+                new EvolutionScalingFactor(GetHereditaryCapacity(pawn), 22f));
         }
 
         public static int CooldownTicks(Pawn pawn)
         {
-            return Mathf.Max(Mathf.RoundToInt(1250f * SovereignPower / Mathf.Max(Power(pawn), 1f)), 60);
+            return (int)EvolutionScalingUtility.Scale(1250f, 0f, 60f, 142500f,
+                EvolutionScalingCurve.Inverse, EvolutionScalingRounding.Round,
+                new EvolutionScalingFactor(pawn?.BodySize ?? 0f, 3f),
+                new EvolutionScalingFactor(GetHereditaryCapacity(pawn), 38f));
+        }
+
+        private static float GetHereditaryCapacity(Pawn pawn)
+        {
+            return pawn == null || XenoStatDefOf.XMT_HereditaryCapacity == null
+                ? 0f
+                : pawn.GetStatValue(XenoStatDefOf.XMT_HereditaryCapacity);
         }
 
         public static bool CanMutate(Pawn pawn)

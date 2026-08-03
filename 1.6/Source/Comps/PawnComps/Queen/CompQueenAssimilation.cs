@@ -116,7 +116,7 @@ namespace Xenomorphtype
 
         public bool HasEvolution(RoyalEvolutionDef evolution)
         {
-            return evolution != null && QueenComp != null && QueenComp.ChosenEvolutions.Contains(evolution);
+            return evolution != null && QueenComp?.HasFunctionalEvolutionFeature(evolution) == true;
         }
 
         private bool CanShowQueenGizmos()

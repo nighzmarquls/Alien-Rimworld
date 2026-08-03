@@ -56,7 +56,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (queen.Position.DistanceTo(target.Cell) > parent.def.verbProperties.range)
+            if (!target.Cell.InHorDistOf(queen.Position, JuggernautAbilityUtility.TrampleRange(queen)))
             {
                 if (throwMessages)
                 {
