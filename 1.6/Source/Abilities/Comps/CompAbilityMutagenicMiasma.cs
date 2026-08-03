@@ -132,6 +132,12 @@ namespace Xenomorphtype
 
                     HarmfulAbilityUtility.RegisterFactionHarm(caster, pawn, angeredFactions, sendHostilityLetter: true);
                     float protectionChance = MutagenicMiasmaUtility.ProtectionChance(pawn);
+
+                    if(protectionChance < 1)
+                    {
+                        pawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 5));
+                    }
+
                     if (Rand.Chance(protectionChance))
                     {
                         MoteMaker.ThrowText(pawn.DrawPos, map, "XMT_MutagenicMiasmaProtected".Translate(protectionChance.ToStringPercent()), 1.9f);
