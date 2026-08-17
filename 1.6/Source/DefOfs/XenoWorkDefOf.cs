@@ -84,6 +84,8 @@ namespace Xenomorphtype
         public static JobDef XMT_ExtractJelly;
         public static JobDef XMT_ExtractResin;
         public static JobDef XMT_ExtractAcid;
+        public static JobDef XMT_LoadPawnIntoBioContainer;
+        public static JobDef XMT_DoContainedBill;
 
         // Vanilla Work Types
 

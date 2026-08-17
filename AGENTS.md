@@ -16,6 +16,12 @@ When reviewing this project, read this file and add its contents to the working 
 - Compatibility/design work often starts with a proposal checkpoint before code edits. Treat proposal delivery as intermediate unless the user says the larger task is complete; use it to verify logic, balance, def names, and patch shape before implementation.
 - For gnarly or open-ended feature prompts, discuss approach before initiating code changes on the first prompt; do not treat early investigation as authorization to implement unless the user explicitly asks for edits.
 - After changing XML, validate by checking the touched file for well-formed XML and searching for related def names or patch targets.
+- When the user names an analogous implementation, inspect its complete call path and the utilities it delegates to before editing; do not copy only the visible toil/override or reimplement an existing vanilla helper.
+- Before adding configuration fields, cached values, Harmony patches, or render/job helpers, identify the concrete runtime consumer and trace how the value reaches it. Do not add speculative state that is never read by the engine path being changed.
+- For custom jobs layered onto vanilla drivers, map ownership and mutation of every target, target queue, and auxiliary job field before storing custom data. Prefer staged reuse of vanilla targets and runtime revalidation over custom serialized driver state when practical.
+- When patching a method that can return multiple job kinds, gate mutation on the exact returned `JobDef`, not only the recipe/bill/request that caused the call.
+- Smoke-test each supported lifecycle form independently (spawned/installed, minified/map item, inventory-held, save/load mid-job) before treating one successful path as validation of the shared implementation.
+- Keep diagnosis scoped to the reported symptom. Confirm which object/layer/job state is wrong before changing adjacent presentation or behavior that merely appears in the same screenshot or stack trace.
 
 ## Helpful References
 
@@ -75,6 +81,11 @@ Add durable observations here when they would help a future agent work safely an
 - Verified RimWorld 1.6 on 2026-07-19: when a transformation must produce a particular pawn life stage, set `PawnGenerationRequest.FixedBiologicalAge` before `PawnGenerator.GeneratePawn`; changing age only after adult generation may not produce the intended stage state. Reapply the exact biological age after source state-transfer hooks when they can alter age.
 - Verified RimWorld 1.6 on 2026-07-27: inherited string fields can resolve to `string.Empty` despite an `IsNull="True"` XML override. When runtime logic distinguishes empty from null (for example, `BuildingProperties.sowTag` makes `SupportsPlants` true and forces `ThingDef.CanOverlapZones` false), normalize the field after def loading; keep unrelated static def properties such as `canOverlapZones` in XML.
 - Verified RimWorld 1.6 on 2026-08-02: custom `Ability` subclasses saved in `Pawn_AbilityTracker` need a public `(Pawn pawn)` constructor forwarding to `base(pawn)`, in addition to any parameterless or `(Pawn, AbilityDef)` constructors. Without it, loading logs `SaveableFromNode` `MissingMethodException` and save recovery may remove the ability.
+- Verified RimWorld 1.6 local assembly on 2026-08-16: `Toils_Construct.UninstallIfMinifiable(TargetIndex)` performs the uninstall against the supplied index, but its progress getter hardcodes `CurJob.targetA.def.building.uninstallWork`. Using it for a non-A building can null-reference when target A is a pawn/item; use it only when A is the minifiable building or call `MinifyUtility.Uninstall(thing)` for direct relocation.
+- Verified RimWorld 1.6 local assembly on 2026-08-16: `WorkGiver_DoBill.TryStartNewDoBillJob` can return preliminary haul/placement jobs as well as `JobDefOf.DoBill`. A recipe-specific postfix must check `result.def == JobDefOf.DoBill` before replacing the driver; haul jobs may legitimately use A=item and B=cell.
+- Vanilla `JobDriver_DoBill` owns A as bill giver, B as ingredients, C as ingredient placement, and the corresponding target queues. Do not use those queues as scratch storage; corruption can surface later as `DoBill on non-Billgiver` after ingredient transforms.
+- Do not call `Job.GetCachedDriver` in a workgiver postfix merely to transfer custom state after changing `job.def`; this couples job creation to a transient driver instance and complicates queued-job/save behavior. Let job start instantiate the final driver, and carry staged state through vanilla job targets or recompute it through utilities.
+- For held-pawn rendering, verify that XML/comp fields feed an actual `PawnRenderer` consumer. Use the current render call's draw location/altitude for unspawned inner things; an inner building's own `DrawPos` can be stale while minified and sort the pawn behind its container.
 
 ## Agent Update Rule
 

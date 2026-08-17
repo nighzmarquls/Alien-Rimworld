@@ -238,7 +238,12 @@ namespace Xenomorphtype
                 }
             }
 
-            if(Parent.Downed)
+            if (Parent.IsHashIntervalTick(IntervalCheck))
+            {
+                BioUtility.FeedFromHoppers(Parent);
+            }
+
+            if (Parent.Downed)
             {
                 return;
             }
@@ -251,7 +256,7 @@ namespace Xenomorphtype
             if (Parent.IsHashIntervalTick(IntervalCheck))
             {
                 TryAcidBloodMischief();
-
+               
                 if (Parent.CarriedBy != null)
                 {
                     if (!XMTUtility.IsXenomorph(Parent.CarriedBy))

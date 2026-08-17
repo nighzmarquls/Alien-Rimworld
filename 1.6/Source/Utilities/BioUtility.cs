@@ -7,8 +7,6 @@ using UnityEngine;
 using Verse;
 using static UnityEngine.GraphicsBuffer;
 
-
-
 namespace Xenomorphtype
 {
     public class BioUtility
@@ -1615,6 +1613,71 @@ namespace Xenomorphtype
                 pawn.health.AddHediff(hediff);
             }
         }
+
+        public static void FeedFromHoppers(Pawn pawn)
+        {
+            float nutritionWanted = pawn.needs.food.NutritionWanted;
+            if (nutritionWanted > 0)
+            {
+                //TODO: make this not just use anomaly references.
+                if (pawn.ParentHolder is Building_HoldingPlatform holdingPlatform)
+                {
+                    if (XMTSettings.LogBiohorror)
+                    {
+                        Log.Message("[XMT][Biohorror] contained and hungry enough to be hopper fed " + pawn + " nutrtion wanted: " + nutritionWanted);
+                    }
+                    IEnumerable<IntVec3> adjacent = holdingPlatform.OccupiedRect().AdjacentCellsCardinal;
+
+                    foreach (IntVec3 cell in adjacent)
+                    {
+                        if (cell.GetEdificeSafe(holdingPlatform.Map) is Building_Storage storage)
+                        {
+                            if (!storage.IsHopper())
+                            {
+                                continue;
+                            }
+
+                            List<Thing> contents = cell.GetThingList(holdingPlatform.Map);
+
+
+                            if (contents == null || contents.Count == 0)
+                            {
+                                continue;
+                            }
+                            foreach (Thing thing in contents)
+                            {
+                                if (thing.Destroyed)
+                                {
+                                    continue;
+                                }
+
+                                if (thing.def == null)
+                                {
+                                    continue;
+                                }
+
+                                if (thing.def.IsNutritionGivingIngestible)
+                                {
+                                    float eaten = thing.Ingested(pawn, nutritionWanted);
+                                    pawn.needs.food.CurLevel += eaten;
+                                    nutritionWanted -= eaten;
+                                }
+
+                                if (nutritionWanted <= 0)
+                                {
+                                    break;
+                                }
+                            }
+
+                            if (nutritionWanted <= 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
         internal static bool PawnHasEnoughForExtraction(Pawn pawn, bool useFood = true)
         {
             if (pawn.needs != null && pawn.needs.food != null && useFood)
@@ -1634,6 +1697,7 @@ namespace Xenomorphtype
         {
             if (pawn?.needs?.food != null)
             {
+                
                 pawn.needs.food.CurLevel = pawn.needs.food.CurLevel - XMTHiveUtility.HiveHungerCostPerTick;
 
                 if (pawn.needs.food.Starving)

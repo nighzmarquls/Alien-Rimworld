@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>XMT_BioContainer</defName>
+    <label>stasis biocontainer</label>
+    <description>A compact stasis vessel designed to safely contain small living organisms. Its suspended contents remain visible and can be transported with the container.</description>
+    <thingClass>Xenomorphtype.Building_BioContainer</thingClass>
+    <containedPawnsSelectable>true</containedPawnsSelectable>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Things/Building/BioContainer/BioContainer_back</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(3.5,3.5)</drawSize>
+    </graphicData>
+    <minifiedDef>MinifiedThingRealtimeDraw</minifiedDef>
+    <minifiedManualDraw>true</minifiedManualDraw>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <blockWind>true</blockWind>
+    <fillPercent>0.8</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToBuild>1800</WorkToBuild>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <Mass>25</Mass>
+      <MarketValue>700</MarketValue>
+    </statBases>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2060</uiOrder>
+    <researchPrerequisites>
+      <li>MedicineProduction</li>
+      <li>Fabrication</li>
+    </researchPrerequisites>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <building>
+      <ai_chillDestination>false</ai_chillDestination>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+      <gibbetCageTopGraphicData>
+        <texPath>Things/Building/BioContainer/BioContainer_front</texPath>
+        <graphicClass>Graphic_Single</graphicClass>
+        <shaderType>Transparent</shaderType>
+        <drawSize>(3.5,3.5)</drawSize>
+      </gibbetCageTopGraphicData>
+    </building>
+    <costList>
+      <Steel>80</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <comps>
+      <li Class="Xenomorphtype.CompProperties_BioContainer">
+        <maxBodySize>0.35</maxBodySize>
+        <maxMedicalExtractionBodySize>1</maxMedicalExtractionBodySize>
+        <occupantDrawScale>0.9</occupantDrawScale>
+        <medicalExtractionDrawScale>0.35</medicalExtractionDrawScale>
+        <occupantDrawOffset>(0.05,0,0.40)</occupantDrawOffset>
+        <occupantDrawAngle>75</occupantDrawAngle>
+        <suspendContents>true</suspendContents>
+      </li>
+    </comps>
+    <inspectorTabs>
+      <li>ITab_ContentsCasket</li>
+    </inspectorTabs>
+  </ThingDef>
+
+</Defs>

@@ -540,7 +540,7 @@ namespace Xenomorphtype
             return true;
         }
 
-        internal static bool CanInstallMovedThingAt(Thing thing, IntVec3 cell, Pawn pawn)
+        internal static bool CanInstallMovedThingAt(Thing thing, IntVec3 cell, Pawn pawn, Thing ignoredThing = null)
         {
             if (thing == null || pawn?.Map == null || !cell.InBounds(pawn.Map) || IsDoorwayCell(cell, pawn.Map))
             {
@@ -550,7 +550,9 @@ namespace Xenomorphtype
             CellRect occupiedRect = GenAdj.OccupiedRect(cell, thing.Rotation, thing.def.Size);
             foreach (IntVec3 occupiedCell in occupiedRect)
             {
-                if (!occupiedCell.InBounds(pawn.Map) || !occupiedCell.Standable(pawn.Map))
+                bool occupiedByIgnoredThing = ignoredThing?.Spawned == true &&
+                    GenAdj.OccupiedRect(ignoredThing).Contains(occupiedCell);
+                if (!occupiedCell.InBounds(pawn.Map) || (!occupiedCell.Standable(pawn.Map) && !occupiedByIgnoredThing))
                 {
                     return false;
                 }
@@ -561,7 +563,7 @@ namespace Xenomorphtype
                 thing.Rotation,
                 thing.def,
                 pawn.Map,
-                other => IsHardPlacementBlocker(other));
+                other => other != ignoredThing && IsHardPlacementBlocker(other));
         }
 
         private static bool IsHardPlacementBlocker(Thing thing)

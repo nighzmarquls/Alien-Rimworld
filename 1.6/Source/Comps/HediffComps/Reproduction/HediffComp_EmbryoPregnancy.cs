@@ -20,6 +20,9 @@ namespace Xenomorphtype
         public Pawn Host;
         private int geneStorageVersion = 1;
 
+        [Unsaved(false)]
+        internal Thing pendingBioContainer;
+
         HediffCompProperties_EmbryoPregnancy Props => props as HediffCompProperties_EmbryoPregnancy;
         public override void CompExposeData()
         {
@@ -368,7 +371,7 @@ namespace Xenomorphtype
 
             XMTHiveUtility.ChestburstBirth(child, mother);
 
-            XMTUtility.TrySpawnPawnFromTarget(child, Pawn);
+            BioContainerUtility.ContainOrSpawn(child, Pawn, pendingBioContainer);
 
             if (child.Map != null)
             {

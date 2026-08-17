@@ -50,6 +50,21 @@
 		<reportString>extracting acid blood from TargetA.</reportString>
 		<casualInterruptible>false</casualInterruptible>
 	</JobDef>
+
+	<JobDef>
+		<defName>XMT_LoadPawnIntoBioContainer</defName>
+		<driverClass>Xenomorphtype.JobDriver_LoadPawnIntoBioContainer</driverClass>
+		<reportString>loading TargetA into a biocontainer.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<carryThingAfterJob>true</carryThingAfterJob>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_DoContainedBill</defName>
+		<driverClass>Xenomorphtype.JobDriver_DoContainedBill</driverClass>
+		<reportString>operating on TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
 	
 	
 </Defs>

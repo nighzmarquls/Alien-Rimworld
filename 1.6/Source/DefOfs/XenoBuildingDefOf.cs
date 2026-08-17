@@ -33,6 +33,7 @@ namespace Xenomorphtype
         public static ThingDef AtmospherePylon;
         public static ThingDef XMT_HibernationCocoon;
         public static ThingDef XMT_Ovothrone;
+        public static ThingDef XMT_BioContainer;
         public static ThingDef XMT_AmbushSpot;
         public static ThingDef HiveFloorBuildable;
         public static ThingDef HiveBridgeBuildable;

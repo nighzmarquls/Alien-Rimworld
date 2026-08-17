@@ -124,6 +124,8 @@
     <Compile Include="AI\JobDriver\Queen\JobDriver_AdvanceHorror.cs" />
     <Compile Include="AI\JobDriver\Ritual\JobDriver_PrepareChrysalisWithJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_DoContainedBill.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_LoadPawnIntoBioContainer.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_QueenAlterationChannel.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
@@ -184,7 +186,10 @@
     <Compile Include="AI\WorkGiver\WorkGiver_HaulToOvothroneAssimilation.cs" />
     <Compile Include="BioHorror\Genes\IbexinGene.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractAcid.cs" />
+    <Compile Include="BioHorror\Recipes\Recipe_RemoveHediffContained.cs" />
+    <Compile Include="Building\Containment\Building_BioContainer.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
+    <Compile Include="Comps\BuildingComps\CompBioContainer.cs" />
     <Compile Include="Comps\BuildingComps\Power\CompBatteryBoosting.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_DeAges.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ForceWearApparel.cs" />
@@ -231,12 +236,14 @@
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_AdvancedTame.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_Abduct.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_LoadBioContainer.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenAssimilation.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenMutation.cs" />
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
+    <Compile Include="Utilities\BioContainerUtility.cs" />
     <Compile Include="Utilities\HorrorAdvancementUtility.cs" />
     <Compile Include="Utilities\EvolutionScalingUtility.cs" />
     <Compile Include="Utilities\HarmfulAbilityUtility.cs" />
@@ -244,7 +251,7 @@
     <Compile Include="Utilities\XMT_IFFUtility.cs" />
     <Compile Include="Utilities\XMTZoneUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
-	<Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />
+    <Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractJelly.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_XMT_HaulToGeneBank.cs" />
@@ -277,7 +284,7 @@
     <Compile Include="DefOfs\XenoMapDefOf.cs" />
     <Compile Include="DefOfs\XenoMentalStateDefOf.cs" />
     <Compile Include="Harmony\XMTAnomalyPatches.cs" />
-	<Compile Include="Harmony\XMTGenePatches.cs" />
+    <Compile Include="Harmony\XMTGenePatches.cs" />
     <Compile Include="Harmony\XMTSaveRecoveryPatches.cs" />
     <Compile Include="Harmony\XMTButcheryPatches.cs" />
     <Compile Include="Harmony\XMTClimbPatches.cs" />
@@ -350,6 +357,8 @@
     <Compile Include="Harmony\XMTReservationPatches.cs" />
     <Compile Include="Harmony\XMTRestPatches.cs" />
     <Compile Include="Harmony\XMTSurgeryPatch.cs" />
+    <Compile Include="Harmony\XMTBioContainerBillPatch.cs" />
+    <Compile Include="Harmony\XMTBioContainerRenderPatch.cs" />
     <Compile Include="Harmony\XMTToilPatches.cs" />
     <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
     <Compile Include="Harmony\Aggression\XMTSlavePatch.cs" />
@@ -450,7 +459,7 @@
     <Compile Include="Harmony\XMTQueenMechanitorPatches.cs" />
     <Compile Include="Harmony\XMTThoughtPatch.cs" />
     <Compile Include="Harmony\XMTUIPatches.cs" />
-    <Compile Include="Map\HiveMapComponent.cs" />
+    <Compile Include="Comps\MapComps\HiveMapComponent.cs" />
     <Compile Include="Utilities\XMTHiveUtility.cs" />
     <Compile Include="Utilities\InorganicSubversionUtility.cs" />
     <Compile Include="Utilities\InfiltrationUtility.cs" />

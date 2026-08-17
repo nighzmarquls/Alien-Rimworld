@@ -9,6 +9,21 @@
 			</value>
 		</nomatch>
 	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart"]/comps
+		</xpath>
+		<value>
+			<li Class="Xenomorphtype.CompChanceSpawnOnDestroyProperties">
+				<thingSpawns>
+					<li>
+						<probability>0.1</probability>
+						<spawnThing>XMT_Ovomorph</spawnThing>
+					</li>
+				</thingSpawns>
+			</li>
+		</value>
+	</Operation>
   
 	<Operation Class="PatchOperationAdd">
 		<xpath>Defs/ThingDef[defName="ShipChunk" or defName="PsychicDronerShipPart" or defName="DefoliatorShipPart"]/comps
@@ -30,6 +45,14 @@
 		</xpath>
 		<value>
 			<MarketValue>0</MarketValue>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[@Name="HoldingPlatformBase"]/building
+		</xpath>
+		<value>
+			<wantsHopperAdjacent>True</wantsHopperAdjacent>
 		</value>
 	</Operation>
 	

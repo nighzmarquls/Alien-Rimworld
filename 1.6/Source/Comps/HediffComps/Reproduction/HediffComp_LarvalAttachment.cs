@@ -25,6 +25,9 @@ namespace Xenomorphtype
         public string name;
         public float age;
         private int geneStorageVersion = 1;
+
+        [Unsaved(false)]
+        internal Thing pendingBioContainer;
        
         public HediffCompProperties_LarvalAttachment Props => (HediffCompProperties_LarvalAttachment)props;
 
@@ -299,7 +302,7 @@ namespace Xenomorphtype
 
                 removed = true;
 
-                return XMTUtility.TrySpawnPawnFromTarget(larva, Pawn);
+                return BioContainerUtility.ContainOrSpawn(larva, Pawn, pendingBioContainer);
             }
 
             return null;

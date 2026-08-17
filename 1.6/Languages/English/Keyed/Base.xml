@@ -474,6 +474,9 @@
 	<XMT_ReleaseFrom>Release from {0}</XMT_ReleaseFrom>
 	<XMT_CancelRelease>Cancel Release</XMT_CancelRelease>
 	<XMT_CancelReleaseFrom>Cancel Release from {0}</XMT_CancelReleaseFrom>
+	<XMT_LoadIntoBioContainer>Load {0} into biocontainer</XMT_LoadIntoBioContainer>
+	<XMT_NoEmptyBioContainer>No empty, reachable stasis biocontainer is available.</XMT_NoEmptyBioContainer>
+	<XMT_NoBioContainerSurgerySpace>No free space is available to install a stasis biocontainer beside the patient.</XMT_NoBioContainerSurgerySpace>
 
 	<XMT_ModSettingsCategory>Alien | Rimworld</XMT_ModSettingsCategory>
 	<XMT_SettingsLogJobGiver>Log Job Giver</XMT_SettingsLogJobGiver>
