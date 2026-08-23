@@ -197,7 +197,7 @@ namespace Xenomorphtype
 
                 listing_Standard.Gap();
 
-                height = (optionHeight + spacer)*4;
+                height = (optionHeight + spacer)*5;
 
                 Rect ExtractionOptions = listing_Standard.GetRect(height).Rounded();
                 Widgets.DrawMenuSection(ExtractionOptions);
@@ -268,6 +268,33 @@ namespace Xenomorphtype
                 }
 
                 TooltipHandler.TipRegion(acidRect, acidDescription);
+
+                disabledText = null;
+                if (XenoGeneDefOf.XMT_CryptimorphicPheromones?.IsFinished != true)
+                {
+                    disabledText = "XMT_RequiresPheromoneExtraction".Translate();
+                }
+                else
+                {
+                    Building_HoldingPlatform heldPlatform = compHoldingPlatformTarget.HeldPlatform;
+                    if (heldPlatform != null && heldPlatform.HasAttachedBioferriteHarvester)
+                    {
+                        disabledText = "BioferriteHarvesterAttached".Translate();
+                    }
+                }
+
+                yoffset += spacer + acidRect.height;
+
+                Rect pheromoneRect = new Rect(0f, yoffset, internalExtractionRect.width, 28f);
+                Widgets.CheckboxLabeled(pheromoneRect, "XMT_PheromoneExtraction".Translate(), ref SelPawn.Info().extractPheromone, disabledText != null);
+                Widgets.DrawHighlightIfMouseover(pheromoneRect);
+                TaggedString pheromoneDescription = "XMT_PheromoneExtractionDescription".Translate();
+                if (disabledText != null)
+                {
+                    pheromoneDescription += "\n\n" + disabledText.Colorize(ColoredText.WarningColor);
+                }
+
+                TooltipHandler.TipRegion(pheromoneRect, pheromoneDescription);
                 Widgets.EndGroup();
             }
 

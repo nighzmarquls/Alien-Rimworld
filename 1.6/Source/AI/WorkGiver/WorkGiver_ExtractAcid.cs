@@ -9,7 +9,7 @@ namespace Xenomorphtype
     {
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (!pawn.CanReserve(t, 1, -1, null, forced))
+            if (XenoGeneDefOf.XMT_Acid_Utilization?.IsFinished != true || !pawn.CanReserve(t, 1, -1, null, forced))
             {
                 return false;
             }
@@ -19,7 +19,7 @@ namespace Xenomorphtype
 
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (GetEntity(t) == null)
+            if (XenoGeneDefOf.XMT_Acid_Utilization?.IsFinished != true || GetEntity(t) == null)
             {
                 return null;
             }

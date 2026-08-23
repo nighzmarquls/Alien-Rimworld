@@ -26,6 +26,7 @@ namespace Xenomorphtype
         public static ResearchProjectDef XMT_Mutation_Targeted;
         public static ResearchProjectDef XMT_Jelly_Drugs;
         public static ResearchProjectDef XMT_Acid_Utilization;
+        public static ResearchProjectDef XMT_CryptimorphicPheromones;
 
         // xeno items 
         public static ThingDef      XMT_Genepack;

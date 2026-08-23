@@ -87,4 +87,18 @@
 		<prioritizeSustains>true</prioritizeSustains>
 	</WorkGiverDef>
 
+	<WorkGiverDef>
+		<defName>XMT_ExtractPheromone</defName>
+		<label>extract pheromone glands from cryptimorphs</label>
+		<giverClass>Xenomorphtype.WorkGiver_ExtractPheromone</giverClass>
+		<workType>Doctor</workType>
+		<verb>extract from</verb>
+		<gerund>extracting from</gerund>
+		<priorityInType>10</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<prioritizeSustains>true</prioritizeSustains>
+	</WorkGiverDef>
+
 </Defs>

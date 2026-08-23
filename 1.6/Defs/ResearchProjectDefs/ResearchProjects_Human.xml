@@ -88,6 +88,22 @@
     </generalRules>
 	<tab>XMT_HumanResearchTab</tab>
   </ResearchProjectDef>
+
+  <ResearchProjectDef>
+    <defName>XMT_CryptimorphicPheromones</defName>
+    <label>cryptimorphic pheromones</label>
+    <description>Identify and isolate the signaling compounds produced by cryptimorphic scent glands. Unlocks pheromone extraction, clinical identification, topical application, and specialized pheromone equipment.</description>
+    <techLevel>Spacer</techLevel>
+    <baseCost>1500</baseCost>
+    <researchViewX>1.00</researchViewX>
+    <researchViewY>1.50</researchViewY>
+    <requiredResearchFacilities>
+    </requiredResearchFacilities>
+    <prerequisites>
+      <li>XMT_Jelly_Extraction</li>
+    </prerequisites>
+    <tab>XMT_HumanResearchTab</tab>
+  </ResearchProjectDef>
   
   <ResearchProjectDef>
     <defName>XMT_Jelly_Refinement</defName>

@@ -34,6 +34,18 @@ namespace Xenomorphtype
                 InternalDefOf.XMT_Starbeast_AlienRace.race.corpseDef.thingClass = typeof(StarbeastCorpse);
             }
 
+            if (InternalDefOf.XMT_StarCutie_AlienRace != null)
+            {
+                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_StarCutie_AlienRace.race.corpseDef);
+                InternalDefOf.XMT_StarCutie_AlienRace.race.corpseDef.thingClass = typeof(StarbeastCorpse);
+            }
+
+            if (InternalDefOf.XMT_Royal_AlienRace != null)
+            {
+                Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Royal_AlienRace.race.corpseDef);
+                InternalDefOf.XMT_Royal_AlienRace.race.corpseDef.thingClass = typeof(StarbeastCorpse);
+            }
+
             if (InternalDefOf.XMT_Royal_AlienRace != null)
             {
                 Log.Message("[Alien|Rimworld] patched corpse " + InternalDefOf.XMT_Royal_AlienRace.race.corpseDef);

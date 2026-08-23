@@ -20,52 +20,51 @@ namespace Xenomorphtype
                     pawn = corpse.InnerPawn;
                 }
 
-                CompAcidBlood acidBlood = pawn.GetAcidBloodComp();
-
-
-                if (___recipe.Worker is Recipe_Surgery recipe_Surgery)
+                if (pawn == null || pawn.Dead || billDoer == null || ___recipe?.Worker is not Recipe_Surgery)
                 {
-                    bool insufficientMedicine = true;
+                    return;
+                }
 
+                CompAcidBlood acidBlood = pawn.GetAcidBloodComp();
+                bool insufficientMedicine = true;
 
-                    foreach (ThingDef medicine in ___consumedMedicine.Keys)
+                foreach (ThingDef medicine in ___consumedMedicine.Keys)
+                {
+                    if (medicine == InternalDefOf.Starbeast_Jelly)
                     {
-                        if (medicine == InternalDefOf.Starbeast_Jelly)
-                        {
-                            BioUtility.TryMutatingPawn(ref pawn);
-                        }
-                        float potency = medicine.statBases.GetStatValueFromList(StatDefOf.MedicalPotency, 0);
-                        if (potency > 1.5)
-                        {
-                            insufficientMedicine = false;
-                        }
+                        BioUtility.TryMutatingPawn(ref pawn);
                     }
-
-                    if (___recipe.Worker is Recipe_ExtractHemogen)
-                    {
-                        insufficientMedicine = true;
-                    }
-
-                    if(___recipe.Worker is Recipe_ExtractJelly || ___recipe.Worker is Recipe_ExtractAcid)
+                    float potency = medicine.statBases.GetStatValueFromList(StatDefOf.MedicalPotency, 0);
+                    if (potency > 1.5f)
                     {
                         insufficientMedicine = false;
                     }
+                }
 
-                    if (insufficientMedicine)
-                    {
-                        if (acidBlood != null)
-                        {
-                            pawn.health.AddHediff(HediffDefOf.SurgicalCut, dinfo: new DamageInfo(DamageDefOf.SurgicalCut, amount: 1, instigator: billDoer));
-                            if (acidBlood.TrySplashAcidThing(1, billDoer))
-                            {
-                                billDoer.ClearAllReservations();
-                                billDoer.jobs.StopAll();
-                            }
+                if (acidBlood == null)
+                {
+                    return;
+                }
 
-                            acidBlood.TrySplashAcid(acidBlood.GetBloodFullness());
-                            return;
-                        }
-                    }
+                if (___recipe.Worker is Recipe_ExtractHemogen)
+                {
+                    insufficientMedicine = true;
+                }
+
+                if (___recipe.Worker is Recipe_ExtractJelly ||
+                    ___recipe.Worker is Recipe_ExtractResin ||
+                    ___recipe.Worker is Recipe_ExtractAcid  ||
+                    ___recipe.Worker is Recipe_ExtractPheromone)
+                {
+                    insufficientMedicine = false;
+                }
+
+                float acidKnowledge = KnowledgeUtility.GetAcidRiskKnowledge(billDoer);
+                if (insufficientMedicine || Rand.Chance(1f - acidKnowledge))
+                {
+                    AcidUtility.TrySurgicalAcidSpill(pawn, billDoer);
+                    billDoer.ClearAllReservations();
+                    billDoer.jobs.StopAll();
                 }
             }
         }

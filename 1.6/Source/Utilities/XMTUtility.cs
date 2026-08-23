@@ -904,7 +904,7 @@ namespace Xenomorphtype
         {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
-            bonus = 0;
+            bonus = XenoGeneDefOf.XMT_Acid_Utilization?.IsFinished == true ? 1f : 0f;
             foreach (Pawn witness in witnesses)
             {
                 if (XMTUtility.IsXenomorph(witness))
@@ -918,7 +918,7 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            float thisAwareness = KnowledgeUtility.GetEffectiveKnowledge(witness, KnowledgeDefOf.XMT_Knowledge_Acid);
+                            float thisAwareness = KnowledgeUtility.GetAcidRiskKnowledge(witness);
                             if (thisAwareness > bonus)
                             {
                                 bonus = thisAwareness;

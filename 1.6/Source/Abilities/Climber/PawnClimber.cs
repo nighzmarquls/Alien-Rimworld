@@ -498,6 +498,14 @@ namespace Xenomorphtype
             Scribe_Deep.Look(ref jobQueue, "jobQueue");
             Scribe_TargetInfo.Look(ref target, "target");
 
+            // JobDriver.ExposeData runs SetupToils during PostLoadInit. A detached driver is
+            // outside Pawn_JobTracker ownership, so restore the links while loading variables
+            // before its own PostLoadInit is allowed to run.
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                RestoreDetachedDriverLinks();
+            }
+
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (!plannedDestCell.IsValid)

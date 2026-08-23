@@ -7,7 +7,22 @@ namespace Xenomorphtype
 {
     internal class HediffComp_PheromonePump :HediffComp
     {
-        HediffCompProperties_PheromonePump Props => props as HediffCompProperties_PheromonePump;
+        internal HediffCompProperties_PheromonePump Props => props as HediffCompProperties_PheromonePump;
+        internal PheromoneProductionType ProductionTypes
+        {
+            get
+            {
+                PheromoneProductionType types = PheromoneProductionType.None;
+                if (Props == null)
+                {
+                    return types;
+                }
+                if (Props.friendPheromone > 0f) types |= PheromoneProductionType.Aggregation;
+                if (Props.loverPheromone > 0f) types |= PheromoneProductionType.Reproductive;
+                if (Props.threatPheromone > 0f) types |= PheromoneProductionType.Alarm;
+                return types;
+            }
+        }
         int lastGeneCount = -1;
 
         public override void CompExposeData()

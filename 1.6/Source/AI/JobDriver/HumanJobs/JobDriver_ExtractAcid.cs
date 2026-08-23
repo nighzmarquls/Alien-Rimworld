@@ -28,7 +28,7 @@ namespace Xenomorphtype
             this.FailOn(delegate
             {
                 Pawn innerPawn2 = InnerPawn;
-                if (innerPawn2 == null || innerPawn2.Destroyed)
+                if (XenoGeneDefOf.XMT_Acid_Utilization?.IsFinished != true || innerPawn2 == null || innerPawn2.Destroyed)
                 {
                     return true;
                 }
@@ -44,6 +44,16 @@ namespace Xenomorphtype
             yield return Toils_General.Do(delegate
             {
                 Pawn innerPawn = InnerPawn;
+                if (!BioUtility.TryContainedExtraction(innerPawn, pawn))
+                {
+                    CompPawnInfo info = innerPawn?.Info();
+                    if (info != null)
+                    {
+                        info.extractAcid = false;
+                    }
+                    return;
+                }
+
                 BioUtility.ExtractMetabolicCostFromPawn(innerPawn, false);
 
                 ResearchUtility.ProgressAcidTech(2, pawn);

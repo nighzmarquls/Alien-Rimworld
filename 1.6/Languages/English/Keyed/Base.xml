@@ -272,6 +272,7 @@
 	
 	<XMT_MessageCannotStartResinExtraction>{PAWN_nameDef}'s metabolism cannot yet produce more resin.</XMT_MessageCannotStartResinExtraction>
 	<XMT_MessagePawnHadNotEnoughToProduceResin>{PAWN_nameDef}'s metabolism is not recovered enough to produce resin. </XMT_MessagePawnHadNotEnoughToProduceResin>
+	<XMT_MessageContainedExtractionFailed>{SURGEON_labelShort} failed while extracting from {PAWN_labelShort}, spilling acid blood. Automatic extraction has been suspended.</XMT_MessageContainedExtractionFailed>
 	
 	<XMT_Tame>Taming</XMT_Tame>
 	
@@ -322,6 +323,41 @@
 	<XMT_Info_Smelly>overpowering smell</XMT_Info_Smelly>
 	<XMT_Info_Cloying>cloying scent</XMT_Info_Cloying>
 	<XMT_Info_Odor>strange odor</XMT_Info_Odor>
+	<XMT_Info_AggregationPheromoneExposure>aggregation pheromone exposure</XMT_Info_AggregationPheromoneExposure>
+	<XMT_Info_ReproductivePheromoneExposure>reproductive pheromone exposure</XMT_Info_ReproductivePheromoneExposure>
+	<XMT_Info_AlarmPheromoneExposure>alarm pheromone exposure</XMT_Info_AlarmPheromoneExposure>
+	<XMT_Info_MixedPheromoneExposure>mixed pheromone exposure</XMT_Info_MixedPheromoneExposure>
+	<XMT_Info_Desc_ClinicalPheromones>Clinical analysis identifies cryptimorphic signaling compounds applied over the body. Aggregation concentration: {0}. Reproductive concentration: {1}. Alarm concentration: {2}.</XMT_Info_Desc_ClinicalPheromones>
+
+	<XMT_PheromoneGland_UnidentifiedLabel>scent gland</XMT_PheromoneGland_UnidentifiedLabel>
+	<XMT_PheromoneGland_UnidentifiedDescription>An unfamiliar glandular growth is producing a sticky, clear secretion. A strange scent of spice lingers around the body, becoming cloyingly sweet and sharply pungent at close range.</XMT_PheromoneGland_UnidentifiedDescription>
+	<XMT_PheromoneGland_AggregationLabel>aggregation pheromone gland</XMT_PheromoneGland_AggregationLabel>
+	<XMT_PheromoneGland_AggregationDescription>A modified exocrine gland secreting an identified aggregation pheromone. Analysis predicts that cryptimorphic organisms will interpret the marked subject as socially affiliated, familiar, or tolerated.</XMT_PheromoneGland_AggregationDescription>
+	<XMT_PheromoneGland_ReproductiveLabel>reproductive pheromone gland</XMT_PheromoneGland_ReproductiveLabel>
+	<XMT_PheromoneGland_ReproductiveDescription>A modified exocrine gland secreting an identified reproductive pheromone. Analysis predicts that cryptimorphic organisms will interpret the marked subject as a potential reproductive partner.</XMT_PheromoneGland_ReproductiveDescription>
+	<XMT_PheromoneGland_AlarmLabel>alarm pheromone gland</XMT_PheromoneGland_AlarmLabel>
+	<XMT_PheromoneGland_AlarmDescription>A modified exocrine gland secreting an identified alarm pheromone. Analysis predicts that cryptimorphic organisms will interpret the marked subject as a danger and may respond aggressively.</XMT_PheromoneGland_AlarmDescription>
+	<XMT_PheromoneGland_MixedLabel>mixed pheromone gland</XMT_PheromoneGland_MixedLabel>
+	<XMT_PheromoneGland_MixedDescription>A modified exocrine gland secreting several identified cryptimorphic signaling compounds with overlapping social, reproductive, and alarm functions.</XMT_PheromoneGland_MixedDescription>
+
+	<XMT_PheromoneApplicationFailed>{PAWN_labelShort}'s body could not be treated with the pheromone.</XMT_PheromoneApplicationFailed>
+	<XMT_MessageCannotStartPheromoneExtraction>{PAWN_labelShort} cannot currently produce a raw pheromone gland.</XMT_MessageCannotStartPheromoneExtraction>
+	<XMT_MessagePawnHadNotEnoughToProducePheromone>{PAWN_labelShort} no longer has enough metabolic reserves to produce a raw pheromone gland.</XMT_MessagePawnHadNotEnoughToProducePheromone>
+	<XMT_RequiresPheromoneExtraction>Requires cryptimorphic pheromones research.</XMT_RequiresPheromoneExtraction>
+	<XMT_PheromoneExtraction>Extract Pheromone Gland</XMT_PheromoneExtraction>
+	<XMT_PheromoneExtractionDescription>Periodically extract one raw pheromone gland from this contained organism. Extraction strains its metabolism and causes it to resent the extractor.</XMT_PheromoneExtractionDescription>
+
+	<XMT_Pheromone_Aggregation>Aggregation pheromone</XMT_Pheromone_Aggregation>
+	<XMT_Pheromone_Reproductive>Reproductive pheromone</XMT_Pheromone_Reproductive>
+	<XMT_Pheromone_Alarm>Alarm pheromone</XMT_Pheromone_Alarm>
+	<XMT_Pheromone_None>No pheromone</XMT_Pheromone_None>
+	<XMT_PheromoneEmitter_ApplyLabel>Apply pheromone</XMT_PheromoneEmitter_ApplyLabel>
+	<XMT_PheromoneEmitter_ApplyDescription>Select a pheromone for the emitter to apply directly over its wearer's body.</XMT_PheromoneEmitter_ApplyDescription>
+	<XMT_PheromoneEmitter_Charges>Pheromone charges: {0} / {1}</XMT_PheromoneEmitter_Charges>
+	<XMT_PheromoneEmitter_Cooldown>Emitter cooling down: {0}</XMT_PheromoneEmitter_Cooldown>
+	<XMT_PheromoneEmitter_CooldownInspect>Cooldown remaining: {0}</XMT_PheromoneEmitter_CooldownInspect>
+	<XMT_PheromoneDoorway_SelectLabel>Select pheromone</XMT_PheromoneDoorway_SelectLabel>
+	<XMT_PheromoneDoorway_SelectDescription>Select which pheromone the doorway applies. Current selection: {0}.</XMT_PheromoneDoorway_SelectDescription>
 	
 	<XMT_Info_And> and </XMT_Info_And>
 	<XMT_Obsessed>obsessed</XMT_Obsessed>

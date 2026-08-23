@@ -10,8 +10,7 @@ namespace Xenomorphtype
 
         public override bool AvailableOnNow(Thing thing, BodyPartRecord part = null)
         {
-            Pawn pawn = thing as Pawn;
-            if (pawn != null && !XMTUtility.IsXenomorph(pawn))
+            if (thing is not Pawn pawn || pawn.Dead || !XMTUtility.IsXenomorph(pawn))
             {
                 return false;
             }
@@ -21,12 +20,17 @@ namespace Xenomorphtype
 
         public override AcceptanceReport AvailableReport(Thing thing, BodyPartRecord part = null)
         {
+            if (thing is not Pawn pawn || pawn.Dead || !XMTUtility.IsXenomorph(pawn))
+            {
+                return false;
+            }
+
             return base.AvailableReport(thing, part);
         }
 
         public override bool CompletableEver(Pawn surgeryTarget)
         {
-            if (base.CompletableEver(surgeryTarget))
+            if (surgeryTarget != null && !surgeryTarget.Dead && base.CompletableEver(surgeryTarget))
             {
                 return BioUtility.PawnHasEnoughForExtraction(surgeryTarget, false);
             }
@@ -45,6 +49,11 @@ namespace Xenomorphtype
 
         public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
         {
+            if (pawn == null || pawn.Dead)
+            {
+                return;
+            }
+
             if (!BioUtility.PawnHasEnoughForExtraction(pawn, false))
             {
                 Messages.Message("XMT_MessagePawnHadNotEnoughToProduceResin".Translate(pawn.Named("PAWN")), pawn, MessageTypeDefOf.NeutralEvent);

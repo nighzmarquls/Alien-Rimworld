@@ -62,4 +62,77 @@
 			<displayPriority>175</displayPriority>
 		</recipeMaker>
 	</ThingDef>
+
+	<ThingDef ParentName="ApparelBase">
+		<defName>XMT_PheromoneEmitter</defName>
+		<label>pheromone emitter</label>
+		<description>A belt-mounted dispenser that applies a selected cryptimorphic pheromone directly over the wearer's body. Its reservoir is refilled with raw pheromone glands.</description>
+		<thingClass>Apparel</thingClass>
+		<techLevel>Spacer</techLevel>
+		<graphicData>
+			<texPath>Things/Pawn/Humanlike/Apparel/PheremoneDispenser/PheremoneDispenser</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<statBases>
+			<MaxHitPoints>100</MaxHitPoints>
+			<WorkToMake>3600</WorkToMake>
+			<Mass>2</Mass>
+			<Flammability>0.3</Flammability>
+			<EquipDelay>2</EquipDelay>
+		</statBases>
+		<costList>
+			<Steel>30</Steel>
+			<ComponentIndustrial>1</ComponentIndustrial>
+			<XMT_RawPheromone>3</XMT_RawPheromone>
+		</costList>
+		<comps>
+			<li Class="Xenomorphtype.CompProperties_PheromoneEmitter">
+				<maxCharges>3</maxCharges>
+				<ammoDef>XMT_RawPheromone</ammoDef>
+				<ammoCountPerCharge>1</ammoCountPerCharge>
+				<baseReloadTicks>60</baseReloadTicks>
+				<soundReload>Standard_Reload</soundReload>
+				<chargeNoun>pheromone charge</chargeNoun>
+				<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+				<displayGizmoWhileDrafted>true</displayGizmoWhileDrafted>
+				<cooldownTicks>1250</cooldownTicks>
+				<dose>1</dose>
+			</li>
+		</comps>
+		<recipeMaker>
+			<researchPrerequisite>XMT_CryptimorphicPheromones</researchPrerequisite>
+			<recipeUsers>
+				<li>TableMachining</li>
+			</recipeUsers>
+			<unfinishedThingDef>UnfinishedPack</unfinishedThingDef>
+			<workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+			<workSkill>Crafting</workSkill>
+			<effectWorking>Smith</effectWorking>
+			<soundWorking>Recipe_Smith</soundWorking>
+			<skillRequirements>
+				<Crafting>5</Crafting>
+			</skillRequirements>
+			<displayPriority>315</displayPriority>
+		</recipeMaker>
+		<thingCategories>
+			<li>ApparelUtility</li>
+		</thingCategories>
+		<apparel>
+			<wornGraphicPath>Things/Pawn/Humanlike/Apparel/PheremoneDispenser/PheremoneDispenser</wornGraphicPath>
+			<countsAsClothingForNudity>false</countsAsClothingForNudity>
+			<careIfWornByCorpse>false</careIfWornByCorpse>
+			<careIfDamaged>false</careIfDamaged>
+			<wearPerDay>0</wearPerDay>
+			<bodyPartGroups>
+				<li>Waist</li>
+			</bodyPartGroups>
+			<layers>
+				<li>Belt</li>
+			</layers>
+			<tags>
+				<li>BeltDefense</li>
+			</tags>
+			<developmentalStageFilter>Child, Adult</developmentalStageFilter>
+		</apparel>
+	</ThingDef>
 </Defs>

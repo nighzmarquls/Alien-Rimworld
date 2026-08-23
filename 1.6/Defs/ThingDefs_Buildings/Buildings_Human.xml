@@ -89,4 +89,153 @@
 		</researchPrerequisites>
 	</ThingDef>
 
+	<ThingDef ParentName="DoorBase">
+		<defName>XMT_SterilizingDoorway</defName>
+		<label>sterilizing doorway</label>
+		<description>A powered clean-room threshold that rapidly coats passing pawns in fire-retardant foam, washing away corrosive residue and other clinging substances. Useful for controlling contamination around laboratories, hospitals, and other clean spaces. It does not obstruct movement or prevent intruders from passing.\n\nRequires power and chemfuel to operate.</description>
+		<thingClass>Xenomorphtype.Building_SterilizingDoorway</thingClass>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<statBases>
+			<WorkToBuild>1800</WorkToBuild>
+			<MaxHitPoints>160</MaxHitPoints>
+			<Flammability>0</Flammability>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Building/Sterilizer/Sterilizer</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(1.5,1.5)</drawSize>
+			<damageData>
+				<enabled>false</enabled>
+			</damageData>
+		</graphicData>
+		<uiIconPath>Things/Building/Sterilizer/Sterilizer_south</uiIconPath>
+		<costStuffCount>40</costStuffCount>
+		<costList>
+			<ComponentIndustrial>2</ComponentIndustrial>
+		</costList>
+		<stuffCategories Inherit="False">
+			<li>Metallic</li>
+		</stuffCategories>
+		<useStuffTerrainAffordance>true</useStuffTerrainAffordance>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<useBlueprintGraphicAsGhost>true</useBlueprintGraphicAsGhost>
+		<building>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Sterilizer/Sterilizer</texPath>
+				<graphicClass>Graphic_Multi</graphicClass>
+				<shaderType>EdgeDetect</shaderType>
+				<drawSize>(1.5,1.5)</drawSize>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>80</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>0</fuelConsumptionRate>
+				<fuelCapacity>10</fuelCapacity>
+				<fuelFilter>
+					<thingDefs>
+						<li>Chemfuel</li>
+					</thingDefs>
+				</fuelFilter>
+				<initialFuelPercent>0</initialFuelPercent>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+				<showFuelGizmo>true</showFuelGizmo>
+				<initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+				<autoRefuelPercent>0.25</autoRefuelPercent>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<drawOutOfFuelOverlay>true</drawOutOfFuelOverlay>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_SterilizingDoorwayCleanliness">
+				<cleanlinessOffset>4</cleanlinessOffset>
+			</li>
+			<li Class="CompProperties_Breakdownable" />
+		</comps>
+		<designationCategory>Structure</designationCategory>
+		<designationHotKey>Misc1</designationHotKey>
+		<uiOrder>2016</uiOrder>
+		<researchPrerequisites>
+			<li>Firefoam</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+	</ThingDef>
+
+	<ThingDef ParentName="DoorBase">
+		<defName>XMT_PheromoneDoorway</defName>
+		<label>pheromone doorway</label>
+		<description>A powered threshold that applies a selected cryptimorphic pheromone directly over pawns passing through it. Its atomized organic secretions noticeably contaminate the surrounding clean space. It does not obstruct movement or prevent intruders from passing.\n\nRequires power and raw pheromone glands to operate.</description>
+		<thingClass>Xenomorphtype.Building_PheromoneDoorway</thingClass>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<statBases>
+			<WorkToBuild>1800</WorkToBuild>
+			<MaxHitPoints>160</MaxHitPoints>
+			<Flammability>0</Flammability>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Building/Sterilizer/Sterilizer</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawSize>(1.5,1.5)</drawSize>
+			<damageData>
+				<enabled>false</enabled>
+			</damageData>
+		</graphicData>
+		<uiIconPath>Things/Building/Sterilizer/Sterilizer_south</uiIconPath>
+		<costStuffCount>40</costStuffCount>
+		<costList>
+			<ComponentIndustrial>2</ComponentIndustrial>
+			<XMT_RawPheromone>3</XMT_RawPheromone>
+		</costList>
+		<stuffCategories Inherit="False">
+			<li>Metallic</li>
+		</stuffCategories>
+		<useStuffTerrainAffordance>true</useStuffTerrainAffordance>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<useBlueprintGraphicAsGhost>true</useBlueprintGraphicAsGhost>
+		<building>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Sterilizer/Sterilizer</texPath>
+				<graphicClass>Graphic_Multi</graphicClass>
+				<shaderType>EdgeDetect</shaderType>
+				<drawSize>(1.5,1.5)</drawSize>
+			</blueprintGraphicData>
+		</building>
+		<comps>
+			<li Class="CompProperties_Flickable" />
+			<li Class="CompProperties_Power">
+				<compClass>CompPowerTrader</compClass>
+				<basePowerConsumption>80</basePowerConsumption>
+			</li>
+			<li Class="CompProperties_Refuelable">
+				<fuelConsumptionRate>0</fuelConsumptionRate>
+				<fuelCapacity>10</fuelCapacity>
+				<fuelFilter>
+					<thingDefs>
+						<li>XMT_RawPheromone</li>
+					</thingDefs>
+				</fuelFilter>
+				<initialFuelPercent>0</initialFuelPercent>
+				<showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+				<showFuelGizmo>true</showFuelGizmo>
+				<initialAllowAutoRefuel>true</initialAllowAutoRefuel>
+				<autoRefuelPercent>0.25</autoRefuelPercent>
+				<consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+				<drawOutOfFuelOverlay>true</drawOutOfFuelOverlay>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_SterilizingDoorwayCleanliness">
+				<cleanlinessOffset>-4</cleanlinessOffset>
+			</li>
+			<li Class="CompProperties_Breakdownable" />
+		</comps>
+		<designationCategory>Structure</designationCategory>
+		<designationHotKey>Misc1</designationHotKey>
+		<uiOrder>2017</uiOrder>
+		<researchPrerequisites>
+			<li>XMT_CryptimorphicPheromones</li>
+		</researchPrerequisites>
+		<constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+	</ThingDef>
+
 </Defs>

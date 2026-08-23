@@ -29,6 +29,8 @@ namespace Xenomorphtype
         public bool lastClimb => climbStep >= (climbParameters.TraversalLegs?.Count ?? 0);
         int climbStep = 0;
         private int activeClimbJobLoadId = -1;
+        // Toils are regenerated on load; this runtime identity is rebound by XMTClimbPatches.
+        private Toil activeClimbToil;
 
         public bool climbing
         {
@@ -53,14 +55,16 @@ namespace Xenomorphtype
         public IntVec3 StartClimbCell => CurrentTraversalLeg?.start ?? IntVec3.Invalid;
         public bool CurrentLegIsInfiltration => CurrentTraversalLeg?.IsInfiltration ?? false;
 
-        public void MarkClimbToilActive(Job job)
+        public void MarkClimbToilActive(Job job, Toil toil = null)
         {
             activeClimbJobLoadId = job?.loadID ?? -1;
+            activeClimbToil = toil;
         }
 
-        public bool HasActiveClimbToilFor(Job job)
+        public bool HasActiveClimbToilFor(Job job, Toil toil = null)
         {
-            return job != null && activeClimbJobLoadId >= 0 && activeClimbJobLoadId == job.loadID;
+            return job != null && activeClimbJobLoadId >= 0 && activeClimbJobLoadId == job.loadID &&
+                (toil == null || activeClimbToil == toil);
         }
 
         public void RestoreLoadedClimber(PawnClimber loadedClimber, Job detachedJob)
@@ -91,6 +95,7 @@ namespace Xenomorphtype
             _finishedClimb = false;
             climbStep = 0;
             activeClimbJobLoadId = -1;
+            activeClimbToil = null;
         }
 
         public override void PostExposeData()

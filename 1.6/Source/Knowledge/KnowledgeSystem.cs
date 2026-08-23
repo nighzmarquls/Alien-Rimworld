@@ -259,6 +259,15 @@ namespace Xenomorphtype
         public static float GetLearnedKnowledge(Pawn pawn, KnowledgeCategoryDef category) => Category(pawn, category)?.learned ?? 0f;
         public static float GetExperiencedKnowledge(Pawn pawn, KnowledgeCategoryDef category) => Category(pawn, category)?.experienced ?? 0f;
         public static float GetEffectiveKnowledge(Pawn pawn, KnowledgeCategoryDef category) => Category(pawn, category)?.effective ?? 0f;
+        public static float GetAcidRiskKnowledge(Pawn pawn)
+        {
+            if (XenoGeneDefOf.XMT_Acid_Utilization?.IsFinished == true)
+            {
+                return 1f;
+            }
+
+            return Mathf.Clamp01(GetEffectiveKnowledge(pawn, KnowledgeDefOf.XMT_Knowledge_Acid));
+        }
         private static CategoryKnowledgeAssessment Category(Pawn pawn, KnowledgeCategoryDef category) => category != null && GetAssessment(pawn).categories.TryGetValue(category, out CategoryKnowledgeAssessment value) ? value : null;
         public static float GetTotalEffectiveKnowledge(Pawn pawn) => GetAssessment(pawn).categories.Values.Sum(value => value.effective);
         public static float GetTrauma(Pawn pawn) => GetAssessment(pawn).trauma;

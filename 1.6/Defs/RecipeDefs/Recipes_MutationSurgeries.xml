@@ -173,8 +173,8 @@
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_FriendSmell</defName>
-		<label>mutate sweet sweat glands</label>
-		<description>perform a controlled mutation through targeted injections into the endocrine system to cause calming cryptimorph pheromones.</description>
+		<label>mutate aggregation pheromone gland</label>
+		<description>Perform a controlled endocrine mutation that develops a gland producing cryptimorphic aggregation pheromone.</description>
 		<descriptionHyperlinks>
 		  <HediffDef>XMT_FriendlyGland</HediffDef>
 		</descriptionHyperlinks>
@@ -182,12 +182,15 @@
 		  <li>Torso</li>
 		</appliedOnFixedBodyParts>
 		<addsHediff>XMT_FriendlyGland</addsHediff>
+		<researchPrerequisites>
+			<li>XMT_CryptimorphicPheromones</li>
+		</researchPrerequisites>
 	</RecipeDef>
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">
 		<defName>XMT_Mutate_ThreatSmell</defName>
-		<label>mutate sour sweat glands</label>
-		<description>perform a controlled mutation through targeted injections into the endocrine system to cause agitating cryptimorph pheromones.</description>
+		<label>mutate alarm pheromone gland</label>
+		<description>Perform a controlled endocrine mutation that develops a gland producing cryptimorphic alarm pheromone.</description>
 		<descriptionHyperlinks>
 		  <HediffDef>XMT_HostileGland</HediffDef>
 		</descriptionHyperlinks>
@@ -195,6 +198,9 @@
 		  <li>Torso</li>
 		</appliedOnFixedBodyParts>
 		<addsHediff>XMT_HostileGland</addsHediff>
+		<researchPrerequisites>
+			<li>XMT_CryptimorphicPheromones</li>
+		</researchPrerequisites>
 	</RecipeDef>
 	
 	<RecipeDef ParentName="XMT_Mutation_Surgery_Add">

@@ -3,7 +3,6 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
@@ -32,70 +31,6 @@ namespace Xenomorphtype
         }
     }
 
-    public enum TraversalLegType : byte
-    {
-        WallClimb,
-        Infiltration
-    }
-
-    public class TraversalLeg : IExposable
-    {
-        public TraversalLegType type;
-        public IntVec3 start = IntVec3.Invalid;
-        public IntVec3 end = IntVec3.Invalid;
-        public string providerKey;
-        public string categoryKey;
-        public int entryThingId = -1;
-        public int exitThingId = -1;
-
-        public bool IsInfiltration => type == TraversalLegType.Infiltration;
-
-        public TraversalLeg()
-        {
-        }
-
-        public static TraversalLeg WallClimb(IntVec3 start, IntVec3 end)
-        {
-            return new TraversalLeg
-            {
-                type = TraversalLegType.WallClimb,
-                start = start,
-                end = end
-            };
-        }
-
-        internal static TraversalLeg Infiltration(InfiltrationPort entry, InfiltrationPort exit)
-        {
-            return new TraversalLeg
-            {
-                type = TraversalLegType.Infiltration,
-                start = entry.AccessCell,
-                end = exit.AccessCell,
-                providerKey = entry.Component.ProviderKey,
-                categoryKey = entry.Component.CategoryKey,
-                entryThingId = entry.Endpoint.thingIDNumber,
-                exitThingId = exit.Endpoint.thingIDNumber
-            };
-        }
-
-        public void ExposeData()
-        {
-            Scribe_Values.Look(ref type, "type", TraversalLegType.WallClimb);
-            Scribe_Values.Look(ref start, "start", IntVec3.Invalid);
-            Scribe_Values.Look(ref end, "end", IntVec3.Invalid);
-            Scribe_Values.Look(ref providerKey, "providerKey");
-            Scribe_Values.Look(ref categoryKey, "categoryKey");
-            Scribe_Values.Look(ref entryThingId, "entryThingId", -1);
-            Scribe_Values.Look(ref exitThingId, "exitThingId", -1);
-        }
-
-        public override string ToString()
-        {
-            return type + " " + start + " -> " + end +
-                (IsInfiltration ? " [" + providerKey + "/" + categoryKey + ", " + entryThingId + " -> " + exitThingId + "]" : string.Empty);
-        }
-    }
-
     internal sealed class InfiltrationNetworkComponent
     {
         public string ProviderKey;
@@ -114,61 +49,70 @@ namespace Xenomorphtype
         public Region Region;
     }
 
+    internal sealed class GeometricCategoryCache
+    {
+        public bool Dirty = true;
+        public int Revision;
+        public readonly List<InfiltrationNetworkComponent> Components = new List<InfiltrationNetworkComponent>();
+    }
+
+    internal sealed class InfiltrationTopologyCache
+    {
+        public readonly Dictionary<InfiltrationNetworkDef, GeometricCategoryCache> Categories = new Dictionary<InfiltrationNetworkDef, GeometricCategoryCache>();
+        public bool ComponentsDirty = true;
+        public bool PortsDirty = true;
+        public int ComponentsRevision;
+        public int PortsRevision;
+        public int RegionRevision;
+        public readonly List<InfiltrationNetworkComponent> Components = new List<InfiltrationNetworkComponent>();
+        public readonly Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>> PortsByComponent = new Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>>();
+        public readonly Dictionary<Region, List<InfiltrationPort>> PortsByRegion = new Dictionary<Region, List<InfiltrationPort>>();
+        public readonly Dictionary<int, Building> EndpointsById = new Dictionary<int, Building>();
+        public readonly Dictionary<Region, bool> ReachablePortByRegion = new Dictionary<Region, bool>();
+
+        public void Clear()
+        {
+            Categories.Clear();
+            Components.Clear();
+            PortsByComponent.Clear();
+            PortsByRegion.Clear();
+            EndpointsById.Clear();
+            ReachablePortByRegion.Clear();
+            ComponentsDirty = true;
+            PortsDirty = true;
+            ComponentsRevision++;
+            PortsRevision++;
+            RegionRevision++;
+        }
+
+        public void InvalidateComponents()
+        {
+            ComponentsDirty = true;
+            InvalidatePorts();
+        }
+
+        public void InvalidatePorts()
+        {
+            PortsDirty = true;
+            ReachablePortByRegion.Clear();
+            RegionRevision++;
+        }
+
+        public void InvalidateRegions()
+        {
+            PortsDirty = true;
+            PortsByComponent.Clear();
+            PortsByRegion.Clear();
+            ReachablePortByRegion.Clear();
+            RegionRevision++;
+        }
+    }
+
     public static class InfiltrationUtility
     {
         private const string GeometricProviderKey = "geometric";
         private const string PipeNetProviderKey = "pipeNet";
 
-        private sealed class GeometricCategoryCache
-        {
-            public bool Dirty = true;
-            public int Revision;
-            public readonly List<InfiltrationNetworkComponent> Components = new List<InfiltrationNetworkComponent>();
-        }
-
-        private sealed class MapTopologyCache
-        {
-            public readonly Dictionary<InfiltrationNetworkDef, GeometricCategoryCache> Categories = new Dictionary<InfiltrationNetworkDef, GeometricCategoryCache>();
-        }
-
-        private sealed class WalkingArea
-        {
-            public int Id;
-            public readonly HashSet<Region> Regions = new HashSet<Region>();
-            public readonly List<InfiltrationPort> Ports = new List<InfiltrationPort>();
-            public IntVec3 OpenRoofAnchor = IntVec3.Invalid;
-            public bool PortsDiscovered;
-        }
-
-        private enum TransitionType : byte
-        {
-            Network,
-            OpenRoofClimb
-        }
-
-        private sealed class AreaTransition
-        {
-            public WalkingArea Previous;
-            public WalkingArea Next;
-            public TransitionType Type;
-            public InfiltrationPort EntryPort;
-            public InfiltrationPort ExitPort;
-        }
-
-        private sealed class SearchContext
-        {
-            public Pawn Pawn;
-            public Map Map;
-            public TraverseParms TraverseParms;
-            public readonly List<WalkingArea> Areas = new List<WalkingArea>();
-            public readonly Dictionary<Region, WalkingArea> AreaByRegion = new Dictionary<Region, WalkingArea>();
-            public readonly Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>> PortsByComponent = new Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>>();
-            public readonly Dictionary<Building, List<InfiltrationNetworkComponent>> ComponentsByEndpoint = new Dictionary<Building, List<InfiltrationNetworkComponent>>();
-            public readonly HashSet<WalkingArea> StartAreas = new HashSet<WalkingArea>();
-            public readonly HashSet<WalkingArea> GoalAreas = new HashSet<WalkingArea>();
-        }
-
-        private static ConditionalWeakTable<Map, MapTopologyCache> topologyCaches = new ConditionalWeakTable<Map, MapTopologyCache>();
         private static Dictionary<ThingDef, List<InfiltrationNetworkDef>> geometricDefsByThing;
         private static List<InfiltrationNetworkDef> geometricDefs;
 
@@ -176,15 +120,24 @@ namespace Xenomorphtype
 
         public static void ClearAllCaches()
         {
-            topologyCaches = new ConditionalWeakTable<Map, MapTopologyCache>();
+            if (Current.Game?.Maps == null)
+            {
+                return;
+            }
+            foreach (Map map in Current.Game.Maps)
+            {
+                ClearCache(map);
+            }
         }
 
         public static void ClearCache(Map map)
         {
-            if (map != null)
-            {
-                topologyCaches.Remove(map);
-            }
+            GetCache(map)?.Clear();
+        }
+
+        private static InfiltrationTopologyCache GetCache(Map map)
+        {
+            return TraversalTopologyMapComponent.For(map)?.InfiltrationCache;
         }
 
         public static bool IsCellTrapped(IntVec3 cell, Map map, TraverseMode traverseMode = TraverseMode.PassDoors, Danger maxDanger = Danger.None)
@@ -205,7 +158,21 @@ namespace Xenomorphtype
             if (building?.Map != null)
             {
                 MarkDirty(building.Map, building.def);
+                if (building.AllComps?.Any(comp => comp is CompResource) == true)
+                {
+                    GetCache(building.Map)?.InvalidateComponents();
+                }
             }
+        }
+
+        public static void NotifyRegionsRoomsChanged(Map map)
+        {
+            GetCache(map)?.InvalidateRegions();
+        }
+
+        public static void NotifyPipeTopologyChanged(Map map)
+        {
+            GetCache(map)?.InvalidateComponents();
         }
 
         public static void NotifyBuildingDespawned(Building building, Map previousMap)
@@ -213,6 +180,10 @@ namespace Xenomorphtype
             if (building != null && previousMap != null)
             {
                 MarkDirty(previousMap, building.def);
+                if (building.AllComps?.Any(comp => comp is CompResource) == true)
+                {
+                    GetCache(previousMap)?.InvalidateComponents();
+                }
             }
         }
 
@@ -220,7 +191,7 @@ namespace Xenomorphtype
         {
             EnsureDefRegistry();
             if (map == null || thingDef == null || !geometricDefsByThing.TryGetValue(thingDef, out List<InfiltrationNetworkDef> affectedDefs) ||
-                !topologyCaches.TryGetValue(map, out MapTopologyCache mapCache))
+                GetCache(map) is not InfiltrationTopologyCache mapCache)
             {
                 return;
             }
@@ -232,6 +203,7 @@ namespace Xenomorphtype
                     categoryCache.Dirty = true;
                 }
             }
+            mapCache.InvalidateComponents();
         }
 
         private static void EnsureDefRegistry()
@@ -270,10 +242,12 @@ namespace Xenomorphtype
                 return uncached;
             }
 
-            if (!topologyCaches.TryGetValue(map, out MapTopologyCache mapCache))
+            InfiltrationTopologyCache mapCache = GetCache(map);
+            if (mapCache == null)
             {
-                mapCache = new MapTopologyCache();
-                topologyCaches.Add(map, mapCache);
+                GeometricCategoryCache uncached = new GeometricCategoryCache();
+                RebuildGeometricCategory(map, networkDef, uncached);
+                return uncached;
             }
             if (!mapCache.Categories.TryGetValue(networkDef, out GeometricCategoryCache categoryCache))
             {
@@ -391,44 +365,63 @@ namespace Xenomorphtype
             }
         }
 
-        private static List<InfiltrationNetworkComponent> GetAllComponents(Map map)
+        private static void EnsureComponents(Map map)
         {
+            InfiltrationTopologyCache cache = GetCache(map);
+            if (cache == null || (!cache.ComponentsDirty && CacheGeometricNetworks))
+            {
+                return;
+            }
+
             EnsureDefRegistry();
-            List<InfiltrationNetworkComponent> components = new List<InfiltrationNetworkComponent>();
+            cache.Components.Clear();
+            cache.EndpointsById.Clear();
             foreach (InfiltrationNetworkDef networkDef in geometricDefs)
             {
-                components.AddRange(GetGeometricCategory(map, networkDef).Components.Where(component => component.Endpoints.Count > 0));
+                cache.Components.AddRange(GetGeometricCategory(map, networkDef).Components.Where(component => component.Endpoints.Count > 0));
             }
-            AddPipeNetComponents(map, components);
-            return components;
+            AddPipeNetComponents(map, cache.Components);
+            foreach (Building endpoint in cache.Components.SelectMany(component => component.Endpoints).Where(endpoint => endpoint != null))
+            {
+                cache.EndpointsById[endpoint.thingIDNumber] = endpoint;
+            }
+            cache.ComponentsDirty = false;
+            cache.ComponentsRevision++;
+            cache.InvalidatePorts();
+        }
+
+        internal static IReadOnlyList<InfiltrationNetworkComponent> GetAllComponents(Map map)
+        {
+            EnsureComponents(map);
+            return GetCache(map)?.Components ?? (IReadOnlyList<InfiltrationNetworkComponent>)Array.Empty<InfiltrationNetworkComponent>();
         }
 
         private static void AddPipeNetComponents(Map map, List<InfiltrationNetworkComponent> components)
         {
-            Dictionary<object, InfiltrationNetworkComponent> byPipeNet = new Dictionary<object, InfiltrationNetworkComponent>();
-            foreach (Building building in map.listerThings.AllThings.OfType<Building>().Where(building => building.Spawned && !(building is Building_Pipe)))
+            PipeNetManager manager = map.GetComponent<PipeNetManager>();
+            if (manager?.pipeNets == null)
             {
-                if (building.AllComps == null)
+                return;
+            }
+
+            foreach (PipeNet pipeNet in manager.pipeNets)
+            {
+                if (pipeNet == null || pipeNet.connectors == null || pipeNet.def == null)
                 {
                     continue;
                 }
-                foreach (CompResource comp in building.AllComps.OfType<CompResource>())
+
+                InfiltrationNetworkComponent component = new InfiltrationNetworkComponent
                 {
-                    if (comp?.PipeNet == null || comp.Props?.pipeNet == null)
+                    ProviderKey = PipeNetProviderKey,
+                    CategoryKey = pipeNet.def.defName,
+                    ProviderIdentity = pipeNet
+                };
+                foreach (CompResource comp in pipeNet.connectors)
+                {
+                    if (!(comp?.parent is Building building) || !building.Spawned || building.Map != map || building is Building_Pipe)
                     {
                         continue;
-                    }
-                    object identity = comp.PipeNet;
-                    if (!byPipeNet.TryGetValue(identity, out InfiltrationNetworkComponent component))
-                    {
-                        component = new InfiltrationNetworkComponent
-                        {
-                            ProviderKey = PipeNetProviderKey,
-                            CategoryKey = comp.Props.pipeNet.defName,
-                            ProviderIdentity = identity
-                        };
-                        byPipeNet.Add(identity, component);
-                        components.Add(component);
                     }
                     if (!component.Members.Contains(building))
                     {
@@ -436,13 +429,17 @@ namespace Xenomorphtype
                         component.Endpoints.Add(building);
                     }
                 }
+                if (component.Endpoints.Count > 0)
+                {
+                    components.Add(component);
+                }
             }
         }
 
-        private static IEnumerable<InfiltrationPort> GetPorts(InfiltrationNetworkComponent component, Map map)
+        private static IEnumerable<InfiltrationPort> BuildPorts(InfiltrationNetworkComponent component, Map map)
         {
             HashSet<Building> members = new HashSet<Building>(component.Members);
-            foreach (Building endpoint in component.Endpoints.Where(endpoint => endpoint != null && endpoint.Spawned && endpoint.Map == map).OrderBy(endpoint => endpoint.thingIDNumber))
+            foreach (Building endpoint in component.Endpoints.Where(endpoint => endpoint != null && !endpoint.Destroyed && endpoint.Spawned && endpoint.Map == map).OrderBy(endpoint => endpoint.thingIDNumber))
             {
                 HashSet<IntVec3> candidates = new HashSet<IntVec3>();
                 if (endpoint.def.passability != Traversability.Impassable)
@@ -477,406 +474,110 @@ namespace Xenomorphtype
             }
         }
 
-        private static SearchContext BuildSearchContext(Pawn pawn, LocalTargetInfo destination, PathEndMode pathEndMode, Danger maxDanger, TraverseMode mode)
+        private static void EnsurePorts(Map map)
         {
-            if (pawn?.Map == null || !pawn.Spawned || !destination.IsValid || !destination.Cell.InBounds(pawn.Map))
-            {
-                return null;
-            }
-
-            SearchContext context = new SearchContext
-            {
-                Pawn = pawn,
-                Map = pawn.Map,
-                TraverseParms = TraverseParms.For(pawn, maxDanger, mode, canBashDoors: false, alwaysUseAvoidGrid: false, canBashFences: false)
-            };
-
-            foreach (InfiltrationNetworkComponent component in GetAllComponents(pawn.Map))
-            {
-                if (!CanPawnTraverseNetwork(pawn, component.ProviderKey, component.CategoryKey))
-                {
-                    continue;
-                }
-                foreach (Building endpoint in component.Endpoints)
-                {
-                    if (!context.ComponentsByEndpoint.TryGetValue(endpoint, out List<InfiltrationNetworkComponent> endpointComponents))
-                    {
-                        endpointComponents = new List<InfiltrationNetworkComponent>();
-                        context.ComponentsByEndpoint.Add(endpoint, endpointComponents);
-                    }
-                    endpointComponents.Add(component);
-                }
-            }
-            if (context.ComponentsByEndpoint.Count == 0)
-            {
-                return null;
-            }
-
-            Region startRegion = pawn.Position.GetRegion(pawn.Map, RegionType.Set_Passable);
-            if (startRegion == null)
-            {
-                return null;
-            }
-            context.StartAreas.Add(GetOrCreateWalkingArea(context, startRegion));
-
-            foreach (Region targetRegion in GetTargetRegions(pawn, destination, pathEndMode, context.TraverseParms))
-            {
-                context.GoalAreas.Add(GetOrCreateWalkingArea(context, targetRegion));
-            }
-            if (context.GoalAreas.Count == 0)
-            {
-                return null;
-            }
-
-            return context;
-        }
-
-        private static void DiscoverAreaPorts(SearchContext context, WalkingArea area)
-        {
-            if (area.PortsDiscovered)
+            EnsureComponents(map);
+            InfiltrationTopologyCache cache = GetCache(map);
+            if (cache == null || !cache.PortsDirty)
             {
                 return;
             }
-            area.PortsDiscovered = true;
 
-            HashSet<Room> rooms = new HashSet<Room>();
-            HashSet<Building> candidateEndpoints = new HashSet<Building>();
-            foreach (Region region in area.Regions)
+            cache.PortsByComponent.Clear();
+            cache.PortsByRegion.Clear();
+            cache.ReachablePortByRegion.Clear();
+            foreach (InfiltrationNetworkComponent component in cache.Components)
             {
-                if (region.Room != null && rooms.Add(region.Room))
+                List<InfiltrationPort> ports = BuildPorts(component, map).ToList();
+                cache.PortsByComponent[component] = ports;
+                foreach (InfiltrationPort port in ports)
                 {
-                    // RimWorld reuses Room's backing list, so consume it immediately.
-                    foreach (Building building in region.Room.ContainedAndAdjacentThings.ToList().OfType<Building>())
+                    if (!cache.PortsByRegion.TryGetValue(port.Region, out List<InfiltrationPort> regionPorts))
                     {
-                        candidateEndpoints.Add(building);
+                        regionPorts = new List<InfiltrationPort>();
+                        cache.PortsByRegion.Add(port.Region, regionPorts);
                     }
+                    regionPorts.Add(port);
                 }
             }
-
-            foreach (Building endpoint in candidateEndpoints.OrderBy(building => building.thingIDNumber))
-            {
-                if (!context.ComponentsByEndpoint.TryGetValue(endpoint, out List<InfiltrationNetworkComponent> components))
-                {
-                    continue;
-                }
-                foreach (InfiltrationNetworkComponent component in components)
-                {
-                    EnsureComponentPorts(context, component);
-                }
-            }
+            cache.PortsDirty = false;
+            cache.PortsRevision++;
         }
 
-        private static void EnsureComponentPorts(SearchContext context, InfiltrationNetworkComponent component)
+        internal static IReadOnlyList<InfiltrationPort> GetPorts(Map map, InfiltrationNetworkComponent component)
         {
-            if (context.PortsByComponent.ContainsKey(component))
+            EnsurePorts(map);
+            return GetCache(map)?.PortsByComponent.TryGetValue(component, out List<InfiltrationPort> ports) == true
+                ? ports
+                : (IReadOnlyList<InfiltrationPort>)Array.Empty<InfiltrationPort>();
+        }
+
+        internal static IReadOnlyList<InfiltrationPort> GetPorts(Map map, Region region)
+        {
+            EnsurePorts(map);
+            return region != null && GetCache(map)?.PortsByRegion.TryGetValue(region, out List<InfiltrationPort> ports) == true
+                ? ports
+                : (IReadOnlyList<InfiltrationPort>)Array.Empty<InfiltrationPort>();
+        }
+
+        internal static bool RegionCanReachInfiltrationPort(Map map, Region region)
+        {
+            if (map == null || region == null)
+            {
+                return false;
+            }
+            EnsurePorts(map);
+            InfiltrationTopologyCache cache = GetCache(map);
+            if (cache == null || cache.PortsByRegion.Count == 0)
+            {
+                return false;
+            }
+            if (cache.ReachablePortByRegion.TryGetValue(region, out bool cached))
+            {
+                return cached;
+            }
+
+            HashSet<Region> visited = new HashSet<Region>();
+            bool reachedPort = false;
+            TraverseParms permissiveParms = TraverseParms.For(TraverseMode.PassDoors);
+            RegionEntryPredicate entryCondition = (Region from, Region next) => next.Allows(permissiveParms, isDestination: false);
+            RegionProcessor processor = delegate (Region current)
+            {
+                visited.Add(current);
+                reachedPort = cache.PortsByRegion.ContainsKey(current);
+                return reachedPort;
+            };
+            RegionTraverser.BreadthFirstTraverse(region, entryCondition, processor, 99999);
+            foreach (Region visitedRegion in visited)
+            {
+                cache.ReachablePortByRegion[visitedRegion] = reachedPort;
+            }
+            return reachedPort;
+        }
+
+        internal static void WarmTopologyFor(Pawn pawn)
+        {
+            if (pawn?.Map == null || !pawn.Spawned || pawn.Map.regionDirtyer.AnyDirty)
             {
                 return;
             }
-            List<InfiltrationPort> ports = GetPorts(component, context.Map).ToList();
-            context.PortsByComponent.Add(component, ports);
-            foreach (InfiltrationPort port in ports)
+            Region region = pawn.Position.GetRegion(pawn.Map, RegionType.Set_Passable);
+            if (region != null)
             {
-                WalkingArea portArea = GetOrCreateWalkingArea(context, port.Region);
-                if (!portArea.Ports.Any(existing => existing.Component == component && existing.Endpoint == port.Endpoint && existing.AccessCell == port.AccessCell))
-                {
-                    portArea.Ports.Add(port);
-                }
+                RegionCanReachInfiltrationPort(pawn.Map, region);
             }
         }
 
-        private static IEnumerable<Region> GetTargetRegions(Pawn pawn, LocalTargetInfo destination, PathEndMode pathEndMode, TraverseParms traverseParms)
+        public static bool CanReachByInfiltration(Pawn pawn, LocalTargetInfo destination, PathEndMode pathEndMode, Danger maxDanger,
+            TraverseMode mode = TraverseMode.ByPawn)
         {
-            TargetInfo resolvedTarget = GenPath.ResolvePathMode(pawn, destination.ToTargetInfo(pawn.Map), ref pathEndMode);
-            LocalTargetInfo resolvedLocalTarget = resolvedTarget.HasThing ? new LocalTargetInfo(resolvedTarget.Thing) : new LocalTargetInfo(resolvedTarget.Cell);
-            List<Region> regions = new List<Region>();
-            if (pathEndMode == PathEndMode.OnCell)
-            {
-                Region region = resolvedLocalTarget.Cell.GetRegion(pawn.Map, RegionType.Set_Passable);
-                if (region != null && region.Allows(traverseParms, isDestination: true))
-                {
-                    regions.Add(region);
-                }
-            }
-            else
-            {
-                TouchPathEndModeUtility.AddAllowedAdjacentRegions(resolvedLocalTarget, traverseParms, pawn.Map, regions);
-            }
-            return regions.Distinct();
+            return TraversalRouteUtility.CanReach(pawn, destination, pathEndMode, maxDanger, mode, allowWallClimb: false);
         }
 
-        private static WalkingArea GetOrCreateWalkingArea(SearchContext context, Region seed)
+        public static bool TryBuildInfiltrationRoute(Pawn pawn, LocalTargetInfo destination, PathEndMode pathEndMode,
+            Danger maxDanger, out List<TraversalLeg> legs)
         {
-            if (context.AreaByRegion.TryGetValue(seed, out WalkingArea existing))
-            {
-                return existing;
-            }
-
-            WalkingArea area = new WalkingArea { Id = context.Areas.Count };
-            RegionEntryPredicate entryCondition = (Region from, Region region) => region.Allows(context.TraverseParms, isDestination: false);
-            RegionProcessor processor = delegate (Region region)
-            {
-                area.Regions.Add(region);
-                return false;
-            };
-            RegionTraverser.BreadthFirstTraverse(seed, entryCondition, processor, 99999);
-            if (area.Regions.Count == 0)
-            {
-                area.Regions.Add(seed);
-            }
-            foreach (Region region in area.Regions)
-            {
-                context.AreaByRegion[region] = area;
-            }
-            area.OpenRoofAnchor = FindOpenRoofAnchor(area, context.Map);
-            context.Areas.Add(area);
-            return area;
-        }
-
-        private static IntVec3 FindOpenRoofAnchor(WalkingArea area, Map map)
-        {
-            foreach (Region region in area.Regions)
-            {
-                foreach (IntVec3 cell in region.Cells)
-                {
-                    if (cell.InBounds(map) && cell.Standable(map) && !cell.Roofed(map))
-                    {
-                        return cell;
-                    }
-                }
-            }
-            return IntVec3.Invalid;
-        }
-
-        public static bool CanReachByInfiltration(Pawn pawn, LocalTargetInfo destination, PathEndMode pathEndMode, Danger maxDanger, TraverseMode mode = TraverseMode.ByPawn)
-        {
-            SearchContext context = BuildSearchContext(pawn, destination, pathEndMode, maxDanger, mode);
-            if (context == null)
-            {
-                return false;
-            }
-            if (context.StartAreas.Overlaps(context.GoalAreas))
-            {
-                return false;
-            }
-
-            HashSet<WalkingArea> startVisited = ExploreReachableAreas(context, context.StartAreas, context.GoalAreas, out bool reachedGoal);
-            if (reachedGoal)
-            {
-                return true;
-            }
-            if (!startVisited.Any(area => area.OpenRoofAnchor.IsValid))
-            {
-                return false;
-            }
-
-            HashSet<WalkingArea> goalVisited = ExploreReachableAreas(context, context.GoalAreas, startVisited, out bool reachedStart);
-            return reachedStart || goalVisited.Any(area => area.OpenRoofAnchor.IsValid);
-        }
-
-        public static bool TryBuildTraversalRoute(Pawn pawn, LocalTargetInfo destination, PathEndMode pathEndMode, Danger maxDanger, out List<TraversalLeg> legs)
-        {
-            legs = new List<TraversalLeg>();
-            SearchContext context = BuildSearchContext(pawn, destination, pathEndMode, maxDanger, TraverseMode.ByPawn);
-            if (context == null)
-            {
-                return false;
-            }
-            if (context.StartAreas.Overlaps(context.GoalAreas))
-            {
-                return false;
-            }
-
-            ExploreAreasWithParents(context, context.StartAreas, context.GoalAreas,
-                out HashSet<WalkingArea> startVisited, out List<WalkingArea> startVisitOrder,
-                out Dictionary<WalkingArea, AreaTransition> startParents, out WalkingArea directGoal);
-
-            List<AreaTransition> transitions;
-            if (directGoal != null)
-            {
-                transitions = ReconstructForwardTransitions(directGoal, context.StartAreas, startParents);
-            }
-            else
-            {
-                WalkingArea startOpen = startVisitOrder.FirstOrDefault(area => area.OpenRoofAnchor.IsValid);
-                if (startOpen == null)
-                {
-                    return false;
-                }
-
-                ExploreAreasWithParents(context, context.GoalAreas, startVisited,
-                    out HashSet<WalkingArea> goalVisited, out List<WalkingArea> goalVisitOrder,
-                    out Dictionary<WalkingArea, AreaTransition> goalParents, out WalkingArea intersectedStart);
-
-                if (intersectedStart != null)
-                {
-                    transitions = ReconstructForwardTransitions(intersectedStart, context.StartAreas, startParents);
-                    transitions.AddRange(ReconstructReverseTransitions(intersectedStart, context.GoalAreas, goalParents));
-                }
-                else
-                {
-                    WalkingArea goalOpen = goalVisitOrder.FirstOrDefault(area => area.OpenRoofAnchor.IsValid);
-                    if (goalOpen == null)
-                    {
-                        return false;
-                    }
-                    transitions = ReconstructForwardTransitions(startOpen, context.StartAreas, startParents);
-                    transitions.Add(new AreaTransition
-                    {
-                        Previous = startOpen,
-                        Next = goalOpen,
-                        Type = TransitionType.OpenRoofClimb
-                    });
-                    transitions.AddRange(ReconstructReverseTransitions(goalOpen, context.GoalAreas, goalParents));
-                }
-            }
-
-            foreach (AreaTransition transition in transitions)
-            {
-                if (transition.Type == TransitionType.Network)
-                {
-                    legs.Add(TraversalLeg.Infiltration(transition.EntryPort, transition.ExitPort));
-                }
-                else
-                {
-                    if (!ClimbUtility.TryBuildWallTraversalLegs(pawn, transition.Previous.OpenRoofAnchor, transition.Next.OpenRoofAnchor, out List<TraversalLeg> wallLegs))
-                    {
-                        return false;
-                    }
-                    legs.AddRange(wallLegs);
-                }
-            }
-            return legs.Count > 0;
-        }
-
-        private static HashSet<WalkingArea> ExploreReachableAreas(SearchContext context, IEnumerable<WalkingArea> seeds,
-            HashSet<WalkingArea> destinations, out bool reachedDestination)
-        {
-            Queue<WalkingArea> open = new Queue<WalkingArea>(seeds.OrderBy(area => area.Id));
-            HashSet<WalkingArea> visited = new HashSet<WalkingArea>(seeds);
-            reachedDestination = false;
-            while (open.Count > 0)
-            {
-                WalkingArea current = open.Dequeue();
-                if (destinations.Contains(current))
-                {
-                    reachedDestination = true;
-                    return visited;
-                }
-                DiscoverAreaPorts(context, current);
-                foreach (WalkingArea next in ConnectedAreas(context, current))
-                {
-                    if (visited.Add(next))
-                    {
-                        open.Enqueue(next);
-                    }
-                }
-            }
-            return visited;
-        }
-
-        private static void ExploreAreasWithParents(SearchContext context, IEnumerable<WalkingArea> seeds,
-            HashSet<WalkingArea> destinations, out HashSet<WalkingArea> visited, out List<WalkingArea> visitOrder,
-            out Dictionary<WalkingArea, AreaTransition> parents, out WalkingArea reachedDestination)
-        {
-            Queue<WalkingArea> open = new Queue<WalkingArea>(seeds.OrderBy(area => area.Id));
-            visited = new HashSet<WalkingArea>(seeds);
-            visitOrder = new List<WalkingArea>();
-            parents = new Dictionary<WalkingArea, AreaTransition>();
-            reachedDestination = null;
-            while (open.Count > 0)
-            {
-                WalkingArea current = open.Dequeue();
-                visitOrder.Add(current);
-                if (destinations.Contains(current))
-                {
-                    reachedDestination = current;
-                    return;
-                }
-                DiscoverAreaPorts(context, current);
-                foreach (InfiltrationPort entry in OrderedPorts(current.Ports))
-                {
-                    foreach (InfiltrationPort exit in OrderedPorts(context.PortsByComponent[entry.Component]))
-                    {
-                        WalkingArea next = context.AreaByRegion[exit.Region];
-                        if (next == current || !visited.Add(next))
-                        {
-                            continue;
-                        }
-                        parents[next] = new AreaTransition
-                        {
-                            Previous = current,
-                            Next = next,
-                            Type = TransitionType.Network,
-                            EntryPort = entry,
-                            ExitPort = exit
-                        };
-                        open.Enqueue(next);
-                    }
-                }
-            }
-        }
-
-        private static IEnumerable<WalkingArea> ConnectedAreas(SearchContext context, WalkingArea current)
-        {
-            HashSet<WalkingArea> yielded = new HashSet<WalkingArea>();
-            foreach (InfiltrationPort entry in OrderedPorts(current.Ports))
-            {
-                foreach (InfiltrationPort exit in OrderedPorts(context.PortsByComponent[entry.Component]))
-                {
-                    WalkingArea next = context.AreaByRegion[exit.Region];
-                    if (next != current && yielded.Add(next))
-                    {
-                        yield return next;
-                    }
-                }
-            }
-        }
-
-        private static IOrderedEnumerable<InfiltrationPort> OrderedPorts(IEnumerable<InfiltrationPort> ports)
-        {
-            return ports.OrderBy(port => port.Endpoint.thingIDNumber).ThenBy(port => port.AccessCell.x).ThenBy(port => port.AccessCell.z);
-        }
-
-        private static List<AreaTransition> ReconstructForwardTransitions(WalkingArea destination, HashSet<WalkingArea> seeds,
-            Dictionary<WalkingArea, AreaTransition> parents)
-        {
-            List<AreaTransition> transitions = new List<AreaTransition>();
-            WalkingArea current = destination;
-            while (!seeds.Contains(current))
-            {
-                if (!parents.TryGetValue(current, out AreaTransition transition))
-                {
-                    return new List<AreaTransition>();
-                }
-                transitions.Add(transition);
-                current = transition.Previous;
-            }
-            transitions.Reverse();
-            return transitions;
-        }
-
-        private static List<AreaTransition> ReconstructReverseTransitions(WalkingArea start, HashSet<WalkingArea> goalSeeds,
-            Dictionary<WalkingArea, AreaTransition> goalParents)
-        {
-            List<AreaTransition> transitions = new List<AreaTransition>();
-            WalkingArea current = start;
-            while (!goalSeeds.Contains(current))
-            {
-                if (!goalParents.TryGetValue(current, out AreaTransition outward))
-                {
-                    return new List<AreaTransition>();
-                }
-                transitions.Add(new AreaTransition
-                {
-                    Previous = current,
-                    Next = outward.Previous,
-                    Type = outward.Type,
-                    EntryPort = outward.ExitPort,
-                    ExitPort = outward.EntryPort
-                });
-                current = outward.Previous;
-            }
-            return transitions;
+            return TraversalRouteUtility.TryBuildRoute(pawn, destination, pathEndMode, maxDanger, allowWallClimb: false, out legs);
         }
 
         public static bool CanPawnTraverseNetwork(Pawn pawn, string providerKey, string categoryKey)
@@ -885,16 +586,20 @@ namespace Xenomorphtype
             return pawn != null;
         }
 
-        public static bool ValidateTraversalLeg(Map map, TraversalLeg leg)
+        public static bool ValidateTraversalLeg(Pawn pawn, TraversalLeg leg)
         {
+            Map map = pawn?.Map;
             if (map == null || leg == null || !leg.IsInfiltration || !leg.start.InBounds(map) || !leg.end.InBounds(map) ||
-                !leg.start.Standable(map) || !leg.end.Standable(map))
+                !leg.start.Standable(map) || !leg.end.Standable(map) ||
+                !CanPawnTraverseNetwork(pawn, leg.providerKey, leg.categoryKey))
             {
                 return false;
             }
 
-            Building entry = FindBuildingById(map, leg.entryThingId);
-            Building exit = FindBuildingById(map, leg.exitThingId);
+            EnsurePorts(map);
+            InfiltrationTopologyCache cache = GetCache(map);
+            Building entry = cache?.EndpointsById.TryGetValue(leg.entryThingId, out Building cachedEntry) == true ? cachedEntry : null;
+            Building exit = cache?.EndpointsById.TryGetValue(leg.exitThingId, out Building cachedExit) == true ? cachedExit : null;
             if (entry == null || exit == null || !entry.Spawned || !exit.Spawned)
             {
                 return false;
@@ -906,16 +611,12 @@ namespace Xenomorphtype
                 {
                     continue;
                 }
-                bool validEntry = GetPorts(component, map).Any(port => port.Endpoint == entry && port.AccessCell == leg.start);
-                bool validExit = GetPorts(component, map).Any(port => port.Endpoint == exit && port.AccessCell == leg.end);
+                IReadOnlyList<InfiltrationPort> ports = GetPorts(map, component);
+                bool validEntry = ports.Any(port => port.Endpoint == entry && port.AccessCell == leg.start);
+                bool validExit = ports.Any(port => port.Endpoint == exit && port.AccessCell == leg.end);
                 return validEntry && validExit;
             }
             return false;
-        }
-
-        private static Building FindBuildingById(Map map, int thingId)
-        {
-            return map.listerThings.AllThings.OfType<Building>().FirstOrDefault(building => building.thingIDNumber == thingId);
         }
 
         public static string CacheReport(Map map)
@@ -926,6 +627,12 @@ namespace Xenomorphtype
                 return "no map";
             }
             List<string> lines = new List<string>();
+            EnsurePorts(map);
+            InfiltrationTopologyCache cache = GetCache(map);
+            lines.Add("aggregate: componentsRevision=" + (cache?.ComponentsRevision ?? 0) +
+                ", portsRevision=" + (cache?.PortsRevision ?? 0) + ", regionRevision=" + (cache?.RegionRevision ?? 0) +
+                ", components=" + (cache?.Components.Count ?? 0) + ", ports=" + (cache?.PortsByComponent.Values.Sum(ports => ports.Count) ?? 0) +
+                ", cachedRegionResults=" + (cache?.ReachablePortByRegion.Count ?? 0));
             foreach (InfiltrationNetworkDef networkDef in geometricDefs)
             {
                 GeometricCategoryCache category = GetGeometricCategory(map, networkDef);

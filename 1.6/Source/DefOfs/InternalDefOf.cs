@@ -25,6 +25,9 @@ namespace Xenomorphtype
         public static ThingDef_AlienRace    XMT_Starbeast_AlienRace;
         public static ThingDef_AlienRace    XMT_Royal_AlienRace;
 
+        [MayRequire("yanzihko.YZRCM")]
+        public static ThingDef_AlienRace    XMT_StarCutie_AlienRace;
+
         public static HediffDef             XMT_Embryo;
         public static HediffDef             XMT_Slowdown;
         public static HediffDef             StarbeastOrganism;
@@ -69,6 +72,7 @@ namespace Xenomorphtype
 
         //Xenomorph Materials
         public static ThingDef              XMT_Acid;
+        public static ThingDef              XMT_RawPheromone;
         public static ThingDef              Starbeast_Resin;
         public static ThingDef              Starbeast_Chitin;
         public static ThingDef              Starbeast_Flesh_Meat;

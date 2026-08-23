@@ -118,6 +118,7 @@
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractJelly.cs" />
     <Compile Include="AI\JobDriver\JobDriver_CopyGenesFrom.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractAcid.cs" />
+    <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractPheromone.cs" />
     <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_Protofluid.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_MutateTarget.cs" />
@@ -183,9 +184,11 @@
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractResin.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractJelly.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractAcid.cs" />
+    <Compile Include="AI\WorkGiver\WorkGiver_ExtractPheromone.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_HaulToOvothroneAssimilation.cs" />
     <Compile Include="BioHorror\Genes\IbexinGene.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractAcid.cs" />
+    <Compile Include="BioHorror\Recipes\Recipe_ExtractPheromone.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_RemoveHediffContained.cs" />
     <Compile Include="Building\Containment\Building_BioContainer.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
@@ -276,6 +279,8 @@
     <Compile Include="Comps\HediffComps\Utility\HediffComp_PheromonePump.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_RemoveGenes.cs" />
     <Compile Include="Comps\ItemComps\CompTargetable_SingleCorpseOrPawn.cs" />
+    <Compile Include="Comps\ItemComps\CompTargetEffect_ApplyRawPheromone.cs" />
+    <Compile Include="Comps\ItemComps\CompPheromoneEmitter.cs" />
     <Compile Include="Comps\ItemComps\Comp_TargetEffectProtofluid.cs" />
     <Compile Include="Comps\PawnComps\CompClimber.cs" />
     <Compile Include="Comps\PawnComps\CompCrawler.cs" />
@@ -287,12 +292,16 @@
     <Compile Include="Harmony\XMTGenePatches.cs" />
     <Compile Include="Harmony\XMTSaveRecoveryPatches.cs" />
     <Compile Include="Harmony\XMTButcheryPatches.cs" />
+    <Compile Include="Harmony\XMTPheromonePatches.cs" />
     <Compile Include="Harmony\XMTClimbPatches.cs" />
     <Compile Include="Harmony\XMTJobCleanupPatches.cs" />
     <Compile Include="Harmony\XMTRecordsPatches.cs" />
     <Compile Include="Utilities\ClimbUtility.cs" />
+    <Compile Include="Utilities\TraversalLeg.cs" />
+    <Compile Include="Utilities\TraversalRouteUtility.cs" />
     <Compile Include="Utilities\FeralJobUtility.cs" />
     <Compile Include="Utilities\ResearchUtility.cs" />
+    <Compile Include="Utilities\PheromoneUtility.cs" />
     <Compile Include="BioHorror\XMT_GeneSetDef.cs" />
     <Compile Include="Building\Fillable\FillableChrysalis.cs" />
     <Compile Include="Building\Horrors\Petrolsump.cs" />
@@ -414,7 +423,9 @@
     <Compile Include="Building\CocoonBase.cs" />
     <Compile Include="Building\Reproduction\Ovomorph.cs" />
     <Compile Include="Building\PassableRoomborder.cs" />
+    <Compile Include="Building\Building_SterilizingDoorway.cs" />
     <Compile Include="Comps\BuildingComps\CompAtmosphericPylon.cs" />
+    <Compile Include="Comps\BuildingComps\CompSterilizingDoorwayCleanliness.cs" />
     <Compile Include="Comps\BuildingComps\CompChanceSpawnOnDestroy.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompMeatBall.cs" />
     <Compile Include="Comps\ThingCompHorror\CompAcidBlood.cs" />
@@ -460,6 +471,7 @@
     <Compile Include="Harmony\XMTThoughtPatch.cs" />
     <Compile Include="Harmony\XMTUIPatches.cs" />
     <Compile Include="Comps\MapComps\HiveMapComponent.cs" />
+    <Compile Include="Comps\MapComps\TraversalTopologyMapComponent.cs" />
     <Compile Include="Utilities\XMTHiveUtility.cs" />
     <Compile Include="Utilities\InorganicSubversionUtility.cs" />
     <Compile Include="Utilities\InfiltrationUtility.cs" />

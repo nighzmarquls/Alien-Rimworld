@@ -62,13 +62,14 @@ namespace Xenomorphtype
         float _threatPheromone = 0;
 
         float _traumaRelief = 0;
-        float LoverPheromone => _loverPheromone;
-        float FriendlyPheromone => _friendlyPheromone;
-        float ThreatPheromone => _threatPheromone;
+        internal float LoverPheromone => _loverPheromone;
+        internal float FriendlyPheromone => _friendlyPheromone;
+        internal float ThreatPheromone => _threatPheromone;
 
         public bool extractJelly;
         public bool extractResin;
         public bool extractAcid;
+        public bool extractPheromone;
         public PheromoneType StrongestPheromone
         {
             get
@@ -93,6 +94,7 @@ namespace Xenomorphtype
         }
         float totalPheromone => LoverPheromone + FriendlyPheromone + ThreatPheromone;
         bool pheromonesPresent => LoverPheromone != 0 || FriendlyPheromone != 0 || ThreatPheromone != 0;
+        internal bool PheromoneApplicationBlocked => ParentPawn?.Drawer?.renderer?.FirefoamOverlays?.coveredInFoam == true;
 
         bool isAware => ParentPawn != null && KnowledgeUtility.GetAssessment(ParentPawn).categories.Values.Any(value => value.effective > 0f);
 
@@ -360,6 +362,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref extractJelly, "extractJelly", false);
             Scribe_Values.Look(ref extractResin, "extractResin", false); 
             Scribe_Values.Look(ref extractAcid, "extractAcid", false);
+            Scribe_Values.Look(ref extractPheromone, "extractPheromone", false);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -458,6 +461,15 @@ namespace Xenomorphtype
                     hasSmell = true;
                 }
             }
+            else if (PheromoneUtility.DisplayModeFor(ParentPawn) == PheromoneDisplayMode.ClinicalHuman)
+            {
+                PheromoneProductionType exposureTypes = PheromoneUtility.ExposureTypes(FriendlyPheromone, LoverPheromone, ThreatPheromone);
+                if (exposureTypes != PheromoneProductionType.None)
+                {
+                    hasSmell = true;
+                    output += PheromoneUtility.ClinicalExposureLabel(exposureTypes);
+                }
+            }
             else
             {
                 float severity = totalPheromone;
@@ -530,6 +542,13 @@ namespace Xenomorphtype
                     output += "\n DEV friend smell: " + FriendlyPheromone;
                     output += "\n DEV threat smell: " + ThreatPheromone + "\n";
                 }
+            }
+            else if (PheromoneUtility.DisplayModeFor(ParentPawn) == PheromoneDisplayMode.ClinicalHuman && pheromonesPresent)
+            {
+                output += "XMT_Info_Desc_ClinicalPheromones".Translate(
+                    FriendlyPheromone.ToString("0.00"),
+                    LoverPheromone.ToString("0.00"),
+                    ThreatPheromone.ToString("0.00"));
             }
             else
             {
@@ -730,11 +749,13 @@ namespace Xenomorphtype
 
         public void ApplyThreatPheromone(Thing victim, float amount = 0.5f, float maxStrength = 1f, float radius = 5)
         {
+            if (!PheromoneApplicationBlocked)
+            {
+                _threatPheromone = Mathf.Min(ThreatPheromone + amount, maxStrength);
 
-            _threatPheromone = Mathf.Min(ThreatPheromone + amount, maxStrength);
-
-            ReduceHygiene(amount);
-            TryApplyDisplayHediff();
+                ReduceHygiene(amount);
+                TryApplyDisplayHediff();
+            }
 
             
             XMTUtility.ThreatResponse(victim, this, radius);
@@ -742,6 +763,10 @@ namespace Xenomorphtype
         }
         public void ApplyFriendlyPheromone(Pawn partner, float amount = 0.25f, float maxStrength = 0.25f)
         {
+            if (PheromoneApplicationBlocked)
+            {
+                return;
+            }
 
             _friendlyPheromone = Mathf.Min(_friendlyPheromone + amount, maxStrength);
 
@@ -751,6 +776,10 @@ namespace Xenomorphtype
 
         public void ApplyLoverPheromone(Pawn partner, float amount = 0.75f, float maxStrength = 0.75f)
         {
+            if (PheromoneApplicationBlocked)
+            {
+                return;
+            }
 
             _loverPheromone = Mathf.Min(LoverPheromone + amount, maxStrength);
 

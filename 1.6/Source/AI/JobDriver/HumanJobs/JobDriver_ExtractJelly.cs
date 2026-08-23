@@ -44,6 +44,16 @@ namespace Xenomorphtype
             yield return Toils_General.Do(delegate
             {
                 Pawn innerPawn = InnerPawn;
+                if (!BioUtility.TryContainedExtraction(innerPawn, pawn))
+                {
+                    CompPawnInfo info = innerPawn?.Info();
+                    if (info != null)
+                    {
+                        info.extractJelly = false;
+                    }
+                    return;
+                }
+
                 BioUtility.ExtractMetabolicCostFromPawn(innerPawn);
 
                 XMTUtility.GiveInteractionMemory(innerPawn, ThoughtDefOf.HarmedMe, pawn);

@@ -438,7 +438,7 @@ namespace Xenomorphtype
         {
             Log.Message("Clearing Caches");
             XMTHiveUtility.ClearAllNestSites();
-            InfiltrationUtility.ClearAllCaches();
+            TraversalTopologyMapComponent.ClearAllMapCaches();
             PawnCacheWrapper.ClearAllPawnCaches();
         }
 
@@ -476,7 +476,7 @@ namespace Xenomorphtype
             {
                 Log.Message("Clearing Caches");
                 XMTHiveUtility.ClearAllNestSites();
-                InfiltrationUtility.ClearAllCaches();
+                TraversalTopologyMapComponent.ClearAllMapCaches();
                 PawnCacheWrapper.ClearAllPawnCaches();
                 xenoformingPawnAccounting ??= new Dictionary<string, XenoformingPawnAccountingState>();
                 deadMorphs ??= new List<string>();

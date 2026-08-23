@@ -73,6 +73,28 @@
 	</RecipeDef>
 	
 	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractPheromoneGland</defName>
+		<label>extract raw pheromone gland</label>
+		<description>Extract a pheromone-producing gland from the target. The operation will fail to produce a gland if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractPheromone</workerClass>
+		<jobString>extracting raw pheromone gland.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+			<ThingDef>XMT_RawPheromone</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>XMT_RawPheromone</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_CryptimorphicPheromones</li>
+		</researchPrerequisites>
+		<displayPriority>2</displayPriority>
+	</RecipeDef>
+
+	<RecipeDef ParentName="SurgeryFlesh">
 		<defName>ExtractAcidFromCreature</defName>
 		<label>extract acid blood</label>
 		<description>Extract acid from the target. The operation will fail to produce any material if the target's metabolism is too strained.</description>

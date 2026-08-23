@@ -1,5 +1,6 @@
 ﻿
 using HarmonyLib;
+using PipeSystem;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -71,12 +72,13 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (!climber.HasActiveClimbToilFor(job))
+            // A generated toil being climb-capable does not mean traversal took ownership of it.
+            // Only restore manual completion for a job that persisted active traversal ownership.
+            if (climber.HasActiveClimbToilFor(job))
             {
-                climber.MarkClimbToilActive(job);
+                climber.MarkClimbToilActive(job, currentToil);
+                currentToil.defaultCompleteMode = ToilCompleteMode.Never;
             }
-
-            currentToil.defaultCompleteMode = ToilCompleteMode.Never;
         }
 
         internal static void RestoreDetachedClimbToil(JobDriver driver, Job job)
@@ -118,34 +120,26 @@ namespace Xenomorphtype
             }
         }
 
-        [HarmonyPatch(typeof(Thing), nameof(Thing.SpawnSetup), new Type[] { typeof(Map), typeof(bool) })]
-        public static class Patch_Thing_SpawnSetup_InfiltrationCache
+        [HarmonyPatch]
+        public static class Patch_CompResource_PipeNet_InfiltrationCache
         {
-            [HarmonyPostfix]
-            public static void Postfix(Thing __instance)
+            public static MethodBase TargetMethod()
             {
-                if (__instance is Building building)
-                {
-                    InfiltrationUtility.NotifyBuildingSpawned(building);
-                }
+                return AccessTools.PropertySetter(typeof(CompResource), nameof(CompResource.PipeNet));
             }
-        }
 
-        [HarmonyPatch(typeof(Thing), nameof(Thing.DeSpawn), new Type[] { typeof(DestroyMode) })]
-        public static class Patch_Thing_DeSpawn_InfiltrationCache
-        {
             [HarmonyPrefix]
-            public static void Prefix(Thing __instance, ref Map __state)
+            public static void Prefix(CompResource __instance, ref PipeNet __state)
             {
-                __state = __instance?.Map;
+                __state = __instance?.PipeNet;
             }
 
             [HarmonyPostfix]
-            public static void Postfix(Thing __instance, Map __state)
+            public static void Postfix(CompResource __instance, PipeNet __state)
             {
-                if (__instance is Building building)
+                if (__instance != null && !ReferenceEquals(__state, __instance.PipeNet))
                 {
-                    InfiltrationUtility.NotifyBuildingDespawned(building, __state);
+                    InfiltrationUtility.NotifyPipeTopologyChanged(__instance.parent?.Map);
                 }
             }
         }
@@ -291,6 +285,34 @@ namespace Xenomorphtype
             public static void Postfix(Toil __result)
             {
                 ClimbUtility.AddCarryClimbSupport(__result, TargetIndex.B, PathEndMode.Touch);
+            }
+        }
+
+        [HarmonyPatch(typeof(FloatMenuOptionProvider_DraftedMove), "PawnCanGoto")]
+        public static class Patch_FloatMenuOptionProvider_DraftedMove_PawnCanGoto_Diagnostic
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Pawn __0, IntVec3 __1, AcceptanceReport __result)
+            {
+                Pawn pawn = __0;
+                IntVec3 destination = __1;
+                if (!XMTSettings.LogClimbing || !TraversalReachabilityUtility.IsTraversalPawn(pawn))
+                {
+                    return;
+                }
+
+                bool normalReachable = ClimbUtility.OriginalCanReach(pawn, destination, PathEndMode.OnCell, Danger.Deadly);
+                if (__result.Accepted && normalReachable)
+                {
+                    return;
+                }
+
+                bool traversalReachable = ClimbUtility.CanReachByWalkingOrClimb(
+                    pawn, destination, PathEndMode.OnCell, Danger.Deadly);
+                Log.Message("[XMT][Climbing] Drafted move gate for " + pawn + " to " + destination +
+                    ": accepted=" + __result.Accepted + "; reason=" + (__result.Reason ?? "<none>") +
+                    "; normalReachable=" + normalReachable + "; traversalReachable=" + traversalReachable +
+                    "; " + ClimbUtility.GetClimbDecisionReport(pawn, destination, PathEndMode.OnCell));
             }
         }
 

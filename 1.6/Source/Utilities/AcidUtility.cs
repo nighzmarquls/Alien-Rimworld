@@ -136,6 +136,25 @@ namespace Xenomorphtype
 
             }
         }
+
+        internal static bool TrySurgicalAcidSpill(Pawn patient, Pawn surgeon)
+        {
+            CompAcidBlood acidBlood = patient?.GetAcidBloodComp();
+            if (acidBlood == null || patient.Dead || patient.MapHeld == null)
+            {
+                return false;
+            }
+
+            patient.health.AddHediff(HediffDefOf.SurgicalCut,
+                dinfo: new DamageInfo(DamageDefOf.SurgicalCut, amount: 1f, instigator: surgeon));
+            if (surgeon != null)
+            {
+                acidBlood.TrySplashAcidThing(1f, surgeon);
+            }
+            acidBlood.TrySplashAcid(acidBlood.GetBloodFullness());
+            return true;
+        }
+
         public static bool TrySplashAcid(Thing bleeder, float severity = 1, float splashRange = -1f, int maxCells = 3, bool cellLimit = true, HediffDef appliedHediff = null, float damageToSeverity = 1, float damage = 26, KnowledgeProfileDef knowledgeProfile = null)
         {
             if (bleeder == null || bleeder.MapHeld == null)
@@ -157,7 +176,7 @@ namespace Xenomorphtype
 
             XMTUtility.WitnessAcid(bleeder.PositionHeld, bleeder.MapHeld, 0.1f, knowledgeProfile: knowledgeProfile);
 
-            List<IntVec3> Cells = GenRadial.RadialCellsAround(bleeder.Position, modifiedSplashRange, true).ToList();
+            List<IntVec3> Cells = GenRadial.RadialCellsAround(bleeder.PositionHeld, modifiedSplashRange, true).ToList();
             int hitCells = 0;
             Cells.Shuffle();
 

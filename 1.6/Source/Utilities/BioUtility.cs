@@ -1614,6 +1614,26 @@ namespace Xenomorphtype
             }
         }
 
+        internal static bool TryContainedExtraction(Pawn target, Pawn extractor)
+        {
+            if (target == null || extractor == null)
+            {
+                return false;
+            }
+
+            float medicalSuccessChance = Mathf.Clamp01(extractor.GetStatValue(StatDefOf.MedicalSurgerySuccessChance));
+            float acidKnowledge = KnowledgeUtility.GetAcidRiskKnowledge(extractor);
+            if (Rand.Chance(medicalSuccessChance) && Rand.Chance(acidKnowledge))
+            {
+                return true;
+            }
+
+            AcidUtility.TrySurgicalAcidSpill(target, extractor);
+            Messages.Message("XMT_MessageContainedExtractionFailed".Translate(
+                extractor.Named("SURGEON"), target.Named("PAWN")), extractor, MessageTypeDefOf.NegativeEvent);
+            return false;
+        }
+
         public static void FeedFromHoppers(Pawn pawn)
         {
             float nutritionWanted = pawn.needs.food.NutritionWanted;

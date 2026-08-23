@@ -57,6 +57,7 @@
 		<xpath>Defs/ThingDef[@Name="AnimalThingBase"]/recipes
 		</xpath>
 		<value>
+			<li>ExtractPheromoneGland</li>
 			<li>XMT_Remove_LarvalEmbrace</li>
 			<li>XMT_Remove_LarvalEmbraceContained</li>
 			<li>XMT_RemoveEmbryo</li>
@@ -68,6 +69,7 @@
 		<xpath>Defs/ThingDef[defName="Human"]/recipes
 		</xpath>
 		<value>
+			<li>ExtractPheromoneGland</li>
 			<li>XMT_Remove_LarvalEmbrace</li>
 			<li>XMT_Remove_LarvalEmbraceContained</li>
 			<li>XMT_RemoveEmbryo</li>

@@ -70,7 +70,10 @@ namespace Xenomorphtype
 
         internal bool TryMaintainAmbientProtection()
         {
-            if (!active || !PsychicDefenseUtility.QueenCanProtect(pawn, requireActiveToggle: false))
+            // PsychicDefenseUtility validates the owning queen once when it builds the
+            // current tick's defender cache. Repeating that work for every target was
+            // the main cost of ambient map-wide effects such as psychic suppression.
+            if (!active)
             {
                 return false;
             }

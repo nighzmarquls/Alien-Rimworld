@@ -36,9 +36,9 @@
 
 	<Xenomorphtype.PsychicDefenseSettingsDef MayRequire="Ludeon.RimWorld.Royalty">
 		<defName>XMT_PsychicDefenseSettings</defName>
-		<targetedHeatCost>6</targetedHeatCost>
-		<ambientHeatCost>8</ambientHeatCost>
-		<ambientIntervalTicks>600</ambientIntervalTicks>
+		<targetedHeatCost>30</targetedHeatCost>
+		<ambientHeatCost>40</ambientHeatCost>
+		<ambientIntervalTicks>1200</ambientIntervalTicks>
 		<minimumContestChance>0.05</minimumContestChance>
 		<maximumContestChance>0.95</maximumContestChance>
 		<basePsylinkPower>1</basePsylinkPower>

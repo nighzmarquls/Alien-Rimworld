@@ -59,14 +59,32 @@ namespace Xenomorphtype
                 childGetter = delegate
                 {
                     List<DebugActionNode> nodes = Enum.GetValues(typeof(Geometry)).Cast<Geometry>()
+                        .Where(geometry => geometry != Geometry.EnclosedViaOpenSky)
                         .Select(BuildGeometryNode)
                         .ToList();
-                    nodes.Add(new DebugActionNode("Report selected route", DebugActionType.Action, BeginReportRoute));
+                    nodes.Add(new DebugActionNode("Report selected infiltration route", DebugActionType.Action, BeginReportRoute));
+                    nodes.Add(new DebugActionNode("Report selected network policy", DebugActionType.Action, BeginReportNetworkPolicy));
                     nodes.Add(new DebugActionNode("Report topology cache", DebugActionType.Action, ReportCache));
                     nodes.Add(new DebugActionNode("Clear topology cache", DebugActionType.Action, ClearCache));
                     nodes.Add(new DebugActionNode("Toggle geometric cache", DebugActionType.Action, ToggleCache));
                     nodes.Add(new DebugActionNode("Clear last infiltration test", DebugActionType.Action, ClearLastTest));
                     return nodes;
+                }
+            };
+        }
+
+        internal static DebugActionNode MakeCombinedRootNode()
+        {
+            return new DebugActionNode("Combined traversal tests", DebugActionType.Action, null)
+            {
+                childGetter = delegate
+                {
+                    return new List<DebugActionNode>
+                    {
+                        BuildGeometryNode(Geometry.EnclosedViaOpenSky),
+                        new DebugActionNode("Report selected combined route", DebugActionType.Action, BeginReportCombinedRoute),
+                        new DebugActionNode("Clear last combined test", DebugActionType.Action, ClearLastTest)
+                    };
                 }
             };
         }
@@ -387,7 +405,7 @@ namespace Xenomorphtype
         private static void ReportHivePipeRoutePreflight(Pawn pawn, IntVec3 destination)
         {
             bool heuristic = InfiltrationUtility.CanReachByInfiltration(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger());
-            bool exact = InfiltrationUtility.TryBuildTraversalRoute(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger(), out List<TraversalLeg> legs);
+            bool exact = InfiltrationUtility.TryBuildInfiltrationRoute(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger(), out List<TraversalLeg> legs);
             bool valid = heuristic && exact && legs.Count == 1 && legs[0].IsInfiltration &&
                 legs[0].providerKey == "pipeNet" && legs[0].categoryKey == "XMT_JellyNet";
             string report = "Hive pipe route preflight " + (valid ? "passed" : "FAILED") +
@@ -411,12 +429,62 @@ namespace Xenomorphtype
                 BeginCellTargeting("Select the infiltration destination.", delegate (IntVec3 destination, Map map)
                 {
                     bool heuristic = InfiltrationUtility.CanReachByInfiltration(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger());
-                    bool exact = InfiltrationUtility.TryBuildTraversalRoute(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger(), out List<TraversalLeg> legs);
-                    string report = pawn.LabelShort + " -> " + destination + ": heuristic=" + heuristic + ", exact=" + exact +
+                    bool exact = InfiltrationUtility.TryBuildInfiltrationRoute(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger(), out List<TraversalLeg> legs);
+                    bool valid = heuristic == exact && (!exact || legs.Count > 0 && legs.All(leg => leg.IsInfiltration));
+                    string report = (valid ? "passed" : "FAILED") + ": " + pawn.LabelShort + " -> " + destination +
+                        ": heuristic=" + heuristic + ", exact=" + exact +
                         ", legs=" + (exact ? string.Join("; ", legs) : "none");
                     Log.Message("[Alien | Rimworld] " + report);
-                    Messages.Message(report, heuristic == exact ? MessageTypeDefOf.TaskCompletion : MessageTypeDefOf.RejectInput, false);
+                    Messages.Message(report, valid ? MessageTypeDefOf.TaskCompletion : MessageTypeDefOf.RejectInput, false);
                 });
+            });
+        }
+
+        private static void BeginReportCombinedRoute()
+        {
+            TargetingParameters pawnTargeting = new TargetingParameters
+            {
+                canTargetPawns = true,
+                validator = target => target.Thing is Pawn targetPawn && targetPawn.GetClimberComp() != null
+            };
+            Messages.Message("Select a climbing cryptimorph.", MessageTypeDefOf.NeutralEvent, false);
+            Find.Targeter.BeginTargeting(pawnTargeting, delegate (LocalTargetInfo pawnTarget)
+            {
+                Pawn pawn = pawnTarget.Pawn;
+                BeginCellTargeting("Select the combined traversal destination.", delegate (IntVec3 destination, Map map)
+                {
+                    bool heuristic = ClimbUtility.CanReachBySpecialTraversal(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger());
+                    bool exact = ClimbUtility.TryBuildTraversalRoute(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger(), out List<TraversalLeg> legs);
+                    bool valid = heuristic == exact && (!exact || legs.Count > 0);
+                    string report = (valid ? "passed" : "FAILED") + ": " + pawn.LabelShort + " -> " + destination + ": combined heuristic=" + heuristic +
+                        ", exact=" + exact + ", legs=" + (exact ? string.Join("; ", legs) : "none");
+                    Log.Message("[Alien | Rimworld] " + report);
+                    Messages.Message(report, valid ? MessageTypeDefOf.TaskCompletion : MessageTypeDefOf.RejectInput, false);
+                });
+            });
+        }
+
+        private static void BeginReportNetworkPolicy()
+        {
+            TargetingParameters pawnTargeting = new TargetingParameters
+            {
+                canTargetPawns = true,
+                validator = target => target.Thing is Pawn targetPawn && targetPawn.GetClimberComp() != null
+            };
+            Messages.Message("Select a climbing cryptimorph.", MessageTypeDefOf.NeutralEvent, false);
+            Find.Targeter.BeginTargeting(pawnTargeting, delegate (LocalTargetInfo pawnTarget)
+            {
+                Pawn pawn = pawnTarget.Pawn;
+                List<string> results = InfiltrationUtility.GetAllComponents(pawn.Map)
+                    .Select(component => component.ProviderKey + "/" + component.CategoryKey + "=" +
+                        InfiltrationUtility.CanPawnTraverseNetwork(pawn, component.ProviderKey, component.CategoryKey))
+                    .Distinct()
+                    .OrderBy(result => result)
+                    .ToList();
+                string report = pawn.LabelShort + " network policy: " +
+                    (results.Count == 0 ? "no infiltration components" : string.Join(", ", results));
+                Log.Message("[Alien | Rimworld] " + report);
+                Messages.Message(report, MessageTypeDefOf.TaskCompletion, false);
             });
         }
 

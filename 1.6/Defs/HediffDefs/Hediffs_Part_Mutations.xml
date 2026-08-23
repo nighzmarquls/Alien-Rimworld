@@ -186,10 +186,10 @@
 	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_HostileGland</defName>
-		<label>hostile pheromones</label>
-		<labelNoun>hostile pheromones</labelNoun>
+		<label>threat gland</label>
+		<labelNoun>threat gland</labelNoun>
 		<isBad>false</isBad>
-		<description>the organism is releasing cryptimorphic threat pheromones.</description>
+		<description>This gland releases a sharp, pungent scent that marks the organism as a threat to nearby cryptimorphs.</description>
 		<stages>
 			<li>
 				<becomeVisible>false</becomeVisible>
@@ -207,10 +207,10 @@
 	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_FriendlyGland</defName>
-		<label>friendly pheromones</label>
-		<labelNoun>friendly pheromones</labelNoun>
+		<label>friendly gland</label>
+		<labelNoun>friendly gland</labelNoun>
 		<isBad>false</isBad>
-		<description>the organism is releasing cryptimorphic pheromones with a comforting effect.</description>
+		<description>This gland releases a deeply comforting scent that marks the organism as a familiar member of the hive.</description>
 		<stages>
 			<li>
 				<becomeVisible>false</becomeVisible>
@@ -225,10 +225,10 @@
 	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_LoverGland</defName>
-		<label>sexual pheromones</label>
-		<labelNoun>sexual pheromones</labelNoun>
+		<label>lover gland</label>
+		<labelNoun>lover gland</labelNoun>
 		<isBad>false</isBad>
-		<description>the organism is releasing cryptimorphic pheromones with an arousing effect.</description>
+		<description>This gland releases an enticing scent that marks the organism as a desirable lover to nearby cryptimorphs.</description>
 		<stages>
 			<li>
 				<becomeVisible>false</becomeVisible>

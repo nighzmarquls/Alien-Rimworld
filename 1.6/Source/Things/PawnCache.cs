@@ -33,6 +33,9 @@ namespace Xenomorphtype
             protected int _brainMutationCount;
             public bool HasBrainMutation => _brainMutationCount > 0;
 
+            protected PheromoneProductionType _pheromoneProduction;
+            public PheromoneProductionType PheromoneProduction => _pheromoneProduction;
+
             protected CompClimber _climber;
             public CompClimber Climber => _climber;
 
@@ -131,6 +134,7 @@ namespace Xenomorphtype
                 _isHorror = _pawn.kindDef?.HasModExtension<XMT_HorrorPawnExtension>() == true ||
                     _pawn.def.HasModExtension<XMT_HorrorPawnExtension>();
                 _brainMutationCount = CountBrainMutations(_pawn);
+                _pheromoneProduction = GetPheromoneProduction(_pawn);
 
                 if (XMTSettings.LogBiohorror)
                 {
@@ -180,6 +184,21 @@ namespace Xenomorphtype
             private static bool IsBrainPart(BodyPartDef partDef)
             {
                 return partDef == ExternalDefOf.Brain || partDef == InternalDefOf.StarbeastBrain;
+            }
+
+            private static PheromoneProductionType GetPheromoneProduction(Pawn pawn)
+            {
+                if (pawn?.health?.hediffSet?.hediffs == null)
+                {
+                    return PheromoneProductionType.None;
+                }
+
+                PheromoneProductionType types = PheromoneProductionType.None;
+                foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+                {
+                    types |= PheromoneUtility.ProductionTypeFor(hediff);
+                }
+                return types;
             }
 
             public PawnCache(Pawn pawn)
@@ -455,6 +474,21 @@ namespace Xenomorphtype
             }
 
             return PawnCache.cache[pawn.thingIDNumber].HasBrainMutation;
+        }
+
+        public static PheromoneProductionType PheromoneProduction(this Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                return PheromoneProductionType.None;
+            }
+
+            if (!PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
+            }
+
+            return PawnCache.cache[pawn.thingIDNumber].PheromoneProduction;
         }
 
         public static CompPawnInfo Info(this Pawn pawn)

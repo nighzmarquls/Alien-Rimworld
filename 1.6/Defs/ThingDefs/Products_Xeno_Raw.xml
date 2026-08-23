@@ -369,6 +369,39 @@
 		<allowedArchonexusCount>150</allowedArchonexusCount>
 	</ThingDef>
 	<ThingDef ParentName="ResourceBase">
+		<defName>XMT_RawPheromone</defName>
+		<label>raw pheromone gland</label>
+		<description>An excised gland swollen with sticky, clear pheromonal secretion. Its strange scent begins with smoky spices and sharp accents, deepening into a cloying, sweetly savory odor that quickly becomes chokingly pungent at close range. The gland can be ruptured and its contents rubbed directly over the skin or body, or used to fuel specialized pheromone equipment.</description>
+		<thingClass>ThingWithComps</thingClass>
+		<graphicData>
+			<texPath>Things/Item/Resource/Starbeast_Pheromone</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<stackLimit>10</stackLimit>
+		<statBases>
+			<MaxHitPoints>30</MaxHitPoints>
+			<MarketValue>12</MarketValue>
+			<Mass>0.05</Mass>
+			<Flammability>0.2</Flammability>
+		</statBases>
+		<thingCategories>
+			<li>AnimalProductRaw</li>
+		</thingCategories>
+		<comps>
+			<li Class="CompProperties_Usable">
+				<useJob>UseItem</useJob>
+				<useLabel>Apply {0_label}</useLabel>
+				<useDuration>120</useDuration>
+				<showUseGizmo>true</showUseGizmo>
+			</li>
+			<li Class="CompProperties_Targetable">
+				<compClass>CompTargetable_SinglePawn</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_TargetEffectApplyRawPheromone" />
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="ResourceBase">
 		<defName>XMT_Acid</defName>
 		<label>contained acid</label>
 		<description>A canister of highly volatile molecular acid, even contained it is unstable outside of extremely low temperatures, -30 Celsius maximum for shelf stable reactivity.</description>

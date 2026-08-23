@@ -61,6 +61,12 @@ namespace Xenomorphtype
 
     internal static class PsychicDefenseUtility
     {
+        private sealed class AmbientDefender
+        {
+            internal Pawn Queen;
+            internal Ability_PsychicDefense Ability;
+        }
+
         private sealed class VefCastState
         {
             internal VefAbility Ability;
@@ -78,6 +84,12 @@ namespace Xenomorphtype
 
         [ThreadStatic]
         private static Stack<VefCastState> vefCastStates;
+
+        private static readonly Dictionary<Map, List<AmbientDefender>> ambientDefendersByMap =
+            new Dictionary<Map, List<AmbientDefender>>();
+        private static Game ambientDefenderCacheGame;
+        private static int ambientDefenderCacheTick = -1;
+        private static bool anyQueenPresentThisTick;
 
         internal static PsychicDefenseSettingsDef Settings =>
             DefDatabase<PsychicDefenseSettingsDef>.GetNamedSilentFail(SettingsDefName) ?? fallbackSettings;
@@ -214,22 +226,85 @@ namespace Xenomorphtype
 
         internal static bool TryProtectAmbient(Pawn target)
         {
-            if (target?.MapHeld == null)
+            Map map = target?.MapHeld;
+            if (map == null)
             {
                 return false;
             }
 
-            foreach (Pawn queen in target.MapHeld.mapPawns.AllPawnsSpawned
-                .Where(queen => QueenCanProtect(queen) && IsProtectedBy(target, queen))
-                .OrderBy(queen => queen.thingIDNumber))
+            RefreshAmbientDefenderCacheForCurrentTick();
+            if (!anyQueenPresentThisTick || !CanEverReceiveQueenProtection(target))
             {
-                if (GetProtectionAbility(queen)?.TryMaintainAmbientProtection() == true)
+                return false;
+            }
+
+            List<AmbientDefender> defenders = GetAmbientDefenders(map);
+            for (int i = 0; i < defenders.Count; i++)
+            {
+                AmbientDefender defender = defenders[i];
+                if (IsProtectedBy(target, defender.Queen)
+                    && defender.Ability.TryMaintainAmbientProtection())
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        private static void RefreshAmbientDefenderCacheForCurrentTick()
+        {
+            int currentTick = Find.TickManager?.TicksGame ?? -1;
+            if (ambientDefenderCacheGame == Current.Game && ambientDefenderCacheTick == currentTick)
+            {
+                return;
+            }
+
+            ambientDefenderCacheGame = Current.Game;
+            ambientDefenderCacheTick = currentTick;
+            ambientDefendersByMap.Clear();
+            anyQueenPresentThisTick = XMTUtility.GetQueen() != null;
+        }
+
+        private static bool CanEverReceiveQueenProtection(Pawn target)
+        {
+            return target.GetComp<CompQueen>() != null
+                || XMTUtility.IsXenomorph(target)
+                || target.HasBrainMutation();
+        }
+
+        private static List<AmbientDefender> GetAmbientDefenders(Map map)
+        {
+            if (ambientDefendersByMap.TryGetValue(map, out List<AmbientDefender> defenders))
+            {
+                return defenders;
+            }
+
+            defenders = new List<AmbientDefender>();
+            IReadOnlyList<Pawn> spawnedPawns = map.mapPawns.AllPawnsSpawned;
+            for (int i = 0; i < spawnedPawns.Count; i++)
+            {
+                Pawn queen = spawnedPawns[i];
+                if (queen.GetComp<CompQueen>() == null
+                    || !QueenCanProtect(queen, requireActiveToggle: false))
+                {
+                    continue;
+                }
+
+                Ability_PsychicDefense ability = GetProtectionAbility(queen);
+                if (ability != null)
+                {
+                    defenders.Add(new AmbientDefender
+                    {
+                        Queen = queen,
+                        Ability = ability
+                    });
+                }
+            }
+
+            defenders.Sort((left, right) => left.Queen.thingIDNumber.CompareTo(right.Queen.thingIDNumber));
+            ambientDefendersByMap.Add(map, defenders);
+            return defenders;
         }
 
         internal static Pawn FindDefendingQueen(Pawn target, Pawn aggressor, float heatCost)

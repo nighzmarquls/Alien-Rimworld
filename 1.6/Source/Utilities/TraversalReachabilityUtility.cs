@@ -95,7 +95,7 @@ namespace Xenomorphtype
             Dictionary<Region, bool> reachableByRegion = new Dictionary<Region, bool>();
             Predicate<Thing> traversalValidator = delegate (Thing thing)
             {
-                if (thing == null || (validator != null && !validator(thing)))
+                if (thing == null)
                 {
                     return false;
                 }
@@ -107,7 +107,7 @@ namespace Xenomorphtype
                     region = spawned.Position.GetRegion(map, RegionType.Set_Passable);
                     if (region != null && reachableByRegion.TryGetValue(region, out bool cached))
                     {
-                        return cached;
+                        return cached && (validator == null || validator(thing));
                     }
                 }
 
@@ -117,7 +117,7 @@ namespace Xenomorphtype
                 {
                     reachableByRegion[region] = reachable;
                 }
-                return reachable;
+                return reachable && (validator == null || validator(thing));
             };
 
             return GenClosest.ClosestThing_Global(center, searchSet, maxDistance, traversalValidator,

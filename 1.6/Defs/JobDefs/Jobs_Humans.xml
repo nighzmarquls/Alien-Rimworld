@@ -52,6 +52,13 @@
 	</JobDef>
 
 	<JobDef>
+		<defName>XMT_ExtractPheromone</defName>
+		<driverClass>Xenomorphtype.JobDriver_ExtractPheromone</driverClass>
+		<reportString>extracting a raw pheromone gland from TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
 		<defName>XMT_LoadPawnIntoBioContainer</defName>
 		<driverClass>Xenomorphtype.JobDriver_LoadPawnIntoBioContainer</driverClass>
 		<reportString>loading TargetA into a biocontainer.</reportString>
