@@ -338,6 +338,7 @@ namespace Xenomorphtype
                     if (alien.alienRace.generalSettings.alienPartGenerator.colorChannels[0].entries[0].first is ColorGenerator_Options Options)
                     {
                         Parent.story.skinColorOverride = Options.NewRandomizedColor();
+                       
                     }
                 }
 
@@ -356,14 +357,14 @@ namespace Xenomorphtype
                         }
                     }
                 }
-                
-               
-               
+                ;
+
+                Parent.story.HairColor = (Color)Parent.story.skinColorOverride;
                 return;
             }
             else if(!Parent.ageTracker.Adult && Parent.story.skinColorOverride != nymphSkinColor)
             {
-                
+                Parent.story.HairColor = nymphSkinColor;
                 Parent.story.skinColorOverride = nymphSkinColor;
             }
         }

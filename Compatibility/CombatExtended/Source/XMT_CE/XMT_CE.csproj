@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Harmony\XMTCEAnomalyPatches.cs" />
     <Compile Include="Harmony\XMTCEHostilityPatch.cs" />
+    <Compile Include="Harmony\XMTCEQueenEvolutionPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XMT_CE.cs" />
   </ItemGroup>

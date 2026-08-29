@@ -20,6 +20,14 @@ namespace Xenomorphtype
         {
             float fullness = 1f;
 
+            if(bleeder is Ovomorph ovoBleeder)
+            {
+                if(!ovoBleeder.Unhatched)
+                {
+                    return 0;
+                }
+            }
+
             if (bleeder is Pawn pawnBleeder)
             {
                 Hediff bloodloss = pawnBleeder.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss);

@@ -33,6 +33,8 @@
 				<MeleeDodgeChance>1.25</MeleeDodgeChance>
 				<MoveSpeed>7.0</MoveSpeed>
 				<CrawlSpeed>8</CrawlSpeed>
+				<CarryWeight>120</CarryWeight>
+				<CarryBulk>60</CarryBulk>
 				<WorkSpeedGlobal>0.75</WorkSpeedGlobal>
 				<PsychicSensitivity>1.25</PsychicSensitivity>
 				<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">250</MinimumContainmentStrength>

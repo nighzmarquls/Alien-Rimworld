@@ -1,14 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Patch>
-  <Operation Class="PatchOperationReplace">
-	<xpath>Defs/HediffDef[defName="XMT_Fertility"]/stages/li[1]/statOffsets</xpath>
-	<value>
-		<statOffsets>
-			  <SocialImpact>0.2500</SocialImpact>
-			  <ArmorRating_Blunt>-80.0000</ArmorRating_Blunt>
-			  <ArmorRating_Sharp>-30.0000</ArmorRating_Sharp>
-			  <WorkSpeedGlobal>-0.2250</WorkSpeedGlobal>
-		</statOffsets>
-	</value>
-  </Operation>
+	<!-- Patch only CE armor values; movement, work, social, and hereditary stats remain inherited. -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Fertility"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>-80</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Fertility"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>-30</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_HyperFertility"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>-100</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_HyperFertility"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>-37.5</ArmorRating_Sharp></value>
+			</li>
+		</operations>
+	</Operation>
 </Patch>
