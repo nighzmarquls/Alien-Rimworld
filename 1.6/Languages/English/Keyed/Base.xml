@@ -523,6 +523,8 @@
 	<XMT_SettingsLogStructuresDesc>Enable diagnostic logging for hive structures, rooms, zones, and placement.</XMT_SettingsLogStructuresDesc>
 	<XMT_SettingsLogBioHorror>Log Bio Horror</XMT_SettingsLogBioHorror>
 	<XMT_SettingsLogBioHorrorDesc>Enable log reporting on mutations and other biohorror</XMT_SettingsLogBioHorrorDesc>
+	<XMT_SettingsLogNemesis>Log Nemesis</XMT_SettingsLogNemesis>
+	<XMT_SettingsLogNemesisDesc>Enable detailed Nemesis logging for intelligence, mission selection, and lord decisions. Explicit debug commands, scenario results, warnings, and errors are still logged when disabled.</XMT_SettingsLogNemesisDesc>
 	<XMT_SettingsLogWorldHorror>Log World Horror</XMT_SettingsLogWorldHorror>
 	<XMT_SettingsLogWorldHorrorDesc>Enable log reporting on world horror system</XMT_SettingsLogWorldHorrorDesc>
 	<XMT_SettingsPlayerSabotage>Enable Player Sabotage Behavior</XMT_SettingsPlayerSabotage>
@@ -568,6 +570,10 @@
 	<XMT_PsychicDefenseRepelled>{0}'s {1} was repelled by psychic defense.</XMT_PsychicDefenseRepelled>
 	<XMT_UnknownPsycaster>Unknown psycaster</XMT_UnknownPsycaster>
 	<XMT_UnknownPsycast>psychic effect</XMT_UnknownPsycast>
+	<XMT_QueenHomecomingLetterTitle>Welcomed home</XMT_QueenHomecomingLetterTitle>
+	<XMT_QueenHomecomingLetterDescription>A sister has ascended. From within the resinous hill, her voice answers the silence of a hive without its queen. She recognizes your kin and welcomes you home.\n\nThe queen, the cryptimorphs of this hive, and its structures have joined your faction.</XMT_QueenHomecomingLetterDescription>
+	<XMT_QueenMotherWarningLetterTitle>The mother</XMT_QueenMotherWarningLetterTitle>
+	<XMT_QueenMotherWarningLetterDescription>Since approaching the hill, your cryptimorph companions have become restless and distracted, repeatedly turning toward something deep inside. Their behavior is increasingly erratic.\n\nA presence waits beneath the resin. To them, she is "the mother."</XMT_QueenMotherWarningLetterDescription>
 	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
 </LanguageData>

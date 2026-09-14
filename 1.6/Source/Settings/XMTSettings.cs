@@ -15,7 +15,7 @@ namespace Xenomorphtype
         static private XMTSettings instance;
 
         private static Vector2 scrollPosition;
-        private static float height_modifier = 2f;
+        private static float settingsContentHeight = 1200f;
 
         //SETTINGS
         public static bool LogJobGiver => instance != null ? instance._logJobGiver : false;
@@ -23,12 +23,14 @@ namespace Xenomorphtype
         public static bool LogBiohorror => instance != null ? instance._logBiohorror : false;
         public static bool LogStructures => instance != null ? instance._logStructures : false;
         public static bool LogWorld => instance != null ? instance._logWorld : false;
+        public static bool LogNemesis => instance != null ? instance._logNemesis : false;
 
         private bool _logJobGiver = false;
         private bool _logClimbing = false;
         private bool _logBiohorror = false;
         private bool _logStructures = false;
         private bool _logWorld = false;
+        private bool _logNemesis = false;
 
         public static bool PlayerSabotage => instance != null ? instance._playerSabotage : true;
         private bool _playerSabotage = true;
@@ -74,6 +76,7 @@ namespace Xenomorphtype
             _logBiohorror = false;
             _logStructures = false;
             _logWorld = false;
+            _logNemesis = false;
             _playerSabotage = true;
             _horrorPregnancy = true;
   
@@ -119,7 +122,7 @@ namespace Xenomorphtype
         public void DoWindowContents(Rect inRect)
         {
             Rect outRect = new Rect(0f, 30f, inRect.width, inRect.height - 30f);
-            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, inRect.height * height_modifier);
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, Mathf.Max(outRect.height, settingsContentHeight));
 
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect); 
 
@@ -137,6 +140,8 @@ namespace Xenomorphtype
             listingStandard.CheckboxLabeled("XMT_SettingsLogBioHorror".Translate(), ref _logBiohorror, "XMT_SettingsLogBioHorrorDesc".Translate());
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("XMT_SettingsLogWorldHorror".Translate(), ref _logWorld, "XMT_SettingsLogWorldHorrorDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsLogNemesis".Translate(), ref _logNemesis, "XMT_SettingsLogNemesisDesc".Translate());
             listingStandard.Gap(5f);
             listingStandard.CheckboxLabeled("XMT_SettingsPlayerSabotage".Translate(), ref _playerSabotage, "XMT_SettingsPlayerSabotageDesc".Translate());
             listingStandard.Gap(5f);
@@ -191,7 +196,7 @@ namespace Xenomorphtype
             {
                 ResetToDefault();
             }
-            viewRect.height += 75;
+            settingsContentHeight = listingStandard.CurHeight + 100f;
             listingStandard.End();
             Widgets.EndScrollView();
         }
@@ -210,6 +215,7 @@ namespace Xenomorphtype
                 _logStructures = legacyLogRituals;
             }
             Scribe_Values.Look(ref _logWorld, "logWorld", false, false);
+            Scribe_Values.Look(ref _logNemesis, "logNemesis", false, false);
 
             Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
             Scribe_Values.Look(ref _horrorPregnancy, "horrorPregnancy", true, false);

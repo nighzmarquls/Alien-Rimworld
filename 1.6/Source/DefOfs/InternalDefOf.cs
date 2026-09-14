@@ -15,6 +15,10 @@ namespace Xenomorphtype
         public static FleshTypeDef          StarbeastFlesh;
         public static FactionDef            XMT_PlayerHive;
         public static FactionDef            XMT_QueenAidDefenders;
+        public static ConceptDef            XMT_MetamorphicChrysalisHelp;
+        public static ConceptDef            XMT_JellyProductionHelp;
+        public static ConceptDef            XMT_QueenAdvancementHelp;
+        public static ConceptDef            XMT_QueenJellyRefinementHelp;
 
         //Xenomorphtype Defs
 

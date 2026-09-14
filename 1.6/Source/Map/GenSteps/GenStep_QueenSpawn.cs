@@ -181,16 +181,20 @@ namespace Xenomorphtype
 
             if (spawnThrone)
             {
+                Current.Game.GetComponent<GameComponent_NemesisWorldPawns>().PlaceRetainedHosts(map, hostCells);
                 EggSack throne = GenSpawn.Spawn(XenoBuildingDefOf.XMT_Ovothrone, map.Center, map, Rot4.Random) as EggSack;
                 if (throne == null || !throne.TryAssignOccupant(queen))
                 {
                     Log.Warning("Failed to assign " + queen + " to its generated ovothrone.");
                 }
                 XMTHiveUtility.ForceNestPosition(map.Center+(Rot4.Random.FacingCell*5), map);
+                map.GetComponent<HiveMapComponent>().CaptureGeneratedCryptimorphStructures();
                 return;
             }
             GenSpawn.Spawn(queen, map.Center, map);
             XMTUtility.DeclareQueen(queen);
+            Current.Game.GetComponent<GameComponent_NemesisWorldPawns>().PlaceRetainedHosts(map, hostCells);
+            map.GetComponent<HiveMapComponent>().CaptureGeneratedCryptimorphStructures();
         }
     }
 }

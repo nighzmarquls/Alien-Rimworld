@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Unity.Jobs;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 using Verse.Noise;
 
 namespace Xenomorphtype
@@ -94,7 +95,8 @@ namespace Xenomorphtype
                 return;
             }
 
-            if (Parent.Faction == null || !Parent.Faction.IsPlayer)
+            if ((Parent.Faction == null || !Parent.Faction.IsPlayer)
+                && (!(Parent.GetLord()?.LordJob is LordJob_Nemesis nemesisLord) || nemesisLord.AllowRevealAttack(Parent, Discoverer)))
             {
                 if (Discoverer != null)
                 {
@@ -176,6 +178,18 @@ namespace Xenomorphtype
                 becomeInvisibleTick = Find.TickManager.TicksGame + 600;
                 Parent.Drawer?.renderer?.SetAllGraphicsDirty();
             }
+        }
+
+        public override void Notify_BecameVisible()
+        {
+            base.Notify_BecameVisible();
+            (Parent.GetLord()?.LordJob as LordJob_Nemesis)?.Notify_Revealed(Parent);
+        }
+
+        public override void Notify_ForcedVisible()
+        {
+            base.Notify_ForcedVisible();
+            (Parent.GetLord()?.LordJob as LordJob_Nemesis)?.Notify_Revealed(Parent);
         }
 
         protected void TryVisible(bool instant = false)

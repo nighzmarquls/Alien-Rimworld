@@ -7,7 +7,7 @@ using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
-    internal class LordJob_QueenAid : LordJob
+    internal class LordJob_QueenAid : LordJob_Nemesis
     {
         private const int AssaultTicks = 18000;
         private const int ClearThreatTicksBeforeLeaving = 2500;
@@ -87,6 +87,14 @@ namespace Xenomorphtype
 
             return QueenAidThreatProfile.IsQueenAidThreat(queen, searcher, target, threatProfile);
         }
+
+        public override bool AllowRevealAttack(Pawn pawn, Thing discoverer)
+        {
+            return !IsBusyWithQueenCare(pawn) && discoverer != null && ValidateAttackTarget(pawn, discoverer);
+        }
+
+        public override bool AllowThreatResponse(Pawn pawn, Thing aggressor) => !IsBusyWithQueenCare(pawn)
+            && aggressor != null && ValidateAttackTarget(pawn, aggressor);
 
         public override void LordJobTick()
         {

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Xenomorphtype.NemesisObservationDef>
+    <defName>XMT_NemesisObs_HostBeds</defName>
+    <workerClass>Xenomorphtype.NemesisObservationWorker_BuildingMetric</workerClass>
+    <metric>HostBeds</metric>
+    <traversalCategories><li>PlayerBuildings</li></traversalCategories>
+    <recordsSpatialContacts>true</recordsSpatialContacts>
+  </Xenomorphtype.NemesisObservationDef>
+
+  <Xenomorphtype.NemesisMissionDef>
+    <defName>XMT_NemesisMission_Scouting</defName>
+    <label>scouting party</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_Scouting</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisScouting</lordJobClass>
+    <extractionEvidence>XMT_Nemesis_ScoutHostAcquired</extractionEvidence>
+    <allowDormant>true</allowDormant>
+    <allowAwakened>true</allowAwakened>
+    <populationRange>1~3</populationRange>
+    <xenoformingForMaximumPressure>80</xenoformingForMaximumPressure>
+    <baseWeight>1</baseWeight>
+    <pressureInputs>
+      <li><signal>XMT_NemesisSignal_HiveLossPressure</signal><weight>0.2</weight></li>
+    </pressureInputs>
+    <stanceWeights>
+      <li><stance>XMT_NemesisStance_Default</stance><weight>1.25</weight></li>
+      <li><stance>XMT_NemesisStance_Juggernaut</stance><weight>0.75</weight></li>
+    </stanceWeights>
+    <workerSettings>
+      <localSearchRadius>14</localSearchRadius>
+      <maximumRoutePoints>6</maximumRoutePoints>
+      <staleIntelDays>5</staleIntelDays>
+      <freshIntelWeight>0.5</freshIntelWeight>
+      <staleScoutWeight>4</staleScoutWeight>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+
+  <Xenomorphtype.NemesisMissionDef>
+    <defName>XMT_NemesisMission_HostCollection</defName>
+    <label>host collection</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_HostCollection</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisHostCollection</lordJobClass>
+    <allowDormant>true</allowDormant>
+    <allowAwakened>true</allowAwakened>
+    <populationRange>2~12</populationRange>
+    <xenoformingForMaximumPressure>100</xenoformingForMaximumPressure>
+    <baseWeight>1</baseWeight>
+    <pressureInputs>
+      <li><signal>XMT_NemesisSignal_HiveLossPressure</signal><weight>0.25</weight></li>
+    </pressureInputs>
+    <stanceWeights>
+      <li><stance>XMT_NemesisStance_FleshShaper</stance><weight>1.5</weight></li>
+      <li><stance>XMT_NemesisStance_Juggernaut</stance><weight>0.75</weight></li>
+    </stanceWeights>
+    <workerSettings>
+      <localSearchRadius>22</localSearchRadius>
+      <maximumRoutePoints>8</maximumRoutePoints>
+      <raidPointPawnKind>XMT_FeralStarbeastKind</raidPointPawnKind>
+      <raidPointBudgetFactor>1</raidPointBudgetFactor>
+      <populationFraction>0.5</populationFraction>
+      <weightEvidence>XMT_Nemesis_ScoutHostAcquired</weightEvidence>
+      <weightEvidenceBonus>1</weightEvidenceBonus>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+
+  <DutyDef>
+    <defName>XMT_NemesisMission</defName>
+    <thinkNode Class="Xenomorphtype.JobGiver_NemesisMission" />
+  </DutyDef>
+
+  <JobDef>
+    <defName>XMT_AbductOffMap</defName>
+    <driverClass>Xenomorphtype.JobDriver_AbductOffMap</driverClass>
+    <reportString>abducting TargetA off the map.</reportString>
+    <casualInterruptible>false</casualInterruptible>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <neverFleeFromEnemies>true</neverFleeFromEnemies>
+    <carryThingAfterJob>true</carryThingAfterJob>
+    <dropThingBeforeJob>false</dropThingBeforeJob>
+    <suspendable>false</suspendable>
+  </JobDef>
+</Defs>

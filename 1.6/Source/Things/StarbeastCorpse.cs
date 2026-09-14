@@ -10,6 +10,12 @@ namespace Xenomorphtype
     {
         bool _initialized = false;
         bool _notActuallyDead = true;
+        bool _playDeadReported;
+        bool _confirmedDeathReported;
+        DamageInfo? _pendingNemesisDamage;
+
+        [Unsaved]
+        bool _resurrectionInProgress;
 
         bool _notfixedSkinColor = true;
         const int reviveInterval = 2500*24;
@@ -20,38 +26,57 @@ namespace Xenomorphtype
         {
             get
             {
-                if(_notActuallyDead && this.IsDessicated())
+                if (!_notActuallyDead)
                 {
-                    _notActuallyDead = false;
-                    XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
+                    return false;
+                }
+
+                if (_initialized)
+                {
+                    if (this.IsDessicated())
+                    {
+                        ConfirmActualDeath("dessicated");
+                    }
                     return _notActuallyDead;
                 }
 
-                if(_initialized)
-                {
-                    return _notActuallyDead;
-                }
-
-                _notActuallyDead = NotActuallyDeadInit();
+                _notActuallyDead = EvaluateRevivalViability(out string failureReason);
                 _initialized = true;
+                if (!_notActuallyDead)
+                {
+                    ConfirmActualDeath(failureReason);
+                }
 
                 return _notActuallyDead;
             }
         }
-        private bool NotActuallyDeadInit()
+
+        internal bool IsViableLivingCorpseForObservation => EvaluateRevivalViability(out _);
+
+        private bool EvaluateRevivalViability(out string failureReason)
         {
+            failureReason = null;
             if(InnerPawn == null)
             {
+                failureReason = "missing inner pawn";
                 return false;
             }
 
             if(InnerPawn.GetMorphComp() == null)
             {
+                failureReason = "not a mature cryptimorph";
                 return false;
             }
 
             if(!_notActuallyDead)
             {
+                failureReason = "already confirmed dead";
+                return false;
+            }
+
+            if (this.IsDessicated())
+            {
+                failureReason = "dessicated";
                 return false;
             }
 
@@ -59,7 +84,7 @@ namespace Xenomorphtype
             {
                 if(bloodloss.Severity > 0.5f)
                 {
-                    XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
+                    failureReason = "fatal blood loss";
                     return false;
                 }
             }
@@ -85,7 +110,7 @@ namespace Xenomorphtype
 
             if(foundparts < 3)
             {
-                XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
+                failureReason = "fatal organ damage";
                 return false;
             }
             return true;
@@ -95,9 +120,21 @@ namespace Xenomorphtype
         protected bool TryRevive(CompPawnInfo aggressor = null)
         {
             Pawn reference = InnerPawn;
-            if (!ResurrectionUtility.TryResurrect(InnerPawn, new ResurrectionParams { restoreMissingParts = false, gettingScarsChance = 0.75f }))
+            bool revived;
+            _resurrectionInProgress = true;
+            try
             {
-                _notActuallyDead = false;
+                revived = ResurrectionUtility.TryResurrect(InnerPawn,
+                    new ResurrectionParams { restoreMissingParts = false, gettingScarsChance = 0.75f });
+            }
+            finally
+            {
+                _resurrectionInProgress = false;
+            }
+
+            if (!revived)
+            {
+                ConfirmActualDeath("revival failed");
                 return false;
             }
 
@@ -113,7 +150,11 @@ namespace Xenomorphtype
             base.PrePostIngested(ingester);
             if (NotActuallyDead)
             {
-                _notActuallyDead = NotActuallyDeadInit();
+                _notActuallyDead = EvaluateRevivalViability(out string failureReason);
+                if (!_notActuallyDead)
+                {
+                    ConfirmActualDeath(failureReason);
+                }
 
                 if (NotActuallyDead)
                 {
@@ -124,25 +165,32 @@ namespace Xenomorphtype
         }
         public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
-            base.PostApplyDamage(dinfo, totalDamageDealt);
-            if (NotActuallyDead && nextRevivalTick > 0)
+            _pendingNemesisDamage = dinfo;
+            try
             {
-                if (HitPoints > MaxHitPoints / 2)
+                base.PostApplyDamage(dinfo, totalDamageDealt);
+                if (NotActuallyDead && nextRevivalTick > 0)
                 {
-                    CompPawnInfo info = null;
-                    if (dinfo.Instigator is Pawn pawn)
+                    if (HitPoints > MaxHitPoints / 2)
                     {
+                        CompPawnInfo info = null;
+                        if (dinfo.Instigator is Pawn pawn)
+                        {
 
-                        info = pawn.Info();
+                            info = pawn.Info();
+                        }
+
+                        TryRevive(info);
                     }
-
-                    TryRevive(info);
+                    else
+                    {
+                        ConfirmActualDeath("corpse destroyed", dinfo);
+                    }
                 }
-                else
-                {
-                    XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
-                    _notActuallyDead = false;
-                }
+            }
+            finally
+            {
+                _pendingNemesisDamage = null;
             }
         }
 
@@ -235,7 +283,82 @@ namespace Xenomorphtype
                 TaleRecorder.RecordTale(TaleDefOf.ButcheredHumanlikeCorpse, butcher);
             }
 
+            NemesisEvidenceReporter.ReportButchery(InnerPawn, butcher);
             ResearchUtility.ProgressCryptobioTech(10, butcher);
+        }
+
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        {
+            base.SpawnSetup(map, respawningAfterLoad);
+            if (respawningAfterLoad)
+            {
+                InitializeLoadedCorpseWithoutHistoricalEvidence();
+            }
+            else
+            {
+                NemesisEvidenceReporter.ResolveCryptimorphCorpse(this);
+            }
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref _initialized, "xmtLivingCorpseInitialized", false);
+            Scribe_Values.Look(ref _notActuallyDead, "xmtNotActuallyDead", true);
+            Scribe_Values.Look(ref _playDeadReported, "xmtPlayDeadReported", false);
+            Scribe_Values.Look(ref _confirmedDeathReported, "xmtConfirmedDeathReported", false);
+            Scribe_Values.Look(ref nextRevivalTick, "xmtNextRevivalTick", -1);
+        }
+
+        internal void ResolveInitialNemesisDeath(DamageInfo? damage)
+        {
+            _pendingNemesisDamage = damage;
+            if (NotActuallyDead)
+            {
+                if (!_playDeadReported)
+                {
+                    _playDeadReported = true;
+                    NemesisEvidenceReporter.ReportCryptimorphPlayedDead(InnerPawn, damage);
+                }
+            }
+            else if (!_confirmedDeathReported)
+            {
+                ConfirmActualDeath("initial lethal damage", damage);
+            }
+            _pendingNemesisDamage = null;
+        }
+
+        private void ConfirmActualDeath(string reason, DamageInfo? damage = null)
+        {
+            _notActuallyDead = false;
+            if (_confirmedDeathReported || InnerPawn == null)
+            {
+                return;
+            }
+
+            _confirmedDeathReported = true;
+            DamageInfo? effectiveDamage = damage ?? _pendingNemesisDamage;
+            XenoformingUtility.HandleMatureMorphDeath(InnerPawn);
+            NemesisEvidenceReporter.ReportCryptimorphConfirmedDeath(InnerPawn, effectiveDamage, reason);
+        }
+
+        private void InitializeLoadedCorpseWithoutHistoricalEvidence()
+        {
+            if (_initialized)
+            {
+                return;
+            }
+
+            _notActuallyDead = EvaluateRevivalViability(out _);
+            _initialized = true;
+            if (_notActuallyDead)
+            {
+                _playDeadReported = true;
+            }
+            else
+            {
+                _confirmedDeathReported = true;
+            }
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
@@ -243,6 +366,11 @@ namespace Xenomorphtype
             if(!Spawned)
             {
                 return;
+            }
+
+            if (!_resurrectionInProgress && !_confirmedDeathReported && InnerPawn != null)
+            {
+                ConfirmActualDeath("corpse destroyed");
             }
 
             base.Destroy(mode);

@@ -63,6 +63,7 @@ namespace Xenomorphtype
                 Thing thing = ThingMaker.MakeThing(InternalDefOf.XMT_Acid);
                 thing.stackCount = 2;
                 GenPlace.TryPlaceThing(thing, pawn.Position, pawn.Map, ThingPlaceMode.Near);
+                NemesisEvidenceReporter.ReportHarvest(innerPawn, pawn, job.def, "contained acid extraction");
             });
         }
 

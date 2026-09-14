@@ -13,33 +13,28 @@ using Verse.AI.Group;
 namespace Xenomorphtype
 {
 
-    public class JobDriver_AbductHost : JobDriver_ClimbToPosition
+    public class JobDriver_AbductHost : JobDriver_AbductPawn
     {
 
         private const TargetIndex HaulableInd = TargetIndex.A;
 
         private const TargetIndex StoreCellInd = TargetIndex.B;
 
-        private const float GrabTicksFinish = 30;
-        private float GrabTicks = 0;
-        private float GrabProgress = 0;
-
         private float CocoonTicksFinish = 350;
         private float CocoonTicks = 0;
         private float CocoonProgress = 0;
 
-        private bool FailedGrab = false;
-
         protected override IntVec3 FinalGoalCell => job.GetTarget(TargetIndex.B).Cell;
         public Thing ToHaul => job.GetTarget(TargetIndex.A).Thing;
-        public Pawn Victim => job.GetTarget(TargetIndex.A).Pawn;
 
         protected virtual bool DropCarriedThingIfNotTarget => false;
 
         public override void ExposeData()
         {
             base.ExposeData();
-      
+            Scribe_Values.Look(ref CocoonTicks, "cocoonTicks");
+            Scribe_Values.Look(ref CocoonTicksFinish, "cocoonTicksFinish", 350f);
+            CocoonProgress = CocoonTicks / Mathf.Max(1f, CocoonTicksFinish);
         }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
@@ -81,44 +76,6 @@ namespace Xenomorphtype
         }
 
 
-        private Toil AttemptGrab()
-        {
-            Toil toil = ToilMaker.MakeToil("AttemptGrab");
-            toil.atomicWithPrevious = true;
-            toil.initAction = delegate
-            {
-                CompMatureMorph matureMorph = pawn.GetMorphComp();
-                if (matureMorph != null)
-                {
-                    if(!matureMorph.InitiateGrabCheck(Victim))
-                    {
-                        FailedGrab = true;
-                    }
-                }
-            };
-            toil.tickAction = delegate
-            {
-                GrabTicks+= 1;
-                GrabProgress = (GrabTicks / GrabTicksFinish);
-                if (GrabTicks >= GrabTicksFinish)
-                {
-                    CompMatureMorph matureMorph = pawn.GetMorphComp();
-                    if (matureMorph != null)
-                    {
-                        if (GrabProgress >= 1 && !FailedGrab)
-                        {
-                            matureMorph.TryGrab(Victim);
-                        }
-                    }
-                    ReadyForNextToil();
-                }
-                
-            };
-            toil.WithProgressBar(TargetIndex.A, () => GrabProgress);
-            toil.defaultCompleteMode = ToilCompleteMode.Never;
-            return toil;
-        }
-
         private Toil AttemptCocoon()
         {
             Toil toil = ToilMaker.MakeToil("FormingCocoon");
@@ -146,7 +103,7 @@ namespace Xenomorphtype
                         if (Malnutrition != null)
                         {
                             Malnutrition.Severity += 0.001f;
-                            actor.workSettings.Disable(WorkTypeDefOf.Construction);
+                            actor.workSettings?.Disable(WorkTypeDefOf.Construction);
                         }
                         ReadyForNextToil();
                         return;
@@ -155,22 +112,20 @@ namespace Xenomorphtype
 
                 if (CocoonTicks >= CocoonTicksFinish)
                 {
-                    ReadyForNextToil();
-                }
-
-            };
-            toil.AddFinishAction(delegate
-            {
-                if (CocoonProgress >= 1)
-                {
+                    if (Victim == null || Victim.Dead || pawn.carryTracker.CarriedThing != Victim)
+                    {
+                        EndJobWith(JobCondition.Incompletable);
+                        return;
+                    }
                     CompMatureMorph matureMorph = pawn.GetMorphComp();
                     if (matureMorph != null)
                     {
                         Victim.MapHeld.designationManager.TryRemoveDesignationOn(Victim, XenoWorkDefOf.XMT_Abduct);
                         matureMorph.TryCocooning(Victim);
                     }
+                    ReadyForNextToil();
                 }
-            });
+            };
             toil.defaultCompleteMode = ToilCompleteMode.Never;
             toil.WithProgressBar(TargetIndex.A, () => CocoonProgress);
             toil.WithEffect(InternalDefOf.ResinBuild, TargetIndex.A);

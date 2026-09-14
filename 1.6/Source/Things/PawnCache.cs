@@ -2,6 +2,7 @@
 
 
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -11,6 +12,8 @@ namespace Xenomorphtype
     [StaticConstructorOnStartup]
     public static class PawnCacheWrapper
     {
+        private static readonly Type VehiclePawnType = GenTypes.GetTypeInAnyAssembly("VehiclePawn", "Vehicles");
+
         public static void ClearAllPawnCaches()
         {
             PawnCache.cache.Clear();
@@ -26,6 +29,9 @@ namespace Xenomorphtype
 
             protected bool _isInorganic;
             public bool IsInorganic => _isInorganic;
+
+            protected bool _isVehicle;
+            public bool IsVehicle => _isVehicle;
 
             protected bool _isHorror;
             public bool IsHorror => _isHorror;
@@ -131,6 +137,7 @@ namespace Xenomorphtype
 
                
                 _isInorganic = XMTUtility.CacheIsInorganic(_pawn);
+                _isVehicle = VehiclePawnType?.IsInstanceOfType(_pawn) == true;
                 _isHorror = _pawn.kindDef?.HasModExtension<XMT_HorrorPawnExtension>() == true ||
                     _pawn.def.HasModExtension<XMT_HorrorPawnExtension>();
                 _brainMutationCount = CountBrainMutations(_pawn);
@@ -437,6 +444,21 @@ namespace Xenomorphtype
             PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
 
             return PawnCache.cache[pawn.thingIDNumber].IsInorganic;
+        }
+
+        public static bool IsVehicle(this Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+
+            if (!PawnCache.cache.ContainsKey(pawn.thingIDNumber))
+            {
+                PawnCache.cache.Add(pawn.thingIDNumber, new PawnCache(pawn));
+            }
+
+            return PawnCache.cache[pawn.thingIDNumber].IsVehicle;
         }
 
         public static bool IsHorror(this Pawn pawn)

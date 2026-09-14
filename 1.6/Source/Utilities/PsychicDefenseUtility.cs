@@ -221,7 +221,14 @@ namespace Xenomorphtype
 
             AbilityExtension_AbilityMod psycastExtension = ability.AbilityModExtensions?
                 .FirstOrDefault(IsVpePsycastExtension);
+            float psyfocusBefore = ability.pawn?.psychicEntropy?.CurrentPsyfocus ?? 0f;
+            float entropyBefore = ability.pawn?.psychicEntropy?.EntropyValue ?? 0f;
             psycastExtension?.Cast(Array.Empty<RimWorld.Planet.GlobalTargetInfo>(), ability);
+
+            if (psycastExtension != null && NemesisVpeAdapter.TryDescribePsycast(ability, out NemesisVpePsycastDescriptor descriptor))
+            {
+                NemesisEvidenceReporter.ReportVpePsycast(ability, descriptor, psyfocusBefore, entropyBefore, "FullyRepelled");
+            }
         }
 
         internal static bool TryProtectAmbient(Pawn target)

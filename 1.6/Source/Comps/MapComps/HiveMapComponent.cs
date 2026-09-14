@@ -13,6 +13,8 @@ namespace Xenomorphtype
     {
         bool Uninitialized = true;
         private int nextZoneMaintenanceTick;
+        private List<Thing> generatedCryptimorphStructures = new List<Thing>();
+        private bool motherWarningSent;
 
         public HiveMapComponent(Map map) : base(map)
         {
@@ -52,9 +54,57 @@ namespace Xenomorphtype
         }
         public override void ExposeData()
         {
-
+            Scribe_Collections.Look(ref generatedCryptimorphStructures, "generatedCryptimorphStructures", LookMode.Reference);
+            Scribe_Values.Look(ref motherWarningSent, "motherWarningSent", false);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                generatedCryptimorphStructures ??= new List<Thing>();
+                generatedCryptimorphStructures.RemoveAll(thing => thing == null || thing.Destroyed);
+            }
         }
 
-        
+        internal void CaptureGeneratedCryptimorphStructures()
+        {
+            generatedCryptimorphStructures ??= new List<Thing>();
+            foreach (Thing thing in map.spawnedThings)
+            {
+                if (IsNestGeneratedCryptimorphStructure(thing))
+                {
+                    generatedCryptimorphStructures.AddDistinct(thing);
+                }
+            }
+        }
+
+        internal IEnumerable<Thing> GeneratedCryptimorphStructures
+        {
+            get
+            {
+                generatedCryptimorphStructures ??= new List<Thing>();
+                generatedCryptimorphStructures.RemoveAll(thing => thing == null || thing.Destroyed);
+                return generatedCryptimorphStructures;
+            }
+        }
+
+        internal bool TryMarkMotherWarningSent()
+        {
+            if (motherWarningSent)
+            {
+                return false;
+            }
+            motherWarningSent = true;
+            return true;
+        }
+
+        private static bool IsNestGeneratedCryptimorphStructure(Thing thing)
+        {
+            ThingDef def = thing?.def;
+            return def == XenoBuildingDefOf.Hivemass
+                || def == XenoBuildingDefOf.HiveWebbing
+                || def == XenoBuildingDefOf.XMT_Ovomorph
+                || def == XenoBuildingDefOf.XMT_CocoonBase
+                || def == XenoBuildingDefOf.XMT_CocoonBaseAnimal
+                || def == XenoBuildingDefOf.XMT_AmbushSpot
+                || def == XenoBuildingDefOf.XMT_Ovothrone;
+        }
     }
 }

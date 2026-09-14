@@ -33,6 +33,8 @@ namespace Xenomorphtype
                 return;
             }
 
+            NemesisEvidenceReporter.ReportHarvest(pawn, billDoer, recipe, "pheromone surgery");
+
             if (IsViolationOnPawn(pawn, part, Faction.OfPlayer))
             {
                 ReportViolation(pawn, billDoer, pawn.HomeFaction, -1, HistoryEventDefOf.ExtractedHemogenPack);

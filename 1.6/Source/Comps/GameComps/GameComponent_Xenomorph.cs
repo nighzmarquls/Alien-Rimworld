@@ -66,6 +66,14 @@ namespace Xenomorphtype
         public Pawn Queen = null;
 
         List<PlanetTile> CandidateTiles = new List<PlanetTile>();
+        private List<PlanetTile> strangeHillBiomeSeeds = new List<PlanetTile>();
+        private List<PlanetTile> initialScatterBiomeSeeds = new List<PlanetTile>();
+        private List<PlanetTile> destroyedSettlementBiomeSeeds = new List<PlanetTile>();
+        private bool biomeSeedFrontierInitialized;
+        private bool initialBiomeScatterCompleted;
+        private const int InitialBiomeSeedCount = 3;
+        private const int InitialBiomeSeedMinDistance = 4;
+        private const int InitialBiomeSeedMaxDistance = 12;
 
         bool PlayerEmbryoInWorld = false;
         bool PlayerXenomorphInWorld = false;
@@ -74,6 +82,17 @@ namespace Xenomorphtype
         private List<string> deadMorphs = new List<string>();
         private Dictionary<string, XenoformingPawnAccountingState> xenoformingPawnAccounting = new Dictionary<string, XenoformingPawnAccountingState>();
         private List<string> ideologyResinBuildThingIds = new List<string>();
+        private bool worldQueenPurgeCompleted;
+        private bool chrysalisLessonOffered;
+        private bool jellyProductionLessonOffered;
+        private bool queenAdvancementLessonOffered;
+        private bool queenRefinementLessonOffered;
+
+        [Unsaved(false)]
+        private bool worldQueenPurgePending;
+
+        [Unsaved(false)]
+        private int nextProgressionGuidanceTick;
 
         const int XenoformingCheckInterval = 60000;
         public bool QueenInWorld
@@ -215,6 +234,8 @@ namespace Xenomorphtype
         public override void GameComponentTick()
         {
             base.GameComponentTick();
+            ProcessStartupQueenPurge();
+            ReconcileProgressionGuidance();
             QueenAidTick();
             LaunchCachedDistressSignals();
 
@@ -263,6 +284,10 @@ namespace Xenomorphtype
 
         private void GetCandidateNeighbors(PlanetTile origin)
         {
+            if (!XenoformingUtility.IsSurfaceBiomeTile(origin))
+            {
+                return;
+            }
             List<PlanetTile> outNeighbor = new List<PlanetTile>();
             Find.WorldGrid.Surface.GetTileNeighbors(origin, outNeighbor);
 
@@ -276,6 +301,144 @@ namespace Xenomorphtype
             }
         }
 
+        internal void RegisterDestroyedSettlementBiomeSeed(PlanetTile tile)
+        {
+            if (XenoformingUtility.IsSurfaceBiomeTile(tile))
+            {
+                destroyedSettlementBiomeSeeds.AddUnique(tile);
+            }
+        }
+
+        private void PrepareBiomeSeeds()
+        {
+            CandidateTiles ??= new List<PlanetTile>();
+            if (!biomeSeedFrontierInitialized)
+            {
+                // Older saves contain an unlabelled, colony-centered candidate queue.
+                // Preserve converted biomes and rebuild only their spreading frontier.
+                CandidateTiles.Clear();
+                for (int i = 0; i < Find.WorldGrid.Surface.TilesCount; i++)
+                {
+                    PlanetTile tile = Find.WorldGrid.Surface.PlanetTileForID(i);
+                    if (tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight)
+                    {
+                        GetCandidateNeighbors(tile);
+                    }
+                }
+                biomeSeedFrontierInitialized = true;
+            }
+
+            foreach (Site site in Find.WorldObjects.Sites)
+            {
+                if (XenoformingUtility.IsStrangeHillSite(site) && XenoformingUtility.IsSurfaceBiomeTile(site.Tile))
+                {
+                    strangeHillBiomeSeeds.AddUnique(site.Tile);
+                }
+            }
+
+            if (XenoformingUtility.ShouldSeedBiomeFromPlayerHome())
+            {
+                if (CandidateTiles.Count == 0)
+                {
+                    foreach (Map map in Find.Maps.Where(map => map.IsPlayerHome))
+                    {
+                        GetCandidateNeighbors(map.Tile);
+                    }
+                }
+            }
+            else if (!initialBiomeScatterCompleted)
+            {
+                TrySeedInitialBiomeScatter();
+            }
+
+            foreach (List<PlanetTile> seeds in new[] { strangeHillBiomeSeeds, initialScatterBiomeSeeds, destroyedSettlementBiomeSeeds })
+            {
+                for (int i = seeds.Count - 1; i >= 0; i--)
+                {
+                    PlanetTile tile = seeds[i];
+                    if (!XenoformingUtility.IsSurfaceBiomeTile(tile))
+                    {
+                        seeds.RemoveAt(i);
+                    }
+                    else if (tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight)
+                    {
+                        GetCandidateNeighbors(tile);
+                        seeds.RemoveAt(i);
+                    }
+                    else
+                    {
+                        CandidateTiles.AddUnique(tile);
+                    }
+                }
+            }
+            CandidateTiles.RemoveAll(tile => !XenoformingUtility.IsSurfaceBiomeTile(tile)
+                || tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight);
+        }
+
+        private void TrySeedInitialBiomeScatter()
+        {
+            // A multi-source breadth-first search measures distance from the nearest home.
+            HashSet<PlanetTile> visited = new HashSet<PlanetTile>(Find.Maps
+                .Where(map => map.IsPlayerHome && XenoformingUtility.IsSurfaceBiomeTile(map.Tile))
+                .Select(map => map.Tile));
+            List<PlanetTile> frontier = visited.ToList();
+            List<PlanetTile> choices = new List<PlanetTile>();
+            HashSet<PlanetTile> occupied = new HashSet<PlanetTile>(Find.WorldObjects.MapParents.Select(parent => parent.Tile));
+            List<PlanetTile> neighbors = new List<PlanetTile>();
+            for (int distance = 1; distance <= InitialBiomeSeedMaxDistance && frontier.Count > 0; distance++)
+            {
+                List<PlanetTile> next = new List<PlanetTile>();
+                foreach (PlanetTile origin in frontier)
+                {
+                    neighbors.Clear();
+                    Find.WorldGrid.Surface.GetTileNeighbors(origin, neighbors);
+                    foreach (PlanetTile tile in neighbors)
+                    {
+                        if (!visited.Add(tile))
+                        {
+                            continue;
+                        }
+                        next.Add(tile);
+                        if (distance >= InitialBiomeSeedMinDistance && !occupied.Contains(tile)
+                            && tile.Tile.PrimaryBiome != XenoMapDefOf.XMT_DessicatedBlight
+                            && XenoformingUtility.CanXenoformBiome(tile))
+                        {
+                            choices.Add(tile);
+                        }
+                    }
+                }
+                frontier = next;
+            }
+
+            choices.Shuffle();
+            HashSet<PlanetTile> excluded = new HashSet<PlanetTile>();
+            foreach (PlanetTile tile in choices)
+            {
+                if (excluded.Contains(tile))
+                {
+                    continue;
+                }
+                initialScatterBiomeSeeds.Add(tile);
+                // Leave at least two intervening tiles between initial seeds.
+                neighbors.Clear();
+                Find.WorldGrid.Surface.GetTileNeighbors(tile, neighbors);
+                List<PlanetTile> nearSeed = neighbors.ToList();
+                excluded.Add(tile);
+                excluded.UnionWith(nearSeed);
+                foreach (PlanetTile neighbor in nearSeed)
+                {
+                    neighbors.Clear();
+                    Find.WorldGrid.Surface.GetTileNeighbors(neighbor, neighbors);
+                    excluded.UnionWith(neighbors);
+                }
+                if (initialScatterBiomeSeeds.Count >= InitialBiomeSeedCount)
+                {
+                    break;
+                }
+            }
+            initialBiomeScatterCompleted = initialScatterBiomeSeeds.Count > 0;
+        }
+
         public void BiomeXenoformingImpact()
         {
             if (_xenoforming >= 10)
@@ -285,17 +448,7 @@ namespace Xenomorphtype
                     Log.Message("[XMT][World] Xenoforming Biomes");
                 }
 
-                if (CandidateTiles == null || CandidateTiles.Count == 0)
-                {
-                    CandidateTiles = new List<PlanetTile> { };
-
-                    Map playerMap = Find.AnyPlayerHomeMap;
-
-                    if (playerMap != null)
-                    {
-                        GetCandidateNeighbors(playerMap.Tile);
-                    }
-                }
+                PrepareBiomeSeeds();
 
                 int candidatesPicked = 0;
                 int maxCandidatesForXenoforming = Mathf.FloorToInt( (Xenoforming * Xenoforming) * XMTSettings.BiomeSpreadFactor);
@@ -304,6 +457,11 @@ namespace Xenomorphtype
 
                 CandidateTiles.CopyToList(safeCandidateList);
                 safeCandidateList.Shuffle();
+                HashSet<PlanetTile> hillSeeds = new HashSet<PlanetTile>(strangeHillBiomeSeeds);
+                HashSet<PlanetTile> scatterSeeds = new HashSet<PlanetTile>(initialScatterBiomeSeeds);
+                HashSet<PlanetTile> settlementSeeds = new HashSet<PlanetTile>(destroyedSettlementBiomeSeeds);
+                safeCandidateList = safeCandidateList.OrderBy(tile => hillSeeds.Contains(tile) ? 0
+                    : scatterSeeds.Contains(tile) ? 1 : settlementSeeds.Contains(tile) ? 2 : 3).ToList();
 
                 bool shouldSpawnQueenNest = _xenoforming >= 25 && (!XMTUtility.QueenIsPlayer());
                 bool noQueenIncident = true;
@@ -322,23 +480,15 @@ namespace Xenomorphtype
 
                 foreach (PlanetTile candidate in safeCandidateList)
                 {
-                    float score = XenoMapDefOf.XMT_DessicatedBlight.Worker.GetScore(XenoMapDefOf.XMT_DessicatedBlight, candidate.Tile, candidate);
-
-                    if (XMTSettings.LogWorld)
+                    if (candidatesPicked >= maxCandidatesForXenoforming)
                     {
-                        Log.Message("[XMT][World] Xenoforming biome score: " + score);
+                        break;
                     }
-
-                    if (score > 1)
+                    if (XenoformingUtility.CanXenoformBiome(candidate, hillSeeds.Contains(candidate)))
                     {
                         GetCandidateNeighbors(candidate);
                         targetTiles.Add(candidate);
                         candidatesPicked += 1;
-
-                        if (candidatesPicked > maxCandidatesForXenoforming)
-                        {
-                            break;
-                        }
                     }
                 }
 
@@ -349,23 +499,24 @@ namespace Xenomorphtype
                     if(shouldSpawnQueenNest && noQueenIncident)
                     {
                         Map map = Find.AnyPlayerHomeMap;
-                        if (map == null)
+                        if (map != null)
                         {
-                            return;
+                            IncidentParms parms = new IncidentParms
+                            {
+                                target = Find.World,
+                                forced = true,
+                                points = StorytellerUtility.DefaultThreatPointsNow(map) * 4
+                            };
+                            FiringIncident queenIncident =  new FiringIncident(XenoMapDefOf.XMT_GiveQuest_queenNest, null, parms);
+
+                            Find.Storyteller.TryFire(queenIncident);
+                            noQueenIncident = false;
                         }
-
-                        IncidentParms parms = new IncidentParms
-                        {
-                            target = Find.World,
-                            forced = true,
-                            points = StorytellerUtility.DefaultThreatPointsNow(map) * 4
-                        };
-                        FiringIncident queenIncident =  new FiringIncident(XenoMapDefOf.XMT_GiveQuest_queenNest, null, parms);
-
-                        Find.Storyteller.TryFire(queenIncident);
-                        noQueenIncident = false;
                     }
                     CandidateTiles.Remove(target);
+                    strangeHillBiomeSeeds.Remove(target);
+                    initialScatterBiomeSeeds.Remove(target);
+                    destroyedSettlementBiomeSeeds.Remove(target);
                 }
 
                 if (targetTiles.Count > 0)
@@ -391,6 +542,8 @@ namespace Xenomorphtype
                 return;
             }
 
+            float previousXenoforming = _lastxenoforming;
+
             if(_lastxenoforming <= 0 && _xenoforming > 0)
             {
                 _xenoformingStartTick = Find.TickManager.TicksGame;
@@ -415,6 +568,7 @@ namespace Xenomorphtype
                 }
             }
             _lastxenoforming = _xenoforming;
+            Current.Game?.GetComponent<GameComponent_Nemesis>()?.NotifyXenoformingChanged(previousXenoforming, _xenoforming);
 
             if(Queen == null)
             {
@@ -432,7 +586,8 @@ namespace Xenomorphtype
 
         public override void LoadedGame()
         {
-           
+            worldQueenPurgePending = !worldQueenPurgeCompleted;
+            nextProgressionGuidanceTick = Find.TickManager.TicksGame + 1;
         }
         public override void StartedNewGame()
         {
@@ -440,6 +595,8 @@ namespace Xenomorphtype
             XMTHiveUtility.ClearAllNestSites();
             TraversalTopologyMapComponent.ClearAllMapCaches();
             PawnCacheWrapper.ClearAllPawnCaches();
+            worldQueenPurgePending = true;
+            nextProgressionGuidanceTick = Find.TickManager.TicksGame + 1;
         }
 
         public override void ExposeData()
@@ -454,9 +611,19 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref PlayerXenomorphInWorld, "PlayerXenomorphInWorld", false);
             Scribe_Values.Look(ref PlayerOvomorphInWorld, "PlayerOvomorphInWorld", false);
             Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
+            Scribe_Collections.Look(ref strangeHillBiomeSeeds, "strangeHillBiomeSeeds");
+            Scribe_Collections.Look(ref initialScatterBiomeSeeds, "initialScatterBiomeSeeds");
+            Scribe_Collections.Look(ref destroyedSettlementBiomeSeeds, "destroyedSettlementBiomeSeeds");
+            Scribe_Values.Look(ref biomeSeedFrontierInitialized, "biomeSeedFrontierInitialized", false);
+            Scribe_Values.Look(ref initialBiomeScatterCompleted, "initialBiomeScatterCompleted", false);
             Scribe_Collections.Look(ref deadMorphs, "deadMorphs");
             Scribe_Collections.Look(ref xenoformingPawnAccounting, "xenoformingPawnAccounting", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref ideologyResinBuildThingIds, "ideologyResinBuildThingIds");
+            Scribe_Values.Look(ref worldQueenPurgeCompleted, "worldQueenPurgeCompleted", false);
+            Scribe_Values.Look(ref chrysalisLessonOffered, "chrysalisLessonOffered", false);
+            Scribe_Values.Look(ref jellyProductionLessonOffered, "jellyProductionLessonOffered", false);
+            Scribe_Values.Look(ref queenAdvancementLessonOffered, "queenAdvancementLessonOffered", false);
+            Scribe_Values.Look(ref queenRefinementLessonOffered, "queenRefinementLessonOffered", false);
             Scribe_Collections.Look(ref queenAidPawnIDs, "queenAidPawnIDs");
             Scribe_Values.Look(ref nextQueenAidTick, "nextQueenAidTick", -1);
             Scribe_Values.Look(ref nextQueenAidWaveTick, "nextQueenAidWaveTick", -1);
@@ -474,6 +641,9 @@ namespace Xenomorphtype
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
+                strangeHillBiomeSeeds ??= new List<PlanetTile>();
+                initialScatterBiomeSeeds ??= new List<PlanetTile>();
+                destroyedSettlementBiomeSeeds ??= new List<PlanetTile>();
                 Log.Message("Clearing Caches");
                 XMTHiveUtility.ClearAllNestSites();
                 TraversalTopologyMapComponent.ClearAllMapCaches();
@@ -495,6 +665,109 @@ namespace Xenomorphtype
             }
 
             
+        }
+
+        private void ProcessStartupQueenPurge()
+        {
+            if (!worldQueenPurgePending || worldQueenPurgeCompleted || Find.WorldPawns == null)
+            {
+                return;
+            }
+
+            int purged = 0;
+            List<Pawn> worldPawns = Find.WorldPawns.AllPawnsAliveOrDead.ToList();
+            foreach (Pawn pawn in worldPawns)
+            {
+                if (pawn == null || !XMTUtility.IsQueen(pawn) || IsActivePlayerQueen(pawn))
+                {
+                    continue;
+                }
+
+                if (Queen == pawn)
+                {
+                    Queen = null;
+                }
+
+                DiscardWorldQueen(pawn);
+                purged++;
+            }
+
+            worldQueenPurgeCompleted = true;
+            worldQueenPurgePending = false;
+            Log.Message("[XMT][World] Completed startup queen purge; removed " + purged + " non-player world queens.");
+        }
+
+        private static bool IsActivePlayerQueen(Pawn pawn)
+        {
+            if (pawn?.Faction != Faction.OfPlayerSilentFail)
+            {
+                return false;
+            }
+
+            return pawn.MapHeld?.IsPlayerHome == true || CaravanUtility.IsCaravanMember(pawn);
+        }
+
+        private void DiscardWorldQueen(Pawn pawn)
+        {
+            if (pawn == null || pawn.Destroyed)
+            {
+                return;
+            }
+
+            xenoformingPawnAccounting?.Remove(PawnAccountingKey(pawn));
+            xenoformingPawnAccounting?.Remove(ThingIDAccountingKey(pawn.thingIDNumber));
+            queenAidPawnIDs?.Remove(pawn.thingIDNumber);
+            deadMorphs?.Remove(pawn.ThingID);
+            Find.WorldPawns.RemoveAndDiscardPawnViaGC(pawn);
+        }
+
+        private void ReconcileProgressionGuidance()
+        {
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            if (tick < nextProgressionGuidanceTick)
+            {
+                return;
+            }
+            nextProgressionGuidanceTick = tick + 250;
+
+            if (!chrysalisLessonOffered && XenoSocialDefOf.XMT_Starbeast_Chrysalis?.IsFinished == true)
+            {
+                LessonAutoActivator.TeachOpportunity(InternalDefOf.XMT_MetamorphicChrysalisHelp, OpportunityType.Important);
+                chrysalisLessonOffered = true;
+            }
+
+            List<Pawn> playerPawns = PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_OfPlayerFaction
+                .Where(pawn => pawn != null && !pawn.Dead)
+                .ToList();
+            Pawn cryptimorph = playerPawns.FirstOrDefault(XMTUtility.IsXenomorph);
+            if (!jellyProductionLessonOffered && cryptimorph != null)
+            {
+                LessonAutoActivator.TeachOpportunity(InternalDefOf.XMT_JellyProductionHelp, cryptimorph, OpportunityType.Important);
+                jellyProductionLessonOffered = true;
+            }
+
+            Pawn queen = playerPawns.FirstOrDefault(pawn => XMTUtility.IsQueen(pawn)
+                && pawn.GuestStatus != GuestStatus.Slave && pawn.GuestStatus != GuestStatus.Prisoner);
+            if (queen == null)
+            {
+                return;
+            }
+
+            if (Faction.OfPlayerSilentFail?.def != InternalDefOf.XMT_PlayerHive)
+            {
+                Faction.OfPlayer.def = InternalDefOf.XMT_PlayerHive;
+            }
+
+            if (!queenAdvancementLessonOffered)
+            {
+                LessonAutoActivator.TeachOpportunity(InternalDefOf.XMT_QueenAdvancementHelp, queen, OpportunityType.Important);
+                queenAdvancementLessonOffered = true;
+            }
+            if (!queenRefinementLessonOffered)
+            {
+                LessonAutoActivator.TeachOpportunity(InternalDefOf.XMT_QueenJellyRefinementHelp, queen, OpportunityType.GoodToKnow);
+                queenRefinementLessonOffered = true;
+            }
         }
 
         public void CacheReprisal(Faction faction, float points)
@@ -872,7 +1145,6 @@ namespace Xenomorphtype
 
         internal void ReleaseEmbryoOnWorld(Pawn pawn)
         {
-            
             _xenoforming = Mathf.Max(_xenoforming,Mathf.Min(EmbryoSaturationLimit, _xenoforming + (EmbryoImpact)));
             if (XMTSettings.LogWorld)
             {
@@ -1258,7 +1530,24 @@ namespace Xenomorphtype
 
         internal Pawn TakeWorldCryptimorphForUse(XenoformingPawnAccountingState useState, bool allowPlayerPioneers)
         {
-            List<Pawn> candidates = Find.WorldPawns.AllPawnsAlive
+            List<Pawn> worldPawns = Find.WorldPawns.AllPawnsAlive.ToList();
+            foreach (Pawn queen in worldPawns.Where(XMTUtility.IsQueen).ToList())
+            {
+                if (IsActivePlayerQueen(queen))
+                {
+                    continue;
+                }
+
+                if (Queen == queen)
+                {
+                    Queen = null;
+                }
+                DiscardWorldQueen(queen);
+                worldPawns.Remove(queen);
+                Log.Message("[XMT][World] Removed a queen encountered while selecting a world cryptimorph: " + queen + ".");
+            }
+
+            List<Pawn> candidates = worldPawns
                 .Where(pawn => IsWorldCryptimorphCandidate(pawn, allowPlayerPioneers))
                 .OrderBy(pawn => pawn.Faction == Faction.OfPlayer ? 0 : 1)
                 .ThenBy(_ => Rand.Value)
@@ -1290,7 +1579,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (!XMTUtility.IsXenomorph(pawn) || pawn == Queen || !pawn.ageTracker.Adult)
+            if (!XMTUtility.IsXenomorph(pawn) || XMTUtility.IsQueen(pawn) || !pawn.ageTracker.Adult)
             {
                 return false;
             }
@@ -1307,6 +1596,15 @@ namespace Xenomorphtype
         {
             Pawn pawn = TakeWorldCryptimorphForUse(XenoformingPawnAccountingState.SiteBorrowed, allowPlayerPioneers);
             return pawn ?? XenoformingUtility.GenerateFeralXenomorph();
+        }
+
+        internal Pawn GetWorldOrGeneratedCryptimorphForMission()
+        {
+            Pawn pawn = TakeWorldCryptimorphForUse(XenoformingPawnAccountingState.SiteBorrowed, false)
+                ?? XenoformingUtility.GenerateFeralXenomorph();
+            AddPawnAccountingState(pawn, XenoformingPawnAccountingState.SiteBorrowed);
+            if (pawn.Faction != null) pawn.SetFaction(null);
+            return pawn;
         }
 
         internal bool IsQueenAidDefender(Pawn pawn)

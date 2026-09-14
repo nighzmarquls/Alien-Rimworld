@@ -416,7 +416,15 @@ namespace Xenomorphtype
         {
             base.PostPostApplyDamage(dinfo, totalDamageDealt);
 
+            if (!Parent.Dead)
+            {
+                NemesisEvidenceReporter.ReportCryptimorphInjury(Parent, dinfo, totalDamageDealt);
+            }
+
             Pawn aggressor = dinfo.Instigator as Pawn;
+
+            if (Parent.GetLord()?.LordJob is LordJob_Nemesis nemesisLord
+                && !nemesisLord.Notify_MissionDamage(Parent, dinfo)) return;
 
             if (Parent.Downed || Parent.Dead)
             {
@@ -1097,6 +1105,8 @@ namespace Xenomorphtype
 
         public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
         {
+            NemesisEvidenceReporter.QueueCryptimorphDeathResolution(Parent, dinfo);
+
             if (dinfo != null)
             {
                 Thing instigator = dinfo.Value.Instigator;

@@ -203,7 +203,8 @@ namespace Xenomorphtype
 
                 foreach(Pawn pawn in sitePart.site.Map.mapPawns.AllPawnsSpawned)
                 {
-                    if(pawn.Faction == Faction.OfPlayer)
+                    if(pawn.Faction == Faction.OfPlayer && !(pawn.CurrentBed() is CocoonBase)
+                        && !pawn.health.hediffSet.HasHediff(InternalDefOf.StarbeastCocoon))
                     {
                         continue;
                     }

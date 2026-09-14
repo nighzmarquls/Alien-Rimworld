@@ -87,6 +87,8 @@ Add durable observations here when they would help a future agent work safely an
 - Do not call `Job.GetCachedDriver` in a workgiver postfix merely to transfer custom state after changing `job.def`; this couples job creation to a transient driver instance and complicates queued-job/save behavior. Let job start instantiate the final driver, and carry staged state through vanilla job targets or recompute it through utilities.
 - For held-pawn rendering, verify that XML/comp fields feed an actual `PawnRenderer` consumer. Use the current render call's draw location/altitude for unspawned inner things; an inner building's own `DrawPos` can be stale while minified and sort the pawn behind its container.
 
+- Future mission integration (proposed, not implemented): retain and track successfully abducted world pawns for a bounded period so later systems can preferentially reuse eligible captives as hosts when the player investigates a strange hill (`XMT_Hivesite_Small`). Preserve captive identity beyond delayed xenoforming credit; retention duration and site-host selection remain to be designed.
+
 ## Agent Update Rule
 
 - Consider updating this file when a completed task reveals durable workflow, release, compatibility, validation, or file-structure knowledge useful to future sessions.

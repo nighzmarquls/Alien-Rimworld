@@ -20,6 +20,36 @@ namespace Xenomorphtype
 
         private static readonly Texture2D InvestigateTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts");
 
+        private const float StrangeHillMinimumTemperature = -20f;
+
+        public static bool ShouldSeedBiomeFromPlayerHome()
+        {
+            return XMTUtility.PlayerFactionIsCryptimorph();
+        }
+
+        public static bool IsStrangeHillSite(Site site)
+        {
+            return site != null && !site.Destroyed
+                && site.parts.Any(part => part?.def?.defName == "XMT_Hivesite_Small");
+        }
+
+        public static bool IsSurfaceBiomeTile(PlanetTile tile)
+        {
+            return tile.Valid && tile.Layer == Find.WorldGrid.Surface && Find.WorldGrid.InBounds(tile);
+        }
+
+        public static bool CanXenoformBiome(PlanetTile tile, bool strangeHill = false)
+        {
+            if (!XenoformingMeets(10f) || !IsSurfaceBiomeTile(tile) || tile.Tile.WaterCovered)
+            {
+                return false;
+            }
+
+            return strangeHill
+                ? tile.Tile.temperature >= StrangeHillMinimumTemperature
+                : XenoMapDefOf.XMT_DessicatedBlight.Worker.GetScore(XenoMapDefOf.XMT_DessicatedBlight, tile.Tile, tile) > 1f;
+        }
+
         public static Command InvestigateCommand(Caravan caravan, Settlement settlement)
         {
             return new Command_Action
@@ -623,8 +653,13 @@ namespace Xenomorphtype
             }
 
             // TODO: Consider replacing removed settlements with an Odyssey-style ruined settlement site.
+            PlanetTile seedTile = settlement.Tile;
             comp?.Notify_DestroyedConfirmed();
             settlement.Destroy();
+            if (settlement.Destroyed)
+            {
+                gameComponent.RegisterDestroyedSettlementBiomeSeed(seedTile);
+            }
         }
 
         private static void EndDistressQuest(int questId, QuestEndOutcome outcome)

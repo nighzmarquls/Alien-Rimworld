@@ -82,6 +82,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\Climber\PawnClimberWorker.cs" />
+    <Compile Include="Nemesis\Core\GameComponent_Nemesis.cs" />
+    <Compile Include="Nemesis\Missions\NemesisMissionDef.cs" />
+    <Compile Include="Nemesis\Missions\NemesisMissionWorkers.cs" />
+    <Compile Include="Nemesis\Missions\NemesisMissionUtility.cs" />
+    <Compile Include="Nemesis\Core\GameComponent_Nemesis.Missions.cs" />
+    <Compile Include="Nemesis\Missions\Lords\LordJob_Nemesis.cs" />
+    <Compile Include="Nemesis\Missions\Lords\LordJob_NemesisMission.cs" />
+    <Compile Include="Nemesis\Missions\Lords\LordJob_NemesisScouting.cs" />
+    <Compile Include="Nemesis\Missions\Lords\LordJob_NemesisHostCollection.cs" />
+    <Compile Include="Nemesis\Missions\Lords\LordJob_QueenAid.cs" />
+    <Compile Include="Nemesis\Missions\JobGivers\JobGiver_NemesisMission.cs" />
+    <Compile Include="Nemesis\WorldPawns\GameComponent_NemesisWorldPawns.cs" />
+    <Compile Include="Nemesis\Diagnostics\NemesisLog.cs" />
+    <Compile Include="Nemesis\Diagnostics\DebugActions_NemesisMission.cs" />
+    <Compile Include="Nemesis\Diagnostics\NemesisMissionScenarioHarness.cs" />
+    <Compile Include="Nemesis\Core\NemesisRecords.cs" />
+    <Compile Include="Nemesis\Defs\NemesisDefs.cs" />
+    <Compile Include="Nemesis\Diagnostics\DebugActions_Nemesis.cs" />
+    <Compile Include="Nemesis\Diagnostics\NemesisScenarioHarness.cs" />
+    <Compile Include="Nemesis\Evidence\NemesisEvidenceReporter.cs" />
+    <Compile Include="Nemesis\Harmony\NemesisAbductionPatch.cs" />
+    <Compile Include="Nemesis\Harmony\NemesisPsycastPatches.cs" />
+    <Compile Include="Nemesis\Integrations\VPE\NemesisVpeAdapter.cs" />
+    <Compile Include="Nemesis\Intelligence\Census\NemesisCensus.cs" />
+    <Compile Include="Nemesis\Intelligence\Observations\Workers\NemesisObservationWorkers.cs" />
+    <Compile Include="Nemesis\Signals\NemesisSignalWorkers.cs" />
+    <Compile Include="Nemesis\Stances\NemesisStanceWorkers.cs" />
     <Compile Include="Abilities\Comps\CompAbilityLayOvomorph.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodLet.cs" />
     <Compile Include="Abilities\Comps\CompAbilityBloodSpray.cs" />
@@ -125,6 +152,8 @@
     <Compile Include="AI\JobDriver\Queen\JobDriver_AdvanceHorror.cs" />
     <Compile Include="AI\JobDriver\Ritual\JobDriver_PrepareChrysalisWithJelly.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductHost.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductPawn.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductOffMap.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_DoContainedBill.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_LoadPawnIntoBioContainer.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
@@ -165,7 +194,6 @@
     <Compile Include="AI\JobGiver\JobGiver_PrepareJellyForChrysalis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_Xenomorph.cs" />
     <Compile Include="AI\Lord\LordJob\LordJob_HumanRebellion.cs" />
-    <Compile Include="AI\Lord\LordJob\LordJob_QueenAid.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Morph.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Traumatized.cs" />
     <Compile Include="AI\MentalBreak\Workers\MentalBreakWorker_Obsession.cs" />
@@ -468,11 +496,13 @@
     <Compile Include="Harmony\XMTInteractionPatches.cs" />
     <Compile Include="Harmony\XMTPosturePatches.cs" />
     <Compile Include="Harmony\XMTQueenMechanitorPatches.cs" />
+    <Compile Include="Harmony\XMTQueenSitePatches.cs" />
     <Compile Include="Harmony\XMTThoughtPatch.cs" />
     <Compile Include="Harmony\XMTUIPatches.cs" />
     <Compile Include="Comps\MapComps\HiveMapComponent.cs" />
     <Compile Include="Comps\MapComps\TraversalTopologyMapComponent.cs" />
     <Compile Include="Utilities\XMTHiveUtility.cs" />
+    <Compile Include="Utilities\QueenSiteHomecomingUtility.cs" />
     <Compile Include="Utilities\InorganicSubversionUtility.cs" />
     <Compile Include="Utilities\InfiltrationUtility.cs" />
     <Compile Include="Utilities\TraversalReachabilityUtility.cs" />

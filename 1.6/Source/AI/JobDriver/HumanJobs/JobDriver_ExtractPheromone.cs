@@ -48,7 +48,10 @@ namespace Xenomorphtype
                 if (!PheromoneUtility.TryExtractGland(innerPawn, pawn, pawn.Position, pawn.Map))
                 {
                     Messages.Message("XMT_MessagePawnHadNotEnoughToProducePheromone".Translate(innerPawn.Named("PAWN")), innerPawn, MessageTypeDefOf.NeutralEvent);
+                    return;
                 }
+
+                NemesisEvidenceReporter.ReportHarvest(innerPawn, pawn, job.def, "contained pheromone extraction");
             });
         }
 

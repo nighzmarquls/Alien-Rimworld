@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using Verse.AI;
+using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
@@ -48,6 +50,8 @@ namespace Xenomorphtype
         public static JobDef XMT_ImplantHunt;
         public static JobDef XMT_StealthHunt;
         public static JobDef XMT_AbductHost;
+        public static JobDef XMT_AbductOffMap;
+        public static DutyDef XMT_NemesisMission;
         public static JobDef XMT_CocoonTarget;
         public static JobDef XMT_ApplyOvomorphing;
         public static JobDef XMT_ApplyLardering;

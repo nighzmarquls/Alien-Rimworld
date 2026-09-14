@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<Xenomorphtype.NemesisSettingsDef>
+		<defName>XMT_NemesisSettings</defName>
+		<activationXenoforming>10</activationXenoforming>
+		<initialCensusConfidence>0.65</initialCensusConfidence>
+		<recentEvidenceCapacity>128</recentEvidenceCapacity>
+		<abductedXenotypeProcessingDays>3</abductedXenotypeProcessingDays>
+		<stanceCommitmentDays>7</stanceCommitmentDays>
+		<challengerMargin>0.15</challengerMargin>
+		<maxSpatialContactsPerObservation>256</maxSpatialContactsPerObservation>
+		<missionIntervalTicks>60000</missionIntervalTicks>
+		<missionOpportunityChance>0</missionOpportunityChance>
+		<missionOpportunityChanceAtActivation>0.95</missionOpportunityChanceAtActivation>
+		<missionOpportunityChanceExponent>2</missionOpportunityChanceExponent>
+	</Xenomorphtype.NemesisSettingsDef>
+
+	<!-- Evidence taxonomy. Tags are descriptive metadata for future mission and tactic consumers. -->
+	<Xenomorphtype.NemesisEvidenceTagDef><defName>XMT_NemesisTag_Combat</defName></Xenomorphtype.NemesisEvidenceTagDef>
+	<Xenomorphtype.NemesisEvidenceTagDef><defName>XMT_NemesisTag_Loss</defName></Xenomorphtype.NemesisEvidenceTagDef>
+	<Xenomorphtype.NemesisEvidenceTagDef><defName>XMT_NemesisTag_Exploitation</defName></Xenomorphtype.NemesisEvidenceTagDef>
+	<Xenomorphtype.NemesisEvidenceTagDef><defName>XMT_NemesisTag_Psychic</defName></Xenomorphtype.NemesisEvidenceTagDef>
+	<Xenomorphtype.NemesisEvidenceTagDef><defName>XMT_NemesisTag_Expansion</defName></Xenomorphtype.NemesisEvidenceTagDef>
+	<Xenomorphtype.NemesisEvidenceTagDef><defName>XMT_NemesisTag_Abduction</defName></Xenomorphtype.NemesisEvidenceTagDef>
+
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_CryptimorphInjured</defName>
+		<halfLifeDays>20</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Combat</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_CryptimorphKilled</defName>
+		<halfLifeDays>35</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Combat</li><li>XMT_NemesisTag_Loss</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_CryptimorphHarvested</defName>
+		<halfLifeDays>45</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Exploitation</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_CryptimorphButchered</defName>
+		<halfLifeDays>60</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Exploitation</li><li>XMT_NemesisTag_Loss</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_PsycastCommitted</defName>
+		<halfLifeDays>30</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Psychic</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_CryptimorphPlayedDead</defName>
+		<halfLifeDays>30</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Combat</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_PawnAbducted</defName>
+		<halfLifeDays>60</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Abduction</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+	<Xenomorphtype.NemesisEvidenceDef>
+		<defName>XMT_Nemesis_ScoutHostAcquired</defName>
+		<halfLifeDays>5</halfLifeDays>
+		<tags><li>XMT_NemesisTag_Abduction</li></tags>
+	</Xenomorphtype.NemesisEvidenceDef>
+
+	<!-- Observations are stale snapshots. Traversals are only run when at least one accepted worker requests them. -->
+	<Xenomorphtype.NemesisObservationDef Name="XMT_NemesisPawnObservation" Abstract="True">
+		<workerClass>Xenomorphtype.NemesisObservationWorker_PawnMetric</workerClass>
+		<updateMode>ExplicitCensus</updateMode>
+		<traversalCategories><li>SpawnedPawns</li></traversalCategories>
+		<baseConfidence>0.75</baseConfidence>
+		<staleHalfLifeDays>30</staleHalfLifeDays>
+		<minimumConfidence>0.2</minimumConfidence>
+	</Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef Name="XMT_NemesisBuildingObservation" Abstract="True">
+		<workerClass>Xenomorphtype.NemesisObservationWorker_BuildingMetric</workerClass>
+		<updateMode>ExplicitCensus</updateMode>
+		<traversalCategories><li>PlayerBuildings</li></traversalCategories>
+		<baseConfidence>0.8</baseConfidence>
+		<staleHalfLifeDays>20</staleHalfLifeDays>
+		<minimumConfidence>0.2</minimumConfidence>
+	</Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef Name="XMT_NemesisStoredItemObservation" Abstract="True">
+		<workerClass>Xenomorphtype.NemesisObservationWorker_StoredItemMetric</workerClass>
+		<updateMode>ExplicitCensus</updateMode>
+		<traversalCategories><li>StoredItems</li></traversalCategories>
+		<baseConfidence>0.75</baseConfidence>
+		<staleHalfLifeDays>20</staleHalfLifeDays>
+		<minimumConfidence>0.2</minimumConfidence>
+	</Xenomorphtype.NemesisObservationDef>
+
+	<Xenomorphtype.NemesisObservationDef>
+		<defName>XMT_NemesisObs_Xenoforming</defName>
+		<workerClass>Xenomorphtype.NemesisObservationWorker_Xenoforming</workerClass>
+		<metric>Xenoforming</metric>
+		<updateMode>Hybrid</updateMode>
+		<baseConfidence>1</baseConfidence>
+		<staleHalfLifeDays>0</staleHalfLifeDays>
+		<minimumConfidence>1</minimumConfidence>
+	</Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Population</defName><metric>Population</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Mechanoids</defName><metric>Mechanoids</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Inorganic</defName><metric>Inorganic</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Vehicles</defName><metric>Vehicles</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_PsycasterLevels</defName><metric>PsycasterLevels</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_PsychicPotential</defName><metric>PsychicPotential</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_XenotypeDiversity</defName><metric>XenotypeDiversity</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_XmtMutatedPawns</defName><metric>XmtMutatedPawns</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_BrainMutatedPawns</defName><metric>BrainMutatedPawns</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Horrors</defName><metric>Horrors</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_TamedCryptimorphs</defName><metric>TamedCryptimorphs</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_ObsessedPawns</defName><metric>ObsessedPawns</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Armor</defName><metric>Armor</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_WeaponDamage</defName><metric>WeaponDamage</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_PawnAreaEffect</defName><metric>AreaEffectAttrition</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_PawnAreaOverkill</defName><metric>AreaEffectOverkill</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_VolatilePawns</defName><metric>VolatilePawns</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisBuildingObservation"><defName>XMT_NemesisObs_Walls</defName><metric>Walls</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisBuildingObservation"><defName>XMT_NemesisObs_Turrets</defName><metric>Turrets</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef>
+		<defName>XMT_NemesisObs_ContainedCryptimorphs</defName>
+		<workerClass>Xenomorphtype.NemesisObservationWorker_PawnMetric</workerClass>
+		<metric>ContainedCryptimorphs</metric>
+		<updateMode>ExplicitCensus</updateMode>
+		<traversalCategories><li>HeldPawns</li></traversalCategories>
+		<baseConfidence>0.8</baseConfidence><staleHalfLifeDays>20</staleHalfLifeDays><minimumConfidence>0.2</minimumConfidence>
+		<recordsSpatialContacts>true</recordsSpatialContacts>
+	</Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisBuildingObservation"><defName>XMT_NemesisObs_DeployedTrapThreat</defName><metric>DeployedTrapThreat</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisBuildingObservation"><defName>XMT_NemesisObs_CatastrophicStaticDefense</defName><metric>CatastrophicStaticDefense</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisBuildingObservation"><defName>XMT_NemesisObs_BuildingAreaEffect</defName><metric>AreaEffectAttrition</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisBuildingObservation"><defName>XMT_NemesisObs_BuildingAreaOverkill</defName><metric>AreaEffectOverkill</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisBuildingObservation"><defName>XMT_NemesisObs_IndirectFirepower</defName><metric>IndirectFirepower</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisStoredItemObservation"><defName>XMT_NemesisObs_StoredWeaponDamage</defName><metric>StoredWeaponDamage</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisStoredItemObservation"><defName>XMT_NemesisObs_StoredArmor</defName><metric>StoredArmor</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisStoredItemObservation"><defName>XMT_NemesisObs_ExplosiveReserve</defName><metric>ExplosiveReserve</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisStoredItemObservation"><defName>XMT_NemesisObs_CatastrophicExplosives</defName><metric>CatastrophicExplosives</metric><recordsSpatialContacts>true</recordsSpatialContacts></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef>
+		<defName>XMT_NemesisObs_LivingCryptimorphCorpses</defName>
+		<workerClass>Xenomorphtype.NemesisObservationWorker_LivingCryptimorphCorpses</workerClass>
+		<metric>LivingCryptimorphCorpses</metric><updateMode>ExplicitCensus</updateMode>
+		<traversalCategories><li>CryptimorphCorpses</li></traversalCategories>
+		<baseConfidence>0.8</baseConfidence><staleHalfLifeDays>10</staleHalfLifeDays><minimumConfidence>0.15</minimumConfidence>
+		<recordsSpatialContacts>true</recordsSpatialContacts>
+	</Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef>
+		<defName>XMT_NemesisObs_XenotypePoolSize</defName>
+		<workerClass>Xenomorphtype.NemesisObservationWorker_XenotypePool</workerClass>
+		<metric>XenotypePoolSize</metric>
+		<updateMode>ExplicitCensus</updateMode>
+		<traversalCategories><li>WorldPawns</li></traversalCategories>
+		<baseConfidence>0.65</baseConfidence>
+		<staleHalfLifeDays>45</staleHalfLifeDays>
+		<minimumConfidence>0.2</minimumConfidence>
+	</Xenomorphtype.NemesisObservationDef>
+
+	<!-- Signals explicitly associate evaluator inputs with the observation/evidence contract. -->
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_ColonyScale</defName><saturation>20</saturation><inputs><li><observation>XMT_NemesisObs_Population</observation><weight>1</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef>
+		<defName>XMT_NemesisSignal_HiveLossPressure</defName><saturation>8</saturation>
+		<inputs><li><evidence>XMT_Nemesis_CryptimorphInjured</evidence><weight>1</weight></li><li><evidence>XMT_Nemesis_CryptimorphKilled</evidence><weight>2</weight></li></inputs>
+	</Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_XenoformingEscalation</defName><saturation>30</saturation><inputs><li><observation>XMT_NemesisObs_Xenoforming</observation><weight>1</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef>
+		<defName>XMT_NemesisSignal_Mechanization</defName><saturation>5</saturation>
+		<inputs><li><observation>XMT_NemesisObs_Mechanoids</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>3</weight></li><li><observation>XMT_NemesisObs_Inorganic</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>2</weight></li><li><observation>XMT_NemesisObs_Vehicles</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>3</weight></li><li><observation>XMT_NemesisObs_Turrets</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>1</weight></li></inputs>
+	</Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef>
+		<defName>XMT_NemesisSignal_BiologicalAdaptation</defName><saturation>10</saturation>
+		<inputs><li><observation>XMT_NemesisObs_XenotypeDiversity</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_XmtMutatedPawns</observation><weight>1.5</weight></li><li><observation>XMT_NemesisObs_BrainMutatedPawns</observation><weight>1.5</weight></li><li><observation>XMT_NemesisObs_Horrors</observation><weight>1.5</weight></li><li><observation>XMT_NemesisObs_TamedCryptimorphs</observation><weight>1</weight></li></inputs>
+	</Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_PsychicThreat</defName><saturation>12</saturation><inputs><li><observation>XMT_NemesisObs_PsycasterLevels</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_PsychicPotential</observation><weight>0.75</weight></li><li><evidence>XMT_Nemesis_PsycastCommitted</evidence><weight>1.5</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_Fortification</defName><saturation>8</saturation><inputs><li><observation>XMT_NemesisObs_Walls</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>0.12</weight></li><li><observation>XMT_NemesisObs_Turrets</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>1</weight></li><li><observation>XMT_NemesisObs_Armor</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>0.5</weight></li><li><observation>XMT_NemesisObs_StoredArmor</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>0.12</weight></li><li><observation>XMT_NemesisObs_WeaponDamage</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>0.05</weight></li><li><observation>XMT_NemesisObs_StoredWeaponDamage</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>0.012</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_CryptimorphExploitation</defName><saturation>8</saturation><inputs><li><observation>XMT_NemesisObs_ContainedCryptimorphs</observation><weight>1.5</weight></li><li><evidence>XMT_Nemesis_CryptimorphHarvested</evidence><weight>2</weight></li><li><evidence>XMT_Nemesis_CryptimorphButchered</evidence><weight>2.5</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_AttritionPressure</defName><saturation>8</saturation><inputs><li><observation>XMT_NemesisObs_PawnAreaEffect</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_BuildingAreaEffect</observation><weight>1</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_OverkillPressure</defName><saturation>12</saturation><inputs><li><observation>XMT_NemesisObs_DeployedTrapThreat</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_CatastrophicStaticDefense</observation><weight>0.75</weight></li><li><observation>XMT_NemesisObs_PawnAreaOverkill</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_BuildingAreaOverkill</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_CatastrophicExplosives</observation><weight>0.5</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_IndirectFireThreat</defName><saturation>5</saturation><inputs><li><observation>XMT_NemesisObs_IndirectFirepower</observation><weight>1</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_SabotageOpportunity</defName><saturation>8</saturation><inputs><li><observation>XMT_NemesisObs_ExplosiveReserve</observation><weight>0.5</weight></li><li><observation>XMT_NemesisObs_CatastrophicExplosives</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_VolatilePawns</observation><weight>0.5</weight></li><li><observation>XMT_NemesisObs_ObsessedPawns</observation><weight>0.5</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_DeceptionOpportunity</defName><saturation>6</saturation><inputs><li><evidence>XMT_Nemesis_CryptimorphPlayedDead</evidence><weight>0.5</weight></li><li><observation>XMT_NemesisObs_LivingCryptimorphCorpses</observation><weight>1</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
+
+	<Xenomorphtype.RoyalEvolutionSet>
+		<defName>XMT_NemesisEvolution_FleshShaper</defName>
+		<evolutions><li>Evo_MaternalCrest</li><li>Evo_RendingClaws</li><li>Evo_GeneControl</li><li>Evo_GeneStorage</li><li>Evo_MutantExpression</li><li>Evo_NovelGenes</li><li>Evo_GeneDigestion</li><li>Evo_SubjugatorCrest</li><li>Evo_GeneSelfExpression</li><li>Evo_RoyalCrown</li></evolutions>
+	</Xenomorphtype.RoyalEvolutionSet>
+	<Xenomorphtype.RoyalEvolutionSet MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_NemesisEvolution_Mechanitor</defName>
+		<evolutions><li>Evo_MaternalCrest</li><li>Evo_RendingClaws</li><li>Evo_CryptomechanicalCircuitry</li><li>Evo_MechanoidGestation</li><li>Evo_SignalAmplifyingAntenna</li><li>Evo_ElectroMetabolicCatalyst</li><li>Evo_MechanoidSynthesis</li><li>Evo_MechanoidSubversion</li><li>Evo_MechanitorArray</li></evolutions>
+	</Xenomorphtype.RoyalEvolutionSet>
+	<Xenomorphtype.RoyalEvolutionSet MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>XMT_NemesisEvolution_Psychic</defName>
+		<evolutions><li>Evo_MaternalCrest</li><li>Evo_RendingClaws</li><li>Evo_PsychicDefense</li><li>Evo_WitchCrest</li></evolutions>
+	</Xenomorphtype.RoyalEvolutionSet>
+	<Xenomorphtype.RoyalEvolutionSet>
+		<defName>XMT_NemesisEvolution_Juggernaut</defName>
+		<evolutions><li>Evo_MaternalCrest</li><li>Evo_RendingClaws</li><li>Evo_FierceCrest</li><li>Evo_ScythingBlades</li><li>Evo_JuggernautsCrest</li></evolutions>
+	</Xenomorphtype.RoyalEvolutionSet>
+
+	<Xenomorphtype.NemesisStanceDef>
+		<defName>XMT_NemesisStance_Default</defName><isFallback>true</isFallback><baseScore>0.1</baseScore><evolutionSet>BaseQueenSet</evolutionSet>
+		<criteria><li><signal>XMT_NemesisSignal_ColonyScale</signal><weight>0.25</weight></li><li><signal>XMT_NemesisSignal_HiveLossPressure</signal><weight>0.6</weight></li><li><signal>XMT_NemesisSignal_XenoformingEscalation</signal><weight>0.2</weight></li><li><signal>XMT_NemesisSignal_OverkillPressure</signal><weight>0.8</weight></li><li><signal>XMT_NemesisSignal_IndirectFireThreat</signal><weight>0.25</weight></li><li><signal>XMT_NemesisSignal_DeceptionOpportunity</signal><weight>0.2</weight></li></criteria>
+	</Xenomorphtype.NemesisStanceDef>
+	<Xenomorphtype.NemesisStanceDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_NemesisStance_Mechanitor</defName><evolutionSet>XMT_NemesisEvolution_Mechanitor</evolutionSet><baseScore>0.05</baseScore>
+		<criteria><li><signal>XMT_NemesisSignal_Mechanization</signal><weight>1.2</weight><minimum>0.25</minimum></li><li><signal>XMT_NemesisSignal_Fortification</signal><weight>0.25</weight></li></criteria>
+	</Xenomorphtype.NemesisStanceDef>
+	<Xenomorphtype.NemesisStanceDef>
+		<defName>XMT_NemesisStance_FleshShaper</defName><evolutionSet>XMT_NemesisEvolution_FleshShaper</evolutionSet><baseScore>0.05</baseScore>
+		<criteria><li><signal>XMT_NemesisSignal_BiologicalAdaptation</signal><weight>1.15</weight><minimum>0.2</minimum></li><li><signal>XMT_NemesisSignal_CryptimorphExploitation</signal><weight>0.35</weight></li></criteria>
+	</Xenomorphtype.NemesisStanceDef>
+	<Xenomorphtype.NemesisStanceDef MayRequire="Ludeon.RimWorld.Royalty">
+		<defName>XMT_NemesisStance_Psychic</defName><evolutionSet>XMT_NemesisEvolution_Psychic</evolutionSet><baseScore>0.05</baseScore>
+		<criteria><li><signal>XMT_NemesisSignal_PsychicThreat</signal><weight>1.25</weight><minimum>0.2</minimum></li><li><signal>XMT_NemesisSignal_BiologicalAdaptation</signal><weight>0.15</weight></li></criteria>
+	</Xenomorphtype.NemesisStanceDef>
+	<Xenomorphtype.NemesisStanceDef>
+		<defName>XMT_NemesisStance_Juggernaut</defName><evolutionSet>XMT_NemesisEvolution_Juggernaut</evolutionSet><baseScore>0.05</baseScore>
+		<criteria><li><signal>XMT_NemesisSignal_Fortification</signal><weight>0.85</weight><minimum>0.2</minimum></li><li><signal>XMT_NemesisSignal_AttritionPressure</signal><weight>0.75</weight></li><li><signal>XMT_NemesisSignal_HiveLossPressure</signal><weight>0.2</weight></li><li><signal>XMT_NemesisSignal_OverkillPressure</signal><weight>-0.35</weight></li></criteria>
+	</Xenomorphtype.NemesisStanceDef>
+</Defs>

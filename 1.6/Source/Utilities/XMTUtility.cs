@@ -31,16 +31,7 @@ namespace Xenomorphtype
                 }
                 if (gameComp.Queen != null)
                 {
-                    if (gameComp.QueenInWorld)
-                    {
-                        if (gameComp.Queen.Faction != null && !gameComp.Queen.Faction.IsPlayer)
-                        {
-                            gameComp.Queen.Destroy();
-                            gameComp.Queen = null;
-                        }
-                    }
-
-                    if (gameComp.Queen.Dead)
+                    if (gameComp.Queen.Destroyed || gameComp.Queen.Dead)
                     {
                         gameComp.Queen = null;
                     }
@@ -55,6 +46,12 @@ namespace Xenomorphtype
                 if (gameComp == null)
                 {
                     Log.Warning("No GameComponent_Xenomorph");
+                    return;
+                }
+
+                if(value == null)
+                {
+                    gameComp.Queen = null;
                     return;
                 }
 
@@ -1779,6 +1776,12 @@ namespace Xenomorphtype
             return Queen != null;
         }
 
+        public static bool PlayerFactionIsCryptimorph()
+        {
+            Faction player = Faction.OfPlayerSilentFail;
+            return player != null && player.def == InternalDefOf.XMT_PlayerHive;
+        }
+
         public static bool QueenIsPlayer()
         {
             if(Queen == null)
@@ -2081,6 +2084,8 @@ namespace Xenomorphtype
 
                     if (IsXenomorph(witness))
                     {
+                        if (Verse.AI.Group.LordUtility.GetLord(witness)?.LordJob is LordJob_Nemesis nemesisLord
+                            && !nemesisLord.AllowThreatResponse(witness, aggressorInfo.parent)) continue;
                         if (witness.def == InternalDefOf.XMT_Larva)
                         {
                             continue;

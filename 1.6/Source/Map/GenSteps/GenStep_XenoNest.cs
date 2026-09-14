@@ -160,6 +160,8 @@ namespace Xenomorphtype
             }
 
             XMTHiveUtility.ForceNestPosition(map.Center, map);
+            Current.Game.GetComponent<GameComponent_NemesisWorldPawns>().PlaceRetainedHosts(map, nestCells);
+            map.GetComponent<HiveMapComponent>().CaptureGeneratedCryptimorphStructures();
         }
     }
 }

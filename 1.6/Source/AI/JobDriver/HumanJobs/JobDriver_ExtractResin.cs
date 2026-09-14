@@ -61,6 +61,7 @@ namespace Xenomorphtype
                 Thing thing = ThingMaker.MakeThing(InternalDefOf.Starbeast_Resin);
                 thing.stackCount = 5;
                 GenPlace.TryPlaceThing(thing, pawn.Position, pawn.Map, ThingPlaceMode.Near);
+                NemesisEvidenceReporter.ReportHarvest(innerPawn, pawn, job.def, "contained resin extraction");
             });
         }
 

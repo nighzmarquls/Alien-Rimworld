@@ -17,7 +17,6 @@
 				<ComfyTemperatureMin>-270</ComfyTemperatureMin>
 				<ComfyTemperatureMax>310</ComfyTemperatureMax>
 				<LeatherAmount>25</LeatherAmount>
-				<MeleeDodgeChance>3.5</MeleeDodgeChance>
 				<ToxicResistance>1.0</ToxicResistance>
 				<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
 				<IncomingDamageFactor>0.90</IncomingDamageFactor>
@@ -34,6 +33,9 @@
 				<HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
 				<DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
 				<VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
+				<MeleeDodgeChance>3.5</MeleeDodgeChance>
+				<MeleeCritChance>2</MeleeCritChance>
+				<MeleeParryChance>2</MeleeParryChance>
             </statBases>
           </value>
 	</Operation>
@@ -163,6 +165,17 @@
 		<value>
 			<li Class="CombatExtended.PartialArmorExt">
 			  <stats />
+			</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[defName="XMT_Starbeast_AlienRace"]</xpath>
+		<value>
+			<li Class="CombatExtended.RacePropertiesExtensionCE">
+				<bodyShape>Humanoid</bodyShape>
+				<canParry>true</canParry>
+				<maxParry>6</maxParry>
 			</li>
 		</value>
 	</Operation>

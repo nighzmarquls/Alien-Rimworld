@@ -63,6 +63,7 @@ namespace Xenomorphtype
             BioUtility.ExtractMetabolicCostFromPawn(pawn, false);
            
             OnSurgerySuccess(pawn, part, billDoer, ingredients, bill);
+            NemesisEvidenceReporter.ReportHarvest(pawn, billDoer, recipe, "acid surgery");
             if (IsViolationOnPawn(pawn, part, Faction.OfPlayer))
             {
                 ReportViolation(pawn, billDoer, pawn.HomeFaction, -1, HistoryEventDefOf.ExtractedHemogenPack);

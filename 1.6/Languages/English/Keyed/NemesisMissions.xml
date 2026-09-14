@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <XMT_MissionHostTakenLabel>Host abducted</XMT_MissionHostTakenLabel>
+  <XMT_MissionHostTaken>Cryptimorphs have carried {PAWN_labelShort} away. {PAWN_pronoun} may still be alive somewhere within their hives.</XMT_MissionHostTaken>
+</LanguageData>
