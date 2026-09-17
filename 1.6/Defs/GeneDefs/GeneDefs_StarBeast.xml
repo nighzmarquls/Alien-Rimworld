@@ -89,5 +89,25 @@
 			<li>XMT_Crests</li>
 		</exclusionTags>
 	</GeneDef>
-
+	
+	<GeneDef>
+		<defName>XMT_LeechMouth</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>leech mouth</label>
+		<labelShortAdj>circular-jaw</labelShortAdj>
+		<description>Carriers of this gene have a circular jaw with gnashing teeth.</description>
+		<iconPath>UI/GeneIcons/XMT_Gene_Leech</iconPath>
+		<marketValueFactor>1.0</marketValueFactor>
+		<biostatCpx>0</biostatCpx>
+		<biostatMet>0</biostatMet>
+		<biostatArc>0</biostatArc>
+		<exclusionTags>
+			<li>XMT_Teeth</li>
+		</exclusionTags>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</GeneDef>
 </Defs>

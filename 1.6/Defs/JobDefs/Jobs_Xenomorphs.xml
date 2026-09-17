@@ -220,6 +220,16 @@
 	</JobDef>
 
 	<JobDef>
+		<defName>XMT_SubvertTurret</defName>
+		<driverClass>Xenomorphtype.JobDriver_SubvertTurret</driverClass>
+		<reportString>subverting TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+	</JobDef>
+
+	<JobDef>
 		<defName>XMT_OpenDoorMischief</defName>
 		<driverClass>Xenomorphtype.JobDriver_OpenDoorMischief</driverClass>
 		<reportString>opening TargetA.</reportString>

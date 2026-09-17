@@ -44,13 +44,19 @@ namespace Xenomorphtype
             if (tick >= nextMissionTick) EvaluateMissionOpportunity();
         }
 
-        internal static bool MapHasMission(Map map) => map?.lordManager?.lords.Any(l => l.LordJob is LordJob_NemesisMission
-            && l.ownedPawns.Any(p => p.Spawned && !p.Dead && !p.Downed)) == true;
+        internal static bool MapHasMission(Map map) => map?.lordManager?.lords.Any(l => l.LordJob is LordJob_NemesisMission mission
+            && mission.BlocksNewMissions) == true;
         internal static bool AnyMissionLive() => Find.Maps.Any(MapHasMission);
 
         public float MissionWeight(NemesisMissionDef def, Map map, bool active)
         {
-            if (map == null || AnyMissionLive() || (active ? !def.allowAwakened : !def.allowDormant)) return 0f;
+            if (AnyMissionLive()) return 0f;
+            return MissionCandidateWeight(def, map, active);
+        }
+
+        private float MissionCandidateWeight(NemesisMissionDef def, Map map, bool active)
+        {
+            if (def == null || map == null || !def.StrategicRequirementsMet(this, active)) return 0f;
             NemesisMissionWorker worker = def.Worker;
             if (!worker.CanTarget(def, this, map) || worker.PartySize(def, this, map, active) < def.populationRange.min) return 0f;
             return Mathf.Max(0f, def.baseWeight * def.StanceWeight(this, active) * worker.Weight(def, this, map));
@@ -111,8 +117,18 @@ namespace Xenomorphtype
         {
             if (pendingMission == null) return;
             if (AnyMissionLive()) { pendingMissionReason = "another mission is live"; return; }
+            if (Find.TickManager.TicksGame < pendingMission.launchAfterTick)
+            {
+                pendingMissionReason = "waiting for follow-up deployment window";
+                return;
+            }
+            if (pendingMission.active != Awakened || !pendingMission.mission.StrategicRequirementsMet(this, Awakened)
+                )
+            { CancelPendingMission(); return; }
             Map target = Find.Maps.FirstOrDefault(m => m.uniqueID == pendingMission.mapId && m.IsPlayerHome);
             if (target == null) { CancelPendingMission(); return; }
+            if (!pendingMission.mission.Worker.CanTarget(pendingMission.mission, this, target))
+            { CancelPendingMission(); return; }
             string previous = pendingMissionReason;
             if (NemesisMissionUtility.Launch(pendingMission, target, false, out pendingMissionReason))
             {
@@ -133,10 +149,47 @@ namespace Xenomorphtype
             return launched;
         }
 
-        internal void NotifyMissionEnded()
+        internal void NotifyMissionEnded(NemesisMissionDef completedMission, Map map, bool successful)
         {
+            if (successful && TryQueueFollowUp(completedMission, map)) return;
             nextMissionTick = Find.TickManager.TicksGame + MissionInterval;
             NemesisLog.Detail("Selection", "Mission ended; nextOpportunity=" + nextMissionTick);
+        }
+
+        private bool TryQueueFollowUp(NemesisMissionDef completedMission, Map map)
+        {
+            if (completedMission?.followUpMissions.NullOrEmpty() != false || map == null) return false;
+            float xenoforming = XenoformingUtility.GetXenoforming();
+            if (xenoforming < Settings.followUpMinimumXenoforming) return false;
+            if (!completedMission.Worker.TimingValid(completedMission, this, map,
+                NemesisMissionTimingPhase.FollowUp, out string timingReason))
+            {
+                NemesisLog.Detail("Selection", "Follow-up rejected by prelude timing: " + timingReason);
+                return false;
+            }
+            float chance = Mathf.Clamp01(Settings.followUpChanceByXenoforming.Evaluate(xenoforming));
+            if (Rand.Value >= chance) return false;
+
+            List<(NemesisMissionDef mission, float weight)> candidates = completedMission.followUpMissions
+                .Where(entry => entry?.mission != null)
+                .Select(entry => (entry.mission, entry.weight * MissionCandidateWeight(entry.mission, map, Awakened)))
+                .Where(candidate => candidate.Item2 > 0f).ToList();
+            if (candidates.Count == 0) return false;
+            var selected = candidates.RandomElementByWeight(candidate => candidate.weight);
+            int tick = Find.TickManager.TicksGame;
+            pendingMission = new NemesisMissionRequest
+            {
+                mission = selected.mission,
+                mapId = map.uniqueID,
+                active = Awakened,
+                selectedTick = tick,
+                launchAfterTick = tick + Settings.followUpDelayTicks.RandomInRange,
+                followUp = true
+            };
+            pendingMissionReason = "follow-up committed";
+            NemesisLog.Detail("Selection", "Queued follow-up " + selected.mission.defName + " after "
+                + completedMission.defName + "; chance=" + chance.ToString("0.###"));
+            return true;
         }
 
         public void CancelPendingMission()

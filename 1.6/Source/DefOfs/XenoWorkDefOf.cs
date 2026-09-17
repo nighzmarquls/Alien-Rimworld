@@ -48,6 +48,7 @@ namespace Xenomorphtype
         public static JobDef XMT_PathRecoveryBreach;
 
         public static JobDef XMT_ImplantHunt;
+        public static JobDef XMT_SubvertTurret;
         public static JobDef XMT_StealthHunt;
         public static JobDef XMT_AbductHost;
         public static JobDef XMT_AbductOffMap;

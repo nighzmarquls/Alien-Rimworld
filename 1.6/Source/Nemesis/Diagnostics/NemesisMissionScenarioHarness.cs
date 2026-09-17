@@ -45,9 +45,88 @@ namespace Xenomorphtype
                 Check("labels do not invent spatial changes", NemesisMissionUtility.ChangedContacts(new[] { old }, new[] { fresh }, map.uniqueID).Count == 0);
                 fresh.cell += IntVec3.East;
                 Check("moved contact investigates both locations", NemesisMissionUtility.ChangedContacts(new[] { old }, new[] { fresh }, map.uniqueID).Count == 2);
+                RunSwarmProgressionContracts(component, map);
+                RunFollowUpContracts();
                 Log.Message("[XMT][Mission scenario] PASS all mission data contracts.");
             }
             catch (Exception exception) { Log.Error("[XMT][Mission scenario] FAIL mission data contracts: " + exception); }
+        }
+
+        private static void RunFollowUpContracts()
+        {
+            NemesisMissionDef scouting = DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_Scouting");
+            NemesisMissionDef sabotage = DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_PowerSabotage");
+            NemesisMissionDef assault = DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_Assault");
+            Check("scouting is a prelude candidate", scouting.followUpMissions.Count > 0);
+            Check("power sabotage is awakened-only", !sabotage.allowDormant && sabotage.allowAwakened);
+            Check("assault has a hard twenty-five percent floor", Mathf.Approximately(assault.minimumXenoforming, 25f));
+            Check("assault is terminal", assault.followUpMissions.Count == 0);
+            Check("follow-ups are nearly certain by seventy-five percent",
+                GameComponent_Nemesis.Settings.followUpChanceByXenoforming.Evaluate(75f) >= 0.95f);
+            Check("exactly two-thirds swarm resolution fails",
+                !LordJob_NemesisSwarmAssault.MeetsAttachmentThreshold(2, 3));
+            Check("more than two-thirds swarm resolution succeeds",
+                LordJob_NemesisSwarmAssault.MeetsAttachmentThreshold(3, 4));
+        }
+
+        private static void RunSwarmProgressionContracts(GameComponent_Nemesis component, Map map)
+        {
+            float originalXenoforming = XenoformingUtility.GetXenoforming();
+            try
+            {
+                NemesisMissionDef facehugger = DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_FacehuggerAssault");
+                XenoformingUtility.SetXenoforming(15f);
+                int earlyCeiling = Mathf.FloorToInt(Mathf.Lerp(facehugger.populationRange.min, facehugger.populationRange.max,
+                    facehugger.Pressure(component, true)));
+                Check("facehugger assault xenoforming ceiling is 23 at fifteen percent", earlyCeiling == 23);
+                Check("facehugger assault stays at its floor without threat points",
+                    NemesisMissionWorker_SwarmAssault.ThreatPointPopulation(facehugger, earlyCeiling, 0f,
+                        facehugger.workerSettings.pawnKind.combatPower) == 8);
+                XenoformingUtility.SetXenoforming(50f);
+                Check("facehugger assault can reach 60 at fifty percent",
+                    NemesisMissionWorker_SwarmAssault.ThreatPointPopulation(facehugger, 60, 10000f,
+                        facehugger.workerSettings.pawnKind.combatPower) == 60);
+                XenoformingUtility.SetXenoforming(100f);
+                Check("facehugger assault remains capped at 60",
+                    NemesisMissionWorker_SwarmAssault.ThreatPointPopulation(facehugger, 60, 10000f,
+                        facehugger.workerSettings.pawnKind.combatPower) == 60);
+                Check("ovothrone lineage is not reached at fourteen percent",
+                    !QueenProgressionUtility.WouldReachEvolutionLineage(RoyalEvolutionDefOf.BaseQueenSet,
+                        RoyalEvolutionDefOf.Evo_OvoThrone, 14f));
+                Check("ovothrone lineage is reached at fifteen percent",
+                    QueenProgressionUtility.WouldReachEvolutionLineage(RoyalEvolutionDefOf.BaseQueenSet,
+                        RoyalEvolutionDefOf.Evo_OvoThrone, 15f));
+                Check("integrated egg sac keeps ovothrone lineage reached",
+                    QueenProgressionUtility.WouldReachEvolutionLineage(RoyalEvolutionDefOf.BaseQueenSet,
+                        RoyalEvolutionDefOf.Evo_OvoThrone, 25f));
+
+                NemesisStanceDef mechanitor = DefDatabase<NemesisStanceDef>.GetNamedSilentFail("XMT_NemesisStance_Mechanitor");
+                RoyalEvolutionDef subversion = DefDatabase<RoyalEvolutionDef>.GetNamedSilentFail("Evo_MechanoidSubversion");
+                if (mechanitor?.evolutionSet != null && subversion != null)
+                {
+                    NemesisMissionDef subverter = DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_SubverterAssault");
+                    Check("mechanoid subversion lineage is not reached at twenty-five percent",
+                        !QueenProgressionUtility.WouldReachEvolutionLineage(mechanitor.evolutionSet, subversion, 25f));
+                    Check("mechanoid subversion lineage is reached at twenty-six percent",
+                        QueenProgressionUtility.WouldReachEvolutionLineage(mechanitor.evolutionSet, subversion, 26f));
+                    Check("mechanoid subversion diagnostic threshold is twenty-six percent",
+                        QueenProgressionUtility.MinimumXenoformingToReachEvolutionLineage(mechanitor.evolutionSet, subversion) == 26f);
+                    XenoformingUtility.SetXenoforming(25f);
+                    Check("subverter assault normal progression starts at 6 at twenty-five percent",
+                        Mathf.FloorToInt(Mathf.Lerp(subverter.populationRange.min, subverter.populationRange.max,
+                            subverter.Pressure(component, true))) == 6);
+                    XenoformingUtility.SetXenoforming(75f);
+                    Check("subverter assault normal progression reaches 60 at seventy-five percent",
+                        Mathf.FloorToInt(Mathf.Lerp(subverter.populationRange.min, subverter.populationRange.max,
+                            subverter.Pressure(component, true))) == 60);
+                    Check("used mechanoid bandwidth can push subverter population beyond sixty",
+                        NemesisMissionWorker_SubverterAssault.PopulationWithMechanoidBandwidth(60, 75f, 1f) == 135);
+                }
+            }
+            finally
+            {
+                XenoformingUtility.SetXenoforming(originalXenoforming);
+            }
         }
 
         internal static void RunLordPolicies()
@@ -73,6 +152,8 @@ namespace Xenomorphtype
                 Check("collection reveal does not directly attack", !job.AllowRevealAttack(morph, host));
                 job.Notify_Revealed(morph);
                 Check("lord records revelation", job.WasDiscovered(morph));
+                job.Withdraw("scenario anti-blockage check");
+                Check("withdrawing mission does not block later missions", !job.BlocksNewMissions);
                 Log.Message("[XMT][Mission scenario] PASS mission lord ownership. Fixtures remain.");
             }
             catch (Exception exception) { Log.Error("[XMT][Mission scenario] FAIL mission lord ownership: " + exception); }

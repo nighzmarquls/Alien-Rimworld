@@ -8,11 +8,31 @@ namespace Xenomorphtype
 {
     public sealed class JobDriver_AbductOffMap : JobDriver_AbductPawn
     {
+        private bool approachReached;
         protected override IntVec3 FinalGoalCell => job.GetTarget(TargetIndex.B).Cell;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref approachReached, "approachReached");
+        }
+
+        internal void NotifyCleanup(JobCondition condition)
+        {
+            if ((condition != JobCondition.Incompletable && condition != JobCondition.ErroredPather)
+                || approachReached || pawn?.carryTracker?.CarriedThing == Victim
+                || Victim == null || Victim.Destroyed || !Victim.Spawned)
+            {
+                return;
+            }
+
+            pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(Victim), job);
+        }
+
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             if (pawn.carryTracker.CarriedThing == Victim) return true;
-            if (!NemesisMissionUtility.ValidHost(Victim) || !FeralJobUtility.IsThingAvailableForJobBy(pawn, Victim)) return false;
+            if (!NemesisMissionUtility.ValidAbductionTarget(Victim) || !FeralJobUtility.IsThingAvailableForJobBy(pawn, Victim)) return false;
             FeralJobUtility.ReserveThingForJob(pawn, job, Victim);
             return true;
         }
@@ -24,6 +44,7 @@ namespace Xenomorphtype
             Toil carry = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
             yield return Toils_Jump.JumpIf(carry, () => pawn.carryTracker.CarriedThing == Victim);
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
+            yield return Toils_General.Do(delegate { approachReached = true; });
             yield return AttemptGrab();
             yield return Toils_Haul.StartCarryThing(TargetIndex.A);
             yield return carry;

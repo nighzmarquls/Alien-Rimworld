@@ -13,23 +13,54 @@ namespace Xenomorphtype
     {
         internal static JobDef AbductJob => XenoWorkDefOf.XMT_AbductOffMap;
         internal static bool MapDark(Map map) => map != null && map.skyManager.CurSkyGlow < 0.5f;
-        internal static bool ValidHost(Pawn pawn) => pawn != null && pawn.Spawned && !pawn.Dead
+        internal static bool ValidImplantTarget(Pawn pawn) => pawn != null && pawn.Spawned && !pawn.Dead
             && !XMTUtility.NotPrey(pawn) && XMTUtility.IsAcceptableHost(pawn) && !XMTUtility.IsXenomorphFriendly(pawn)
             && !(pawn.CurrentBed() is CocoonBase);
 
-        internal static Pawn FindHost(Pawn seeker, float radius, bool opportunistic, bool requirePlayer, ISet<Pawn> excluded = null)
+        internal static bool HasActiveFacehugger(Pawn pawn) => pawn?.health?.hediffSet?.hediffs
+            .Select(hediff => hediff.TryGetComp<HediffComp_PawnAttachement>()?.attachedPawn)
+            .Any(attached => attached?.GetComp<CompLarvalGenes>() != null) == true;
+
+        internal static bool ValidAbductionTarget(Pawn pawn)
         {
-            return seeker.Map.mapPawns.AllPawnsSpawned.Where(p => (excluded == null || !excluded.Contains(p))
-                && HostRejection(seeker, p, radius, opportunistic, requirePlayer) == null)
-                .OrderByDescending(p => !p.Awake() || p.Downed).ThenBy(p => seeker.Position.DistanceToSquared(p.Position)).FirstOrDefault();
+            if (ValidImplantTarget(pawn)) return true;
+            return pawn != null && pawn.Spawned && !pawn.Dead && HasActiveFacehugger(pawn)
+                && !XMTUtility.IsXenomorph(pawn) && !XMTUtility.IsXenomorphFriendly(pawn)
+                && !XMTUtility.IsMorphing(pawn) && !(pawn.CurrentBed() is CocoonBase);
         }
 
-        internal static string HostRejection(Pawn seeker, Pawn host, float radius, bool opportunistic, bool requirePlayer)
+        [Obsolete("Use ValidImplantTarget or ValidAbductionTarget explicitly.")]
+        internal static bool ValidHost(Pawn pawn) => ValidImplantTarget(pawn);
+
+        internal static bool IsSwarmMember(Pawn pawn)
+            => pawn?.GetLord()?.LordJob is LordJob_NemesisSwarmAssault;
+
+        internal static void NotifyAttackerAttached(Pawn attacker, Pawn target)
         {
-            if (host == seeker || !ValidHost(host)) return "invalid host";
+            (attacker?.GetLord()?.LordJob as LordJob_NemesisMission)?.Notify_ParasiteAttached(attacker, target);
+        }
+
+        internal static void NotifyTurretSubverted(Pawn attacker, Building_TurretGun turret)
+        {
+            (attacker?.GetLord()?.LordJob as LordJob_NemesisMission)?.Notify_TurretSubverted(attacker, turret);
+        }
+
+        internal static Pawn FindHost(Pawn seeker, float radius, bool opportunistic, bool requirePlayer,
+            ISet<Pawn> excluded = null, bool requireLineOfSight = true)
+        {
+            return seeker.Map.mapPawns.AllPawnsSpawned.Where(p => (excluded == null || !excluded.Contains(p))
+                && HostRejection(seeker, p, radius, opportunistic, requirePlayer, requireLineOfSight) == null)
+                .OrderByDescending(HasActiveFacehugger).ThenByDescending(p => p.Downed)
+                .ThenByDescending(p => !p.Awake()).ThenBy(p => seeker.Position.DistanceToSquared(p.Position)).FirstOrDefault();
+        }
+
+        internal static string HostRejection(Pawn seeker, Pawn host, float radius, bool opportunistic,
+            bool requirePlayer, bool requireLineOfSight = true)
+        {
+            if (host == seeker || !ValidAbductionTarget(host)) return "invalid host";
             if (requirePlayer && host.Faction != Faction.OfPlayer) return "awaiting player-host assignment";
             if (host.Position.DistanceToSquared(seeker.Position) > radius * radius) return "outside search radius";
-            if (!GenSight.LineOfSight(seeker.Position, host.Position, seeker.Map)) return "no line of sight";
+            if (requireLineOfSight && !GenSight.LineOfSight(seeker.Position, host.Position, seeker.Map)) return "no line of sight";
             if (opportunistic && host.Awake() && !host.Downed
                 && (!XMTHiveUtility.IsLightSuitableAt(host.Position, host.Map)
                     || host.Map.mapPawns.AllPawnsSpawned.Any(other => other != host && other != seeker && !XMTUtility.IsXenomorph(other)
@@ -106,29 +137,38 @@ namespace Xenomorphtype
         {
             reason = null;
             if (request?.mission == null || map == null) { reason = "target map or mission is missing"; return false; }
-            if (!forceLight && !MapDark(map)) { reason = "waiting for darkness"; return false; }
             GameComponent_Nemesis component = Current.Game.GetComponent<GameComponent_Nemesis>();
+            if (component == null) { reason = "Nemesis state is unavailable"; return false; }
+            if (request.active != component.Awakened)
+            {
+                reason = request.mission.defName + " was selected while Nemesis was " + (request.active ? "awakened" : "dormant")
+                    + ", but Nemesis is now " + (component.Awakened ? "awakened" : "dormant");
+                return false;
+            }
+            if (!request.mission.StrategicRequirementsMet(component, component.Awakened, out string strategicReason))
+            { reason = request.mission.defName + " strategically invalid: " + strategicReason; return false; }
             NemesisMissionWorker worker = request.mission.Worker;
+            if (!forceLight && !worker.TimingValid(request.mission, component, map, NemesisMissionTimingPhase.Launch, out reason))
+                return false;
             if (!worker.CanTarget(request.mission, component, map))
             { reason = request.mission.defName + " target rejected: " + worker.DescribeTarget(map); return false; }
             int count = worker.PartySize(request.mission, component, map, request.active);
             if (count < request.mission.populationRange.min)
             { reason = request.mission.defName + " deployment below minimum: " + worker.DescribeSizing(request.mission, component, map, request.active); return false; }
-            IntVec3 entry = IntVec3.Invalid;
-            for (int attempt = 0; attempt < 24; attempt++)
-                if (RCellFinder.TryFindRandomPawnEntryCell(out IntVec3 candidate, map, CellFinder.EdgeRoadChance_Animal)
-                    && (forceLight || XMTHiveUtility.IsLightSuitableAt(candidate, map))) { entry = candidate; break; }
-            if (!entry.IsValid) { reason = "no suitable entry"; return false; }
+            NemesisLog.Detail("Mission", "Deployment sizing " + request.mission.defName + ": "
+                + worker.DescribeSizing(request.mission, component, map, request.active));
+            if (!worker.TryFindEntryCell(request.mission, component, map, forceLight, out IntVec3 entry))
+            { reason = "no suitable entry"; return false; }
 
             List<IntVec3> route = worker.PrepareRoute(request.mission, component, map);
             LordJob_NemesisMission job = (LordJob_NemesisMission)Activator.CreateInstance(request.mission.lordJobClass);
-            job.Initialize(request.mission, request.active, route);
+            job.Initialize(request.mission, request.active, route, entry);
             Lord lord = LordMaker.MakeNewLord(null, job, map);
             try
             {
                 for (int i = 0; i < count; i++)
                 {
-                    Pawn pawn = Current.Game.GetComponent<GameComponent_Xenomorph>().GetWorldOrGeneratedCryptimorphForMission();
+                    Pawn pawn = worker.GenerateMember(request.mission);
                     IntVec3 spawnCell = GenRadial.RadialCellsAround(entry, Mathf.Max(4f, count), true)
                         .Where(c => c.InBounds(map) && c.Standable(map) && (forceLight || XMTHiveUtility.IsLightSuitableAt(c, map))
                             && !map.thingGrid.ThingsListAtFast(c).Any(t => t is Pawn)).RandomElementWithFallback(entry);

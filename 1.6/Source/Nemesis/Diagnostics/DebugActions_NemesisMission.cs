@@ -113,7 +113,8 @@ namespace Xenomorphtype
                 LordJob_Nemesis job = (LordJob_Nemesis)lord.LordJob;
                 Log.Message("[XMT][Mission] " + job.GetType().Name);
                 if (job is LordJob_NemesisMission mission)
-                    Log.Message("  success=" + mission.Successful + " extracted=" + mission.Extracted + " covertEnded=" + mission.CovertEnded
+                    Log.Message("  success=" + mission.Successful + " successCount=" + mission.MissionSuccessCount
+                        + "/" + mission.InitialMemberCount + " extracted=" + mission.ExtractedHostCount + " covertEnded=" + mission.CovertEnded
                         + " withdrawing=" + mission.Withdrawing + " reason=" + mission.WithdrawalReason
                         + " routes=" + string.Join(", ", mission.Route));
                 foreach (Pawn pawn in lord.ownedPawns)

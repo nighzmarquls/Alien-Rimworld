@@ -1,6 +1,7 @@
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
@@ -9,14 +10,20 @@ namespace Xenomorphtype
         private const float Influence = 1f;
         private bool initialized;
         private bool bandwidthSuppressed;
+        private bool missionAssault;
+        private IntVec3 retreatCell = IntVec3.Invalid;
 
         public bool BandwidthSuppressed => bandwidthSuppressed;
         internal float SubversionInfluence => Influence;
+        internal bool MissionAssault => missionAssault;
+        internal IntVec3 RetreatCell => retreatCell;
 
         public override void CompExposeData()
         {
             base.CompExposeData();
             Scribe_Values.Look(ref bandwidthSuppressed, "bandwidthSuppressed", false);
+            Scribe_Values.Look(ref missionAssault, "missionAssault", false);
+            Scribe_Values.Look(ref retreatCell, "retreatCell", IntVec3.Invalid);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -26,6 +33,12 @@ namespace Xenomorphtype
 
         public override void CompPostPostAdd(DamageInfo? dinfo)
         {
+            Pawn attacher = dinfo?.Instigator as Pawn;
+            if (attacher?.GetLord()?.LordJob is LordJob_NemesisSwarmAssault mission)
+            {
+                missionAssault = true;
+                retreatCell = mission.EntryCell;
+            }
             base.CompPostPostAdd(dinfo);
             if (!ValidInorganicHost())
             {
@@ -68,6 +81,24 @@ namespace Xenomorphtype
             Pawn host = Pawn;
             RemoveInfluence();
             InorganicSubversionUtility.NotifySubverterLoadChanged(host);
+
+            if (!missionAssault || released == null || released.Dead || !released.Spawned)
+            {
+                return;
+            }
+
+            Lord missionLord = released.GetLord();
+            if (missionLord?.LordJob is LordJob_NemesisSwarmAssault)
+            {
+                missionLord.RemovePawn(released);
+            }
+
+            CompInorganicSubverterHostHunter hunter = released.GetComp<CompInorganicSubverterHostHunter>();
+            Thing target = hunter?.GetHuntTarget();
+            if (target != null)
+            {
+                hunter.StartHuntTarget(target);
+            }
         }
 
         public override void CompPostPostRemoved()

@@ -52,6 +52,9 @@ namespace Xenomorphtype
                 case "Mechanoids":
                     if (pawn.RaceProps.IsMechanoid) Add(pawn, context, 1f, "Mechanoid");
                     break;
+                case "MechanoidBandwidthUsed":
+                    total += InorganicSubversionUtility.PlayerControlledMechanoidBandwidth(pawn);
+                    break;
                 case "Inorganic":
                     if (pawn.IsInorganic()) Add(pawn, context, 1f, "Inorganic");
                     break;

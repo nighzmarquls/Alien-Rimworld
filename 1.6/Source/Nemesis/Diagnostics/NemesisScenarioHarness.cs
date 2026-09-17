@@ -480,6 +480,17 @@ namespace Xenomorphtype
                     SpawnedFixtures.Add(spawned);
                 }
 
+                Building_TurretGun miniTurret = SpawnedFixtures.OfType<Building_TurretGun>()
+                    .FirstOrDefault(turret => turret.Spawned && turret.Map == map && turret.def.defName == "Turret_MiniTurret");
+                Building_TurretGun mortar = SpawnedFixtures.OfType<Building_TurretGun>()
+                    .FirstOrDefault(turret => turret.Spawned && turret.Map == map && turret.def.defName == "Turret_Mortar");
+                result.Check("unmanned direct-fire player turret is a Nemesis subverter target",
+                    XMT_IFFUtility.IsValidSubverterTurretTarget(null, miniTurret, map), true,
+                    XMT_IFFUtility.IsValidSubverterTurretTarget(null, miniTurret, map));
+                result.Check("mortar is excluded from sacrificial subversion",
+                    !XMT_IFFUtility.IsValidSubverterTurretTarget(null, mortar, map), false,
+                    XMT_IFFUtility.IsValidSubverterTurretTarget(null, mortar, map));
+
                 component.RequestIntelligence("developer defense-layout observed", null,
                     new[] { NemesisTraversalCategory.PlayerBuildings });
                 float wallsAfter = ObservationValue(component, "XMT_NemesisObs_Walls");

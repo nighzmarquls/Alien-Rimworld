@@ -179,6 +179,10 @@
 	
 	<XMT_Implant>Implant</XMT_Implant>
 	<XMT_ImplantDescription>Attempt attachment to a host for embryo implantation.</XMT_ImplantDescription>
+	<XMT_SubverterAttach>Subvert</XMT_SubverterAttach>
+	<XMT_SubverterAttachDescription>Attach to an inorganic pawn, or sacrifice this subverter to corrupt an unmanned direct-fire turret.</XMT_SubverterAttachDescription>
+	<XMT_SubvertTurretReport>Subverting turret.</XMT_SubvertTurretReport>
+	<XMT_SubvertedTurretIndicator>Malfunctioning</XMT_SubvertedTurretIndicator>
 	
 	<XMT_ReadyIn>Ready in</XMT_ReadyIn>
 	<XMT_EggNeedResin>Needs resin floor to help mature.</XMT_EggNeedResin>

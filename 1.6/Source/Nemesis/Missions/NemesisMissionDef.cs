@@ -18,6 +18,12 @@ namespace Xenomorphtype
         public float weight = 1f;
     }
 
+    public class NemesisMissionFollowUp
+    {
+        public NemesisMissionDef mission;
+        public float weight = 1f;
+    }
+
     public class NemesisMissionSettings
     {
         public float localSearchRadius = 18f;
@@ -30,6 +36,9 @@ namespace Xenomorphtype
         public PawnKindDef raidPointPawnKind;
         public float raidPointBudgetFactor = 1f;
         public float populationFraction = 0.5f;
+        public PawnKindDef pawnKind;
+        public bool useThreatPointsForPopulation;
+        public float mechanoidBandwidthPopulationFactor;
     }
 
     public class NemesisMissionDef : Def
@@ -38,13 +47,18 @@ namespace Xenomorphtype
         public Type lordJobClass;
         public bool allowDormant = true;
         public bool allowAwakened = true;
+        public NemesisStanceDef requiredStance;
+        public RoyalEvolutionDef requiredEvolutionLineage;
         public float baseWeight = 1f;
+        public float minimumXenoforming;
         public IntRange populationRange = new IntRange(1, 3);
+        public float xenoformingForMinimumPressure;
         public float xenoformingForMaximumPressure = 100f;
         public int maximumDurationTicks = 18000;
         public NemesisEvidenceDef extractionEvidence;
         public List<NemesisMissionStanceWeight> stanceWeights = new List<NemesisMissionStanceWeight>();
         public List<NemesisMissionPressureInput> pressureInputs = new List<NemesisMissionPressureInput>();
+        public List<NemesisMissionFollowUp> followUpMissions = new List<NemesisMissionFollowUp>();
         public NemesisMissionSettings workerSettings = new NemesisMissionSettings();
 
         private NemesisMissionWorker worker;
@@ -53,9 +67,60 @@ namespace Xenomorphtype
         public float StanceWeight(GameComponent_Nemesis component, bool active) => !active ? 1f
             : stanceWeights.FirstOrDefault(entry => entry.stance == component.CurrentStance)?.weight ?? 1f;
 
+        public bool StrategicRequirementsMet(GameComponent_Nemesis component, bool active)
+            => StrategicRequirementsMet(component, active, out _);
+
+        public bool StrategicRequirementsMet(GameComponent_Nemesis component, bool active, out string rejectionReason)
+        {
+            rejectionReason = null;
+            if (component == null)
+            {
+                rejectionReason = "Nemesis state is unavailable";
+                return false;
+            }
+
+            if (active ? !allowAwakened : !allowDormant)
+            {
+                rejectionReason = active ? "mission is not permitted after Nemesis awakens"
+                    : "mission is not permitted while Nemesis is dormant";
+                return false;
+            }
+
+            float xenoforming = XenoformingUtility.GetXenoforming();
+            if (xenoforming < minimumXenoforming)
+            {
+                rejectionReason = "requires at least " + minimumXenoforming.ToString("0.##")
+                    + "% xenoforming; current xenoforming is " + xenoforming.ToString("0.##") + "%";
+                return false;
+            }
+
+            if (requiredStance != null && (!active || component.CurrentStance != requiredStance))
+            {
+                rejectionReason = "requires " + (requiredStance.label ?? requiredStance.defName) + " stance; current stance is "
+                    + (active ? component.CurrentStance?.label ?? component.CurrentStance?.defName ?? "none" : "dormant");
+                return false;
+            }
+
+            if (requiredEvolutionLineage != null)
+            {
+                RoyalEvolutionSet set = active ? component.CurrentStance?.evolutionSet : RoyalEvolutionDefOf.BaseQueenSet;
+                if (!QueenProgressionUtility.WouldReachEvolutionLineage(set, requiredEvolutionLineage, xenoforming))
+                {
+                    float threshold = QueenProgressionUtility.MinimumXenoformingToReachEvolutionLineage(set, requiredEvolutionLineage);
+                    rejectionReason = "requires the " + (requiredEvolutionLineage.label ?? requiredEvolutionLineage.defName)
+                        + " queen advancement" + (threshold >= 0f ? " at " + threshold.ToString("0.##") + "% xenoforming" : "")
+                        + "; current xenoforming is " + xenoforming.ToString("0.##") + "%";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public float Pressure(GameComponent_Nemesis component, bool active)
         {
-            float result = XenoformingUtility.GetXenoforming() / Mathf.Max(1f, xenoformingForMaximumPressure);
+            float result = Mathf.InverseLerp(xenoformingForMinimumPressure, xenoformingForMaximumPressure,
+                XenoformingUtility.GetXenoforming());
             if (active)
                 foreach (NemesisMissionPressureInput input in pressureInputs)
                     if (input.signal != null)
@@ -71,16 +136,25 @@ namespace Xenomorphtype
             if (lordJobClass == null || lordJobClass.IsAbstract || !typeof(LordJob_NemesisMission).IsAssignableFrom(lordJobClass)
                 || lordJobClass.GetConstructor(Type.EmptyTypes) == null) yield return defName + ": invalid mission lord job.";
             if (populationRange.min < 1 || populationRange.max < populationRange.min || baseWeight < 0f
-                || xenoformingForMaximumPressure <= 0f || maximumDurationTicks <= 0)
+                || minimumXenoforming < 0f || minimumXenoforming > 100f || xenoformingForMinimumPressure < 0f
+                || xenoformingForMaximumPressure <= xenoformingForMinimumPressure
+                || maximumDurationTicks <= 0)
                 yield return defName + ": invalid mission limits.";
             if (workerSettings == null || workerSettings.localSearchRadius <= 0f || workerSettings.maximumRoutePoints < 1
                 || workerSettings.raidPointBudgetFactor < 0f || workerSettings.staleIntelDays <= 0f
                 || workerSettings.populationFraction < 0f || workerSettings.freshIntelWeight < 0f
-                || workerSettings.staleScoutWeight < workerSettings.freshIntelWeight || workerSettings.weightEvidenceBonus < 0f)
+                || workerSettings.staleScoutWeight < workerSettings.freshIntelWeight || workerSettings.weightEvidenceBonus < 0f
+                || workerSettings.mechanoidBandwidthPopulationFactor < 0f)
                 yield return defName + ": invalid worker settings.";
             if (stanceWeights.Any(x => x.stance == null || x.weight < 0f)
                 || stanceWeights.GroupBy(x => x.stance).Any(x => x.Count() > 1)) yield return defName + ": invalid stance weights.";
             if (pressureInputs.Any(x => x.signal == null)) yield return defName + ": invalid pressure input.";
+            if (followUpMissions.Any(x => x?.mission == null || x.weight <= 0f))
+                yield return defName + ": invalid follow-up mission entry.";
+            if (requiredStance != null && allowDormant) yield return defName + ": stance-gated missions cannot run while Nemesis is dormant.";
+            if (requiredStance?.evolutionSet != null && requiredEvolutionLineage != null
+                && !QueenProgressionUtility.WouldReachEvolutionLineage(requiredStance.evolutionSet, requiredEvolutionLineage, 10000f))
+                yield return defName + ": required evolution is not in the required stance progression.";
             if (workerSettings != null && workerClass != null && !workerClass.IsAbstract
                 && typeof(NemesisMissionWorker).IsAssignableFrom(workerClass) && workerClass.GetConstructor(Type.EmptyTypes) != null)
                 foreach (string error in Worker.ConfigErrors(this)) yield return error;
@@ -93,12 +167,16 @@ namespace Xenomorphtype
         public int mapId = -1;
         public bool active;
         public int selectedTick;
+        public int launchAfterTick;
+        public bool followUp;
         public void ExposeData()
         {
             Scribe_Defs.Look(ref mission, "mission");
             Scribe_Values.Look(ref mapId, "mapId", -1);
             Scribe_Values.Look(ref active, "active");
             Scribe_Values.Look(ref selectedTick, "selectedTick");
+            Scribe_Values.Look(ref launchAfterTick, "launchAfterTick");
+            Scribe_Values.Look(ref followUp, "followUp");
         }
     }
 }

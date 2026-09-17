@@ -46,6 +46,7 @@ namespace Xenomorphtype
                 Pawn attacher = dinfo.Value.Instigator as Pawn;
                 if (attacher != null)
                 {
+                    NemesisMissionUtility.NotifyAttackerAttached(attacher, Pawn);
                     attacher.jobs.StopAll();
                     attacher.DeSpawn();
                     if (attacher.holdingOwner != null)

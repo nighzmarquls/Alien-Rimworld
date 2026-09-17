@@ -22,6 +22,10 @@
     <pressureInputs>
       <li><signal>XMT_NemesisSignal_HiveLossPressure</signal><weight>0.2</weight></li>
     </pressureInputs>
+    <followUpMissions>
+      <li><mission>XMT_NemesisMission_HostCollection</mission><weight>1</weight></li>
+      <li><mission>XMT_NemesisMission_Assault</mission><weight>1</weight></li>
+    </followUpMissions>
     <stanceWeights>
       <li><stance>XMT_NemesisStance_Default</stance><weight>1.25</weight></li>
       <li><stance>XMT_NemesisStance_Juggernaut</stance><weight>0.75</weight></li>
@@ -60,6 +64,97 @@
       <populationFraction>0.5</populationFraction>
       <weightEvidence>XMT_Nemesis_ScoutHostAcquired</weightEvidence>
       <weightEvidenceBonus>1</weightEvidenceBonus>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+
+  <Xenomorphtype.NemesisMissionDef>
+    <defName>XMT_NemesisMission_FacehuggerAssault</defName>
+    <label>facehugger assault</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_FacehuggerAssault</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisSwarmAssault</lordJobClass>
+    <allowDormant>false</allowDormant>
+    <allowAwakened>true</allowAwakened>
+    <requiredStance>XMT_NemesisStance_Default</requiredStance>
+    <requiredEvolutionLineage>Evo_OvoThrone</requiredEvolutionLineage>
+    <populationRange>8~60</populationRange>
+    <xenoformingForMaximumPressure>50</xenoformingForMaximumPressure>
+    <baseWeight>1</baseWeight>
+    <followUpMissions>
+      <li><mission>XMT_NemesisMission_HostCollection</mission><weight>1</weight></li>
+      <li><mission>XMT_NemesisMission_Assault</mission><weight>1.25</weight></li>
+    </followUpMissions>
+    <workerSettings>
+      <localSearchRadius>9999</localSearchRadius>
+      <maximumRoutePoints>12</maximumRoutePoints>
+      <pawnKind>XMT_Larva</pawnKind>
+      <useThreatPointsForPopulation>true</useThreatPointsForPopulation>
+      <raidPointBudgetFactor>0.5</raidPointBudgetFactor>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+
+  <Xenomorphtype.NemesisMissionDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_NemesisMission_SubverterAssault</defName>
+    <label>subverter assault</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_SubverterAssault</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisSwarmAssault</lordJobClass>
+    <allowDormant>false</allowDormant>
+    <allowAwakened>true</allowAwakened>
+    <requiredStance>XMT_NemesisStance_Mechanitor</requiredStance>
+    <requiredEvolutionLineage>Evo_MechanoidSubversion</requiredEvolutionLineage>
+    <populationRange>6~60</populationRange>
+    <xenoformingForMinimumPressure>25</xenoformingForMinimumPressure>
+    <xenoformingForMaximumPressure>75</xenoformingForMaximumPressure>
+    <baseWeight>1</baseWeight>
+    <followUpMissions>
+      <li><mission>XMT_NemesisMission_HostCollection</mission><weight>1</weight></li>
+      <li><mission>XMT_NemesisMission_Assault</mission><weight>1.25</weight></li>
+    </followUpMissions>
+    <workerSettings>
+      <localSearchRadius>9999</localSearchRadius>
+      <maximumRoutePoints>12</maximumRoutePoints>
+      <pawnKind>XMT_Subverter</pawnKind>
+      <mechanoidBandwidthPopulationFactor>1</mechanoidBandwidthPopulationFactor>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+
+  <Xenomorphtype.NemesisMissionDef>
+    <defName>XMT_NemesisMission_PowerSabotage</defName>
+    <label>power sabotage</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_PowerSabotage</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisPowerSabotage</lordJobClass>
+    <allowDormant>false</allowDormant>
+    <allowAwakened>true</allowAwakened>
+    <populationRange>1~3</populationRange>
+    <xenoformingForMaximumPressure>100</xenoformingForMaximumPressure>
+    <baseWeight>1</baseWeight>
+    <followUpMissions>
+      <li><mission>XMT_NemesisMission_Assault</mission><weight>1.5</weight></li>
+      <li><mission>XMT_NemesisMission_HostCollection</mission><weight>1</weight></li>
+    </followUpMissions>
+    <workerSettings>
+      <localSearchRadius>9999</localSearchRadius>
+      <maximumRoutePoints>8</maximumRoutePoints>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+
+  <Xenomorphtype.NemesisMissionDef>
+    <defName>XMT_NemesisMission_Assault</defName>
+    <label>destructive assault</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_Assault</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisAssault</lordJobClass>
+    <allowDormant>false</allowDormant>
+    <allowAwakened>true</allowAwakened>
+    <minimumXenoforming>25</minimumXenoforming>
+    <populationRange>6~60</populationRange>
+    <xenoformingForMinimumPressure>25</xenoformingForMinimumPressure>
+    <xenoformingForMaximumPressure>100</xenoformingForMaximumPressure>
+    <baseWeight>1</baseWeight>
+    <workerSettings>
+      <localSearchRadius>9999</localSearchRadius>
+      <maximumRoutePoints>12</maximumRoutePoints>
+      <pawnKind>XMT_FeralStarbeastKind</pawnKind>
+      <useThreatPointsForPopulation>true</useThreatPointsForPopulation>
+      <raidPointBudgetFactor>1</raidPointBudgetFactor>
     </workerSettings>
   </Xenomorphtype.NemesisMissionDef>
 

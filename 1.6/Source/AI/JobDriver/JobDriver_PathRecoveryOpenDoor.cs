@@ -2,6 +2,7 @@ using RimWorld;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
@@ -45,6 +46,7 @@ namespace Xenomorphtype
 
                 XMTDoorUtility.ForceHoldOpenAndOpen(Door, pawn);
                 openedByJob = true;
+                (pawn.GetLord()?.LordJob as LordJob_NemesisMission)?.Notify_SabotageAccessChanged(pawn, GoalCell);
                 PathRecoveryJobUtility.TryFindPassageDestination(pawn, door.OccupiedRect(), InteractionCell, requireSafeExit: false, goalCell: GoalCell, out passageDestination);
                 pawn.GetMorphComp()?.ClearPathRecovery();
             });

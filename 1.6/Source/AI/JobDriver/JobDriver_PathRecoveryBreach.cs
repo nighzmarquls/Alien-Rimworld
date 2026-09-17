@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
@@ -79,6 +80,7 @@ namespace Xenomorphtype
 
                 breachedByJob = true;
                 pawn.GetMorphComp()?.ClearPathRecovery();
+                (pawn.GetLord()?.LordJob as LordJob_NemesisMission)?.Notify_SabotageAccessChanged(pawn, GoalCell);
                 PathRecoveryJobUtility.TryFindPassageDestination(pawn, blockerRect, InteractionCell, requireSafeExit: false, goalCell: GoalCell, out passageDestination);
             });
 

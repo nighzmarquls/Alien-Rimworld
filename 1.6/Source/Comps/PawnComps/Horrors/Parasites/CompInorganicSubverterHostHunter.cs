@@ -37,6 +37,26 @@ namespace Xenomorphtype
             return null;
         }
 
+        public override Thing GetHuntTarget()
+        {
+            List<Thing> targets = parent.Map.mapPawns.AllPawnsSpawned
+                .Where(pawn => InorganicSubversionUtility.IsValidSubverterTarget(Parent, pawn)).Cast<Thing>().ToList();
+            targets.AddRange(parent.Map.listerThings.GetThingsOfType<Building_TurretGun>()
+                .Where(turret => XMT_IFFUtility.IsValidSubverterTurretTarget(Parent, turret, parent.Map)));
+            return targets.RandomElementWithFallback();
+        }
+
+        public override void StartHuntTarget(Thing target)
+        {
+            if (target is Building_TurretGun)
+            {
+                Parent.jobs.StartJob(JobMaker.MakeJob(XenoWorkDefOf.XMT_SubvertTurret, target), JobCondition.InterruptForced);
+                return;
+            }
+
+            base.StartHuntTarget(target);
+        }
+
         public override IEnumerable<Gizmo> CompGetGizmosExtra()
         {
             if (!XMTUtility.QueenIsPlayer())
@@ -44,7 +64,11 @@ namespace Xenomorphtype
                 yield break;
             }
 
-            TargetingParameters ImplantParameters = TargetingParameters.ForPawns();
+            TargetingParameters ImplantParameters = new TargetingParameters
+            {
+                canTargetPawns = true,
+                canTargetBuildings = true
+            };
 
             ImplantParameters.validator = delegate (TargetInfo target)
             {
@@ -54,7 +78,11 @@ namespace Xenomorphtype
                 }
 
                 
-                if (!InorganicSubversionUtility.IsValidSubverterTarget(Parent, target.Thing as Pawn))
+                bool validPawn = target.Thing is Pawn pawn
+                    && InorganicSubversionUtility.IsValidSubverterTarget(Parent, pawn);
+                bool validTurret = target.Thing is Building_TurretGun turret
+                    && XMT_IFFUtility.IsValidSubverterTurretTarget(Parent, turret, target.Map);
+                if (!validPawn && !validTurret)
                 {
                     return false;
                 }
@@ -63,14 +91,17 @@ namespace Xenomorphtype
             };
 
             Command_Action ImplantHost_Action = new Command_Action();
-            ImplantHost_Action.defaultLabel = "XMT_Implant".Translate();
-            ImplantHost_Action.defaultDesc = "XMT_ImplantDescription".Translate();
+            ImplantHost_Action.defaultLabel = "XMT_SubverterAttach".Translate();
+            ImplantHost_Action.defaultDesc = "XMT_SubverterAttachDescription".Translate();
             ImplantHost_Action.icon = Implant;
             ImplantHost_Action.action = delegate
             {
                 Find.Targeter.BeginTargeting(ImplantParameters, delegate (LocalTargetInfo target)
                 {
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, target);
+                    JobDef jobDef = target.Thing is Building_TurretGun
+                        ? XenoWorkDefOf.XMT_SubvertTurret
+                        : XenoWorkDefOf.XMT_ImplantHunt;
+                    Job job = JobMaker.MakeJob(jobDef, target);
                     FeralJobUtility.ClearFeralJobReservationsForTarget(target.Thing);
                     FeralJobUtility.ReserveThingForJob(Parent, job, target.Thing);
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);

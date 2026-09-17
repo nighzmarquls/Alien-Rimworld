@@ -12,7 +12,7 @@ namespace Xenomorphtype
     {
         private float workDone;
 
-        private RecipeDef Recipe => QueenMechGestationUtility.RecipeForProduct(job.thingDefToCarry);
+        private RecipeDef Recipe => QueenMechGestationUtility.RecipeForProduct(job.thingDefToCarry, queen: pawn);
         private IntVec3 GestationCell => job.GetTarget(TargetIndex.A).Cell;
         private IntVec3 LayingCell => job.GetTarget(TargetIndex.B).Cell;
 

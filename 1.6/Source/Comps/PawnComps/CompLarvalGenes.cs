@@ -208,7 +208,7 @@ namespace Xenomorphtype
                     bonusDodge += KnowledgeUtility.GetEffectiveKnowledge(target, KnowledgeDefOf.XMT_Knowledge_Larva) / 2;
                 }
 
-                if(info.IsObsessed())
+                if(info?.IsObsessed() == true)
                 {
                     bonusDodge *= -2;
                 }
@@ -271,6 +271,7 @@ namespace Xenomorphtype
             }
 
             target.health.AddHediff(hediff, source.First());
+            NemesisMissionUtility.NotifyAttackerAttached(Parent, target);
         }
 
         public bool TryResist(Pawn target)

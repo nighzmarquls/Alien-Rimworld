@@ -1,5 +1,7 @@
 using RimWorld;
+using System.Linq;
 using Verse;
+using Verse.AI;
 
 namespace Xenomorphtype
 {
@@ -12,6 +14,8 @@ namespace Xenomorphtype
         private bool originalStateStored;
         private bool restored;
         private bool goodwillApplied;
+        private bool missionRetreat;
+        private IntVec3 retreatCell = IntVec3.Invalid;
 
         public override void CompExposeData()
         {
@@ -23,6 +27,75 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref originalStateStored, "originalStateStored", false);
             Scribe_Values.Look(ref restored, "restored", false);
             Scribe_Values.Look(ref goodwillApplied, "goodwillApplied", false);
+            Scribe_Values.Look(ref missionRetreat, "missionRetreat", false);
+            Scribe_Values.Look(ref retreatCell, "retreatCell", IntVec3.Invalid);
+        }
+
+        public void BeginMissionRetreat(IntVec3 cell)
+        {
+            missionRetreat = true;
+            if (cell.IsValid)
+            {
+                retreatCell = cell;
+            }
+            if (Pawn?.InMentalState == true)
+            {
+                Pawn.mindState.mentalStateHandler.Reset();
+            }
+        }
+
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
+        {
+            base.CompPostTickInterval(ref severityAdjustment, delta);
+            if (!missionRetreat || Pawn == null || !Pawn.Spawned || Pawn.Dead || Pawn.Downed || !Pawn.IsHashIntervalTick(90))
+            {
+                return;
+            }
+
+            if (Pawn.CurJobDef == JobDefOf.AttackMelee || Pawn.CurJobDef == JobDefOf.AttackStatic)
+            {
+                return;
+            }
+
+            Pawn target = Pawn.Map.mapPawns.AllPawnsSpawned
+                .Where(candidate => candidate != Pawn && !candidate.Dead && !candidate.Downed
+                    && !XMTUtility.IsXenomorphFriendly(candidate) && !XMTUtility.IsXenomorph(candidate)
+                    && candidate.Position.DistanceToSquared(Pawn.Position) <= 144f)
+                .OrderBy(candidate => candidate.Position.DistanceToSquared(Pawn.Position)).FirstOrDefault();
+            if (target != null)
+            {
+                Verb verb = Pawn.TryGetAttackVerb(target);
+                if (verb != null)
+                {
+                    Job attack = JobMaker.MakeJob(verb.IsMeleeAttack ? JobDefOf.AttackMelee : JobDefOf.AttackStatic, target);
+                    attack.expiryInterval = 300;
+                    attack.locomotionUrgency = LocomotionUrgency.Jog;
+                    if (verb.IsMeleeAttack)
+                    {
+                        attack.maxNumMeleeAttacks = 2;
+                    }
+                    Pawn.jobs.StartJob(attack, JobCondition.InterruptForced);
+                    return;
+                }
+            }
+
+            if (Pawn.CurJobDef == JobDefOf.Goto && Pawn.CurJob?.exitMapOnArrival == true)
+            {
+                return;
+            }
+
+            if (!retreatCell.IsValid || !retreatCell.InBounds(Pawn.Map)
+                || !Pawn.CanReach(retreatCell, PathEndMode.OnCell, Danger.Deadly))
+            {
+                NemesisMissionUtility.ExitCell(Pawn, out retreatCell);
+            }
+            if (retreatCell.IsValid)
+            {
+                Job retreat = JobMaker.MakeJob(JobDefOf.Goto, retreatCell);
+                retreat.exitMapOnArrival = true;
+                retreat.locomotionUrgency = LocomotionUrgency.Jog;
+                Pawn.jobs.StartJob(retreat, JobCondition.InterruptForced);
+            }
         }
 
         public void StoreOriginalState()
@@ -58,6 +131,8 @@ namespace Xenomorphtype
             }
 
             restored = true;
+            bool wasMissionRetreat = missionRetreat;
+            missionRetreat = false;
             InorganicSubversionUtility.RestoreAllSuppressedAttachmentBandwidth(Pawn);
             InorganicSubversionUtility.StopSubvertedBerserk(Pawn);
 
@@ -82,6 +157,12 @@ namespace Xenomorphtype
                     InorganicSubversionUtility.AddOverseerRelation(originalOverseer, Pawn);
                     originalOverseer.mechanitor?.AssignPawnControlGroup(Pawn, MechWorkModeDefOf.Work);
                     originalOverseer.mechanitor?.Notify_BandwidthChanged();
+                }
+
+
+                if (wasMissionRetreat && Pawn.CurJob?.exitMapOnArrival == true)
+                {
+                    Pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: true);
                 }
             }
         }

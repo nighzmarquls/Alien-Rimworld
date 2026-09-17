@@ -82,7 +82,7 @@ namespace Xenomorphtype
 
         protected override Pawn GenerateFallbackOccupant()
         {
-            Pawn queen = XenoformingUtility.GenerateFeralQueen();
+            Pawn queen = XenoformingUtility.GenerateFeralQueen(RoyalEvolutionDefOf.BaseQueenSet, RoyalEvolutionDefOf.Evo_OvoThrone);
             XenoformingUtility.EnsureQueenHasOvoThrone(queen);
             return queen;
         }

@@ -18,7 +18,7 @@ namespace Xenomorphtype
 
         private static GameComponent_Xenomorph gameComponent => Current.Game.GetComponent<GameComponent_Xenomorph>();
 
-        private static readonly Texture2D InvestigateTex = ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts");
+        private static Texture2D InvestigateTex => ContentFinder<Texture2D>.Get("UI/Commands/OfferGifts");
 
         private const float StrangeHillMinimumTemperature = -20f;
 
@@ -474,7 +474,23 @@ namespace Xenomorphtype
             return gameComponent.IsQueenAidDefender(pawn);
         }
 
-        public static Pawn GenerateFeralQueen(RoyalEvolutionSet advancementSet = null)
+        public static RoyalEvolutionSet ResolveFeralQueenEvolutionSet(RoyalEvolutionSet explicitSet = null)
+        {
+            if (explicitSet != null)
+            {
+                return explicitSet;
+            }
+
+            GameComponent_Nemesis nemesis = Current.Game?.GetComponent<GameComponent_Nemesis>();
+            if (nemesis?.Awakened == true && nemesis.CurrentStance?.evolutionSet != null)
+            {
+                return nemesis.CurrentStance.evolutionSet;
+            }
+
+            return RoyalEvolutionDefOf.BaseQueenSet;
+        }
+
+        public static Pawn GenerateFeralQueen(RoyalEvolutionSet advancementSet = null, RoyalEvolutionDef stopAfter = null)
         {
             PawnGenerationRequest request = new PawnGenerationRequest(
                                    XenoPawnKindDefOf.XMT_RoyaltyKind, faction: null, PawnGenerationContext.PlayerStarter, -1, true, false, true, false, false, 0, false, true, false, false, false, false, false, false, true, 0, 0, null, 0, null, null, null, null, 0, fixedGender: Gender.Female);
@@ -495,31 +511,20 @@ namespace Xenomorphtype
             BioUtility.ExtractGenesToGeneset(ref genes, InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.geneList);
             BioUtility.InsertGenesetToPawn(genes, ref newQueen);
 
-            float Advancements = 1;
-
-            Advancements += Mathf.Max(0,Mathf.Floor(GetXenoforming()-10));
-
-            if (advancementSet == null)
-            {
-                advancementSet = RoyalEvolutionDefOf.BaseQueenSet;
-            }
+            int advancements = QueenProgressionUtility.FeralQueenEvolutionPoints(GetXenoforming());
+            advancementSet = ResolveFeralQueenEvolutionSet(advancementSet);
 
             if(newQueen.GetComp<CompQueen>() is CompQueen comp)
             {
-                comp.RecieveProgress(Advancements);
+                comp.RecieveProgress(advancements);
 
-                foreach(RoyalEvolutionDef evo in advancementSet.evolutions)
+                foreach(RoyalEvolutionDef evo in QueenProgressionUtility.PredictedFeralQueenEvolutions(advancementSet, GetXenoforming(), stopAfter))
                 {
-                    if (comp.AvailableEvoPoints >= evo.evoPointCost)
-                    {
-                        comp.AddEvolution(evo);
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    comp.AddEvolution(evo);
                 }
             }
+
+            newQueen.GetComp<CompQueenAssimilation>()?.ApplyNpcProgression(advancementSet, GetXenoforming());
 
             return newQueen;
         }
@@ -543,6 +548,11 @@ namespace Xenomorphtype
                 if (evolution != null && !compQueen.ChosenEvolutions.Contains(evolution))
                 {
                     compQueen.AddEvolution(evolution);
+                }
+
+                if (evolution == RoyalEvolutionDefOf.Evo_OvoThrone)
+                {
+                    break;
                 }
             }
         }

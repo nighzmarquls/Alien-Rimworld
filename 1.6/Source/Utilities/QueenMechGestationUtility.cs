@@ -57,7 +57,7 @@ namespace Xenomorphtype
 
         private static bool RecipeAllowedForQueen(Pawn queen, RecipeDef recipe, bool ovothroneAssisted)
         {
-            if (!RecipeAvailableByResearch(recipe))
+            if (!RecipeAvailableByResearch(queen, recipe))
             {
                 return false;
             }
@@ -96,7 +96,7 @@ namespace Xenomorphtype
             return IsLightMech(product, recipe);
         }
 
-        public static RecipeDef RecipeForProduct(ThingDef product, bool ignoreResearch = false)
+        public static RecipeDef RecipeForProduct(ThingDef product, bool ignoreResearch = false, Pawn queen = null)
         {
             if (product == null)
             {
@@ -105,7 +105,7 @@ namespace Xenomorphtype
 
             foreach (RecipeDef recipe in AllMechGestationRecipes())
             {
-                if (!ignoreResearch && !RecipeAvailableByResearch(recipe))
+                if (!ignoreResearch && !RecipeAvailableByResearch(queen, recipe))
                 {
                     continue;
                 }
@@ -160,7 +160,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (!RecipeAvailableByResearch(recipe))
+            if (!RecipeAvailableByResearch(queen, recipe))
             {
                 reason = recipe.researchPrerequisite == null
                     ? "XMT_MechGestationUnavailable".Translate()
@@ -269,9 +269,10 @@ namespace Xenomorphtype
             return DefDatabase<PawnKindDef>.AllDefsListForReading.FirstOrDefault(kind => kind.race == product);
         }
 
-        private static bool RecipeAvailableByResearch(RecipeDef recipe)
+        private static bool RecipeAvailableByResearch(Pawn queen, RecipeDef recipe)
         {
-            return recipe != null && (recipe.researchPrerequisite == null || recipe.researchPrerequisite.IsFinished);
+            return recipe != null && (recipe.researchPrerequisite == null || recipe.researchPrerequisite.IsFinished
+                || queen?.GetComp<CompQueenAssimilation>()?.HasResearch(recipe.researchPrerequisite) == true);
         }
 
         private static bool IsLightMech(ThingDef product, RecipeDef recipe)

@@ -6,6 +6,13 @@ using Verse;
 
 namespace Xenomorphtype
 {
+    public enum NemesisMissionTimingPhase
+    {
+        Launch,
+        Continue,
+        FollowUp
+    }
+
     public abstract class NemesisMissionWorker
     {
         public virtual float Weight(NemesisMissionDef def, GameComponent_Nemesis component, Map map) => 1f;
@@ -15,6 +22,14 @@ namespace Xenomorphtype
 
         public virtual bool CanTarget(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
             => map != null && map.IsPlayerHome;
+
+        public virtual bool TimingValid(NemesisMissionDef def, GameComponent_Nemesis component, Map map,
+            NemesisMissionTimingPhase phase, out string reason)
+        {
+            bool valid = NemesisMissionUtility.MapDark(map);
+            reason = valid ? null : "waiting for darkness";
+            return valid;
+        }
 
         public virtual IEnumerable<string> ConfigErrors(NemesisMissionDef def) { yield break; }
 
@@ -28,6 +43,33 @@ namespace Xenomorphtype
         public virtual List<IntVec3> PrepareRoute(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
         {
             return NemesisMissionUtility.Routes(component.SpatialContacts.Where(contact => contact.mapId == map.uniqueID), def, map);
+        }
+
+        public virtual bool TryFindEntryCell(NemesisMissionDef def, GameComponent_Nemesis component, Map map,
+            bool ignoreLight, out IntVec3 entry)
+        {
+            for (int attempt = 0; attempt < 24; attempt++)
+                if (RCellFinder.TryFindRandomPawnEntryCell(out IntVec3 candidate, map, CellFinder.EdgeRoadChance_Animal)
+                    && (ignoreLight || XMTHiveUtility.IsLightSuitableAt(candidate, map)))
+                {
+                    entry = candidate;
+                    return true;
+                }
+            entry = IntVec3.Invalid;
+            return false;
+        }
+
+        public virtual Pawn GenerateMember(NemesisMissionDef def)
+        {
+            if (def?.workerSettings?.pawnKind == null)
+            {
+                return Current.Game.GetComponent<GameComponent_Xenomorph>().GetWorldOrGeneratedCryptimorphForMission();
+            }
+
+            PawnGenerationRequest request = new PawnGenerationRequest(def.workerSettings.pawnKind, null);
+            request.FixedBiologicalAge = 0f;
+            request.FixedChronologicalAge = 0f;
+            return PawnGenerator.GeneratePawn(request);
         }
     }
 
@@ -63,7 +105,7 @@ namespace Xenomorphtype
         public override bool CanTarget(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
             => base.CanTarget(def, component, map)
             && HasCurrentPopulationIntel(def, component)
-            && map.mapPawns.AllPawnsSpawned.Any(p => p.Faction == Faction.OfPlayer && NemesisMissionUtility.ValidHost(p));
+            && map.mapPawns.AllPawnsSpawned.Any(p => p.Faction == Faction.OfPlayer && NemesisMissionUtility.ValidAbductionTarget(p));
 
         private static bool HasCurrentPopulationIntel(NemesisMissionDef def, GameComponent_Nemesis component)
         {
@@ -86,7 +128,7 @@ namespace Xenomorphtype
             if (map == null) return base.DescribeTarget(map);
             List<Pawn> owned = map.mapPawns.AllPawnsSpawned.Where(p => p.Faction == Faction.OfPlayer).ToList();
             return base.DescribeTarget(map) + " playerPawns=" + owned.Count + " eligiblePlayerHosts="
-                + owned.Count(NemesisMissionUtility.ValidHost) + " (requires at least one)";
+                + owned.Count(NemesisMissionUtility.ValidAbductionTarget) + " (requires at least one)";
         }
 
         public override string DescribeSizing(NemesisMissionDef def, GameComponent_Nemesis component, Map map, bool active)
@@ -137,6 +179,213 @@ namespace Xenomorphtype
             List<NemesisSpatialContact> contacts = component.SpatialContacts.Where(c => c.mapId == map.uniqueID).ToList();
             List<NemesisSpatialContact> beds = contacts.Where(c => c.tags.Contains("HostBed")).ToList();
             return NemesisMissionUtility.Routes(beds.Count > 0 ? beds : contacts, def, map);
+        }
+    }
+
+    public abstract class NemesisMissionWorker_SwarmAssault : NemesisMissionWorker
+    {
+        public override int PartySize(NemesisMissionDef def, GameComponent_Nemesis component, Map map, bool active)
+        {
+            int xenoformingCeiling = base.PartySize(def, component, map, active);
+            if (!def.workerSettings.useThreatPointsForPopulation)
+            {
+                return xenoformingCeiling;
+            }
+
+            float combatPower = def.workerSettings.pawnKind?.combatPower ?? 0f;
+            return ThreatPointPopulation(def, xenoformingCeiling, StorytellerUtility.DefaultThreatPointsNow(map), combatPower);
+        }
+
+        internal static int ThreatPointPopulation(NemesisMissionDef def, int xenoformingCeiling, float threatPoints, float combatPower)
+        {
+            if (combatPower <= 0f)
+            {
+                return def.populationRange.min;
+            }
+
+            int threatPointCount = Mathf.FloorToInt(threatPoints * def.workerSettings.raidPointBudgetFactor / combatPower);
+            return Mathf.Clamp(threatPointCount, def.populationRange.min, xenoformingCeiling);
+        }
+
+        public override bool CanTarget(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
+            => base.CanTarget(def, component, map) && EligibleTargets(null, map).Any();
+
+        public override IEnumerable<string> ConfigErrors(NemesisMissionDef def)
+        {
+            if (def.workerSettings.pawnKind == null)
+            {
+                yield return def.defName + ": swarm assaults require a pawn kind.";
+            }
+            else if (def.workerSettings.useThreatPointsForPopulation && def.workerSettings.pawnKind.combatPower <= 0f)
+            {
+                yield return def.defName + ": threat-point population requires a pawn kind with positive combat power.";
+            }
+        }
+
+        public override string DescribeTarget(Map map)
+        {
+            int eligible = map == null ? 0 : EligibleTargets(null, map).Count();
+            return base.DescribeTarget(map) + " eligibleSwarmTargets=" + eligible + " (requires at least one)";
+        }
+
+        public override string DescribeSizing(NemesisMissionDef def, GameComponent_Nemesis component, Map map, bool active)
+        {
+            string result = base.DescribeSizing(def, component, map, active);
+            if (!def.workerSettings.useThreatPointsForPopulation)
+            {
+                return result;
+            }
+
+            float threatPoints = StorytellerUtility.DefaultThreatPointsNow(map);
+            float combatPower = def.workerSettings.pawnKind?.combatPower ?? 0f;
+            int ceiling = Mathf.FloorToInt(Mathf.Lerp(def.populationRange.min, def.populationRange.max, def.Pressure(component, active)));
+            return result + " storytellerThreatPoints=" + threatPoints.ToString("0.##")
+                + " raidPointBudgetFactor=" + def.workerSettings.raidPointBudgetFactor
+                + " scalingPawnKind=" + def.workerSettings.pawnKind?.defName
+                + " combatPower=" + combatPower.ToString("0.##")
+                + " xenoformingCeiling=" + ceiling;
+        }
+
+        public override List<IntVec3> PrepareRoute(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
+        {
+            List<IntVec3> targets = EligibleTargets(null, map).Select(target => target.Position)
+                .Distinct().InRandomOrder().Take(def.workerSettings.maximumRoutePoints).ToList();
+            return targets.Count > 0 ? targets : base.PrepareRoute(def, component, map);
+        }
+
+        internal virtual IEnumerable<Thing> EligibleTargets(Pawn attacker, Map map)
+            => map.mapPawns.AllPawnsSpawned.Where(target => IsEligibleTarget(attacker, target, map));
+
+        internal abstract bool IsEligibleTarget(Pawn attacker, Thing target, Map map);
+
+        public override bool TimingValid(NemesisMissionDef def, GameComponent_Nemesis component, Map map,
+            NemesisMissionTimingPhase phase, out string reason)
+        {
+            if (phase == NemesisMissionTimingPhase.Continue)
+            {
+                reason = null;
+                return true;
+            }
+            return base.TimingValid(def, component, map, phase, out reason);
+        }
+    }
+
+    public sealed class NemesisMissionWorker_FacehuggerAssault : NemesisMissionWorker_SwarmAssault
+    {
+        internal override bool IsEligibleTarget(Pawn attacker, Thing target, Map map)
+            => target is Pawn pawn && pawn != attacker && pawn.MapHeld == map && NemesisMissionUtility.ValidImplantTarget(pawn);
+    }
+
+    public sealed class NemesisMissionWorker_SubverterAssault : NemesisMissionWorker_SwarmAssault
+    {
+        public override int PartySize(NemesisMissionDef def, GameComponent_Nemesis component, Map map, bool active)
+        {
+            int normalPopulation = base.PartySize(def, component, map, active);
+            return PopulationWithMechanoidBandwidth(normalPopulation, MechanoidBandwidthUsed(map),
+                def.workerSettings.mechanoidBandwidthPopulationFactor);
+        }
+
+        public override string DescribeSizing(NemesisMissionDef def, GameComponent_Nemesis component, Map map, bool active)
+        {
+            int normalPopulation = base.PartySize(def, component, map, active);
+            float bandwidthUsed = MechanoidBandwidthUsed(map);
+            return base.DescribeSizing(def, component, map, active)
+                + " normalPopulation=" + normalPopulation
+                + " playerMechanoidBandwidthUsed=" + bandwidthUsed.ToString("0.##")
+                + " bandwidthPopulationFactor=" + def.workerSettings.mechanoidBandwidthPopulationFactor
+                + " unboundedBandwidthBonus=" + Mathf.FloorToInt(bandwidthUsed * def.workerSettings.mechanoidBandwidthPopulationFactor);
+        }
+
+        internal static float MechanoidBandwidthUsed(Map map)
+        {
+            return InorganicSubversionUtility.PlayerControlledMechanoidBandwidth(map);
+        }
+
+        internal static int PopulationWithMechanoidBandwidth(int normalPopulation, float bandwidthUsed, float factor)
+        {
+            long bonus = Mathf.Max(0, Mathf.FloorToInt(bandwidthUsed * factor));
+            long total = (long)Mathf.Max(0, normalPopulation) + bonus;
+            return total >= int.MaxValue ? int.MaxValue : (int)total;
+        }
+
+        internal override IEnumerable<Thing> EligibleTargets(Pawn attacker, Map map)
+        {
+            foreach (Thing target in base.EligibleTargets(attacker, map))
+            {
+                yield return target;
+            }
+            foreach (Building_TurretGun turret in map.listerThings.GetThingsOfType<Building_TurretGun>())
+            {
+                if (IsEligibleTarget(attacker, turret, map))
+                {
+                    yield return turret;
+                }
+            }
+        }
+
+        internal override bool IsEligibleTarget(Pawn attacker, Thing target, Map map)
+        {
+            if (target is Pawn pawn)
+            {
+                return InorganicSubversionUtility.IsValidSubverterMissionTarget(attacker, pawn, map);
+            }
+            return target is Building_TurretGun turret
+                && XMT_IFFUtility.IsValidSubverterTurretTarget(attacker, turret, map);
+        }
+    }
+
+
+    public sealed class NemesisMissionWorker_PowerSabotage : NemesisMissionWorker
+    {
+        public override bool CanTarget(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
+            => base.CanTarget(def, component, map) && XMTPowerSabotageUtility.TryFindTargetNetwork(map, out _);
+
+        public override List<IntVec3> PrepareRoute(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
+        {
+            List<NemesisSpatialContact> contacts = component.SpatialContacts.Where(c => c.mapId == map.uniqueID).ToList();
+            List<IntVec3> turretCells = contacts.Where(c => c.tags.Contains("Turret")).Select(c => c.cell).ToList();
+            List<NemesisSpatialContact> safer = contacts.OrderByDescending(c => turretCells.Count == 0
+                ? 0 : turretCells.Min(cell => cell.DistanceToSquared(c.cell))).ToList();
+            return NemesisMissionUtility.Routes(safer, def, map);
+        }
+
+        public override bool TryFindEntryCell(NemesisMissionDef def, GameComponent_Nemesis component, Map map,
+            bool ignoreLight, out IntVec3 entry)
+        {
+            List<IntVec3> turretCells = component.SpatialContacts.Where(c => c.mapId == map.uniqueID && c.tags.Contains("Turret"))
+                .Select(c => c.cell).Where(cell => cell.InBounds(map)).ToList();
+            if (turretCells.Count == 0) return base.TryFindEntryCell(def, component, map, ignoreLight, out entry);
+            List<IntVec3> candidates = new List<IntVec3>();
+            for (int attempt = 0; attempt < 32; attempt++)
+                if (RCellFinder.TryFindRandomPawnEntryCell(out IntVec3 candidate, map, CellFinder.EdgeRoadChance_Animal)
+                    && (ignoreLight || XMTHiveUtility.IsLightSuitableAt(candidate, map))) candidates.AddDistinct(candidate);
+            if (candidates.Count == 0)
+            {
+                entry = IntVec3.Invalid;
+                return false;
+            }
+            entry = candidates.OrderByDescending(candidate => turretCells.Min(turret => candidate.DistanceToSquared(turret))).First();
+            return true;
+        }
+    }
+
+    public sealed class NemesisMissionWorker_Assault : NemesisMissionWorker_SwarmAssault
+    {
+        internal override bool IsEligibleTarget(Pawn attacker, Thing target, Map map)
+            => target is Pawn pawn && pawn != attacker && pawn.MapHeld == map && pawn.Faction == Faction.OfPlayer
+                && !pawn.Dead;
+
+        public override bool TimingValid(NemesisMissionDef def, GameComponent_Nemesis component, Map map,
+            NemesisMissionTimingPhase phase, out string reason)
+        {
+            if (phase == NemesisMissionTimingPhase.Continue && XenoformingUtility.GetXenoforming() > 50f)
+            {
+                reason = null;
+                return true;
+            }
+            bool valid = NemesisMissionUtility.MapDark(map);
+            reason = valid ? null : "waiting for darkness";
+            return valid;
         }
     }
 }

@@ -7,7 +7,12 @@ namespace Xenomorphtype
     public sealed class LordJob_NemesisScouting : LordJob_NemesisMission
     {
         private bool homeReached;
-        public override bool Successful => homeReached || extracted > 0;
+        public override bool Successful => missionSuccessCount > 0;
+
+        public override void Notify_HostExtracted(Pawn victim, bool playerHost)
+        {
+            if (missionSuccessCount == 0) IncrementMissionSuccess(1, "host extracted");
+        }
 
         public override void Notify_Revealed(Pawn pawn)
         {
@@ -27,7 +32,11 @@ namespace Xenomorphtype
 
         protected override void TickMission(List<Pawn> pawns, int tick)
         {
-            if (pawns.Exists(pawn => !pawn.Downed && lord.Map.areaManager.Home[pawn.Position])) homeReached = true;
+            if (!homeReached && pawns.Exists(pawn => !pawn.Downed && lord.Map.areaManager.Home[pawn.Position]))
+            {
+                homeReached = true;
+                if (missionSuccessCount == 0) IncrementMissionSuccess(1, "home area reached");
+            }
             foreach (Pawn pawn in pawns)
                 if (!pawn.Downed && (withdrawing || pawn.carryTracker?.CarriedThing is Pawn) && pawn.InMentalState)
                     pawn.mindState.mentalStateHandler.Reset();

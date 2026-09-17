@@ -119,6 +119,58 @@ namespace Xenomorphtype
             return evolution != null && QueenComp?.HasFunctionalEvolutionFeature(evolution) == true;
         }
 
+        public bool HasResearch(ResearchProjectDef research)
+        {
+            return research == null || research.IsFinished
+                || CompletedAssimilations.Any(def => def?.researchToFinish == research);
+        }
+
+        public void ApplyNpcProgression(RoyalEvolutionSet advancementSet, float xenoforming)
+        {
+            if (Parent == null || Parent.Faction == Faction.OfPlayer || advancementSet == null)
+            {
+                return;
+            }
+
+            List<QueenAssimilationDef> candidates = DefDatabase<QueenAssimilationDef>.AllDefsListForReading
+                .Where(def => def != null && def.oncePerQueen && def.requiredEvolution != null
+                    && QueenProgressionUtility.WouldReachEvolutionLineage(advancementSet, def.requiredEvolution, 10000f))
+                .OrderBy(def => AssimilationDepth(def, new HashSet<QueenAssimilationDef>()))
+                .ThenBy(def => def.defName).ToList();
+            if (candidates.Count == 0)
+            {
+                return;
+            }
+
+            int targetCount = Mathf.Clamp(Mathf.FloorToInt(Mathf.Clamp01(xenoforming / 40f) * candidates.Count), 0, candidates.Count);
+            for (int index = 0; index < targetCount; index++)
+            {
+                QueenAssimilationDef def = candidates[index];
+                if (HasAssimilated(def) || !HasEvolution(def.requiredEvolution)
+                    || def.prerequisiteAssimilations?.Any(prerequisite => !HasAssimilated(prerequisite)) == true)
+                {
+                    continue;
+                }
+
+                ApplyAssimilationResults(def, includeWorldEffects: false);
+                CompletedAssimilations.Add(def);
+            }
+        }
+
+        private static int AssimilationDepth(QueenAssimilationDef def, HashSet<QueenAssimilationDef> visiting)
+        {
+            if (def == null || !visiting.Add(def))
+            {
+                return 0;
+            }
+
+            int depth = def.prerequisiteAssimilations.NullOrEmpty()
+                ? 0
+                : 1 + def.prerequisiteAssimilations.Max(prerequisite => AssimilationDepth(prerequisite, visiting));
+            visiting.Remove(def);
+            return depth;
+        }
+
         private bool CanShowQueenGizmos()
         {
             return Parent != null
@@ -384,7 +436,7 @@ namespace Xenomorphtype
                 ConsumeThing(item, def.consumeCount);
             }
 
-            ApplyAssimilationResults(def);
+            ApplyAssimilationResults(def, includeWorldEffects: Parent.Faction == Faction.OfPlayer);
 
             if (!CompletedAssimilations.Contains(def))
             {
@@ -409,7 +461,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            ApplyAssimilationResults(def);
+            ApplyAssimilationResults(def, includeWorldEffects: Parent.Faction == Faction.OfPlayer);
 
             if (!CompletedAssimilations.Contains(def))
             {
@@ -424,7 +476,7 @@ namespace Xenomorphtype
             }
         }
 
-        private void ApplyAssimilationResults(QueenAssimilationDef def)
+        private void ApplyAssimilationResults(QueenAssimilationDef def, bool includeWorldEffects)
         {
             if (def.implantHediff != null)
             {
@@ -448,12 +500,12 @@ namespace Xenomorphtype
                 }
             }
 
-            if (def.researchToFinish != null && !def.researchToFinish.IsFinished)
+            if (includeWorldEffects && def.researchToFinish != null && !def.researchToFinish.IsFinished)
             {
                 Find.ResearchManager.FinishProject(def.researchToFinish, doCompletionDialog: false, researcher: Parent, doCompletionLetter: true);
             }
 
-            if (def.questToTrigger != null)
+            if (includeWorldEffects && def.questToTrigger != null)
             {
                 QuestUtility.GenerateQuestAndMakeAvailable(def.questToTrigger, SlateForQuest(def));
                 if (!def.questLetterLabelKey.NullOrEmpty() && !def.questLetterTextKey.NullOrEmpty())
@@ -467,7 +519,8 @@ namespace Xenomorphtype
 
         private void EnsureMechanitorBaselineResearch()
         {
-            if (!ModsConfig.BiotechActive || Parent == null || !HasEvolution(DefDatabase<RoyalEvolutionDef>.GetNamedSilentFail("Evo_MechanoidGestation")))
+            if (!ModsConfig.BiotechActive || Parent == null || Parent.Faction != Faction.OfPlayer
+                || !HasEvolution(DefDatabase<RoyalEvolutionDef>.GetNamedSilentFail("Evo_MechanoidGestation")))
             {
                 return;
             }

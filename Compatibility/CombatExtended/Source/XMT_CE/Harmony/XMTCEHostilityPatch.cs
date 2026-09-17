@@ -129,6 +129,33 @@ namespace XMT_CE
             [HarmonyPrefix]
             public static bool Prefix(ref LocalTargetInfo __result, Building_TurretGunCE __instance, CompMannable ___mannableComp)
             {
+                if (XMT_IFFUtility.IsCryptimorphSubvertedTurret(__instance))
+                {
+                    __result = LocalTargetInfo.Invalid;
+                    if (___mannableComp != null)
+                    {
+                        return true;
+                    }
+
+                    CompEquippable subvertedGun = __instance.Gun?.TryGetComp<CompEquippable>();
+                    Verb subvertedVerb = subvertedGun?.PrimaryVerb;
+                    if (subvertedVerb == null)
+                    {
+                        return false;
+                    }
+
+                    Func<IntVec3, bool> subvertedLosValidator = null;
+                    if (subvertedVerb.EquipmentSource == null
+                        || !subvertedVerb.EquipmentSource.TryGetComp<CompUniqueWeapon>(out var subvertedUnique)
+                        || !subvertedUnique.IgnoreAccuracyMaluses)
+                    {
+                        subvertedLosValidator = cell => !cell.AnyGas(__instance.Map, GasType.BlindSmoke);
+                    }
+
+                    XMT_IFFUtility.TryHandleCryptimorphSubvertedTargeting(__instance, subvertedVerb,
+                        pawn => __instance.CanSee(pawn, subvertedLosValidator), out __result);
+                    return false;
+                }
                
                 if (XMTHiveUtility.TotalHivePopulation(__instance.Map) > 0)
                 {

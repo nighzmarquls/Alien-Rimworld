@@ -14,6 +14,7 @@ namespace Xenomorphtype
         bool Uninitialized = true;
         private int nextZoneMaintenanceTick;
         private List<Thing> generatedCryptimorphStructures = new List<Thing>();
+        private List<Thing> cryptimorphSubvertedTurrets = new List<Thing>();
         private bool motherWarningSent;
 
         public HiveMapComponent(Map map) : base(map)
@@ -55,11 +56,14 @@ namespace Xenomorphtype
         public override void ExposeData()
         {
             Scribe_Collections.Look(ref generatedCryptimorphStructures, "generatedCryptimorphStructures", LookMode.Reference);
+            Scribe_Collections.Look(ref cryptimorphSubvertedTurrets, "cryptimorphSubvertedTurrets", LookMode.Reference);
             Scribe_Values.Look(ref motherWarningSent, "motherWarningSent", false);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 generatedCryptimorphStructures ??= new List<Thing>();
                 generatedCryptimorphStructures.RemoveAll(thing => thing == null || thing.Destroyed);
+                cryptimorphSubvertedTurrets ??= new List<Thing>();
+                cryptimorphSubvertedTurrets.RemoveAll(thing => thing == null || thing.Destroyed);
             }
         }
 
@@ -93,6 +97,24 @@ namespace Xenomorphtype
             }
             motherWarningSent = true;
             return true;
+        }
+
+        internal bool IsCryptimorphSubvertedTurret(Thing turret)
+        {
+            cryptimorphSubvertedTurrets ??= new List<Thing>();
+            cryptimorphSubvertedTurrets.RemoveAll(thing => thing == null || thing.Destroyed);
+            return turret != null && cryptimorphSubvertedTurrets.Contains(turret);
+        }
+
+        internal void MarkCryptimorphSubvertedTurret(Thing turret)
+        {
+            if (turret == null || turret.Destroyed || turret.MapHeld != map)
+            {
+                return;
+            }
+
+            cryptimorphSubvertedTurrets ??= new List<Thing>();
+            cryptimorphSubvertedTurrets.AddDistinct(turret);
         }
 
         private static bool IsNestGeneratedCryptimorphStructure(Thing thing)

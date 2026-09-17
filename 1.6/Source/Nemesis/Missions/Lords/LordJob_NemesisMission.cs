@@ -14,6 +14,9 @@ namespace Xenomorphtype
         public int routeIndex;
         public int nextCaptureTick;
         public bool routeInitialized;
+        public bool resolved;
+        public string resolutionReason;
+        public Faction initialFaction;
         internal int nextDecisionLogTick;
         internal string lastDecision;
         public void ExposeData()
@@ -22,6 +25,9 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref routeIndex, "routeIndex");
             Scribe_Values.Look(ref nextCaptureTick, "nextCaptureTick");
             Scribe_Values.Look(ref routeInitialized, "routeInitialized");
+            Scribe_Values.Look(ref resolved, "resolved");
+            Scribe_Values.Look(ref resolutionReason, "resolutionReason");
+            Scribe_References.Look(ref initialFaction, "initialFaction");
         }
     }
 
@@ -32,24 +38,38 @@ namespace Xenomorphtype
         protected List<NemesisMissionMember> members = new List<NemesisMissionMember>();
         protected int extracted;
         protected int playerHostsExtracted;
+        protected int missionSuccessCount;
+        protected int initialMemberCount;
         protected bool withdrawing;
         private bool activeNemesis;
         private int deployedTick;
         private bool outcomeReported;
         private string withdrawalReason;
+        private IntVec3 entryCell = IntVec3.Invalid;
 
         public NemesisMissionDef Mission => mission;
         public IReadOnlyList<IntVec3> Route => route;
         public abstract bool Successful { get; }
         public int Extracted => extracted;
+        public int ExtractedHostCount => extracted;
+        public int MissionSuccessCount => missionSuccessCount;
+        public int InitialMemberCount => initialMemberCount;
         public bool Withdrawing => withdrawing;
         public virtual bool CovertEnded => false;
         public string WithdrawalReason => withdrawalReason;
+        public IntVec3 EntryCell => entryCell;
+        public bool BlocksNewMissions => !outcomeReported && !withdrawing && (members.Count == 0
+            ? lord?.ownedPawns.Any(IsActionable) == true
+            : members.Any(member => member != null && !member.resolved));
+        protected virtual bool EnforceMaximumDuration => true;
         public override bool AddFleeToil => false;
         public override bool NeverInRestraints => true;
 
         public void Initialize(NemesisMissionDef missionDef, bool active, List<IntVec3> approachRoute)
-        { mission = missionDef; activeNemesis = active; route = approachRoute ?? new List<IntVec3>(); }
+        { Initialize(missionDef, active, approachRoute, IntVec3.Invalid); }
+
+        public void Initialize(NemesisMissionDef missionDef, bool active, List<IntVec3> approachRoute, IntVec3 deploymentCell)
+        { mission = missionDef; activeNemesis = active; route = approachRoute ?? new List<IntVec3>(); entryCell = deploymentCell; }
 
         public override StateGraph CreateGraph()
         {
@@ -58,9 +78,10 @@ namespace Xenomorphtype
             return graph;
         }
 
-        public void Begin()
+        public virtual void Begin()
         {
             deployedTick = Find.TickManager.TicksGame;
+            initialMemberCount = Mathf.Max(initialMemberCount, lord.ownedPawns.Count);
             InitializeRouteSectors();
             NemesisLog.Detail("Lord", "Begin mission=" + mission?.defName + " map=" + lord.Map.uniqueID
                 + " routes=" + string.Join(", ", route) + " members=" + lord.ownedPawns.Count + " active=" + activeNemesis);
@@ -70,9 +91,27 @@ namespace Xenomorphtype
 
         protected NemesisMissionMember Member(Pawn pawn)
         {
-            NemesisMissionMember member = members.FirstOrDefault(value => value.pawn == pawn);
-            if (member == null) { member = new NemesisMissionMember { pawn = pawn }; members.Add(member); }
+            NemesisMissionMember member = members.FirstOrDefault(value => value != null && value.pawn == pawn);
+            if (member == null) { member = new NemesisMissionMember { pawn = pawn, initialFaction = pawn?.Faction }; members.Add(member); }
             return member;
+        }
+
+        public void NotifyMemberResolved(Pawn pawn, string reason)
+        {
+            ResolveMember(Member(pawn), reason);
+        }
+
+        private void ResolveMember(NemesisMissionMember member, string reason)
+        {
+            if (member.resolved)
+            {
+                return;
+            }
+
+            member.resolved = true;
+            member.resolutionReason = reason;
+            NemesisLog.Detail("Mission", "Resolved member=" + member.pawn + " mission=" + mission?.defName + " reason=" + reason);
+            CheckForCompletion();
         }
 
         private void InitializeRouteSectors()
@@ -99,16 +138,75 @@ namespace Xenomorphtype
                 Current.Game?.GetComponent<GameComponent_Nemesis>()?.RecordMapEvidence(mission.extractionEvidence, 1f,
                     lord?.Map, mission, "host extracted by " + mission.defName);
             NemesisLog.Detail("Mission", "Extracted host=" + victim + " mission=" + mission?.defName + " total=" + extracted);
+            Notify_HostExtracted(victim, playerHost);
         }
+
+        protected void IncrementMissionSuccess(int amount, string reason)
+        {
+            if (amount <= 0) return;
+            missionSuccessCount += amount;
+            NemesisLog.Detail("Mission", "Success mission=" + mission?.defName + " amount=" + amount
+                + " total=" + missionSuccessCount + " reason=" + reason);
+        }
+
+        public virtual void Notify_HostExtracted(Pawn victim, bool playerHost) { }
+
+        public virtual void Notify_ParasiteAttached(Pawn attacker, Pawn target)
+        {
+            NotifyMemberResolved(attacker, "attached to " + (target?.LabelShort ?? "target"));
+        }
+
+        public virtual void Notify_TurretSubverted(Pawn attacker, Building_TurretGun turret)
+        {
+            NotifyMemberResolved(attacker, "subverted " + (turret?.LabelShort ?? "turret"));
+        }
+
+        public virtual void Notify_SabotageTargetResolved(Pawn attacker, Thing target) { }
+        public virtual void Notify_SabotageTargetInaccessible(Pawn attacker, Thing target) { }
+        public virtual void Notify_SabotageAccessChanged(Pawn attacker, IntVec3 goalCell) { }
+        public virtual void Notify_AssaultObjectiveReached() { }
 
         public override void Notify_PawnLost(Pawn pawn, PawnLostCondition condition)
         {
             base.Notify_PawnLost(pawn, condition);
-            if (!lord.ownedPawns.Any(other => other != pawn && other.Spawned && !other.Dead && !other.Downed))
+            NotifyMemberResolved(pawn, "pawn lost: " + condition);
+        }
+
+        private static bool IsActionable(Pawn pawn)
+        {
+            return pawn != null && pawn.Spawned && !pawn.Dead && !pawn.Downed;
+        }
+
+        private void RefreshMemberResolution()
+        {
+            foreach (NemesisMissionMember member in members.Where(member => member != null && !member.resolved))
             {
-                Withdraw("all members lost or incapacitated");
-                ReportOutcome();
+                Pawn pawn = member.pawn;
+                if (pawn == null || pawn.Destroyed || pawn.Dead)
+                    ResolveMember(member, "destroyed or dead");
+                else if (pawn.Downed)
+                    ResolveMember(member, "downed");
+                else if (!pawn.Spawned)
+                    ResolveMember(member, "despawned or contained");
+                else if (pawn.Faction != member.initialFaction || pawn.IsPrisoner || pawn.IsSlave)
+                    ResolveMember(member, "captured or converted");
+                else if (InorganicSubversionUtility.IsSubverted(pawn))
+                    ResolveMember(member, "subverted");
             }
+        }
+
+        private void CheckForCompletion()
+        {
+            if (members.Count == 0 || members.Any(member => member != null && !member.resolved))
+            {
+                return;
+            }
+
+            if (EnforceMaximumDuration)
+            {
+                Withdraw("all members resolved");
+            }
+            ReportOutcome();
         }
 
         protected void ReportOutcome()
@@ -117,7 +215,7 @@ namespace Xenomorphtype
             outcomeReported = true;
             NemesisLog.Detail("Mission", "Completed " + mission?.defName + " map=" + lord?.Map?.uniqueID
                 + " success=" + Successful + " extracted=" + extracted + " reason=" + withdrawalReason);
-            Current.Game?.GetComponent<GameComponent_Nemesis>()?.NotifyMissionEnded();
+            Current.Game?.GetComponent<GameComponent_Nemesis>()?.NotifyMissionEnded(mission, lord?.Map, Successful);
         }
 
         public void Withdraw(string reason)
@@ -138,10 +236,15 @@ namespace Xenomorphtype
             int tick = Find.TickManager.TicksGame;
             if (tick % 30 != 0) return;
             InitializeRouteSectors();
+            RefreshMemberResolution();
+            CheckForCompletion();
+            if (outcomeReported) return;
             List<Pawn> pawns = lord.ownedPawns.Where(pawn => pawn.Spawned && !pawn.Dead).ToList();
             if (!pawns.Any(pawn => !pawn.Downed)) { Withdraw("all members incapacitated"); ReportOutcome(); return; }
-            if (tick - deployedTick >= mission.maximumDurationTicks) Withdraw("mission duration elapsed");
-            if (!NemesisMissionUtility.MapDark(lord.Map)) Withdraw("unsuitable lighting");
+            if (EnforceMaximumDuration && tick - deployedTick >= mission.maximumDurationTicks) Withdraw("mission duration elapsed");
+            GameComponent_Nemesis component = Current.Game?.GetComponent<GameComponent_Nemesis>();
+            if (!withdrawing && !mission.Worker.TimingValid(mission, component, lord.Map,
+                NemesisMissionTimingPhase.Continue, out string timingReason)) Withdraw(timingReason ?? "mission timing invalid");
             foreach (Pawn exposed in pawns.Where(pawn => !pawn.Downed && !WasDiscovered(pawn)
                 && !XMTHiveUtility.IsLightSuitableAt(pawn.Position, lord.Map)))
                 exposed.GetComp<CompStealth>()?.ForceVisible();
@@ -161,6 +264,16 @@ namespace Xenomorphtype
 
         internal Job GetMissionJob(Pawn pawn)
         {
+            NemesisMissionMember member = Member(pawn);
+            if (outcomeReported || member.resolved)
+            {
+                if (withdrawing && IsActionable(pawn))
+                {
+                    return NemesisMissionUtility.ExitJob(pawn) ?? Wait();
+                }
+                return Wait();
+            }
+
             Job job = pawn.carryTracker?.CarriedThing is Pawn carried
                 ? NemesisMissionUtility.ExtractionJob(pawn, carried) ?? Wait()
                 : withdrawing ? NemesisMissionUtility.ExitJob(pawn) ?? Wait() : GetOperationalJob(pawn);
@@ -168,14 +281,34 @@ namespace Xenomorphtype
             return job;
         }
 
-        protected Job FindHostJob(Pawn pawn, bool opportunistic, bool requirePlayer)
+        protected Job FindHostJob(Pawn pawn, bool opportunistic, bool requirePlayer,
+            float searchRadius = -1f, bool requireLineOfSight = true, bool recoverUnreachable = false)
         {
             NemesisMissionMember member = Member(pawn);
             if (Find.TickManager.TicksGame < member.nextCaptureTick) return null;
             HashSet<Pawn> claimed = new HashSet<Pawn>(lord.ownedPawns.Where(other => other != pawn
                 && other.CurJobDef == NemesisMissionUtility.AbductJob).Select(other => other.CurJob.targetA.Pawn).Where(host => host != null));
-            Pawn target = NemesisMissionUtility.FindHost(pawn, mission.workerSettings.localSearchRadius, opportunistic, requirePlayer, claimed);
+            float radius = searchRadius > 0f ? searchRadius : mission.workerSettings.localSearchRadius;
+            Pawn target = NemesisMissionUtility.FindHost(pawn, radius, opportunistic, requirePlayer, claimed, requireLineOfSight);
             if (target == null) { member.nextCaptureTick = Find.TickManager.TicksGame + 120; return null; }
+
+            if (recoverUnreachable && !pawn.CanReach(target, PathEndMode.Touch, Danger.Deadly))
+            {
+                Job intended = JobMaker.MakeJob(NemesisMissionUtility.AbductJob, target);
+                CompMatureMorph morph = pawn.GetMorphComp();
+                morph?.NotifyPathFailure(new LocalTargetInfo(target), intended);
+                if (morph != null && morph.TryGetPathRecoveryJob(out Job recovery) && recovery != null)
+                {
+                    recovery.locomotionUrgency = LocomotionUrgency.Sprint;
+                    NemesisLog.Detail("Mission", "Host approach requires structural recovery pawn=" + pawn
+                        + " host=" + target + " recovery=" + recovery.def + " target=" + recovery.targetA);
+                    return recovery;
+                }
+
+                member.nextCaptureTick = Find.TickManager.TicksGame + 120;
+                return null;
+            }
+
             Job job = NemesisMissionUtility.ExtractionJob(pawn, target);
             if (job != null) NemesisLog.Detail("Mission", "Capture selected pawn=" + pawn + " host=" + target + " mission=" + mission.defName);
             return job;
@@ -204,7 +337,7 @@ namespace Xenomorphtype
                 .Where(cell => cell.DistanceToSquared(destination) >= 36f && cell.InBounds(pawn.Map) && cell.Standable(pawn.Map)
                     && cell.DistanceToSquared(pawn.Position) >= 4f
                     && XMTHiveUtility.IsLightSuitableAt(cell, pawn.Map)
-                    && ClimbUtility.CanReachByWalkingOrClimb(pawn, cell, PathEndMode.OnCell, Danger.Deadly)).ToList();
+                    && pawn.CanReach(cell, PathEndMode.OnCell, Danger.Deadly)).ToList();
             if (cells.Count == 0) return Wait();
             int slot = Mathf.Max(0, members.IndexOf(member));
             Job travel = JobMaker.MakeJob(JobDefOf.Goto, cells[(slot * 17 + member.routeIndex * 7) % cells.Count]);
@@ -240,13 +373,16 @@ namespace Xenomorphtype
             Scribe_Collections.Look(ref members, "members", LookMode.Deep);
             Scribe_Values.Look(ref extracted, "extracted");
             Scribe_Values.Look(ref playerHostsExtracted, "playerHostsExtracted");
+            Scribe_Values.Look(ref missionSuccessCount, "missionSuccessCount");
+            Scribe_Values.Look(ref initialMemberCount, "initialMemberCount");
             Scribe_Values.Look(ref withdrawing, "withdrawing");
             Scribe_Values.Look(ref deployedTick, "deployedTick");
             Scribe_Values.Look(ref outcomeReported, "outcomeReported");
             Scribe_Values.Look(ref withdrawalReason, "withdrawalReason");
+            Scribe_Values.Look(ref entryCell, "entryCell", IntVec3.Invalid);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                route ??= new List<IntVec3>(); members ??= new List<NemesisMissionMember>(); members.RemoveAll(value => value?.pawn == null);
+                route ??= new List<IntVec3>(); members ??= new List<NemesisMissionMember>();
             }
         }
     }

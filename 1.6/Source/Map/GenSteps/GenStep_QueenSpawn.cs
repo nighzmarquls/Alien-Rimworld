@@ -61,15 +61,11 @@ namespace Xenomorphtype
 
             if(queen.GetComp<CompQueen>() is CompQueen comp)
             {
-                foreach (RoyalEvolutionDef evo in comp.ChosenEvolutions)
+                if (comp.HasActiveEvolution(RoyalEvolutionDefOf.Evo_OvoThrone))
                 {
-                    if (evo == RoyalEvolutionDefOf.Evo_OvoThrone)
-                    {
-                        actualEggCount += 8;
-                        actualGuardians += 6;
-                        spawnThrone = true;
-                    }
-                    
+                    actualEggCount += 8;
+                    actualGuardians += 6;
+                    spawnThrone = true;
                 }
                 if(queen.health.hediffSet.HasHediff(RoyalEvolutionDefOf.XMT_Fertility))
                 {

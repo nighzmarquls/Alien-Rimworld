@@ -33,14 +33,40 @@ namespace Xenomorphtype
             return host?.health?.hediffSet?.HasHediff(InternalDefOf.XMT_InorganicSubverted) == true;
         }
 
+        public static float PlayerControlledMechanoidBandwidth(Pawn mechanoid)
+        {
+            if (mechanoid == null || mechanoid.Dead || !ModsConfig.BiotechActive || StatDefOf.BandwidthCost == null
+                || !mechanoid.RaceProps.IsMechanoid || MechanitorUtility.GetOverseer(mechanoid)?.Faction != Faction.OfPlayer)
+            {
+                return 0f;
+            }
+
+            return Mathf.Max(0f, mechanoid.GetStatValue(StatDefOf.BandwidthCost));
+        }
+
+        public static float PlayerControlledMechanoidBandwidth(Map map)
+        {
+            return map == null ? 0f : map.mapPawns.AllPawnsSpawned.Sum(PlayerControlledMechanoidBandwidth);
+        }
+
         public static bool IsValidSubverterTarget(Pawn subverter, Pawn target)
         {
-            if (subverter == null || target == null || target == subverter || target.Dead)
+            return IsValidSubverterTarget(subverter, target, subverter?.MapHeld, missionAssault: false);
+        }
+
+        public static bool IsValidSubverterMissionTarget(Pawn subverter, Pawn target, Map map)
+        {
+            return IsValidSubverterTarget(subverter, target, map, missionAssault: true);
+        }
+
+        private static bool IsValidSubverterTarget(Pawn subverter, Pawn target, Map map, bool missionAssault)
+        {
+            if (target == null || target == subverter || target.Dead)
             {
                 return false;
             }
 
-            if (!target.Spawned || subverter.MapHeld == null || target.MapHeld != subverter.MapHeld)
+            if (!target.Spawned || map == null || target.MapHeld != map)
             {
                 return false;
             }
@@ -55,8 +81,15 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if (missionAssault && (target.def == subverter?.def
+                || target.kindDef == XenoPawnKindDefOf.XMT_Subverter
+                || NemesisMissionUtility.IsSwarmMember(target)))
+            {
+                return false;
+            }
+
             Pawn queen = XMTUtility.GetQueen();
-            if (queen != null)
+            if (!missionAssault && queen != null)
             {
                 if (target == queen || MechanitorUtility.GetOverseer(target) == queen)
                 {
@@ -140,7 +173,8 @@ namespace Xenomorphtype
         private static void BeginSubversion(Pawn host)
         {
             Pawn queen = XMTUtility.GetQueen();
-            if (queen == null)
+            bool missionRetreat = TryGetMissionRetreatCell(host, out IntVec3 retreatCell);
+            if (queen == null && !missionRetreat)
             {
                 return;
             }
@@ -149,6 +183,12 @@ namespace Xenomorphtype
             host.health.AddHediff(controlHediff);
             HediffComp_InorganicSubvertedControl control = controlHediff.TryGetComp<HediffComp_InorganicSubvertedControl>();
             control?.StoreOriginalState();
+
+            if (missionRetreat)
+            {
+                control?.BeginMissionRetreat(retreatCell);
+                return;
+            }
 
             if (XMTUtility.QueenIsPlayer())
             {
@@ -199,6 +239,12 @@ namespace Xenomorphtype
 
         private static void MaintainSubversion(Pawn host, Hediff controlHediff)
         {
+            if (TryGetMissionRetreatCell(host, out IntVec3 retreatCell))
+            {
+                controlHediff.TryGetComp<HediffComp_InorganicSubvertedControl>()?.BeginMissionRetreat(retreatCell);
+                return;
+            }
+
             Pawn queen = XMTUtility.GetQueen();
             if (queen == null)
             {
@@ -297,6 +343,21 @@ namespace Xenomorphtype
                     yield return attachment;
                 }
             }
+        }
+
+        private static bool TryGetMissionRetreatCell(Pawn host, out IntVec3 cell)
+        {
+            foreach (HediffComp_InorganicSubverterAttachment attachment in GetSubverterAttachments(host))
+            {
+                if (attachment.MissionAssault)
+                {
+                    cell = attachment.RetreatCell;
+                    return true;
+                }
+            }
+
+            cell = IntVec3.Invalid;
+            return false;
         }
 
         public static bool SuppressAttachmentBandwidth(HediffComp_InorganicSubverterAttachment attachment)

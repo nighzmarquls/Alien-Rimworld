@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<HediffDef MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<defName>XMT_AstrofuelProduction</defName>
+		<label>astrofuel production</label>
+		<description>This person accumulates volatile astrofuel throughout specialized internal tissues, drastically increasing their susceptibility to flame damage. If engulfed in large enough flames or upon death, they erupt in a devastating astrofire explosion. The accumulated astrofuel can also be harvested periodically.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<maxSeverity>1.0</maxSeverity>
+		<allowMothballIfLowPriorityWorldPawn>true</allowMothballIfLowPriorityWorldPawn>
+		<isBad>false</isBad>
+		<comps>
+			<li Class="VEF.AnimalBehaviours.HediffCompProperties_Spawner">
+				<thingToSpawn>VGE_Astrofuel</thingToSpawn>
+				<spawnCount>20</spawnCount>
+				<spawnIntervalRange>600000~600000</spawnIntervalRange>
+				<spawnMaxAdjacent>30</spawnMaxAdjacent>
+				<spawnForbidden>false</spawnForbidden>
+				<showMessageIfOwned>false</showMessageIfOwned>
+			</li>
+			<li Class="VEF.AnimalBehaviours.HediffCompProperties_Exploder">
+				<explosionForce>4.9</explosionForce>
+				<damageDef>VGE_AstrofireDamage</damageDef>
+			</li>
+			<li Class="VEF.AnimalBehaviours.HediffCompProperties_ExplodeOnFire">
+				<minFireToExplode>0.35</minFireToExplode>
+				<damageType>VGE_AstrofireDamage</damageType>
+				<radius>4.9</radius>
+				<ticksToRecheck>60000</ticksToRecheck>
+				<checkInterval>30</checkInterval>
+			</li>
+		</comps>
+	</HediffDef>
+</Defs>

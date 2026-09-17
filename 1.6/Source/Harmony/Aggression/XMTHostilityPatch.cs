@@ -145,6 +145,33 @@ namespace Xenomorphtype
             public static bool Prefix(ref LocalTargetInfo __result, Building_TurretGun __instance,
                Thing ___gun, CompMannable ___mannableComp)
             {
+                if (XMT_IFFUtility.IsCryptimorphSubvertedTurret(__instance))
+                {
+                    __result = LocalTargetInfo.Invalid;
+                    if (___mannableComp != null)
+                    {
+                        return true;
+                    }
+
+                    CompEquippable subvertedGun = ___gun?.TryGetComp<CompEquippable>();
+                    Verb subvertedVerb = subvertedGun?.PrimaryVerb;
+                    if (subvertedVerb == null)
+                    {
+                        return false;
+                    }
+
+                    Func<IntVec3, bool> subvertedLosValidator = null;
+                    if (subvertedVerb.EquipmentSource == null
+                        || !subvertedVerb.EquipmentSource.TryGetComp<CompUniqueWeapon>(out var subvertedUnique)
+                        || !subvertedUnique.IgnoreAccuracyMaluses)
+                    {
+                        subvertedLosValidator = cell => !cell.AnyGas(__instance.Map, GasType.BlindSmoke);
+                    }
+
+                    XMT_IFFUtility.TryHandleCryptimorphSubvertedTargeting(__instance, subvertedVerb,
+                        pawn => __instance.CanSee(pawn, subvertedLosValidator), out __result);
+                    return false;
+                }
                
                 if (XMTHiveUtility.TotalHivePopulation(__instance.Map) > 0)
                 {
@@ -240,6 +267,22 @@ namespace Xenomorphtype
                 {
                     __result = LocalTargetInfo.Invalid;
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(Building_TurretGun), nameof(Building_TurretGun.GetInspectString))]
+        public static class Patch_Building_TurretGun_GetInspectString
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Building_TurretGun __instance, ref string __result)
+            {
+                if (!XMT_IFFUtility.IsCryptimorphSubvertedTurret(__instance))
+                {
+                    return;
+                }
+
+                string indicator = "XMT_SubvertedTurretIndicator".Translate();
+                __result = __result.NullOrEmpty() ? indicator : __result + "\n" + indicator;
             }
         }
 

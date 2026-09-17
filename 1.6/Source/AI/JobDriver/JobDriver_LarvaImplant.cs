@@ -49,6 +49,11 @@ namespace Xenomorphtype
                 CompLarvalGenes LarvalGenes = pawn.GetComp<CompLarvalGenes>();
                 if (LarvalGenes != null && !LarvalGenes.latched)
                 {
+                    if (NemesisMissionUtility.IsSwarmMember(pawn) && !NemesisMissionUtility.ValidImplantTarget(prey))
+                    {
+                        EndJobWith(JobCondition.Incompletable);
+                        return;
+                    }
                     LarvalGenes.TryEmbrace(prey);
                     EndJobWith(JobCondition.Succeeded);
                     return;
@@ -57,6 +62,12 @@ namespace Xenomorphtype
                 CompHostHunter HostHunter = pawn.GetComp<CompHostHunter>();
                 if(HostHunter != null)
                 {
+                    if (NemesisMissionUtility.IsSwarmMember(pawn)
+                        && !InorganicSubversionUtility.IsValidSubverterMissionTarget(pawn, prey, pawn.MapHeld))
+                    {
+                        EndJobWith(JobCondition.Incompletable);
+                        return;
+                    }
                     HostHunter.TryAttachToHost(prey);
                     EndJobWith(JobCondition.Succeeded);
                     return;

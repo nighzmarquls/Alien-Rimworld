@@ -11,8 +11,13 @@ namespace Xenomorphtype
         private List<Thing> knownThreats = new List<Thing>();
         private int lastViolenceTick = -1;
         private bool covertEnded;
-        public override bool Successful => extracted > 0;
+        public override bool Successful => missionSuccessCount > 0;
         public override bool CovertEnded => covertEnded;
+
+        public override void Notify_HostExtracted(Pawn victim, bool playerHost)
+        {
+            IncrementMissionSuccess(1, "host extracted");
+        }
 
         public override bool AllowThreatResponse(Pawn pawn, Thing aggressor)
         {
@@ -54,14 +59,29 @@ namespace Xenomorphtype
             {
                 if (threat is Pawn downed && downed.Downed)
                 {
-                    Job capture = NemesisMissionUtility.ValidHost(downed) ? NemesisMissionUtility.ExtractionJob(pawn, downed) : null;
+                    Job capture = NemesisMissionUtility.ValidAbductionTarget(downed) ? NemesisMissionUtility.ExtractionJob(pawn, downed) : null;
                     if (capture != null) return capture;
                 }
                 Job retaliation = RetaliationJob(pawn, threat);
                 if (retaliation != null) return retaliation;
             }
             if (covertEnded) return Wait();
-            return FindHostJob(pawn, opportunistic: false, requirePlayer: MustSecurePlayerHost(pawn)) ?? RouteJob(pawn);
+            if (TryGetHostRecoveryJob(pawn, out Job recovery)) return recovery;
+            bool routeExhausted = route.Count == 0 || Member(pawn).routeIndex >= route.Count;
+            return FindHostJob(pawn, opportunistic: false, requirePlayer: MustSecurePlayerHost(pawn),
+                searchRadius: routeExhausted ? 9999f : mission.workerSettings.localSearchRadius,
+                requireLineOfSight: false, recoverUnreachable: true) ?? RouteJob(pawn);
+        }
+
+        private static bool TryGetHostRecoveryJob(Pawn pawn, out Job recovery)
+        {
+            recovery = null;
+            CompMatureMorph morph = pawn?.GetMorphComp();
+            if (morph == null || !morph.TryGetPathRecoveryJob(out recovery) || recovery == null) return false;
+            recovery.locomotionUrgency = LocomotionUrgency.Sprint;
+            NemesisLog.Detail("Mission", "Host collection recovering path pawn=" + pawn
+                + " recovery=" + recovery.def + " target=" + recovery.targetA);
+            return true;
         }
 
         private bool MustSecurePlayerHost(Pawn pawn)

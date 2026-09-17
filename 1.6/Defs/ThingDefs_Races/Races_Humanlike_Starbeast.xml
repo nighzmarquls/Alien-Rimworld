@@ -597,6 +597,11 @@
 									<Hediff>Maturation</Hediff>
 								</Not>
 							</conditions>
+							<extendedGraphics>
+								<Gene For="XMT_LeechMouth">
+									<path>Pawn/Teeth/LeechTeeth</path>
+								</Gene>
+							</extendedGraphics>
 							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
 							<offsets>
 							  <south>
@@ -609,7 +614,7 @@
 								<layerOffset>-0.75</layerOffset>
 							  </east>
 							</offsets>
-							<!--<inFrontOfBody>true</inFrontOfBody>-->
+							<!--<inFrontOfBody>true</inFrontOfBody> XMT_LeechMouth-->
 							
 						</li>
 						<li>

@@ -13,6 +13,17 @@
 		<missionOpportunityChance>0</missionOpportunityChance>
 		<missionOpportunityChanceAtActivation>0.95</missionOpportunityChanceAtActivation>
 		<missionOpportunityChanceExponent>2</missionOpportunityChanceExponent>
+		<followUpMinimumXenoforming>20</followUpMinimumXenoforming>
+		<followUpChanceByXenoforming>
+			<points>
+				<li>(20, 0.20)</li>
+				<li>(35, 0.40)</li>
+				<li>(50, 0.65)</li>
+				<li>(75, 0.95)</li>
+				<li>(100, 1.00)</li>
+			</points>
+		</followUpChanceByXenoforming>
+		<followUpDelayTicks>600~1800</followUpDelayTicks>
 	</Xenomorphtype.NemesisSettingsDef>
 
 	<!-- Evidence taxonomy. Tags are descriptive metadata for future mission and tactic consumers. -->
@@ -101,6 +112,7 @@
 	</Xenomorphtype.NemesisObservationDef>
 	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Population</defName><metric>Population</metric></Xenomorphtype.NemesisObservationDef>
 	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Mechanoids</defName><metric>Mechanoids</metric></Xenomorphtype.NemesisObservationDef>
+	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation" MayRequire="Ludeon.RimWorld.Biotech"><defName>XMT_NemesisObs_MechanoidBandwidthUsed</defName><metric>MechanoidBandwidthUsed</metric></Xenomorphtype.NemesisObservationDef>
 	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Inorganic</defName><metric>Inorganic</metric></Xenomorphtype.NemesisObservationDef>
 	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_Vehicles</defName><metric>Vehicles</metric></Xenomorphtype.NemesisObservationDef>
 	<Xenomorphtype.NemesisObservationDef ParentName="XMT_NemesisPawnObservation"><defName>XMT_NemesisObs_PsycasterLevels</defName><metric>PsycasterLevels</metric></Xenomorphtype.NemesisObservationDef>
@@ -164,7 +176,11 @@
 	<Xenomorphtype.NemesisSignalDef><defName>XMT_NemesisSignal_XenoformingEscalation</defName><saturation>30</saturation><inputs><li><observation>XMT_NemesisObs_Xenoforming</observation><weight>1</weight></li></inputs></Xenomorphtype.NemesisSignalDef>
 	<Xenomorphtype.NemesisSignalDef>
 		<defName>XMT_NemesisSignal_Mechanization</defName><saturation>5</saturation>
-		<inputs><li><observation>XMT_NemesisObs_Mechanoids</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>3</weight></li><li><observation>XMT_NemesisObs_Inorganic</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>2</weight></li><li><observation>XMT_NemesisObs_Vehicles</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>3</weight></li><li><observation>XMT_NemesisObs_Turrets</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>1</weight></li></inputs>
+		<inputs><li><observation>XMT_NemesisObs_Mechanoids</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>3</weight></li><li><observation>XMT_NemesisObs_MechanoidBandwidthUsed</observation><weight>1</weight></li><li><observation>XMT_NemesisObs_Inorganic</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>2</weight></li><li><observation>XMT_NemesisObs_Vehicles</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>3</weight></li><li><observation>XMT_NemesisObs_Turrets</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>1</weight></li></inputs>
+	</Xenomorphtype.NemesisSignalDef>
+	<Xenomorphtype.NemesisSignalDef>
+		<defName>XMT_NemesisSignal_TurretDependence</defName><saturation>10</saturation>
+		<inputs><li><observation>XMT_NemesisObs_Turrets</observation><divisorObservation>XMT_NemesisObs_Population</divisorObservation><weight>1</weight></li></inputs>
 	</Xenomorphtype.NemesisSignalDef>
 	<Xenomorphtype.NemesisSignalDef>
 		<defName>XMT_NemesisSignal_BiologicalAdaptation</defName><saturation>10</saturation>
@@ -202,7 +218,7 @@
 	</Xenomorphtype.NemesisStanceDef>
 	<Xenomorphtype.NemesisStanceDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>XMT_NemesisStance_Mechanitor</defName><evolutionSet>XMT_NemesisEvolution_Mechanitor</evolutionSet><baseScore>0.05</baseScore>
-		<criteria><li><signal>XMT_NemesisSignal_Mechanization</signal><weight>1.2</weight><minimum>0.25</minimum></li><li><signal>XMT_NemesisSignal_Fortification</signal><weight>0.25</weight></li></criteria>
+		<criteria><li><signal>XMT_NemesisSignal_Mechanization</signal><weight>1.2</weight><minimum>0.25</minimum></li><li><signal>XMT_NemesisSignal_TurretDependence</signal><weight>1</weight></li><li><signal>XMT_NemesisSignal_Fortification</signal><weight>0.25</weight></li></criteria>
 	</Xenomorphtype.NemesisStanceDef>
 	<Xenomorphtype.NemesisStanceDef>
 		<defName>XMT_NemesisStance_FleshShaper</defName><evolutionSet>XMT_NemesisEvolution_FleshShaper</evolutionSet><baseScore>0.05</baseScore>

@@ -16,6 +16,8 @@ namespace Xenomorphtype
         public static PawnKindDef XMT_Droplet;
         public static PawnKindDef XMT_FeralStarbeastKind;
         public static PawnKindDef XMT_Larva;
+        [MayRequireBiotech]
+        public static PawnKindDef XMT_Subverter;
     }
 
 }

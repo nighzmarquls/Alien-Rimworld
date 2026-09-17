@@ -22,7 +22,9 @@ namespace Xenomorphtype
 
         public virtual bool ShouldHunt()
         {
-            return Parent.CurJobDef != XenoWorkDefOf.XMT_ImplantHunt && !Parent.Downed;
+            return !NemesisMissionUtility.IsSwarmMember(Parent)
+                && Parent.CurJobDef != XenoWorkDefOf.XMT_ImplantHunt
+                && Parent.CurJobDef != XenoWorkDefOf.XMT_SubvertTurret && !Parent.Downed;
         }
 
         public virtual void StartHunt(Pawn prey)
@@ -52,6 +54,19 @@ namespace Xenomorphtype
             return null;
         }
 
+        public virtual Thing GetHuntTarget()
+        {
+            return GetPreyTarget();
+        }
+
+        public virtual void StartHuntTarget(Thing target)
+        {
+            if (target is Pawn prey)
+            {
+                StartHunt(prey);
+            }
+        }
+
         public override void CompTickRare()
         {
             base.CompTickRare();
@@ -67,11 +82,11 @@ namespace Xenomorphtype
 
                 if (ShouldHunt())
                 {
-                    Pawn prey = GetPreyTarget();
+                    Thing prey = GetHuntTarget();
 
                     if (prey != null)
                     {
-                        StartHunt(prey);
+                        StartHuntTarget(prey);
                     }
                 }
 

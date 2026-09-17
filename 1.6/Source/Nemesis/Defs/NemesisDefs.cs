@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
@@ -38,6 +39,16 @@ namespace Xenomorphtype
         public float stanceCommitmentDays = 7f;
         public float challengerMargin = 0.15f;
         public int maxSpatialContactsPerObservation = 256;
+        public float followUpMinimumXenoforming = 20f;
+        public SimpleCurve followUpChanceByXenoforming = new SimpleCurve
+        {
+            new CurvePoint(20f, 0.2f),
+            new CurvePoint(35f, 0.4f),
+            new CurvePoint(50f, 0.65f),
+            new CurvePoint(75f, 0.95f),
+            new CurvePoint(100f, 1f)
+        };
+        public IntRange followUpDelayTicks = new IntRange(600, 1800);
 
         public override IEnumerable<string> ConfigErrors()
         {
@@ -49,6 +60,11 @@ namespace Xenomorphtype
             if (missionOpportunityChanceExponent <= 0f)
                 yield return defName + " requires a positive mission opportunity chance exponent.";
             if (activationXenoforming <= 0f) yield return defName + " requires positive activation xenoforming.";
+            if (followUpMinimumXenoforming < 0f || followUpMinimumXenoforming > 100f)
+                yield return defName + " requires follow-up minimum xenoforming between zero and one hundred.";
+            if (followUpChanceByXenoforming == null || followUpDelayTicks.min < 0
+                || followUpDelayTicks.max < followUpDelayTicks.min)
+                yield return defName + " has invalid follow-up settings.";
         }
     }
 
