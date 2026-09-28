@@ -2,7 +2,6 @@
 
 using HarmonyLib;
 using RimWorld;
-using VEF.Maps;
 using Verse;
 
 namespace Xenomorphtype
@@ -15,7 +14,7 @@ namespace Xenomorphtype
         static class Toils_Building_Door_PawnCanOpen
         {
             [HarmonyPrefix]
-            public static bool Prefix(Building_Door __instance, bool __result, Pawn p)
+            public static bool Prefix(Building_Door __instance, ref bool __result, Pawn p)
             {
                 if(__instance.Faction == null)
                 {
@@ -28,12 +27,13 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if (p.Faction != null)
+                if (p == null || !XMTUtility.IsXenomorph(p))
                 {
                     return true;
                 }
 
-                if (!XMTUtility.IsXenomorph(p))
+                bool conventionalResistanceApplies = p.IsPrisoner || p.Faction == null || p.Faction != __instance.Faction;
+                if (!conventionalResistanceApplies)
                 {
                     return true;
                 }
@@ -54,13 +54,26 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if (!__instance.Powered())
+                if (!XMTDoorUtility.HasPoweredResistance(__instance))
                 {
                     return true;
                 }
 
                 __result = false;
                 return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(CompPowerTrader), nameof(CompPowerTrader.PowerOn), MethodType.Setter)]
+        static class CompPowerTrader_PowerOn
+        {
+            [HarmonyPostfix]
+            public static void Postfix(CompPowerTrader __instance)
+            {
+                if (__instance?.parent is Building_Door door && door.Spawned)
+                {
+                    door.Map.reachability.ClearCache();
+                }
             }
         }
 

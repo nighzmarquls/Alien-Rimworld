@@ -23,7 +23,7 @@
 				<damageDef>VGE_AstrofireDamage</damageDef>
 			</li>
 			<li Class="VEF.AnimalBehaviours.HediffCompProperties_ExplodeOnFire">
-				<minFireToExplode>0.35</minFireToExplode>
+				<minFireToExplode>35</minFireToExplode>
 				<damageType>VGE_AstrofireDamage</damageType>
 				<radius>4.9</radius>
 				<ticksToRecheck>60000</ticksToRecheck>

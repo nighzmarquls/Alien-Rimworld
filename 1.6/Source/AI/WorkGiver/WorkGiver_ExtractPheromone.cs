@@ -4,7 +4,7 @@ using Verse.AI;
 
 namespace Xenomorphtype
 {
-    public class WorkGiver_ExtractPheromone : WorkGiver_EntityOnPlatform
+    public class WorkGiver_ExtractPheromone : WorkGiver_XMTContainedPawn
     {
         public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
@@ -21,8 +21,8 @@ namespace Xenomorphtype
 
         protected override Pawn GetEntity(Thing potentialPlatform)
         {
-            if (potentialPlatform is Building_HoldingPlatform { HeldPawn: var heldPawn } &&
-                heldPawn?.Info()?.extractPheromone == true &&
+            Pawn heldPawn = XMTContainmentUtility.HeldPawn(potentialPlatform);
+            if (heldPawn?.Info()?.extractPheromone == true &&
                 PheromoneUtility.CanExtractFrom(heldPawn))
             {
                 return heldPawn;

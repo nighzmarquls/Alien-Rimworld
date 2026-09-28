@@ -20,13 +20,9 @@ namespace Xenomorphtype
                 }
             }
 
-            if (potentialPlatform is Building_HoldingPlatform { HeldPawn: var heldPawn })
+            Pawn heldPawn = XMTContainmentUtility.HeldPawn(potentialPlatform);
+            if (heldPawn != null)
             {
-                if (heldPawn == null)
-                {
-                    return null;
-                }
-
                 if(heldPawn.GetMorphComp() == null)
                 {
                     return null;
@@ -76,32 +72,20 @@ namespace Xenomorphtype
             {
                 if(candidate.IsAdvancedTameable())
                 {
-                    if (pawn.IsOnHoldingPlatform)
+                    if (!XMTContainmentUtility.IsHeld(candidate) && candidate.Spawned)
                     {
-                        if (candidate.ParentHolder is Thing holder)
-                        {
-                            yield return holder;
-                        }
-                    }
-                    else
-                    {
-                        if (candidate.Spawned)
-                        {
-                            yield return candidate;
-                        }
+                        yield return candidate;
                     }
                 }
             }
 
-            foreach(Building_HoldingPlatform holdingPlatform in pawn.Map.listerBuildings.AllBuildingsColonistOfClass<Building_HoldingPlatform>())
+            foreach(Building building in pawn.Map.listerBuildings.allBuildingsColonist)
             {
-                if(holdingPlatform.HeldPawn != null)
+                Pawn containedPawn = XMTContainmentUtility.HeldPawn(building);
+                if(containedPawn?.GetMorphComp() != null)
                 {
-                    if(holdingPlatform.HeldPawn.GetMorphComp() != null)
-                    {
-                        yield return holdingPlatform;
-                    }
-                }    
+                    yield return building;
+                }
             }
         }
         public override bool ShouldSkip(Pawn pawn, bool forced = false)
@@ -119,7 +103,8 @@ namespace Xenomorphtype
 
             Pawn tamable;
             bool notPlatform = true;
-            if ((t is Building_HoldingPlatform { HeldPawn: Pawn heldPawn }))
+            Pawn heldPawn = XMTContainmentUtility.HeldPawn(t);
+            if (heldPawn != null)
             {
                 tamable = heldPawn;
                 notPlatform = false;

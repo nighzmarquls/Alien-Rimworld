@@ -73,4 +73,115 @@
     </inspectorTabs>
   </ThingDef>
 
+  <ThingDef ParentName="BuildingBase">
+    <defName>XMT_ContainmentHarness</defName>
+    <label>containment harness</label>
+    <description>A heavy restraint frame designed to immobilize a humanlike captive. Downed pawns can be secured directly, while conscious targets must first submit to arrest.</description>
+    <thingClass>Xenomorphtype.Building_ContainmentHarness</thingClass>
+    <containedPawnsSelectable>true</containedPawnsSelectable>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <graphicData>
+      <texPath>Things/Building/ContainmentHarness/ContainmentHarness</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>Cutout</shaderType>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>42</pathCost>
+    <blockWind>true</blockWind>
+    <fillPercent>0.8</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <size>(2,2)</size>
+    <rotatable>true</rotatable>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <statBases>
+      <WorkToBuild>3000</WorkToBuild>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Flammability>0.1</Flammability>
+      <Mass>80</Mass>
+    </statBases>
+    <designationCategory>Security</designationCategory>
+    <uiOrder>2061</uiOrder>
+    <researchPrerequisites>
+      <li>Fabrication</li>
+      <li>XMT_Jelly_Extraction</li>
+    </researchPrerequisites>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <building>
+      <ai_chillDestination>false</ai_chillDestination>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+      <gibbetCageTopGraphicData>
+        <texPath>Things/Building/ContainmentHarness/ContainmentHarness_back</texPath>
+        <graphicClass>Graphic_Multi</graphicClass>
+        <shaderType>Cutout</shaderType>
+        <drawSize>(2,2)</drawSize>
+      </gibbetCageTopGraphicData>
+    </building>
+    <stuffCategories>
+      <li>Metallic</li>
+    </stuffCategories>
+    <costStuffCount>100</costStuffCount>
+    <costList>
+      <ComponentIndustrial>9</ComponentIndustrial>
+	  <ComponentSpacer>1</ComponentSpacer>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Flickable"/>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>200</basePowerConsumption>
+      </li>
+      <li Class="Xenomorphtype.CompProperties_XMT_Containment">
+        <maxBodySize>2.9</maxBodySize>
+        <occupiedPowerConsumption>200</occupiedPowerConsumption>
+        <baseContainmentQuality>20</baseContainmentQuality>
+        <materialHitPointsFactor>0.1</materialHitPointsFactor>
+        <maxMaterialQuality>50</maxMaterialQuality>
+        <idealTemperature>21</idealTemperature>
+        <temperatureFactor>0.5</temperatureFactor>
+        <minTemperatureQuality>-20</minTemperatureQuality>
+        <maxTemperatureQuality>20</maxTemperatureQuality>
+        <maxLightQuality>15</maxLightQuality>
+        <poweredQuality>25</poweredQuality>
+        <unpoweredQuality>-25</unpoweredQuality>
+        <acidImmuneQuality>15</acidImmuneQuality>
+        <!-- spatialOffset is (east/west, north/south). Depth offsets are altitude deltas. -->
+        <north>
+          <spatialOffset>(0,0)</spatialOffset>
+          <backDepthOffset>-0.02</backDepthOffset>
+          <bodyDepthOffset>0.01</bodyDepthOffset>
+          <headDepthOffset>-0.1</headDepthOffset>
+          <pawnRotationOffset>0</pawnRotationOffset>
+        </north>
+        <east>
+          <spatialOffset>(0.2,-0.1)</spatialOffset>
+          <backDepthOffset>-1</backDepthOffset>
+          <bodyDepthOffset>-0.01</bodyDepthOffset>
+          <headDepthOffset>-0.01</headDepthOffset>
+          <pawnRotationOffset>-20</pawnRotationOffset>
+        </east>
+        <south>
+          <spatialOffset>(0,0)</spatialOffset>
+          <backDepthOffset>-0.02</backDepthOffset>
+          <bodyDepthOffset>-1.0</bodyDepthOffset>
+          <headDepthOffset>1.0</headDepthOffset>
+          <pawnRotationOffset>0</pawnRotationOffset>
+        </south>
+        <west>
+          <spatialOffset>(-0.2,-0.1)</spatialOffset>
+          <backDepthOffset>-1</backDepthOffset>
+          <bodyDepthOffset>-0.01</bodyDepthOffset>
+          <headDepthOffset>-0.01</headDepthOffset>
+          <pawnRotationOffset>20</pawnRotationOffset>
+        </west>
+      </li>
+    </comps>
+    <inspectorTabs>
+      <li>Xenomorphtype.ITab_XMTContainment</li>
+    </inspectorTabs>
+  </ThingDef>
+
 </Defs>

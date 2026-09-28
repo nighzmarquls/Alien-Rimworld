@@ -8,7 +8,7 @@ namespace Xenomorphtype
     internal class JobDriver_ExtractPheromone : JobDriver
     {
         private Thing Platform => TargetThingA;
-        private Pawn InnerPawn => (Platform as Building_HoldingPlatform)?.HeldPawn;
+        private Pawn InnerPawn => XMTContainmentUtility.HeldPawn(Platform);
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

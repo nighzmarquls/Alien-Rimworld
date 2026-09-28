@@ -33,6 +33,7 @@ namespace Xenomorphtype
             if (target == null || ( target is Pawn alive && alive.Dead) || target.Destroyed)
             {
                 RecoverFromState();
+                return;
             }
 
             if (pawn.IsHashIntervalTick(120) && !IsTargetStillValidAndReachable())
@@ -76,6 +77,13 @@ namespace Xenomorphtype
 
         public bool IsTargetStillValidAndReachable()
         {
+            if (target is Building building)
+            {
+                return building.Spawned && !building.Destroyed &&
+                       MatureMorphPathRecovery.IsPathRecoveryBreachCandidate(
+                           pawn, building, out IntVec3 _, requireAvailability: false);
+            }
+
             if (target != null && target.SpawnedParentOrMe != null && (!(target.SpawnedParentOrMe is Pawn) || target.SpawnedParentOrMe == target))
             {
                 return pawn.CanReach(target.SpawnedParentOrMe, PathEndMode.Touch, Danger.Deadly, canBashDoors: true);

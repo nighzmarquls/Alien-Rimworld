@@ -20,6 +20,11 @@ namespace Xenomorphtype
                 int score = network.batteryComps.Count * 2 + network.powerComps.Count;
                 foreach (CompPowerTrader consumer in priorityConsumers)
                 {
+                    if (consumer.parent is Building_Door poweredDoor &&
+                        XMTDoorUtility.HasPoweredResistance(poweredDoor))
+                    {
+                        score += XMTDoorUtility.PoweredDoorSabotageScore;
+                    }
                     CompGlower glower = consumer.parent.GetComp<CompGlower>();
                     if (glower != null)
                     {
@@ -123,7 +128,9 @@ namespace Xenomorphtype
         private static bool IsConsumer(CompPowerTrader trader) => trader?.Props?.PowerConsumption > 0f;
 
         private static bool IsPriorityConsumer(CompPowerTrader trader)
-            => IsConsumer(trader) && (trader.parent is Building_TurretGun || trader.parent.GetComp<CompGlower>() != null);
+            => IsConsumer(trader) && (trader.parent is Building_TurretGun ||
+                trader.parent.GetComp<CompGlower>() != null ||
+                trader.parent is Building_Door door && XMTDoorUtility.HasPoweredResistance(door));
 
         private static bool ConsumerDisabled(Thing consumer)
         {

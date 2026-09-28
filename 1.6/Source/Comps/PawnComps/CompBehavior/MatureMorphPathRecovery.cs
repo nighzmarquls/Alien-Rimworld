@@ -19,17 +19,19 @@ namespace Xenomorphtype
             this.state = state;
         }
 
-        public void NotifyPathFailure(LocalTargetInfo target, Job job)
+        public void NotifyPathFailure(LocalTargetInfo target, Job job, bool confirmedPatherFailure = false,
+            PathEndMode pathEndMode = PathEndMode.Touch)
         {
             if (Parent == null || Parent.Dead || Parent.MapHeld == null || !target.IsValid || !target.Cell.IsValid)
             {
                 return;
             }
 
-            NotifyPathFailure(target.Cell, job?.def, job != null && job.playerForced);
+            NotifyPathFailure(target.Cell, job?.def, job != null && job.playerForced, confirmedPatherFailure, pathEndMode);
         }
 
-        public void NotifyPathFailure(IntVec3 targetCell, JobDef jobDef, bool playerForced)
+        public void NotifyPathFailure(IntVec3 targetCell, JobDef jobDef, bool playerForced,
+            bool confirmedPatherFailure = false, PathEndMode pathEndMode = PathEndMode.Touch)
         {
             if (Parent == null || Parent.Dead || Parent.MapHeld == null || !targetCell.IsValid)
             {
@@ -37,11 +39,14 @@ namespace Xenomorphtype
             }
 
             if (jobDef != null &&
-                (jobDef == XenoWorkDefOf.XMT_PathRecoveryOpenDoor || jobDef == XenoWorkDefOf.XMT_PathRecoveryBreach))
+                (jobDef == XenoWorkDefOf.XMT_HiveBuilding ||
+                 jobDef == XenoWorkDefOf.XMT_HiveRoofing ||
+                 jobDef == XenoWorkDefOf.XMT_PathRecoveryOpenDoor ||
+                 jobDef == XenoWorkDefOf.XMT_PathRecoveryBreach))
             {
                 if (XMTSettings.LogJobGiver)
                 {
-                    Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " ignoring path failure from structural recovery job " + jobDef.defName + " at " + targetCell + ".");
+                    Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " ignoring path failure from excluded job " + jobDef.defName + " at " + targetCell + ".");
                 }
                 Clear();
                 return;
@@ -52,7 +57,8 @@ namespace Xenomorphtype
                 Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " NotifyPathFailure tick=" + Find.TickManager.TicksGame + " target=" + targetCell + " job=" + jobDef?.defName + " before=" + state.DebugSummary(Parent.MapHeld));
             }
 
-            state.NotifyFailure(targetCell, jobDef, playerForced, Parent.MapHeld, Parent.PositionHeld);
+            state.NotifyFailure(targetCell, jobDef, playerForced, confirmedPatherFailure, pathEndMode,
+                Parent.MapHeld, Parent.PositionHeld);
             if (XMTSettings.LogJobGiver)
             {
                 Log.Message("[XMT][JobGiver][PathRecovery] " + Parent + " NotifyPathFailure after=" + state.DebugSummary(Parent.MapHeld));
@@ -84,7 +90,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (ClimbUtility.OriginalCanReach(Parent, state.TargetCell, PathEndMode.Touch, Danger.Deadly))
+            if (ClimbUtility.OriginalCanReach(Parent, state.TargetCell, state.FailedPathEndMode, Danger.Deadly))
             {
 
                 Clear();
@@ -97,7 +103,13 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (TryGetDoorwayEscapeRecoveryJob(out job))
+            if (!TryGetRecoveryContext(out RecoveryContext context))
+            {
+                Clear();
+                return false;
+            }
+
+            if (context.SeekerTrapped && TryGetDoorwayEscapeRecoveryJob(out job))
             {
                 Clear();
                 return true;
@@ -115,9 +127,12 @@ namespace Xenomorphtype
                 {
                     return true;
                 }
+
+                Clear();
+                return false;
             }
 
-            if (TryGetUnpoweredDoorRecoveryJob(out job))
+            if (TryGetUnpoweredDoorRecoveryJob(context, out job))
             {
                 Clear();
                 return true;
@@ -129,7 +144,7 @@ namespace Xenomorphtype
                 return true;
             }
 
-            if (TryGetBreachRecoveryJob(out job))
+            if (TryGetBreachRecoveryJob(context, out job))
             {
                 Clear();
                 return true;
@@ -141,8 +156,14 @@ namespace Xenomorphtype
 
         private bool CanUsePathRecovery()
         {
+            if (Parent.IsPrisoner)
+            {
+                return false;
+            }
+
             return Parent.Faction == null ||
                    !Parent.Faction.IsPlayer ||
+                   state.ConfirmedPatherFailure ||
                    state.PlayerForced ||
                    (XMTUtility.NoQueenPresent() && XMTSettings.PlayerSabotage);
         }
@@ -256,14 +277,16 @@ namespace Xenomorphtype
             return true;
         }
 
-        private bool TryGetUnpoweredDoorRecoveryJob(out Job job)
+        private bool TryGetUnpoweredDoorRecoveryJob(RecoveryContext context, out Job job)
         {
             job = null;
-            RecoveryCandidate<Building_Door> doorCandidate = CurrentRoomBoundaryDoors()
+            RecoveryCandidate<Building_Door> doorCandidate = BoundaryBuildings(context.BoundaryRoom).OfType<Building_Door>()
                 .Where(doorCandidate => IsPathRecoveryDoorCandidate(Parent, doorCandidate))
-                .Select(MakeDoorRecoveryCandidate)
+                .Select(door => MakeDoorRecoveryCandidate(door, context))
                 .Where(candidate => candidate.Target != null)
-                .OrderByRecoveryScore(Parent, state.TargetCell, candidate => candidate.ScoreCell, candidate => candidate.InteractionCell)
+                .OrderBy(candidate => candidate.InteractionCell.DistanceToSquared(Parent.PositionHeld))
+                .ThenByDescending(candidate => PathRecoveryJobUtility.RecoveryScore(
+                    Parent, candidate.ScoreCell, candidate.InteractionCell, state.TargetCell))
                 .FirstOrDefault();
 
             if (doorCandidate.Target == null || !doorCandidate.InteractionCell.IsValid)
@@ -282,13 +305,15 @@ namespace Xenomorphtype
             return false;
         }
 
-        private bool TryGetBreachRecoveryJob(out Job job)
+        private bool TryGetBreachRecoveryJob(RecoveryContext context, out Job job)
         {
             job = null;
-            RecoveryCandidate<Building> blockerCandidate = CurrentRoomBoundaryBuildings()
-                .Select(MakeBreachRecoveryCandidate)
+            RecoveryCandidate<Building> blockerCandidate = BoundaryBuildings(context.BoundaryRoom)
+                .Select(blocker => MakeBreachRecoveryCandidate(blocker, context))
                 .Where(candidate => candidate.Target != null)
-                .OrderByRecoveryScore(Parent, state.TargetCell, candidate => candidate.ScoreCell, candidate => candidate.InteractionCell)
+                .OrderBy(candidate => candidate.InteractionCell.DistanceToSquared(Parent.PositionHeld))
+                .ThenByDescending(candidate => PathRecoveryJobUtility.RecoveryScore(
+                    Parent, candidate.ScoreCell, candidate.InteractionCell, state.TargetCell))
                 .FirstOrDefault();
 
             if (blockerCandidate.Target == null || !blockerCandidate.InteractionCell.IsValid)
@@ -301,42 +326,40 @@ namespace Xenomorphtype
             return true;
         }
 
-        private RecoveryCandidate<Building_Door> MakeDoorRecoveryCandidate(Building_Door door)
+        private RecoveryCandidate<Building_Door> MakeDoorRecoveryCandidate(Building_Door door, RecoveryContext context)
         {
-            if (!TryFindDoorInteractionCell(Parent, door, state.TargetCell, out IntVec3 interactionCell))
+            if (!TryFindBoundaryInteractionCell(Parent, door, context, out IntVec3 interactionCell))
             {
                 return RecoveryCandidate<Building_Door>.Invalid;
             }
 
-            IntVec3 scoreCell = door.PositionHeld;
-            if (PathRecoveryJobUtility.TryFindPassageDestination(Parent, door.OccupiedRect(), interactionCell, requireSafeExit: false, goalCell: state.TargetCell, out IntVec3 passageDestination))
+            if (!PathRecoveryJobUtility.TryFindPassageDestination(Parent, door.OccupiedRect(), interactionCell,
+                    requireSafeExit: true, goalCell: state.TargetCell, out IntVec3 passageDestination) ||
+                !PassageAdvancesRecovery(passageDestination, context))
             {
-                scoreCell = passageDestination;
+                return RecoveryCandidate<Building_Door>.Invalid;
             }
 
-            return new RecoveryCandidate<Building_Door>(door, interactionCell, scoreCell);
+            return new RecoveryCandidate<Building_Door>(door, interactionCell, passageDestination);
         }
 
-        private RecoveryCandidate<Building> MakeBreachRecoveryCandidate(Building blocker)
+        private RecoveryCandidate<Building> MakeBreachRecoveryCandidate(Building blocker, RecoveryContext context)
         {
-            if (!IsPathRecoveryBreachCandidate(Parent, blocker, state.TargetCell, out IntVec3 interactionCell))
+            if (!TryFindBoundaryInteractionCell(Parent, blocker, context, out IntVec3 interactionCell) ||
+                !CanBreachBlocker(Parent, blocker, requireAvailability: true) ||
+                !PathRecoveryJobUtility.TryFindPassageDestination(Parent, blocker.OccupiedRect(), interactionCell,
+                    requireSafeExit: true, goalCell: state.TargetCell, out IntVec3 passageDestination) ||
+                !PassageAdvancesRecovery(passageDestination, context))
             {
                 return RecoveryCandidate<Building>.Invalid;
             }
 
-            IntVec3 scoreCell = blocker.PositionHeld;
-            if (PathRecoveryJobUtility.TryFindPassageDestination(Parent, blocker.OccupiedRect(), interactionCell, requireSafeExit: true, goalCell: state.TargetCell, out IntVec3 passageDestination))
-            {
-                scoreCell = passageDestination;
-            }
-
-            return new RecoveryCandidate<Building>(blocker, interactionCell, scoreCell);
+            return new RecoveryCandidate<Building>(blocker, interactionCell, passageDestination);
         }
 
-        private IEnumerable<Building> CurrentRoomBoundaryBuildings()
+        private IEnumerable<Building> BoundaryBuildings(Room room)
         {
-            Room room = Parent.GetRoom();
-            if (room == null)
+            if (room?.Map != Parent.MapHeld)
             {
                 yield break;
             }
@@ -361,31 +384,25 @@ namespace Xenomorphtype
             }
         }
 
-        private IEnumerable<Building_Door> CurrentRoomBoundaryDoors()
-        {
-            return CurrentRoomBoundaryBuildings().OfType<Building_Door>();
-        }
-
-        private static bool TryFindDoorInteractionCell(Pawn pawn, Building_Door door, out IntVec3 interactionCell)
-        {
-            return TryFindDoorInteractionCell(pawn, door, IntVec3.Invalid, out interactionCell);
-        }
-
-        private static bool TryFindDoorInteractionCell(Pawn pawn, Building_Door door, IntVec3 goalCell, out IntVec3 interactionCell)
+        private static bool TryFindBoundaryInteractionCell(Pawn pawn, Building blocker,
+            RecoveryContext context, out IntVec3 interactionCell)
         {
             interactionCell = IntVec3.Invalid;
-            Room pawnRoom = pawn.GetRoom();
-            if (pawnRoom == null || door?.Map == null)
+            if (pawn?.Map == null || blocker?.Map != pawn.Map || context.BoundaryRoom == null)
             {
                 return false;
             }
 
-            foreach (IntVec3 cell in door.OccupiedRect().AdjacentCells
+            foreach (IntVec3 cell in blocker.OccupiedRect().AdjacentCells
                          .Where(cell => cell.InBounds(pawn.Map) &&
-                                        cell.GetRoom(pawn.Map) == pawnRoom &&
+                                        (context.GoalCentered
+                                            ? cell.GetRoom(pawn.Map) != context.BoundaryRoom
+                                            : cell.GetRoom(pawn.Map) == context.BoundaryRoom) &&
                                         cell.Standable(pawn.Map) &&
                                         FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
-                         .OrderByRecoveryScore(pawn, goalCell, cell => cell))
+                         .OrderBy(cell => cell.DistanceToSquared(pawn.PositionHeld))
+                         .ThenByDescending(cell => PathRecoveryJobUtility.RecoveryScore(
+                             pawn, cell, context.GoalCell)))
             {
                 if (ClimbUtility.OriginalCanReach(pawn, cell, PathEndMode.OnCell, Danger.Deadly))
                 {
@@ -397,15 +414,137 @@ namespace Xenomorphtype
             return false;
         }
 
-        internal static bool IsPathRecoveryDoorCandidate(Pawn pawn, Building_Door door, bool requireAvailability = true)
+        private bool TryGetRecoveryContext(out RecoveryContext context)
         {
-            if (pawn?.Map == null || door == null || door.Destroyed || door.Open || door.HoldOpen || door is Building_MultiTileDoor)
+            context = default;
+            Map map = Parent?.Map;
+            if (map == null || !state.TargetCell.InBounds(map))
             {
                 return false;
             }
 
-            CompPowerTrader power = door.TryGetComp<CompPowerTrader>();
-            return (power == null || !power.PowerOn) && (!requireAvailability || FeralJobUtility.IsThingAvailableForJobBy(pawn, door));
+            bool seekerTrapped = InfiltrationUtility.IsCellTrapped(
+                Parent.PositionHeld, map, TraverseMode.NoPassClosedDoors, Danger.Deadly);
+            List<IntVec3> goalCells = GoalApproachCells().ToList();
+            List<IntVec3> trappedGoalCells = goalCells
+                .Where(cell => InfiltrationUtility.IsCellTrapped(
+                    cell, map, TraverseMode.NoPassClosedDoors, Danger.Deadly))
+                .ToList();
+            bool goalTrapped = goalCells.Count > 0 && trappedGoalCells.Count == goalCells.Count;
+            Room seekerRoom = Parent.GetRoom();
+            Room goalRoom = trappedGoalCells.Select(cell => cell.GetRoom(map)).FirstOrDefault(room => room != null);
+
+            if (XMTSettings.LogJobGiver)
+            {
+                Log.Message("[XMT][JobGiver][PathRecovery] " + Parent +
+                    " endpoint classification: seekerTrapped=" + seekerTrapped +
+                    " goalTrapped=" + goalTrapped +
+                    " seekerRoom=" + RoomSummary(seekerRoom) +
+                    " goalRoom=" + RoomSummary(goalRoom) +
+                    " pathEndMode=" + state.FailedPathEndMode + ".");
+            }
+
+            if (!seekerTrapped && !goalTrapped)
+            {
+                return false;
+            }
+
+            if (seekerTrapped)
+            {
+                if (seekerRoom == null || goalTrapped && seekerRoom == goalRoom)
+                {
+                    return false;
+                }
+
+                context = new RecoveryContext(seekerRoom, goalCentered: false,
+                    seekerTrapped: true, goalTrapped: goalTrapped, goalCell: state.TargetCell);
+                return true;
+            }
+
+            if (goalRoom == null)
+            {
+                return false;
+            }
+
+            context = new RecoveryContext(goalRoom, goalCentered: true,
+                seekerTrapped: false, goalTrapped: true, goalCell: state.TargetCell);
+            return true;
+        }
+
+        private IEnumerable<IntVec3> GoalApproachCells()
+        {
+            Map map = Parent?.Map;
+            if (map == null || !state.TargetCell.InBounds(map))
+            {
+                yield break;
+            }
+
+            if (state.FailedPathEndMode == PathEndMode.OnCell)
+            {
+                if (state.TargetCell.Standable(map))
+                {
+                    yield return state.TargetCell;
+                }
+                yield break;
+            }
+
+            HashSet<IntVec3> seen = new HashSet<IntVec3>();
+            foreach (IntVec3 offset in GenAdj.AdjacentCellsAndInside)
+            {
+                IntVec3 cell = state.TargetCell + offset;
+                if (cell.InBounds(map) && cell.Standable(map) && seen.Add(cell))
+                {
+                    yield return cell;
+                }
+            }
+        }
+
+        private bool PassageAdvancesRecovery(IntVec3 passageDestination, RecoveryContext context)
+        {
+            Map map = Parent?.Map;
+            if (map == null || !passageDestination.InBounds(map) || !passageDestination.Standable(map))
+            {
+                return false;
+            }
+
+            Room passageRoom = passageDestination.GetRoom(map);
+            if (context.GoalCentered)
+            {
+                return passageRoom == context.BoundaryRoom && CanReachGoalFrom(passageDestination);
+            }
+
+            if (passageRoom == context.BoundaryRoom)
+            {
+                return false;
+            }
+
+            if (context.GoalTrapped)
+            {
+                return !InfiltrationUtility.IsCellTrapped(
+                    passageDestination, map, TraverseMode.NoPassClosedDoors, Danger.Deadly);
+            }
+
+            return CanReachGoalFrom(passageDestination);
+        }
+
+        private bool CanReachGoalFrom(IntVec3 start)
+        {
+            Map map = Parent?.Map;
+            return map != null && start.InBounds(map) &&
+                map.reachability.CanReach(start, state.TargetCell, state.FailedPathEndMode,
+                    TraverseParms.For(Parent, Danger.Deadly, TraverseMode.ByPawn,
+                        canBashDoors: false, alwaysUseAvoidGrid: false, canBashFences: false));
+        }
+
+        internal static bool IsPathRecoveryDoorCandidate(Pawn pawn, Building_Door door, bool requireAvailability = true)
+        {
+            if (pawn?.Map == null || door == null || door.Destroyed || door.Open || door.HoldOpen)
+            {
+                return false;
+            }
+
+            return XMTDoorUtility.CanForceOpenConventionally(door) &&
+                   (!requireAvailability || FeralJobUtility.IsThingAvailableForJobBy(pawn, door));
         }
 
         internal static bool IsPathRecoveryBreachCandidate(Pawn pawn, Building blocker, out IntVec3 interactionCell, bool requireAvailability = true)
@@ -416,21 +555,12 @@ namespace Xenomorphtype
         internal static bool IsPathRecoveryBreachCandidate(Pawn pawn, Building blocker, IntVec3 goalCell, out IntVec3 interactionCell, bool requireAvailability = true)
         {
             interactionCell = IntVec3.Invalid;
-            if (pawn?.Map == null || blocker == null || blocker.Destroyed || blocker is Building_Door || blocker.def.passability != Traversability.Impassable)
-            {
-                return false;
-            }
-
-            if (requireAvailability && !FeralJobUtility.IsThingAvailableForJobBy(pawn, blocker))
+            if (!CanBreachBlocker(pawn, blocker, requireAvailability))
             {
                 return false;
             }
 
             XMTSabotageReplacementUtility.TryGetReplacement(blocker.def, out XMT_SabotageReplacementPair replacement);
-            if (!PathRecoveryJobUtility.CanSupportBreachPassage(pawn.Map, blocker.Position, replacement))
-            {
-                return false;
-            }
 
             Room pawnRoom = pawn.GetRoom();
             if (pawnRoom == null)
@@ -462,6 +592,24 @@ namespace Xenomorphtype
                 .FirstOrDefault();
             interactionCell = candidate.InteractionCell;
             return true;
+        }
+
+        private static bool CanBreachBlocker(Pawn pawn, Building blocker, bool requireAvailability)
+        {
+            bool poweredDoor = blocker is Building_Door door && XMTDoorUtility.HasPoweredResistance(door);
+            if (pawn?.Map == null || blocker == null || blocker.Destroyed ||
+                (!poweredDoor && blocker.def.passability != Traversability.Impassable))
+            {
+                return false;
+            }
+
+            if (requireAvailability && !FeralJobUtility.IsThingAvailableForJobBy(pawn, blocker))
+            {
+                return false;
+            }
+
+            XMTSabotageReplacementUtility.TryGetReplacement(blocker.def, out XMT_SabotageReplacementPair replacement);
+            return PathRecoveryJobUtility.CanSupportBreachPassage(pawn.Map, blocker.Position, replacement);
         }
 
         public static string RoomSummary(Room room)
@@ -496,6 +644,25 @@ namespace Xenomorphtype
                 ScoreCell = scoreCell;
             }
         }
+
+        private readonly struct RecoveryContext
+        {
+            public readonly Room BoundaryRoom;
+            public readonly bool GoalCentered;
+            public readonly bool SeekerTrapped;
+            public readonly bool GoalTrapped;
+            public readonly IntVec3 GoalCell;
+
+            public RecoveryContext(Room boundaryRoom, bool goalCentered, bool seekerTrapped,
+                bool goalTrapped, IntVec3 goalCell)
+            {
+                BoundaryRoom = boundaryRoom;
+                GoalCentered = goalCentered;
+                SeekerTrapped = seekerTrapped;
+                GoalTrapped = goalTrapped;
+                GoalCell = goalCell;
+            }
+        }
     }
 
     public class MatureMorphPathRecoveryState : IExposable
@@ -505,6 +672,8 @@ namespace Xenomorphtype
         private int lastFailureTick = -1;
         private int totalAttempts;
         private bool playerForced;
+        private bool confirmedPatherFailure;
+        private PathEndMode pathEndMode = PathEndMode.Touch;
         private int mapId = -1;
         private IntVec3 recoveryRoomCell = IntVec3.Invalid;
 
@@ -512,6 +681,8 @@ namespace Xenomorphtype
 
         public IntVec3 TargetCell => targetCell;
         public bool PlayerForced => playerForced;
+        public bool ConfirmedPatherFailure => confirmedPatherFailure;
+        public PathEndMode FailedPathEndMode => pathEndMode;
 
         public string DebugSummary(Map map)
         {
@@ -522,10 +693,13 @@ namespace Xenomorphtype
                    " lastFailureTick=" + lastFailureTick +
                    " mapId=" + mapId +
                    " playerForced=" + playerForced +
+                   " confirmedPatherFailure=" + confirmedPatherFailure +
+                   " pathEndMode=" + pathEndMode +
                    " recoveryRoom=" + MatureMorphPathRecovery.RoomSummary(GetRecoveryRoom(map));
         }
 
-        public void NotifyFailure(IntVec3 cell, JobDef jobDef, bool wasPlayerForced, Map map, IntVec3 roomCell)
+        public void NotifyFailure(IntVec3 cell, JobDef jobDef, bool wasPlayerForced, bool wasConfirmedPatherFailure,
+            PathEndMode failedPathEndMode, Map map, IntVec3 roomCell)
         {
             if (map == null)
             {
@@ -536,10 +710,14 @@ namespace Xenomorphtype
             bool sameRoom = SameRecoveryRoom(map, roomCell);
             bool sameFailure = Active &&
                                mapId == map.uniqueID &&
-                               sameRoom;
+                               sameRoom &&
+                               targetCell == cell &&
+                               failedJobDef == jobDef &&
+                               pathEndMode == failedPathEndMode;
             if (sameFailure && lastFailureTick == tick)
             {
                 playerForced |= wasPlayerForced;
+                confirmedPatherFailure |= wasConfirmedPatherFailure;
                 if (XMTSettings.LogJobGiver)
                 {
                     Log.Message("[XMT][JobGiver][PathRecovery] same-tick duplicate failure ignored. tick=" + tick + " cell=" + cell + " job=" + jobDef?.defName + " state=" + DebugSummary(map));
@@ -554,11 +732,14 @@ namespace Xenomorphtype
                 totalAttempts = 0;
                 mapId = map.uniqueID;
                 playerForced = false;
+                confirmedPatherFailure = false;
+                pathEndMode = failedPathEndMode;
                 recoveryRoomCell = roomCell;
             }
 
             totalAttempts++;
             playerForced |= wasPlayerForced;
+            confirmedPatherFailure |= wasConfirmedPatherFailure;
             lastFailureTick = tick;
             if (XMTSettings.LogJobGiver)
             {
@@ -595,6 +776,8 @@ namespace Xenomorphtype
             lastFailureTick = -1;
             totalAttempts = 0;
             playerForced = false;
+            confirmedPatherFailure = false;
+            pathEndMode = PathEndMode.Touch;
             mapId = -1;
             recoveryRoomCell = IntVec3.Invalid;
         }
@@ -606,6 +789,8 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref lastFailureTick, "lastFailureTick", -1);
             Scribe_Values.Look(ref totalAttempts, "totalAttempts", 0);
             Scribe_Values.Look(ref playerForced, "playerForced", false);
+            Scribe_Values.Look(ref confirmedPatherFailure, "confirmedPatherFailure", false);
+            Scribe_Values.Look(ref pathEndMode, "pathEndMode", PathEndMode.Touch);
             Scribe_Values.Look(ref mapId, "mapId", -1);
             Scribe_Values.Look(ref recoveryRoomCell, "recoveryRoomCell");
         }

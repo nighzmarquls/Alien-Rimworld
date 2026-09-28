@@ -48,12 +48,14 @@
 		</value>
 	</Operation>
 	
-	<Operation Class="PatchOperationAdd">
-		<xpath>Defs/ThingDef[@Name="HoldingPlatformBase"]/building
-		</xpath>
-		<value>
-			<wantsHopperAdjacent>True</wantsHopperAdjacent>
-		</value>
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[@Name="HoldingPlatformBase"]/building</xpath>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[@Name="HoldingPlatformBase"]/building</xpath>
+			<value>
+				<wantsHopperAdjacent>True</wantsHopperAdjacent>
+			</value>
+		</match>
 	</Operation>
 	
 </Patch>

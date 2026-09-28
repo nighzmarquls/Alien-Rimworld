@@ -29,4 +29,15 @@
 			</subNodes>
 		</thinkRoot>
 	</ThinkTreeDef>
+
+	<ThinkTreeDef>
+		<defName>XMT_CryptimorphPrisonEscape</defName>
+		<insertTag>Humanlike_PostDuty</insertTag>
+		<insertPriority>100</insertPriority>
+		<thinkRoot Class="ThinkNode_ConditionalPrisoner">
+			<subNodes>
+				<li Class="Xenomorphtype.JobGiver_CryptimorphPrisonEscape" />
+			</subNodes>
+		</thinkRoot>
+	</ThinkTreeDef>
 </Defs>

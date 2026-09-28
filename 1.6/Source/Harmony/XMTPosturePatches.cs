@@ -94,6 +94,12 @@ namespace Xenomorphtype
             [HarmonyPrefix]
             public static bool Prefix(ref bool __result, Pawn __instance)
             {
+                if (__instance.ParentHolder is Building_ContainmentHarness)
+                {
+                    __result = true;
+                    return false;
+                }
+
                 if (__instance.Downed)
                 {
                     return true;

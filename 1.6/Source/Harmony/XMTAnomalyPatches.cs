@@ -46,9 +46,9 @@ namespace Xenomorphtype
                 Thing selected = Find.Selector.SingleSelectedThing;
 
                 Pawn selPawn = selected as Pawn;
-                if (selPawn == null && selected is Building_HoldingPlatform building_HoldingPlatform)
+                if (selPawn == null)
                 {
-                    selPawn = building_HoldingPlatform.HeldPawn;
+                    selPawn = XMTContainmentUtility.HeldPawn(selected);
                 }
 
                 if (XMTUtility.IsXenomorph(selPawn))

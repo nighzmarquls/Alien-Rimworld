@@ -67,6 +67,36 @@
 	</JobDef>
 
 	<JobDef>
+		<defName>XMT_LoadPawnIntoContainmentHarness</defName>
+		<driverClass>Xenomorphtype.JobDriver_LoadPawnIntoContainmentHarness</driverClass>
+		<reportString>loading TargetA into a containment harness.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<carryThingAfterJob>true</carryThingAfterJob>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_EnterContainmentHarness</defName>
+		<driverClass>Xenomorphtype.JobDriver_EnterContainmentHarness</driverClass>
+		<reportString>entering a containment harness.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_ReleaseContainedPawn</defName>
+		<driverClass>Xenomorphtype.JobDriver_ReleaseContainedPawn</driverClass>
+		<reportString>releasing TargetB.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_TransferContainedPawn</defName>
+		<driverClass>Xenomorphtype.JobDriver_TransferContainedPawn</driverClass>
+		<reportString>transferring TargetC.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<carryThingAfterJob>true</carryThingAfterJob>
+	</JobDef>
+
+	<JobDef>
 		<defName>XMT_DoContainedBill</defName>
 		<driverClass>Xenomorphtype.JobDriver_DoContainedBill</driverClass>
 		<reportString>operating on TargetA.</reportString>

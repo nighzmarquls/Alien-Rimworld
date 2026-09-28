@@ -120,6 +120,16 @@ namespace Xenomorphtype
             }
         }
 
+        [HarmonyPatch(typeof(Toil), nameof(Toil.Clear))]
+        public static class Patch_Toil_Clear
+        {
+            [HarmonyPostfix]
+            public static void Postfix(Toil __instance)
+            {
+                ClimbUtility.NotifyToilCleared(__instance);
+            }
+        }
+
         [HarmonyPatch]
         public static class Patch_CompResource_PipeNet_InfiltrationCache
         {
@@ -236,6 +246,7 @@ namespace Xenomorphtype
         public static class Patch_Toils_Goto_GotoCell
         {
             [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
             public static void Postfix(TargetIndex ind, PathEndMode peMode, Toil __result)
             {
                 ClimbUtility.AddClimbSupport(__result, ind, peMode);
@@ -246,6 +257,7 @@ namespace Xenomorphtype
         public static class Patch_Toils_Goto_GotoCell_IntVec3
         {
             [HarmonyPostfix]
+            [HarmonyPriority(Priority.Last)]
             public static void Postfix(IntVec3 cell, PathEndMode peMode, Toil __result)
             {
                 ClimbUtility.AddClimbSupport(__result, cell, peMode);

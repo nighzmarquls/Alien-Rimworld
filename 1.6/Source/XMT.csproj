@@ -102,6 +102,10 @@
     <Compile Include="Nemesis\Diagnostics\DebugActions_NemesisMission.cs" />
     <Compile Include="Nemesis\Diagnostics\NemesisMissionScenarioHarness.cs" />
     <Compile Include="Utilities\QueenProgressionUtility.cs" />
+    <Compile Include="Utilities\XMTContainmentUtility.cs" />
+    <Compile Include="Utilities\XMTPrisonEscapeUtility.cs" />
+    <Compile Include="Utilities\XMTContainedPawnTransferUtility.cs" />
+    <Compile Include="UI\Tabs\ITab_XMTContainment.cs" />
     <Compile Include="Nemesis\Core\NemesisRecords.cs" />
     <Compile Include="Nemesis\Defs\NemesisDefs.cs" />
     <Compile Include="Nemesis\Diagnostics\DebugActions_Nemesis.cs" />
@@ -160,7 +164,11 @@
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductPawn.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AbductOffMap.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_DoContainedBill.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_EnterContainmentHarness.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ReleaseContainedPawn.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_TransferContainedPawn.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_LoadPawnIntoBioContainer.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_LoadPawnIntoContainmentHarness.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AlterGenes.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_QueenAlterationChannel.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_ApplyLarder.cs" />
@@ -168,6 +176,7 @@
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_BuildXenomorphStructure.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_CocoonTarget.cs" />
     <Compile Include="AI\JobDriver\JobDriver_Hibernate.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_PrisonEscape.cs" />
     <Compile Include="AI\JobDriver\JobDriver_HideInside.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_CorpseSculpture.cs" />
     <Compile Include="AI\JobDriver\WorkJobs\JobDriver_EnemyMark.cs" />
@@ -180,6 +189,7 @@
     <Compile Include="AI\JobDriver\Queen\JobDriver_QueenGestateMech.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_Ritual_Metamorphosis.cs" />
     <Compile Include="AI\JobGiver\JobGiver_HaulToOvothroneAssimilation.cs" />
+    <Compile Include="AI\JobGiver\JobGiver_CryptimorphPrisonEscape.cs" />
     <Compile Include="AI\JobDriver\JobDriver_StarbeastSeduce.cs" />
     <Compile Include="AI\JobDriver\JobDriver_StealthHunt.cs" />
     <Compile Include="AI\JobDriver\JobDriver_LarvaImplant.cs" />
@@ -225,8 +235,10 @@
     <Compile Include="BioHorror\Recipes\Recipe_ExtractPheromone.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_RemoveHediffContained.cs" />
     <Compile Include="Building\Containment\Building_BioContainer.cs" />
+    <Compile Include="Building\Containment\Building_ContainmentHarness.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
     <Compile Include="Comps\BuildingComps\CompBioContainer.cs" />
+    <Compile Include="Comps\BuildingComps\CompXMT_Containment.cs" />
     <Compile Include="Comps\BuildingComps\Power\CompBatteryBoosting.cs" />
     <Compile Include="Comps\HediffComps\Horror\HediffComp_DeAges.cs" />
     <Compile Include="Comps\HediffComps\Utility\HediffComp_ForceWearApparel.cs" />
@@ -274,6 +286,7 @@
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_Abduct.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_LoadBioContainer.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_LoadContainmentHarness.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenAssimilation.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenMutation.cs" />
@@ -402,6 +415,8 @@
     <Compile Include="Harmony\XMTSurgeryPatch.cs" />
     <Compile Include="Harmony\XMTBioContainerBillPatch.cs" />
     <Compile Include="Harmony\XMTBioContainerRenderPatch.cs" />
+    <Compile Include="Harmony\XMTContainmentTransferPatches.cs" />
+    <Compile Include="Harmony\XMTPathFailurePatches.cs" />
     <Compile Include="Harmony\XMTToilPatches.cs" />
     <Compile Include="Harmony\XMTWildAnimalPatches.cs" />
     <Compile Include="Harmony\Aggression\XMTSlavePatch.cs" />

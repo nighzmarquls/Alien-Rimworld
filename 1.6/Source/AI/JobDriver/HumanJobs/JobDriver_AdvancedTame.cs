@@ -12,8 +12,7 @@ namespace Xenomorphtype
        
 
         protected override bool CanInteractNow => Target == null? false : !TameUtility.TriedToTameTooRecently(Target);
-        protected Pawn Target => HoldingPlatform == null ? (Pawn)job.targetA.Thing : HoldingPlatform.HeldPawn;
-        protected virtual Building_HoldingPlatform HoldingPlatform => job.targetA.Thing as Building_HoldingPlatform;
+        protected Pawn Target => job.targetA.Thing as Pawn ?? XMTContainmentUtility.HeldPawn(job.targetA.Thing);
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

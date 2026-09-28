@@ -654,7 +654,7 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                if (!ClimbUtility.CanReachByWalkingOrClimb(builder, cell, PathEndMode.Touch, Danger.Deadly))
+                if (!ClimbUtility.CanReachByWalkingOrExecutableClimb(builder, cell, PathEndMode.Touch, Danger.Deadly))
                 {
                     continue;
                 }
@@ -1422,6 +1422,11 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if (builder != null && !CanBuilderReachBuildCell(builder, cell))
+            {
+                return false;
+            }
+
             TerrainDef terrain = cell.GetTerrain(map);
             if (terrain == null || terrain == ExternalDefOf.EmptySpace)
             {
@@ -1477,6 +1482,11 @@ namespace Xenomorphtype
             }
 
             if (builder != null && !FeralJobUtility.IsPlaceAvailableForJobBy(builder, cell))
+            {
+                return false;
+            }
+
+            if (builder != null && !CanBuilderReachBuildCell(builder, cell))
             {
                 return false;
             }
@@ -1747,13 +1757,20 @@ namespace Xenomorphtype
                     return false;
                 }
 
-                if (!ClimbUtility.CanReachByWalkingOrClimb(builder, cell, PathEndMode.Touch, Danger.Deadly))
+                if (!CanBuilderReachBuildCell(builder, cell))
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+
+        private static bool CanBuilderReachBuildCell(Pawn builder, IntVec3 cell)
+        {
+            return builder?.Map != null && cell.InBounds(builder.Map) &&
+                ClimbUtility.CanReachByWalkingOrExecutableClimb(
+                    builder, cell, PathEndMode.Touch, Danger.Deadly);
         }
 
         private static bool IsEnclosedHiveRoom(Room room)

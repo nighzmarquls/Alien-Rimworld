@@ -102,6 +102,12 @@ namespace Xenomorphtype
                     int lights = 0;
                     foreach (CompPowerTrader powerUser in net.powerComps)
                     {
+                        if (powerUser.parent is Building_Door poweredDoor &&
+                            XMTDoorUtility.HasPoweredResistance(poweredDoor))
+                        {
+                            score += XMTDoorUtility.PoweredDoorSabotageScore;
+                        }
+
                         if(!FeralJobUtility.IsThingAvailableForJobBy(pawn,powerUser.parent))
                         {
                             continue;

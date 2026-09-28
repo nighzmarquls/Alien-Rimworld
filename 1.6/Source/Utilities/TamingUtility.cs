@@ -94,27 +94,13 @@ namespace Xenomorphtype
                 {
                     XMTUtility.GiveInteractionMemory(recipient, ThoughtDefOf.HarmedMe, tamer);
                     morph.tamingConditioning += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.005f) * KnowledgeUtility.GetEffectiveKnowledge(tamer, KnowledgeDefOf.XMT_Knowledge_Adult);
-                    if (recipient.IsOnHoldingPlatform)
+                    if (XMTContainmentUtility.IsHeld(recipient))
                     {
-                        if (recipient.ParentHolder is Building_HoldingPlatform platform)
-                        {
-                            if (platform.TryGetComp(out CompEntityHolder comp))
-                            {
-                                float containment = recipient.GetStatValue(StatDefOf.MinimumContainmentStrength);
-                                if (comp.ContainmentStrength < containment && !recipient.Downed)
-                                {
-                                    comp.EjectContents();
-                                    recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
-                                }
-                            }
-
-                        }
+                        TryBreakContainment(recipient, startMentalState: true);
                     }
                     else if (!recipient.Downed)
                     {
-                        recipient.SetFaction(null);
-                        recipient.guest.SetGuestStatus(null);
-                        recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                        StartRoomBreakoutOrRage(recipient);
                     }
                 }
             }
@@ -129,26 +115,19 @@ namespace Xenomorphtype
                 else if(tamer.Info().XenomorphPheromoneValue() < 0f)
                 {
                     XMTUtility.GiveInteractionMemory(recipient, ThoughtDefOf.HarmedMe, tamer);
-                    if (recipient.IsOnHoldingPlatform)
+                    if (XMTContainmentUtility.IsHeld(recipient))
                     {
-                        if (recipient.ParentHolder is Building_HoldingPlatform platform)
+                        TryBreakContainment(recipient, startMentalState: false);
+                        if (!recipient.Downed)
                         {
-                            if (platform.TryGetComp(out CompEntityHolder comp))
-                            {
-                                float containment = recipient.GetStatValue(StatDefOf.MinimumContainmentStrength);
-                                if (comp.ContainmentStrength < containment && !recipient.Downed)
-                                {
-                                    comp.EjectContents();
-                                }
-                            }
-                            recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                            recipient.mindState?.mentalStateHandler.TryStartMentalState(
+                                XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true,
+                                forceWake: true, causedByMood: false, transitionSilently: true);
                         }
                     }
                     else if (!recipient.Downed)
                     {
-                        recipient.SetFaction(null);
-                        recipient.guest.SetGuestStatus(null);
-                        recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                        StartRoomBreakoutOrRage(recipient);
                     }
                 }
             }
@@ -168,27 +147,13 @@ namespace Xenomorphtype
                 {
                     XMTUtility.GiveInteractionMemory(recipient, ThoughtDefOf.HarmedMe, tamer);
                     morph.tamingHostage += Mathf.Min(tamer.skills.GetSkill(SkillDefOf.Melee).Level * 0.0025f, tamer.skills.GetSkill(SkillDefOf.Shooting).Level * 0.0025f) * KnowledgeUtility.GetEffectiveKnowledge(tamer, KnowledgeDefOf.XMT_Knowledge_Adult);
-                    if (recipient.IsOnHoldingPlatform)
+                    if (XMTContainmentUtility.IsHeld(recipient))
                     {
-                        if (recipient.ParentHolder is Building_HoldingPlatform platform)
-                        {
-                            if (platform.TryGetComp(out CompEntityHolder comp))
-                            {
-                                float containment = recipient.GetStatValue(StatDefOf.MinimumContainmentStrength);
-                                if (comp.ContainmentStrength < containment && !recipient.Downed)
-                                {
-                                    comp.EjectContents();
-                                    recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
-                                }
-                            }
-
-                        }
+                        TryBreakContainment(recipient, startMentalState: true);
                     }
                     else if (!recipient.Downed)
                     {
-                        recipient.SetFaction(null);
-                        recipient.guest.SetGuestStatus(null);
-                        recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
+                        StartRoomBreakoutOrRage(recipient);
                     }
                 }
             }
@@ -209,9 +174,13 @@ namespace Xenomorphtype
                         actor.interactions.TryInteractWith(recipient, InteractionDefOf.AnimalChat);
                     }
                 }
-                else if(actor.CurJob.GetTarget(tameeInd).Thing is Building_HoldingPlatform platform)
+                else
                 {
-                    TryPlatformInteraction(actor, platform.HeldPawn, InteractionDefOf.AnimalChat);
+                    Pawn heldPawn = XMTContainmentUtility.HeldPawn(actor.CurJob.GetTarget(tameeInd).Thing);
+                    if (heldPawn != null)
+                    {
+                        TryPlatformInteraction(actor, heldPawn, InteractionDefOf.AnimalChat);
+                    }
                 }
             };
             
@@ -227,10 +196,9 @@ namespace Xenomorphtype
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
-                if (actor.CurJob.GetTarget(recruiteeInd).Thing is Building_HoldingPlatform platform)
+                Pawn recipient = XMTContainmentUtility.HeldPawn(actor.CurJob.GetTarget(recruiteeInd).Thing);
+                if (recipient != null)
                 {
-                    Pawn recipient = platform.HeldPawn;
-                    
                     InteractionDef intDef = XenoSocialDefOf.XMT_AdvancedTameAttempt;
                     ProcessTamingImpact(actor, recipient);
                     TryPlatformInteraction(actor, recipient, intDef);
@@ -415,7 +383,7 @@ namespace Xenomorphtype
             }
 
             
-            if (pawn.GuestStatus != GuestStatus.Prisoner && !pawn.IsOnHoldingPlatform)
+            if (pawn.GuestStatus != GuestStatus.Prisoner && !XMTContainmentUtility.IsHeld(pawn))
             {
                 return false;
             }
@@ -512,9 +480,9 @@ namespace Xenomorphtype
                     obj.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
                     obj.mindState.interactionsToday++;
                 }
-                else if (actor.CurJob.GetTarget(targetInd).Thing is Building_HoldingPlatform platform)
+                else
                 {
-                    Pawn obj = platform.HeldPawn;
+                    Pawn obj = XMTContainmentUtility.HeldPawn(actor.CurJob.GetTarget(targetInd).Thing);
                     if (obj != null)
                     {
                         obj.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
@@ -525,6 +493,47 @@ namespace Xenomorphtype
             };
             toil.defaultCompleteMode = ToilCompleteMode.Instant;
             return toil;
+        }
+
+        private static void TryBreakContainment(Pawn recipient, bool startMentalState)
+        {
+            StatDef minimumContainmentStrength = ModsConfig.AnomalyActive
+                ? DefDatabase<StatDef>.GetNamedSilentFail("MinimumContainmentStrength")
+                : null;
+            if (recipient == null || recipient.Downed || minimumContainmentStrength == null)
+            {
+                return;
+            }
+
+            Thing holder = XMTContainmentUtility.Holder(recipient);
+            if (!XMTContainmentUtility.TryGetContainmentQuality(holder, out float quality) ||
+                quality >= recipient.GetStatValue(minimumContainmentStrength))
+            {
+                return;
+            }
+
+            XMTContainmentUtility.Eject(recipient);
+            if (startMentalState)
+            {
+                recipient.mindState?.mentalStateHandler.TryStartMentalState(
+                    XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true,
+                    causedByMood: false, transitionSilently: true);
+            }
+        }
+
+        private static void StartRoomBreakoutOrRage(Pawn recipient)
+        {
+            if (recipient?.guest?.IsPrisoner == true)
+            {
+                recipient.GetMorphComp()?.TryStartPrisonBerserkBreakout();
+                return;
+            }
+
+            recipient.SetFaction(null);
+            recipient.guest?.SetGuestStatus(null);
+            recipient.mindState?.mentalStateHandler.TryStartMentalState(
+                XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true,
+                causedByMood: false, transitionSilently: true);
         }
     }
 }

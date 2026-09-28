@@ -75,7 +75,8 @@ namespace Xenomorphtype
                     continue;
                 }
 
-                if ( pawn.CanReach(candidate, PathEndMode.Touch, Danger.Deadly) && (candidate.CurJob == null || !candidate.CurJob.exitMapOnArrival))
+                if (pawn.CanReach(candidate, PathEndMode.Touch, Danger.Deadly, canBashDoors: true) &&
+                    (candidate.CurJob == null || !candidate.CurJob.exitMapOnArrival))
                 {
                     tmpTargets.Add(candidate);
                 }
@@ -92,7 +93,7 @@ namespace Xenomorphtype
                     continue;
                 }
    
-                if (pawn.CanReach(candidate, PathEndMode.Touch, Danger.Deadly))
+                if (pawn.CanReach(candidate, PathEndMode.Touch, Danger.Deadly, canBashDoors: true))
                 {
                     tmpTargets.Add(candidate);
                 }
@@ -100,7 +101,7 @@ namespace Xenomorphtype
 
             if (!tmpTargets.Any())
             {
-                return null;
+                return FindStructuralBreakoutTarget(pawn);
             }
 
             Thing result = tmpTargets[0];
@@ -155,6 +156,24 @@ namespace Xenomorphtype
 
             tmpTargets.Clear();
             return result;
+        }
+
+        public static Building FindStructuralBreakoutTarget(Pawn pawn)
+        {
+            if (pawn?.Map == null || !pawn.Spawned || !pawn.DevelopmentalStage.Adult())
+            {
+                return null;
+            }
+
+            return XMTPrisonEscapeUtility.GetBoundaryBuildings(pawn)
+                .Where(candidate => MatureMorphPathRecovery.IsPathRecoveryBreachCandidate(
+                    pawn, candidate, out IntVec3 _, requireAvailability: true))
+                .OrderBy(candidate => candidate is Building_Door door
+                    ? (XMTDoorUtility.MeetsContainmentStrength(door) ? 1 : 0)
+                    : 1)
+                .ThenBy(candidate => candidate.HitPoints)
+                .ThenBy(candidate => candidate.Position.DistanceToSquared(pawn.Position))
+                .FirstOrDefault();
         }
 
         public static Thing FindInorganicSubversionTargetToKill(Pawn pawn)

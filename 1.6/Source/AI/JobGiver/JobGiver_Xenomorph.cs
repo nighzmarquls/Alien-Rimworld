@@ -606,10 +606,20 @@ namespace Xenomorphtype
                     else
                     {
                         Job job = JobMaker.MakeJob(JobDefOf.AttackMelee, rage.target);
+                        job.canBashDoors = true;
                         job.killIncappedTarget = true;
 
                         return job;
                     }
+                }
+
+                if (compMatureMorph.TryGetPrisonEscapeJob(out Job prisonEscapeJob))
+                {
+                    if (XMTSettings.LogJobGiver)
+                    {
+                        Log.Message("[XMT][JobGiver] " + pawn + " is escaping ordinary imprisonment with " + prisonEscapeJob + ".");
+                    }
+                    return prisonEscapeJob;
                 }
 
                 if (compMatureMorph.TryGetPathRecoveryJob(out Job recoveryJob))

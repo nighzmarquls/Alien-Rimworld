@@ -46,6 +46,7 @@ namespace Xenomorphtype
         public static JobDef XMT_BreakRoofMischief;
         public static JobDef XMT_PathRecoveryOpenDoor;
         public static JobDef XMT_PathRecoveryBreach;
+        public static JobDef XMT_PrisonEscape;
 
         public static JobDef XMT_ImplantHunt;
         public static JobDef XMT_SubvertTurret;
@@ -91,6 +92,10 @@ namespace Xenomorphtype
         public static JobDef XMT_ExtractAcid;
         public static JobDef XMT_ExtractPheromone;
         public static JobDef XMT_LoadPawnIntoBioContainer;
+        public static JobDef XMT_LoadPawnIntoContainmentHarness;
+        public static JobDef XMT_EnterContainmentHarness;
+        public static JobDef XMT_ReleaseContainedPawn;
+        public static JobDef XMT_TransferContainedPawn;
         public static JobDef XMT_DoContainedBill;
 
         // Vanilla Work Types

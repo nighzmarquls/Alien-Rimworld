@@ -517,6 +517,37 @@
 	<XMT_LoadIntoBioContainer>Load {0} into biocontainer</XMT_LoadIntoBioContainer>
 	<XMT_NoEmptyBioContainer>No empty, reachable stasis biocontainer is available.</XMT_NoEmptyBioContainer>
 	<XMT_NoBioContainerSurgerySpace>No free space is available to install a stasis biocontainer beside the patient.</XMT_NoBioContainerSurgerySpace>
+	<XMT_LoadIntoContainmentHarness>Capture {0} in containment harness</XMT_LoadIntoContainmentHarness>
+	<XMT_EnterContainmentHarness>Enter containment harness</XMT_EnterContainmentHarness>
+	<XMT_NoEmptyContainmentHarness>No empty, reachable containment harness is available.</XMT_NoEmptyContainmentHarness>
+	<XMT_ContainmentHarnessTargetTooLarge>{0} is too large for the containment harness.</XMT_ContainmentHarnessTargetTooLarge>
+	<XMT_CaptureInHarness>Capture</XMT_CaptureInHarness>
+	<XMT_CaptureInHarnessDesc>Select a humanlike to restrain in this containment harness. A conscious target must accept an arrest attempt.</XMT_CaptureInHarnessDesc>
+	<XMT_ReleaseFromHarness>Release</XMT_ReleaseFromHarness>
+	<XMT_ReleaseFromHarnessDesc>Remove the occupant from this containment harness. This does not release a prisoner from prisoner status.</XMT_ReleaseFromHarnessDesc>
+	<XMT_NoHarnessCapturer>No available colonist can capture {PAWN_labelShort} in this harness.</XMT_NoHarnessCapturer>
+	<XMT_CannotArrestForHarness>{PAWN_labelShort} cannot currently be arrested.</XMT_CannotArrestForHarness>
+	<XMT_TransferContainedPawn>Transfer {PAWN_labelShort}</XMT_TransferContainedPawn>
+	<XMT_TransferContainedPawnDesc>Transfer {PAWN_labelShort} to another containment harness, an available prisoner bed, or an Anomaly holding platform.</XMT_TransferContainedPawnDesc>
+	<XMT_NoContainmentWorker>No available colonist can perform this containment job.</XMT_NoContainmentWorker>
+	<XMT_ContainmentQuality>Containment</XMT_ContainmentQuality>
+	<XMT_ContainmentQualityInspect>Containment quality: {0}</XMT_ContainmentQualityInspect>
+	<XMT_ContainmentQualityDescription>The harness's ability to restrain its occupant. Material strength, temperature, illumination, power, and acid resistance all contribute.</XMT_ContainmentQualityDescription>
+	<XMT_ContainmentQualityBase>Base: {0}</XMT_ContainmentQualityBase>
+	<XMT_ContainmentQualityMaterial>Material strength: +{0}</XMT_ContainmentQualityMaterial>
+	<XMT_ContainmentQualityTemperature>Temperature: {0} ({1})</XMT_ContainmentQualityTemperature>
+	<XMT_ContainmentQualityLight>Light: +{0}</XMT_ContainmentQualityLight>
+	<XMT_ContainmentQualityPower>Power: {0}</XMT_ContainmentQualityPower>
+	<XMT_ContainmentQualityAcid>Acid immunity: +{0}</XMT_ContainmentQualityAcid>
+	<XMT_ContainmentPowerOccupied>Power needed while occupied: {0} W</XMT_ContainmentPowerOccupied>
+	<XMT_ContainmentPowerIdle>Power needed while empty: 0 W</XMT_ContainmentPowerIdle>
+	<XMT_ContainmentTab>Harness</XMT_ContainmentTab>
+	<XMT_ContainmentOccupant>Occupant: {PAWN_labelShort}</XMT_ContainmentOccupant>
+	<XMT_ContainmentPowered>Powered</XMT_ContainmentPowered>
+	<XMT_ContainmentUnpowered>Unpowered</XMT_ContainmentUnpowered>
+	<XMT_ContainmentAcidImmune>Acid immune</XMT_ContainmentAcidImmune>
+	<XMT_ContainmentNotAcidImmune>Not acid immune</XMT_ContainmentNotAcidImmune>
+	<XMT_ContainmentExtractionOptions>Cryptimorph extraction</XMT_ContainmentExtractionOptions>
 
 	<XMT_ModSettingsCategory>Alien | Rimworld</XMT_ModSettingsCategory>
 	<XMT_SettingsLogJobGiver>Log Job Giver</XMT_SettingsLogJobGiver>

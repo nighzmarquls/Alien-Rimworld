@@ -53,15 +53,10 @@ namespace Xenomorphtype
                     extraSentencePacks.Add(RulePackDefOf.Sentence_RecruitAttemptAccepted);
                 }
 
-                if (recipient.IsOnHoldingPlatform && morph.ReleaseOnTamed)
+                if (XMTContainmentUtility.IsHeld(recipient) && morph.ReleaseOnTamed)
                 {
-                    if (recipient.ParentHolder is Building_HoldingPlatform platform)
-                    {
-                        if (platform.TryGetComp(out CompEntityHolder comp))
-                        {
-                            comp.EjectContents();
-                        }
-                    }
+                    XMTContainedPawnTransferUtility.QueueRelease(
+                        initiator, XMTContainmentUtility.Holder(recipient), recipient);
                 }
             }
             else

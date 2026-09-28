@@ -1636,28 +1636,33 @@ namespace Xenomorphtype
 
         public static void FeedFromHoppers(Pawn pawn)
         {
+            if (pawn?.needs?.food == null)
+            {
+                return;
+            }
+
             float nutritionWanted = pawn.needs.food.NutritionWanted;
             if (nutritionWanted > 0)
             {
-                //TODO: make this not just use anomaly references.
-                if (pawn.ParentHolder is Building_HoldingPlatform holdingPlatform)
+                Thing holder = XMTContainmentUtility.Holder(pawn);
+                if (holder != null && holder.Spawned)
                 {
                     if (XMTSettings.LogBiohorror)
                     {
                         Log.Message("[XMT][Biohorror] contained and hungry enough to be hopper fed " + pawn + " nutrtion wanted: " + nutritionWanted);
                     }
-                    IEnumerable<IntVec3> adjacent = holdingPlatform.OccupiedRect().AdjacentCellsCardinal;
+                    IEnumerable<IntVec3> adjacent = holder.OccupiedRect().AdjacentCellsCardinal;
 
                     foreach (IntVec3 cell in adjacent)
                     {
-                        if (cell.GetEdificeSafe(holdingPlatform.Map) is Building_Storage storage)
+                        if (cell.GetEdificeSafe(holder.Map) is Building_Storage storage)
                         {
                             if (!storage.IsHopper())
                             {
                                 continue;
                             }
 
-                            List<Thing> contents = cell.GetThingList(holdingPlatform.Map);
+                            List<Thing> contents = cell.GetThingList(holder.Map);
 
 
                             if (contents == null || contents.Count == 0)

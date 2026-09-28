@@ -10,7 +10,7 @@ namespace Xenomorphtype
     {
         private Thing Platform => base.TargetThingA;
 
-        private Pawn InnerPawn => (Platform as Building_HoldingPlatform)?.HeldPawn;
+        private Pawn InnerPawn => XMTContainmentUtility.HeldPawn(Platform);
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

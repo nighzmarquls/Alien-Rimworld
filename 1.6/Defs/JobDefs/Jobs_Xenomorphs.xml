@@ -257,6 +257,12 @@
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 		<neverFleeFromEnemies>true</neverFleeFromEnemies>
 	</JobDef>
+
+	<JobDef>
+		<defName>XMT_PrisonEscape</defName>
+		<driverClass>Xenomorphtype.JobDriver_PrisonEscape</driverClass>
+		<reportString>escaping confinement.</reportString>
+	</JobDef>
 	
 	<JobDef>
 		<defName>XMT_Mature</defName>

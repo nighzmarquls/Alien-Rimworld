@@ -100,6 +100,8 @@ namespace Xenomorphtype
 
         bool lairUnloaded = true;
 
+        private bool prisonEscapeRequested;
+
         bool destroyNextTick = false;
         DestroyMode delayedDestroyMode = DestroyMode.Vanish;
 
@@ -120,6 +122,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref tamingBribes, "tamingBribes", 0);
             Scribe_Values.Look(ref ShouldTameHostage, "ShouldTameHostage", false);
             Scribe_Values.Look(ref tamingHostage, "tamingHostage", 0);
+            Scribe_Values.Look(ref prisonEscapeRequested, "prisonEscapeRequested", false);
 
             Scribe_Values.Look(ref destroyNextTick, "destroyNextTick", false);
             Scribe_Values.Look(ref delayedDestroyMode, "delayedDestroyMode", DestroyMode.Vanish);
@@ -274,20 +277,11 @@ namespace Xenomorphtype
 
                 if (Parent.guest.IsPrisoner)
                 {
-                    if (!XMTHiveUtility.PlayerXenosOnMap(Parent.MapHeld))
-                    {
-                        if (Taming > 0)
-                        {
-                            if (Rand.Chance(1 - Taming))
-                            {
-                                Parent.guest.SetGuestStatus(null);
-                                Parent.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, causedByMood: false, transitionSilently: true);
-                            }
-                        }
-                    }
+                    EvaluatePrisonEscape();
                 }
                 else
                 {
+                    prisonEscapeRequested = false;
                     if(Tamed && !Integrated)
                     {
                         if(!TamingUtility.CanTameConditioning(Parent))
@@ -636,7 +630,13 @@ namespace Xenomorphtype
                         return true;
                     }
 
-                    if (Parent.needs.joy.tolerances.BoredOf(ExternalDefOf.Gaming_Dexterity))
+                    if(Parent.needs.joy == null)
+                    {
+                        canMischiefTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
+                        return true;
+                    }
+
+                    if (Parent.needs.joy.tolerances.BoredOf(ExternalDefOf.Gaming_Dexterity) )
                     {
                         return false;
                     }
@@ -684,7 +684,7 @@ namespace Xenomorphtype
 
             if (Parent.Faction.IsPlayer)
             {
-                if (Parent.needs.mood == null)
+                if (Parent.needs?.mood == null || Parent.needs.joy == null)
                 {
                     canNuzzleTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.IntervalHours * 2500);
                     return false;
@@ -860,9 +860,10 @@ namespace Xenomorphtype
             return true;
         }
 
-        public void NotifyPathFailure(LocalTargetInfo target, Job job)
+        public void NotifyPathFailure(LocalTargetInfo target, Job job, bool confirmedPatherFailure = false,
+            PathEndMode pathEndMode = PathEndMode.Touch)
         {
-            PathRecovery.NotifyPathFailure(target, job);
+            PathRecovery.NotifyPathFailure(target, job, confirmedPatherFailure, pathEndMode);
         }
 
         public void ClearPathRecovery()
@@ -873,6 +874,100 @@ namespace Xenomorphtype
         public bool TryGetPathRecoveryJob(out Job job)
         {
             return PathRecovery.TryGetJob(out job);
+        }
+
+        public bool TryGetPrisonEscapeJob(out Job job)
+        {
+            job = null;
+            if (!prisonEscapeRequested || Parent?.guest?.IsPrisoner != true || Parent.MapHeld == null)
+            {
+                return false;
+            }
+
+            if (Parent.DevelopmentalStage.Adult() && XMTPrisonEscapeUtility.IsSupportedPlayerPrisoner(Parent))
+            {
+                prisonEscapeRequested = false;
+                return false;
+            }
+
+            PrisonEscapePlan plan = XMTPrisonEscapeUtility.Evaluate(Parent);
+            if (plan.Kind != PrisonEscapePlanKind.Traverse && plan.Kind != PrisonEscapePlanKind.ForceUnpoweredDoor)
+            {
+                prisonEscapeRequested = false;
+                return false;
+            }
+
+            return XMTPrisonEscapeUtility.TryMakeEscapeJob(Parent, plan, out job);
+        }
+
+        public void NotifyPrisonEscapeCompleted()
+        {
+            prisonEscapeRequested = false;
+            if (Parent?.guest?.IsPrisoner != true)
+            {
+                return;
+            }
+
+            if (Parent.Faction?.IsPlayer == true)
+            {
+                Parent.SetFaction(null);
+            }
+            Parent.guest.SetGuestStatus(null);
+        }
+
+        public bool TryStartPrisonBerserkBreakout()
+        {
+            if (Parent?.guest?.IsPrisoner != true || Parent.Downed ||
+                !Parent.DevelopmentalStage.Adult() ||
+                XMTPrisonEscapeUtility.IsSupportedPlayerPrisoner(Parent) ||
+                XMTMentalStateUtility.FindXenoEnemyToKill(Parent) == null)
+            {
+                return false;
+            }
+
+            prisonEscapeRequested = false;
+            if (Parent.Faction?.IsPlayer == true)
+            {
+                Parent.SetFaction(null);
+            }
+            Parent.guest.SetGuestStatus(null);
+            return Parent.mindState.mentalStateHandler.TryStartMentalState(
+                XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true,
+                causedByMood: false, transitionSilently: true);
+        }
+
+        private void EvaluatePrisonEscape()
+        {
+            if (Parent?.guest?.IsPrisoner != true || Parent.Downed || Parent.MapHeld == null)
+            {
+                return;
+            }
+
+            bool adult = Parent.DevelopmentalStage.Adult();
+            if (adult && XMTPrisonEscapeUtility.IsSupportedPlayerPrisoner(Parent))
+            {
+                prisonEscapeRequested = false;
+                return;
+            }
+
+            PrisonEscapePlan plan = XMTPrisonEscapeUtility.Evaluate(Parent);
+            if (plan.Kind == PrisonEscapePlanKind.Traverse ||
+                (adult && plan.Kind == PrisonEscapePlanKind.ForceUnpoweredDoor))
+            {
+                if (Rand.Chance(Mathf.Clamp01(1f - Taming)))
+                {
+                    prisonEscapeRequested = true;
+                }
+                return;
+            }
+
+            if (!adult || plan.Kind != PrisonEscapePlanKind.BerserkerBreach ||
+                !Rand.Chance(XMTPrisonEscapeUtility.RageChance(Parent, plan)))
+            {
+                return;
+            }
+
+            TryStartPrisonBerserkBreakout();
         }
         public Job GetCandidateFeedJob(Pawn candidate)
         {
@@ -1526,7 +1621,7 @@ namespace Xenomorphtype
 
         private bool IsTrappedForAcidMischief()
         {
-            if (Parent.IsOnHoldingPlatform || Parent.ParentHolder is Building_HoldingPlatform)
+            if (XMTContainmentUtility.IsHeld(Parent))
             {
                 return true;
             }

@@ -59,7 +59,13 @@ namespace Xenomorphtype
         public const int PreferredClimbDistrictThreshold = 3;
         private const int MaxFallbackRecoveryAttempts = 3;
         private static readonly Dictionary<string, int> fallbackRecoveryAttempts = new Dictionary<string, int>();
-        private static readonly ConditionalWeakTable<Toil, object> climbSupportedToils = new ConditionalWeakTable<Toil, object>();
+        private sealed class ClimbToilRegistration
+        {
+            public Action WrappedInitAction;
+        }
+
+        private static readonly ConditionalWeakTable<Toil, ClimbToilRegistration> climbSupportedToils =
+            new ConditionalWeakTable<Toil, ClimbToilRegistration>();
 
         private static ClimbTopologyCache GetTopologyCache(Map map)
         {
@@ -180,18 +186,48 @@ namespace Xenomorphtype
 
         public static bool HasClimbSupport(Toil toil)
         {
-            return toil != null && climbSupportedToils.TryGetValue(toil, out _);
+            return toil != null &&
+                climbSupportedToils.TryGetValue(toil, out ClimbToilRegistration registration) &&
+                ReferenceEquals(toil.initAction, registration.WrappedInitAction);
         }
 
         private static bool RegisterClimbSupport(Toil toil)
         {
-            if (toil == null || climbSupportedToils.TryGetValue(toil, out _))
+            if (toil == null)
             {
                 return false;
             }
 
-            climbSupportedToils.Add(toil, new object());
+            if (climbSupportedToils.TryGetValue(toil, out ClimbToilRegistration registration))
+            {
+                if (ReferenceEquals(toil.initAction, registration.WrappedInitAction))
+                {
+                    return false;
+                }
+
+                // Toils are pooled. A marker from an earlier use must not prevent the
+                // newly assigned vanilla init action from receiving climb support.
+                climbSupportedToils.Remove(toil);
+            }
+
+            climbSupportedToils.Add(toil, new ClimbToilRegistration());
             return true;
+        }
+
+        private static void FinishClimbSupportRegistration(Toil toil)
+        {
+            if (toil != null && climbSupportedToils.TryGetValue(toil, out ClimbToilRegistration registration))
+            {
+                registration.WrappedInitAction = toil.initAction;
+            }
+        }
+
+        internal static void NotifyToilCleared(Toil toil)
+        {
+            if (toil != null)
+            {
+                climbSupportedToils.Remove(toil);
+            }
         }
 
         public struct ClimbParameters
@@ -987,6 +1023,12 @@ namespace Xenomorphtype
             climber = actor?.GetClimberComp();
             if (climber == null)
             {
+                if (XMTSettings.LogClimbing && actor != null && XMTUtility.IsXenomorph(actor))
+                {
+                    Log.Warning("[XMT][Climbing] " + actor + " entered climb-supported toil " +
+                        (toil.debugName ?? "<null>") + " without a climber component; using vanilla movement for " +
+                        actor.jobs?.curJob + ".");
+                }
                 vanillaInitAction?.Invoke();
                 return false;
             }
@@ -1041,6 +1083,7 @@ namespace Xenomorphtype
                 ClaimClimbToil(toil, actor, climber);
                 InitClimbAction(actor, ref climber, toil);
             };
+            FinishClimbSupportRegistration(toil);
 
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
@@ -1106,6 +1149,7 @@ namespace Xenomorphtype
                 ClaimClimbToil(toil, actor, climber);
                 InitClimbAction(actor, ref climber, toil);
             };
+            FinishClimbSupportRegistration(toil);
 
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
@@ -1181,6 +1225,7 @@ namespace Xenomorphtype
                 ClaimClimbToil(toil, actor, climber);
                 InitClimbAction(actor, ref climber, toil);
             };
+            FinishClimbSupportRegistration(toil);
 
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
@@ -1252,6 +1297,7 @@ namespace Xenomorphtype
                 ClaimClimbToil(toil, actor, climber);
                 InitClimbAction(actor, ref climber, toil);
             };
+            FinishClimbSupportRegistration(toil);
             
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
@@ -1327,6 +1373,7 @@ namespace Xenomorphtype
                 ClaimClimbToil(toil, actor, climber);
                 InitClimbAction(actor, ref climber, toil);
             };
+            FinishClimbSupportRegistration(toil);
             
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
@@ -1400,6 +1447,7 @@ namespace Xenomorphtype
                 ClaimClimbToil(toil, actor, climber);
                 InitClimbAction(actor, ref climber, toil);
             };
+            FinishClimbSupportRegistration(toil);
 
             toil.AddPreTickIntervalAction(delegate (int interval)
             {
@@ -1655,6 +1703,19 @@ namespace Xenomorphtype
                 climber.climbParameters.Tunneling = true;
             }
 
+            // Prefer an available infiltration network over damaging a wall. This is
+            // especially important for prison vents and explicit climb-to orders.
+            if (InfiltrationUtility.TryBuildInfiltrationRoute(pawn, finalGoal, finalPathEndMode,
+                pawn.NormalMaxDanger(), out List<TraversalLeg> pureInfiltrationLegs))
+            {
+                AssignTraversalLegs(climber, pureInfiltrationLegs);
+                if (climber.climbParameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, climber, finalPathEndMode))
+                {
+                    LogClimbRoute(pawn, climber, finalPathEndMode);
+                    return true;
+                }
+            }
+
             if (TryBuildDirectWallRoute(pawn, finalGoal, finalPathEndMode, pawn.NormalMaxDanger(),
                 out List<TraversalLeg> wallLegs, out ClimbDecision decision))
             {
@@ -1669,9 +1730,9 @@ namespace Xenomorphtype
 
             bool normallyReachable = OriginalCanReach(pawn, finalGoal, finalPathEndMode, pawn.NormalMaxDanger());
             if (!normallyReachable && TraversalRouteUtility.TryBuildRoute(pawn, finalGoal, finalPathEndMode, pawn.NormalMaxDanger(),
-                allowWallClimb: true, out List<TraversalLeg> infiltrationLegs))
+                allowWallClimb: true, out List<TraversalLeg> combinedLegs))
             {
-                AssignTraversalLegs(climber, infiltrationLegs);
+                AssignTraversalLegs(climber, combinedLegs);
                 if (climber.climbParameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, climber, finalPathEndMode))
                 {
                     LogClimbRoute(pawn, climber, finalPathEndMode);

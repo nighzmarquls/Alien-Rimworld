@@ -48,7 +48,6 @@ namespace Xenomorphtype {
         {
             if (condition == JobCondition.Incompletable && !workStarted && !constructionCompleted)
             {
-                pawn.GetMorphComp()?.NotifyPathFailure(new LocalTargetInfo(BuildCell), job);
                 XMTNestBuildingUtility.NotifyHiveBuildJobFailed(pawn, BuildCell, BuildingDef, NestBuildStage.ClaimFloor);
             }
         }

@@ -92,7 +92,7 @@ namespace Xenomorphtype
                     if (ClimbUtility.CanReachByWalkingOrExecutableClimb(
                         pawn,
                         failedTarget,
-                        PathEndMode.Touch,
+                        PathEndMode.OnCell,
                         Danger.Deadly,
                         canBashDoors: true,
                         canBashFences: true))
@@ -102,8 +102,17 @@ namespace Xenomorphtype
                     }
 
                     morph.ClearPathRecovery();
-                    Job failedJob = JobMaker.MakeJob(XenoWorkDefOf.XMT_HiveBuilding, failedTarget);
-                    morph.NotifyPathFailure(new LocalTargetInfo(failedTarget), failedJob);
+                    bool seekerTrapped = InfiltrationUtility.IsCellTrapped(
+                        pawn.Position, map, TraverseMode.NoPassClosedDoors, Danger.Deadly);
+                    bool goalTrapped = InfiltrationUtility.IsCellTrapped(
+                        failedTarget, map, TraverseMode.NoPassClosedDoors, Danger.Deadly);
+                    Job failedJob = JobMaker.MakeJob(JobDefOf.Goto, failedTarget);
+                    morph.NotifyPathFailure(new LocalTargetInfo(failedTarget), failedJob,
+                        confirmedPatherFailure: true, pathEndMode: PathEndMode.OnCell);
+
+                    Log.Message("[XMT][PathRecoveryTest] endpoints for " + pawn +
+                        ": seekerTrapped=" + seekerTrapped + " goalTrapped=" + goalTrapped +
+                        " seeker=" + pawn.Position + " goal=" + failedTarget + ".");
 
                     if (!morph.TryGetPathRecoveryJob(out Job recoveryJob))
                     {
@@ -131,7 +140,8 @@ namespace Xenomorphtype
                             return;
                         }
 
-                        morph.NotifyPathFailure(approach, recoveryJob);
+                        morph.NotifyPathFailure(approach, recoveryJob,
+                            confirmedPatherFailure: true, pathEndMode: PathEndMode.OnCell);
                         if (morph.TryGetPathRecoveryJob(out Job recursiveRecoveryJob))
                         {
                             string recursionReport = "[XMT][PathRecoveryTest] FAIL " + pawn + " generated recursive recovery " +
@@ -148,6 +158,55 @@ namespace Xenomorphtype
                     Messages.Message("PASS: starting " + recoveryJob.def.defName + " for observation.", MessageTypeDefOf.TaskCompletion, false);
                     pawn.jobs.StartJob(recoveryJob, JobCondition.InterruptForced);
                 });
+            });
+        }
+
+        [DebugAction(Category, "Test prison escape plan", actionType = DebugActionType.Action, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+        private static void TestPrisonEscapePlan()
+        {
+            BeginPawnTargeting("Select an imprisoned cryptimorph.", delegate (Pawn pawn, Map map)
+            {
+                if (!pawn.IsPrisoner)
+                {
+                    Messages.Message("Selected cryptimorph is not a prisoner.", MessageTypeDefOf.RejectInput, false);
+                    return;
+                }
+
+                PrisonEscapePlan plan = XMTPrisonEscapeUtility.Evaluate(pawn);
+                string doors = string.Join("; ", XMTPrisonEscapeUtility.GetBoundaryBuildings(pawn)
+                    .OfType<Building_Door>()
+                    .Select(door => door.LabelCap + " at " + door.Position +
+                        " poweredResistance=" + XMTDoorUtility.HasPoweredResistance(door) +
+                        " maxHP=" + door.MaxHitPoints +
+                        " secure=" + XMTDoorUtility.IsSecureContainmentDoor(door) +
+                        " weakness=" + XMTDoorUtility.PoweredWeakness(door).ToStringPercent()));
+                string report = "[XMT][PrisonEscapeTest] " + pawn + " plan=" + plan.Kind +
+                    " destination=" + plan.Destination + " door=" + plan.Door +
+                    " interaction=" + plan.InteractionCell + " boundaryDoors=" + (doors.NullOrEmpty() ? "none" : doors);
+                Log.Message(report);
+
+                if (!pawn.DevelopmentalStage.Adult() && plan.Kind != PrisonEscapePlanKind.Traverse)
+                {
+                    Messages.Message("PASS: immature prisoner remains contained; plan=" + plan.Kind + ".",
+                        MessageTypeDefOf.TaskCompletion, false);
+                    return;
+                }
+
+                if (XMTPrisonEscapeUtility.TryMakeEscapeJob(pawn, plan, out Job escapeJob))
+                {
+                    Messages.Message("Starting " + plan.Kind + " prison escape for observation.", MessageTypeDefOf.TaskCompletion, false);
+                    pawn.jobs.StartJob(escapeJob, JobCondition.InterruptForced);
+                    return;
+                }
+
+                if (pawn.DevelopmentalStage.Adult() && plan.Kind == PrisonEscapePlanKind.BerserkerBreach &&
+                    pawn.GetMorphComp()?.TryStartPrisonBerserkBreakout() == true)
+                {
+                    Messages.Message("Starting berserker prison breakout for observation.", MessageTypeDefOf.TaskCompletion, false);
+                    return;
+                }
+
+                Messages.Message("No executable prison escape plan; see log for classification.", MessageTypeDefOf.NeutralEvent, false);
             });
         }
 

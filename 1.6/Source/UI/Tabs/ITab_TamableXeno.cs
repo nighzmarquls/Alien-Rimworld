@@ -30,12 +30,7 @@ namespace Xenomorphtype
                     return selPawn;
                 }
 
-                if (base.SelThing is Building_HoldingPlatform building_HoldingPlatform)
-                {
-                    return building_HoldingPlatform.HeldPawn;
-                }
-
-                return null;
+                return XMTContainmentUtility.HeldPawn(base.SelThing);
             }
         }
 
@@ -44,7 +39,8 @@ namespace Xenomorphtype
             foreach (var def in DefDatabase<ThingDef>.AllDefs)
                 if (def == InternalDefOf.XMT_Starbeast_AlienRace ||
                     def == InternalDefOf.XMT_Royal_AlienRace ||
-                    def.thingClass == typeof(Building_HoldingPlatform))
+                    XMTContainmentUtility.IsAnomalyHoldingPlatformDef(def) ||
+                    def.thingClass == typeof(Building_ContainmentHarness))
                 {
                     def.inspectorTabs?.Add(typeof(ITab_TamableXeno));
                     def.inspectorTabsResolved?.Add(InspectTabManager.GetSharedInstance(typeof(ITab_TamableXeno)));

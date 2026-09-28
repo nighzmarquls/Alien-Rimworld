@@ -273,9 +273,8 @@ namespace Xenomorphtype
                     }
                     break;
                 case "ContainedCryptimorphs":
-                    Pawn held = null;
-                    if (building is Building_HoldingPlatform platform) held = platform.HeldPawn;
-                    else if (building is Building_BioContainer container) held = container.ContainedThing as Pawn;
+                    Pawn held = XMTContainmentUtility.HeldPawn(building);
+                    if (held == null && building is Building_BioContainer container) held = container.ContainedThing as Pawn;
                     if (held != null && XMTUtility.IsXenomorph(held)) Add(building, context, 1f, "ContainedCryptimorph", "ExploitationTarget");
                     break;
             }
