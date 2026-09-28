@@ -166,6 +166,7 @@
 		<li Class="Xenomorphtype.HediffCompProperties_SurgeryInspectableEmbryo">
 			<knowledgeProfile>XMT_Profile_Larva</knowledgeProfile>
 			<knowledgeMagnitude>0.25</knowledgeMagnitude>
+			<cryptobioResearch>10</cryptobioResearch>
 			<surgicalDetectionDesc>{PAWN_nameDef} has a foreign body present in the torso.</surgicalDetectionDesc> 
 		</li>
     </comps>

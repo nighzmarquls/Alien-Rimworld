@@ -105,6 +105,7 @@
     <Compile Include="Utilities\XMTContainmentUtility.cs" />
     <Compile Include="Utilities\XMTPrisonEscapeUtility.cs" />
     <Compile Include="Utilities\XMTContainedPawnTransferUtility.cs" />
+    <Compile Include="Utilities\XMTMedicalExaminationUtility.cs" />
     <Compile Include="UI\Tabs\ITab_XMTContainment.cs" />
     <Compile Include="Nemesis\Core\NemesisRecords.cs" />
     <Compile Include="Nemesis\Defs\NemesisDefs.cs" />
@@ -230,10 +231,12 @@
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractAcid.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_ExtractPheromone.cs" />
     <Compile Include="AI\WorkGiver\WorkGiver_HaulToOvothroneAssimilation.cs" />
+    <Compile Include="AI\WorkGiver\WorkGiver_TransferBioContainerOccupant.cs" />
     <Compile Include="BioHorror\Genes\IbexinGene.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractAcid.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractPheromone.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_RemoveHediffContained.cs" />
+    <Compile Include="BioHorror\Recipes\Recipe_MedicalExamination.cs" />
     <Compile Include="Building\Containment\Building_BioContainer.cs" />
     <Compile Include="Building\Containment\Building_ContainmentHarness.cs" />
     <Compile Include="Building\Royalty\EggSack.cs" />
@@ -286,6 +289,7 @@
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_Abduct.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_LoadBioContainer.cs" />
+    <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_TransferBioContainerOccupant.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_LoadContainmentHarness.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_MakeJelly.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_QueenAssimilation.cs" />

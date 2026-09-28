@@ -3,12 +3,42 @@
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
+using System.Collections.Generic;
 using Verse;
 
 namespace Xenomorphtype
 {
     internal class XMTAnomalyPatches
     {
+        [HarmonyPatch(typeof(Pawn), nameof(Pawn.DoSurgicalInspection))]
+        static class Patch_Pawn_DoSurgicalInspection
+        {
+            static bool Prepare()
+            {
+                return ModsConfig.AnomalyActive;
+            }
+
+            [HarmonyPrefix]
+            static void Prefix(Pawn __instance, out List<Hediff> __state)
+            {
+                __state = XMTMedicalExaminationUtility.HiddenMutations(__instance);
+            }
+
+            [HarmonyPostfix]
+            static void Postfix(Pawn __instance, Pawn surgeon, ref string desc,
+                ref SurgicalInspectionOutcome __result, List<Hediff> __state)
+            {
+                string findings = XMTMedicalExaminationUtility.RevealMutations(__instance, surgeon, __state);
+                if (findings.NullOrEmpty())
+                {
+                    return;
+                }
+
+                desc = desc.NullOrEmpty() ? findings : desc + "\n\n" + findings;
+                __result = SurgicalInspectionOutcome.Detected;
+            }
+        }
+
         [HarmonyPatch(typeof(ITab_Pawn_Social), "IsVisible", MethodType.Getter)]
         static class Patch_ITab_Pawn_Social_IsVisible
         {

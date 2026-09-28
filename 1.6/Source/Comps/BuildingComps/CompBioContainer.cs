@@ -1,4 +1,3 @@
-using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
@@ -6,9 +5,24 @@ namespace Xenomorphtype
     public class CompBioContainer : ThingComp
     {
         private float occupantDrawScale = 1f;
+        private Thing transferTarget;
 
         public CompProperties_BioContainer Props => (CompProperties_BioContainer)props;
-        public float OccupantDrawScale => occupantDrawScale;
+        public Thing TransferTarget => transferTarget;
+        public ContainmentHarnessDrawOffsets DrawOffsetsFor(Pawn pawn)
+        {
+            return pawn?.RaceProps?.Humanlike == true ? Props.humanlike : Props.nonHumanlike;
+        }
+
+        public float DrawScaleFor(Pawn pawn)
+        {
+            return pawn?.RaceProps?.Humanlike == true ? Props.humanlikeDrawScale : occupantDrawScale;
+        }
+
+        public float DrawAngleFor(Pawn pawn)
+        {
+            return DrawOffsetsFor(pawn)?.pawnRotationOffset ?? 0f;
+        }
 
         public bool CanContain(Pawn pawn, bool medicalExtraction = false)
         {
@@ -20,18 +34,25 @@ namespace Xenomorphtype
         {
             occupantDrawScale = medicalExtraction && pawn.BodySize > Props.maxBodySize
                 ? Props.medicalExtractionDrawScale
-                : Props.occupantDrawScale;
+                : Props.nonHumanlikeDrawScale;
         }
 
         public void Notify_Emptied()
         {
-            occupantDrawScale = Props.occupantDrawScale;
+            occupantDrawScale = Props.nonHumanlikeDrawScale;
+            transferTarget = null;
+        }
+
+        public void SetTransferTarget(Thing target)
+        {
+            transferTarget = target;
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref occupantDrawScale, "occupantDrawScale", Props.occupantDrawScale);
+            Scribe_Values.Look(ref occupantDrawScale, "occupantDrawScale", Props.nonHumanlikeDrawScale);
+            Scribe_References.Look(ref transferTarget, "transferTarget");
         }
 
         public override void Notify_DefsHotReloaded()
@@ -42,11 +63,11 @@ namespace Xenomorphtype
             {
                 occupantDrawScale = pawn.BodySize > Props.maxBodySize
                     ? Props.medicalExtractionDrawScale
-                    : Props.occupantDrawScale;
+                    : Props.nonHumanlikeDrawScale;
             }
             else
             {
-                occupantDrawScale = Props.occupantDrawScale;
+                occupantDrawScale = Props.nonHumanlikeDrawScale;
             }
         }
     }
@@ -55,10 +76,11 @@ namespace Xenomorphtype
     {
         public float maxBodySize = 0.35f;
         public float maxMedicalExtractionBodySize = 2f;
-        public float occupantDrawScale = 1f;
+        public float nonHumanlikeDrawScale = 1f;
         public float medicalExtractionDrawScale = 0.35f;
-        public Vector3 occupantDrawOffset = new Vector3(0f, 0f, -0.05f);
-        public float occupantDrawAngle;
+        public float humanlikeDrawScale = 0.25f;
+        public ContainmentHarnessDrawOffsets nonHumanlike = new ContainmentHarnessDrawOffsets();
+        public ContainmentHarnessDrawOffsets humanlike = new ContainmentHarnessDrawOffsets();
         public bool suspendContents = true;
 
         public CompProperties_BioContainer()

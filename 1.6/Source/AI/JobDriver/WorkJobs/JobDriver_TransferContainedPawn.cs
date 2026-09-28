@@ -14,6 +14,7 @@ namespace Xenomorphtype
         private Thing Source => job.GetTarget(SourceIndex).Thing;
         private Thing Destination => job.GetTarget(DestinationIndex).Thing;
         private Pawn Occupant => job.GetTarget(PawnIndex).Pawn;
+        private bool IsBioContainerSource => BioContainerUtility.Resolve(Source) != null;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -29,16 +30,24 @@ namespace Xenomorphtype
             yield return Toils_Goto.GotoThing(SourceIndex, PathEndMode.Touch);
 
             Toil wait = Toils_General.WaitWith(SourceIndex, 120, useProgressBar: true);
-            wait.FailOn(() => XMTContainmentUtility.HeldPawn(Source) != Occupant ||
-                !XMTContainmentUtility.IsTransferDestination(Destination, Occupant));
+            wait.FailOn(() => XMTContainedPawnTransferUtility.TransferOccupant(Source) != Occupant ||
+                !XMTContainedPawnTransferUtility.IsTransferDestination(Source, Destination, Occupant));
             yield return wait;
 
             Toil release = ToilMaker.MakeToil("RemovePawnFromSourceHolder");
             release.initAction = delegate
             {
-                if (XMTContainmentUtility.HeldPawn(Source) != Occupant ||
-                    !XMTContainmentUtility.IsTransferDestination(Destination, Occupant) ||
-                    !XMTContainmentUtility.Eject(Occupant))
+                if (XMTContainedPawnTransferUtility.TransferOccupant(Source) != Occupant ||
+                    !XMTContainedPawnTransferUtility.IsTransferDestination(Source, Destination, Occupant))
+                {
+                    EndJobWith(JobCondition.Incompletable);
+                    return;
+                }
+
+                bool removed = IsBioContainerSource
+                    ? XMTContainedPawnTransferUtility.TryTakeFromBioContainer(Source, pawn, Occupant)
+                    : XMTContainmentUtility.Eject(Occupant);
+                if (!removed)
                 {
                     EndJobWith(JobCondition.Incompletable);
                 }
@@ -46,15 +55,18 @@ namespace Xenomorphtype
             release.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return release;
 
-            yield return Toils_Goto.GotoThing(PawnIndex, PathEndMode.Touch);
-            yield return Toils_Haul.StartCarryThing(PawnIndex);
+            if (!IsBioContainerSource)
+            {
+                yield return Toils_Goto.GotoThing(PawnIndex, PathEndMode.Touch);
+                yield return Toils_Haul.StartCarryThing(PawnIndex);
+            }
             yield return Toils_Goto.GotoThing(DestinationIndex, PathEndMode.Touch);
 
             Toil place = ToilMaker.MakeToil("PlacePawnInDestinationHolder");
             place.initAction = delegate
             {
                 bool accepted = Destination is Building_Bed bed
-                    ? TryPlaceInPrisonerBed(bed, Occupant)
+                    ? TryPlaceInPrisonerBed(bed, Occupant, IsBioContainerSource)
                     : XMTContainmentUtility.TryAcceptPawn(Destination, Occupant);
                 if (!accepted)
                 {
@@ -64,15 +76,18 @@ namespace Xenomorphtype
                             out Thing _, null);
                     }
                     EndJobWith(JobCondition.Incompletable);
+                    return;
                 }
+
+                BioContainerUtility.Resolve(Source)?.BioContainerComp?.SetTransferTarget(null);
             };
             place.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return place;
         }
 
-        private bool TryPlaceInPrisonerBed(Building_Bed bed, Pawn target)
+        private bool TryPlaceInPrisonerBed(Building_Bed bed, Pawn target, bool allowArrest)
         {
-            if (bed == null || !XMTContainmentUtility.IsTransferDestination(bed, target) ||
+            if (bed == null || !XMTContainmentUtility.IsTransferDestination(bed, target, allowArrest) ||
                 pawn.carryTracker.CarriedThing != target)
             {
                 return false;
@@ -94,8 +109,14 @@ namespace Xenomorphtype
                 return false;
             }
 
+            if (!target.IsPrisonerOfColony &&
+                (!allowArrest || !XMTContainmentUtility.RegisterPrisoner(target, pawn)))
+            {
+                return false;
+            }
+
             target.ownership?.ClaimBedIfNonMedical(bed);
-            return true;
+            return target.IsPrisonerOfColony;
         }
     }
 }

@@ -14,8 +14,9 @@ namespace Xenomorphtype
 
         public static Command_Action MakeTransferCommand(Thing source)
         {
-            Pawn occupant = XMTContainmentUtility.HeldPawn(source);
-            if (source == null || !XMTUtility.IsXenomorph(occupant))
+            Pawn occupant = TransferOccupant(source);
+            bool bioContainerSource = BioContainerUtility.Resolve(source) != null;
+            if (source == null || occupant == null || (!bioContainerSource && !XMTUtility.IsXenomorph(occupant)))
             {
                 return null;
             }
@@ -65,7 +66,7 @@ namespace Xenomorphtype
             worker.jobs.jobQueue.EnqueueFirst(job);
         }
 
-        private static void BeginTransferTargeting(Thing source, Pawn occupant)
+        internal static void BeginTransferTargeting(Thing source, Pawn occupant, Pawn forcedWorker = null)
         {
             TargetingParameters parameters = new TargetingParameters
             {
@@ -73,10 +74,29 @@ namespace Xenomorphtype
                 canTargetPawns = false,
                 canTargetItems = false,
                 validator = target => target.Thing != source &&
-                    XMTContainmentUtility.IsTransferDestination(target.Thing, occupant)
+                    IsTransferDestination(source, target.Thing, occupant)
             };
-            Find.Targeter.BeginTargeting(parameters,
-                target => ChooseWorkerAndStart(source, target.Thing, occupant, release: false));
+            Find.Targeter.BeginTargeting(parameters, target =>
+            {
+                Thing destination = target.Thing;
+                if (forcedWorker != null)
+                {
+                    if (CanWorkerTransfer(forcedWorker, source, destination))
+                    {
+                        StartJob(forcedWorker, source, destination, occupant, release: false);
+                    }
+                    return;
+                }
+
+                Building_BioContainer container = BioContainerUtility.Resolve(source);
+                if (container != null)
+                {
+                    container.BioContainerComp?.SetTransferTarget(destination);
+                    return;
+                }
+
+                ChooseWorkerAndStart(source, destination, occupant, release: false);
+            });
         }
 
         private static void ChooseWorkerAndStart(Thing source, Thing destination, Pawn occupant, bool release)
@@ -125,17 +145,68 @@ namespace Xenomorphtype
             }
         }
 
+        internal static bool CanWorkerTransfer(Pawn worker, Thing source, Thing destination)
+        {
+            return worker != null && !worker.Dead && !worker.Downed && worker.Map == source?.Map &&
+                worker.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) &&
+                worker.CanReserveAndReach(source, PathEndMode.Touch, Danger.Deadly) &&
+                (destination == null || worker.CanReserveAndReach(destination, PathEndMode.Touch, Danger.Deadly));
+        }
+
+        internal static Job MakeTransferJob(Thing source, Thing destination, Pawn occupant)
+        {
+            return TransferOccupant(source) == occupant &&
+                IsTransferDestination(source, destination, occupant)
+                ? JobMaker.MakeJob(XenoWorkDefOf.XMT_TransferContainedPawn, source, destination, occupant)
+                : null;
+        }
+
         private static void StartJob(Pawn worker, Thing source, Thing destination, Pawn occupant, bool release)
         {
-            if (XMTContainmentUtility.HeldPawn(source) != occupant)
+            if (TransferOccupant(source) != occupant)
             {
                 return;
             }
 
             Job job = release
                 ? JobMaker.MakeJob(XenoWorkDefOf.XMT_ReleaseContainedPawn, source, occupant)
-                : JobMaker.MakeJob(XenoWorkDefOf.XMT_TransferContainedPawn, source, destination, occupant);
+                : MakeTransferJob(source, destination, occupant);
+            if (job == null)
+            {
+                return;
+            }
             worker.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        }
+
+        internal static Pawn TransferOccupant(Thing source)
+        {
+            return BioContainerUtility.Resolve(source)?.ContainedThing as Pawn ??
+                XMTContainmentUtility.HeldPawn(source);
+        }
+
+        internal static bool IsTransferDestination(Thing source, Thing destination, Pawn occupant)
+        {
+            bool allowArrest = BioContainerUtility.Resolve(source) != null;
+            return XMTContainmentUtility.IsTransferDestination(destination, occupant, allowArrest);
+        }
+
+        internal static bool TryTakeFromBioContainer(Thing source, Pawn worker, Pawn occupant)
+        {
+            Building_BioContainer container = BioContainerUtility.Resolve(source);
+            if (container?.ContainedThing != occupant || worker?.carryTracker?.CarriedThing != null ||
+                occupant?.holdingOwner == null)
+            {
+                return false;
+            }
+
+            bool transferred = occupant.holdingOwner.TryTransferToContainer(occupant,
+                worker.carryTracker.innerContainer, false);
+            if (transferred)
+            {
+                container.BioContainerComp?.Notify_Emptied();
+                occupant.Drawer?.renderer?.SetAllGraphicsDirty();
+            }
+            return transferred;
         }
     }
 }

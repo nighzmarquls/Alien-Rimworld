@@ -46,6 +46,19 @@
 	</WorkGiverDef>
 
 	<WorkGiverDef>
+		<defName>XMT_TransferBioContainerOccupant</defName>
+		<label>transfer biocontainer occupants</label>
+		<giverClass>Xenomorphtype.WorkGiver_TransferBioContainerOccupant</giverClass>
+		<workType>Hauling</workType>
+		<verb>transfer</verb>
+		<gerund>transferring</gerund>
+		<priorityInType>64</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
 		<defName>XMT_ExtractJelly</defName>
 		<label>extract jelly from cryptimorphs</label>
 		<giverClass>Xenomorphtype.WorkGiver_ExtractJelly</giverClass>

@@ -1,9 +1,4 @@
 ﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace Xenomorphtype
@@ -16,9 +11,8 @@ namespace Xenomorphtype
         public override SurgicalInspectionOutcome DoSurgicalInspection(Pawn surgeon)
         {
             KnowledgeUtility.ApplyExposure(surgeon, Props.knowledgeProfile, Props.knowledgeMagnitude, KnowledgeAcquisition.ControlledExperience, Pawn);
-            return SurgicalInspectionOutcome.Nothing;
-           
-
+            XMTMedicalExaminationUtility.NotifyConditionDiscovered(surgeon, Props.cryptobioResearch);
+            return SurgicalInspectionOutcome.Detected;
         }
     }
 
@@ -26,6 +20,7 @@ namespace Xenomorphtype
     {
         public KnowledgeProfileDef knowledgeProfile;
         public float knowledgeMagnitude = 0.25f;
+        public int cryptobioResearch = 10;
         public HediffCompProperties_SurgeryInspectableEmbryo()
         {
             compClass = typeof(HediffComp_SurgeryInspectableEmbryo);

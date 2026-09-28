@@ -158,15 +158,34 @@ namespace Xenomorphtype
             return true;
         }
 
-        public static bool IsTransferDestination(Thing destination, Pawn pawn)
+        public static bool IsTransferDestination(Thing destination, Pawn pawn, bool allowArrest = false)
         {
             if (CanAcceptPawn(destination, pawn))
             {
                 return true;
             }
 
-            return destination is Building_Bed bed && pawn?.IsPrisonerOfColony == true &&
-                bed.ForPrisoners && bed.AnyUnoccupiedSleepingSlot && RestUtility.CanUseBedEver(pawn, bed.def);
+            return destination is Building_Bed bed && pawn?.RaceProps?.Humanlike == true && pawn.guest != null &&
+                (pawn.IsPrisonerOfColony || allowArrest) && bed.ForPrisoners &&
+                bed.AnyUnoccupiedSleepingSlot && RestUtility.CanUseBedEver(pawn, bed.def);
+        }
+
+        public static bool RegisterPrisoner(Pawn target, Pawn captor)
+        {
+            if (target?.guest == null)
+            {
+                return false;
+            }
+            if (target.IsPrisonerOfColony)
+            {
+                return true;
+            }
+
+            target.guest.Released = false;
+            target.guest.SetExclusiveInteraction(PrisonerInteractionModeDefOf.MaintainOnly);
+            GenGuest.RemoveHealthyPrisonerReleasedThoughts(target);
+            target.guest.CapturedBy(Faction.OfPlayer, captor);
+            return target.IsPrisonerOfColony;
         }
 
         private static ThingComp FindEntityHolderComp(Thing holder)

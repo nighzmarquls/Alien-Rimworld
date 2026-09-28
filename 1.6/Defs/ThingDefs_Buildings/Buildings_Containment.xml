@@ -11,7 +11,7 @@
     <graphicData>
       <texPath>Things/Building/BioContainer/BioContainer_back</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <shaderType>Cutout</shaderType>
+      <shaderType>Transparent</shaderType>
       <drawSize>(3.5,3.5)</drawSize>
     </graphicData>
     <minifiedDef>MinifiedThingRealtimeDraw</minifiedDef>
@@ -61,10 +61,23 @@
       <li Class="Xenomorphtype.CompProperties_BioContainer">
         <maxBodySize>0.35</maxBodySize>
         <maxMedicalExtractionBodySize>1</maxMedicalExtractionBodySize>
-        <occupantDrawScale>0.9</occupantDrawScale>
+        <nonHumanlikeDrawScale>0.9</nonHumanlikeDrawScale>
         <medicalExtractionDrawScale>0.35</medicalExtractionDrawScale>
-        <occupantDrawOffset>(0.05,0,0.40)</occupantDrawOffset>
-        <occupantDrawAngle>75</occupantDrawAngle>
+        <humanlikeDrawScale>0.5</humanlikeDrawScale>
+        <nonHumanlike>
+          <spatialOffset>(0.05,0.40)</spatialOffset>
+          <backDepthOffset>-0.02</backDepthOffset>
+          <bodyDepthOffset>-0.01</bodyDepthOffset>
+          <headDepthOffset>0</headDepthOffset>
+          <pawnRotationOffset>75</pawnRotationOffset>
+        </nonHumanlike>
+        <humanlike>
+          <spatialOffset>(0.05,0.60)</spatialOffset>
+          <backDepthOffset>-1</backDepthOffset>
+          <bodyDepthOffset>-0.25</bodyDepthOffset>
+          <headDepthOffset>0</headDepthOffset>
+          <pawnRotationOffset>0</pawnRotationOffset>
+        </humanlike>
         <suspendContents>true</suspendContents>
       </li>
     </comps>

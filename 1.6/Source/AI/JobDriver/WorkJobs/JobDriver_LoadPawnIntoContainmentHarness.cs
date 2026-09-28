@@ -52,7 +52,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                RegisterPrisoner(target, actor);
+                XMTContainmentUtility.RegisterPrisoner(target, actor);
             };
             arrest.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return arrest;
@@ -63,7 +63,7 @@ namespace Xenomorphtype
                 Pawn target = TargetPawn;
                 if (target?.Faction != Faction.OfPlayer && !target.IsPrisonerOfColony)
                 {
-                    RegisterPrisoner(target, pawn);
+                    XMTContainmentUtility.RegisterPrisoner(target, pawn);
                 }
             };
             registerCapture.defaultCompleteMode = ToilCompleteMode.Instant;
@@ -90,17 +90,5 @@ namespace Xenomorphtype
             yield return insert;
         }
 
-        private static void RegisterPrisoner(Pawn target, Pawn captor)
-        {
-            if (target?.guest == null || target.IsPrisonerOfColony)
-            {
-                return;
-            }
-
-            target.guest.Released = false;
-            target.guest.SetExclusiveInteraction(PrisonerInteractionModeDefOf.MaintainOnly);
-            GenGuest.RemoveHealthyPrisonerReleasedThoughts(target);
-            target.guest.CapturedBy(Faction.OfPlayer, captor);
-        }
     }
 }

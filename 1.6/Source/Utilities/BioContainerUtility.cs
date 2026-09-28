@@ -131,6 +131,11 @@ namespace Xenomorphtype
                 return null;
             }
 
+            if (inner.Faction == null && carrier.Faction != null)
+            {
+                inner.SetFaction(carrier.Faction);
+            }
+
             XMTZoneUtility.MoveLooseItemsAside(inner, cell, carrier.Map);
             Building_BioContainer placed = GenSpawn.Spawn(inner, cell, carrier.Map,
                 WipeMode.VanishOrMoveAside) as Building_BioContainer;
