@@ -66,6 +66,7 @@ namespace Xenomorphtype
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (eject != null)
             {
+                pawn.TryGetComp<CompHoldingPlatformTarget>()?.Notify_ReleasedFromPlatform();
                 eject.Invoke(entityHolder, null);
                 return true;
             }
@@ -114,6 +115,13 @@ namespace Xenomorphtype
 
         public static bool CanAcceptPawn(Thing destination, Pawn pawn)
         {
+            Building_BioContainer bioContainer = BioContainerUtility.Resolve(destination);
+            if (bioContainer != null)
+            {
+                return bioContainer.ContainedThing == null &&
+                    bioContainer.BioContainerComp?.CanContain(pawn) == true;
+            }
+
             if (destination is Building_ContainmentHarness harness)
             {
                 return harness.ContainedThing == null &&
@@ -136,6 +144,12 @@ namespace Xenomorphtype
             if (!CanAcceptPawn(destination, pawn))
             {
                 return false;
+            }
+
+            Building_BioContainer bioContainer = BioContainerUtility.Resolve(destination);
+            if (bioContainer != null)
+            {
+                return bioContainer.TryAcceptPawn(pawn, medicalExtraction: false);
             }
 
             if (destination is Building_ContainmentHarness harness)

@@ -68,11 +68,10 @@ namespace Xenomorphtype
         private static IEnumerable<Gizmo> ReplaceTransferCommand(Thing platform, Pawn heldPawn,
             IEnumerable<Gizmo> original)
         {
-            string vanillaLabel = "TransferEntity".Translate(heldPawn).ToString();
+            string vanillaDescription = "TransferEntityDesc".Translate((Thing)heldPawn).Resolve();
             foreach (Gizmo gizmo in original)
             {
-                if (gizmo is Command command && command.defaultLabel != null &&
-                    command.defaultLabel.StartsWith(vanillaLabel))
+                if (gizmo is Command command && command.defaultDesc == vanillaDescription)
                 {
                     continue;
                 }
@@ -84,6 +83,25 @@ namespace Xenomorphtype
             {
                 yield return transfer;
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(WorkGiver_TransferEntity), nameof(WorkGiver_TransferEntity.HasJobOnThing))]
+    internal static class Patch_WorkGiver_TransferEntity_HasJobOnThing_XMTTransfer
+    {
+        [HarmonyPrefix]
+        private static bool Prefix(Thing t, ref bool __result)
+        {
+            Pawn occupant = t as Pawn ?? XMTContainmentUtility.HeldPawn(t);
+            Thing source = t is Pawn ? XMTContainmentUtility.Holder(occupant) : t;
+            if (!XMTUtility.IsXenomorph(occupant) ||
+                XMTContainedPawnTransferUtility.TransferTarget(source) == null)
+            {
+                return true;
+            }
+
+            __result = false;
+            return false;
         }
     }
 }

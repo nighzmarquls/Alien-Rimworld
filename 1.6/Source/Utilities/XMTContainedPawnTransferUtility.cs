@@ -15,8 +15,7 @@ namespace Xenomorphtype
         public static Command_Action MakeTransferCommand(Thing source)
         {
             Pawn occupant = TransferOccupant(source);
-            bool bioContainerSource = BioContainerUtility.Resolve(source) != null;
-            if (source == null || occupant == null || (!bioContainerSource && !XMTUtility.IsXenomorph(occupant)))
+            if (!CanTransferFrom(source, occupant))
             {
                 return null;
             }
@@ -88,14 +87,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                Building_BioContainer container = BioContainerUtility.Resolve(source);
-                if (container != null)
-                {
-                    container.BioContainerComp?.SetTransferTarget(destination);
-                    return;
-                }
-
-                ChooseWorkerAndStart(source, destination, occupant, release: false);
+                SetTransferTarget(source, destination, occupant);
             });
         }
 
@@ -158,6 +150,7 @@ namespace Xenomorphtype
             return TransferOccupant(source) == occupant &&
                 IsTransferDestination(source, destination, occupant)
                 ? JobMaker.MakeJob(XenoWorkDefOf.XMT_TransferContainedPawn, source, destination, occupant)
+                    .WithCount(1)
                 : null;
         }
 
@@ -184,10 +177,66 @@ namespace Xenomorphtype
                 XMTContainmentUtility.HeldPawn(source);
         }
 
+        internal static bool CanTransferFrom(Thing source, Pawn occupant)
+        {
+            return source != null && occupant != null &&
+                (BioContainerUtility.Resolve(source) != null || XMTUtility.IsXenomorph(occupant));
+        }
+
+        internal static Thing TransferTarget(Thing source)
+        {
+            Building_BioContainer container = BioContainerUtility.Resolve(source);
+            if (container != null)
+            {
+                return container.BioContainerComp?.TransferTarget;
+            }
+
+            if (source is Building_ContainmentHarness harness)
+            {
+                return harness.ContainmentComp?.TransferTarget;
+            }
+
+            Pawn occupant = XMTContainmentUtility.HeldPawn(source);
+            return occupant?.GetComp<CompPawnInfo>()?.ContainmentTransferTarget;
+        }
+
+        internal static bool SetTransferTarget(Thing source, Thing target, Pawn occupant = null)
+        {
+            Building_BioContainer container = BioContainerUtility.Resolve(source);
+            if (container != null)
+            {
+                container.BioContainerComp?.SetTransferTarget(target);
+                return container.BioContainerComp != null;
+            }
+
+            if (source is Building_ContainmentHarness harness)
+            {
+                harness.ContainmentComp?.SetTransferTarget(target);
+                return harness.ContainmentComp != null;
+            }
+
+            occupant ??= XMTContainmentUtility.HeldPawn(source);
+            CompPawnInfo pawnInfo = occupant?.GetComp<CompPawnInfo>();
+            if (!XMTContainmentUtility.IsAnomalyHoldingPlatform(source) ||
+                pawnInfo == null)
+            {
+                return false;
+            }
+
+            pawnInfo.SetContainmentTransferTarget(target);
+            return true;
+        }
+
         internal static bool IsTransferDestination(Thing source, Thing destination, Pawn occupant)
         {
-            bool allowArrest = BioContainerUtility.Resolve(source) != null;
-            return XMTContainmentUtility.IsTransferDestination(destination, occupant, allowArrest);
+            return XMTContainmentUtility.IsTransferDestination(destination, occupant,
+                AllowsArrestOnTransfer(source));
+        }
+
+        internal static bool AllowsArrestOnTransfer(Thing source)
+        {
+            return BioContainerUtility.Resolve(source) != null ||
+                XMTContainmentUtility.IsAnomalyHoldingPlatform(source);
         }
 
         internal static bool TryTakeFromBioContainer(Thing source, Pawn worker, Pawn occupant)

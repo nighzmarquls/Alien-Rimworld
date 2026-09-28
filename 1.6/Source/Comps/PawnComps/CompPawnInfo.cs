@@ -108,11 +108,14 @@ namespace Xenomorphtype
         List<PawnKnowledgeRecord> knowledgeRecords = new List<PawnKnowledgeRecord>();
         float cryptimorphTrauma;
         bool knowledgeMigrated;
+        Thing containmentTransferTarget;
         float Obsession => ParentPawn == null ? obsession : KnowledgeUtility.GetAssessment(ParentPawn).obsessionPressure;
         Pawn ParentPawn => parent as Pawn;
 
+        internal Thing ContainmentTransferTarget => containmentTransferTarget;
         internal float RawTrauma { get => cryptimorphTrauma; set => cryptimorphTrauma = Mathf.Max(0f, value); }
         internal float RawObsession { get => obsession; set => obsession = value; }
+        internal void SetContainmentTransferTarget(Thing target) => containmentTransferTarget = target;
         internal PawnKnowledgeRecord RawKnowledge(KnowledgeCategoryDef category, bool create = false)
         {
             if (category == null) return null;
@@ -358,6 +361,7 @@ namespace Xenomorphtype
             Scribe_Collections.Look(ref knowledgeRecords, "CryptimorphKnowledge", LookMode.Deep);
             Scribe_Values.Look(ref cryptimorphTrauma, "CryptimorphTrauma", 0f);
             Scribe_Values.Look(ref knowledgeMigrated, "KnowledgeMigrated", false);
+            Scribe_References.Look(ref containmentTransferTarget, "xmtContainmentTransferTarget");
 
             Scribe_Values.Look(ref extractJelly, "extractJelly", false);
             Scribe_Values.Look(ref extractResin, "extractResin", false); 
@@ -367,6 +371,12 @@ namespace Xenomorphtype
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 knowledgeRecords ??= new List<PawnKnowledgeRecord>();
+                CompHoldingPlatformTarget platformTarget = ParentPawn?.TryGetComp<CompHoldingPlatformTarget>();
+                if (platformTarget?.targetHolder != null)
+                {
+                    containmentTransferTarget ??= platformTarget.targetHolder;
+                    platformTarget.targetHolder = null;
+                }
                 if (!knowledgeMigrated)
                 {
                     MigrateLegacyKnowledge();

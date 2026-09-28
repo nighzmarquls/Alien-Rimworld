@@ -17,11 +17,16 @@ namespace Xenomorphtype
                 yield break;
             }
 
-            foreach (Building building in pawn.Map.listerBuildings.allBuildingsColonist)
+            foreach (Thing thing in pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial))
             {
-                if (building is Building_BioContainer)
+                if (thing.Faction == Faction.OfPlayer &&
+                    (thing is Building_BioContainer ||
+                    (thing is Building_ContainmentHarness harness &&
+                    XMTUtility.IsXenomorph(harness.ContainedThing as Pawn)) ||
+                    (XMTContainmentUtility.IsAnomalyHoldingPlatform(thing) &&
+                    XMTUtility.IsXenomorph(XMTContainmentUtility.HeldPawn(thing)))))
                 {
-                    yield return building;
+                    yield return thing;
                 }
             }
 
@@ -36,9 +41,8 @@ namespace Xenomorphtype
 
         public override bool HasJobOnThing(Pawn pawn, Thing source, bool forced = false)
         {
-            Building_BioContainer container = BioContainerUtility.Resolve(source);
-            Pawn occupant = container?.ContainedThing as Pawn;
-            Thing destination = container?.BioContainerComp?.TransferTarget;
+            Pawn occupant = XMTContainedPawnTransferUtility.TransferOccupant(source);
+            Thing destination = XMTContainedPawnTransferUtility.TransferTarget(source);
             return occupant != null && destination != null && destination.Spawned &&
                 XMTContainedPawnTransferUtility.IsTransferDestination(source, destination, occupant) &&
                 XMTContainedPawnTransferUtility.CanWorkerTransfer(pawn, source, destination);
@@ -46,10 +50,9 @@ namespace Xenomorphtype
 
         public override Job JobOnThing(Pawn pawn, Thing source, bool forced = false)
         {
-            Building_BioContainer container = BioContainerUtility.Resolve(source);
             return XMTContainedPawnTransferUtility.MakeTransferJob(source,
-                container?.BioContainerComp?.TransferTarget,
-                container?.ContainedThing as Pawn);
+                XMTContainedPawnTransferUtility.TransferTarget(source),
+                XMTContainedPawnTransferUtility.TransferOccupant(source));
         }
     }
 }

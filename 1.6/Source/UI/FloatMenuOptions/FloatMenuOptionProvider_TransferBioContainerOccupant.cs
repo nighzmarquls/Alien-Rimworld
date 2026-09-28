@@ -13,9 +13,10 @@ namespace Xenomorphtype
         protected override FloatMenuOption GetSingleOptionFor(Thing clickedThing, FloatMenuContext context)
         {
             Pawn worker = context.FirstSelectedPawn;
-            Building_BioContainer container = BioContainerUtility.Resolve(clickedThing);
-            Pawn occupant = container?.ContainedThing as Pawn;
-            if (worker?.Faction != Faction.OfPlayer || occupant == null || clickedThing.Map != worker.Map)
+            Pawn occupant = XMTContainedPawnTransferUtility.TransferOccupant(clickedThing);
+            if (worker?.Faction != Faction.OfPlayer ||
+                !XMTContainedPawnTransferUtility.CanTransferFrom(clickedThing, occupant) ||
+                clickedThing.Map != worker.Map)
             {
                 return null;
             }

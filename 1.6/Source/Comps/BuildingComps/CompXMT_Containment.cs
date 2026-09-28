@@ -7,11 +7,14 @@ namespace Xenomorphtype
 {
     public class CompXMT_Containment : ThingComp
     {
+        private Thing transferTarget;
+
         public CompProperties_XMT_Containment Props =>
             parent?.def?.GetCompProperties<CompProperties_XMT_Containment>() ??
             (CompProperties_XMT_Containment)props;
 
         public CompPowerTrader PowerComp => parent?.GetComp<CompPowerTrader>();
+        public Thing TransferTarget => transferTarget;
         public bool Occupied => parent is Building_ContainmentHarness harness && harness.ContainedThing is Pawn;
         public bool Powered => PowerComp?.PowerOn == true;
         public bool AcidImmune => AcidUtility.IsAcidImmune(parent);
@@ -47,7 +50,22 @@ namespace Xenomorphtype
 
         public void Notify_ContentsChanged()
         {
+            if (!Occupied)
+            {
+                transferTarget = null;
+            }
             UpdatePowerDemand();
+        }
+
+        public void SetTransferTarget(Thing target)
+        {
+            transferTarget = target;
+        }
+
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Scribe_References.Look(ref transferTarget, "transferTarget");
         }
 
         public string QualityExplanation()

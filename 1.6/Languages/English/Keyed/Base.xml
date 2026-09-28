@@ -528,7 +528,7 @@
 	<XMT_NoHarnessCapturer>No available colonist can capture {PAWN_labelShort} in this harness.</XMT_NoHarnessCapturer>
 	<XMT_CannotArrestForHarness>{PAWN_labelShort} cannot currently be arrested.</XMT_CannotArrestForHarness>
 	<XMT_TransferContainedPawn>Transfer {PAWN_labelShort}</XMT_TransferContainedPawn>
-	<XMT_TransferContainedPawnDesc>Transfer {PAWN_labelShort} to another containment harness, an available prisoner bed, or an Anomaly holding platform. A non-prisoner transferred from a stasis biocontainer to a prisoner bed will be arrested.</XMT_TransferContainedPawnDesc>
+	<XMT_TransferContainedPawnDesc>Transfer {PAWN_labelShort} to a biocontainment tube, containment harness, available prisoner bed, or Anomaly holding platform. A non-prisoner transferred from a stasis biocontainer or Anomaly holding platform to a prisoner bed will be arrested.</XMT_TransferContainedPawnDesc>
 	<XMT_NoContainmentWorker>No available colonist can perform this containment job.</XMT_NoContainmentWorker>
 	<XMT_MedicalExaminationLetterLabel>Medical examination complete</XMT_MedicalExaminationLetterLabel>
 	<XMT_MedicalExaminationNothing>{DOCTOR_nameDef} completed a medical examination of {PATIENT_nameDef}, but found no hidden cryptimorphic abnormalities.</XMT_MedicalExaminationNothing>

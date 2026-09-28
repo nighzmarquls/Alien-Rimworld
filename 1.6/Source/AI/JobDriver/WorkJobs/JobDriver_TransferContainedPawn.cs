@@ -18,7 +18,8 @@ namespace Xenomorphtype
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(Source, job, errorOnFailed: errorOnFailed) &&
+            return pawn.Reserve(Occupant, job, errorOnFailed: errorOnFailed) &&
+                pawn.Reserve(Source, job, errorOnFailed: errorOnFailed) &&
                 pawn.Reserve(Destination, job, errorOnFailed: errorOnFailed);
         }
 
@@ -66,7 +67,8 @@ namespace Xenomorphtype
             place.initAction = delegate
             {
                 bool accepted = Destination is Building_Bed bed
-                    ? TryPlaceInPrisonerBed(bed, Occupant, IsBioContainerSource)
+                    ? TryPlaceInPrisonerBed(bed, Occupant,
+                        XMTContainedPawnTransferUtility.AllowsArrestOnTransfer(Source))
                     : XMTContainmentUtility.TryAcceptPawn(Destination, Occupant);
                 if (!accepted)
                 {
@@ -79,7 +81,7 @@ namespace Xenomorphtype
                     return;
                 }
 
-                BioContainerUtility.Resolve(Source)?.BioContainerComp?.SetTransferTarget(null);
+                XMTContainedPawnTransferUtility.SetTransferTarget(Source, null, Occupant);
             };
             place.defaultCompleteMode = ToilCompleteMode.Instant;
             yield return place;
