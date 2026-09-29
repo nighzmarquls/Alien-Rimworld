@@ -1,0 +1,4 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\FacialAnimation\Assemblies\XMT_FA.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\FacialAnimation\Source\XMT_FA\obj\Debug\XMT_FA.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\FacialAnimation\Source\XMT_FA\obj\Debug\XMT_FA.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\FacialAnimation\Source\XMT_FA\obj\Debug\XMT_FA.dll
