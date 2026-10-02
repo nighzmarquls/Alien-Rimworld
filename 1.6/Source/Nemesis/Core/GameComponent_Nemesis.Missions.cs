@@ -130,11 +130,20 @@ namespace Xenomorphtype
             if (!pendingMission.mission.Worker.CanTarget(pendingMission.mission, this, target))
             { CancelPendingMission(); return; }
             string previous = pendingMissionReason;
-            if (NemesisMissionUtility.Launch(pendingMission, target, false, out pendingMissionReason))
+            NemesisMissionLaunchResult result = NemesisMissionUtility.Launch(pendingMission, target, false, out pendingMissionReason);
+            if (result == NemesisMissionLaunchResult.Launched)
             {
                 NemesisLog.Detail("Selection", "Deployed " + pendingMission.mission.defName + " map=" + target.uniqueID);
                 pendingMission = null;
                 nextMissionTick = Find.TickManager.TicksGame + MissionInterval;
+            }
+            else if (result == NemesisMissionLaunchResult.Failed)
+            {
+                string failedMission = pendingMission.mission.defName;
+                string failureReason = pendingMissionReason;
+                CancelPendingMission();
+                Log.Warning("[XMT][Nemesis][Selection] Cancelled terminally failed mission " + failedMission
+                    + ": " + failureReason + "; next opportunity=" + nextMissionTick);
             }
             else if (previous != pendingMissionReason)
                 NemesisLog.Detail("Selection", "Pending " + pendingMission.mission.defName + ": " + pendingMissionReason);
@@ -144,7 +153,8 @@ namespace Xenomorphtype
         {
             if (AnyMissionLive()) { reason = "another mission is already live"; return false; }
             bool launched = NemesisMissionUtility.Launch(new NemesisMissionRequest { mission = def, active = active,
-                mapId = map.uniqueID, selectedTick = Find.TickManager.TicksGame }, map, true, out reason);
+                mapId = map.uniqueID, selectedTick = Find.TickManager.TicksGame }, map, true, out reason)
+                == NemesisMissionLaunchResult.Launched;
             if (launched) nextMissionTick = Find.TickManager.TicksGame + MissionInterval;
             return launched;
         }

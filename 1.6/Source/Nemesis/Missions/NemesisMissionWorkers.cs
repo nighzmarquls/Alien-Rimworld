@@ -61,6 +61,11 @@ namespace Xenomorphtype
 
         public virtual Pawn GenerateMember(NemesisMissionDef def)
         {
+            return GenerateMember(def, false);
+        }
+
+        public virtual Pawn GenerateMember(NemesisMissionDef def, bool forceGenerateNewPawn)
+        {
             if (def?.workerSettings?.pawnKind == null)
             {
                 return Current.Game.GetComponent<GameComponent_Xenomorph>().GetWorldOrGeneratedCryptimorphForMission();
@@ -69,6 +74,8 @@ namespace Xenomorphtype
             PawnGenerationRequest request = new PawnGenerationRequest(def.workerSettings.pawnKind, null);
             request.FixedBiologicalAge = 0f;
             request.FixedChronologicalAge = 0f;
+            request.ForceGenerateNewPawn = forceGenerateNewPawn;
+            if (forceGenerateNewPawn) request.CanGeneratePawnRelations = false;
             return PawnGenerator.GeneratePawn(request);
         }
     }

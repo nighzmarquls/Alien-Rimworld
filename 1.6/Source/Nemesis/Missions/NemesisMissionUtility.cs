@@ -9,6 +9,13 @@ using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
+    internal enum NemesisMissionLaunchResult
+    {
+        Launched,
+        Deferred,
+        Failed
+    }
+
     internal static class NemesisMissionUtility
     {
         internal static JobDef AbductJob => XenoWorkDefOf.XMT_AbductOffMap;
@@ -133,42 +140,70 @@ namespace Xenomorphtype
             return changed;
         }
 
-        internal static bool Launch(NemesisMissionRequest request, Map map, bool forceLight, out string reason)
+        internal static NemesisMissionLaunchResult Launch(NemesisMissionRequest request, Map map, bool forceLight, out string reason)
         {
             reason = null;
-            if (request?.mission == null || map == null) { reason = "target map or mission is missing"; return false; }
+            if (request?.mission == null || map == null) { reason = "target map or mission is missing"; return NemesisMissionLaunchResult.Failed; }
             GameComponent_Nemesis component = Current.Game.GetComponent<GameComponent_Nemesis>();
-            if (component == null) { reason = "Nemesis state is unavailable"; return false; }
+            if (component == null) { reason = "Nemesis state is unavailable"; return NemesisMissionLaunchResult.Failed; }
             if (request.active != component.Awakened)
             {
                 reason = request.mission.defName + " was selected while Nemesis was " + (request.active ? "awakened" : "dormant")
                     + ", but Nemesis is now " + (component.Awakened ? "awakened" : "dormant");
-                return false;
+                return NemesisMissionLaunchResult.Failed;
             }
             if (!request.mission.StrategicRequirementsMet(component, component.Awakened, out string strategicReason))
-            { reason = request.mission.defName + " strategically invalid: " + strategicReason; return false; }
+            { reason = request.mission.defName + " strategically invalid: " + strategicReason; return NemesisMissionLaunchResult.Failed; }
             NemesisMissionWorker worker = request.mission.Worker;
             if (!forceLight && !worker.TimingValid(request.mission, component, map, NemesisMissionTimingPhase.Launch, out reason))
-                return false;
+                return NemesisMissionLaunchResult.Deferred;
             if (!worker.CanTarget(request.mission, component, map))
-            { reason = request.mission.defName + " target rejected: " + worker.DescribeTarget(map); return false; }
+            { reason = request.mission.defName + " target rejected: " + worker.DescribeTarget(map); return NemesisMissionLaunchResult.Failed; }
             int count = worker.PartySize(request.mission, component, map, request.active);
             if (count < request.mission.populationRange.min)
-            { reason = request.mission.defName + " deployment below minimum: " + worker.DescribeSizing(request.mission, component, map, request.active); return false; }
+            { reason = request.mission.defName + " deployment below minimum: " + worker.DescribeSizing(request.mission, component, map, request.active); return NemesisMissionLaunchResult.Failed; }
             NemesisLog.Detail("Mission", "Deployment sizing " + request.mission.defName + ": "
                 + worker.DescribeSizing(request.mission, component, map, request.active));
             if (!worker.TryFindEntryCell(request.mission, component, map, forceLight, out IntVec3 entry))
-            { reason = "no suitable entry"; return false; }
+            { reason = "no suitable entry"; return NemesisMissionLaunchResult.Deferred; }
 
-            List<IntVec3> route = worker.PrepareRoute(request.mission, component, map);
-            LordJob_NemesisMission job = (LordJob_NemesisMission)Activator.CreateInstance(request.mission.lordJobClass);
-            job.Initialize(request.mission, request.active, route, entry);
-            Lord lord = LordMaker.MakeNewLord(null, job, map);
+            LordJob_NemesisMission job = null;
+            Lord lord = null;
             try
             {
+                List<IntVec3> route = worker.PrepareRoute(request.mission, component, map);
+                job = (LordJob_NemesisMission)Activator.CreateInstance(request.mission.lordJobClass);
+                job.Initialize(request.mission, request.active, route, entry);
+                lord = LordMaker.MakeNewLord(null, job, map);
+                bool forceFreshMembers = false;
                 for (int i = 0; i < count; i++)
                 {
-                    Pawn pawn = worker.GenerateMember(request.mission);
+                    Pawn pawn;
+                    try
+                    {
+                        pawn = forceFreshMembers ? worker.GenerateMember(request.mission, true)
+                            : worker.GenerateMember(request.mission);
+                        EnsureValidGeneratedMember(pawn, request.mission, i);
+                    }
+                    catch (Exception initialException) when (!forceFreshMembers && request.mission.workerSettings.pawnKind != null)
+                    {
+                        PawnKindDef pawnKind = request.mission.workerSettings.pawnKind;
+                        string source = "Nemesis mission " + request.mission.defName + " member " + (i + 1) + "/" + count;
+                        Log.Warning("[XMT][Nemesis][Mission] Initial pawn generation failed; running world-pawn cleanup before one forced-new retry. "
+                            + "kind=" + pawnKind.defName + " source=" + source + " error=" + initialException);
+                        try
+                        {
+                            XenoformingUtility.CleanupInvalidWorldPawns(pawnKind, source);
+                        }
+                        catch (Exception cleanupException)
+                        {
+                            Log.Error("[XMT][Nemesis][Mission] World-pawn cleanup failed for kind=" + pawnKind.defName
+                                + "; forced-new recovery will still be attempted. " + cleanupException);
+                        }
+                        forceFreshMembers = true;
+                        pawn = worker.GenerateMember(request.mission, true);
+                        EnsureValidGeneratedMember(pawn, request.mission, i);
+                    }
                     IntVec3 spawnCell = GenRadial.RadialCellsAround(entry, Mathf.Max(4f, count), true)
                         .Where(c => c.InBounds(map) && c.Standable(map) && (forceLight || XMTHiveUtility.IsLightSuitableAt(c, map))
                             && !map.thingGrid.ThingsListAtFast(c).Any(t => t is Pawn)).RandomElementWithFallback(entry);
@@ -178,17 +213,45 @@ namespace Xenomorphtype
                     lord.AddPawn(pawn);
                 }
                 job.Begin();
-                return true;
+                return NemesisMissionLaunchResult.Launched;
             }
             catch (Exception exception)
             {
-                job.Withdraw("launch preparation failed");
+                try
+                {
+                    job?.Withdraw("launch preparation failed");
+                }
+                catch (Exception withdrawalException)
+                {
+                    Log.Error("[XMT][Nemesis][Mission] Failed to withdraw a partially prepared mission: "
+                        + withdrawalException);
+                }
                 Log.Error("[XMT][Nemesis][Mission] Launch failed: " + exception);
-                if (lord.ownedPawns.Count > 0) return true;
-                map.lordManager.RemoveLord(lord);
+                if (lord?.ownedPawns.Count > 0) return NemesisMissionLaunchResult.Launched;
+                if (lord != null)
+                {
+                    try { map.lordManager.RemoveLord(lord); }
+                    catch (Exception removalException)
+                    {
+                        Log.Error("[XMT][Nemesis][Mission] Failed to remove the empty launch lord: " + removalException);
+                    }
+                }
                 reason = "launch failed before deployment";
-                return false;
+                return NemesisMissionLaunchResult.Failed;
             }
+        }
+
+        private static void EnsureValidGeneratedMember(Pawn pawn, NemesisMissionDef mission, int index)
+        {
+            if (pawn == null) throw new InvalidOperationException("Pawn generation returned null for " + mission.defName
+                + " member " + (index + 1) + ".");
+            if (pawn.Destroyed || pawn.Dead || pawn.Downed)
+                throw new InvalidOperationException("Pawn generation returned an unusable pawn for " + mission.defName
+                    + " member " + (index + 1) + ": " + pawn + " destroyed=" + pawn.Destroyed
+                    + " dead=" + pawn.Dead + " downed=" + pawn.Downed + ".");
+            if (pawn.health == null || !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving))
+                throw new InvalidOperationException("Pawn generation returned a pawn incapable of moving for "
+                    + mission.defName + " member " + (index + 1) + ": " + pawn + ".");
         }
     }
 }

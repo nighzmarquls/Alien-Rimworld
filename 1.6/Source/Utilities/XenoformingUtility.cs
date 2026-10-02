@@ -22,6 +22,105 @@ namespace Xenomorphtype
 
         private const float StrangeHillMinimumTemperature = -20f;
 
+        internal static int CleanupInvalidWorldPawns(PawnKindDef pawnKind, string source)
+        {
+            if (pawnKind == null || Find.WorldPawns == null) return 0;
+            int inspected = 0;
+            int removed = 0;
+            int protectedCount = 0;
+            int valid = 0;
+            GameComponent_NemesisWorldPawns retained = Current.Game?.GetComponent<GameComponent_NemesisWorldPawns>();
+            GameComponent_Xenomorph component = Current.Game?.GetComponent<GameComponent_Xenomorph>();
+
+            foreach (Pawn pawn in Find.WorldPawns.AllPawnsAlive.Where(candidate => candidate?.kindDef == pawnKind).ToList())
+            {
+                inspected++;
+                if (WorldPawnCleanupProtection(pawn, retained) != null)
+                {
+                    protectedCount++;
+                    continue;
+                }
+
+                string invalidity = WorldPawnInvalidity(pawn, pawnKind);
+                if (invalidity == null)
+                {
+                    valid++;
+                    continue;
+                }
+
+                int relationCount = pawn.relations?.DirectRelations?.Count ?? 0;
+                string pawnId = pawn.ThingID ?? "unknown";
+                string label;
+                try { label = pawn.LabelShortCap; }
+                catch { label = pawnId; }
+                bool registeredQueen = component?.Queen == pawn;
+                XenoformingPawnAccountingState accounting = XenoformingPawnAccountingState.None;
+                try
+                {
+                    Find.WorldPawns.RemoveAndDiscardPawnViaGC(pawn);
+                    accounting = component?.ForgetWorldPawnForCleanup(pawn) ?? XenoformingPawnAccountingState.None;
+                }
+                catch (Exception exception)
+                {
+                    Log.Error("[XMT][World] Failed to discard invalid world pawn during "
+                        + (source ?? "unspecified cleanup") + ": pawn=" + label + " id=" + pawnId
+                        + " kind=" + pawnKind.defName + " reason=" + invalidity + " error=" + exception);
+                    continue;
+                }
+                removed++;
+                Log.Warning("[XMT][World] Removed invalid world pawn during " + (source ?? "unspecified cleanup")
+                    + ": pawn=" + label + " id=" + pawnId + " kind=" + pawnKind.defName
+                    + " reason=" + invalidity + " relations=" + relationCount + " accounting=" + accounting
+                    + " registeredQueen=" + registeredQueen);
+            }
+
+            Log.Warning("[XMT][World] World-pawn cleanup during " + (source ?? "unspecified cleanup")
+                + ": kind=" + pawnKind.defName + " inspected=" + inspected + " removed=" + removed
+                + " protected=" + protectedCount + " valid=" + valid);
+            return removed;
+        }
+
+        private static string WorldPawnCleanupProtection(Pawn pawn, GameComponent_NemesisWorldPawns retained)
+        {
+            if (pawn.Spawned) return "spawned";
+            if (pawn.Faction == Faction.OfPlayerSilentFail || pawn.HostFaction == Faction.OfPlayerSilentFail)
+                return "player-owned";
+            if (pawn.ParentHolder != null) return "held";
+            if (CaravanUtility.IsCaravanMember(pawn)) return "caravan";
+            if (pawn.questTags.NullOrEmpty() == false) return "quest-tagged";
+            if (Find.WorldPawns.ForcefullyKeptPawns.Contains(pawn)) return "force-kept";
+            if (retained?.RetainedPawns.Any(record => record?.pawn == pawn) == true) return "Nemesis-retained";
+            WorldPawnSituation situation = Find.WorldPawns.GetSituation(pawn);
+            return situation != WorldPawnSituation.Free && situation != WorldPawnSituation.None
+                ? "world situation " + situation : null;
+        }
+
+        private static string WorldPawnInvalidity(Pawn pawn, PawnKindDef pawnKind)
+        {
+            try
+            {
+                List<string> reasons = new List<string>();
+                if (pawn.Destroyed) reasons.Add("destroyed");
+                if (pawn.Downed) reasons.Add("downed");
+                if (pawn.def == null) reasons.Add("missing race");
+                if (pawnKind.race != null && pawn.def != pawnKind.race) reasons.Add("kind/race mismatch");
+                if (pawn.health == null) reasons.Add("missing health tracker");
+                if (pawn.ageTracker == null) reasons.Add("missing age tracker");
+                if (pawn.mindState == null) reasons.Add("missing mind state");
+                if (pawn.relations == null) reasons.Add("missing relations tracker");
+                if (pawn.health != null && !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving))
+                    reasons.Add("incapable of moving");
+                if (pawn.relations?.DirectRelations?.Any(relation => relation == null
+                    || relation.def == null || relation.otherPawn == null) == true)
+                    reasons.Add("malformed direct relation");
+                return reasons.Count > 0 ? string.Join(", ", reasons) : null;
+            }
+            catch (Exception exception)
+            {
+                return "validation threw " + exception.GetType().Name + ": " + exception.Message;
+            }
+        }
+
         public static bool ShouldSeedBiomeFromPlayerHome()
         {
             return XMTUtility.PlayerFactionIsCryptimorph();

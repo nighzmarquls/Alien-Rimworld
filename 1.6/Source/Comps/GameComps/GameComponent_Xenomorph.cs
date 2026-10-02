@@ -721,6 +721,27 @@ namespace Xenomorphtype
             Find.WorldPawns.RemoveAndDiscardPawnViaGC(pawn);
         }
 
+        internal XenoformingPawnAccountingState ForgetWorldPawnForCleanup(Pawn pawn)
+        {
+            if (pawn == null) return XenoformingPawnAccountingState.None;
+            string pawnKey = PawnAccountingKey(pawn);
+            string thingKey = ThingIDAccountingKey(pawn.thingIDNumber);
+            XenoformingPawnAccountingState state = XenoformingPawnAccountingState.None;
+            if (!pawnKey.NullOrEmpty() && xenoformingPawnAccounting != null
+                && xenoformingPawnAccounting.TryGetValue(pawnKey, out XenoformingPawnAccountingState pawnState))
+                state |= pawnState;
+            if (xenoformingPawnAccounting != null
+                && xenoformingPawnAccounting.TryGetValue(thingKey, out XenoformingPawnAccountingState thingState))
+                state |= thingState;
+
+            if (!pawnKey.NullOrEmpty()) xenoformingPawnAccounting?.Remove(pawnKey);
+            xenoformingPawnAccounting?.Remove(thingKey);
+            queenAidPawnIDs?.Remove(pawn.thingIDNumber);
+            deadMorphs?.Remove(pawn.ThingID);
+            if (Queen == pawn) Queen = null;
+            return state;
+        }
+
         private void ReconcileProgressionGuidance()
         {
             int tick = Find.TickManager?.TicksGame ?? 0;
