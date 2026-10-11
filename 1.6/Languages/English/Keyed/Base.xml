@@ -26,6 +26,7 @@
 	<XMT_FMO_PruneLarder>Prune Larder</XMT_FMO_PruneLarder>
 	
 	<XMT_FMO_Hibernate>Hibernate</XMT_FMO_Hibernate>
+	<XMT_FMO_HibernationSpotUnavailable>Another pawn has reserved this hibernation spot.</XMT_FMO_HibernationSpotUnavailable>
 
 	<XMT_ForcedStartingHediffCountCount>Count</XMT_ForcedStartingHediffCountCount>
 	<XMT_ForcedStartingHediffCountHediff>Hediff</XMT_ForcedStartingHediffCountHediff>

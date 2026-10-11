@@ -25,6 +25,16 @@ namespace Xenomorphtype
                     return;
                 }
 
+                if(Current.Game == null)
+                {
+                    return;
+                }
+
+                if(Current.Game.World == null)
+                {
+                    return;
+                }
+
                 FactionManager manager = Find.FactionManager;
 
                 if(manager == null)

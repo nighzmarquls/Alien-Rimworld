@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <XMT_AttachmentApparelBlocked>{APPAREL} blocked {PAWN_labelShort}'s attachment attempt.</XMT_AttachmentApparelBlocked>
+  <XMT_AttachmentApparelBreached>{PAWN_labelShort} breached {APPAREL}.</XMT_AttachmentApparelBreached>
+  <XMT_AttachmentApparelDestroyed>{PAWN_labelShort} destroyed {APPAREL}.</XMT_AttachmentApparelDestroyed>
+</LanguageData>

@@ -94,22 +94,6 @@ namespace Xenomorphtype
             }
             return null;
         }
-        public override bool TryResist(Pawn target)
-        {
-            bool resisted = base.TryResist(target);
-            if (resisted)
-            {
-                return resisted;
-            }
-
-            if (target.apparel != null)
-            {
-                XMTUtility.DamageApparelByBodyPart(target, BodyPartGroupDefOf.FullHead, 160f);
-                return target.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.FullHead);
-
-            }
-            return false;
-        }
 
         public override List<BodyPartRecord> GetTargetBodyParts(Pawn target)
         {

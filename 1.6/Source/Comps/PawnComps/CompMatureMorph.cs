@@ -180,8 +180,6 @@ namespace Xenomorphtype
                 yield break;
             }
 
-           
-
             Command_Action releaseAction = new Command_Action();
             releaseAction.defaultLabel = "XMT_ReleasePioneer".Translate();
             releaseAction.defaultDesc = "XMT_ReleasePioneerDescription".Translate();
@@ -2494,29 +2492,57 @@ namespace Xenomorphtype
         }
         public void EnterHiberation()
         {
+            TryEnterHibernation(Parent.Position);
+        }
+
+        internal bool TryEnterHibernation(IntVec3 cell)
+        {
             ThingDef cocoonDef = Props.hibernationCocoon;
             if (cocoonDef == null)
             {
                 Log.Warning(Parent + " is trying to hibernate without a hibernationCocoon ThingDef");
-                return;
+                return false;
+            }
+
+            Map map = Parent?.Map;
+            if (map == null || !Parent.Spawned || Parent.Position != cell || !cell.InBounds(map) || cell.GetEdifice(map) != null)
+            {
+                return false;
+            }
+
+            Pawn occupyingPawn = cell.GetFirstPawn(map);
+            if (occupyingPawn != null && occupyingPawn != Parent)
+            {
+                return false;
             }
 
             HibernationCocoon cocoon = ThingMaker.MakeThing(cocoonDef) as HibernationCocoon;
             if(cocoon == null)
             {
                 Log.Warning(Parent + " could not form cocoon");
-                return;
+                return false;
             }
             cocoon.SetFaction(Parent.Faction);
 
-            cocoon = GenSpawn.Spawn(cocoon, Parent.Position, Parent.Map,WipeMode.VanishOrMoveAside) as HibernationCocoon;
+            cocoon = GenSpawn.Spawn(cocoon, cell, map, WipeMode.VanishOrMoveAside) as HibernationCocoon;
+            if (cocoon == null)
+            {
+                return false;
+            }
 
             cocoon.Rotation = Rot4.Random;
             if (cocoon.TryAssignOccupant(Parent))
             {
                 Find.Selector.Select(Parent, playSound: false, forceDesignatorDeselect: false);
+                return true;
             }
 
+            if (cocoon.Spawned && !cocoon.Destroyed)
+            {
+                cocoon.Destroy();
+            }
+
+            return false;
         }
 
         public void ClearAllTickLimits()

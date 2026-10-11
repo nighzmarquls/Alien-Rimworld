@@ -12,6 +12,7 @@ namespace XMT_CE
         {
             Harmony harmony = new Harmony("XMT.XMTModCE");
             harmony.PatchAll();
+            Xenomorphtype.PenetrationUtility.Resolver = AttachmentPenetrationCE.Resolve;
             Log.Message("[Alien|Rimworld] combat extended harmony Patching ");
         }
 

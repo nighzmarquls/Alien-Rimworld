@@ -3,14 +3,64 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using Verse.AI;
 
 namespace Xenomorphtype
 {
     internal class XMTHealthPatches
     {
+        [HarmonyPatch]
+        public static class Patch_Toils_Tend_FinalizeTend
+        {
+            public static MethodBase TargetMethod()
+            {
+                // FinalizeTend's factory only creates this callback; the DoTend call is in its body.
+                return typeof(Toils_Tend).GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic)
+                    .SelectMany(type => type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+                    .Single(method => method.Name.StartsWith("<FinalizeTend>"));
+            }
+
+            [HarmonyTranspiler]
+            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+            {
+                MethodInfo doTend = AccessTools.Method(typeof(TendUtility), nameof(TendUtility.DoTend));
+                MethodInfo guardedTend = AccessTools.Method(typeof(Patch_Toils_Tend_FinalizeTend), nameof(TendAndKeepJob));
+                foreach (CodeInstruction instruction in instructions)
+                {
+                    if (!instruction.Calls(doTend))
+                    {
+                        yield return instruction;
+                        continue;
+                    }
+
+                    instruction.opcode = OpCodes.Call;
+                    instruction.operand = guardedTend;
+                    yield return instruction;
+                    Label continueTending = generator.DefineLabel();
+                    yield return new CodeInstruction(OpCodes.Brtrue, continueTending);
+                    yield return new CodeInstruction(OpCodes.Ret);
+                    CodeInstruction continuation = new CodeInstruction(OpCodes.Nop);
+                    continuation.labels.Add(continueTending);
+                    yield return continuation;
+                }
+            }
+
+            public static bool TendAndKeepJob(Pawn doctor, Pawn patient, Medicine medicine)
+            {
+                Job job = doctor?.CurJob;
+                JobDriver driver = doctor?.jobs?.curDriver;
+                TendUtility.DoTend(doctor, patient, medicine);
+                // Damage/removal callbacks can end self-tending or interrupt the doctor.
+                // The old callback must not read or modify a replacement job's targets.
+                return job != null && doctor.CurJob == job && doctor.jobs.curDriver == driver;
+            }
+        }
+
         [HarmonyPatch(typeof(TendUtility), nameof(TendUtility.DoTend))]
         public static class Patch_TendUtility_DoTend
         {

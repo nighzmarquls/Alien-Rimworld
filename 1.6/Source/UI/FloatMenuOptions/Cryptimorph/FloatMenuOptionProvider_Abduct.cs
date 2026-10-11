@@ -1,28 +1,13 @@
 ﻿using RimWorld;
-using VEF.Graphics;
 using Verse;
 using Verse.AI;
-using static UnityEngine.GraphicsBuffer;
-
-
 namespace Xenomorphtype
 {
-    internal class FloatMenuOptionProvider_Abduct: FloatMenuOptionProvider
+    internal class FloatMenuOptionProvider_Abduct : FloatMenuOptionProvider_AdultCryptimorph
     {
-        protected override bool Drafted => false;
-
-        protected override bool Undrafted => true;
-
-        protected override bool Multiselect => false;
-
-        protected override bool RequiresManipulation => true;
+        protected override bool Drafted => true;
         protected override FloatMenuOption GetSingleOptionFor(Thing clickedThing, FloatMenuContext context)
         {
-            if(!XMTUtility.IsXenomorph(context.FirstSelectedPawn) && context.FirstSelectedPawn.ageTracker.Adult)
-            {
-                return null;
-            }
-
             if (FeralJobUtility.IsThingAvailableForJobBy(context.FirstSelectedPawn, clickedThing) && clickedThing is Pawn clickedPawn)
             {
                 if (!XMTUtility.IsXenomorph(clickedPawn))

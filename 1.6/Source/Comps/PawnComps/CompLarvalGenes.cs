@@ -1,17 +1,11 @@
 ﻿using RimWorld;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using Verse;
-using Verse.AI;
 
 namespace Xenomorphtype
 {
-    [StaticConstructorOnStartup]
     public class CompLarvalGenes : CompHiveGeneHolder
     {
-        static private Texture2D Implant => ContentFinder<Texture2D>.Get("UI/Abilities/Implant");
 
         public Pawn mother;
         public Pawn father;
@@ -21,13 +15,12 @@ namespace Xenomorphtype
 
         Pawn Parent => parent as Pawn;
 
-        public float LeapRange => Props.leapRange;
         CompLarvalGenesProperties Props => props as CompLarvalGenesProperties;
         public override void PostExposeData()
         {
             base.PostExposeData();
-            //Scribe_References.Look(ref father, "father", saveDestroyedThings: true);
-            //Scribe_References.Look(ref mother, "mother", saveDestroyedThings: true);
+            Scribe_References.Look(ref father, "father", saveDestroyedThings: false);
+            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: false);
             Scribe_Values.Look(ref latched, "latched", defaultValue: false);
             Scribe_Values.Look(ref spent, "spent", defaultValue: false);
             Scribe_Values.Look(ref hoursSpent, "hoursSpent", defaultValue: 0);
@@ -36,21 +29,12 @@ namespace Xenomorphtype
         {
             base.CompTick();
 
-            if (!parent.Spawned)
+            if (!parent.Spawned || latched)
             {
                 return;
             }
 
-            if (latched)
-            {
-
-                if (Parent != null)
-                {
-                    Parent.jobs.StopAll();
-                    Parent.DeSpawn(DestroyMode.Vanish);
-                }
-            }
-            else if (spent)
+            if (spent)
             {
 
                 if (Parent.IsHashIntervalTick(2500))
@@ -59,55 +43,6 @@ namespace Xenomorphtype
                 }
             }
 
-            if(Parent.Faction != null)
-            {
-                if(Parent.Faction.def != InternalDefOf.XMT_PlayerHive)
-                {
-                    Parent.SetFaction(null);
-                }
-            }
-        }
-        public override IEnumerable<Gizmo> CompGetGizmosExtra()
-        {
-            if(!XMTUtility.PlayerXenosOnMap(Parent.MapHeld))
-            {
-                yield break;
-            }
-
-            TargetingParameters ImplantParameters = TargetingParameters.ForPawns();
-
-            ImplantParameters.validator = delegate (TargetInfo target)
-            {
-                if (target.Thing == Parent)
-                {
-                    return false;
-                }
-
-                if(!XMTUtility.IsHost(target.Thing))
-                {
-                    return false;
-                }
-
-                return target.Map.reachability.CanReach(parent.Position, target.Cell, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Deadly);
-            };
-
-            Command_Action ImplantHost_Action = new Command_Action();
-            ImplantHost_Action.defaultLabel = "XMT_Implant".Translate();
-            ImplantHost_Action.defaultDesc = "XMT_ImplantDescription".Translate();
-            ImplantHost_Action.icon = Implant;
-            ImplantHost_Action.action = delegate
-            {
-                Find.Targeter.BeginTargeting(ImplantParameters, delegate (LocalTargetInfo target)
-                {
-                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, target);
-                    Parent.Reserve(target, job);
-                    Parent.jobs.StartJob(job, JobCondition.InterruptForced);
-
-                });
-
-            };
-
-            yield return ImplantHost_Action;
         }
 
         protected void Decay()
@@ -123,175 +58,6 @@ namespace Xenomorphtype
                 Parent.Kill(new DamageInfo(ExternalDefOf.Decayed, 1, 999));
             }
 
-        }
-        private bool CanContinueAttach(Pawn target)
-        {
-            Pawn pawn = Parent;
-            if (pawn == null || target == null)
-            {
-                return false;
-            }
-
-            if (pawn.Dead || pawn.Downed || target.Dead)
-            {
-                return false;
-            }
-
-            if (!pawn.Spawned || !target.Spawned || pawn.MapHeld == null || target.MapHeld != pawn.MapHeld)
-            {
-                return false;
-            }
-
-            return pawn.PositionHeld.AdjacentTo8WayOrInside(target.PositionHeld);
-        }
-
-        public void TryEmbrace(Pawn target)
-        {
-            if (target == null)
-            {
-                return;
-            }
-
-            if (target.health.hediffSet.HasHediff(Props.larvaHediff))
-            {
-                return;
-            }
-
-            CompPawnInfo info = target.Info();
-            bool unwilling = true;
-
-            if (target.Faction != null && !target.Faction.IsPlayer)
-            {
-                int goodWill = -25;
-
-                if (ModsConfig.IdeologyActive)
-                {
-                    if (target.Faction.ideos != null)
-                    {
-                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Worship) ? 20 : 0;
-                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Revered) ? 5 : 0;
-                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation) ? 30 : 0;
-                        if(goodWill >= 0)
-                        {
-                            unwilling = false;
-                        }
-                        goodWill += target.Faction.ideos.PrimaryIdeo.HasPrecept(XenoPreceptDefOf.XMT_Biomorph_Study) ? 15 : 0;
-                    }
-                }
-
-                if (Parent.Faction != null)
-                {
-                    //Blame the source of the thing.
-
-                    target.Faction.TryAffectGoodwillWith(Parent.Faction, goodWill, reason: XenoPreceptDefOf.XMT_Parasite_Attached);
-                }
-                else
-                {
-                    //Blame the Player
-
-                    target.Faction.TryAffectGoodwillWith(Faction.OfPlayer, goodWill, reason: XenoPreceptDefOf.XMT_Parasite_Attached);
-                }
-
-                if (unwilling && target.mindState != null)
-                {
-                    target.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee);
-                }
-            }
-
-            XMTUtility.WitnessLarva(Parent.PositionHeld, Parent.MapHeld, 0.5f, knowledgeProfile: Props.attackKnowledgeProfile);
-
-            if (unwilling && !XMTUtility.IsTargetImmobile(target) && !Parent.IsPsychologicallyInvisible())
-            {
-                float bonusDodge = 0;
-                if (info != null)
-                {
-                    bonusDodge += KnowledgeUtility.GetEffectiveKnowledge(target, KnowledgeDefOf.XMT_Knowledge_Larva) / 2;
-                }
-
-                if(info?.IsObsessed() == true)
-                {
-                    bonusDodge *= -2;
-                }
-
-                if (Rand.Chance(XMTUtility.GetDodgeChance(target, true) + bonusDodge))
-                {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, "TextMote_Dodge".Translate(), 1.9f);
-
-                    Parent.TakeDamage(new DamageInfo(DamageDefOf.Stun, 20 ));
-                    return;
-                }
-                if (TryResist(target))
-                {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
-                    Parent.TakeDamage(new DamageInfo(DamageDefOf.Stun, 60));
-                    return;
-                }
-
-                if (!CanContinueAttach(target))
-                {
-                    Parent.TakeDamage(new DamageInfo(DamageDefOf.Stun, 120));
-                    return;
-                }
-            }
-
-            if (target.jobs != null)
-            {
-                target.jobs.StopAll();
-            }
-
-            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Attached, target.Named(HistoryEventArgsNames.Doer), parent.Named(HistoryEventArgsNames.Victim)), true);
-
-            XMTUtility.GiveMemory(target, HorrorMoodDefOf.ParasiteLatchedMood);
-
-            IEnumerable<BodyPartRecord> source = from x in target.health.hediffSet.GetNotMissingParts()
-                                                 where
-                                                    XMTUtility.IsPartHead(x)
-                                                 select x;
-
-            if (!source.Any())
-            {
-                return;
-            }
-
-            Hediff hediff = HediffMaker.MakeHediff(Props.larvaHediff, target, source.First());
-
-            HediffComp_LarvalAttachment LarvalAttachment = hediff.TryGetComp<HediffComp_LarvalAttachment>();
-
-            if (LarvalAttachment != null && !latched)
-            {
-
-                Pawn pawn = (parent as Pawn);
-                latched = true;
-                LarvalAttachment.mother = mother;
-                LarvalAttachment.father = father;
-                LarvalAttachment.genes = CaptureGeneSet();
-                LarvalAttachment.kind = pawn.kindDef;
-                LarvalAttachment.name = pawn.Name?.ToString();
-                LarvalAttachment.age = pawn.ageTracker.AgeBiologicalYearsFloat;
-            }
-
-            target.health.AddHediff(hediff, source.First());
-            NemesisMissionUtility.NotifyAttackerAttached(Parent, target);
-        }
-
-        public bool TryResist(Pawn target)
-        {
-            if (!CanContinueAttach(target))
-            {
-                return true;
-            }
-
-            if (Rand.Chance(XMTUtility.GetDefendGrappleChance(Parent, target)))
-            {
-                return true;
-            }
-
-            if (target.apparel != null)
-            {
-                XMTUtility.DamageApparelByBodyPart(target, BodyPartGroupDefOf.FullHead, 160f);
-                return target.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.FullHead);
-            }
-            return false;
         }
 
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
@@ -333,10 +99,7 @@ namespace Xenomorphtype
     }
     public class CompLarvalGenesProperties : CompProperties
     {
-        public HediffDef larvaHediff;
-        public float leapRange;
         public int hoursTilDeathAfterImplant;
-        public KnowledgeProfileDef attackKnowledgeProfile;
         public CompLarvalGenesProperties()
         {
             this.compClass = typeof(CompLarvalGenes);

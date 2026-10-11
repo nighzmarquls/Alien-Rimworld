@@ -15,9 +15,9 @@ namespace Xenomorphtype
 
         protected Pawn Parent => parent as Pawn;
 
-        public override void PostExposeData()
+        public virtual bool IsValidMissionTarget(Pawn target)
         {
-            base.PostExposeData();
+            return NemesisMissionUtility.ValidImplantTarget(target);
         }
 
         public virtual bool ShouldHunt()
@@ -29,6 +29,10 @@ namespace Xenomorphtype
 
         public virtual void StartHunt(Pawn prey)
         {
+            if (AttachmentUtility.ParticipantIsBusy(Parent) || AttachmentUtility.ParticipantIsBusy(prey))
+            {
+                return;
+            }
             Job attachJob = JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, prey);
             Parent.jobs.StartJob(attachJob, JobCondition.InterruptForced);
         }
@@ -100,35 +104,17 @@ namespace Xenomorphtype
 
         protected bool CanContinueAttach(Pawn target)
         {
-            Pawn pawn = Parent;
-            if (pawn == null || target == null)
-            {
-                return false;
-            }
-
-            if (pawn.Dead || pawn.Downed || target.Dead)
-            {
-                return false;
-            }
-
-            if (!pawn.Spawned || !target.Spawned || pawn.MapHeld == null || target.MapHeld != pawn.MapHeld)
-            {
-                return false;
-            }
-
-            return pawn.PositionHeld.AdjacentTo8WayOrInside(target.PositionHeld);
+            return AttachmentUtility.CanAttach(Parent, target);
         }
 
         public virtual bool TryResist(Pawn target)
         {
             if (target.apparel != null)
             {
-                if (target.meleeVerbs.TryMeleeAttack(parent))
+                target.meleeVerbs.TryMeleeAttack(parent);
+                if (!CanContinueAttach(target))
                 {
-                    if (!CanContinueAttach(target))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -159,17 +145,16 @@ namespace Xenomorphtype
         }
         public void TryAttachToHost(Pawn target)
         {
-           
-            if (target == null)
-            {
-                return;
-            }
+            AttemptAttachToHost(target);
+        }
 
-            if (!CanContinueAttach(target))
-            {
-                return;
-            }
+        protected virtual bool CanAttemptAttachment(Pawn target)
+        {
+            return CanContinueAttach(target);
+        }
 
+        protected virtual bool PrepareAttachmentAttempt(Pawn target)
+        {
             if (target.Faction != null && !target.Faction.IsPlayer)
             {
                 if (Parent.Faction != null)
@@ -192,25 +177,143 @@ namespace Xenomorphtype
             {
                 XMTUtility.WitnessLarva(target.PositionHeld, target.MapHeld, 0.01f, 0.1f, knowledgeProfile: Props.attackKnowledgeProfile);
             }
+            return true;
+        }
 
-            if (!XMTUtility.IsTargetImmobile(target))
+        protected virtual bool ShouldAllowDefense(Pawn target, bool unwilling)
+        {
+            return unwilling && !XMTUtility.IsTargetImmobile(target);
+        }
+
+        protected virtual float GetAttachmentDodgeChance(Pawn target)
+        {
+            return XMTUtility.GetDodgeChance(target, true);
+        }
+
+        protected virtual void NotifyDefenseResult(AttachmentAttemptResult result)
+        {
+        }
+
+        protected virtual void NotifyFailedAttachment(Pawn target, AttachmentAttemptResult result)
+        {
+        }
+
+        protected virtual BodyPartRecord GetApparelAccessPart(Pawn target, BodyPartRecord part, Apparel apparel)
+        {
+            return apparel.def.apparel.CoversBodyPart(part) ? part : null;
+        }
+
+        private AttachmentAttemptResult CheckApparelAccess(Pawn target, BodyPartRecord part)
+        {
+            float damage = Props.breachDamage;
+            float penetration = Props.breachPenetration;
+            if (target.apparel == null)
             {
-                if (Rand.Chance(XMTUtility.GetDodgeChance(target, true)))
+                return AttachmentAttemptResult.Attached;
+            }
+            foreach (Apparel apparel in target.apparel.WornApparel.AsEnumerable().Reverse().ToList())
+            {
+                BodyPartRecord accessPart = GetApparelAccessPart(target, part, apparel);
+                if (accessPart == null)
                 {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, "TextMote_Dodge".Translate(), 1.9f);
-                    return;
+                    continue;
                 }
-                if (TryResist(target))
-                {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
-                    return;
-                }
-
+                string apparelLabel = apparel.Label;
+                PenetrationRequest request = new PenetrationRequest(apparel, accessPart, DamageDefOf.Cut, damage, penetration);
+                PenetrationResult result = damage > 0f ? PenetrationUtility.Resolve(request)
+                    : new PenetrationResult(false, DamageDefOf.Cut, 0f, 0f, 0f);
+                PenetrationUtility.ApplyApparelDamage(request, result, Parent);
+                string key = apparel.Destroyed ? "XMT_AttachmentApparelDestroyed"
+                    : result.Penetrated ? "XMT_AttachmentApparelBreached" : "XMT_AttachmentApparelBlocked";
                 if (!CanContinueAttach(target))
                 {
-                    Log.Message(target + " failed to attach after mobility check " + parent);
-                    return;
+                    return AttachmentAttemptResult.Interrupted;
                 }
+                MoteMaker.ThrowText(target.DrawPos, target.MapHeld, key.Translate(Parent.Named("PAWN"), apparelLabel.Named("APPAREL")));
+                if (!result.Penetrated && !apparel.Destroyed)
+                {
+                    return AttachmentAttemptResult.ApparelBlocked;
+                }
+                damage = result.Damage;
+                penetration = result.Penetration;
+            }
+            return AttachmentAttemptResult.Attached;
+        }
+
+        protected virtual void InitializeAttachment(Hediff hediff, Pawn target)
+        {
+        }
+
+        protected virtual void NotifyAttached(Pawn target)
+        {
+            PreattachTarget(target);
+            if (Props.thoughtGivenOnAttach != null)
+            {
+                XMTUtility.GiveMemory(target, Props.thoughtGivenOnAttach);
+            }
+            NemesisMissionUtility.NotifyAttackerAttached(Parent, target);
+        }
+
+        public virtual AttachmentAttemptResult AttemptAttachToHost(Pawn target)
+        {
+            if (AttachmentUtility.ParticipantIsBusy(Parent) || AttachmentUtility.ParticipantIsBusy(target))
+            {
+                return AttachmentAttemptResult.AnimationBusy;
+            }
+            if (!CanAttemptAttachment(target))
+            {
+                return AttachmentAttemptResult.InvalidTarget;
+            }
+            List<BodyPartRecord> source = GetTargetBodyParts(target);
+            if (source == null || !source.Any())
+            {
+                return AttachmentAttemptResult.NoBodyPart;
+            }
+            source.Shuffle();
+            BodyPartRecord targetPart = source.First();
+            if (target.health.hediffSet.hediffs.Any(hediff => hediff.def == Props.parasiteHediff && hediff.Part == targetPart))
+            {
+                return AttachmentAttemptResult.AlreadyAttached;
+            }
+
+            bool unwilling = PrepareAttachmentAttempt(target);
+            if (!CanContinueAttach(target))
+            {
+                return AttachmentAttemptResult.Interrupted;
+            }
+
+            if (ShouldAllowDefense(target, unwilling))
+            {
+                if (Rand.Chance(GetAttachmentDodgeChance(target)))
+                {
+                    MoteMaker.ThrowText(target.DrawPos, target.Map, "TextMote_Dodge".Translate(), 1.9f);
+                    NotifyDefenseResult(AttachmentAttemptResult.Dodged);
+                    NotifyFailedAttachment(target, AttachmentAttemptResult.Dodged);
+                    return AttachmentAttemptResult.Dodged;
+                }
+                bool resisted = TryResist(target);
+                if (!CanContinueAttach(target))
+                {
+                    return AttachmentAttemptResult.Interrupted;
+                }
+                if (resisted)
+                {
+                    MoteMaker.ThrowText(target.DrawPos, target.Map, "Resisted".Translate());
+                    NotifyDefenseResult(AttachmentAttemptResult.Resisted);
+                    NotifyFailedAttachment(target, AttachmentAttemptResult.Resisted);
+                    return AttachmentAttemptResult.Resisted;
+                }
+            }
+
+            AttachmentAttemptResult access = CheckApparelAccess(target, targetPart);
+            if (access != AttachmentAttemptResult.Attached)
+            {
+                if (access == AttachmentAttemptResult.ApparelBlocked)
+                {
+                    NotifyDefenseResult(access);
+                    NotifyFailedAttachment(target, access);
+                }
+                return access;
             }
 
             if (target.jobs != null)
@@ -218,27 +321,49 @@ namespace Xenomorphtype
                 target.jobs.StopAll();
             }
 
-            if (Props.thoughtGivenOnAttach != null)
+            if (!CanContinueAttach(target) || target.health.hediffSet.PartIsMissing(targetPart))
             {
-                XMTUtility.GiveMemory(target, Props.thoughtGivenOnAttach);
+                return AttachmentAttemptResult.Interrupted;
             }
-
-            List<BodyPartRecord> source = GetTargetBodyParts(target);
-
-            source.Shuffle();
-
-            if (!source.Any())
-            {
-                return;
-            }
-
-            BodyPartRecord targetPart = source.First();
 
             Hediff hediff = HediffMaker.MakeHediff(Props.parasiteHediff, target, targetPart);
+            HediffComp_PawnAttachement attachment = hediff.TryGetComp<HediffComp_PawnAttachement>();
+            if (attachment == null)
+            {
+                Log.Error($"[XMT][Attachment] {Props.parasiteHediff} has no pawn attachment comp for {Parent}.");
+                return AttachmentAttemptResult.TransferFailed;
+            }
 
-            PreattachTarget(target);
+            try
+            {
+                InitializeAttachment(hediff, target);
+                target.health.AddHediff(hediff, targetPart, new DamageInfo(DamageDefOf.Stun, 10, 999, instigator: Parent));
+            }
+            catch (Exception exception)
+            {
+                Log.Error($"[XMT][Attachment] Failed to add {hediff.def} to {target} for {Parent}: {exception}");
+                attachment.removed = true;
+                attachment.PawnRelease();
+                if (target.health.hediffSet.hediffs.Contains(hediff))
+                {
+                    target.health.RemoveHediff(hediff);
+                }
+                return AttachmentAttemptResult.TransferFailed;
+            }
 
-            target.health.AddHediff(hediff, targetPart, new DamageInfo(DamageDefOf.Stun, 10, 999, instigator: Parent));
+            if (!target.health.hediffSet.hediffs.Contains(hediff) || attachment.attachedPawn != Parent)
+            {
+                attachment.removed = true;
+                attachment.PawnRelease();
+                if (target.health.hediffSet.hediffs.Contains(hediff))
+                {
+                    target.health.RemoveHediff(hediff);
+                }
+                return AttachmentAttemptResult.TransferFailed;
+            }
+
+            NotifyAttached(target);
+            return AttachmentAttemptResult.Attached;
         }
     }
 
@@ -248,6 +373,8 @@ namespace Xenomorphtype
         public float huntCheckHourInterval = 1;
         public ThoughtDef thoughtGivenOnAttach;
         public KnowledgeProfileDef attackKnowledgeProfile;
+        public float breachDamage;
+        public float breachPenetration;
         public CompHostHunterProperties()
         {
             this.compClass = typeof(CompHostHunter);

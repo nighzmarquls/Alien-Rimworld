@@ -929,6 +929,8 @@
 			<li Class="Xenomorphtype.CompHostHunterProperties">
 				<compClass>Xenomorphtype.CompSmotherer</compClass>
 				<parasiteHediff>XMT_SmotheringEmbrace</parasiteHediff>
+				<breachDamage>20</breachDamage>
+				<breachPenetration>0.75</breachPenetration>
 				<thoughtGivenOnAttach>ParasiteSmotheringMood</thoughtGivenOnAttach>
 			</li>
 		</comps>
@@ -1105,6 +1107,8 @@
 			<li Class="Xenomorphtype.CompHostHunterProperties">
 				<compClass>Xenomorphtype.CompExterminator</compClass>
 				<parasiteHediff>XMT_Assasination</parasiteHediff>
+				<breachDamage>20</breachDamage>
+				<breachPenetration>0.75</breachPenetration>
 				<thoughtGivenOnAttach></thoughtGivenOnAttach>
 				<huntCheckHourInterval>1</huntCheckHourInterval>
 			</li>

@@ -12,6 +12,10 @@ namespace Xenomorphtype
     public class CompInorganicSubverterHostHunter : CompHostHunter
     {
         static private Texture2D Implant => ContentFinder<Texture2D>.Get("UI/Abilities/Implant");
+        public override bool IsValidMissionTarget(Pawn target)
+        {
+            return InorganicSubversionUtility.IsValidSubverterMissionTarget(Parent, target, Parent.MapHeld);
+        }
         public override bool ShouldHunt()
         {
             return XMTUtility.GetQueen() != null && base.ShouldHunt();

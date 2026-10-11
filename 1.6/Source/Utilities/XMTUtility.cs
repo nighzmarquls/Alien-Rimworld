@@ -1033,6 +1033,12 @@ namespace Xenomorphtype
 
         public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
         {
+            return WitnessLarva(positionHeld, mapHeld, strength, true, maxAwareness, radius, knowledgeProfile);
+        }
+
+        public static bool WitnessLarva(IntVec3 positionHeld, Map mapHeld, float strength, bool allowTraumaResponse,
+            float maxAwareness = 1.0f, float radius = 1.5f, KnowledgeProfileDef knowledgeProfile = null)
+        {
             IEnumerable<Pawn> witnesses = GenRadial.RadialDistinctThingsAround(positionHeld, mapHeld, radius, true).OfType<Pawn>();
             bool XenomorphWitness = false;
             Thing horror = positionHeld.GetFirstPawn(mapHeld);
@@ -1058,7 +1064,7 @@ namespace Xenomorphtype
                         if (info != null)
                         {
                             KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Larva, strength, source: horror);
-                            if (horror != null)
+                            if (horror != null && allowTraumaResponse)
                             {
                                 TraumaResponse(horror, info);
                             }
