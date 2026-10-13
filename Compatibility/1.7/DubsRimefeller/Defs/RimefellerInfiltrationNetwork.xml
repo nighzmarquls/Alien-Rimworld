@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<Xenomorphtype.InfiltrationNetworkDef>
+		<defName>XMT_OilInfiltrationList</defName>
+		<settingsKey>RimefellerOil</settingsKey>
+		<endpointDefs>
+			<li>OilWell</li>
+			<li>DeepOilWell</li>
+			<li>CrudeCracker</li>
+			<li>ChemfuelHopper</li>
+			<li>ChemfuelSiphon</li>
+			<li>RefineryLoadingBay</li>
+		</endpointDefs>
+		<connectorDefs>
+			<li>OilPipeline</li>
+			<li>OilPipelineHidden</li>
+			<li>pipelineValve</li>
+		</connectorDefs>
+	</Xenomorphtype.InfiltrationNetworkDef>
+</Defs>

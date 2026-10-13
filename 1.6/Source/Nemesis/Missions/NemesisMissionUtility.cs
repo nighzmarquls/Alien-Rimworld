@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -169,6 +170,14 @@ namespace Xenomorphtype
 
             LordJob_NemesisMission job = null;
             Lord lord = null;
+            NemesisGeneticTrial geneticPlan = null;
+            bool adultDeployment = request.mission.workerSettings.pawnKind == null
+                || request.mission.workerSettings.pawnKind.race == InternalDefOf.XMT_Starbeast_AlienRace;
+            NemesisStrain strain = adultDeployment && ModsConfig.BiotechActive
+                ? component.SelectStrain(request.mission, out geneticPlan, count) : null;
+            float defaultBudget = count;
+            float spentBudget = 0f;
+            if (strain != null) count = Mathf.Max(1, Mathf.FloorToInt(count / GameComponent_Nemesis.GenomeCost(strain.genes)));
             try
             {
                 List<IntVec3> route = worker.PrepareRoute(request.mission, component, map);
@@ -181,8 +190,9 @@ namespace Xenomorphtype
                     Pawn pawn;
                     try
                     {
-                        pawn = forceFreshMembers ? worker.GenerateMember(request.mission, true)
-                            : worker.GenerateMember(request.mission);
+                        pawn = strain != null ? Current.Game.GetComponent<GameComponent_Xenomorph>()
+                            .GetWorldOrGeneratedCryptimorphForMission(strain, forceFreshMembers || geneticPlan.probe && !component.CanEditMissionGenes)
+                            : forceFreshMembers ? worker.GenerateMember(request.mission, true) : worker.GenerateMember(request.mission);
                         EnsureValidGeneratedMember(pawn, request.mission, i);
                     }
                     catch (Exception initialException) when (!forceFreshMembers && request.mission.workerSettings.pawnKind != null)
@@ -201,22 +211,49 @@ namespace Xenomorphtype
                                 + "; forced-new recovery will still be attempted. " + cleanupException);
                         }
                         forceFreshMembers = true;
-                        pawn = worker.GenerateMember(request.mission, true);
+                        pawn = strain != null ? Current.Game.GetComponent<GameComponent_Xenomorph>()
+                            .GetWorldOrGeneratedCryptimorphForMission(strain, true) : worker.GenerateMember(request.mission, true);
                         EnsureValidGeneratedMember(pawn, request.mission, i);
                     }
                     IntVec3 spawnCell = GenRadial.RadialCellsAround(entry, Mathf.Max(4f, count), true)
                         .Where(c => c.InBounds(map) && c.Standable(map) && (forceLight || XMTHiveUtility.IsLightSuitableAt(c, map))
                             && !map.thingGrid.ThingsListAtFast(c).Any(t => t is Pawn)).RandomElementWithFallback(entry);
+                    if (strain != null)
+                    {
+                        float actualCost = GameComponent_Nemesis.GenomeCost(BioUtility.GetCanonicalPawnGenes(pawn));
+                        if (spentBudget + actualCost > defaultBudget + 0.001f)
+                        {
+                            Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.KeepForever);
+                            XenoformingUtility.HandleXenoformingImpact(pawn);
+                            break;
+                        }
+                        spentBudget += actualCost;
+                        count = i + 1 + Mathf.FloorToInt((defaultBudget - spentBudget + 0.001f) / actualCost);
+                    }
                     GenSpawn.Spawn(pawn, spawnCell, map);
                     pawn.mindState.mentalStateHandler.Reset();
                     pawn.GetComp<CompStealth>()?.TryHide();
                     lord.AddPawn(pawn);
                 }
+                if (lord.ownedPawns.Count == 0)
+                {
+                    map.lordManager.RemoveLord(lord);
+                    reason = "applied genome exceeded the deployment budget";
+                    return NemesisMissionLaunchResult.Failed;
+                }
+                component.RegisterGeneticTrial(geneticPlan, map, lord.ownedPawns);
+                job.GeneticTrialId = geneticPlan?.id ?? 0;
                 job.Begin();
                 return NemesisMissionLaunchResult.Launched;
             }
             catch (Exception exception)
             {
+                if (geneticPlan != null && lord?.ownedPawns.Count > 0 && job.GeneticTrialId == 0)
+                {
+                    component.RegisterGeneticTrial(geneticPlan, map, lord.ownedPawns);
+                    job.GeneticTrialId = geneticPlan.id;
+                    component.EndGeneticOperation(geneticPlan.id, false);
+                }
                 try
                 {
                     job?.Withdraw("launch preparation failed");

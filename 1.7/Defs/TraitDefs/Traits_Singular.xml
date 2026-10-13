@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <TraitDef>
+    <defName>XMT_Survivor</defName>
+    <commonality>0.1</commonality>
+    <degreeDatas>
+      <li>
+        <label>survivor</label>
+        <description>{PAWN_nameDef} has experienced the danger of a deadly cryptobiological organism. {PAWN_pronoun} is wary of its life cycle and the danger it poses.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
+
+</Defs>

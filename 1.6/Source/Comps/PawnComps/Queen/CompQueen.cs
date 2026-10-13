@@ -479,6 +479,8 @@ namespace Xenomorphtype
 
             ReconcileEvolutionHediffs();
             ReconcileEvolutionAbilities();
+            if (Parent.Spawned && Parent.Faction != Faction.OfPlayer && HasActiveEvolution(RoyalEvolutionDefOf.Evo_GeneSelfExpression))
+                Current.Game?.GetComponent<GameComponent_Nemesis>()?.RefreshQueenExpression(Parent);
         }
 
         private void ReconcileEvolutionAbilities()

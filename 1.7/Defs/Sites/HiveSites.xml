@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <SitePartDef Name="HiveSiteBase" Abstract="True">
+    <description>A strange resinous structure visible from a great distance.</description>
+    <siteTexture>World/WorldObjects/SmallNest</siteTexture>
+    <expandingIconTexture>World/WorldObjects/Expanding/SmallNest</expandingIconTexture>
+    <applyFactionColorToSiteTexture>false</applyFactionColorToSiteTexture>
+    <showFactionInInspectString>false</showFactionInInspectString>
+    <requiresFaction>false</requiresFaction>
+    <approachOrderString>Investigate {0}</approachOrderString>
+    <approachingReportString>Investigating {0}.</approachingReportString>
+    <arrivedLetter>You've arrived at the strange structure.</arrivedLetter>
+    <arrivedLetterDef>NeutralEvent</arrivedLetterDef>
+    <wantsThreatPoints>true</wantsThreatPoints>
+    <minThreatPoints>350</minThreatPoints>
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
+	<excludesTags>
+      <li>MechCluster</li>
+      <li>MechClusterForceNoConditionCauser</li>
+      <li>SleepingMechanoids</li>
+	  <li>Electrical</li>
+    </excludesTags>
+  </SitePartDef>
+
+  <SitePartDef ParentName="HiveSiteBase">
+    <defName>XMT_Hivesite_Small</defName>
+    <label>strange hill</label>
+    <workerClass>SitePartWorker</workerClass>
+    <selectionWeight>1</selectionWeight>
+	<tags>
+      <li>HiveNest</li>
+    </tags>
+  </SitePartDef>
+  
+  <SitePartDef ParentName="HiveSiteBase">
+    <defName>XMT_Hivesite_Large</defName>
+    <label>sprawling resinous structures</label>
+    <workerClass>SitePartWorker</workerClass>
+    <selectionWeight>1</selectionWeight>
+	<tags>
+      <li>HiveComplex</li>
+    </tags>
+  </SitePartDef>
+  
+  <SitePartDef ParentName="HiveSiteBase">
+    <defName>XMT_Hivesite_Queen</defName>
+    <label>queen nest</label>
+	<defaultHidden>true</defaultHidden>
+    <workerClass>SitePartWorker</workerClass>
+    <selectionWeight>1</selectionWeight>
+	<tags>
+      <li>QueenNest</li>
+    </tags>
+  </SitePartDef>
+
+  <GenStepDef>
+    <defName>XMT_SmallHive</defName>
+	<linkWithSite>XMT_Hivesite_Small</linkWithSite>
+    <order>414</order>
+    <genStep Class="Xenomorphtype.GenStep_XenoNest">
+	  <nestFrequency>0.2</nestFrequency>
+      <nestThreshold>0.3</nestThreshold>
+	  <entranceChance>0.1</entranceChance>
+      <nestRadius>40</nestRadius>
+	  <eggRadius>8</eggRadius>
+      <noiseOctaves>2</noiseOctaves>
+	  <eggCount>3</eggCount>
+	  <hostCount>2</hostCount>
+	  <gaurdians>3</gaurdians>
+    </genStep>
+  </GenStepDef>
+  
+    <GenStepDef>
+    <defName>XMT_LargeHive</defName>
+	<linkWithSite>XMT_Hivesite_Large</linkWithSite>
+    <order>413</order>
+    <genStep Class="Xenomorphtype.GenStep_XenoNest">
+	  <nestFrequency>0.3</nestFrequency>
+      <nestThreshold>0.4</nestThreshold>
+	  <entranceChance>0.2</entranceChance>
+      <nestRadius>70</nestRadius>
+	  <eggRadius>8</eggRadius>
+      <noiseOctaves>3</noiseOctaves>
+	  <eggCount>0</eggCount>
+	  <hostCount>0</hostCount>
+	  <gaurdians>6</gaurdians>
+    </genStep>
+  </GenStepDef>
+  
+  <GenStepDef>
+    <defName>XMT_QueenPresent</defName>
+	<linkWithSite>XMT_Hivesite_Queen</linkWithSite>
+    <order>415</order>
+    <genStep Class="Xenomorphtype.GenStep_QueenSpawn">
+	  <eggCount>3</eggCount>
+	  <hostCount>2</hostCount>
+	  <gaurdians>6</gaurdians>
+	  <chamberRadius>10</chamberRadius>
+	  <entrances>3</entrances>
+    </genStep>
+  </GenStepDef>
+
+
+</Defs>

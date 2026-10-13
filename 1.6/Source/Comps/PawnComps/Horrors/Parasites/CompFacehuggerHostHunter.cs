@@ -185,6 +185,7 @@ namespace Xenomorphtype
             attachment.mother = Larva.mother;
             attachment.father = Larva.father;
             attachment.genes = Larva.CaptureGeneSet();
+            attachment.removedDefaultGenes = new System.Collections.Generic.List<GeneDef>(Larva.removedDefaultGenes);
             attachment.kind = Parent.kindDef;
             attachment.name = Parent.Name?.ToString();
             attachment.age = Parent.ageTracker.AgeBiologicalYearsFloat;

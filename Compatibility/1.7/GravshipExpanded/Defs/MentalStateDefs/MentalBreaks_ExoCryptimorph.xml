@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<MentalBreakDef MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<defName>XMT_AstrofuelFireTerror</defName>
+		<label>fire terror</label>
+		<intensity>Minor</intensity>
+		<workerClass>MentalBreakWorker_FireTerror</workerClass>
+		<mentalState>VGE_PanicFleeFire</mentalState>
+		<requiredGene>XMT_Gene_AstrofuelMetabolism</requiredGene>
+	</MentalBreakDef>
+</Defs>

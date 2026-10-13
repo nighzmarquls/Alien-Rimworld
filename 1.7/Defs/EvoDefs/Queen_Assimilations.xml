@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<Xenomorphtype.QueenAssimilationDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_Assimilate_Mechlink</defName>
+		<label>assimilate mechlink</label>
+		<description>The queen integrates a mechanitor mechlink into her nervous system.</description>
+		<requiredEvolution>Evo_CryptomechanicalCircuitry</requiredEvolution>
+		<thingDef>Mechlink</thingDef>
+		<consumeCount>1</consumeCount>
+		<oncePerQueen>true</oncePerQueen>
+		<implantHediff>MechlinkImplant</implantHediff>
+		<implantBodyPart>StarbeastBrain</implantBodyPart>
+		<researchToFinish>BasicMechtech</researchToFinish>
+		<questToTrigger>MechanitorStartingMech</questToTrigger>
+		<completedMessageKey>XMT_AssimilatedMechlinkMessage</completedMessageKey>
+	</Xenomorphtype.QueenAssimilationDef>
+
+	<Xenomorphtype.QueenAssimilationDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_Assimilate_MechanoidTransponder</defName>
+		<label>assimilate mechanoid transponder</label>
+		<description>The queen digests a mechanoid transponder, decrypting the signal that leads to a mechanitor ship.</description>
+		<requiredEvolution>Evo_CryptomechanicalCircuitry</requiredEvolution>
+		<thingDef>MechanoidTransponder</thingDef>
+		<consumeCount>1</consumeCount>
+		<oncePerQueen>false</oncePerQueen>
+		<questToTrigger>MechanitorShip</questToTrigger>
+		<questLetterLabelKey>XMT_MechanitorShipDecryptedLabel</questLetterLabelKey>
+		<questLetterTextKey>XMT_MechanitorShipDecryptedText</questLetterTextKey>
+		<completedMessageKey>XMT_AssimilatedMechanoidTransponderMessage</completedMessageKey>
+	</Xenomorphtype.QueenAssimilationDef>
+
+	<Xenomorphtype.QueenAssimilationDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_Assimilate_SignalChip</defName>
+		<label>assimilate signal chip</label>
+		<description>The queen digests a signal chip, decoding standard mechtech and growing additional command bandwidth.</description>
+		<requiredEvolution>Evo_CryptomechanicalCircuitry</requiredEvolution>
+		<prerequisiteAssimilations>
+			<li>XMT_Assimilate_Mechlink</li>
+		</prerequisiteAssimilations>
+		<thingDef>SignalChip</thingDef>
+		<consumeCount>1</consumeCount>
+		<oncePerQueen>true</oncePerQueen>
+		<researchToFinish>StandardMechtech</researchToFinish>
+		<hediffsToAdd>
+			<li>XMT_AssimilatedSignalChip</li>
+		</hediffsToAdd>
+		<completedMessageKey>XMT_AssimilatedSignalChipMessage</completedMessageKey>
+	</Xenomorphtype.QueenAssimilationDef>
+
+	<Xenomorphtype.QueenAssimilationDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_Assimilate_PowerfocusChip</defName>
+		<label>assimilate powerfocus chip</label>
+		<description>The queen digests a powerfocus chip, decoding high mechtech and growing stronger command bandwidth.</description>
+		<requiredEvolution>Evo_CryptomechanicalCircuitry</requiredEvolution>
+		<prerequisiteAssimilations>
+			<li>XMT_Assimilate_SignalChip</li>
+		</prerequisiteAssimilations>
+		<thingDef>PowerfocusChip</thingDef>
+		<consumeCount>1</consumeCount>
+		<oncePerQueen>true</oncePerQueen>
+		<researchToFinish>HighMechtech</researchToFinish>
+		<hediffsToAdd>
+			<li>XMT_AssimilatedPowerfocusChip</li>
+		</hediffsToAdd>
+		<completedMessageKey>XMT_AssimilatedPowerfocusChipMessage</completedMessageKey>
+	</Xenomorphtype.QueenAssimilationDef>
+
+	<Xenomorphtype.QueenAssimilationDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_Assimilate_NanostructuringChip</defName>
+		<label>assimilate nanostructuring chip</label>
+		<description>The queen digests a nanostructuring chip, decoding ultra mechtech and reaching the highest command bandwidth.</description>
+		<requiredEvolution>Evo_CryptomechanicalCircuitry</requiredEvolution>
+		<prerequisiteAssimilations>
+			<li>XMT_Assimilate_PowerfocusChip</li>
+		</prerequisiteAssimilations>
+		<thingDef>NanostructuringChip</thingDef>
+		<consumeCount>1</consumeCount>
+		<oncePerQueen>true</oncePerQueen>
+		<researchToFinish>UltraMechtech</researchToFinish>
+		<hediffsToAdd>
+			<li>XMT_AssimilatedNanostructuringChip</li>
+		</hediffsToAdd>
+		<completedMessageKey>XMT_AssimilatedNanostructuringChipMessage</completedMessageKey>
+	</Xenomorphtype.QueenAssimilationDef>
+
+</Defs>

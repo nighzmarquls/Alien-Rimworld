@@ -1,0 +1,84 @@
+﻿using HarmonyLib;
+using RimWorld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using Verse;
+
+namespace Xenomorphtype
+{
+    public class HediffComp_Mutator : HediffComp
+    {
+        public int mutateTick = -1;
+        HediffCompProperties_Mutator Props => props as HediffCompProperties_Mutator;
+
+
+        public override bool CompShouldRemove => parent.Severity <= parent.def.minSeverity;
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
+        {
+            base.CompPostTickInterval(ref severityAdjustment, delta);
+            if (Pawn == null || Pawn.health == null)
+            {
+                return;
+            }
+
+            int currentTick = Find.TickManager.TicksGame;
+            if (currentTick > mutateTick)
+            {
+                if (XMTSettings.LogBiohorror)
+                {
+                    Log.Message("[XMT][Biohorror] " + parent + " is trying to mutate " + Pawn);
+                }
+               
+                mutateTick = currentTick + Mathf.CeilToInt(Props.mutateHourInterval * 2500);
+
+                float chance = Props.useSeverityAsProbability ? parent.Severity : Props.probability;
+                if (Rand.Chance(chance))
+                {
+                    if(Props.onlyOneMutation)
+                    {
+                        if (Props.customMutationSet != null)
+                        {
+                            foreach (MutationHealth mutation in Props.customMutationSet.mutations)
+                            {
+                                if (parent.pawn.health.hediffSet.GetFirstHediffOfDef(mutation.horror) is Hediff mutationHediff )
+                                {
+                                    if (mutationHediff.Severity < mutationHediff.def.maxSeverity)
+                                    {
+                                        mutationHediff.Severity += mutation.horror.initialSeverity;
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    BioUtility.TryMutatingPawn(ref parent.pawn, Props.customMutationSet);
+                }
+
+                
+
+            }
+        }
+        public override void CompExposeData()
+        {
+            base.CompExposeData();
+            Scribe_Values.Look(ref mutateTick, "mutateTick", -1);
+        }
+    }
+
+    public class HediffCompProperties_Mutator : HediffCompProperties
+    {
+        public bool  onlyOneMutation = false;
+        public float mutateHourInterval = 1;
+        public float probability = 0.1f;
+        public bool useSeverityAsProbability = false;
+        public XMT_MutationsHealthSet customMutationSet = null;
+        public HediffCompProperties_Mutator()
+        {
+            compClass = typeof(HediffComp_Mutator);
+        }
+    }
+}

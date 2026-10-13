@@ -11,6 +11,7 @@ namespace Xenomorphtype
     internal class HediffComp_LarvalAttachment : HediffComp_PawnAttachement
     {
         public GeneSet genes;
+        public List<GeneDef> removedDefaultGenes = new List<GeneDef>();
         public Pawn mother;
         public Pawn father;
         public PawnKindDef kind;
@@ -37,6 +38,8 @@ namespace Xenomorphtype
             Scribe_References.Look(ref father, "father", saveDestroyedThings: false);
             Scribe_References.Look(ref mother, "mother", saveDestroyedThings: false);
             Scribe_Deep.Look(ref genes, "genes");
+            Scribe_Collections.Look(ref removedDefaultGenes, "removedDefaultGenes", LookMode.Def);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit) removedDefaultGenes ??= new List<GeneDef>();
             Scribe_Defs.Look(ref kind, "kind");
             Scribe_Values.Look(ref spent, "spent", defaultValue: false);
             Scribe_Values.Look(ref name, "name", defaultValue: "larva");
@@ -127,7 +130,7 @@ namespace Xenomorphtype
                 }
                 larva.mother = mother;
                 larva.father = father;
-                larva.ReplaceGenes(genes?.GenesListForReading);
+                larva.ReplaceGenes(genes?.GenesListForReading, removedDefaults: removedDefaultGenes);
                 // Older code stored the full displayed name as a string.
                 if (!name.NullOrEmpty())
                 {
@@ -457,6 +460,8 @@ namespace Xenomorphtype
             }
 
             genes = attachedPawn?.GetComp<CompLarvalGenes>()?.CaptureGeneSet() ?? genes;
+            CompLarvalGenes lineage = attachedPawn?.GetComp<CompLarvalGenes>();
+            if (lineage != null) removedDefaultGenes = lineage.removedDefaultGenes.ToList();
 
             if (!Pawn.health.hediffSet.GetNotMissingParts().Any(part => part.depth == BodyPartDepth.Inside))
             {
@@ -476,6 +481,7 @@ namespace Xenomorphtype
             if (embryoPregnancy != null)
             {
                 embryoPregnancy.genes = new HorrorGenePayload(genes?.GenesListForReading).ToGeneSet();
+                embryoPregnancy.removedDefaultGenes = removedDefaultGenes.ToList();
 
                 if (embryoPregnancy.genes == null)
                 {

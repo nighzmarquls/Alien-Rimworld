@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<JobDef>
+		<defName>XMT_Protofluid</defName>
+		<driverClass>Xenomorphtype.JobDriver_Protofluid</driverClass>
+		<reportString>injecting TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_AdvancedTameWithFood</defName>
+		<driverClass>Xenomorphtype.JobDriver_AdvancedTameWithFood</driverClass>
+		<reportString>taming TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_AdvancedTameThreat</defName>
+		<driverClass>Xenomorphtype.JobDriver_AdvancedTame</driverClass>
+		<reportString>taming TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_AdvancedTame</defName>
+		<driverClass>Xenomorphtype.JobDriver_AdvancedTame</driverClass>
+		<reportString>taming TargetA.</reportString>
+		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_ExtractJelly</defName>
+		<driverClass>Xenomorphtype.JobDriver_ExtractJelly</driverClass>
+		<reportString>extracting resinous jelly from TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_ExtractResin</defName>
+		<driverClass>Xenomorphtype.JobDriver_ExtractResin</driverClass>
+		<reportString>extracting resinous secretions from TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+	
+	<JobDef>
+		<defName>XMT_ExtractAcid</defName>
+		<driverClass>Xenomorphtype.JobDriver_ExtractAcid</driverClass>
+		<reportString>extracting acid blood from TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_ExtractPheromone</defName>
+		<driverClass>Xenomorphtype.JobDriver_ExtractPheromone</driverClass>
+		<reportString>extracting a raw pheromone gland from TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_LoadPawnIntoBioContainer</defName>
+		<driverClass>Xenomorphtype.JobDriver_LoadPawnIntoBioContainer</driverClass>
+		<reportString>loading TargetA into a biocontainer.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<carryThingAfterJob>true</carryThingAfterJob>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_LoadPawnIntoContainmentHarness</defName>
+		<driverClass>Xenomorphtype.JobDriver_LoadPawnIntoContainmentHarness</driverClass>
+		<reportString>loading TargetA into a containment harness.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<carryThingAfterJob>true</carryThingAfterJob>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_EnterContainmentHarness</defName>
+		<driverClass>Xenomorphtype.JobDriver_EnterContainmentHarness</driverClass>
+		<reportString>entering a containment harness.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_ReleaseContainedPawn</defName>
+		<driverClass>Xenomorphtype.JobDriver_ReleaseContainedPawn</driverClass>
+		<reportString>releasing TargetB.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_TransferContainedPawn</defName>
+		<driverClass>Xenomorphtype.JobDriver_TransferContainedPawn</driverClass>
+		<reportString>transferring TargetC.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<carryThingAfterJob>true</carryThingAfterJob>
+	</JobDef>
+
+	<JobDef>
+		<defName>XMT_DoContainedBill</defName>
+		<driverClass>Xenomorphtype.JobDriver_DoContainedBill</driverClass>
+		<reportString>operating on TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
+	
+	
+</Defs>

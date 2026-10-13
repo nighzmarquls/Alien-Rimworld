@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- Human Adult-->
+	<BackstoryDef>
+		<defName>XMT_AdultModder00</defName>
+		<title>Game Modder</title>
+		<titleShort>modder</titleShort>
+		<description>[PAWN_nameDef] spent [PAWN_possessive] off-time building quality of life mods for a popular computer colony survival game. [PAWN_possessive] story seemed to come to an end, but unknown parties intervened and preserved [PAWN_nameDef] for the future.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Animals>2</Animals>
+			<Plants>2</Plants>
+			<Social>2</Social>
+			<Crafting>2</Crafting>
+			<Artistic>6</Artistic>
+			<Intellectual>6</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultSalvageSurvivor01</defName>
+		<title>salvage survivor</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] and several of [PAWN_possessive] friends and brother attempted to secure material for crytpopods from a deorbiting derelict over their home world. But they found horrible monsters, only [PAWN_nameDef] and [PAWN_possessive] brother escaped alive.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Shooting>1</Shooting>
+			<Plants>2</Plants>
+			<Social>2</Social>
+			<Crafting>2</Crafting>
+			<Intellectual>4</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+		</forcedTraits>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultSalvageSurvivor02</defName>
+		<title>mechanic survivor</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] followed a lead on [PAWN_possessive] mother's dissipearance to a flight recorder on a trade station. [PAWN_pronoun] joined the station as a service engineer, there [PAWN_pronoun] encountered a cryptimorph infestation and only barely escaped alive.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Shooting>6</Shooting>
+			<Crafting>4</Crafting>
+			<Construction>8</Construction>
+			<Intellectual>4</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+		</forcedTraits>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultMissionAdjunct03</defName>
+		<title>archeological survivor</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] was assigned to [PAWN_possessive] first mission for an archeological mission to a distant world, there were no other survivors.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Artistic>6</Artistic>
+			<Social>6</Social>
+			<Medicine>8</Medicine>
+			<Construction>2</Construction>
+			<Intellectual>6</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+		</forcedTraits>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_AdultMercenary04</defName>
+		<title>glitterworld mercenary</title>
+		<titleShort>major</titleShort>
+		<description>Though glitterworlds are peaceful places, they often remain prepared for war. [PAWN_nameDef]'s original unit rarely saw any real action.\n\nSo [PAWN_pronoun] pursued [PAWN_possessive] work as an offworld mercenary, [PAWN_possessive] career has been a storied and extensive one since leaving the relative peace of [PAWN_possessive] homeworld.</description>
+		<slot>Adulthood</slot>
+		<workDisables>
+		</workDisables>
+		<requiredWorkTags>
+		  <li>Violent</li>
+		</requiredWorkTags>
+		<skillGains>
+		  <Melee>6</Melee>
+		  <Shooting>6</Shooting>
+		  <Medicine>4</Medicine>
+		</skillGains>
+		<spawnCategories>
+		  <li>Offworld</li>
+		  <li>Pirate</li>
+		  <li>Researcher</li>
+		</spawnCategories>
+		<bodyTypeMale>Hulk</bodyTypeMale>
+		<bodyTypeFemale>Hulk</bodyTypeFemale>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_PhantasmagoricalArtist04</defName>
+		<title>phantasmagorical artist</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] took [PAWN_possessive] nightmares and focused them into [PAWN_possessive] art, bringing the nightmares that had haunted [PAWN_possessive] childhood into visions which entranced and disturbed all who beheld [PAWN_possessive] work.</description>
+		<slot>Adulthood</slot>
+		<skillGains>
+			<Artistic>10</Artistic>
+			<Social>6</Social>
+			<Construction>2</Construction>
+			<Intellectual>6</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>ImperialCommon</li>
+			<li>Madman</li>
+			<li>Cult</li>
+		</spawnCategories>
+	</BackstoryDef>
+
+</Defs>

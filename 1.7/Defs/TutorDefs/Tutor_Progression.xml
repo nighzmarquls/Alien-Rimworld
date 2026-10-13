@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ConceptDef>
+		<defName>XMT_MetamorphicChrysalisHelp</defName>
+		<label>metamorphic chrysalis</label>
+		<helpText>Metamorphosis is unlocked. Build a Metamorphic Chrysalis from the Hive architect category on reinforced resin flooring. Fill it with 600 ordinary jelly, then select the filled chrysalis and begin the maturation ritual. Choose an eligible adult cryptimorph as the ascendant. Each supporting participant needs another 75 ordinary jelly.</helpText>
+		<priority>70</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+
+	<ConceptDef>
+		<defName>XMT_JellyProductionHelp</defName>
+		<label>producing cryptimorph jelly</label>
+		<helpText>Adult cryptimorph workers produce ordinary jelly from organic materials through Cooking in the Work tab. Enable Cooking and provide available food, plant matter, wood, leather, cloth, resin, or non-desiccated organic corpses. You can also select an undrafted worker and right-click a suitable material to order jelly production directly.</helpText>
+		<priority>60</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+
+	<ConceptDef>
+		<defName>XMT_QueenAdvancementHelp</defName>
+		<label>advancing the queen</label>
+		<helpText>Your queen can gain further advancement through additional maturation rituals. Build and fill a new Metamorphic Chrysalis, select it, and choose the queen as the ascendant. A completed ritual consumes the chrysalis and grants advancement progress. Additional participants improve the result. Select the queen and use Choose Traits to spend earned advancement points.</helpText>
+		<priority>80</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+
+	<ConceptDef>
+		<defName>XMT_QueenJellyRefinementHelp</defName>
+		<label>queen jelly refinement</label>
+		<helpText>Queens refine existing ordinary jelly into royal jelly through Cooking. They cannot normally create ordinary jelly from raw organic material, so worker cryptimorphs must maintain the hive's ordinary jelly supply.</helpText>
+		<priority>50</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+</Defs>

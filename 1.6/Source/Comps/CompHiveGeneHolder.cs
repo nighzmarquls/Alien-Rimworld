@@ -12,6 +12,7 @@ namespace Xenomorphtype
 
         public GeneSet genes;
         public string templateName;
+        public List<GeneDef> removedDefaultGenes = new List<GeneDef>();
         private GeneSet legacyGenes;
         private string legacyTemplateName;
         private int storageVersion = CurrentStorageVersion;
@@ -53,9 +54,11 @@ namespace Xenomorphtype
             return new HorrorGenePayload(GenesListForReading, EffectiveTemplateName).ToGeneSet();
         }
 
-        public void ReplaceGenes(IEnumerable<GeneDef> canonicalGenes, string newTemplateName = "", bool replaceNativeGenes = true)
+        public void ReplaceGenes(IEnumerable<GeneDef> canonicalGenes, string newTemplateName = "", bool replaceNativeGenes = true, IEnumerable<GeneDef> removedDefaults = null)
         {
             List<GeneDef> geneList = canonicalGenes?.Where(gene => gene != null).Distinct().ToList() ?? new List<GeneDef>();
+            if (removedDefaults != null) removedDefaultGenes = removedDefaults.Where(gene => gene != null).Distinct().ToList();
+            geneList.RemoveAll(removedDefaultGenes.Contains);
             if (parent is Pawn pawn && pawn.genes != null)
             {
                 if (replaceNativeGenes)
@@ -68,6 +71,7 @@ namespace Xenomorphtype
 
                 GeneSet incomingGenes = new HorrorGenePayload(geneList).ToGeneSet();
                 BioUtility.InsertGenesetToPawn(incomingGenes, ref pawn);
+                GeneLineageUtility.CleanDefaults(pawn, removedDefaultGenes);
                 if (!newTemplateName.NullOrEmpty())
                 {
                     pawn.genes.xenotypeName = newTemplateName;
@@ -85,6 +89,8 @@ namespace Xenomorphtype
 
         public void AddGenes(IEnumerable<GeneDef> canonicalGenes, string newTemplateName = null)
         {
+            if (canonicalGenes != null)
+                removedDefaultGenes.RemoveAll(gene => canonicalGenes.Contains(gene));
             List<GeneDef> combinedGenes = GenesListForReading.ToList();
             if (canonicalGenes != null)
             {
@@ -105,6 +111,7 @@ namespace Xenomorphtype
             base.PostExposeData();
             Scribe_Values.Look(ref templateName, "xmtHiveTemplateName", "");
             Scribe_Deep.Look(ref genes, "xmtHiveGenes");
+            Scribe_Collections.Look(ref removedDefaultGenes, "xmtRemovedDefaultGenes", LookMode.Def);
             Scribe_Values.Look(ref storageVersion, "xmtHiveGeneStorageVersion", 0);
 
             if (ShouldReadLegacyStorage())
@@ -115,6 +122,8 @@ namespace Xenomorphtype
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
+                removedDefaultGenes ??= new List<GeneDef>();
+                removedDefaultGenes.RemoveAll(gene => gene == null);
                 MigrateLegacyStorage();
             }
         }
@@ -183,6 +192,7 @@ namespace Xenomorphtype
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Gene storage: canonical v" + storageVersion);
             builder.AppendLine("Template: " + (EffectiveTemplateName.NullOrEmpty() ? "none" : EffectiveTemplateName));
+            builder.AppendLine("Removed defaults: " + string.Join(", ", removedDefaultGenes.Select(gene => gene.defName)));
             if (storedGenes.Count == 0)
             {
                 builder.Append("Stored genes: none");

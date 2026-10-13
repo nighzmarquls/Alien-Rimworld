@@ -27,6 +27,7 @@ namespace Xenomorphtype
             { childGetter = () => nodes.ToList() };
 
         internal static DebugActionNode MakeNode() => Group("Mission",
+            DebugActions_NemesisGenetics.Menu(),
             Group("Inspect", Action("Selection, sizing and pending launch", InspectSelection),
                 Action("Mission lords and pawn state", InspectLords), Action("Retained and placed hosts", InspectHosts),
                 Action("Preview remembered approach points", PreviewRoutes)),

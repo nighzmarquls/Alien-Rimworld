@@ -1,0 +1,761 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<HediffDef Name="XMT_Bodypart" ParentName="ImplantHediffBase" Abstract="True">
+		<defaultLabelColor>(0.35, 0.9, 0.9)</defaultLabelColor>
+	</HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_DelicateHand</defName>
+    <label>delicate minor arm</label>
+    <description>a minor arm with a dextrous slender fingered hand.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<WorkSpeedGlobal>0.475</WorkSpeedGlobal>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_QuadrupedalStance</defName>
+    <label>extended leg</label>
+    <description>a secondary arm lengthened and reinforced into a supporting leg.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+			<capacity>Moving</capacity>
+			<offset>0.25</offset>
+		  </li>
+		</capMods>
+		<statOffsets>
+			<WorkSpeedGlobal>-0.475</WorkSpeedGlobal>
+			<MoveSpeed>1</MoveSpeed>
+		</statOffsets>
+	  </li>
+	</stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_RendingClaw</defName>
+    <label>clawed arm</label>
+    <description>a primary arm with dagger like rending claws.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<WorkSpeedGlobal>-0.1125</WorkSpeedGlobal>
+		</statOffsets>
+      </li>
+    </stages>
+	<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+					<li>
+						<label>rending claw</label>
+						<capacities>
+							<li>Scratch</li>
+							<li>Blunt</li>
+							<li>Poke</li>
+						</capacities>
+						<power>23</power>
+						<cooldownTime>1</cooldownTime>
+					</li>
+				</tools>
+			</li>
+		</comps>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_HexapedalStance</defName>
+    <label>extended leg</label>
+    <description>a primary arm lengthened and reinforced into a powerful supporting leg.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+			<capacity>Moving</capacity>
+			<offset>0.25</offset>
+		  </li>
+		</capMods>
+		<statOffsets>
+			<WorkSpeedGlobal>-0.475</WorkSpeedGlobal>
+			<MoveSpeed>1</MoveSpeed>
+		</statOffsets>
+	  </li>
+	</stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_ScythingBlade</defName>
+    <label>bladed arm</label>
+    <description>a primary arm wielding a massive scything blade.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<WorkSpeedGlobal>-0.225</WorkSpeedGlobal>
+		</statOffsets>
+      </li>
+    </stages>
+	<comps>
+			<li Class="HediffCompProperties_VerbGiver">
+				<tools>
+					<li>
+						<label>scything blade</label>
+						<capacities>
+							<li>Scratch</li>
+							<li>Cut</li>
+							<li>Stab</li>
+						</capacities>
+						<power>23</power>
+						<cooldownTime>0.5</cooldownTime>
+					</li>
+				</tools>
+			</li>
+		</comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_Fertility</defName>
+    <label>bloated belly</label>
+    <description>an extended translucent abdomen which churns with activity.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<SocialImpact>0.25</SocialImpact>
+			<ArmorRating_Blunt>-1</ArmorRating_Blunt>
+			<ArmorRating_Sharp>-1</ArmorRating_Sharp>
+			<WorkSpeedGlobal>-0.225</WorkSpeedGlobal>
+			<XMT_HereditaryCapacity>8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_HyperFertility</defName>
+    <label>Integrated Ovipositor</label>
+    <description>an extended translucent abdomen, trailing behind. It churns with activity.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <offset>-0.75</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<MoveSpeed>-3</MoveSpeed>
+			<SocialImpact>0.25</SocialImpact>
+			<ArmorRating_Blunt>-1.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>-1.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>24</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_MechaFertility</defName>
+    <label>mechagestators</label>
+    <description>body is prepared to gestate mechanoids.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>false</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_MechaFertilitySynthesis</defName>
+    <label>synthethized mechagestators</label>
+    <description>body is prepared to gestate mechanoids.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>false</becomeVisible>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+		<statOffsets>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <!-- Sizes -->
+  
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
+    <defName>XMT_SizeX1</defName>
+    <label>maternal stature</label>
+    <description>an increased stature.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<SM_BodySizeOffset>1</SM_BodySizeOffset>
+			<SocialImpact>0.25</SocialImpact>
+		</statOffsets>
+      </li>
+    </stages>
+	<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_HeadOffset">
+				<headOffset>
+					<north>
+						<offset>(0.0, 0.0)</offset>
+					</north>
+					<south>
+						<offset>(0.0, 0.0)</offset>
+					</south>
+					<east>
+						<offset>(0.15, 0.0)</offset>
+					</east>
+					<west>
+						<offset>(-0.15, 0.0)</offset>
+					</west>
+				</headOffset>
+			</li>
+	</comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
+    <defName>XMT_SizeX2</defName>
+    <label>noble stature</label>
+    <description>a truly noble stature.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<SM_BodySizeOffset>2</SM_BodySizeOffset>
+			<SocialImpact>0.5</SocialImpact>
+		</statOffsets>
+      </li>
+    </stages>
+	<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_HeadOffset">
+				<headOffset>
+					<north>
+						<offset>(0.0, 0.0)</offset>
+					</north>
+					<south>
+						<offset>(0.0, 0.04)</offset>
+					</south>
+					<east>
+						<offset>(0.2, 0.04)</offset>
+					</east>
+					<west>
+						<offset>(-0.2, 0.04)</offset>
+					</west>
+				</headOffset>
+			</li>
+	</comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
+    <defName>XMT_SizeX3</defName>
+    <label>royal stature</label>
+    <description>an impressively royal stature.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<SM_BodySizeOffset>3</SM_BodySizeOffset>
+			<SocialImpact>0.75</SocialImpact>
+		</statOffsets>
+      </li>
+    </stages>
+	<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_HeadOffset">
+				<headOffset>
+					<north>
+						<offset>(0.0, 0.0)</offset>
+					</north>
+					<south>
+						<offset>(0.0, 0.05)</offset>
+					</south>
+					<east>
+						<offset>(0.3, 0.05)</offset>
+					</east>
+					<west>
+						<offset>(-0.3, 0.05)</offset>
+					</west>
+				</headOffset>
+			</li>
+	</comps>
+  </HediffDef>
+  
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="RedMattis.BetterPrerequisites">
+    <defName>XMT_SizeX4</defName>
+    <label>imperial stature</label>
+    <description>a staggeringly massive stature.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<SM_BodySizeOffset>7</SM_BodySizeOffset>
+			<SocialImpact>2</SocialImpact>
+		</statOffsets>
+      </li>
+    </stages>
+	<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_HeadOffset">
+				<headOffset>
+					<north>
+						<offset>(0.0, 0.18)</offset>
+					</north>
+					<south>
+						<offset>(0.0, 0.18)</offset>
+					</south>
+					<east>
+						<offset>(0.5, 0.18)</offset>
+					</east>
+					<west>
+						<offset>(-0.5, 0.18)</offset>
+					</west>
+				</headOffset>
+			</li>
+	</comps>
+  </HediffDef>
+  
+  <!-- Crests -->
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_MaternalCrest</defName>
+    <label>maternal Crest</label>
+    <description>a wide imposing crest.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.25</PsychicSensitivity>
+			<SocialImpact>1</SocialImpact>
+			<ArmorRating_Blunt>0.75</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<MechBandwidth MayRequire="Ludeon.RimWorld.Biotech">1</MechBandwidth>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_WitchCrest</defName>
+    <label>witch crest</label>
+    <description>a curving crest of dense neural folds and a oppressive psychic presence.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>2</PsychicSensitivity>
+			<SocialImpact>2</SocialImpact>
+			<ArmorRating_Blunt>1.1</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.1</ArmorRating_Sharp>
+		</statOffsets>
+		<statFactors>
+			<PsychicEntropyMax MayRequire="Ludeon.RimWorld.Royalty">1.3</PsychicEntropyMax>
+			<PsychicEntropyRecoveryRate MayRequire="Ludeon.RimWorld.Royalty">1.25</PsychicEntropyRecoveryRate>
+		</statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_DivineHalo</defName>
+    <label>divine halo</label>
+    <description>a haloed crest of impossible sensory tissue, tuned to the hive like a living crown.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>3</PsychicSensitivity>
+			<SocialImpact>3</SocialImpact>
+			<ArmorRating_Blunt>1.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.25</ArmorRating_Sharp>
+		</statOffsets>
+		<statFactors>
+			<PsychicEntropyMax>1.5</PsychicEntropyMax>
+			<PsychicEntropyRecoveryRate>1.5</PsychicEntropyRecoveryRate>
+		</statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <!-- Juggernaut crests -->
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_FierceCrest</defName>
+    <label>fierce crest</label>
+    <description>a lowered battering crest of dense, brutal chitin.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>-0.5</PsychicSensitivity>
+			<SocialImpact>0.75</SocialImpact>
+			<ArmorRating_Blunt>1.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.5</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_JuggernautsCrest</defName>
+    <label>juggernaut crown</label>
+    <description>a massive shield crest grown to weather gunfire, shrapnel and impact.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>-0.75</PsychicSensitivity>
+			<SocialImpact>1</SocialImpact>
+			<MoveSpeed>-0.4</MoveSpeed>
+			<ArmorRating_Blunt>2.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>2.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-16</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_DefensiveStature</defName>
+    <label>defensive stature</label>
+    <description>The queen braces behind her Juggernaut Crown, sacrificing speed to reinforce her armor and shelter nearby allies.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+		<statFactors>
+			<MoveSpeed>0.5</MoveSpeed>
+			<ArmorRating_Blunt>1.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>1.5</ArmorRating_Sharp>
+			<ArmorRating_Heat>1.5</ArmorRating_Heat>
+		</statFactors>
+      </li>
+    </stages>
+	<comps>
+	  <li Class="Xenomorphtype.HediffCompProperties_DefensiveStatureState" />
+	</comps>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_DefensiveStatureProtection</defName>
+    <label>protected by defensive stature</label>
+    <description>A nearby queen has interposed her Juggernaut Crown. External violent hits against this pawn are redirected to that queen.</description>
+    <hediffClass>Xenomorphtype.Hediff_DefensiveStatureProtection</hediffClass>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+	<comps>
+	  <li Class="Xenomorphtype.HediffCompProperties_DefensiveStatureProtection" />
+	  <li Class="HediffCompProperties_Disappears">
+		<disappearsAfterTicks>5</disappearsAfterTicks>
+	  </li>
+	</comps>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase">
+    <defName>XMT_Trampled</defName>
+    <label>trampled</label>
+    <description>crushed under a queen's charging bulk.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+		<capMods>
+		  <li>
+            <capacity>Moving</capacity>
+            <setMax>0</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+	<comps>
+	  <li Class="HediffCompProperties_Disappears">
+		<disappearsAfterTicks>60</disappearsAfterTicks>
+	  </li>
+	</comps>
+  </HediffDef>
+  
+  <!-- Fleshcrafter Crests-->
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_SubjugatorCrest</defName>
+    <label>subjugator crest</label>
+    <description>a tall arching crest with pulsing sacks along its sides.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.00</PsychicSensitivity>
+			<SocialImpact>1</SocialImpact>
+			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>8</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <HediffDef ParentName="XMT_Bodypart">
+    <defName>XMT_RoyalCrown</defName>
+    <label>Sovereign Crown</label>
+    <description>a raised portion of gene processing neural tissue and polished chitin.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<PsychicSensitivity>1.00</PsychicSensitivity>
+			<SocialImpact>2</SocialImpact>
+			<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>16</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+  
+  <!-- Mechanitor Crests -->
+
+  <HediffDef ParentName="XMT_Bodypart" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_SignalAmplifyingAntenna</defName>
+	<label>antenna crest</label>
+    <description>cryptomechanical antennae grown through the crest, ready to carry mechanoid command signals.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>3</MechBandwidth>
+			<SocialImpact>0.25</SocialImpact>
+			<ArmorRating_Blunt>0.25</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.25</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-8</XMT_HereditaryCapacity>
+			
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XMT_Bodypart" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_MechanitorArray</defName>
+	<label>array crown</label>
+    <description>a living crown-array of metal-threaded chitin and neural receivers.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>6</MechBandwidth>
+			<SocialImpact>0.5</SocialImpact>
+			<ArmorRating_Blunt>0.5</ArmorRating_Blunt>
+			<ArmorRating_Sharp>0.5</ArmorRating_Sharp>
+			<XMT_HereditaryCapacity>-16</XMT_HereditaryCapacity>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_AssimilatedSignalChip</defName>
+    <label>assimilated signal chip</label>
+    <description>integrated mechanoid command tissue derived from a signal chip.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>3</MechBandwidth>
+			<MechControlGroups>1</MechControlGroups>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_AssimilatedPowerfocusChip</defName>
+    <label>assimilated powerfocus chip</label>
+    <description>integrated mechanoid command tissue derived from a powerfocus chip.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>6</MechBandwidth>
+			<MechControlGroups>1</MechControlGroups>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="XenomorphtypeBase" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_AssimilatedNanostructuringChip</defName>
+    <label>assimilated nanostructuring chip</label>
+    <description>integrated mechanoid command tissue derived from a nanostructuring chip.</description>
+    <makesSickThought>false</makesSickThought>
+    <makesAlert>false</makesAlert>
+	<tendable>false</tendable>
+	<isInfection>false</isInfection>
+	<initialSeverity>1</initialSeverity>
+    <stages>
+	  <li>
+	    <becomeVisible>true</becomeVisible>
+		<statOffsets>
+			<MechBandwidth>9</MechBandwidth>
+			<MechControlGroups>1</MechControlGroups>
+		</statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+</Defs>

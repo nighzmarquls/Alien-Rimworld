@@ -23,16 +23,7 @@ namespace Xenomorphtype
                 {
                     if (XMTUtility.IsXenomorph(workerPawn))
                     {
-                        Pawn queen = XMTUtility.GetQueen();
-
-                        if (queen == null)
-                        {
-                            egg.LayEgg(workerPawn);
-                        }
-                        else
-                        {
-                            egg.SetFaction(queen.Faction);
-                        }
+                        if (workerPawn.Faction == Faction.OfPlayer) egg.SetFaction(workerPawn.Faction);
                     }
                     else
                     {

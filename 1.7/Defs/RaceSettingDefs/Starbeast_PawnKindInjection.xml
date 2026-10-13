@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<AlienRace.RaceSettings>
+		<defName>Starbeast_Race_Settings</defName>
+		<pawnKindSettings>
+		</pawnKindSettings>
+		<universalBodyAddons>
+			<li>
+				<path>Pawn/Conditions/StarbeastCocoon</path>
+				<userCustomizable>false</userCustomizable>
+				<colorChannel>base</colorChannel>
+				<conditions>
+					<Hediff>StarbeastCocoon</Hediff>
+				</conditions>
+				<scaleWithPawnDrawsize>
+					true
+				</scaleWithPawnDrawsize>
+				<offsets>
+				  <south>
+					<layerOffset>-1</layerOffset>
+				  </south>
+				  <north>
+					<layerOffset>1</layerOffset>
+				  </north>
+				  <east>
+					<layerOffset>-1</layerOffset>
+				  </east>
+				</offsets>
+			</li>
+			<li>
+				<path>Pawn/Tubes/Tubes</path>
+				<userCustomizable>false</userCustomizable>
+				<colorChannel>skin</colorChannel>
+				<conditions>
+					<BodyPart>
+						<bodyPart>Spine</bodyPart>
+						<drawWithoutPart>false</drawWithoutPart>
+					</BodyPart>
+					<Posture>
+						<drawnStanding>true</drawnStanding>
+						<drawnLaying>true</drawnLaying>
+						<drawnInBed>false</drawnInBed>
+					</Posture>
+					<Age>HumanlikeAdult</Age>
+					<Hediff>XMT_BreathingTubes</Hediff>
+				</conditions>
+				<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+				<offsets>
+				  <south>
+					<layerOffset>0.2</layerOffset>
+				  </south>
+				  <north>
+					<layerOffset>-0.29</layerOffset>
+					<bodyTypes>
+						<Hulk>(0.0, 0.0)</Hulk>
+						<Male>(0.0, 0.0)</Male>
+					</bodyTypes>
+				  </north>
+				  <east>
+					<layerOffset>0.25</layerOffset>
+					<bodyTypes>
+						<Hulk>(0.2, 0.0)</Hulk>
+						<Male>(0.06, 0.0)</Male>
+					</bodyTypes>
+				  </east>
+				</offsets>
+			</li>
+			<li>
+				<name>tail</name>
+				<path>Pawn/SkeletalTail/SkeletalTail</path>
+				<userCustomizable>false</userCustomizable>
+				<colorChannel>skin</colorChannel>
+				<conditions>
+					<BodyPart>
+						<bodyPart>Pelvis</bodyPart>
+						<drawWithoutPart>false</drawWithoutPart>
+					</BodyPart>
+					<Posture>
+						<drawnStanding>true</drawnStanding>
+						<drawnLaying>true</drawnLaying>
+						<drawnInBed>false</drawnInBed>
+					</Posture>
+					<Hediff>XMT_BladedTail</Hediff>
+				</conditions>
+				<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+				<offsets>
+				  <south>
+					<layerOffset>0.2</layerOffset>
+					<offset>( -0.052, -0.37)</offset>
+					<bodyTypes>
+						<Baby MayRequire="ludeon.rimworld.biotech">(-0.05, 0.3)</Baby>
+						<Child MayRequire="ludeon.rimworld.biotech">(-0.05, 0.3)</Child>
+						<Hulk>(-0.2, -0.08)</Hulk>
+						<Male>(0.0, 0.0)</Male>
+					</bodyTypes>
+				  </south>
+				  <north>
+					<layerOffset>0.25</layerOffset>
+					<offset>( 0.0, -0.51)</offset>
+					<bodyTypes>
+						<Baby MayRequire="ludeon.rimworld.biotech">(0.006, 0.14)</Baby>
+						<Child MayRequire="ludeon.rimworld.biotech">(0.006, 0.14)</Child>
+						<Hulk>(0.0, -0.22)</Hulk>
+						<Male>(0.0, 0.0)</Male>
+					</bodyTypes>
+				  </north>
+				  <east>
+					<layerOffset>0.25</layerOffset>
+					<offset>(0.46, -0.37)</offset>
+					<bodyTypes>
+						<Baby MayRequire="ludeon.rimworld.biotech">(-0.14, 0.06)</Baby>
+						<Child MayRequire="ludeon.rimworld.biotech">(-0.14, 0.06)</Child>
+						<Hulk>(0.1, -0.1)</Hulk>
+						<Male>(0.0, 0.0)</Male>
+					</bodyTypes>
+				  </east>
+				</offsets>
+			</li>
+			<li>
+				<path>Pawn/Conditions/OvomorphingZero</path>
+				<userCustomizable>false</userCustomizable>
+				<colorChannel>base</colorChannel>
+				<conditions>
+					<Hediff>XMT_Ovomorphing</Hediff>
+				</conditions>
+				<extendedGraphics>
+					<Hediff For="XMT_Ovomorphing">
+						<path>Pawn/Conditions/OvomorphingZero</path>
+						<extendedGraphics>
+							<BodyType For="Hulk">
+								<extendedGraphics>
+									<Severity For="0.75">Pawn/Conditions/OvomorphingThree_Hulk</Severity>
+									<Severity For="0.5">Pawn/Conditions/OvomorphingTwo_Hulk</Severity>
+									<Severity For="0.25">Pawn/Conditions/OvomorphingOne_Hulk</Severity>
+								</extendedGraphics>
+							</BodyType>
+							<BodyType For="Fat">
+								<extendedGraphics>
+									<Severity For="0.75">Pawn/Conditions/OvomorphingThree_Fat</Severity>
+									<Severity For="0.5">Pawn/Conditions/OvomorphingTwo_Fat</Severity>
+									<Severity For="0.25">Pawn/Conditions/OvomorphingOne_Fat</Severity>
+								</extendedGraphics>
+							</BodyType>
+							<Severity For="0.75">Pawn/Conditions/OvomorphingThree</Severity>
+							<Severity For="0.5">Pawn/Conditions/OvomorphingTwo</Severity>
+							<Severity For="0.25">Pawn/Conditions/OvomorphingOne</Severity>
+							
+						</extendedGraphics>
+					</Hediff>
+				</extendedGraphics>
+				<scaleWithPawnDrawsize>
+					true
+				</scaleWithPawnDrawsize>
+				<offsets>
+				  <south>
+					<layerOffset>-0.5</layerOffset>
+				  </south>
+				  <north>
+					<layerOffset>0.5</layerOffset>
+				  </north>
+				  <east>
+					<layerOffset>-0.5</layerOffset>
+				  </east>
+				</offsets>
+			</li>
+		</universalBodyAddons>
+	</AlienRace.RaceSettings>
+</Defs>

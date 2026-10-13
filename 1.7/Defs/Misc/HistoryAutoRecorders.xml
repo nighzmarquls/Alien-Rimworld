@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HistoryAutoRecorderGroupDef>
+    <defName>XMT_XenoformingGroup</defName>
+    <label>xenoforming</label>
+    <historyAutoRecorderDefs>
+      <li>XMT_Xenoforming</li>
+    </historyAutoRecorderDefs>
+  </HistoryAutoRecorderGroupDef>
+
+  <HistoryAutoRecorderDef>
+    <defName>XMT_Xenoforming</defName>
+    <label>xenoforming</label>
+    <graphColor>(0.25, 0, 0.8, 1)</graphColor>
+    <recordTicksFrequency>30000</recordTicksFrequency>
+    <workerClass>Xenomorphtype.HistoryAutoRecorderWorker_Xenoforming</workerClass>
+    <valueFormat>{0}%</valueFormat>
+  </HistoryAutoRecorderDef>
+
+</Defs>

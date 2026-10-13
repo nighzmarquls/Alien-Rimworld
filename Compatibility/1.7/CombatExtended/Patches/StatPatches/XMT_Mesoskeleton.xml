@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Preserve every stage's non-armor effects while converting natural armor to CE units. -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>8</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>3</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[2]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>16</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[2]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>6</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[3]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>24</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[3]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>9</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[4]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>38</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[4]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>14</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[5]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>58</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_Mesoskeleton"]/stages/li[5]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>22</ArmorRating_Sharp></value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

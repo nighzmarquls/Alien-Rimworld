@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Generated biological loadouts differ substantially in CE threat value. -->
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/PawnKindDef[defName="XMT_HybridHorrorBlank"]</xpath>
+		<value><combatPower>30</combatPower></value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/PawnKindDef[defName="XMT_HybridDysfunctional"]</xpath>
+		<value><combatPower>45</combatPower></value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/PawnKindDef[defName="XMT_HybridFunctional"]</xpath>
+		<value><combatPower>110</combatPower></value>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/PawnKindDef[defName="XMT_HybridHorrorMatured"]</xpath>
+		<value><combatPower>125</combatPower></value>
+	</Operation>
+</Patch>

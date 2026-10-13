@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<ThingDef Name="PawnClimberBase" ParentName="EtherealThingBase">
+		<defName>PawnClimber</defName>
+		<label>climbing</label>
+		<thingClass>Xenomorphtype.PawnClimber</thingClass>
+		<useHitPoints>false</useHitPoints>
+		<drawOffscreen>false</drawOffscreen>
+		<tickerType>Normal</tickerType>
+		<altitudeLayer>Skyfaller</altitudeLayer>
+		<drawerType>RealtimeOnly</drawerType>
+		<pawnFlyer>
+		  <flightDurationMin>0.5</flightDurationMin>
+		  <flightSpeed>12</flightSpeed>
+		  <workerClass>Xenomorphtype.PawnClimberWorker</workerClass>
+		  <heightFactor>2</heightFactor>
+		  <progressCurve>
+			<points>
+			  <li>(0, 0)</li>
+			  <li>(1, 1)</li>
+			</points>
+		  </progressCurve>
+		</pawnFlyer>
+	</ThingDef>
+	
+	<ThingDef ParentName="PawnClimberBase">
+		<defName>PawnClimbUnder</defName>
+		<label>climbing</label>
+		<thingClass>Xenomorphtype.PawnClimber</thingClass>
+		<useHitPoints>false</useHitPoints>
+		<drawOffscreen>false</drawOffscreen>
+		<tickerType>Normal</tickerType>
+		<altitudeLayer>Skyfaller</altitudeLayer>
+		<drawerType>RealtimeOnly</drawerType>
+		<pawnFlyer>
+			<flightDurationMin>0.5</flightDurationMin>
+			<flightSpeed>6</flightSpeed>
+			<workerClass>Xenomorphtype.PawnClimberWorker</workerClass>
+			<heightFactor>4</heightFactor>
+			<progressCurve>
+				<points>
+				  <li>(0, 0)</li>
+				  <li>(1, 1)</li>
+				</points>
+			</progressCurve>
+		</pawnFlyer>
+	</ThingDef>
+
+	<ThingDef ParentName="EtherealThingBase">
+		<defName>XMT_QueenTrampler</defName>
+		<label>trampling</label>
+		<thingClass>Xenomorphtype.PawnTrampler</thingClass>
+		<useHitPoints>false</useHitPoints>
+		<drawOffscreen>false</drawOffscreen>
+		<tickerType>Normal</tickerType>
+		<altitudeLayer>Skyfaller</altitudeLayer>
+		<drawerType>RealtimeOnly</drawerType>
+	</ThingDef>
+</Defs>

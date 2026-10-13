@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  
+  <RoomPart_ThingDef>
+    <defName>XMT_OvamorphSurprise</defName>
+    <workerClass>RoomPart_FillPadding</workerClass>
+    <thingDef>XMT_Ovomorph</thingDef>
+  </RoomPart_ThingDef>
+
+</Defs>

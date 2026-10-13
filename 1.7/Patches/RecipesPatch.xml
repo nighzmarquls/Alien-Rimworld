@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="BiofuelRefinery"]/recipes
+		</xpath>
+		<value>
+			<li>Make_NeutromineFromJelly</li>
+			<li>XMT_Purify_Wastepack</li>
+		</value>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="DrugLab"]/recipes</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="DrugLab"]</xpath>
+			<value>
+				<recipes>
+					<li>Make_Ovomorph</li>
+					<li>Make_Cryptizip</li>
+					<li>XMT_Make_GlitterworldMedicine</li>
+					<li>XMT_Purify_Wastepack</li>
+					<li>XMT_Pack_Medicine_Jelly</li>
+				</recipes>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="DrugLab"]/recipes</xpath>
+			<value>
+				<li>Make_Ovomorph</li>
+				<li>Make_Cryptizip</li>
+				<li>XMT_Make_GlitterworldMedicine</li>
+				<li>XMT_Purify_Wastepack</li>
+				<li>XMT_Pack_Medicine_Jelly</li>
+			</value>
+		</match>
+	</Operation>
+	
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="ElectricSmelter"]/recipes</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="ElectricSmelter"]</xpath>
+			<value>
+				<recipes>
+					<li>XMT_Purify_Wastepack</li>
+				</recipes>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="ElectricSmelter"]/recipes</xpath>
+			<value>
+				<li>XMT_Purify_Wastepack</li>
+			</value>
+		</match>
+	</Operation>
+	
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[@Name="AnimalThingBase"]/recipes
+		</xpath>
+		<value>
+			<li>ExtractPheromoneGland</li>
+			<li>XMT_Remove_LarvalEmbrace</li>
+			<li>XMT_Remove_LarvalEmbraceContained</li>
+			<li>XMT_RemoveEmbryo</li>
+			<li>XMT_RemoveEmbryoContained</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThingDef[defName="Human"]/recipes
+		</xpath>
+		<value>
+			<li>ExtractPheromoneGland</li>
+			<li>XMT_Remove_LarvalEmbrace</li>
+			<li>XMT_Remove_LarvalEmbraceContained</li>
+			<li>XMT_RemoveEmbryo</li>
+			<li>XMT_RemoveEmbryoContained</li>
+			<li>XMT_Mutate_Marrow</li>
+			<li>XMT_Mutate_Skeleton</li>
+			<li>XMT_Mutate_Muscle</li>
+			<li>XMT_Mutate_Fat</li>
+			<li>XMT_Mutate_ThreatSmell</li>
+			<li>XMT_Mutate_FriendSmell</li>
+			<li>XMT_Mutate_Jaw</li>
+			<li>XMT_Mutate_Tongue</li>
+			<li>XMT_Mutate_Stomach</li>
+			<li>XMT_Mutate_Tail</li>
+			<li>XMT_Mutate_Back</li>
+			<li>XMT_Mutate_Lung</li>
+			<li>XMT_Mutate_Neck</li>
+			<li>XMT_Mutate_Nose</li>
+			<li>XMT_Mutate_Ear</li>
+			<li>XMT_Mutate_Eye</li>
+		</value>
+	</Operation>
+	
+</Patch>

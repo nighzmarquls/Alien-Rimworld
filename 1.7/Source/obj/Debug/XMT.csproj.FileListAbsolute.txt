@@ -1,0 +1,11 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.6\Assemblies\XMT.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.6\Source\obj\Debug\XMT.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.6\Source\obj\Debug\XMT.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.6\Source\obj\Debug\XMT.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\XMT.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\XMT.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\XMT.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\XMT.GeneratedMSBuildEditorConfig.editorconfig
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Assemblies\XMT.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\refint\XMT.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\ref\XMT.dll

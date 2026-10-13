@@ -72,6 +72,7 @@ namespace Xenomorphtype
         private static void RunSwarmProgressionContracts(GameComponent_Nemesis component, Map map)
         {
             float originalXenoforming = XenoformingUtility.GetXenoforming();
+            using IDisposable geneticScope = component.SuspendGeneticAcquisition();
             try
             {
                 NemesisMissionDef facehugger = DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_FacehuggerAssault");

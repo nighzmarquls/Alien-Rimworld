@@ -20,6 +20,7 @@ namespace Xenomorphtype
                 return new List<DebugActionNode>
                 {
                     HostSourceSpawnNode(),
+                    DebugActions_OvomorphLineage.Menu(),
                     new DebugActionNode("Spawn all custom host gene examples", DebugActionType.Action, SpawnAllCustomHostGeneExamples),
                     new DebugActionNode("Spawn all host source gene ovamorphs", DebugActionType.Action, SpawnAllHostSourceGeneOvomorphs)
                 };

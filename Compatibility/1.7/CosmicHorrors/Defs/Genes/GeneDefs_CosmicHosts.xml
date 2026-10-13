@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+	<GeneDef>
+		<defName>XMT_Horror_Mouth</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>throat tentacles</label>
+		<labelShortAdj>tendrils</labelShortAdj>
+		<iconPath>UI/GeneIcons/Gene_HorrorMouth</iconPath>
+		<description>Carriers of this gene have multiple fleshy tendrils extruding from their throat.</description>
+		<displayOrderInCategory>68</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>5</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>leech</symbol></li>
+				<li><symbol>tongue</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+				<hediffsToBodyParts>
+					<li>
+						<hediff>XMT_TendrilMaw</hediff>
+						<bodyparts>
+							<li>StarbeastJaw</li>
+						</bodyparts>
+					</li>
+				</hediffsToBodyParts>
+			</li>
+		</modExtensions>
+	</GeneDef>
+	<GeneDef>
+		<defName>XMT_Back_Tentacles</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>back tentacles</label>
+		<labelShortAdj>tentacles</labelShortAdj>
+		<iconPath>UI/GeneIcons/Gene_HorrorTentacle</iconPath>
+		<description>Carriers of this gene have four fleshy tentacles sprouting from their back.</description>
+		<displayOrderInCategory>68</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>5</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>tentacle</symbol></li>
+				<li><symbol>horror</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+				<hediffsToBodyParts>
+					<li>
+						<hediff>XMT_BackTentacles</hediff>
+						<bodyparts>
+							<li>StarbeastTubes</li>
+						</bodyparts>
+					</li>
+				</hediffsToBodyParts>
+			</li>
+		</modExtensions>
+	</GeneDef>
+	<GeneDef>
+		<defName>XMT_Cosmic_Flesh</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>overdeveloped tissue</label>
+		<labelShortAdj>flesh</labelShortAdj>
+		<iconPath>UI/GeneIcons/Gene_HorrorFlesh</iconPath>
+		<description>Carriers of this gene have exaggerated red flesh emerging across the body.</description>
+		<displayOrderInCategory>68</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<biostatCpx>1</biostatCpx>
+		<biostatMet>5</biostatMet>
+		<symbolPack>
+			<prefixSymbols>
+				<li><symbol>flesh</symbol></li>
+				<li><symbol>meat</symbol></li>
+			</prefixSymbols>
+		</symbolPack>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">		
+				<hideGene>true</hideGene>
+				<hediffToWholeBody>XMT_Meat</hediffToWholeBody>
+			</li>
+		</modExtensions>
+	</GeneDef>
+
+</Defs>

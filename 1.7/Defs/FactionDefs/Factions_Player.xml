@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <FactionDef ParentName="FactionBase" Abstract="True" Name="StarbeastPlayerFactionBase">
+    <settlementTexturePath>World/WorldObjects/SmallNest</settlementTexturePath>
+    <playerInitialSettlementNameMaker>NamerInitialSettlementColony</playerInitialSettlementNameMaker>
+    <colorSpectrum>
+      <li>(0, 0.737, 0.847)</li>
+    </colorSpectrum>
+    <!-- NOTE: Player factions lack a xenotype set. Player pawns have their xenotypes set by the player/scenario. -->
+  </FactionDef>
+
+  <FactionDef ParentName="StarbeastPlayerFactionBase">
+    <defName>XMT_PlayerHive</defName>
+    <label>New Cryptimorph Hive</label>
+    <description>A small hive.</description>
+    <isPlayer>true</isPlayer>
+    <categoryTag>Tribal</categoryTag>
+    <pawnSingular>kin</pawnSingular>
+    <pawnsPlural>kin</pawnsPlural>
+    <basicMemberKind>XMT_StarbeastKind</basicMemberKind>
+    <techLevel>Neolithic</techLevel>
+    <factionNameMaker>NamerFactionTribal</factionNameMaker>
+    <settlementNameMaker>NamerSettlementTribal</settlementNameMaker>
+    <allowedCultures>
+      <li>XMT_Cryptimorph</li>
+    </allowedCultures>
+    <disallowedMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Transhumanist</li>
+    </disallowedMemes>
+    <disallowedPrecepts>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Male_CoveringAnythingButGroinDisapproved</li>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Nudity_Female_CoveringAnythingButGroinDisapproved</li>
+    </disallowedPrecepts>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>XMT_Starbeast</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <factionIconPath>World/WorldObjects/Expanding/SmallNest</factionIconPath>
+    <settlementTexturePath>World/WorldObjects/SmallNest</settlementTexturePath>
+    <forageabilityFactor>1.7</forageabilityFactor>
+    <startingResearchTags>
+      <li>TribalStart</li>
+    </startingResearchTags>
+    <startingTechprintsResearchTags>
+      <li>TribalStart</li>
+      <li>TribalStartTechprints</li>
+    </startingTechprintsResearchTags>
+    <apparelStuffFilter>
+      <thingDefs>
+        <li>Cloth</li>
+      </thingDefs>
+    </apparelStuffFilter>
+    <recipePrerequisiteTags>
+      <li>Tribal</li>
+    </recipePrerequisiteTags>
+  </FactionDef>
+
+</Defs>

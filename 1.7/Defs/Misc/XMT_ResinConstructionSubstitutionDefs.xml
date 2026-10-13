@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<Xenomorphtype.XMT_ResinConstructionSubstitutionDef>
+		<defName>XMT_IdeologyResinConstructionSubstitutions</defName>
+		<label>ideology resin construction substitutions</label>
+		<structuralIngredientFilter>
+			<categories>
+				<li>StoneBlocks</li>
+				<li>Textiles</li>
+			</categories>
+			<thingDefs>
+				<li>WoodLog</li>
+				<li>Steel</li>
+			</thingDefs>
+		</structuralIngredientFilter>
+	</Xenomorphtype.XMT_ResinConstructionSubstitutionDef>
+
+</Defs>

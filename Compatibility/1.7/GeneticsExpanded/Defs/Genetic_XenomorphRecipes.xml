@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<RecipeDef>
+		<defName>XMT_Purify_Basic</defName>
+		<label>purify protofluid</label>
+		<description>extract the genetic protofluid from cryptimorphic genetic material.</description>
+		<jobString>purifying protofluid.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>2000</workAmount>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_StarbeastBaseGenetic</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>XMT_StarbeastBaseGenetic</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<XMT_Protofluid>1</XMT_Protofluid>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+	</RecipeDef>
+	
+	<RecipeDef>
+		<defName>XMT_Purify_Advanced</defName>
+		<label>purify protofluid</label>
+		<description>extract the genetic protofluid from cryptimorphic genetic material.</description>
+		<jobString>purifying protofluid.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>2000</workAmount>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_StarbeastAdvancedGenetic</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>XMT_StarbeastAdvancedGenetic</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<XMT_Protofluid>5</XMT_Protofluid>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+	</RecipeDef>
+	
+	<RecipeDef>
+		<defName>XMT_Purify_Paragon</defName>
+		<label>purify protofluid</label>
+		<description>extract the genetic protofluid from cryptimorphic genetic material.</description>
+		<jobString>purifying protofluid.</jobString>
+		<effectWorking>Cremate</effectWorking>
+		<soundWorking>Recipe_Cremate</soundWorking>
+		<workAmount>2000</workAmount>
+		<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+		</researchPrerequisites>
+		<ingredients>
+			<li>
+				<filter>
+					<thingDefs>
+						<li>XMT_StarbeastParagonGenetic</li>
+					</thingDefs>
+				</filter>
+				<count>1</count>
+			</li>
+		</ingredients>
+		<fixedIngredientFilter>
+			<thingDefs>
+				<li>XMT_StarbeastParagonGenetic</li>
+			</thingDefs>
+		</fixedIngredientFilter>
+		<products>
+			<XMT_Protofluid>25</XMT_Protofluid>
+		</products>
+		<dontShowIfAnyIngredientMissing>true</dontShowIfAnyIngredientMissing>
+	</RecipeDef>
+</Defs>

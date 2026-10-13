@@ -1,0 +1,3244 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_FetalHorror</defName>
+		<label>fleshling</label>
+		<description>This horrible thing struggles to even move. Its body a distorted and disquieting version of a fetus. It chitters, shrieks and cries in a terribly human way while writhing on the ground.</description>
+		<statBases>
+			<MoveSpeed>1.0</MoveSpeed>
+			<ComfyTemperatureMin>0</ComfyTemperatureMin>
+			<MarketValue>10</MarketValue>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>5</MeatAmount>
+			<Wildness>0.45</Wildness>
+		</statBases>
+		<tools>
+			<li>
+				<label>bite</label>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>1</power>
+				<cooldownTime>1</cooldownTime>
+				<linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+			</li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech" Class="Xenomorphtype.CompScreecherProperties">
+				<cryIntervalHours>1</cryIntervalHours>
+				<deathShriekRadius>5</deathShriekRadius>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>true</hasGenders>
+			<body>Snake</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			
+			<baseBodySize>0.2</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeExpectancy>50</lifeExpectancy>
+			<manhunterOnTameFailChance>0.05</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>0.05</manhunterOnDamageChance>
+			<foodType>OmnivoreAnimal, OvivoreAnimal</foodType>
+			<trainability>Intermediate</trainability>
+			<nuzzleMtbHours>4</nuzzleMtbHours>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+					<soundDeath>Pawn_Megascarab_Death</soundDeath>
+					<soundCall>Pawn_Megascarab_Call</soundCall>
+					<soundAngry>Pawn_Megascarab_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Hybrid_AlienRace</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_HybridHorrorMatured</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets>
+					<li><pawnKind>XMT_HybridFunctional</pawnKind></li>
+					<li><pawnKind>XMT_HybridHorrorMatured</pawnKind></li>
+				</promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_FetalHorror</defName>
+		<label>fleshling</label>
+		<race>XMT_FetalHorror</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<alternateGraphicChance>0.5</alternateGraphicChance>
+		<alternateGraphics>
+			<li><texPath>Things/Pawn/Animal/Horror/Fetal_Horror1</texPath></li>
+			<li><texPath>Things/Pawn/Animal/Horror/Fetal_Horror2</texPath></li>
+		</alternateGraphics>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Horror/Fetal_Horror</texPath>
+					<drawSize>1</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<startingHediffs>
+			<li>
+				<def>XMT_BecomingAdultHorror</def>
+				<chance>0.25</chance>
+			</li>
+		</startingHediffs>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_AbominableMaw</defName>
+		<label>emaciated thing</label>
+		<description>A gigantic, twisted, skeletal creature. Its taut emaciated form is also incredibly resistant to damage. Its razor-sharp horn fetches a huge price.\n\n Its yawning maw sucks at the air throat constantly swallowing in choked gulps.</description>
+		<statBases>
+			<MoveSpeed>1.0</MoveSpeed>
+			<MarketValue>4000</MarketValue>
+			<ComfyTemperatureMin>-65</ComfyTemperatureMin>
+			<ComfyTemperatureMax>50</ComfyTemperatureMax>
+			<ArmorRating_Sharp>0.60</ArmorRating_Sharp>
+			<ArmorRating_Blunt>0.40</ArmorRating_Blunt>
+			<ArmorRating_Heat>0.30</ArmorRating_Heat>
+			<EatingSpeed>20</EatingSpeed>
+			<FilthRate>8</FilthRate>
+			<Wildness>0.985</Wildness>
+		</statBases>
+		<uiIconScale>1.75</uiIconScale>
+		<tools>
+			<li>
+				<label>horn</label>
+				<capacities>
+					<li>Scratch</li>
+					<li>Stab</li>
+				</capacities>
+				<power>23</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HornAttackTool</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>28</power>
+				<cooldownTime>2.6</cooldownTime>
+				<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+				<chanceFactor>0.7</chanceFactor>
+			</li>
+			<li>
+				<label>left foot</label>
+				<labelNoLocation>foot</labelNoLocation>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>19</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<label>right foot</label>
+				<labelNoLocation>foot</labelNoLocation>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>19</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<label>head</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>17</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			</li>
+		</tools>
+		<race>
+			<body>QuadrupedAnimalWithHoovesAndHorn</body>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<baseBodySize>4</baseBodySize>
+			<baseHungerRate>20</baseHungerRate>
+			<baseHealthScale>8.0</baseHealthScale>
+			<foodType>OmnivoreHuman, VegetarianRoughAnimal, DendrovoreAnimal</foodType>
+			<leatherDef>Leather_Thrumbo</leatherDef>
+			<trainability>Advanced</trainability>
+			<gestationPeriodDays>20</gestationPeriodDays>
+			<manhunterOnDamageChance>1.00</manhunterOnDamageChance>
+			
+			<lifeExpectancy>220</lifeExpectancy>
+			<fleshType>StarbeastFlesh</fleshType>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>AnimalAdult</def>
+					<minAge>1.332</minAge>
+					<soundCall>Pawn_Thrumbo_Call</soundCall>
+					<soundAngry>Pawn_Thrumbo_Angry</soundAngry>
+					<soundWounded>Pawn_Thrumbo_Pain</soundWounded>
+					<soundDeath>Pawn_Thrumbo_Death</soundDeath>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			<soundEating>Herbivore_Eat</soundEating>
+			<headPosPerRotation>
+				<li>(0.0, 0, 0.36)</li>
+				<li>(0.11, 0, 0.29)</li>
+				<li>(0, 0, 0.25)</li>
+				<li>(-0.11, 0, 0.29)</li>
+			</headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li>AnimalExotic</li>
+		</tradeTags>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>2.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+			<li Class="Xenomorphtype.CompMundivoreProperties">
+				<vomitThing>Starbeast_Resin</vomitThing>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Thrumbo</thingHorrifiedByThis>
+			</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_BeautifulHarmonizer</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_AbominableMaw</defName>
+		<label>emaciated thing</label>
+		<race>XMT_AbominableMaw</race>
+		<combatPower>500</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Maw/AbominableMaw</texPath>
+					<drawSize>4.8</drawSize>
+					<shadowData>
+					<volume>(1, 0.8, 0.5)</volume>
+					<offset>(0,0,-0.5)</offset>
+					</shadowData>
+				</bodyGraphicData>
+				<dessicatedBodyGraphicData>
+					<texPath>Things/Pawn/Animal/Thrumbo/Dessicated_Thrumbo</texPath>
+					<drawSize>4.8</drawSize>
+				</dessicatedBodyGraphicData>
+				<butcherBodyPart>
+					<bodyPartGroup>HornAttackTool</bodyPartGroup>
+					<thing>ThrumboHorn</thing>
+				</butcherBodyPart>
+			</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_BeautifulHarmonizer</defName>
+		<label>beautiful thing</label>
+		<description>A gigantic, beautiful, skeletal creature. Its form is incredibly resistant to damage. Its razor-sharp horn fetches a huge price.\n\n A sensation of peace and serenity surrounds it at all times.</description>
+		<statBases>
+			<MoveSpeed>1.0</MoveSpeed>
+			<MarketValue>4000</MarketValue>
+			<ComfyTemperatureMin>-65</ComfyTemperatureMin>
+			<ComfyTemperatureMax>50</ComfyTemperatureMax>
+			<ArmorRating_Sharp>0.60</ArmorRating_Sharp>
+			<ArmorRating_Blunt>0.40</ArmorRating_Blunt>
+			<ArmorRating_Heat>0.30</ArmorRating_Heat>
+			<FilthRate>8</FilthRate>
+			<Wildness>0.985</Wildness>
+		</statBases>
+		<uiIconScale>1.75</uiIconScale>
+		<tools>
+			<li>
+				<label>horn</label>
+				<capacities>
+					<li>Scratch</li>
+					<li>Stab</li>
+				</capacities>
+				<power>23</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HornAttackTool</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>28</power>
+				<cooldownTime>2.6</cooldownTime>
+				<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+				<chanceFactor>0.7</chanceFactor>
+			</li>
+			<li>
+				<label>left foot</label>
+				<labelNoLocation>foot</labelNoLocation>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>19</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<label>right foot</label>
+				<labelNoLocation>foot</labelNoLocation>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>19</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<label>head</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>17</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			</li>
+		</tools>
+		<race>
+			<body>QuadrupedAnimalWithHoovesAndHorn</body>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<baseBodySize>4</baseBodySize>
+			<baseHealthScale>8.0</baseHealthScale>
+			<foodType>OmnivoreHuman, VegetarianRoughAnimal, DendrovoreAnimal</foodType>
+			<leatherDef>Leather_Thrumbo</leatherDef>
+			<trainability>Advanced</trainability>
+			<gestationPeriodDays>20</gestationPeriodDays>
+			<manhunterOnDamageChance>1.00</manhunterOnDamageChance>
+			<lifeExpectancy>220</lifeExpectancy>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>AnimalAdult</def>
+					<minAge>1.332</minAge>
+					<soundCall>Pawn_Thrumbo_Call</soundCall>
+					<soundAngry>Pawn_Thrumbo_Angry</soundAngry>
+					<soundWounded>Pawn_Thrumbo_Pain</soundWounded>
+					<soundDeath>Pawn_Thrumbo_Death</soundDeath>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			<soundEating>Herbivore_Eat</soundEating>
+			<headPosPerRotation>
+				<li>(0.0, 0, 0.36)</li>
+				<li>(0.11, 0, 0.29)</li>
+				<li>(0, 0, 0.25)</li>
+				<li>(-0.11, 0, 0.29)</li>
+			</headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li>AnimalExotic</li>
+		</tradeTags>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>3.5</splashRange>
+					<cells>3</cells>
+					<damage>20</damage>
+			</li>
+			<li MayRequire="Ludeon.RimWorld.Biotech" Class="Xenomorphtype.CompThoughtGiverProperties">
+				<intervalThought>XMT_HarmonizedSerenity</intervalThought>
+				<thoughtIntervalHours>1</thoughtIntervalHours>
+				<intervalThoughtRadius>3</intervalThoughtRadius>
+				<deathThought>XMT_HarmonizerDeathShriek</deathThought>
+				<deathThoughtRadius>10</deathThoughtRadius>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Thrumbo</thingHorrifiedByThis>
+			</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_AbominableMaw</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_BeautifulHarmonizer</defName>
+		<label>beautiful thing</label>
+		<race>XMT_BeautifulHarmonizer</race>
+		<combatPower>500</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Harmonizer/Harmonizer</texPath>
+					<drawSize>4.8</drawSize>
+					<shadowData>
+					<volume>(1, 0.8, 0.5)</volume>
+					<offset>(0,0,-0.5)</offset>
+					</shadowData>
+				</bodyGraphicData>
+				<dessicatedBodyGraphicData>
+					<texPath>Things/Pawn/Animal/Thrumbo/Dessicated_Thrumbo</texPath>
+					<drawSize>4.8</drawSize>
+				</dessicatedBodyGraphicData>
+				<butcherBodyPart>
+					<bodyPartGroup>HornAttackTool</bodyPartGroup>
+					<thing>ThrumboHorn</thing>
+				</butcherBodyPart>
+			</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Fleshtoad</defName>
+		<label>horrible thing</label>
+		<description>Bloated stack of meat with weeping sores on its back that bulge with pale wriggling masses.</description>
+		<statBases>
+		  <MoveSpeed>2.9</MoveSpeed>
+		  <MarketValue>150</MarketValue>
+		  <ComfyTemperatureMin>-10</ComfyTemperatureMin>
+		  <ComfyTemperatureMax>50</ComfyTemperatureMax>
+		  <FilthRate>20</FilthRate>
+		  <Wildness>0.75</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>8.5</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.7</chanceFactor>
+		  </li>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>4</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.2</chanceFactor>
+		  </li>
+		</tools>
+		<race>
+		  <body>QuadrupedAnimalWithPaws</body>
+		  <herdMigrationAllowed>false</herdMigrationAllowed>
+		  <baseBodySize>0.75</baseBodySize>
+		  <baseHungerRate>0.225</baseHungerRate>
+		  <baseHealthScale>0.7</baseHealthScale>
+		  <foodType>VegetarianRoughAnimal</foodType>
+		  <leatherDef>Leather_Light</leatherDef>
+		  <roamMtbDays>2</roamMtbDays>
+		  <petness>0.08</petness>
+		  <fleshType>StarbeastFlesh</fleshType>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <litterSizeCurve>
+			<points>
+			  <li>(0.5, 0)</li>
+			  <li>(1, 1)</li>
+			  <li>(1.5, 1)</li>
+			  <li>(2, 0)</li>
+			</points>
+		  </litterSizeCurve>
+		  <lifeExpectancy>12</lifeExpectancy>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.3333</minAge>
+			  <soundWounded>Pawn_Alphabeaver_Wounded</soundWounded>
+			  <soundDeath>Pawn_Alphabeaver_Death</soundDeath>
+			  <soundCall>Pawn_Alphabeaver_Call</soundCall>
+			  <soundAngry>Pawn_Alphabeaver_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <soundEating>Rodent_Eat</soundEating>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.25)</li>
+			<li>(0.26, 0, 0.1)</li>
+			<li>(0, 0, 0)</li>
+			<li>(-0.26, 0, 0.1)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+		  <li>AnimalUncommon</li>
+		</tradeTags>
+		<comps>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+				</li>
+				<li Class="Xenomorphtype.CompSpawnerProperties">
+					<pawnKindSpawned>XMT_Fleshspawn</pawnKindSpawned>
+					<spawnIntervalHours>1</spawnIntervalHours>
+					<foodCost>0.25</foodCost>
+				</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_MedicineToad</pawnKind></li></promotionTargets>
+				<demotionTargets><li><pawnKind>XMT_Fleshspawn</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Fleshtoad</defName>
+		<label>horrible thing</label>
+		<race>XMT_Fleshtoad</race>
+		<combatPower>45</combatPower>
+		<ecoSystemWeight>0.35</ecoSystemWeight>
+		<wildGroupSize>3~9</wildGroupSize>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Toad/Fleshtoad</texPath>
+			  <drawSize>1.5</drawSize>
+			  <shadowData>
+				<volume>(0.35, 0.4, 0.3)</volume>
+				<offset>(0,0,-0.08)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Fleshspawn</defName>
+		<label>tiny translucent thing</label>
+		<description>A horrible translucent quadruped which warbles distressingly.</description>
+		<statBases>
+		  <MoveSpeed>4.9</MoveSpeed>
+		  <MarketValue>150</MarketValue>
+		  <ComfyTemperatureMin>-10</ComfyTemperatureMin>
+		  <ComfyTemperatureMax>50</ComfyTemperatureMax>
+		  <FilthRate>20</FilthRate>
+		  <Wildness>0.75</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>4</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.2</chanceFactor>
+		  </li>
+		</tools>
+		<race>
+		  <body>QuadrupedAnimalWithPaws</body>
+		  <herdMigrationAllowed>false</herdMigrationAllowed>
+		  <baseBodySize>0.2</baseBodySize>
+		  <baseHungerRate>0.225</baseHungerRate>
+		  <baseHealthScale>0.7</baseHealthScale>
+		  <foodType>VegetarianRoughAnimal</foodType>
+		  <leatherDef>Leather_Light</leatherDef>
+		  
+		  <roamMtbDays>2</roamMtbDays>
+		  <petness>0.08</petness>
+		  <fleshType>StarbeastFlesh</fleshType>
+		  <bloodDef>Starbeast_Filth_Resin</bloodDef>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <litterSizeCurve>
+			<points>
+			  <li>(0.5, 0)</li>
+			  <li>(1, 1)</li>
+			  <li>(1.5, 1)</li>
+			  <li>(2, 0)</li>
+			</points>
+		  </litterSizeCurve>
+		  <lifeExpectancy>12</lifeExpectancy>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.3333</minAge>
+			  <soundWounded>Pawn_Alphabeaver_Wounded</soundWounded>
+			  <soundDeath>Pawn_Alphabeaver_Death</soundDeath>
+			  <soundCall>Pawn_Alphabeaver_Call</soundCall>
+			  <soundAngry>Pawn_Alphabeaver_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <soundEating>Rodent_Eat</soundEating>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.25)</li>
+			<li>(0.26, 0, 0.1)</li>
+			<li>(0, 0, 0)</li>
+			<li>(-0.26, 0, 0.1)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<comps>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>ToxicBuildup</appliedHediff>
+					<splashRange>3</splashRange>
+					<cells>3</cells>
+					<damage>5</damage>
+					<acidFilth>Starbeast_Filth_Resin</acidFilth>
+				</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>1</tier>
+				<promotionTargets><li><pawnKind>XMT_Fleshtoad</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Fleshspawn</defName>
+		<label>tiny translucent thing</label>
+		<race>XMT_Fleshspawn</race>
+		<combatPower>45</combatPower>
+		<ecoSystemWeight>0.35</ecoSystemWeight>
+		<wildGroupSize>3~9</wildGroupSize>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Toad/Fleshspawn</texPath>
+			  <drawSize>0.5</drawSize>
+			  <shadowData>
+				<volume>(0.32, 0.35, 0.32)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+    <defName>XMT_MedicineToad</defName>
+    <label>eyeless toad thing</label>
+    <description>A massive, eyeless frog like thing with milky pale skin and disturbing yellow teeth. Its thick skin secretes an medicinal slime.</description>
+    <statBases>
+      <MoveSpeed>3.2</MoveSpeed>
+      <MarketValue>880</MarketValue>
+      <ComfyTemperatureMin>-10</ComfyTemperatureMin>
+      <ComfyTemperatureMax>50</ComfyTemperatureMax>
+      <Wildness>0</Wildness>
+      <ToxicResistance>0</ToxicResistance>
+    </statBases>
+    <tools>
+      <li>
+        <capacities>
+          <li>Bite</li>
+        </capacities>
+        <power>10</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+        <chanceFactor>0.7</chanceFactor>
+      </li>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>7</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.2</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>QuadrupedAnimalWithPaws</body>
+      <baseBodySize>0.8</baseBodySize>
+      <baseHungerRate>0.2</baseHungerRate>
+      <baseHealthScale>0.8</baseHealthScale>
+      <foodType>OmnivoreRoughAnimal</foodType>
+      <leatherDef>Leather_Light</leatherDef>
+      <trainability>Intermediate</trainability>
+      <waterSeeker>true</waterSeeker>
+      <waterCellCost>1</waterCellCost>
+      <gestationPeriodDays>5.661</gestationPeriodDays>
+      <soundEating>Reptile_Eat</soundEating>
+      <lifeExpectancy>8</lifeExpectancy>
+	  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+	  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+      <lifeStageAges>
+        <li>
+          <def>AnimalBaby</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>AnimalJuvenile</def>
+          <minAge>0.1</minAge>
+        </li>
+        <li>
+          <def>AnimalAdult</def>
+          <minAge>0.2222</minAge>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+      <headPosPerRotation>
+        <li>(0.0, 0, 0.2)</li>
+        <li>(0.33, 0, 0.03)</li>
+        <li>(0.0, 0, -0.28)</li>
+        <li>(-0.33, 0, 0.03)</li>
+      </headPosPerRotation>
+    </race>
+    <tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+    </tradeTags>
+	<comps>
+		<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>3</splashRange>
+				<cells>10</cells>
+				<damage>20</damage>
+		</li>
+		<li Class="CompProperties_Milkable">
+			<milkDef>XMT_Medicine_Jelly</milkDef>
+			<milkIntervalDays>0.5</milkIntervalDays>
+			<milkAmount>1</milkAmount>
+			<milkFemaleOnly>false</milkFemaleOnly>
+		</li>
+	</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Fleshtoad</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>XMT_MedicineToad</defName>
+    <label>colossus toad</label>
+    <race>XMT_MedicineToad</race>
+    <combatPower>60</combatPower>
+    <ecoSystemWeight>0.3</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
+          <drawSize>1.0</drawSize>
+        </bodyGraphicData>
+        <!-- <dessicatedBodyGraphicData MayRequire="Ludeon.RimWorld.Odyssey">
+          <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
+          <drawSize>1.0</drawSize>
+        </dessicatedBodyGraphicData>-->
+        <swimmingGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.0</drawSize>
+        </swimmingGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
+          <drawSize>1.5</drawSize>
+        </bodyGraphicData>
+<!--                <dessicatedBodyGraphicData MayRequire="Ludeon.RimWorld.Odyssey">
+          <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
+          <drawSize>1.5</drawSize>
+        </dessicatedBodyGraphicData>-->
+        <swimmingGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.5</drawSize>
+        </swimmingGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/MedicineToad</texPath>
+          <drawSize>1.75</drawSize>
+          <shadowData>
+            <volume>(0.25, 0.3, 0.25)</volume>
+            <offset>(0,0,0)</offset>
+          </shadowData>
+        </bodyGraphicData>
+<!--        <dessicatedBodyGraphicData MayRequire="Ludeon.RimWorld.Odyssey">
+          <texPath>Things/Pawn/Animal/ColossusToad/Dessicated_ColossusToad</texPath>
+          <drawSize>1.75</drawSize>
+        </dessicatedBodyGraphicData> -->
+        <swimmingGraphicData>
+          <texPath>Things/Pawn/Animal/MedicineToad/SwimmingMedicineToad</texPath>
+          <graphicClass>Graphic_Multi</graphicClass>
+          <drawSize>1.75</drawSize>
+        </swimmingGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Smotherer</defName>
+		<label>slugcat</label>
+		<description>A wriggling furless thing that should be horrific but is somehow incredibly cute.</description>
+		<statBases>
+			<MoveSpeed>4.4</MoveSpeed>
+			<MarketValue>100</MarketValue>
+			<ComfyTemperatureMin>-25</ComfyTemperatureMin>
+			<Wildness>0</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<label>left claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>6</power>
+			<cooldownTime>1.5</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<label>right claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>6</power>
+			<cooldownTime>1.5</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>7</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.7</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>3</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.2</chanceFactor>
+		  </li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>1.5</splashRange>
+				<cells>3</cells>
+				<damage>10</damage>
+			</li>
+			<li Class="Xenomorphtype.CompHostHunterProperties">
+				<compClass>Xenomorphtype.CompSmotherer</compClass>
+				<parasiteHediff>XMT_SmotheringEmbrace</parasiteHediff>
+				<breachDamage>20</breachDamage>
+				<breachPenetration>0.75</breachPenetration>
+				<thoughtGivenOnAttach>ParasiteSmotheringMood</thoughtGivenOnAttach>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>true</hasGenders>
+			<body>QuadrupedAnimalWithPawsAndTail</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<predator>true</predator>
+			<foodType>CarnivoreAnimal, OvivoreAnimal</foodType>
+			<leatherDef>Leather_Light</leatherDef>
+			
+			<petness>1</petness>
+			<trainability>None</trainability>
+			<nuzzleMtbHours>12</nuzzleMtbHours>
+			<gestationPeriodDays>10</gestationPeriodDays>
+			<nameOnTameChance>1</nameOnTameChance>
+			<litterSizeCurve>
+				<points>
+				  <li>(0.5, 0)</li>
+				  <li>(1, 1)</li>
+				  <li>(2, 1.7)</li>
+				  <li>(3, 0.7)</li>
+				  <li>(3.5, 0)</li>
+				</points>
+			</litterSizeCurve>
+			<lifeExpectancy>10</lifeExpectancy>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Cat_Injured</soundWounded>
+					<soundDeath>Pawn_Cat_Death</soundDeath>
+					<soundCall>Pawn_Cat_Call</soundCall>
+					<soundAngry>Pawn_Cat_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+			<headPosPerRotation>
+				<li>(0.02, 0, 0.23)</li>
+				<li>(0.35, 0, 0.05)</li>
+				<li>(0.0, 0, -0.185)</li>
+				<li>(-0.35, 0, 0.05)</li>
+			</headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Exterminator</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Smotherer</defName>
+		<label>slugcat</label>
+		<race>XMT_Smotherer</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Smotherer/smotherer</texPath>
+					<drawSize>1</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Exterminator</defName>
+		<label>sleek thing</label>
+		<description>A slick predatory thing which should be horrific but is somehow appealing and graceful.</description>
+		<statBases>
+			<MoveSpeed>4.4</MoveSpeed>
+			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<ArmorRating_Blunt>0.80</ArmorRating_Blunt>
+			<ArmorRating_Heat>0.2</ArmorRating_Heat>
+			<MarketValue>1000</MarketValue>
+			<ComfyTemperatureMin>-25</ComfyTemperatureMin>
+			<Wildness>0.1</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<label>left claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>14</power>
+			<cooldownTime>1.5</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<label>right claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>14</power>
+			<cooldownTime>1.5</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>14</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.7</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>28</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.2</chanceFactor>
+		  </li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>1.5</splashRange>
+				<cells>3</cells>
+				<damage>16</damage>
+			</li>
+			<li Class="Xenomorphtype.CompHostHunterProperties">
+				<compClass>Xenomorphtype.CompExterminator</compClass>
+				<parasiteHediff>XMT_Assasination</parasiteHediff>
+				<breachDamage>20</breachDamage>
+				<breachPenetration>0.75</breachPenetration>
+				<thoughtGivenOnAttach></thoughtGivenOnAttach>
+				<huntCheckHourInterval>1</huntCheckHourInterval>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<hasGenders>false</hasGenders>
+			<body>QuadrupedAnimalWithPawsAndTail</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<predator>true</predator>
+			<foodType>CarnivoreAnimal, OvivoreAnimal</foodType>
+			<leatherDef>Leather_Light</leatherDef>
+			<petness>1</petness>
+			<trainability>None</trainability>
+			<nuzzleMtbHours>12</nuzzleMtbHours>
+			<gestationPeriodDays>10</gestationPeriodDays>
+			<nameOnTameChance>1</nameOnTameChance>
+			<litterSizeCurve>
+				<points>
+				  <li>(0.5, 0)</li>
+				  <li>(1, 1)</li>
+				  <li>(2, 1.7)</li>
+				  <li>(3, 0.7)</li>
+				  <li>(3.5, 0)</li>
+				</points>
+			</litterSizeCurve>
+			<lifeExpectancy>10</lifeExpectancy>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Cat_Injured</soundWounded>
+					<soundDeath>Pawn_Cat_Death</soundDeath>
+					<soundCall>Pawn_Cat_Call</soundCall>
+					<soundAngry>Pawn_Cat_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+			<headPosPerRotation>
+				<li>(0.02, 0, 0.23)</li>
+				<li>(0.35, 0, 0.05)</li>
+				<li>(0.0, 0, -0.185)</li>
+				<li>(-0.35, 0, 0.05)</li>
+			</headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Smotherer</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Exterminator</defName>
+		<label>sleek cat</label>
+		<race>XMT_Exterminator</race>
+		<combatPower>200</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Vermin/Vermin</texPath>
+					<drawSize>1.75</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Howler</defName>
+		<label>howling thing</label>
+		<description>This horrible thing struggles to even move. Its body a distorted and disquieting version of a canine. It howls, shrieks and cries in a terribly canid way while writhing on the ground.</description>
+		<statBases>
+			<MoveSpeed>1.0</MoveSpeed>
+			<ComfyTemperatureMin>0</ComfyTemperatureMin>
+			<MarketValue>10</MarketValue>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>5</MeatAmount>
+			<Wildness>0.45</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<label>mandibles</label>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>5</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>4</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.1</chanceFactor>
+		  </li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+			<li Class="Xenomorphtype.CompHowlerProperties">
+				<howlIntervalHours>2.5</howlIntervalHours>
+				<howlRadius>10</howlRadius>
+				<howlSound>Pawn_Dog_Death</howlSound>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>true</hasGenders>
+			<body>Snake</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			
+			<baseBodySize>0.2</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeExpectancy>50</lifeExpectancy>
+			<manhunterOnTameFailChance>0.05</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>0.05</manhunterOnDamageChance>
+			<foodType>OmnivoreAnimal, OvivoreAnimal</foodType>
+			<trainability>Intermediate</trainability>
+			<nuzzleMtbHours>1</nuzzleMtbHours>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Dog_Injured</soundWounded>
+					<soundDeath>Pawn_Dog_Death</soundDeath>
+					<soundCall>Pawn_Dog_Call</soundCall>
+					<soundAngry>Pawn_Dog_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Hivehound</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_Hivehound</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Hivehound</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Howler</defName>
+		<label>howling thing</label>
+		<race>XMT_Howler</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Howler/Howler</texPath>
+					<drawSize>1</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<startingHediffs>
+			<li>
+				<def>XMT_BecomingAdultHorror</def>
+				<chance>0.25</chance>
+			</li>
+		</startingHediffs>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Hivehound</defName>
+		<label>canine thing</label>
+		<description>an eyeless, hairless, thing which blends insectile, reptillian and canine traits seamlessly. However it appears keenly intelligent and incredibly loyal.</description>
+		<statBases>
+		  <MoveSpeed>7.0</MoveSpeed>
+		  <MarketValue>2500</MarketValue>
+		  <ComfyTemperatureMin>-100</ComfyTemperatureMin>
+		  <Wildness>0</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<label>left claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>10.9</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		  <li>
+			<label>right claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			</capacities>
+			<power>10.9</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightPaw</linkedBodyPartsGroup>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>16</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.9</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+		  </li>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>6</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.2</chanceFactor>
+		  </li>
+		</tools>
+		<comps>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+						<appliedHediff>AcidCorrosion</appliedHediff>
+						<splashRange>1.5</splashRange>
+						<cells>3</cells>
+						<damage>10</damage>
+				</li>
+				<li Class="Xenomorphtype.CompGaurdianProperties">
+				</li>
+		</comps>
+		<race>
+		  <animalType>Canine</animalType>
+		  <body>QuadrupedAnimalWithPawsAndTail</body>
+		  <petness>1</petness>
+		  <baseBodySize>1</baseBodySize>
+		  <baseHungerRate>0.2</baseHungerRate>
+		  <baseHealthScale>1.5</baseHealthScale>
+		  <foodType>OmnivoreAnimal, OvivoreAnimal</foodType>
+		  <leatherDef>Leather_Dog</leatherDef>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <gestationPeriodDays>10</gestationPeriodDays>
+		  <nameOnTameChance>1</nameOnTameChance>
+		  <trainability>Advanced</trainability>
+		  <specialTrainables>
+			<li MayRequire="Ludeon.RimWorld.Odyssey">Comfort</li>
+		  </specialTrainables>
+		  <nuzzleMtbHours>12</nuzzleMtbHours>
+		  <soundEating>PredatorSmall_Eat</soundEating>
+		  <litterSizeCurve>
+			<points>
+			  <li>(0.5, 0)</li>
+			  <li>(1, 1)</li>
+			  <li>(2, 1.7)</li>
+			  <li>(3, 0.7)</li>
+			  <li>(3.5, 0)</li>
+			</points>
+		  </litterSizeCurve>
+		  <lifeExpectancy>12</lifeExpectancy>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalBaby</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.25</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.5</minAge>
+			  <soundWounded>Pawn_Dog_Injured</soundWounded>
+			  <soundDeath>Pawn_Dog_Death</soundDeath>
+			  <soundCall>Pawn_Dog_Call</soundCall>
+			  <soundAngry>Pawn_Dog_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.24)</li>
+			<li>(0.28, 0, 0.14)</li>
+			<li>(0.0, 0, -0.03)</li>
+			<li>(-0.28, 0, 0.14)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+		  <li>AnimalPet</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Howler</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	  
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Hivehound</defName>
+		<label>canine thing</label>
+		<race>XMT_Hivehound</race>
+		<combatPower>70</combatPower>
+		<ecoSystemWeight>0.6</ecoSystemWeight>
+		<lifeStages>
+		  <li>
+			<label>eyeless puppy</label>
+			<labelPlural>eyeless puppies</labelPlural>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Hivehound/Hivehound</texPath>
+			  <drawSize>0.95</drawSize>
+			  <color>(220,198,160)</color>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Labrador/Dessicated_Labrador</texPath>
+			  <drawSize>0.95</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Hivehound/Hivehound</texPath>
+			  <drawSize>1.35</drawSize>
+			  <color>(220,198,160)</color>
+			  <shadowData>
+				<volume>(0.25, 0.3, 0.25)</volume>
+				<offset>(0,0,-0.15)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Labrador/Dessicated_Labrador</texPath>
+			  <drawSize>1.35</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Hivehound/Hivehound</texPath>
+			  <drawSize>1.6</drawSize>
+			  <color>(220,198,160)</color>
+			  <shadowData>
+				<volume>(0.3, 0.4, 0.3)</volume>
+				<offset>(0,0,-0.15)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Labrador/Dessicated_Labrador</texPath>
+			  <drawSize>1.6</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Barnacle</defName>
+		<label>beak worm</label>
+		<description>This horrible thing squirms and caws. Its body a distorted and maggoty form. It cries and squirms with three snapping beaks.</description>
+		<statBases>
+			<MoveSpeed>1.0</MoveSpeed>
+			<ComfyTemperatureMin>0</ComfyTemperatureMin>
+			<MarketValue>10</MarketValue>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>10</MeatAmount>
+			<Wildness>0.45</Wildness>
+		</statBases>
+		<tools>
+			<li>
+				<label>bite</label>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>5</power>
+				<cooldownTime>1</cooldownTime>
+				<linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+			</li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+			<li Class="Xenomorphtype.CompSpawnerProperties">
+				<thingSpawned>XMT_BarnacleEgg</thingSpawned>
+				<spawnIntervalHours>2</spawnIntervalHours>
+				<foodCost>0.01</foodCost>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Chicken</thingHorrifiedByThis>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>true</hasGenders>
+			<body>Snake</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<baseBodySize>0.2</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeExpectancy>50</lifeExpectancy>
+			<manhunterOnTameFailChance>0.05</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>0.05</manhunterOnDamageChance>
+			<foodType>OmnivoreAnimal</foodType>
+			<trainability>Intermediate</trainability>
+			<nuzzleMtbHours>4</nuzzleMtbHours>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+					<soundDeath>Pawn_Megascarab_Death</soundDeath>
+					<soundCall>Pawn_Megascarab_Call</soundCall>
+					<soundAngry>Pawn_Megascarab_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Ovocloner</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Barnacle</defName>
+		<label>beak worm</label>
+		<race>XMT_Barnacle</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Barnacle/Barnacle</texPath>
+					<drawSize>1</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="BigBirdThingBase">
+		<defName>XMT_Ovocloner</defName>
+		<label>coralfowl</label>
+		<description>Large bird like creautre with smooth skin, no eyes and elaborate growths branching from the body like coral.</description>
+		<statBases>
+			<MarketValue>2000</MarketValue>
+			<LeatherAmount>0</LeatherAmount>
+			<MaxFlightTime>0</MaxFlightTime>
+			<FlightCooldown>0</FlightCooldown>
+		</statBases>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+			<li Class="Xenomorphtype.CompSpawnerProperties">
+				<compClass>Xenomorphtype.CompCloner</compClass>
+				<pawnKindSpawned>XMT_Cloning_Egg</pawnKindSpawned>
+				<spawnIntervalHours>10</spawnIntervalHours>
+				<foodCost>0.3</foodCost>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Chicken</thingHorrifiedByThis>
+			</li>
+		</comps>
+		<race>
+		  <roamMtbDays>7</roamMtbDays>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <lifeStageAges Inherit="False">
+			<li>
+			  <def>AnimalBabyTiny</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.12</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.2</minAge>
+			</li>
+		  </lifeStageAges>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Barnacle</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="BigBirdKindBase">
+		<defName>XMT_Ovocloner</defName>
+		<label>coralfowl</label>
+		<labelMale>coralcock</labelMale>
+		<labelFemale>coralhen</labelFemale>
+		<race>XMT_Ovocloner</race>
+		<combatPower>40</combatPower>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Ovocloner/Ovocloner</texPath>
+			  <drawSize>1.0</drawSize>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Turkey/Dessicated_TurkeyHen</texPath>
+			  <drawSize>1.0</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Ovocloner/Ovocloner</texPath>
+			  <drawSize>1.5</drawSize>
+			  <shadowData>
+				<volume>(0.3, 0.3, 0.3)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Turkey/Dessicated_TurkeyHen</texPath>
+			  <drawSize>1.2</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Ovocloner/Ovocloner</texPath>
+			  <drawSize>2.5</drawSize>
+			  <shadowData>
+				<volume>(0.4, 0.4, 0.4)</volume>
+				<offset>(0,0,-0.2)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Turkey/Dessicated_TurkeyHen</texPath>
+			  <drawSize>1.4</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="XMT_Base_Pod">
+		<defName>XMT_Cloning_Egg</defName>
+		<label>clone Egg</label>
+		<description>a fleshy egg which wriggles and shifts with the motion of the thing developing within.</description>
+		<statBases>
+			<ComfyTemperatureMin>30</ComfyTemperatureMin>
+			<ComfyTemperatureMax>30</ComfyTemperatureMax>
+		</statBases>
+		<comps>
+			<li Class="Xenomorphtype.CompHatchingPodProperties">
+				<compClass>Xenomorphtype.CompCloningEgg</compClass>
+			</li>
+		</comps>
+		<tradeTags>
+			<li>NonContractable</li>
+		</tradeTags>
+		<race>
+			<isImmuneToInfections>false</isImmuneToInfections>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		</race>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>-1</tier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef>
+		<label>clone Egg</label>
+		<defName>XMT_Cloning_Egg</defName>
+		<combatPower>10</combatPower>
+		<race>XMT_Cloning_Egg</race>
+		<lifeStages>
+				<li>
+					<bodyGraphicData>
+						<texPath>Things/Pawn/Animal/CloneEgg/CloneEgg</texPath>
+						<drawSize>1.0</drawSize>
+					</bodyGraphicData>
+				</li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_FleshTick</defName>
+		<label>flesh tick</label>
+		<description>A pale skittering creature that latches onto hosts to feed on their blood.</description>
+		<statBases>
+			<MoveSpeed>4.4</MoveSpeed>
+			<MarketValue>100</MarketValue>
+			<ComfyTemperatureMin>-25</ComfyTemperatureMin>
+			<Wildness>0</Wildness>
+			<MedicalTendQuality>2</MedicalTendQuality>
+		</statBases>
+		<tools>
+			<li>
+				<label>tail</label>
+				<capacities>
+					<li>Blunt</li>
+				</capacities>
+				<power>1</power>
+				<cooldownTime>0.1</cooldownTime>
+				<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+				<surpriseAttack>
+				  <extraMeleeDamages>
+					<li>
+					  <def>Stun</def>
+					  <amount>1</amount>
+					</li>
+				  </extraMeleeDamages>
+				</surpriseAttack>
+				<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+				<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+			</li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>1.5</splashRange>
+				<cells>2</cells>
+				<damage>2</damage>
+			</li>
+			<li Class="Xenomorphtype.CompHostHunterProperties">
+				<compClass>Xenomorphtype.CompFleshTick</compClass>
+				<parasiteHediff>XMT_TickInfestation</parasiteHediff>
+				<thoughtGivenOnAttach>ParasiteItchingMood</thoughtGivenOnAttach>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>false</hasGenders>
+			<body>LarvaLike</body>
+			<baseBodySize>0.01</baseBodySize>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<predator>false</predator>
+			<foodType>Fluid</foodType>
+			<leatherDef></leatherDef>
+			
+			<petness>0</petness>
+			<baseHungerRate>1</baseHungerRate>
+			<trainability>None</trainability>
+			<nuzzleMtbHours>0</nuzzleMtbHours>
+			<gestationPeriodDays>10</gestationPeriodDays>
+			<nameOnTameChance>1</nameOnTameChance>
+			<litterSizeCurve>
+				<points>
+				  <li>(0.5, 0)</li>
+				  <li>(1, 1)</li>
+				  <li>(2, 1.7)</li>
+				  <li>(3, 0.7)</li>
+				  <li>(3.5, 0)</li>
+				</points>
+			</litterSizeCurve>
+			<lifeExpectancy>10</lifeExpectancy>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectLarva</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+					<soundDeath>Pawn_Megascarab_Death</soundDeath>
+					<soundCall>Pawn_Megascarab_Call</soundCall>
+					<soundAngry>Pawn_Megascarab_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+			<headPosPerRotation>
+				<li>(0.02, 0, 0.23)</li>
+				<li>(0.35, 0, 0.05)</li>
+				<li>(0.0, 0, -0.185)</li>
+				<li>(-0.35, 0, 0.05)</li>
+			</headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>1</tier>
+				<promotionTargets><li><pawnKind>XMT_Hammerpede</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_FleshTick</defName>
+		<label>flesh tick</label>
+		<race>XMT_FleshTick</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Tick/Tick</texPath>
+					<drawSize>0.75</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Petrolspore</defName>
+		<label>turgid spore</label>
+		<description>a pulsing orb bobbing gently in the air currents.</description>
+		<statBases>
+		  <MoveSpeed>4.9</MoveSpeed>
+		  <MarketValue>150</MarketValue>
+		  <ComfyTemperatureMin>-10</ComfyTemperatureMin>
+		  <ComfyTemperatureMax>50</ComfyTemperatureMax>
+		  <FilthRate>20</FilthRate>
+		  <Flammability>0</Flammability>
+		  <Wildness>0.75</Wildness>
+		</statBases>
+		<tools>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>4</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.2</chanceFactor>
+		  </li>
+		</tools>
+		<race>
+		  <body>Snake</body>
+		  <canBePredatorPrey>false</canBePredatorPrey>
+		  <herdMigrationAllowed>false</herdMigrationAllowed>
+		  <deathAction>
+			<workerClass>DeathActionWorker_SmallExplosion</workerClass>
+		  </deathAction>
+		  <hasGenders>false</hasGenders>
+		  <baseBodySize>0.2</baseBodySize>
+		  <baseHungerRate>10</baseHungerRate>
+		  <baseHealthScale>0.7</baseHealthScale>
+		  <foodType>VegetarianRoughAnimal</foodType>
+		  <leatherDef>Leather_Light</leatherDef>
+		  
+		  <roamMtbDays>2</roamMtbDays>
+		  <petness>0.08</petness>
+		  <fleshType>StarbeastFlesh</fleshType>
+		  <bloodDef>Filth_Fuel</bloodDef>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <litterSizeCurve>
+			<points>
+			  <li>(0.5, 0)</li>
+			  <li>(1, 1)</li>
+			  <li>(1.5, 1)</li>
+			  <li>(2, 0)</li>
+			</points>
+		  </litterSizeCurve>
+		  <lifeExpectancy>12</lifeExpectancy>
+		  <lifeStageAges>
+			<li>
+				<def>AnimalAdult</def>
+				<minAge>0.0</minAge>
+				<soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+				<soundDeath>Pawn_Megascarab_Death</soundDeath>
+				<soundCall>Pawn_Megascarab_Call</soundCall>
+				<soundAngry>Pawn_Megascarab_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		  <soundEating>Rodent_Eat</soundEating>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.25)</li>
+			<li>(0.26, 0, 0.1)</li>
+			<li>(0, 0, 0)</li>
+			<li>(-0.26, 0, 0.1)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<comps>
+				<li Class="Xenomorphtype.CompSporeProperties">
+					<plantingResult>XMT_Petrolsump</plantingResult>
+				</li>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>3</splashRange>
+					<cells>3</cells>
+					<damage>5</damage>
+				</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Petrolspore</defName>
+		<label>turgid spore</label>
+		<race>XMT_Petrolspore</race>
+		<combatPower>5</combatPower>
+		<ecoSystemWeight>0.35</ecoSystemWeight>
+		<wildGroupSize>3~9</wildGroupSize>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/PetrolSpore/Spore</texPath>
+			  <drawSize>1.0</drawSize>
+			  <shadowData>
+				<volume>(0.25, 0.25, 0.25)</volume>
+				<offset>(0,0,0)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="BaseBear">
+		<defName>XMT_Slumberbeast</defName>
+		<label>jellid beast</label>
+		<description>A great furless beast, ursine in posture. Its thick blubber and bones visible through the glistening translucent skin. Its eyeless face twists and turns seeking prey. It is startlingly quick for such lumbering creatures.</description>
+		<statBases>
+		  <ArmorRating_Sharp>0.0</ArmorRating_Sharp>
+		  <ArmorRating_Blunt>4</ArmorRating_Blunt>
+		  <ArmorRating_Heat>0.0</ArmorRating_Heat>
+		  <Wildness>0</Wildness>
+		</statBases>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>false</hasGenders>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<predator>true</predator>
+			<leatherDef></leatherDef>
+			
+			<petness>0</petness>
+			<baseHungerRate>1</baseHungerRate>
+			<trainability>None</trainability>
+			<nuzzleMtbHours>0</nuzzleMtbHours>
+			<gestationPeriodDays>10</gestationPeriodDays>
+			<nameOnTameChance>1</nameOnTameChance>
+			<litterSizeCurve>
+				<points>
+				  <li>(0.5, 0)</li>
+				  <li>(1, 1)</li>
+				  <li>(2, 1.7)</li>
+				  <li>(3, 0.7)</li>
+				  <li>(3.5, 0)</li>
+				</points>
+			</litterSizeCurve>
+			<lifeExpectancy>10</lifeExpectancy>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges Inherit="false">
+				<li>
+				  <def>AnimalAdult</def>
+				  <minAge>0</minAge>
+				  <soundWounded>Pawn_Bear_Injured</soundWounded>
+				  <soundDeath>Pawn_Bear_Death</soundDeath>
+				  <soundCall>Pawn_Bear_Call</soundCall>
+				  <soundAngry>Pawn_Bear_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<comps>
+				<li Class="Xenomorphtype.CompAwakenedSlumbererProperties">
+					<plantingResult>XMT_SlumberingBeast</plantingResult>
+				</li>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>3</splashRange>
+					<cells>3</cells>
+					<damage>20</damage>
+				</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Jagerbar</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="BearBase">
+		<defName>XMT_Slumberbeast</defName>
+		<label>jellid beast</label>
+		<race>XMT_Slumberbeast</race>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Slumberbeast/Beast</texPath>
+			  <drawSize>2.7</drawSize>
+			  <color>(180,180,180)</color>
+			  <shadowData>
+				<volume>(0.8, 0.6, 0.6)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Bear/Dessicated_Bear</texPath>
+			  <drawSize>2.7</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="BaseBear">
+		<defName>XMT_Jagerbar</defName>
+		<label>horrific beast</label>
+		<description>A great furless beast, ursine in posture and glistening in exoskeleton. The empty eyesockets of its face twists and turns seeking prey, it calls to its victims with a humanlike voice. It is startlingly quick for such lumbering creatures.</description>
+		<statBases>
+			<ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			<ArmorRating_Blunt>0.80</ArmorRating_Blunt>
+			<ArmorRating_Heat>0.2</ArmorRating_Heat>
+			<MoveSpeed>9.2</MoveSpeed>
+			<ComfyTemperatureMin>-270</ComfyTemperatureMin>
+			<ComfyTemperatureMax>310</ComfyTemperatureMax>
+			<MeleeDodgeChance>3.5</MeleeDodgeChance>
+			<ToxicResistance>1.0</ToxicResistance>
+			<ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+			<IncomingDamageFactor>0.50</IncomingDamageFactor>
+			<Wildness>0</Wildness>
+		</statBases>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<hasGenders>false</hasGenders>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<predator>true</predator>
+			<leatherDef>Starbeast_Chitin</leatherDef>
+			<petness>1</petness>
+			<baseHungerRate>1</baseHungerRate>
+			<trainability>Intermediate</trainability>
+			<nuzzleMtbHours>0</nuzzleMtbHours>
+			<gestationPeriodDays>10</gestationPeriodDays>
+			<nameOnTameChance>1</nameOnTameChance>
+			<litterSizeCurve>
+				<points>
+				  <li>(0.5, 0)</li>
+				  <li>(1, 1)</li>
+				  <li>(2, 1.7)</li>
+				  <li>(3, 0.7)</li>
+				  <li>(3.5, 0)</li>
+				</points>
+			</litterSizeCurve>
+			<lifeExpectancy>10</lifeExpectancy>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges Inherit="false">
+				<li>
+				  <def>AnimalAdult</def>
+				  <minAge>0</minAge>
+				  <soundWounded>Pawn_Bear_Injured</soundWounded>
+				  <soundDeath>Pawn_Bear_Death</soundDeath>
+				  <soundCall>Pawn_Bear_Call</soundCall>
+				  <soundAngry>Pawn_Bear_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>3</splashRange>
+				<cells>3</cells>
+				<damage>20</damage>
+			</li>
+			<li MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_HumanoidHybrid">
+			</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Slumberbeast</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="BearBase">
+		<defName>XMT_Jagerbar</defName>
+		<label>horrific beast</label>
+		<race>XMT_Jagerbar</race>
+		<alternateGraphicChance>0.8</alternateGraphicChance>
+		<alternateGraphics>
+			<li>
+				<color>(100,100,100)</color>
+			</li>
+			<li>
+				<color>(100,70,60)</color>
+			</li>
+			<li>
+				<color>(100,60,70)</color>
+			</li>
+			<li>
+				<color>(70,60,100)</color>
+			</li>
+			<li>
+				<color>(60,70,100)</color>
+			</li>
+			<li>
+				<color>(80,80,80)</color>
+			</li>
+		</alternateGraphics>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <shaderType>CutoutComplex</shaderType>
+			  <texPath>Things/Pawn/Animal/Jagerbar/Jagerbar</texPath>
+			  <drawSize>2.7</drawSize>
+			  <color>(60,70,100)</color>
+			  <shadowData>
+				<volume>(0.8, 0.6, 0.6)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Bear/Dessicated_Bear</texPath>
+			  <drawSize>2.7</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="RatThingBase">
+		<defName>XMT_Plaguerat</defName>
+		<label>rat</label>
+		<description>a tiny eyeless rodent with pale skin and segmented pattern to its back. it expells an earthy scent from pores on its sides.</description>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<leatherDef></leatherDef>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges Inherit="false">
+				<li>
+				  <def>AnimalAdult</def>
+				  <minAge>0</minAge>
+				  <soundWounded>Pawn_Boomrat_Wounded</soundWounded>
+				  <soundDeath>Pawn_Boomrat_Death</soundDeath>
+				  <soundCall>Pawn_Boomrat_Call</soundCall>
+				  <soundAngry>Pawn_Boomrat_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+		</race>
+		<tradeTags Inherit="false">
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<comps>
+				<li Class="Xenomorphtype.CompDiseaseCarrierProperties">
+					<infectionHediff>Plague</infectionHediff>
+				</li>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>2</damage>
+				</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Jellyrat</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="RatKindBase">
+		<defName>XMT_Plaguerat</defName>
+		<label>rat</label>
+		<race>XMT_Plaguerat</race>
+		<lifeStages Inherit="false">
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/PlagueRat/Rat</texPath>
+			  <drawSize>1.25</drawSize>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Rat/Dessicated_Rat</texPath>
+			  <drawSize>1.25</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="RatThingBase">
+		<defName>XMT_Jellyrat</defName>
+		<label>rat</label>
+		<description>a tiny eyeless rodent with pale skin and bulbous black mass hanging from its back, the trembling bulb seems almost ready to detach.</description>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<leatherDef></leatherDef>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges Inherit="false">
+				<li>
+				  <def>AnimalAdult</def>
+				  <minAge>0</minAge>
+				  <soundWounded>Pawn_Boomrat_Wounded</soundWounded>
+				  <soundDeath>Pawn_Boomrat_Death</soundDeath>
+				  <soundCall>Pawn_Boomrat_Call</soundCall>
+				  <soundAngry>Pawn_Boomrat_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>PredatorSmall_Eat</soundEating>
+		</race>
+		<butcherProducts>
+			<Starbeast_Jelly>25</Starbeast_Jelly>
+		</butcherProducts>
+		<tradeTags Inherit="false">
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<comps>
+				<li Class="Xenomorphtype.CompSpawnerProperties">
+					<thingSpawned>Starbeast_Jelly</thingSpawned>
+					<spawnStackCount>2</spawnStackCount>
+					<spawnIntervalHours>1</spawnIntervalHours>
+					<foodCost>0.5</foodCost>
+				</li>
+				<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>2</damage>
+				</li>
+		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Plaguerat</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef ParentName="RatKindBase">
+		<defName>XMT_Jellyrat</defName>
+		<label>rat</label>
+		<race>XMT_Jellyrat</race>
+		<lifeStages Inherit="false">
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/JellyRat/Rat</texPath>
+			  <drawSize>1.25</drawSize>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Rat/Dessicated_Rat</texPath>
+			  <drawSize>1.25</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Umbilical</defName>
+		<label>writhing thing</label>
+		<description>kill it! Kill it! Kill It! KILL IT! KILL IT!.</description>
+		<statBases>
+			<MoveSpeed>0.1</MoveSpeed>
+			<ComfyTemperatureMin>0</ComfyTemperatureMin>
+			<MarketValue>10</MarketValue>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>5</MeatAmount>
+			<Wildness>0.45</Wildness>
+		</statBases>
+		<tools>
+			<li>
+				<label>bite</label>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>1</power>
+				<cooldownTime>1</cooldownTime>
+				<linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+			</li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>1</damage>
+			</li>
+			<li Class="Xenomorphtype.CompHostHunterProperties">
+				<compClass>Xenomorphtype.CompUmbilical</compClass>
+				<parasiteHediff>XMT_UmbiInfestation</parasiteHediff>
+				<thoughtGivenOnAttach>ParasiteUmbilicalMood</thoughtGivenOnAttach>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>true</hasGenders>
+			<body>Snake</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<baseBodySize>0.2</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeExpectancy>10</lifeExpectancy>
+			<manhunterOnTameFailChance>0.05</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>0.05</manhunterOnDamageChance>
+			<foodType>Fluid</foodType>
+			<trainability>Intermediate</trainability>
+			<nuzzleMtbHours>4</nuzzleMtbHours>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+					<soundDeath>Pawn_Megascarab_Death</soundDeath>
+					<soundCall>Pawn_Megascarab_Call</soundCall>
+					<soundAngry>Pawn_Megascarab_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Sleipnir</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Umbilical</defName>
+		<label>writhing thing</label>
+		<race>XMT_Umbilical</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Umbilical/umbilical</texPath>
+					<drawSize>0.5</drawSize>
+					<shadowData>
+						<volume>(0.8, 0.6, 0.6)</volume>
+						<offset>(0,0,-0.3)</offset>
+					</shadowData>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Sleipnir</defName>
+		<label>hoofed thing</label>
+		<description>A large hoofed animal with rubbery skin, six legs, an eyeless equine face, and a bifurcated fleshy tail. .\n\nWhen in a caravan, people can ride these to greatly increase the caravan's speed.</description>
+		<statBases>
+		  <MoveSpeed>11.6</MoveSpeed>
+		  <MarketValue>2200</MarketValue>
+		  <ComfyTemperatureMin>-70</ComfyTemperatureMin>
+		  <ComfyTemperatureMax>90</ComfyTemperatureMax>
+		  <FilthRate>0</FilthRate>
+		  <CaravanRidingSpeedFactor>4.0</CaravanRidingSpeedFactor>
+		  <Wildness>0.2</Wildness>
+		  <LeatherAmount>0</LeatherAmount>
+		</statBases>
+		<uiIconScale>1.1</uiIconScale>
+		<comps>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>10</damage>
+			</li>
+		</comps>
+		<race>
+		  <herdMigrationAllowed>false</herdMigrationAllowed>
+		  <herdAnimal>false</herdAnimal>
+		  <body>OctapedAnimalWithHooves</body>
+		  <baseBodySize>3</baseBodySize>
+		  <baseHealthScale>1.75</baseHealthScale>
+		  <baseHungerRate>0.535</baseHungerRate>
+		  <foodType>VegetarianRoughAnimal</foodType>
+		  <leatherDef></leatherDef>
+		  <gestationPeriodDays>6.66</gestationPeriodDays>
+		  <roamMtbDays>0</roamMtbDays>
+		  <petness>0.6</petness>
+		  <trainability>Advanced</trainability>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+		  <packAnimal>true</packAnimal>
+		  <lifeExpectancy>30</lifeExpectancy>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalBaby</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.25</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.3333</minAge>
+			  <soundWounded>Pawn_Horse_Wounded</soundWounded>
+			  <soundDeath>Pawn_Horse_Death</soundDeath>
+			  <soundCall>Pawn_Horse_Call</soundCall>
+			  <soundAngry>Pawn_Horse_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  <soundEating>Herbivore_Eat</soundEating>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.33)</li>
+			<li>(0.31, 0, 0.21)</li>
+			<li>(0.0, 0, 0.08)</li>
+			<li>(-0.31, 0, 0.21)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<tools>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>20</power>
+			<cooldownTime>2.9</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+		  </li>
+		  <li>
+			<label>left hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>14</power>
+			<cooldownTime>0.25</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<label>right hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>14</power>
+			<cooldownTime>0.25</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		</tools>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Umbilical</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef Name="XMT_Sleipnir" ParentName="AnimalKindBase">
+		<defName>XMT_Sleipnir</defName>
+		<label>hooved thing</label>
+		<labelMale>stallion</labelMale>
+		<labelFemale>mare</labelFemale>
+		<race>XMT_Sleipnir</race>
+		<combatPower>200</combatPower>
+		<ecoSystemWeight>0</ecoSystemWeight>
+		<wildGroupSize>0</wildGroupSize>
+		<lifeStages>
+		  <li>
+			<label>foal</label>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Sleipnir/Sleipnir</texPath>
+			  <drawSize>1.3</drawSize>
+			  <shadowData>
+				<volume>(0.4, 0.3, 0.3)</volume>
+				<offset>(0,0,-0.2)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+			  <drawSize>1.3</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Sleipnir/Sleipnir</texPath>
+			  <drawSize>3.6</drawSize>
+			  <shadowData>
+				<volume>(0.6, 0.45, 0.45)</volume>
+				<offset>(0,0,-0.25)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+			  <drawSize>3.6</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Sleipnir/Sleipnir</texPath>
+			  <drawSize>4.2</drawSize>
+			  <shadowData>
+				<volume>(0.8, 0.6, 0.6)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Horse/Dessicated_Horse</texPath>
+			  <drawSize>4.2</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_StrangleMoss</defName>
+		<label>greasy wool</label>
+		<description>Soft, light and provides very good insulation, if only it was not so greasy... Wait is it moving?!</description>
+		<statBases>
+			<MoveSpeed>0.01</MoveSpeed>
+			<ComfyTemperatureMin>-55</ComfyTemperatureMin>
+			<ComfyTemperatureMax>45</ComfyTemperatureMax>
+			<FilthRate>38</FilthRate>
+			<MarketValue>270</MarketValue>
+			<LeatherAmount>100</LeatherAmount>
+			<MeatAmount>100</MeatAmount>
+			<Wildness>1</Wildness>
+		</statBases>
+		<tools>
+			<li>
+				<label>bite</label>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>1</power>
+				<cooldownTime>1</cooldownTime>
+				<linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+			</li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>ToxicBuildup</appliedHediff>
+				<splashRange>3</splashRange>
+				<cells>3</cells>
+				<damage>1</damage>
+				<acidFilth>Filth_AnimalFilth</acidFilth>
+			</li>
+			<li Class="Xenomorphtype.CompSpawnerProperties">
+				<thingSpawned>XMT_GreaseWool</thingSpawned>
+				<spawnIntervalHours>5</spawnIntervalHours>
+				<spawnStackCount>25</spawnStackCount>
+				<foodCost>0.01</foodCost>
+			</li>
+			<li Class="Xenomorphtype.CompHorrifyThingProperties">
+				<thingHorrifiedByThis>Muffalo</thingHorrifiedByThis>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>true</hasGenders>
+			<body>Snake</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			
+			<baseBodySize>0.5</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeExpectancy>50</lifeExpectancy>
+			<manhunterOnTameFailChance>0.0</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>0.0</manhunterOnDamageChance>
+			<foodType>OmnivoreAnimal, OvivoreAnimal</foodType>
+			<trainability>None</trainability>
+			<nuzzleMtbHours>1</nuzzleMtbHours>
+			<leatherDef>XMT_GreaseWool</leatherDef>
+			<specificMeatDef>XMT_GreaseWool</specificMeatDef>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+					<soundDeath>Pawn_Megascarab_Death</soundDeath>
+					<soundCall>Pawn_Megascarab_Call</soundCall>
+					<soundAngry>Pawn_Megascarab_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_Threadbeast</pawnKind></li></promotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_StrangleMoss</defName>
+		<label>greasy wool</label>
+		<race>XMT_StrangleMoss</race>
+		<combatPower>50</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/StrangleMoss/Moss</texPath>
+					<drawSize>1</drawSize>
+				</bodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Threadbeast</defName>
+		<label>writhing thread mass</label>
+		<description>An ambulatory mass of writhing strands which undulate and shift over one another even when the rest of the mass is still.</description>
+		<statBases>
+			<MoveSpeed>2.5</MoveSpeed>
+			<MarketValue>600</MarketValue>
+			<ComfyTemperatureMin>-200</ComfyTemperatureMin>
+			<ComfyTemperatureMax>45</ComfyTemperatureMax>
+			<FilthRate>0</FilthRate>
+			<Wildness>0.0</Wildness>
+		</statBases>
+		<uiIconScale>1.35</uiIconScale>
+		<comps>
+			<li Class="Xenomorphtype.CompRepairerProperties">
+				<woolDef>XMT_ThreadWool</woolDef>
+				<shearIntervalDays>5</shearIntervalDays>
+				<woolAmount>150</woolAmount>
+				<repairStuffFilter>
+					<categories>
+						<li>Leathers</li>
+						<li>Fabric</li>
+						<li>Wools</li>
+						<li>Metallic</li>
+					</categories>
+					<disallowedThingDefs>
+						<li>XMT_ThreadWool</li>
+					</disallowedThingDefs>
+				</repairStuffFilter>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>1.5</splashRange>
+				<cells>3</cells>
+				<damage>10</damage>
+			</li>
+		</comps>
+		<race>
+		  <herdAnimal>false</herdAnimal>
+		  <body>QuadrupedAnimalWithHooves</body>
+		  <baseBodySize>2.4</baseBodySize>
+		  <baseHealthScale>1.75</baseHealthScale>
+		  <baseHungerRate>0.535</baseHungerRate>
+		  <foodType>VegetarianRoughAnimal</foodType>
+		  <leatherDef>Leather_Bluefur</leatherDef>
+		  <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+		  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+		  <gestationPeriodDays>6.66</gestationPeriodDays>
+		  <roamMtbDays>2</roamMtbDays>
+		  <trainability>None</trainability>
+		  <packAnimal>false</packAnimal>
+		  <lifeExpectancy>15</lifeExpectancy>
+		  <manhunterOnDamageChance>0.1</manhunterOnDamageChance>
+		  <lifeStageAges>
+			<li>
+			  <def>AnimalBaby</def>
+			  <minAge>0</minAge>
+			</li>
+			<li>
+			  <def>AnimalJuvenile</def>
+			  <minAge>0.25</minAge>
+			</li>
+			<li>
+			  <def>AnimalAdult</def>
+			  <minAge>0.3333</minAge>
+			  <soundWounded>Pawn_Muffalo_Wounded</soundWounded>
+			  <soundDeath>Pawn_Muffalo_Death</soundDeath>
+			  <soundCall>Pawn_Muffalo_Call</soundCall>
+			  <soundAngry>Pawn_Muffalo_Angry</soundAngry>
+			</li>
+		  </lifeStageAges>
+		  <soundMeleeHitPawn>Pawn_Melee_BigBash_HitPawn</soundMeleeHitPawn>
+		  <soundMeleeHitBuilding>Pawn_Melee_BigBash_HitBuilding</soundMeleeHitBuilding>
+		  <soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  <soundEating>Herbivore_Eat</soundEating>
+		  <headPosPerRotation>
+			<li>(0.0, 0, 0.05)</li>
+			<li>(0.285, 0, 0.02)</li>
+			<li>(0.0, 0, -0.12)</li>
+			<li>(-0.285, 0, 0.02)</li>
+		  </headPosPerRotation>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+		</tradeTags>
+		<tools>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>13</power>
+			<cooldownTime>2.6</cooldownTime>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+		  </li>
+		  <li>
+			<label>left hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontLeftLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<label>right hoof</label>
+			<labelNoLocation>hoof</labelNoLocation>
+			<capacities>
+			  <li>Blunt</li>
+			  <li>Poke</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>FrontRightLeg</linkedBodyPartsGroup>
+		  </li>
+		  <li>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>10</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
+		  </li>
+		</tools>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_StrangleMoss</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+
+	<PawnKindDef Name="Muffalo" ParentName="AnimalKindBase">
+		<defName>XMT_Threadbeast</defName>
+		<label>writhing thread mass</label>
+		<labelPlural>writhing thread masses</labelPlural>
+		<race>XMT_Threadbeast</race>
+		<combatPower>100</combatPower>
+		<ecoSystemWeight>0</ecoSystemWeight>
+		<wildGroupSize>3~9</wildGroupSize>
+		<lifeStages>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Threadbeast/Threadbeast</texPath>
+			  <drawSize>1.5</drawSize>
+			  <shadowData>
+				<volume>(0.4, 0.3, 0.3)</volume>
+				<offset>(0,0,-0.2)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Muffalo/Dessicated_Muffalo</texPath>
+			  <drawSize>1.5</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Threadbeast/Threadbeast</texPath>
+			  <drawSize>2.25</drawSize>
+			  <shadowData>
+				<volume>(0.6, 0.45, 0.45)</volume>
+				<offset>(0,0,-0.25)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Muffalo/Dessicated_Muffalo</texPath>
+			  <drawSize>2.25</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		  <li>
+			<bodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Threadbeast/Threadbeast</texPath>
+			  <drawSize>3</drawSize>
+			  <shadowData>
+				<volume>(0.8, 0.6, 0.6)</volume>
+				<offset>(0,0,-0.3)</offset>
+			  </shadowData>
+			</bodyGraphicData>
+			<dessicatedBodyGraphicData>
+			  <texPath>Things/Pawn/Animal/Muffalo/Dessicated_Muffalo</texPath>
+			  <drawSize>3</drawSize>
+			</dessicatedBodyGraphicData>
+		  </li>
+		</lifeStages>
+	</PawnKindDef>
+  
+	<ThingDef ParentName="AnimalThingBase">
+		<defName>XMT_Hammerpede</defName>
+		<label>serpentine thing</label>
+		<description>An elongated reptile like creature, translucent skin, it's beautiful.</description>
+		<statBases>
+			<MoveSpeed>3.5</MoveSpeed>
+			<ComfyTemperatureMin>0</ComfyTemperatureMin>
+			<MarketValue>10</MarketValue>
+			<LeatherAmount>0</LeatherAmount>
+			<MeatAmount>5</MeatAmount>
+			<Wildness>1</Wildness>
+		</statBases>
+		<tools>
+			<li>
+				<label>bite</label>
+				<capacities>
+					<li>Bite</li>
+				</capacities>
+				<power>15</power>
+				<cooldownTime>1</cooldownTime>
+				<linkedBodyPartsGroup>Mouth</linkedBodyPartsGroup>
+			</li>
+			<li>
+				<label>head</label>
+				<capacities>
+				  <li>Blunt</li>
+				</capacities>
+				<power>10</power>
+				<cooldownTime>2</cooldownTime>
+				<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+				<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+				<chanceFactor>0.2</chanceFactor>
+			 </li>
+		</tools>
+		<tickerType>Normal</tickerType>
+		<comps>
+			<li  MayRequire="VanillaExpanded.VGeneticsE" Class="GeneticRim.CompProperties_GeneticFailure">
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+					<appliedHediff>AcidCorrosion</appliedHediff>
+					<splashRange>1.5</splashRange>
+					<cells>3</cells>
+					<damage>20</damage>
+			</li>
+			<li Class="Xenomorphtype.CompHostHunterProperties">
+				<compClass>Xenomorphtype.CompAggressiveHunter</compClass>
+				<parasiteHediff>XMT_Constricting</parasiteHediff>
+				<thoughtGivenOnAttach></thoughtGivenOnAttach>
+				<huntCheckHourInterval>0.25</huntCheckHourInterval>
+			</li>
+		</comps>
+		<race>
+			<herdMigrationAllowed>false</herdMigrationAllowed>
+			<fleshType>StarbeastFlesh</fleshType>
+			<hasGenders>false</hasGenders>
+			<body>Snake</body>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			
+			<baseBodySize>0.25</baseBodySize>
+			<baseHealthScale>1</baseHealthScale>
+			<lifeExpectancy>10</lifeExpectancy>
+			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>0.9</manhunterOnDamageChance>
+			<foodType>CarnivoreAnimal, OvivoreAnimal</foodType>
+			<trainability>Intermediate</trainability>
+			<nuzzleMtbHours>1</nuzzleMtbHours>
+			<useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+			<lifeStageAges>
+				<li>
+					<def>EusocialInsectAdult</def>
+					<minAge>0</minAge>
+					<soundWounded>Pawn_Cobra_Wounded</soundWounded>
+					<soundDeath>Pawn_Cobra_Death</soundDeath>
+					<soundCall>Pawn_Cobra_Call</soundCall>
+					<soundAngry>Pawn_Cobra_Angry</soundAngry>
+				</li>
+			</lifeStageAges>
+			<soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+			<soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+			<soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+			<soundEating>Reptile_Eat</soundEating>
+		</race>
+		<tradeTags>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+			<li  MayRequire="VanillaExpanded.VGeneticsE">AnimalGeneticFailure</li>
+		</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>2</tier>
+				<promotionTargets><li><pawnKind>XMT_AcidAphid</pawnKind></li></promotionTargets>
+				<demotionTargets><li><pawnKind>XMT_FleshTick</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<PawnKindDef ParentName="AnimalKindBase">
+		<defName>XMT_Hammerpede</defName>
+		<label>serpentine thing</label>
+		<race>XMT_Hammerpede</race>
+		<combatPower>100</combatPower>
+		<canArriveManhunter>false</canArriveManhunter>
+		<ecoSystemWeight>1</ecoSystemWeight>
+		<lifeStages>
+			<li>
+				<bodyGraphicData>
+					<texPath>Things/Pawn/Animal/Hammerpede/hammerpede</texPath>
+					<drawSize>1.0</drawSize>
+				</bodyGraphicData>
+				<dessicatedBodyGraphicData>
+				  <texPath>Things/Pawn/Animal/Cobra/Dessicated_Cobra</texPath>
+				  <drawSize>1.0</drawSize>
+				</dessicatedBodyGraphicData>
+			</li>
+		</lifeStages>
+		<modExtensions>
+		</modExtensions>
+	</PawnKindDef>
+	
+	<ThingDef ParentName="AnimalThingBase">
+    <defName>XMT_AcidAphid</defName>
+    <label>insectile thing</label>
+    <description>An eyeless, insectile creature with a bloated translucent abdomen that shivers dangerously.</description>
+    <statBases>
+      <MoveSpeed>3.75</MoveSpeed>
+      <ArmorRating_Blunt>0.18</ArmorRating_Blunt>
+      <ArmorRating_Sharp>0.72</ArmorRating_Sharp>
+      <ComfyTemperatureMin>0</ComfyTemperatureMin>
+      <MarketValue>100</MarketValue>
+      <LeatherAmount>0</LeatherAmount>
+      <Wildness>0.0</Wildness>
+    </statBases>
+    <uiIconScale>2</uiIconScale>
+	<comps>
+		<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>3</splashRange>
+				<cells>10</cells>
+				<damage>20</damage>
+		</li>
+		<li Class="CompProperties_Milkable">
+			<milkDef>XMT_Acid</milkDef>
+			<milkIntervalDays>0.25</milkIntervalDays>
+			<milkAmount>1</milkAmount>
+			<milkFemaleOnly>false</milkFemaleOnly>
+		</li>
+	</comps>
+    <tools>
+      <li>
+        <label>head</label>
+        <capacities>
+          <li>Blunt</li>
+        </capacities>
+        <power>4</power>
+        <cooldownTime>2</cooldownTime>
+        <linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+        <ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+        <chanceFactor>0.1</chanceFactor>
+      </li>
+    </tools>
+    <race>
+      <body>BeetleLike</body>
+      <baseBodySize>0.2</baseBodySize>
+      <baseHungerRate>0.10</baseHungerRate>
+      <baseHealthScale>0.4</baseHealthScale>
+      <useMeatFrom>XMT_Starbeast_AlienRace</useMeatFrom>
+	  <bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+      <lifeExpectancy>10</lifeExpectancy>
+      <trainability>Intermediate</trainability>
+      <lifeStageAges>
+        <li>
+          <def>EusocialInsectLarva</def>
+          <minAge>0</minAge>
+        </li>
+        <li>
+          <def>EusocialInsectJuvenile</def>
+          <minAge>0.03</minAge>
+        </li>
+        <li>
+          <def>EusocialInsectAdult</def>
+          <minAge>0.4</minAge>
+          <soundWounded>Pawn_Megascarab_Wounded</soundWounded>
+          <soundDeath>Pawn_Megascarab_Death</soundDeath>
+          <soundCall>Pawn_Megascarab_Call</soundCall>
+          <soundAngry>Pawn_Megascarab_Angry</soundAngry>
+        </li>
+      </lifeStageAges>
+      <soundMeleeHitPawn>Pawn_Melee_SmallScratch_HitPawn</soundMeleeHitPawn>
+      <soundMeleeHitBuilding>Pawn_Melee_SmallScratch_HitBuilding</soundMeleeHitBuilding>
+      <soundMeleeMiss>Pawn_Melee_SmallScratch_Miss</soundMeleeMiss>
+      <headPosPerRotation>
+        <li>(0.0, 0, 0.12)</li>
+        <li>(0.07, 0, -0.05)</li>
+        <li>(0.0, 0, -0.08)</li>
+        <li>(-0.07, 0, -0.05)</li>
+      </headPosPerRotation>
+    </race>
+    <tradeTags>
+			<li MayRequire="VanillaExpanded.VGeneticsE">AnimalGenetic</li>
+			<li >NonContractable</li>
+	</tradeTags>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_Hammerpede</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+	</ThingDef>
+  
+  <PawnKindDef ParentName="AnimalKindBase">
+    <defName>XMT_AcidAphid</defName>
+    <label>insectile thing</label>
+    <race>XMT_AcidAphid</race>
+    <combatPower>40</combatPower>
+    <ecoSystemWeight>0.15</ecoSystemWeight>
+    <lifeStages>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Acidaphid/Acidaphid</texPath>
+          <drawSize>1</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>1</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Acidaphid/Acidaphid</texPath>
+          <drawSize>1.25</drawSize>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>1.25</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+      <li>
+        <bodyGraphicData>
+          <texPath>Things/Pawn/Animal/Acidaphid/Acidaphid</texPath>
+          <drawSize>1.5</drawSize>
+          <shadowData>
+            <volume>(0.2, 0.3, 0.2)</volume>
+            <offset>(0,0,0)</offset>
+          </shadowData>
+        </bodyGraphicData>
+        <dessicatedBodyGraphicData>
+          <texPath>Things/Pawn/Animal/Megascarab/Dessicated_Megascarab</texPath>
+          <drawSize>1.5</drawSize>
+        </dessicatedBodyGraphicData>
+      </li>
+    </lifeStages>
+  </PawnKindDef>
+  
+</Defs>

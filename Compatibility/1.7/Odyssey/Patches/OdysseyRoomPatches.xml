@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/LayoutRoomDef[defName="OrbitalNursery" or defName="OrbitalHydroponics" or defName="MechLootRoom" ]/parts
+		</xpath>
+		<value>
+			<XMT_OvamorphSurprise>0.25</XMT_OvamorphSurprise>
+		</value>
+	</Operation>
+	
+</Patch>

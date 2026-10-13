@@ -44,6 +44,12 @@ namespace Xenomorphtype
     public class NemesisMissionDef : Def
     {
         public Type workerClass;
+        public Type geneEvaluationWorkerClass = typeof(NemesisGeneEvaluationWorker);
+        public bool specialGeneConsideration;
+        public bool expectedSacrifice;
+        public List<GeneDef> preferredGenes = new List<GeneDef>();
+        private NemesisGeneEvaluationWorker geneEvaluator;
+        public NemesisGeneEvaluationWorker GeneEvaluator => geneEvaluator ??= (NemesisGeneEvaluationWorker)Activator.CreateInstance(geneEvaluationWorkerClass);
         public Type lordJobClass;
         public bool allowDormant = true;
         public bool allowAwakened = true;
@@ -131,6 +137,10 @@ namespace Xenomorphtype
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors()) yield return error;
+            if (geneEvaluationWorkerClass == null || geneEvaluationWorkerClass.IsAbstract
+                || !typeof(NemesisGeneEvaluationWorker).IsAssignableFrom(geneEvaluationWorkerClass)
+                || geneEvaluationWorkerClass.GetConstructor(Type.EmptyTypes) == null)
+                yield return defName + ": invalid gene evaluation worker.";
             if (workerClass == null || workerClass.IsAbstract || !typeof(NemesisMissionWorker).IsAssignableFrom(workerClass)
                 || workerClass.GetConstructor(Type.EmptyTypes) == null) yield return defName + ": invalid mission worker.";
             if (lordJobClass == null || lordJobClass.IsAbstract || !typeof(LordJob_NemesisMission).IsAssignableFrom(lordJobClass)

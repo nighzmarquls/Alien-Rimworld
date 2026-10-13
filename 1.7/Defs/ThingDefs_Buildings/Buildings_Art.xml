@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<ThingDef ParentName="BuildingBase" Name="XMT_IdeologyResinArtFrameBase" Abstract="True">
+		<label>unfinished resin sculpture</label>
+		<description>A shaped mass of resin ready for a cryptimorph to sculpt into an ideological art object.</description>
+		<thingClass>Xenomorphtype.IdeologyResinArtFrame</thingClass>
+		<category>Building</category>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/Art/SculptureSmall</texPath>
+		  <shaderType>EdgeDetect</shaderType>
+		</graphicData>
+		<rotatable>true</rotatable>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<fillPercent>0.35</fillPercent>
+		<selectable>true</selectable>
+		<useHitPoints>true</useHitPoints>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded>
+		<constructEffect>ResinBuild</constructEffect>
+		<statBases>
+		  <MaxHitPoints>80</MaxHitPoints>
+		  <Flammability>0</Flammability>
+		  <Beauty>0</Beauty>
+		</statBases>
+		<building>
+			<isEdifice>false</isEdifice>
+			<isInert>true</isInert>
+			<destroySound>BuildingDestroyed_Metal_Small</destroySound>
+		</building>
+		<soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+		<resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
+	</ThingDef>
+
+	<ThingDef ParentName="XMT_IdeologyResinArtFrameBase">
+		<defName>XMT_IdeologyResinArtFrameSmall</defName>
+		<label>unfinished small resin sculpture</label>
+		<statBases>
+		  <WorkToBuild>1000</WorkToBuild>
+		</statBases>
+	</ThingDef>
+
+	<ThingDef ParentName="XMT_IdeologyResinArtFrameBase">
+		<defName>XMT_IdeologyResinArtFrameLarge</defName>
+		<label>unfinished large resin sculpture</label>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/Art/SculptureLarge</texPath>
+		  <shaderType>EdgeDetect</shaderType>
+		  <drawSize>(3,3)</drawSize>
+		</graphicData>
+		<fillPercent>0.5</fillPercent>
+		<statBases>
+		  <MaxHitPoints>150</MaxHitPoints>
+		  <WorkToBuild>3000</WorkToBuild>
+		</statBases>
+	</ThingDef>
+
+	<ThingDef ParentName="XMT_IdeologyResinArtFrameBase">
+		<defName>XMT_IdeologyResinArtFrameGrand</defName>
+		<label>unfinished grand resin sculpture</label>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/Art/SculptureGrand</texPath>
+		  <shaderType>EdgeDetect</shaderType>
+		  <drawSize>(4,4)</drawSize>
+		</graphicData>
+		<size>(2,2)</size>
+		<fillPercent>0.5</fillPercent>
+		<statBases>
+		  <MaxHitPoints>300</MaxHitPoints>
+		  <WorkToBuild>6000</WorkToBuild>
+		</statBases>
+	</ThingDef>
+
+	<ThingDef ParentName="SculptureBase">
+		<defName>XMT_CorpseSculptureSmall</defName>
+		<label>small sculpture</label>
+		<description>A torso-sized piece of material sculpted into an artistic form.</description>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/CorpseSculpture/Small</texPath>
+		  <drawOffset>(0,0,0.25)</drawOffset>
+		</graphicData>
+		<fillPercent>0.35</fillPercent>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+		  <MaxHitPoints>90</MaxHitPoints>
+		  <Mass>3</Mass>
+		  <Beauty>50</Beauty>
+		  <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">50</TerrorSource>
+		  <WorkToMake>1000</WorkToMake>
+		  <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">10</StyleDominance>
+		</statBases>
+		<recipeMaker Inherit="False" IsNull="True"></recipeMaker>
+	</ThingDef>
+	
+	<ThingDef ParentName="SculptureBase">
+		<defName>XMT_CorpseSculptureLarge</defName>
+		<label>large sculpture</label>
+		<description>A person-sized piece of material sculpted into an artistic form.</description>
+		<castEdgeShadows>true</castEdgeShadows>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/CorpseSculpture/Large</texPath>
+		  <drawSize>(4,4)</drawSize>
+		  <drawOffset>(0,0,0.5)</drawOffset>
+		</graphicData>
+		<uiIconScale>0.666</uiIconScale>
+		<fillPercent>0.5</fillPercent>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<statBases>
+		  <MaxHitPoints>150</MaxHitPoints>
+		  <Mass>7</Mass>
+		  <Beauty>100</Beauty>
+		  <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">100</TerrorSource>
+		  <WorkToMake>3000</WorkToMake>
+		  <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">20</StyleDominance>
+		</statBases>
+		<recipeMaker Inherit="False" IsNull="True"></recipeMaker>
+	</ThingDef>
+
+	<ThingDef ParentName="SculptureBase">
+		<defName>XMT_CorpseSculptureGrand</defName>
+		<label>grand sculpture</label>
+		<description>A huge sculpture sized to dominate a room.</description>
+		<castEdgeShadows>true</castEdgeShadows>
+		<graphicData>
+		  <graphicClass>Graphic_Random</graphicClass>
+		  <texPath>Things/Building/CorpseSculpture/Grand</texPath>
+		  <drawSize>(5,5)</drawSize>
+		</graphicData>
+		<uiIconScale>0.6666</uiIconScale>
+		<fillPercent>0.5</fillPercent>
+		<rotatable>false</rotatable>
+		<terrainAffordanceNeeded></terrainAffordanceNeeded> <!-- so they can be placed on anything-->
+		<size>(3,3)</size>
+		<canOverlapZones>false</canOverlapZones>
+		<statBases>
+		  <MaxHitPoints>300</MaxHitPoints>
+		  <Beauty>400</Beauty>
+		  <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">400</TerrorSource>
+		  <Mass>28</Mass>
+		  <WorkToMake>6000</WorkToMake>
+		  <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">40</StyleDominance>
+		</statBases>
+		<recipeMaker Inherit="False" IsNull="True"></recipeMaker>
+	</ThingDef>
+	
+	
+	<ThingDef ParentName="SculptureBase">
+    <defName>XMT_dronePlushie</defName>
+    <label>small plushie</label>
+    <description>A torso-sized piece of slick and soft fabric shaped into an adorable, if strange creature.</description>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Plushie/drone</texPath>
+	  <drawSize>(1,1)</drawSize>
+    </graphicData>
+    <fillPercent>0.35</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>180</MaxHitPoints>
+      <Mass>3</Mass>
+      <Beauty>50</Beauty>
+      <WorkToMake>18000</WorkToMake>
+      <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">10</StyleDominance>
+    </statBases>
+    <costList>
+      <Starbeast_Fabric>50</Starbeast_Fabric>
+    </costList>
+	<recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Tailor</effectWorking>
+      <soundWorking>Recipe_Tailor</soundWorking>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+    </recipeMaker>
+  </ThingDef>
+
+  <ThingDef ParentName="SculptureBase">
+    <defName>XMT_queenPlushie</defName>
+    <label>large plushie</label>
+    <description>A person-sized piece soft fabric shaped into an adorable, if strange creature.</description>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Plushie/Mimi</texPath>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <uiIconScale>0.666</uiIconScale>
+    <fillPercent>0.5</fillPercent>
+    <rotatable>true</rotatable>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Mass>7</Mass>
+      <Beauty>100</Beauty>
+      <WorkToMake>30000</WorkToMake>
+      <StyleDominance MayRequire="Ludeon.RimWorld.Ideology">20</StyleDominance>
+    </statBases>
+    <costList>
+      <Starbeast_Fabric>100</Starbeast_Fabric>
+    </costList>
+	<recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Tailor</effectWorking>
+      <soundWorking>Recipe_Tailor</soundWorking>
+      <recipeUsers>
+        <li>ElectricTailoringBench</li>
+        <li>HandTailoringBench</li>
+      </recipeUsers>
+      <unfinishedThingDef>UnfinishedApparel</unfinishedThingDef>
+    </recipeMaker>
+  </ThingDef>
+  
+</Defs>

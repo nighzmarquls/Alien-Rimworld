@@ -23,6 +23,7 @@ namespace Xenomorphtype
 
         ThingDef selectedEggDef = null;
         GeneSet broodTemplateGenes;
+        List<GeneDef> broodRemovedDefaults = new List<GeneDef>();
         string broodTemplateName;
         int storedEggs;
         float eggProductionProgress;
@@ -55,6 +56,7 @@ namespace Xenomorphtype
             base.PostExposeData();
             Scribe_Defs.Look(ref selectedEggDef, "selectedEggDef");
             Scribe_Deep.Look(ref broodTemplateGenes, "broodTemplateGenes");
+            Scribe_Collections.Look(ref broodRemovedDefaults, "broodRemovedDefaults", LookMode.Def);
             Scribe_Values.Look(ref broodTemplateName, "broodTemplateName", "");
             Scribe_Values.Look(ref storedEggs, "storedOvomorphs", 0);
             Scribe_Values.Look(ref eggProductionProgress, "storedOvomorphProgress", 0f);
@@ -414,7 +416,7 @@ namespace Xenomorphtype
             int hereditaryCapacity = BioUtility.GetHereditaryCapacity(Parent, 12);
             List<GeneDef> selectedGenes = GetStoredBroodTemplateGenes();
 
-            if (!selectedGenes.Any())
+            if (!selectedGenes.Any() && broodRemovedDefaults.NullOrEmpty())
             {
                 HorrorGenePayload parentGenes = BioUtility.CaptureHorrorGenePayload(Parent, inheritableOnly: true);
                 selectedGenes = BioUtility.FilterCanonicalGenesWithinComplexity(parentGenes?.Genes, hereditaryCapacity);
@@ -433,6 +435,7 @@ namespace Xenomorphtype
                     broodTemplateGenes = new GeneSet();
                     BioUtility.ExtractGenesToGeneset(ref broodTemplateGenes, genes);
                     broodTemplateName = templateName;
+                    broodRemovedDefaults = GeneLineageUtility.Selection(genes).RemovedDefaultGenes.ToList();
                 }));
         }
 
@@ -856,7 +859,7 @@ namespace Xenomorphtype
             int hereditaryCapacity = BioUtility.GetHereditaryCapacity(Parent, 12);
             List<GeneDef> geneSource = GetStoredBroodTemplateGenes();
 
-            if (!geneSource.Any())
+            if (!geneSource.Any() && broodRemovedDefaults.NullOrEmpty())
             {
                 geneSource = BioUtility.CaptureHorrorGenePayload(Parent, inheritableOnly: true)?.Genes.ToList() ?? new List<GeneDef>();
             }

@@ -1,0 +1,446 @@
+﻿using RimWorld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
+using Verse;
+using static UnityEngine.GraphicsBuffer;
+
+namespace Xenomorphtype
+{
+    public class HediffComp_EmbryoPregnancy : HediffComp_SeverityModifierBase
+    {
+        public GeneSet genes;
+        public List<GeneDef> removedDefaultGenes = new List<GeneDef>();
+        public Pawn mother;
+        public Pawn father;
+        public bool unbirthed = true;
+        float damageDealt = 0;
+        public Pawn Host;
+        private int geneStorageVersion = 1;
+
+        [Unsaved(false)]
+        internal Thing pendingBioContainer;
+
+        HediffCompProperties_EmbryoPregnancy Props => props as HediffCompProperties_EmbryoPregnancy;
+        public override void CompExposeData()
+        {
+            base.CompExposeData();
+            Scribe_References.Look(ref father, "father", saveDestroyedThings: false);
+            Scribe_References.Look(ref mother, "mother", saveDestroyedThings: false);
+            Scribe_References.Look(ref Host, "host", saveDestroyedThings: false);
+            Scribe_Deep.Look(ref genes, "genes");
+            Scribe_Collections.Look(ref removedDefaultGenes, "removedDefaultGenes", LookMode.Def);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit) removedDefaultGenes ??= new List<GeneDef>();
+            Scribe_Values.Look(ref unbirthed, "unbirthed", defaultValue: true);
+            Scribe_Values.Look(ref damageDealt, "chestburstDamage", defaultValue: 0);
+            Scribe_Values.Look(ref geneStorageVersion, "geneStorageVersion", 0);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && geneStorageVersion < 1)
+            {
+                genes = new HorrorGenePayload(BioUtility.NormalizeGenesForStorage(InternalDefOf.XMT_Starbeast_AlienRace, genes?.GenesListForReading)).ToGeneSet();
+                geneStorageVersion = 1;
+            }
+        }
+
+        public override bool CompShouldRemove
+        {
+            get
+            {
+                if (base.CompShouldRemove)
+                {
+                    return true;
+                }
+
+                if (!unbirthed)
+                {
+                    return !unbirthed;
+                }
+                return false;
+            }
+        }
+
+        public override void CompPostTick(ref float severityAdjustment)
+        {
+
+            base.CompPostTick(ref severityAdjustment);
+
+            if(parent.pawn.AmbientTemperature >= 24)
+            {
+                severityAdjustment *= 2f;
+            }
+
+            if (parent.Severity >= 1.0f && unbirthed)
+            {
+                if (parent.pawn.IsHashIntervalTick(60))
+                {
+                    TryBirth();
+                }
+            }
+            else if (parent.pawn.IsHashIntervalTick(60))
+            {
+                IEnumerable<HediffComp_BuildingMorphing> morphers = Pawn.health.hediffSet.GetHediffComps<HediffComp_BuildingMorphing>();
+                if (morphers.Any())
+                {
+                    Pawn.health.RemoveHediff(morphers.First().parent);
+                }
+            }
+
+        }
+
+        public override void Notify_Spawned()
+        {
+            base.Notify_Spawned();
+            if (parent != null)
+            {
+                if (parent.pawn.MapHeld != null)
+                {
+                    
+                    XMTHiveUtility.AddImplantedHosts(parent.pawn, parent.pawn.MapHeld);
+                    Host = parent.pawn;
+
+                }
+            }
+        }
+        public override void CompPostPostRemoved()
+        {
+            
+            if (Host != null)
+            {
+                if (Host.MapHeld != null)
+                {
+                   
+                    XMTHiveUtility.RemoveImplantedHosts(Host, Host.MapHeld);
+
+                    if(unbirthed)
+                    {
+                        float maturity = CalculateMaturity();
+                        float childAge = 0;
+                        XMTUtility.GetLifeStageByEmbryoMaturity(maturity, out childAge);
+                        SpawnChild(childAge, maturity);
+                    }
+                    Host = null;
+                }
+            }
+            base.CompPostPostRemoved();
+        }
+
+        public override void Notify_PawnDied(DamageInfo? dinfo, Hediff culprit = null)
+        {
+            base.Notify_PawnDied(dinfo, culprit);
+
+            if (unbirthed)
+            {
+                TryBirth();
+            }
+        }
+
+        protected bool TryBirth()
+        {
+            PawnKindDef ChildKind = XenoPawnKindDefOf.XMT_StarbeastKind;
+
+            IEnumerable<BodyPartRecord> coreparts = from x in base.Pawn.health.hediffSet.GetNotMissingParts()
+                                                    where
+                                                    x.IsInGroup(BodyPartGroupDefOf.Torso) || x.IsCorePart
+                                                    && x != parent.Part
+                                                    select x;
+
+            float maturity = CalculateMaturity();
+            float childAge = 0;
+            LifeStageDef ChildLifeStage = XMTUtility.GetLifeStageByEmbryoMaturity(maturity, out childAge);
+
+            float relativeSize = (ChildKind.RaceProps.baseBodySize * ChildLifeStage.bodySizeFactor) / Pawn.BodySize;
+
+            float ChestBurstTarget = Props.burstDamage * 40 * (base.Pawn.BodySize*base.Pawn.BodySize);
+
+            DamageDef damageType = DamageDefOf.Crush;
+            float ArmorPenetration = 9999f;
+            DamageWorker.DamageResult result = Pawn.TakeDamage(new DamageInfo(damageType, relativeSize*ChestBurstTarget, ArmorPenetration, -1, null, coreparts.RandomElement<BodyPartRecord>()));
+            damageDealt += result.totalDamageDealt;
+
+            if (!Pawn.Dead)
+            {
+                XMTUtility.WitnessHorror(Pawn.PositionHeld, Pawn.MapHeld, 0.1f, knowledgeProfile: Props.burstKnowledgeProfile);
+            }
+
+            if ((damageDealt >= ChestBurstTarget || Pawn.Dead || Pawn.health.hediffSet.PartIsMissing(result.LastHitPart)) && unbirthed)
+            {
+                SpawnChild(childAge, maturity);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        protected void SpawnChild(float Age, float maturity)
+        {
+
+            if (!unbirthed)
+            {
+                return;
+            }
+            
+            unbirthed = false;
+
+            float headMaturity = maturity * Props.headMaturationRate;
+            float coreMaturity = maturity * Props.coreMaturationRate;
+            float legMaturity = maturity * Props.legMaturationRate;
+            float armMaturity = maturity * Props.armMaturationRate;
+
+            Faction     ChildFaction = (XMTUtility.PlayerXenosOnMap(parent.pawn.MapHeld)) ? Faction.OfPlayer : (mother != null) ? mother.Faction : null ;
+
+            bool childReincarnated = false;
+
+            if (ModsConfig.IdeologyActive)
+            {
+                if(Pawn.Ideo is Ideo hostIdeo)
+                {
+                    if (hostIdeo.HasPrecept(XenoPreceptDefOf.XMT_Parasite_Reincarnation))
+                    {
+                        ChildFaction = Pawn.Faction;
+                        childReincarnated = true;
+                    }
+                }
+            }
+
+            PawnKindDef childKind = BioUtility.GetChildKindOfHost(parent.pawn);
+
+            PawnGenerationRequest request = new PawnGenerationRequest(
+                childKind, faction: ChildFaction, PawnGenerationContext.PlayerStarter,-1,true,false,true,false,false,0,false,true,false,false,false,false,false,false,true,0,0,null,0,null,null,null,null,0,Age,0,Gender.Female,null);
+
+            request.ForceNoIdeo = true;
+            request.ForceNoBackstory = true;
+            request.ForceNoGear = true;
+            request.ForceBaselinerChance = 1000;
+            request.ForcedXenotype = XenotypeDefOf.Baseliner;
+
+            Pawn child = PawnGenerator.GeneratePawn(request);
+
+            if(childReincarnated)
+            {
+                child.Name = Pawn.Name;
+            }
+
+            if(child.story != null)
+            {
+                if(childReincarnated)
+                {
+                    child.story.birthLastName = Pawn.story.birthLastName;
+                }
+
+                child.story.Childhood = XMTUtility.GetChildBackstory(maturity, Pawn.MapHeld, ChildFaction);
+            }
+
+            if (child?.needs?.food != null)
+            {
+                child.needs.food.CurLevel = 0.0f;
+            }
+
+            if (child.apparel != null)
+            {
+                child.apparel.DestroyAll();
+            }
+
+            if (child.relations != null)
+            {
+                if (mother != null)
+                {
+                    child.relations.AddDirectRelation(PawnRelationDefOf.Parent, mother);
+                }
+
+                if (father != null && father != mother)
+                {
+                    if (father.gender == Gender.Male && father.relations != null)
+                    {
+                        child.relations.AddDirectRelation(PawnRelationDefOf.Parent, father);
+                    }  
+                }
+                child.relations.AddDirectRelation(PawnRelationDefOf.ParentBirth, Pawn);
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
+
+            }
+
+            if (genes == null)
+            {
+                genes = new GeneSet();
+            }
+
+            BioUtility.ClearGenes(ref child);
+
+            child.genes.SetXenotype(XenotypeDefOf.Baseliner);
+            BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.NormalizeGenesForStorage(InternalDefOf.XMT_Starbeast_AlienRace, BioUtility.GetXenomorphGenes()));
+            BioUtility.ExtractGenesToGeneset(ref genes, BioUtility.GetCanonicalPawnGenes(Pawn));
+           
+            if (Pawn.genes != null)
+            {
+                if(Pawn.genes.xenotypeName != null)
+                {
+                    child.genes.xenotypeName = Pawn.genes.xenotypeName;
+                }
+            }
+
+            if (headMaturity >= 0.8f)
+            {
+                IEnumerable<BodyPartRecord> tailparts = from x in child.health.hediffSet.GetNotMissingParts()
+                                                        where
+                                                        x.IsInGroup(InternalDefOf.StarbeastTailAttackTool)
+                                                        select x;
+                foreach (BodyPartRecord tailpart in tailparts)
+                {
+                    Hediff maturityHediff = HediffMaker.MakeHediff(InternalDefOf.Overdeveloped, child, tailpart);
+                    maturityHediff.Severity = 0.001f;
+
+                    child.health.AddHediff(maturityHediff);
+                }
+            }
+
+            if (headMaturity < 1)
+            {
+                IEnumerable<BodyPartRecord> headparts = from x in child.health.hediffSet.GetNotMissingParts()
+                                                     where
+                                                     x.IsInGroup(BodyPartGroupDefOf.FullHead)
+                                                     || x.IsInGroup(ExternalDefOf.Neck)
+                                                     select x;
+
+                foreach(BodyPartRecord part in headparts)
+                {
+                   Hediff maturityHediff = HediffMaker.MakeHediff(InternalDefOf.Undeveloped, child, part);
+                   maturityHediff.Severity = headMaturity;
+
+                   child.health.AddHediff(maturityHediff);
+
+                }
+            }
+
+            if(coreMaturity < 1)
+            {
+                IEnumerable<BodyPartRecord> coreparts = from x in child.health.hediffSet.GetNotMissingParts()
+                                                     where
+                                                     x.IsInGroup(BodyPartGroupDefOf.Torso)
+                                                     && !x.IsInGroup(InternalDefOf.StarbeastTailAttackTool)
+                                                        select x;
+
+                foreach (BodyPartRecord part in coreparts)
+                {
+                    Hediff maturityHediff = HediffMaker.MakeHediff(InternalDefOf.Undeveloped, child, part);
+                    maturityHediff.Severity = coreMaturity;
+
+                    child.health.AddHediff(maturityHediff);
+                }
+            }
+
+            if(legMaturity < 1)
+            {
+                IEnumerable<BodyPartRecord> legparts = from x in child.health.hediffSet.GetNotMissingParts()
+                                                     where
+                                                     x.IsInGroup(BodyPartGroupDefOf.Legs)
+                                                     && !x.IsInGroup(InternalDefOf.StarbeastTailAttackTool)
+                                                       select x;
+
+                foreach( BodyPartRecord part in legparts)
+                {
+                    Hediff maturityHediff = HediffMaker.MakeHediff(InternalDefOf.Undeveloped, child, part);
+                    maturityHediff.Severity = legMaturity;
+
+                    child.health.AddHediff(maturityHediff);
+                }
+            }
+
+            if(armMaturity < 1)
+            {
+                IEnumerable<BodyPartRecord> armparts = from x in child.health.hediffSet.GetNotMissingParts()
+                                                     where
+                                                     (x.IsInGroup(ExternalDefOf.Shoulders)
+                                                     || x.IsInGroup(ExternalDefOf.Arms)
+                                                     || x.IsInGroup(ExternalDefOf.Hands))
+                                                     && !x.IsInGroup(InternalDefOf.StarbeastTailAttackTool)
+                                                     select x;
+                foreach(BodyPartRecord part in armparts)
+                {
+                    Hediff maturityHediff = HediffMaker.MakeHediff(InternalDefOf.Undeveloped, child, part);
+                    maturityHediff.Severity = armMaturity;
+
+                    child.health.AddHediff(maturityHediff);
+                }
+            }
+
+            BioUtility.TryApplyHorrorGenePayload(child,
+                new HorrorGenePayload(genes.GenesListForReading, Pawn.genes?.xenotypeName, removedDefaultGenes));
+
+            BioUtility.InheritNonGenes(Pawn, ref child);
+
+            XMTHiveUtility.ChestburstBirth(child, mother);
+
+            BioContainerUtility.ContainOrSpawn(child, Pawn, pendingBioContainer);
+
+            if (child.Map != null)
+            {
+                XMTUtility.WitnessHorror(child.PositionHeld, child.MapHeld, 0.5f, knowledgeProfile: Props.emergenceKnowledgeProfile);
+            }
+
+            int progress = 250;
+            ResearchUtility.ProgressEvolutionTech(progress, child);
+
+            child.GetMorphComp().UpdateSkinByAge();
+
+            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
+
+            if (Pawn.Dead)
+            {
+                Pawn.health.RemoveHediff(parent);
+            }
+            else
+            {
+                XMTUtility.GiveInteractionMemory(Pawn, HorrorMoodDefOf.Chestburst, child);
+            }
+            
+        }
+
+        public float CalculateMaturity()
+        {
+            if (Pawn == null)
+            {
+                return Math.Max(parent.Severity, 0.001f);
+            }
+
+            if (Host == null)
+            {
+                Host = Pawn;
+            }
+            
+            return Math.Max(Host.BodySize * parent.Severity, 0.001f);
+        }
+
+        public override float SeverityChangePerDay()
+        {
+            if(genes != null)
+            {
+                return (Props.severityPerDay / ((genes.ComplexityTotal + 1.0f) / 9.0f)) * XMTSettings.MaturationFactor;
+            }
+
+            return (Props.severityPerDay) * XMTSettings.MaturationFactor;
+        }
+    }
+
+    public class HediffCompProperties_EmbryoPregnancy : HediffCompProperties
+    {
+        public float armMaturationRate;
+        public float legMaturationRate;
+        public float coreMaturationRate;
+        public float headMaturationRate;
+
+        public float burstDamage = 25;
+        public float severityPerDay;
+        public KnowledgeProfileDef burstKnowledgeProfile;
+        public KnowledgeProfileDef emergenceKnowledgeProfile;
+        public HediffCompProperties_EmbryoPregnancy()
+        {
+            compClass = typeof(HediffComp_EmbryoPregnancy);
+        }
+    }
+}
+

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<!-- Maternal is the reference crest. Specialist crest lines trade armor for their branch benefits. -->
+	<Operation Class="PatchOperationSequence">
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_MaternalCrest"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>80</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_MaternalCrest"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>28</ArmorRating_Sharp></value>
+			</li>
+
+			<!-- Psychic crest line: increasing specialization reduces physical protection. -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_WitchCrest"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>60</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_WitchCrest"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>21</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_DivineHalo"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>40</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_DivineHalo"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>14</ArmorRating_Sharp></value>
+			</li>
+
+			<!-- Juggernaut crest line: armor is the defining branch benefit. -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_FierceCrest"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>160</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_FierceCrest"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>56</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_JuggernautsCrest"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>240</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_JuggernautsCrest"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>84</ArmorRating_Sharp></value>
+			</li>
+
+			<!-- Fleshcrafter crest line remains below the Maternal reference. -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_SubjugatorCrest"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>40</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_SubjugatorCrest"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>14</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_RoyalCrown"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>60</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_RoyalCrown"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>21</ArmorRating_Sharp></value>
+			</li>
+
+			<!-- Guardian is a gene rather than a queen advancement, but uses the same CE scale. -->
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/GeneDef[defName="XMT_GuardianCrest"]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>40</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/GeneDef[defName="XMT_GuardianCrest"]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>14</ArmorRating_Sharp></value>
+			</li>
+		</operations>
+	</Operation>
+
+	<!-- Biotech-only mechanitor crest line. -->
+	<Operation Class="PatchOperationSequence" MayRequire="Ludeon.RimWorld.Biotech">
+		<operations>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_SignalAmplifyingAntenna"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>40</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_SignalAmplifyingAntenna"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>14</ArmorRating_Sharp></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_MechanitorArray"]/stages/li[1]/statOffsets/ArmorRating_Blunt</xpath>
+				<value><ArmorRating_Blunt>60</ArmorRating_Blunt></value>
+			</li>
+			<li Class="PatchOperationReplace">
+				<xpath>Defs/HediffDef[defName="XMT_MechanitorArray"]/stages/li[1]/statOffsets/ArmorRating_Sharp</xpath>
+				<value><ArmorRating_Sharp>21</ArmorRating_Sharp></value>
+			</li>
+		</operations>
+	</Operation>
+</Patch>

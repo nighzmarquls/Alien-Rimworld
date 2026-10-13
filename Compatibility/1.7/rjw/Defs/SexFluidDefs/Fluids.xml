@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Defs>
+	<rjw.SexFluidDef>
+		<defName>XMT_Cum</defName>
+		<label>resin</label>
+		<filth>Starbeast_Filth_Resin</filth>
+		<alwaysProduceFilth>true</alwaysProduceFilth>
+		<consumable>Starbeast_Jelly</consumable>
+	</rjw.SexFluidDef>
+</Defs>

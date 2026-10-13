@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Feles - Felines of the Rim [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="YanzihkoTigris" or defName="YanzihkoPanther" or defName="YanzihkoLeo" or defName="YanzihkoJaguar" or defName="YanzihkoCheetah"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">MoveSpeed_Quick</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Beauty_Pretty</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Howler</thingTransformationTarget>
+							<pawnTransformationTarget>XMT_Howler</pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_CanineHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+</Patch>

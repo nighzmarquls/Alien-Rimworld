@@ -58,6 +58,7 @@ namespace Xenomorphtype
                 if (!Current.Game.GetComponent<GameComponent_NemesisWorldPawns>().RetainExtractedHost(pawn, Victim))
                 { EndJobWith(JobCondition.Incompletable); return; }
                 mission?.Notify_Extracted(Victim, playerHost);
+                Current.Game.GetComponent<GameComponent_Nemesis>().RecordGeneticExtraction(pawn);
                 Rot4 direction = pawn.Position.x == 0 ? Rot4.West : pawn.Position.x == pawn.Map.Size.x - 1 ? Rot4.East
                     : pawn.Position.z == 0 ? Rot4.South : Rot4.North;
                 pawn.ExitMap(false, direction);

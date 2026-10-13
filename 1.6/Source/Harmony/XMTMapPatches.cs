@@ -240,6 +240,7 @@ namespace Xenomorphtype
                 }
 
                 XenoformingUtility.HandleXenoformingImpact(__instance);
+                Current.Game?.GetComponent<GameComponent_Nemesis>()?.ConfirmGeneticEscape(__instance);
                 
                 return;
             }

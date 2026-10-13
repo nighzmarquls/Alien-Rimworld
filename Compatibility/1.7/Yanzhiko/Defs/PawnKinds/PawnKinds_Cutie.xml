@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <PawnKindDef ParentName="BaseStarbeast">
+    <defName>XMT_CutieStarbeastKind</defName>
+	<race>XMT_StarCutie_AlienRace</race>
+    <label>cryptimorph</label>
+	<initialResistanceRange>9~15</initialResistanceRange>
+  </PawnKindDef>
+</Defs>

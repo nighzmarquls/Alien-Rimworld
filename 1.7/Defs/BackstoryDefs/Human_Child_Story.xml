@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<!-- Human Child-->
+	<BackstoryDef>
+		<defName>ChildSurvivor00</defName>
+		<title>Sole Survivor</title>
+		<titleShort>survivor</titleShort>
+		<description>[PAWN_nameDef] was young when [PAWN_possessive] colony was infested with terrible monsters, surviving by keeping to the vents before being rescued years later by a contingent of glitter world Marines that was sent to investigate the colony.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Melee>4</Melee>
+			<Shooting>2</Shooting>
+			<Construction>2</Construction>
+			<Social>-6</Social>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>ImperialCommon</li>
+			<li>Madman</li>
+			<li>Cult</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+			<Nimble />
+		</forcedTraits>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildBotanist01</defName>
+		<title>Mining Colony Botanist</title>
+		<titleShort>Botanist</titleShort>
+		<description>[PAWN_nameDef] grew up on a partially terraformed mining colony. Both of[PAWN_possessive] parents died working the mines for the company while [PAWN_nameDef] grey up working in agriculture with her adopted brother.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Plants>4</Plants>
+			<Construction>4</Construction>
+			<Social>-2</Social>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildCorpo02</defName>
+		<title>orphaned dependant</title>
+		<titleShort>orphan</titleShort>
+		<description>[PAWN_nameDef] lost [PAWN_possessive] mother on a long haul mission with an interstellar corporation. [PAWN_nameDef] grew up on the employee insurance payout with [PAWN_possessive] stepfather but relations were strained and [PAWN_pronoun] ran away. During [PAWN_possessive] teen years, [PAWN_nameDef] developed a great talent for engineering and used that skill to get by.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Crafting>6</Crafting>
+			<Construction>4</Construction>
+			<Intellectual>4</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildCorpo03</defName>
+		<title>corporate training</title>
+		<titleShort>corporate</titleShort>
+		<description>[PAWN_nameDef] was raised by a training program in a interstellar corporation.[PAWN_possessive] aptitude was tested on knowledge of art, etiquette and scientific research.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Artistic>4</Artistic>
+			<Social>6</Social>
+			<Intellectual>6</Intellectual>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildCadet04</defName>  
+		<slot>Childhood</slot>  
+		<title>officer cadet</title>  
+		<titleShort>cadet</titleShort>  
+		<description>From a young age, [PAWN_nameDef] trained to be a special operative. [PAWN_pronoun] enrolled in a Defense College when [PAWN_pronoun] was a boy and became proficient with a range of weapons and survival techniques.</description>  
+		<skillGains>
+		  <Plants>1</Plants>    
+		  <Shooting>3</Shooting>    
+		  <Melee>3</Melee>    
+		  <Social>1</Social>    
+		  <Medicine>1</Medicine>
+		</skillGains>  
+		<workDisables>Artistic</workDisables>  
+		<requiredWorkTags>None</requiredWorkTags>  
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
+	
+	<BackstoryDef>
+		<defName>XMT_ChildTerrors05</defName>
+		<title>Terrified Child</title>
+		<titleShort>terrified</titleShort>
+		<description>[PAWN_nameDef] grew up beset by night terrors, [PAWN_pronoun] wakes nearly every night from horrors which fill his nights with visions of monstrous biotechnological forms.</description>
+		<slot>Childhood</slot>
+		<skillGains>
+			<Construction>2</Construction>
+			<Social>-6</Social>
+			<Artistic>10</Artistic>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>ImperialCommon</li>
+			<li>Madman</li>
+			<li>Cult</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Survivor />
+			<Wimp />
+		</forcedTraits>
+	</BackstoryDef>
+</Defs>

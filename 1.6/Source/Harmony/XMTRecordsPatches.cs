@@ -23,6 +23,8 @@ namespace Xenomorphtype
             [HarmonyPostfix]
             public static void Postfix(Pawn killed, Pawn killer)
             {
+                if (killer != null && killed != null && killed != killer && !XMTUtility.IsXenomorphFriendly(killed))
+                    Current.Game?.GetComponent<GameComponent_Nemesis>()?.RecordGeneticKill(killer);
                 if (XMTUtility.IsXenomorph(killer))
                 {
                     if(killer.needs == null)

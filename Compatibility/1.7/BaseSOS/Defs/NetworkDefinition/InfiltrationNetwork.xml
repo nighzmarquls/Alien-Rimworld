@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	
+	<Xenomorphtype.InfiltrationNetworkDef>
+		<defName>XMT_SOS2InfiltrationList</defName>
+		<settingsKey>SaveOurShipHullAndHeat</settingsKey>
+		<endpointDefs>
+			<li>ShipAirlock</li>
+			<li>ShipInside_SolarGenerator</li>
+			<li>ShipInside_PassiveVent</li>
+			<li>Ship_LifeSupport</li>
+			<li>Ship_LifeSupport_Small</li>
+			<li>Ship_Reactor</li>
+			<li>ShipShuttleBay</li>
+			<li>ShipShuttleBayLarge</li>
+			<li>ShipSalvageBay</li>
+			<li>HullFoamDistributor</li>
+			<li>ShipHeatsink</li>
+			<li>ShipHeatsinkLarge</li>
+			<li>ShipHeatManifold</li>
+			<li>ShipHeatBankLarge</li>
+			<li>ShipPurgePortLarge</li>
+			<li>ShipPurgePort</li>
+		</endpointDefs>
+		<connectorDefs>
+			<li>Ship_Beam</li>
+			<li>ShipHeatConduit</li>
+		</connectorDefs>
+	</Xenomorphtype.InfiltrationNetworkDef>
+
+	<Xenomorphtype.XMT_SabotageReplacementListDef>
+		<defName>XMT_SOS2SabotageReplacementList</defName>
+		<replacements>
+			<li>
+				<sourceThing>Ship_Beam</sourceThing>
+				<replacementThing>Ship_Beam_Unpowered</replacementThing>
+				<replacementFloorThing>ShipHullTile</replacementFloorThing>
+			</li>
+			<li>
+				<sourceThing>Ship_BeamMech</sourceThing>
+				<replacementThing>Ship_BeamMech_Unpowered</replacementThing>
+				<replacementFloorThing>ShipHullTileMech</replacementFloorThing>
+			</li>
+			<li>
+				<sourceThing>Ship_BeamArchotech</sourceThing>
+				<replacementThing>Ship_BeamArchotech_Unpowered</replacementThing>
+				<replacementFloorThing>ShipHullTileArchotech</replacementFloorThing>
+			</li>
+		</replacements>
+	</Xenomorphtype.XMT_SabotageReplacementListDef>
+</Defs>

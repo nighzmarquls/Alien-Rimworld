@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	
+	
+	<VanillaRacesExpandedInsector.GenelineGeneDef ParentName="VRE_MutationGene" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<defName>XMT_Gene_AstrofuelMetabolism</defName>
+		<geneClass>Xenomorphtype.XenomorphGene</geneClass>
+		<label>astrofuel metabolism</label>
+		<labelShortAdj>astrofuel-bearing</labelShortAdj>
+		<description>Carriers of this gene accumulate volatile astrofuel throughout specialized internal tissues rather than in an external tail. This drastically increases their susceptibility to flame damage. If engulfed in large enough flames or upon death, they erupt in a devastating astrofire explosion. The accumulated astrofuel can also be harvested periodically.</description>
+		<iconPath>Mods/Genes/Gene_AstrofuelSacks</iconPath>
+		<displayOrderInCategory>3001</displayOrderInCategory>
+		<selectionWeight>0</selectionWeight>
+		<mentalBreakMtbDays>0.1</mentalBreakMtbDays>
+		<mentalBreakDef>XMT_AstrofuelFireTerror</mentalBreakDef>
+		<symbolPack>
+			<prefixSymbols>
+				<li>
+					<symbol>fuel</symbol>
+				</li>
+				<li>
+					<symbol>void</symbol>
+				</li>
+				<li>
+					<symbol>astro</symbol>
+				</li>
+			</prefixSymbols>
+		</symbolPack>
+		<damageFactors>
+			<Flame>2</Flame>
+		</damageFactors>
+		<exclusionTags>
+			<li>InsectorFire</li>
+		</exclusionTags>
+		<modExtensions>
+			<li Class="VEF.Genes.GeneExtension">
+				<backgroundPathEndogenes>UI/Icons/Genes/VRE_MutationBG</backgroundPathEndogenes>
+				<backgroundPathXenogenes>UI/Icons/Genes/VRE_MutationBG</backgroundPathXenogenes>
+				<customBloodThingDef>VGE_Filth_Astrofuel</customBloodThingDef>
+				<hediffToWholeBody>XMT_AstrofuelProduction</hediffToWholeBody>
+				<hideGene>true</hideGene>
+			</li>
+		</modExtensions>
+	</VanillaRacesExpandedInsector.GenelineGeneDef>
+
+	<Xenomorphtype.XMT_GeneRemapListDef MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<defName>XMT_GravshipExpandedGeneRemaps</defName>
+		<geneRemaps>
+			<li>
+				<raceDef>XMT_Starbeast_AlienRace</raceDef>
+				<targetGeneDef>VGE_Gene_AstrofuelSacks</targetGeneDef>
+				<replacementGeneDef>XMT_Gene_AstrofuelMetabolism</replacementGeneDef>
+				<canonicalGeneDef>VGE_Gene_AstrofuelSacks</canonicalGeneDef>
+			</li>
+			<li>
+				<raceDef>XMT_Royal_AlienRace</raceDef>
+				<targetGeneDef>VGE_Gene_AstrofuelSacks</targetGeneDef>
+				<replacementGeneDef>XMT_Gene_AstrofuelMetabolism</replacementGeneDef>
+				<canonicalGeneDef>VGE_Gene_AstrofuelSacks</canonicalGeneDef>
+			</li>
+		</geneRemaps>
+	</Xenomorphtype.XMT_GeneRemapListDef>
+</Defs>

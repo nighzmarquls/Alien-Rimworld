@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<ThingDef>
+		<defName>Starbeast_Flesh_Meat</defName>
+		<label>carbo-silicate meat.</label>
+		<description>A strangely tough meat-like material. Full of fibrous polymers and sharp silicate crystals. It tastes like burnt plastic and cuts the mouth if eaten.</description>
+		<thingClass>ThingWithComps</thingClass>
+		<selectable>true</selectable>
+		<category>Item</category>
+		<drawerType>MapMeshOnly</drawerType>
+		<tickerType>Never</tickerType>
+		<rotatable>false</rotatable>
+		<altitudeLayer>Item</altitudeLayer>
+		<resourceReadoutPriority>Middle</resourceReadoutPriority>
+		<drawGUIOverlay>true</drawGUIOverlay>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<stackLimit>75</stackLimit>
+		<alwaysHaulable>true</alwaysHaulable>
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<tradeability>Sellable</tradeability>
+		<pathCost>14</pathCost>
+		<statBases>
+			<MaxHitPoints>60</MaxHitPoints>
+			<Beauty>-6</Beauty>
+			<DeteriorationRate>0</DeteriorationRate>
+			<Mass>0.03</Mass>
+			<Flammability>0</Flammability>
+			<Nutrition>0.025</Nutrition>
+			<FoodPoisonChanceFixedHuman>1</FoodPoisonChanceFixedHuman>
+			<MarketValue>0.5</MarketValue>
+		</statBases>
+		<graphicData>
+			<texPath>Things/Item/Resource/Starbeast_Flesh</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<thingCategories>
+			<li>MeatRaw</li>
+		</thingCategories>
+		<ingredient>
+			<mergeCompatibilityTags>
+				<li  MayRequire="Ludeon.RimWorld.Anomaly">TwistedMeat</li>
+			</mergeCompatibilityTags>
+		</ingredient>
+		<ingestible>
+			<foodType>Meat</foodType>
+			<preferability>RawBad</preferability>
+			<ingestEffect>EatMeat</ingestEffect>
+			<ingestSound>RawMeat_Eat</ingestSound>
+			<specialThoughtDirect MayRequire="Ludeon.RimWorld.Anomaly">AteTwistedMeat</specialThoughtDirect>
+			<specialThoughtAsIngredient MayRequire="Ludeon.RimWorld.Anomaly">AteTwistedMeat</specialThoughtAsIngredient>
+		</ingestible>
+		<comps>
+			<li Class="CompProperties_Forbiddable" />
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="OrganicProductBase">
+		<defName>Starbeast_Jelly</defName>
+		<thingClass>Medicine</thingClass>
+		<label>resinous jelly</label>
+		<description>A strange resinous jelly. It is simultaneously readily digestible, milky-sweet, anti-microbial, anti-viral and wound clotting. It does not rot.</description>
+		<possessionCount>10</possessionCount>
+		<graphicData>
+			<texPath>Things/Item/Resource/Starbeast_Jelly</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<statBases>
+			<MarketValue>8.0</MarketValue>
+			<Mass>0.025</Mass>
+			<Nutrition>0.05</Nutrition>
+			<FoodPoisonChanceFixedHuman>0.0</FoodPoisonChanceFixedHuman>
+			<MedicalPotency>0.60</MedicalPotency>
+			<MedicalQualityMax>0.70</MedicalQualityMax>
+			<DeteriorationRate>0</DeteriorationRate>
+			<WorkToMake>300</WorkToMake>
+		</statBases>
+		<costList>
+			<Starbeast_Flesh_Meat>10</Starbeast_Flesh_Meat>
+		</costList>
+		<ingestible>
+			<foodType>AnimalProduct</foodType>
+			<preferability>MealFine</preferability>
+			<joy>0.08</joy>
+			<joyKind>Gluttonous</joyKind>
+			<ingestEffect>ResinBuild</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+			<lowPriorityCaravanFood>true</lowPriorityCaravanFood>
+			<babiesCanIngest>true</babiesCanIngest>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>XMT_RawJellyHigh</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
+				</li>
+				<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+					<offset>0.001</offset>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<recipeMaker>
+			<workSpeedStat>DrugSynthesisSpeed</workSpeedStat>
+			<workSkill>Intellectual</workSkill>
+			<recipeUsers>
+				<li>DrugLab</li>
+				<li>ElectricStove</li>
+				<li>FueledStove</li>
+				<li>Brewery</li>
+			</recipeUsers>
+			<researchPrerequisites>
+				<li>XMT_Jelly_Extraction</li>
+			</researchPrerequisites>
+			<skillRequirements>
+				<Crafting>4</Crafting>
+				<Intellectual>4</Intellectual>
+				<Medicine>10</Medicine>
+			</skillRequirements>
+			<bulkRecipeCount>10</bulkRecipeCount>
+			<displayPriority>2000</displayPriority>
+		</recipeMaker>
+		<thingCategories>
+			<li>AnimalProductRaw</li>
+			<li>Medicine</li>
+		</thingCategories>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<compClass>Xenomorphtype.CompJellyDrug</compClass>
+				<chemical>XMT_Essence</chemical>
+				<addictiveness>0.01</addictiveness>
+				<needLevelOffset>0.9</needLevelOffset>
+				<listOrder>1010</listOrder>
+			</li>
+		</comps>
+		<allowedArchonexusCount>150</allowedArchonexusCount>
+		<modExtensions>
+			<li MayRequire="Dubwise.DubsBadHygiene" Class="DubsBadHygiene.WaterExt">
+				<water>2</water>
+				<UseForWashing>false</UseForWashing>
+				<SeekForThirst>true</SeekForThirst>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<ThingDef ParentName="DrugBase">
+		<defName>Starbeast_RoyalJelly</defName>
+		<category>Item</category>
+		<thingClass>ThingWithComps</thingClass>
+		<label>iridescent jelly</label>
+		<description>A strange iridescent jelly. It is simultaneously readily digestible, milky-sweet, anti-microbial, anti-viral and wound clotting. It does not rot. Reverses Metabolic slowdown in cryptimorphs.</description>
+		<possessionCount>10</possessionCount>
+		<graphicData>
+			<texPath>Things/Item/Resource/Starbeast_RoyalJelly</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<statBases>
+			<MarketValue>10.0</MarketValue>
+			<Mass>0.01</Mass>
+			<Nutrition>0.1</Nutrition>
+			<FoodPoisonChanceFixedHuman>0.0</FoodPoisonChanceFixedHuman>
+			<DeteriorationRate>0</DeteriorationRate>
+			<WorkToMake>300</WorkToMake>
+		</statBases>
+		<ingestible>
+			<foodType>AnimalProduct</foodType>
+			<drugCategory>Social</drugCategory>
+			<preferability>DesperateOnly</preferability>
+			<joy>0.08</joy>
+			<joyKind>Gluttonous</joyKind>
+			<ingestEffect>ResinBuild</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+			<lowPriorityCaravanFood>true</lowPriorityCaravanFood>
+			<canAutoSelectAsFoodForCaravan>false</canAutoSelectAsFoodForCaravan>
+			<babiesCanIngest>true</babiesCanIngest>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>XMT_RoyalJellyHigh</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
+				</li>
+				<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
+					<offset>0.25</offset>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<thingCategories>
+			<li>AnimalProductRaw</li>
+		</thingCategories>
+		<tradeTags>
+		  <li>Drugs</li>
+		</tradeTags>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<compClass>Xenomorphtype.CompJellyDrug</compClass>
+				<chemical>XMT_Essence</chemical>
+				<addictiveness>0.1</addictiveness>
+				<needLevelOffset>1.0</needLevelOffset>
+				<listOrder>1010</listOrder>
+			</li>
+		</comps>
+		<allowedArchonexusCount>150</allowedArchonexusCount>
+		<modExtensions>
+			<li MayRequire="Dubwise.DubsBadHygiene" Class="DubsBadHygiene.WaterExt">
+				<water>2</water>
+				<UseForWashing>false</UseForWashing>
+				<SeekForThirst>true</SeekForThirst>
+			</li>
+		</modExtensions>
+	</ThingDef>
+	
+	<ThingDef ParentName="ResourceVerbBase">
+		<defName>Starbeast_Chitin</defName>
+		<label>chitin</label>
+		<description>A strange metallo-carbo-silicate material with incredible properties of durability and flexibility.</description>
+		<graphicData>
+			<texPath>Things/Item/Resource/Starbeast_Chitin</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<equippedAngleOffset>-20</equippedAngleOffset>
+		<soundInteract>Wood_Drop</soundInteract>
+		<soundDrop>Wood_Drop</soundDrop>
+		<statBases>
+		    <WorkToMake>800</WorkToMake>
+			<MarketValue>5</MarketValue>
+			<MaxHitPoints>150</MaxHitPoints>
+			<Mass>0.2</Mass> 
+			<Flammability>0.0</Flammability>
+			<DeteriorationRate>0.0</DeteriorationRate>
+			<StuffPower_Armor_Sharp>0.8</StuffPower_Armor_Sharp>
+			<StuffPower_Armor_Blunt>0.8</StuffPower_Armor_Blunt>
+			<StuffPower_Armor_Heat>0.1</StuffPower_Armor_Heat>
+			<StuffPower_Insulation_Cold>4</StuffPower_Insulation_Cold>
+			<StuffPower_Insulation_Heat>2</StuffPower_Insulation_Heat>
+			<SharpDamageMultiplier>1.2</SharpDamageMultiplier>
+			<BluntDamageMultiplier>0.5</BluntDamageMultiplier>
+		</statBases>
+		<burnableByRecipe>true</burnableByRecipe>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<minRewardCount>10</minRewardCount>
+		<stuffProps>
+			<stuffAdjective>resin</stuffAdjective>
+			<categories>
+				<li>Woody</li>
+				<li>Metallic</li>
+				<li>Leathery</li>
+			</categories>
+			<commonality>0.001</commonality>
+			<color>(46,49,54)</color>
+			<allowedInStuffGeneration>false</allowedInStuffGeneration>
+			<constructEffect>ConstructWood</constructEffect>
+			<appearance>Planks</appearance>
+			<soundImpactBullet>BulletImpact_Wood</soundImpactBullet>
+			<soundMeleeHitSharp>MeleeHit_Wood</soundMeleeHitSharp>
+			<soundMeleeHitBlunt>MeleeHit_Wood</soundMeleeHitBlunt>
+			<soundImpactMelee>Pawn_Melee_Punch_HitBuilding_Wood</soundImpactMelee>
+			<statFactors>
+				<MaxHitPoints>1.25</MaxHitPoints>
+				<Beauty>1</Beauty>
+				<Flammability>0</Flammability>
+				<WorkToMake>1</WorkToMake>
+				<WorkToBuild>1</WorkToBuild>
+				<DoorOpenSpeed>1.2</DoorOpenSpeed>
+			</statFactors>
+			<canSuggestUseDefaultStuff>true</canSuggestUseDefaultStuff>
+		</stuffProps>
+		<isTechHediff>true</isTechHediff>
+		<thingCategories>
+			<li>ResourcesRaw</li>
+		</thingCategories>
+		<techHediffsTags>
+			<li>Poor</li>
+		</techHediffsTags>
+		<weaponClasses>
+			<li>Melee</li>
+			<li>MeleeBlunt</li>
+			<li>Neolithic</li>
+		</weaponClasses>
+		<tools>
+		<li>
+		<label>chunk</label>
+		<capacities>
+		  <li>Blunt</li>
+		</capacities>
+		<power>10</power>
+		<cooldownTime>2</cooldownTime>
+		</li>
+		</tools>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<allowedArchonexusCount>150</allowedArchonexusCount>
+	</ThingDef>
+	
+	<ThingDef ParentName="ResourceVerbBase">
+		<defName>Starbeast_Resin</defName>
+		<label>resin</label>
+		<description>Some form of secreted resin. It is notable for being non-flammable but otherwise not any better then wood.</description>
+		<graphicData>
+			<texPath>Things/Item/Resource/Starbeast_Resin</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<equippedAngleOffset>-20</equippedAngleOffset>
+		<soundInteract>Wood_Drop</soundInteract>
+		<soundDrop>Wood_Drop</soundDrop>
+		<statBases>
+			<MarketValue>1.5</MarketValue>
+			<MaxHitPoints>150</MaxHitPoints>
+			<Mass>0.05</Mass> 
+			<Flammability>0.0</Flammability>
+			<DeteriorationRate>0.0</DeteriorationRate>
+			<StuffPower_Armor_Sharp>0.54</StuffPower_Armor_Sharp>
+			<StuffPower_Armor_Blunt>0.54</StuffPower_Armor_Blunt>
+			<StuffPower_Armor_Heat>0.40</StuffPower_Armor_Heat>
+			<StuffPower_Insulation_Cold>8</StuffPower_Insulation_Cold>
+			<StuffPower_Insulation_Heat>4</StuffPower_Insulation_Heat>
+			<SharpDamageMultiplier>0.40</SharpDamageMultiplier>
+			<BluntDamageMultiplier>0.9</BluntDamageMultiplier>
+		</statBases>
+		<burnableByRecipe>true</burnableByRecipe>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<minRewardCount>10</minRewardCount>
+		<stuffProps>
+			<stuffAdjective>resin</stuffAdjective>
+			<categories>
+				<li>Woody</li>
+				<li>Metallic</li>
+			</categories>
+			<commonality>0.01</commonality>
+			<allowedInStuffGeneration>false</allowedInStuffGeneration>
+			<color>(46,49,54)</color>
+			<constructEffect>ConstructWood</constructEffect>
+			<appearance>Planks</appearance>
+			<soundImpactBullet>BulletImpact_Wood</soundImpactBullet>
+			<soundMeleeHitSharp>MeleeHit_Wood</soundMeleeHitSharp>
+			<soundMeleeHitBlunt>MeleeHit_Wood</soundMeleeHitBlunt>
+			<soundImpactMelee>Pawn_Melee_Punch_HitBuilding_Wood</soundImpactMelee>
+			<statFactors>
+				<MaxHitPoints>0.65</MaxHitPoints>
+				<Beauty>1</Beauty>
+				<Flammability>0</Flammability>
+				<WorkToMake>0.7</WorkToMake>
+				<WorkToBuild>0.7</WorkToBuild>
+				<DoorOpenSpeed>1.2</DoorOpenSpeed>
+			</statFactors>
+			<canSuggestUseDefaultStuff>true</canSuggestUseDefaultStuff>
+		</stuffProps>
+		<isTechHediff>true</isTechHediff>
+		<thingCategories>
+			<li>ResourcesRaw</li>
+		</thingCategories>
+		<techHediffsTags>
+			<li>Poor</li>
+		</techHediffsTags>
+		<weaponClasses>
+			<li>Melee</li>
+			<li>MeleeBlunt</li>
+			<li>Neolithic</li>
+		</weaponClasses>
+		<tools>
+		<li>
+		<label>chunk</label>
+		<capacities>
+		  <li>Blunt</li>
+		</capacities>
+		<power>10</power>
+		<cooldownTime>2</cooldownTime>
+		</li>
+		</tools>
+		<terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+		<allowedArchonexusCount>150</allowedArchonexusCount>
+	</ThingDef>
+	<ThingDef ParentName="ResourceBase">
+		<defName>XMT_RawPheromone</defName>
+		<label>raw pheromone gland</label>
+		<description>An excised gland swollen with sticky, clear pheromonal secretion. Its strange scent begins with smoky spices and sharp accents, deepening into a cloying, sweetly savory odor that quickly becomes chokingly pungent at close range. The gland can be ruptured and its contents rubbed directly over the skin or body, or used to fuel specialized pheromone equipment.</description>
+		<thingClass>ThingWithComps</thingClass>
+		<graphicData>
+			<texPath>Things/Item/Resource/Starbeast_Pheromone</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<stackLimit>10</stackLimit>
+		<statBases>
+			<MaxHitPoints>30</MaxHitPoints>
+			<MarketValue>12</MarketValue>
+			<Mass>0.05</Mass>
+			<Flammability>0.2</Flammability>
+		</statBases>
+		<thingCategories>
+			<li>AnimalProductRaw</li>
+		</thingCategories>
+		<comps>
+			<li Class="CompProperties_Usable">
+				<useJob>UseItem</useJob>
+				<useLabel>Apply {0_label}</useLabel>
+				<useDuration>120</useDuration>
+				<showUseGizmo>true</showUseGizmo>
+			</li>
+			<li Class="CompProperties_Targetable">
+				<compClass>CompTargetable_SinglePawn</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_TargetEffectApplyRawPheromone" />
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="ResourceBase">
+		<defName>XMT_Acid</defName>
+		<label>contained acid</label>
+		<description>A canister of highly volatile molecular acid, even contained it is unstable outside of extremely low temperatures, -30 Celsius maximum for shelf stable reactivity.</description>
+		<possessionCount>15</possessionCount>
+		<tickerType>Normal</tickerType>
+		<graphicData>
+		  <texPath>Things/Item/Resource/Starbeast_Acid</texPath>
+		  <graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<stackLimit>15</stackLimit>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<intricate>true</intricate> <!-- Not returned to player when product made of this is smelted. -->
+		<statBases>
+		  <MaxHitPoints>20</MaxHitPoints>
+		  <MarketValue>75</MarketValue>
+		  <Mass>0.05</Mass>
+		  <Flammability>100.0</Flammability>
+		  <DeteriorationRate>6.0</DeteriorationRate>
+		</statBases>
+		<thingCategories>
+		  <li>Manufactured</li>
+		</thingCategories>
+		<comps>
+			<li Class="CompProperties_Explosive">
+				<explosiveRadius>3.9</explosiveRadius>
+				<explosiveDamageType>Flame</explosiveDamageType>
+				<startWickHitPointsPercent>0.95</startWickHitPointsPercent>
+				<preExplosionSpawnSingleThingDef>Starbeast_Filth_AcidBlood</preExplosionSpawnSingleThingDef>
+				<wickTicks>30</wickTicks>
+				<startWickOnDamageTaken>
+				  <li>Flame</li>
+				  <li>AcidBurn</li>
+				  <li>Bullet</li>
+				  <li>Arrow</li>
+				  <li>ArrowHighVelocity</li>
+				  <li>Deterioration</li>
+				  <li>Stab</li>
+				  <li>Cut</li>
+				  <li>Bomb</li>
+				</startWickOnDamageTaken>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<appliedHediff>AcidCorrosion</appliedHediff>
+			</li>
+			<li Class="CompProperties_TemperatureRuinable">
+				<compClass>Xenomorphtype.CompDetonateOnTemperature</compClass>
+				<minSafeTemperature>-274</minSafeTemperature>
+				<maxSafeTemperature>-30</maxSafeTemperature>
+				<progressPerDegreePerTick>0.000003</progressPerDegreePerTick>
+			</li>
+		</comps>
+		<allowedArchonexusCount>100</allowedArchonexusCount>
+	</ThingDef>
+</Defs>

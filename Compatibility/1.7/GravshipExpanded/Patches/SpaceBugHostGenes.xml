@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<!-- Shared exo-geneline adaptations. -->
+	<Operation Class="PatchOperationAddModExtension" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<xpath>Defs/ThingDef[defName="VGE_Exoworm" or defName="VGE_ExowormKnot" or defName="VGE_Exopede" or defName="VGE_Exoleech" or defName="VGE_Exohive" or defName="VFEI2_Nullipede"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>VRE_HardenedChitin</li>
+					<li>VRE_InsectPheromones</li>
+					<li>VRE_GenelineEvolution</li>
+					<li>VRE_DetoxifierTubules</li>
+					<li>VRE_Heatshock</li>
+					<li>VGE_Gene_SealedExoskeleton</li>
+					<li>XMT_LeechMouth</li>
+				</genes>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Floating regenerative worker caste. -->
+	<Operation Class="PatchOperationAddModExtension" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<xpath>Defs/ThingDef[defName="VGE_Exoworm"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>VGE_Gene_MicrogravityAdapted</li>
+					<li>VGE_Gene_FloatingOrgans</li>
+					<li>VRE_Hiveglands</li>
+					<li>VRE_AntimicrobialPeptides</li>
+				</genes>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Multi-mawed, pain-resistant defensive knot. -->
+	<Operation Class="PatchOperationAddModExtension" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<xpath>Defs/ThingDef[defName="VGE_ExowormKnot"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>VRE_InsectMandibles</li>
+					<li>Pain_Reduced</li>
+				</genes>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Slow middle-caste worker. -->
+	<Operation Class="PatchOperationAddModExtension" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<xpath>Defs/ThingDef[defName="VGE_Exopede"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>VRE_Hiveglands</li>
+					<li>VRE_InflexibleJoints</li>
+				</genes>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Slow close-combat caste with a specialized mouth. -->
+	<Operation Class="PatchOperationAddModExtension" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<xpath>Defs/ThingDef[defName="VGE_Exoleech"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>VRE_InsectMandibles</li>
+					<li>VRE_InflexibleJoints</li>
+				</genes>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Regenerative mobile hive with many feeding mouths and jelly stores. -->
+	<Operation Class="PatchOperationAddModExtension" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<xpath>Defs/ThingDef[defName="VGE_Exohive"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>VRE_InsectMandibles</li>
+					<li>VRE_JellySacks</li>
+					<li>VRE_AntimicrobialPeptides</li>
+				</genes>
+			</li>
+		</value>
+	</Operation>
+
+	<!-- Regenerative pherocore caste; its tail gene remaps to a body-plan-safe expression on cryptimorphs. -->
+	<Operation Class="PatchOperationAddModExtension" MayRequire="OskarPotocki.VFE.Insectoid2,vanillaracesexpanded.insector">
+		<xpath>Defs/ThingDef[defName="VFEI2_Nullipede"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>VRE_InsectMandibles</li>
+					<li>VRE_AntimicrobialPeptides</li>
+					<li>VGE_Gene_AstrofuelSacks</li>
+				</genes>
+			</li>
+		</value>
+	</Operation>
+</Patch>

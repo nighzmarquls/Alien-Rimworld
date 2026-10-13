@@ -13,6 +13,7 @@ namespace Xenomorphtype
     public class HediffComp_EmbryoPregnancy : HediffComp_SeverityModifierBase
     {
         public GeneSet genes;
+        public List<GeneDef> removedDefaultGenes = new List<GeneDef>();
         public Pawn mother;
         public Pawn father;
         public bool unbirthed = true;
@@ -31,6 +32,8 @@ namespace Xenomorphtype
             Scribe_References.Look(ref mother, "mother", saveDestroyedThings: false);
             Scribe_References.Look(ref Host, "host", saveDestroyedThings: false);
             Scribe_Deep.Look(ref genes, "genes");
+            Scribe_Collections.Look(ref removedDefaultGenes, "removedDefaultGenes", LookMode.Def);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit) removedDefaultGenes ??= new List<GeneDef>();
             Scribe_Values.Look(ref unbirthed, "unbirthed", defaultValue: true);
             Scribe_Values.Look(ref damageDealt, "chestburstDamage", defaultValue: 0);
             Scribe_Values.Look(ref geneStorageVersion, "geneStorageVersion", 0);
@@ -365,7 +368,8 @@ namespace Xenomorphtype
                 }
             }
 
-            BioUtility.InsertGenesetToPawn(genes,ref child);
+            BioUtility.TryApplyHorrorGenePayload(child,
+                new HorrorGenePayload(genes.GenesListForReading, Pawn.genes?.xenotypeName, removedDefaultGenes));
 
             BioUtility.InheritNonGenes(Pawn, ref child);
 

@@ -20,6 +20,8 @@ namespace Xenomorphtype
 
         public static void ReportCryptimorphInjury(Pawn victim, DamageInfo damage, float amount)
         {
+            if (victim != null) Component?.RecordGeneticInjury(victim, amount);
+            if (Component?.TrialsForSacrifice(victim) == true) return;
             if (victim == null || victim.Faction == Faction.OfPlayer || amount <= 0f)
             {
                 return;
@@ -79,6 +81,7 @@ namespace Xenomorphtype
             Thing instigator = damage?.Instigator;
             DamageDef source = damage?.Def;
             bool usefulDeath = victim.GetAcidBloodComp() != null || IsExplosiveDeath(victim);
+            if (Component?.TrialsForSacrifice(victim) == true) return;
             Record("XMT_Nemesis_CryptimorphKilled", usefulDeath ? 0.25f : 1f, instigator, victim, source,
                 "weapon=" + (damage?.Weapon?.defName ?? "none")
                 + ",acid=" + (victim.GetAcidBloodComp() != null)

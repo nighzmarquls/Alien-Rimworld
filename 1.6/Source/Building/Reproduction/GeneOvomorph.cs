@@ -178,6 +178,7 @@ namespace Xenomorphtype
             if (payload != null)
             {
                 geneHolder.AddGenes(payload.Genes, payload.TemplateName);
+                geneHolder.removedDefaultGenes = payload.RemovedDefaultGenes.ToList();
             }
         }
 

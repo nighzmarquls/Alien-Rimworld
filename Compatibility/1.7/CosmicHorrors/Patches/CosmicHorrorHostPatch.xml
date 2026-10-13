@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationAddModExtension">
+		<xpath>Defs/ThingDef[@ParentName="BaseCosmicHorrorRaceInit"]</xpath>
+		<value>
+			<li Class="Xenomorphtype.AnimalHostGenes">
+				<genes>
+					<li>XMT_Horror_Mouth</li>
+					<li>XMT_Back_Tentacles</li>
+					<li>XMT_Cosmic_Flesh</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>ROM_Shoggoth</thingTransformationTarget>
+						<pawnTransformationTarget>ROM_Shoggoth</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationFindMod">
+		<mods>
+			<li>Odyssey</li>
+		</mods>
+		<match Class="PatchOperationReplace">
+			<xpath>Defs/ThingDef[defName="LavaSnail"]/modExtensions/li[@Class="Xenomorphtype.AnimalMutateForms"]/resultCandidates</xpath>
+			<value>
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>ROM_Shoggoth</thingTransformationTarget>
+						<pawnTransformationTarget>ROM_Shoggoth</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>-1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</value>
+		</match>
+	</Operation>
+
+</Patch>

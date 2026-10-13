@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+    <Operation Class="PatchOperationFindMod">
+        <mods>
+            <li>Zoroark - Illusion Pokemon [1.6]</li>
+        </mods>
+        <match Class="PatchOperationAddModExtension">
+            <xpath>Defs/AlienRace.ThingDef_AlienRace[defName="WZoroark" or defName="BZoroark"]</xpath>
+			<value>
+				<li Class="Xenomorphtype.AnimalHostGenes">
+					<customChildKind>XMT_CutieStarbeastKind</customChildKind>
+					<genes>
+						<li MayRequire="Ludeon.RimWorld.Biotech">Genetical_Industries_BasicGene</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">YZRCM_Gene_Zoroark</li>
+						<li MayRequire="Ludeon.RimWorld.Biotech">PsychicBonding</li>
+					</genes>
+				</li>
+				<li Class="Xenomorphtype.AnimalMutateForms">
+					<resultCandidates>
+						<li>
+							<thingTransformationTarget>XMT_Plaguerat</thingTransformationTarget>
+							<pawnTransformationTarget></pawnTransformationTarget>
+							<probability>1</probability>
+							<essenceMinimum>-1</essenceMinimum>
+							<essenceMaximum>-1</essenceMaximum>
+						</li>
+					</resultCandidates>
+					<horrorPregnancy>XMT_RodentHorrorPregnant</horrorPregnancy>
+				</li>
+			</value>
+        </match>
+    </Operation>
+</Patch>

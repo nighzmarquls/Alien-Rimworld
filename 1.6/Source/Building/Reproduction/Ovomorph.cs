@@ -23,7 +23,7 @@ namespace Xenomorphtype
 
         bool accelerated = false;
 
-        protected CompHatchingEgg HatchingEgg;
+        protected CompHatchingEgg HatchingEgg => this.GetComp<CompHatchingEgg>();
         public bool Unhatched => (HatchingEgg == null)? true : HatchingEgg.UnHatched;
 
         public bool Ready => gestateProgress >= 1f;
@@ -37,7 +37,6 @@ namespace Xenomorphtype
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
             base.SpawnSetup(map, respawningAfterLoad);
-            HatchingEgg = this.GetComp<CompHatchingEgg>();
 
             if (HatchingEgg != null && Unhatched)
             {
@@ -89,7 +88,7 @@ namespace Xenomorphtype
                 }
             }
 
-            HatchingEgg.ReplaceGenes(inheritedGenes);
+            HatchingEgg.ReplaceGenes(inheritedGenes, removedDefaults: motherGenes?.RemovedDefaultGenes);
 
         }
 
@@ -108,7 +107,8 @@ namespace Xenomorphtype
 
             HatchingEgg.mother = mother;
             HatchingEgg.father = father == null ? HatchingEgg.father : father;
-            HatchingEgg.ReplaceGenes(genes);
+            HorrorGenePayload payload = GeneLineageUtility.Selection(genes);
+            HatchingEgg.ReplaceGenes(payload.Genes, payload.TemplateName, removedDefaults: payload.RemovedDefaultGenes);
         }
 
         private List<GeneDef> GetOvomorphingGenes(Pawn transformedPawn, Pawn instigator)
@@ -131,6 +131,7 @@ namespace Xenomorphtype
                 if (instigatorGenes != null)
                 {
                     genes.AddRange(BioUtility.FilterCanonicalGenesWithinComplexity(instigatorGenes.Genes, hereditaryCapacity));
+                    genes.RemoveAll(instigatorGenes.RemovedDefaultGenes.Contains);
                 }
             }
 

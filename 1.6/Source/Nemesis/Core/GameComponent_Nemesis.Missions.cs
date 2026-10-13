@@ -38,6 +38,8 @@ namespace Xenomorphtype
             base.GameComponentTick();
             int tick = Find.TickManager.TicksGame;
             if (tick % 250 != 0) return;
+            TickGenetics();
+            if (tick % 60000 == 0) UpdateGeneticAcquisition(XenoformingUtility.GetXenoforming());
             if (pendingMission != null) { RecheckPendingMission(); return; }
             if (AnyMissionLive()) return;
             if (nextMissionTick < 0) nextMissionTick = tick + MissionInterval;
@@ -46,7 +48,7 @@ namespace Xenomorphtype
 
         internal static bool MapHasMission(Map map) => map?.lordManager?.lords.Any(l => l.LordJob is LordJob_NemesisMission mission
             && mission.BlocksNewMissions) == true;
-        internal static bool AnyMissionLive() => Find.Maps.Any(MapHasMission);
+        internal static bool AnyMissionLive() => Current.Game.GetComponent<GameComponent_Nemesis>().PendingGeneticPrelude || Find.Maps.Any(MapHasMission);
 
         public float MissionWeight(NemesisMissionDef def, Map map, bool active)
         {

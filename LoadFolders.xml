@@ -4,36 +4,70 @@
 	<v1.6>
 		<li>Common</li>
 		<li>1.6</li>
-		<li IfModNotActive="Ludeon.RimWorld.Anomaly">Compatibility/NoAnomaly</li>
-		<li IfModActive="Ludeon.RimWorld.Odyssey">Compatibility/Odyssey</li>
-		<li IfModActive="vanillaexpanded.gravship2">Compatibility/GravshipExpanded</li>
-		<li IfModActive="Neronix17.Asimov">Compatibility/Asimov</li>
+		<li IfModNotActive="Ludeon.RimWorld.Anomaly">Compatibility/1.6/NoAnomaly</li>
+		<li IfModActive="Ludeon.RimWorld.Odyssey">Compatibility/1.6/Odyssey</li>
+		<li IfModActive="vanillaexpanded.gravship2">Compatibility/1.6/GravshipExpanded</li>
+		<li IfModActive="Neronix17.Asimov">Compatibility/1.6/Asimov</li>
 		
-		<li IfModActive="yanzihko.YZRCM">Compatibility/Yanzhiko</li>
+		<li IfModActive="yanzihko.YZRCM">Compatibility/1.6/Yanzhiko</li>
 		
-		<li IfModActive="Nals.FacialAnimation">Compatibility/FacialAnimation</li>
+		<li IfModActive="Nals.FacialAnimation">Compatibility/1.6/FacialAnimation</li>
 		
-		<li IfModNotActive="VanillaExpanded.VPsycastsE" IfModActive="Ludeon.RimWorld.Royalty">Compatibility/NoVPE</li>
-		<li IfModActive="VanillaExpanded.VPsycastsE">Compatibility/VPE</li>
-		<li IfModActive="vanillaracesexpanded.android">Compatibility/VRE_Android</li>
-		<li IfModActive="VanillaExpanded.VPE.Puppeteer">Compatibility/VPE_Puppeteer</li>
-		<li IfModActive="VanillaExpanded.VGeneticsE">Compatibility/GeneticsExpanded</li>
+		<li IfModNotActive="VanillaExpanded.VPsycastsE" IfModActive="Ludeon.RimWorld.Royalty">Compatibility/1.6/NoVPE</li>
+		<li IfModActive="VanillaExpanded.VPsycastsE">Compatibility/1.6/VPE</li>
+		<li IfModActive="vanillaracesexpanded.android">Compatibility/1.6/VRE_Android</li>
+		<li IfModActive="VanillaExpanded.VPE.Puppeteer">Compatibility/1.6/VPE_Puppeteer</li>
+		<li IfModActive="VanillaExpanded.VGeneticsE">Compatibility/1.6/GeneticsExpanded</li>
 		
-		<li IfModActive="RimEffectRenegade.AsariReapers">Compatibility/Asari</li>
+		<li IfModActive="RimEffectRenegade.AsariReapers">Compatibility/1.6/Asari</li>
 				
-		<li IfModActive="Dubwise.DubsBadHygiene">Compatibility/DubsBadHygiene</li>
-		<li IfModActive="Dubwise.Rimatomics">Compatibility/DubsRimatomics</li>
-		<li IfModActive="Dubwise.Rimefeller">Compatibility/DubsRimefeller</li>
-		<li IfModActive="kentington.saveourship2">Compatibility/BaseSOS</li>
+		<li IfModActive="Dubwise.DubsBadHygiene">Compatibility/1.6/DubsBadHygiene</li>
+		<li IfModActive="Dubwise.Rimatomics">Compatibility/1.6/DubsRimatomics</li>
+		<li IfModActive="Dubwise.Rimefeller">Compatibility/1.6/DubsRimefeller</li>
+		<li IfModActive="kentington.saveourship2">Compatibility/1.6/BaseSOS</li>
 
-		<li IfModActive="rim.job.world">Compatibility/rjw</li>
-		<li IfModActive="otyoty.sizedapparel">Compatibility/SizedApparel</li>
+		<li IfModActive="rim.job.world">Compatibility/1.6/rjw</li>
+		<li IfModActive="otyoty.sizedapparel">Compatibility/1.6/SizedApparel</li>
 		
-		<li IfModActive="CETeam.CombatExtended">Compatibility/CombatExtended</li>
-		<li IfModActive="co.uk.epicguru.meleeanimation">Compatibility/MeleeAnimation</li>
+		<li IfModActive="CETeam.CombatExtended">Compatibility/1.6/CombatExtended</li>
+		<li IfModActive="co.uk.epicguru.meleeanimation">Compatibility/1.6/MeleeAnimation</li>
 		
-		<li IfModNotActive="zal.cocch" IfModActive="rimofmadness.callofcthulhucosmichorrors">Compatibility/CosmicHorrors</li>
-		<li IfModNotActive="rimofmadness.callofcthulhucosmichorrors" IfModActive="zal.cocch">Compatibility/CosmicHorrors</li>
+		<li IfModNotActive="zal.cocch" IfModActive="rimofmadness.callofcthulhucosmichorrors">Compatibility/1.6/CosmicHorrors</li>
+		<li IfModNotActive="rimofmadness.callofcthulhucosmichorrors" IfModActive="zal.cocch">Compatibility/1.6/CosmicHorrors</li>
 	</v1.6>
+	<v1.7>
+		<li>Common</li>
+		<li>1.7</li>
+		<li IfModNotActive="Ludeon.RimWorld.Anomaly">Compatibility/1.7/NoAnomaly</li>
+		<li IfModActive="Ludeon.RimWorld.Odyssey">Compatibility/1.7/Odyssey</li>
+		<li IfModActive="vanillaexpanded.gravship2">Compatibility/1.7/GravshipExpanded</li>
+		<li IfModActive="Neronix17.Asimov">Compatibility/1.7/Asimov</li>
+		
+		<li IfModActive="yanzihko.YZRCM">Compatibility/1.7/Yanzhiko</li>
+		
+		<li IfModActive="Nals.FacialAnimation">Compatibility/1.7/FacialAnimation</li>
+		
+		<li IfModNotActive="VanillaExpanded.VPsycastsE" IfModActive="Ludeon.RimWorld.Royalty">Compatibility/1.7/NoVPE</li>
+		<li IfModActive="VanillaExpanded.VPsycastsE">Compatibility/1.7/VPE</li>
+		<li IfModActive="vanillaracesexpanded.android">Compatibility/1.7/VRE_Android</li>
+		<li IfModActive="VanillaExpanded.VPE.Puppeteer">Compatibility/1.7/VPE_Puppeteer</li>
+		<li IfModActive="VanillaExpanded.VGeneticsE">Compatibility/1.7/GeneticsExpanded</li>
+		
+		<li IfModActive="RimEffectRenegade.AsariReapers">Compatibility/1.7/Asari</li>
+				
+		<li IfModActive="Dubwise.DubsBadHygiene">Compatibility/1.7/DubsBadHygiene</li>
+		<li IfModActive="Dubwise.Rimatomics">Compatibility/1.7/DubsRimatomics</li>
+		<li IfModActive="Dubwise.Rimefeller">Compatibility/1.7/DubsRimefeller</li>
+		<li IfModActive="kentington.saveourship2">Compatibility/1.7/BaseSOS</li>
+
+		<li IfModActive="rim.job.world">Compatibility/1.7/rjw</li>
+		<li IfModActive="otyoty.sizedapparel">Compatibility/1.7/SizedApparel</li>
+		
+		<li IfModActive="CETeam.CombatExtended">Compatibility/1.7/CombatExtended</li>
+		<li IfModActive="co.uk.epicguru.meleeanimation">Compatibility/1.7/MeleeAnimation</li>
+		
+		<li IfModNotActive="zal.cocch" IfModActive="rimofmadness.callofcthulhucosmichorrors">Compatibility/1.7/CosmicHorrors</li>
+		<li IfModNotActive="rimofmadness.callofcthulhucosmichorrors" IfModActive="zal.cocch">Compatibility/1.7/CosmicHorrors</li>
+	</v1.7>
 	
 </loadFolders>

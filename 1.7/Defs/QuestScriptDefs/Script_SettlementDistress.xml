@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <QuestScriptDef>
+    <defName>XMT_SettlementDistressSignal</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <rootMinPoints>0</rootMinPoints>
+    <autoAccept>true</autoAccept>
+    <sendAvailableLetter>false</sendAvailableLetter>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->Distress signal: [settlement_label]</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->A broken distress signal from [settlement_label] has reached you. The settlement has gone silent after confused calls for help. Its faction is asking for confirmation of what happened, and will remember those who bring back a reliable report.</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_WorldObjectTimeout">
+          <worldObject>$settlement</worldObject>
+          <delayTicks>$timeoutTicks</delayTicks>
+          <isQuestTimeout>true</isQuestTimeout>
+          <inSignalDisable>$investigatedSignal</inSignalDisable>
+          <outSignalComplete>$expiredSignal</outSignalComplete>
+          <inspectString>Distress signal expires in {0}</inspectString>
+          <node Class="QuestNode_End">
+            <outcome>Fail</outcome>
+            <sendStandardLetter>false</sendStandardLetter>
+          </node>
+        </li>
+
+        <li Class="QuestNode_End">
+          <inSignal>$investigatedSignal</inSignal>
+          <outcome>Success</outcome>
+          <sendStandardLetter>false</sendStandardLetter>
+        </li>
+
+        <li Class="QuestNode_NoWorldObject">
+          <worldObject>$settlement</worldObject>
+          <node Class="QuestNode_End" />
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_ME", "..\..\Compatibili
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_FA", "..\..\Compatibility\FacialAnimation\Source\XMT_FA\XMT_FA.csproj", "{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_AM", "..\..\Compatibility\MeleeAnimation\Source\XMT_AM\XMT_AM.csproj", "{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

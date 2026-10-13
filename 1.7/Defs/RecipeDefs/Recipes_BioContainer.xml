@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>XMT_Remove_LarvalEmbraceContained</defName>
+    <label>remove parasite into biocontainer</label>
+    <description>Remove the attached parasite and immediately seal it inside an empty stasis biocontainer.</description>
+    <workerClass>Xenomorphtype.Recipe_RemoveHediffContained</workerClass>
+    <jobString>removing parasite into a biocontainer.</jobString>
+    <workAmount>4500</workAmount>
+    <removesHediff>XMT_LarvalEmbrace</removesHediff>
+    <successfullyRemovedHediffMessage>{0} has successfully removed and contained the attached parasite.</successfullyRemovedHediffMessage>
+    <deathOnFailedSurgeryChance>0.5</deathOnFailedSurgeryChance>
+    <skillRequirements>
+      <Medicine>0</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>4</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+      <disallowedThingDefs>
+        <li>MedicineHerbal</li>
+      </disallowedThingDefs>
+    </fixedIngredientFilter>
+    <uiIconThing>XMT_BioContainer</uiIconThing>
+  </RecipeDef>
+
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>XMT_RemoveEmbryoContained</defName>
+    <label>excise embryo into biocontainer</label>
+    <description>Excise the foreign embryo and immediately seal it inside an empty stasis biocontainer.</description>
+    <workerClass>Xenomorphtype.Recipe_RemoveHediffContained</workerClass>
+    <jobString>excising embryo into a biocontainer.</jobString>
+    <workAmount>4500</workAmount>
+    <removesHediff>XMT_Embryo</removesHediff>
+    <successfullyRemovedHediffMessage>{0} has successfully removed and contained {1}'s foreign embryo.</successfullyRemovedHediffMessage>
+    <deathOnFailedSurgeryChance>0.95</deathOnFailedSurgeryChance>
+    <skillRequirements>
+      <Medicine>15</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+      <disallowedThingDefs>
+        <li>MedicineHerbal</li>
+        <li>MedicineIndustrial</li>
+      </disallowedThingDefs>
+    </fixedIngredientFilter>
+    <uiIconThing>XMT_BioContainer</uiIconThing>
+  </RecipeDef>
+
+</Defs>

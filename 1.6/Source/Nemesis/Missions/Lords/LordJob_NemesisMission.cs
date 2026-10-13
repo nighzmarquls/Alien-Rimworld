@@ -44,6 +44,7 @@ namespace Xenomorphtype
         private bool activeNemesis;
         private int deployedTick;
         private bool outcomeReported;
+        public int GeneticTrialId;
         private string withdrawalReason;
         private IntVec3 entryCell = IntVec3.Invalid;
 
@@ -168,6 +169,7 @@ namespace Xenomorphtype
 
         public override void Notify_PawnLost(Pawn pawn, PawnLostCondition condition)
         {
+            Current.Game?.GetComponent<GameComponent_Nemesis>()?.RecordGeneticLoss(GeneticTrialId, pawn, condition);
             base.Notify_PawnLost(pawn, condition);
             NotifyMemberResolved(pawn, "pawn lost: " + condition);
         }
@@ -209,10 +211,11 @@ namespace Xenomorphtype
             ReportOutcome();
         }
 
-        protected void ReportOutcome()
+        protected virtual void ReportOutcome()
         {
             if (outcomeReported) return;
             outcomeReported = true;
+            Current.Game?.GetComponent<GameComponent_Nemesis>()?.EndGeneticOperation(GeneticTrialId, Successful);
             NemesisLog.Detail("Mission", "Completed " + mission?.defName + " map=" + lord?.Map?.uniqueID
                 + " success=" + Successful + " extracted=" + extracted + " reason=" + withdrawalReason);
             Current.Game?.GetComponent<GameComponent_Nemesis>()?.NotifyMissionEnded(mission, lord?.Map, Successful);
@@ -378,6 +381,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref withdrawing, "withdrawing");
             Scribe_Values.Look(ref deployedTick, "deployedTick");
             Scribe_Values.Look(ref outcomeReported, "outcomeReported");
+            Scribe_Values.Look(ref GeneticTrialId, "geneticTrialId");
             Scribe_Values.Look(ref withdrawalReason, "withdrawalReason");
             Scribe_Values.Look(ref entryCell, "entryCell", IntVec3.Invalid);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)

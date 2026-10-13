@@ -1,0 +1,1537 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Ribcage"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Ribcage"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastTubes"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastTubes"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Sternum"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Sternum"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/parts/li[def="StarbeastTail"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/parts/li[def="StarbeastTail"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Spine"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Spine"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastHeart"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastHeart"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastCrest"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastCrest"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastBrain"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastBrain"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/parts/li[def="StarbeastJaw"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/parts/li[def="StarbeastJaw"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Clavicle"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Clavicle"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Clavicle"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Clavicle"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Waist"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Waist"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Femur"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Femur"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Tibia"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Tibia"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Femur"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Femur"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Tibia"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Tibia"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]</xpath>
+            <value>
+              <groups />
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Ribcage"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastTubes"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Sternum"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/parts/li[def="StarbeastTail"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Spine"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastHeart"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastCrest"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastBrain"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/parts/li[def="StarbeastJaw"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Shoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Clavicle"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Humerus"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Radius"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="XMT_LesserShoulder"]/parts/li[def="Arm"]/parts/li[def="Hand"]/parts/li[def="Finger"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Waist"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Femur"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Tibia"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Femur"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Tibia"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationAdd">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Leg"]/parts/li[def="Foot"]/parts/li[def="Toe"]/groups</xpath>
+          <value>
+            <li>CoveredByNaturalArmor</li>
+          </value>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/customLabel</xpath>
+            <value>
+              <customLabel>Torso</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart</xpath>
+            <value>
+              <customLabel>Torso</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Ribcage"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Ribcage"]/customLabel</xpath>
+            <value>
+              <customLabel>Ribcage</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Ribcage"]</xpath>
+            <value>
+              <customLabel>Ribcage</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastTubes"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastTubes"]/customLabel</xpath>
+            <value>
+              <customLabel>Tubes</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastTubes"]</xpath>
+            <value>
+              <customLabel>Tubes</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Sternum"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Sternum"]/customLabel</xpath>
+            <value>
+              <customLabel>Sternum</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Sternum"]</xpath>
+            <value>
+              <customLabel>Sternum</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/customLabel</xpath>
+            <value>
+              <customLabel>Pelvis</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]</xpath>
+            <value>
+              <customLabel>Pelvis</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/parts/li[def="StarbeastTail"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/parts/li[def="StarbeastTail"]/customLabel</xpath>
+            <value>
+              <customLabel>Tail</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Pelvis"]/parts/li[def="StarbeastTail"]</xpath>
+            <value>
+              <customLabel>Tail</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Spine"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Spine"]/customLabel</xpath>
+            <value>
+              <customLabel>Spine</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Spine"]</xpath>
+            <value>
+              <customLabel>Spine</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastHeart"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastHeart"]/customLabel</xpath>
+            <value>
+              <customLabel>Heart</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="StarbeastHeart"]</xpath>
+            <value>
+              <customLabel>Heart</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/customLabel</xpath>
+            <value>
+              <customLabel>Neck</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]</xpath>
+            <value>
+              <customLabel>Neck</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/customLabel</xpath>
+            <value>
+              <customLabel>Head</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]</xpath>
+            <value>
+              <customLabel>Head</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastCrest"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastCrest"]/customLabel</xpath>
+            <value>
+              <customLabel>Crest</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastCrest"]</xpath>
+            <value>
+              <customLabel>Crest</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/customLabel</xpath>
+            <value>
+              <customLabel>Skull</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]</xpath>
+            <value>
+              <customLabel>Skull</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastBrain"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastBrain"]/customLabel</xpath>
+            <value>
+              <customLabel>Brain</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastBrain"]</xpath>
+            <value>
+              <customLabel>Brain</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]/customLabel</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastSkull"]/parts/li[def="StarbeastPores"]</xpath>
+            <value>
+              <customLabel>Pores</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/customLabel</xpath>
+            <value>
+              <customLabel>Jaw</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]</xpath>
+            <value>
+              <customLabel>Jaw</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/parts/li[def="StarbeastJaw"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/parts/li[def="StarbeastJaw"]/customLabel</xpath>
+            <value>
+              <customLabel>Jaw</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Neck"]/parts/li[def="StarbeastHead"]/parts/li[def="StarbeastJaw"]/parts/li[def="StarbeastJaw"]</xpath>
+            <value>
+              <customLabel>Jaw</customLabel>
+            </value>
+          </nomatch>
+        </li>
+        <li Class="PatchOperationConditional">
+          <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Waist"]/customLabel</xpath>
+          <match Class="PatchOperationReplace">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Waist"]/customLabel</xpath>
+            <value>
+              <customLabel>Utility slot</customLabel>
+            </value>
+          </match>
+          <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/BodyDef[defName="XMT_Queen"]/corePart/parts/li[def="Waist"]</xpath>
+            <value>
+              <customLabel>Utility slot</customLabel>
+            </value>
+          </nomatch>
+        </li>
+      </operations>
+  </Operation>
+</Patch>

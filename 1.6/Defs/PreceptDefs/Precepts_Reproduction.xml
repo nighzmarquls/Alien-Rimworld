@@ -1277,7 +1277,7 @@
 	<thoughtClass>Thought_Memory</thoughtClass>
 	<durationDays>2</durationDays>
 	<stackLimit>10</stackLimit>
-	<stackedEffectMultiplier>0.9</stackedEffectMultiplier>
+	<stackedEffectMultiplier>0.25</stackedEffectMultiplier>
 	<developmentalStageFilter>Child, Adult</developmentalStageFilter>
     <nullifyingTraits>
       <!--<li>Transhumanist</li>-->

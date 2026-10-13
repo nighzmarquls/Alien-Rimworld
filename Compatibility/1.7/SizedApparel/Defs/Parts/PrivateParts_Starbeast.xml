@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <SizedApparel.SizedApparelHediffDef>
+    <defName>XMT_Spur</defName>
+	<BodyPartOf>Penis</BodyPartOf>
+	<isBodyPartHediff>true</isBodyPartHediff>
+  </SizedApparel.SizedApparelHediffDef>
+  
+  <SizedApparel.SizedApparelHediffDef>
+    <defName>XMT_Vagina</defName>
+	<BodyPartOf>Vagina</BodyPartOf>
+	<isBodyPartHediff>true</isBodyPartHediff>
+  </SizedApparel.SizedApparelHediffDef>
+  
+  <SizedApparel.SizedApparelHediffDef>
+    <defName>XMT_Breasts</defName>
+	<BodyPartOf>Breasts</BodyPartOf>
+	<isBodyPartHediff>true</isBodyPartHediff>
+  </SizedApparel.SizedApparelHediffDef>
+  
+  <SizedApparel.SizedApparelHediffDef>
+    <defName>XMT_Anus</defName>
+	<BodyPartOf>Anus</BodyPartOf>
+	<isBodyPartHediff>true</isBodyPartHediff>
+  </SizedApparel.SizedApparelHediffDef>
+</Defs>

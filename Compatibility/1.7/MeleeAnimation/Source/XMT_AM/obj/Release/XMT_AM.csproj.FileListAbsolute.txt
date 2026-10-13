@@ -1,0 +1,10 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Assemblies\XMT_AM.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Assemblies\XMT_AM.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\XMT_AM.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\XMT_AM.GeneratedMSBuildEditorConfig.editorconfig
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\XMT_AM.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\XMT_AM.sourcelink.json
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\XMT_AM.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\refint\XMT_AM.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\XMT_AM.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\obj\Release\ref\XMT_AM.dll

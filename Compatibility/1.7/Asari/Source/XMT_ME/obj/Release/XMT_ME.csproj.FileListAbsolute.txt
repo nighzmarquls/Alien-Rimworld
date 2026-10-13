@@ -1,0 +1,16 @@
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\Asari\Assemblies\XMT_ME.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\Asari\Assemblies\XMT_ME.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\Asari\Source\XMT_ME\obj\Release\XMT_ME.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\Asari\Source\XMT_ME\obj\Release\XMT_ME.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\Asari\Source\XMT_ME\obj\Release\XMT_ME.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\Asari\Source\XMT_ME\obj\Release\XMT_ME.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Assemblies\XMT_ME.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Assemblies\XMT_ME.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\XMT_ME.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\XMT_ME.GeneratedMSBuildEditorConfig.editorconfig
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\XMT_ME.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\XMT_ME.sourcelink.json
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\XMT_ME.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\refint\XMT_ME.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\XMT_ME.pdb
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Release\ref\XMT_ME.dll

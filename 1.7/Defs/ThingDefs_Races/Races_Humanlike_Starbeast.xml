@@ -1,0 +1,2935 @@
+<Defs>
+	<ThingDef Class="AlienRace.ThingDef_AlienRace" ParentName="Human" Name="XMT_Starbeast_Base">
+		<defName>XMT_Starbeast_AlienRace</defName>
+	    <label>xenomorph</label>
+		<description>a bipedal creature with hardened exoskeleton, phallic shaped cranium and a sharp bladed tail with prominent vertebral processes.</description>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompMatureMorphProperties">
+				<grabKnowledgeProfile>XMT_Profile_Adult</grabKnowledgeProfile>
+				<contactKnowledgeProfile>XMT_Profile_Adult</contactKnowledgeProfile>
+				<grabHediff>StarbeastGrab</grabHediff>
+				<cocoonHediff>StarbeastCocoon</cocoonHediff>
+				<OvomorphHediff>XMT_Ovomorphing</OvomorphHediff>
+				<larderHediff>XMT_Lardering</larderHediff>
+				<maturingHediff>Maturation</maturingHediff>
+				<hibernationCocoon>XMT_HibernationCocoon</hibernationCocoon>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<knowledgeProfile>XMT_Profile_Acid</knowledgeProfile>
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>1.5</splashRange>
+				<cells>5</cells>
+				<acidFilth>Starbeast_Filth_AcidBlood</acidFilth>
+			</li>
+			<li Class="Xenomorphtype.CompStealthProperties">
+				<adultRevealKnowledgeProfile>XMT_Profile_Adult</adultRevealKnowledgeProfile>
+				<larvaRevealKnowledgeProfile>XMT_Profile_Larva</larvaRevealKnowledgeProfile>
+			</li>
+			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<ImpossibleHediffs>
+					<li>Anesthetic</li>
+					<li MayRequire="Ludeon.RimWorld.Odyssey">PorcupineQuill</li>
+					<li>CryptosleepSickness</li>
+					<li>XMT_RawJellyHigh</li>
+					<li>XMT_EssenceAddiction</li>
+					<li>HeartAttack</li>
+					<li>Carcinoma</li>
+					<li>BadBack</li>
+					<li>Cataract</li>
+					<li>HearingLoss</li>
+					<li>Dementia</li>
+					<li>Alzheimers</li>
+					<li>Asthma</li>
+					<li>Scaria</li>
+					<li>HeartArteryBlockage</li>
+					<li>LungRotExposure</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">DarknessExposure</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">Digested</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermLossShock</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
+					<!-- CE -->
+					<li MayRequire="CETeam.CombatExtended">SmokeInhalation</li>
+					<li MayRequire="CETeam.CombatExtended">VenomBuildup</li>
+					<li MayRequire="CETeam.CombatExtended">MuscleSpasms</li>
+					<li MayRequire="CETeam.CombatExtended">PrometheumSoaked</li>
+					<!-- anti-mutation list-->
+					<li>XMT_MildEssence</li>
+					<li>XMT_DebuffEssence</li>
+					<li>XMT_SilicateEssence</li>
+					<li>XMT_BoostingEssence</li>
+					<li>XMT_ImprovedStomach</li>
+					<li>XMT_SpikeTongue</li>
+					<li>XMT_SecondJaw</li>
+					<li>XMT_HostileGland</li>
+					<li>XMT_LoverGland</li>
+					<li>XMT_BladedTail</li>
+					<li>XMT_BreathingTubes</li>
+					<li>XMT_BreathingWafers</li>
+					<li>XMT_WarpedNeck</li>
+					<li>XMT_InternalNose</li>
+					<li>XMT_InternalEar</li>
+					<li>XMT_InternalEye</li>
+					<li>XMT_AcidFat</li>
+					<li>XMT_MuscleRestructure</li>
+					<li>XMT_Mesoskeleton</li>
+					<li>XMT_Stabilize</li>
+					<li>XMT_AcidbloodMarrow</li>
+					<li>XMT_SoftBone</li>
+					<li>XMT_Predatory</li>
+					<li>XMT_Unasthetic</li>
+					<li>XMT_Docile</li>
+					<li>XMT_Enthralled</li>
+				</ImpossibleHediffs>
+			</li>
+			<li Class="Xenomorphtype.CompJellyMakerProperties">
+				<jellyIngredientFilter>
+					<categories>
+						<li>Leathers</li>
+						<li>Foods</li>
+						<li>Corpses</li>
+						<li>PlantMatter</li>
+						<li MayRequire="DankPyon.Medieval.Overhaul">ResourcesRaw</li>
+						<li MayRequire="DankPyon.Medieval.Overhaul">FoodRaw</li>
+						<li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_RawWood</li>
+					</categories>
+					<thingDefs>
+						<li>WoodLog</li>
+						<li>MedicineHerbal</li>
+						<li>Starbeast_Resin</li>
+						<li>Cloth</li>
+						<li>DevilstrandCloth</li>
+					</thingDefs>
+					<disallowedCategories>
+						<li>CorpsesMechanoid</li>
+						<li MayRequire="Ludeon.RimWorld.Odyssey">CorpsesDrone</li>
+					</disallowedCategories>
+					<disallowedThingDefs>
+						<li>Starbeast_Jelly</li>
+						<li>Starbeast_RoyalJelly</li>
+					</disallowedThingDefs>
+				</jellyIngredientFilter>
+				<processingWork>50</processingWork>
+				<conversionRate>0.5</conversionRate>
+				<jellyProduct>Starbeast_Jelly</jellyProduct>
+			</li>
+			<li Class="Xenomorphtype.CompCrawlerProperties">
+			</li>
+			<li Class="Xenomorphtype.CompClimberProperties">
+			</li>
+			<li Class="CompProperties_Studiable" MayRequire="Ludeon.RimWorld.Anomaly">
+				<frequencyTicks>120000</frequencyTicks>
+				<knowledgeCategory>Advanced</knowledgeCategory>
+				<anomalyKnowledge>3</anomalyKnowledge>
+				<minMonolithLevelForStudy>1</minMonolithLevelForStudy> 
+				<requiresHoldingPlatform>true</requiresHoldingPlatform>
+			</li>
+			<li Class="CompProperties_AttachPoints" MayRequire="Ludeon.RimWorld.Anomaly">
+				<points>
+					<li>
+						<offset>(-.2, 0, 0.0)</offset>
+						<type>PlatformRestraint0</type>
+					</li>
+					<li>
+						<offset>(.2, 0, 0.0)</offset>
+						<type>PlatformRestraint1</type>
+					</li>
+					<li>
+						<offset>(.2, 0, -.5)</offset>
+						<type>PlatformRestraint2</type>
+					</li>
+					<li>
+						<offset>(-.2, 0, -.5)</offset>
+						<type>PlatformRestraint3</type>
+					</li>
+				</points>
+			</li>
+			<li Class="Xenomorphtype.CompStudyXenomorphProperties" MayRequire="Ludeon.RimWorld.Anomaly">
+				<studyNotes>
+				  <li>
+					<thresholdRange>2~3</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>{PAWN_nameDef} has studied the organism {PAWN_nameDef} thinks {PAWN_pronoun} .</text>
+				  </li>
+				  <li>
+					<thresholdRange>5~6</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				  <li>
+					<thresholdRange>8~9</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				</studyNotes>
+			</li>
+		</comps>
+		<statBases>
+			 <ArmorRating_Sharp>0.75</ArmorRating_Sharp>
+			 <ArmorRating_Blunt>0.80</ArmorRating_Blunt>
+			 <ArmorRating_Heat>0.2</ArmorRating_Heat>
+		     <MarketValue>58330</MarketValue>
+			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">100</RoyalFavorValue>
+			 <MoveSpeed>9.2</MoveSpeed>
+			 <CrawlSpeed>18.4</CrawlSpeed>
+			 <ComfyTemperatureMin>-270</ComfyTemperatureMin>
+			 <ComfyTemperatureMax>310</ComfyTemperatureMax>
+			 <LeatherAmount>25</LeatherAmount>
+			 <MeleeDodgeChance>3.5</MeleeDodgeChance>
+			 <ToxicResistance>1.0</ToxicResistance>
+			 <ToxicEnvironmentResistance>1.0</ToxicEnvironmentResistance>
+			 <IncomingDamageFactor>0.90</IncomingDamageFactor>
+			 <TerrorSource MayRequire="Ludeon.RimWorld.Ideology">50</TerrorSource>
+			 <SlaveSuppressionFallRate MayRequire="Ludeon.RimWorld.Ideology">8</SlaveSuppressionFallRate>
+			 <MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">125</MinimumContainmentStrength>
+			 <PawnTrapSpringChance>0</PawnTrapSpringChance>
+			 <Flammability>0</Flammability>
+			 <MeatAmount>15</MeatAmount>
+			 <StaggerDurationFactor>0.025</StaggerDurationFactor> <!-- MayRequireAnyOf-->
+			 <Wildness>1</Wildness>
+			 <MeleeCooldownFactor>0.5</MeleeCooldownFactor>
+			 <XMT_GrappleStrength>5.0</XMT_GrappleStrength>
+			 <XMT_Stealth>2.0</XMT_Stealth>
+			 <XMT_StealthDetection>1.25</XMT_StealthDetection>
+			 <XMT_HereditaryCapacity>12</XMT_HereditaryCapacity>
+			 <HypoxiaResistance MayRequire="kentington.saveourship2">1</HypoxiaResistance>
+			 <DecompressionResistance MayRequire="kentington.saveourship2">1</DecompressionResistance>
+			 <VacuumResistance MayRequire="Ludeon.RimWorld.Odyssey">1</VacuumResistance>
+	    </statBases>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+		<tools Inherit="false">
+		  <li>
+			<label>left claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			  <li>Stab</li>
+			</capacities>
+			<power>16</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  </li>
+		  <li>
+			<label>right claw</label>
+			<labelNoLocation>claw</labelNoLocation>
+			<capacities>
+			  <li>Scratch</li>
+			  <li>Stab</li>
+			</capacities>
+			<power>16</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
+			<chanceFactor>0.5</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>14</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  </li>
+		  <li>
+			<label>teeth</label>
+			<capacities>
+			  <li>Bite</li>
+			</capacities>
+			<power>25</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.75</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Bite</def>
+				  <amount>25</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  </li>
+		  <li>
+			<label>inner teeth</label>
+			<capacities>
+			  <li>Bite</li>
+			  <li>Stab</li>
+			</capacities>
+			<power>25</power>
+			<cooldownTime>2</cooldownTime>
+			<linkedBodyPartsGroup>Teeth</linkedBodyPartsGroup>
+			<chanceFactor>0.75</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Bite</def>
+				  <amount>25</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  </li>
+		  <li>
+			<label>head</label>
+			<capacities>
+			  <li>Blunt</li>
+			</capacities>
+			<power>16</power>
+			<cooldownTime>2</cooldownTime>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stun</def>
+				  <amount>25</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
+			<ensureLinkedBodyPartsGroupAlwaysUsable>true</ensureLinkedBodyPartsGroupAlwaysUsable>
+			<chanceFactor>0.25</chanceFactor>
+		  </li>
+		  <li>
+			<label>tail</label>
+			<capacities>
+				<li>Scratch</li>
+				<li>Stab</li>
+			</capacities>
+			<power>25</power>
+			<cooldownTime>4</cooldownTime>
+			<linkedBodyPartsGroup>StarbeastTailAttackTool</linkedBodyPartsGroup>
+			<chanceFactor>0.12</chanceFactor>
+			<surpriseAttack>
+			  <extraMeleeDamages>
+				<li>
+				  <def>Stab</def>
+				  <amount>25</amount>
+				</li>
+			  </extraMeleeDamages>
+			</surpriseAttack>
+			<soundMeleeHit>Pawn_Melee_BigBash_HitPawn</soundMeleeHit>
+			<soundMeleeMiss>Pawn_Melee_BigBash_Miss</soundMeleeMiss>
+		  </li>
+		</tools>
+		<race>
+			<isImmuneToInfections>true</isImmuneToInfections>
+			<makesFootprints>false</makesFootprints>
+			<body>XMT_Adult</body>
+			<fleshType>StarbeastFlesh</fleshType>
+			<bloodDef>Starbeast_Filth_AcidBlood</bloodDef>
+			<foodType>OmnivoreHuman</foodType>
+			<baseHungerRate>0.01</baseHungerRate>
+			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>1</manhunterOnDamageChance>
+			<predator>false</predator>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
+			<leatherDef>Starbeast_Chitin</leatherDef>
+			<canBecomeShambler>false</canBecomeShambler>
+			<waterCellCost>5</waterCellCost>
+			<!--<bloodSmearDef Inherit="false">Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
+		</race>
+		<alienRace>
+
+			<generalSettings>
+				<immuneToAge>true</immuneToAge>
+				<notXenophobistTowards>
+					<li>XMT_Royal_AlienRace</li>
+					<li>XMT_Hybrid_AlienRace</li>
+					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
+				</notXenophobistTowards>
+				<immuneToXenophobia>false</immuneToXenophobia>
+				<humanRecipeImport>true</humanRecipeImport>
+				<raceGenes>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>FireTerror</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_Metabolism</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_KillThirst</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>Body_Standard</defName>
+						<chance>100</chance>
+					</li>
+				</raceGenes>
+				<maleGenderProbability>0.0</maleGenderProbability>
+				<abilities>
+					<li>Starbeast_Leap</li>
+					<li>Starbeast_Bloodlet</li>
+					<li>Starbeast_Bloodspray</li>
+				</abilities>
+				<alienPartGenerator>
+					<headTypes Inherit="False">
+						<li>Male_AverageNormal</li>
+						<li>Female_AverageNormal</li>
+						<li>XMT_Skull_Head_Normal</li>
+					</headTypes>
+					<bodyTypes Inherit="False">
+					  <li>Female</li>
+					  <li>Thin</li>
+					  <li>Hulk</li>
+					  <li>Male</li>
+					  <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
+					</bodyTypes>
+					<headOffsetDirectional>
+						<north>
+							<bodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.0)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.0)</Male>
+							</portraitBodyTypes>
+						</north>
+						<south>
+							<bodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.07)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(0.0, 0.12)</Hulk>
+								<Male>(0.0, 0.07)</Male>
+							</portraitBodyTypes>
+						</south>
+						<east>
+							<bodyTypes>
+								<Hulk>(0.16, 0.12)</Hulk>
+								<Male>(0.06, 0.07)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(0.16, 0.12)</Hulk>
+								<Male>(0.06, 0.07)</Male>
+							</portraitBodyTypes>
+						</east>
+						<west>
+							<bodyTypes>
+								<Hulk>(-0.16, 0.12)</Hulk>
+								<Male>(-0.06, 0.07)</Male>
+							</bodyTypes>
+							<portraitBodyTypes>
+								<Hulk>(-0.16, 0.12)</Hulk>
+								<Male>(-0.06, 0.07)</Male>
+							</portraitBodyTypes>
+						</west>
+					</headOffsetDirectional>
+					<headBodyPartDef>StarbeastHead</headBodyPartDef>
+					<colorChannels Inherit="False">
+						<li>
+							<name Inherit="False">skin</name>
+							<first Class="ColorGenerator_Options">
+								<options>
+									<!-- Shades of Gray, added wiggle room for slightly more variety -->
+									<li>
+										<weight>1</weight>
+										<max>(1.0,1.0,1.0)</max>
+										<min>(0.96,0.96,0.96)</min>
+									</li>
+									<li>
+										<weight>18</weight>
+										<max>(0.3,0.3,0.3)</max>
+										<min>(0.2,0.2,0.2)</min>
+									</li>
+									<li>
+										<weight>20</weight>
+										<max>(0.2,0.2,0.2)</max>
+										<min>(0.1,0.1,0.1)</min>
+									</li>
+									<!-- Other Colors -->
+									<li>
+										<!-- Reds -->
+										<weight>8</weight>
+										<max>(0.2,0.15,0.15)</max>
+										<min>(0.1,0.1,0.05)</min>
+									</li>
+									<li>
+										<!-- Browns -->
+										<weight>8</weight>
+										<max>(0.2,0.2,0.1)</max>
+										<min>(0.1,0.1,0.05)</min>
+									</li>
+									<li>
+										<!-- blue -->
+										<weight>14</weight>
+										<max>(0.15,0.15,0.2)</max>
+										<min>(0.1,0.1,0.1)</min>
+									</li>
+									<li>
+										<!-- Purple! -->
+										<weight>14</weight>
+										<max>(0.2,0.15,0.2)</max>
+										<min>(0.1,0.1,0.1)</min>
+									</li>
+								</options>
+							</first>
+						</li>
+					</colorChannels>
+					<bodyAddons>
+						<!-- DRONE COSMETICS BEGIN -->
+						<li>
+							<path>Pawn/StarBeast/NovelGenes/GuardianCrest</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Gene>XMT_GuardianCrest</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.74</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.74</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.74</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
+							<path>Pawn/StarBeast/Customizable/Stripes</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<shaderType>Transparent</shaderType>
+							<conditions>
+								<Hediff>XMT_Stripes</Hediff>
+								<RotStage>Fresh,Rotting</RotStage>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.74</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.74</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.74</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
+							<path>Pawn/StarBeast/Customizable/Grid</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Hediff>XMT_GridScar</Hediff>
+								<RotStage>Fresh,Rotting</RotStage>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.74</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.74</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.74</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<!-- DRONE COSMETICS END -->
+						<li>
+							<name>teeth</name>
+							<path>Pawn/Teeth/Teeth</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Or>
+									<!--<Drafted>true</Drafted>-->
+									<Job>XMT_AbductHost</Job>
+									<Job>XMT_StealthHunt</Job>
+									<Job>XMT_Sabotage</Job>
+									<Job>PredatorHunt</Job>
+									<Job>Kidnap</Job>
+									<Job>Arrest</Job>
+									<Job>Capture</Job>
+									<Job>Slaughter</Job>
+									<Job>Hunt</Job>
+									<Job>PrisonerExecution</Job>
+									<Job>GuiltyColonistExecution</Job>
+									<Job>AttackMelee</Job>
+								</Or>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<extendedGraphics>
+								<Gene For="XMT_LeechMouth">
+									<path>Pawn/Teeth/LeechTeeth</path>
+								</Gene>
+							</extendedGraphics>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.75</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.75</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.75</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody> XMT_LeechMouth-->
+							
+						</li>
+						<li>
+							<path>Pawn/HostVariation/Thrumbo_Head</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Hediff>XMT_ThrumboHorn</Hediff>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.90</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>-0.90</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.75</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
+							<path>Pawn/HostVariation/Ibex_Head</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Hediff>XMT_IbexHorns</Hediff>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.90</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>-0.90</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.75</layerOffset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
+							<path>Pawn/HostVariation/Muffalo_Body</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<alignWithHead>false</alignWithHead>
+							<conditions>
+								<Gene>XMT_Muffalo_Ruff</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.31</layerOffset>
+								<offset>( 0, -0.03)</offset>
+							  </south>
+							  <north>
+								<layerOffset>-0.29</layerOffset>
+								<offset>( 0, -0.07)</offset>
+							  </north>
+							  <east>
+								<layerOffset>-0.31</layerOffset>
+								<offset>( 0, -0.09)</offset>
+							  </east>
+							</offsets>
+							<!--<inFrontOfBody>true</inFrontOfBody>-->
+						</li>
+						<li>
+							<path>Pawn/HostVariation/Boomalope_Head</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<alignWithHead>true</alignWithHead>
+							<conditions>
+								<Gene>XMT_Chemfuel_Metabolism</Gene>
+								<RotStage>Fresh,Rotting</RotStage>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-0.8</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>0.8</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-0.8</layerOffset>
+							  </east>
+							</offsets>
+						</li>
+						<li>
+							<path>Pawn/Conditions/Chrysalis/GeneChrysalis</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<conditions>
+								<Hediff>XMT_GeneIntegration</Hediff>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-2</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>2</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-2</layerOffset>
+							  </east>
+							</offsets>
+						</li>
+						<li>
+							<path>Pawn/Conditions/Chrysalis/Chrysalis</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>base</colorChannel>
+							<conditions>
+								<Hediff>Maturation</Hediff>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>-2</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>2</layerOffset>
+							  </north>
+							  <east>
+								<layerOffset>-2</layerOffset>
+							  </east>
+							</offsets>
+						</li>
+						<li>
+							<name>tubes</name>
+							<path>Pawn/Tubes/Tubes</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<conditions>
+								<BodyPart>
+									<bodyPart>StarbeastTubes</bodyPart>
+									<drawWithoutPart>false</drawWithoutPart>
+								</BodyPart>
+								<Posture>
+									<drawnStanding>true</drawnStanding>
+									<drawnLaying>true</drawnLaying>
+									<drawnInBed>false</drawnInBed>
+								</Posture>
+								<Age>HumanlikeAdult</Age>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<offsets>
+							  <south>
+								<layerOffset>0.2</layerOffset>
+							  </south>
+							  <north>
+								<layerOffset>-0.29</layerOffset>
+								<bodyTypes>
+									<Hulk>(0.0, 0.0)</Hulk>
+									<Male>(0.0, 0.0)</Male>
+								</bodyTypes>
+							  </north>
+							  <east>
+								<layerOffset>0.25</layerOffset>
+								<bodyTypes>
+									<Hulk>(0.2, 0.0)</Hulk>
+									<Male>(0.06, 0.0)</Male>
+								</bodyTypes>
+							  </east>
+							</offsets>
+						</li>
+						<li>
+							<name>tail</name>
+							<path>Pawn/SkeletalTail/SkeletalTail</path>
+							<userCustomizable>false</userCustomizable>
+							<colorChannel>skin</colorChannel>
+							<conditions>
+								<BodyPart>
+									<bodyPart>StarbeastTail</bodyPart>
+									<drawWithoutPart>false</drawWithoutPart>
+								</BodyPart>
+								<Posture>
+									<drawnStanding>true</drawnStanding>
+									<drawnLaying>true</drawnLaying>
+									<drawnInBed>false</drawnInBed>
+								</Posture>
+								<Not>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</Not>
+								<Not>
+									<Hediff>Maturation</Hediff>
+								</Not>
+							</conditions>
+							<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+							<extendedGraphics>
+								<BodyType For="Child">
+									<path>Pawn/SkeletalTail/SkeletalTailChild</path>
+								</BodyType>
+							</extendedGraphics>
+							<offsets>
+							  <south>
+								<layerOffset>0.2</layerOffset>
+								<offset>( -0.052, -0.37)</offset>
+								<bodyTypes>
+									<Baby MayRequire="ludeon.rimworld.biotech">(-0.05, 0.3)</Baby>
+									<Child MayRequire="ludeon.rimworld.biotech">(-0.05, 0.3)</Child>
+									<Hulk>(-0.2, -0.08)</Hulk>
+									<Male>(0.0, 0.0)</Male>
+								</bodyTypes>
+							  </south>
+							  <north>
+								<layerOffset>0.25</layerOffset>
+								<offset>( 0.0, -0.51)</offset>
+								<bodyTypes>
+									<Baby MayRequire="ludeon.rimworld.biotech">(0.006, 0.14)</Baby>
+									<Child MayRequire="ludeon.rimworld.biotech">(0.006, 0.14)</Child>
+									<Hulk>(0.0, -0.22)</Hulk>
+									<Male>(0.0, 0.0)</Male>
+								</bodyTypes>
+							  </north>
+							  <east>
+								<layerOffset>0.25</layerOffset>
+								<offset>(0.46, -0.37)</offset>
+								<bodyTypes>
+									<Baby MayRequire="ludeon.rimworld.biotech">(-0.14, 0.06)</Baby>
+									<Child MayRequire="ludeon.rimworld.biotech">(-0.14, 0.06)</Child>
+									<Hulk>(0.1, -0.1)</Hulk>
+									<Male>(0.0, 0.0)</Male>
+								</bodyTypes>
+							  </east>
+							</offsets>
+						</li>
+					</bodyAddons>
+				</alienPartGenerator>
+			</generalSettings>
+			<graphicPaths>
+				<skinShader>Cutout</skinShader>
+				<body>
+					<path>Pawn/StarBeast/Bodies/</path>
+				</body>
+				<head>
+					<path>Pawn/StarBeast/Heads/</path>
+				</head>
+				<skeleton>
+					<path>Pawn/StarBeast/Bodies/Dessicated/Skeleton</path>
+				</skeleton>
+				<skull>
+					<path>Pawn/StarBeast/Heads/Skull/Skull</path>
+				</skull>
+			</graphicPaths>
+			<styleSettings>
+				<li>
+					<key>HairDef</key>
+					<value>
+						<hasStyle>false</hasStyle>
+					</value>
+				</li>
+				<li>
+					<key>BeardDef</key>
+					<value>
+						<hasStyle>false</hasStyle>
+					</value>
+				</li>
+				<li>
+					<key>TattooDef</key>
+					<value>
+						<hasStyle>false</hasStyle>
+					</value>
+				</li>
+			</styleSettings>
+
+			<relationSettings>
+				<relationChanceModifierLover>0</relationChanceModifierLover>
+				<relationChanceModifierExLover>0</relationChanceModifierExLover>
+				<relationChanceModifierFiance>0</relationChanceModifierFiance>
+				<relationChanceModifierSpouse>0</relationChanceModifierSpouse>
+				<relationChanceModifierExSpouse>0</relationChanceModifierExSpouse>
+				<relationChanceModifierParent>0</relationChanceModifierParent>
+				<relationChanceModifierChild>0</relationChanceModifierChild>
+				<relationChanceModifierSibling>0</relationChanceModifierSibling>
+			</relationSettings>
+			
+			<raceRestriction>
+				<researchList>
+					<li>
+						<projects>
+							<!-- mimicry -->
+							<li>XMT_Starbeast_Construction</li>
+							<li>XMT_Starbeast_Sculpture</li>
+							<!-- resin -->
+							<li>XMT_Starbeast_Reinforcement</li>
+							<!-- evolution -->
+							<li>XMT_Starbeast_Chrysalis</li>
+							<li>XMT_Starbeast_Eggs</li>
+							<li>XMT_Starbeast_JellyTransport</li>
+						</projects>
+					</li>
+				</researchList>
+				<!-- Reproduction Restrictions -->
+				<canReproduce>true</canReproduce>
+				<canReproduceWithSelf>true</canReproduceWithSelf>
+				<onlyReproduceWithRestrictedRaces>false</onlyReproduceWithRestrictedRaces>
+			    <!-- Gene Restrictions -->
+				<onlyUseRaceRestrictedXenotypes>false</onlyUseRaceRestrictedXenotypes>
+				<xenotypeList />
+				<whiteXenotypeList />
+				<blackXenotypeList />
+				<onlyHaveRaceRestrictedGenes>false</onlyHaveRaceRestrictedGenes>
+				<geneList>
+				</geneList>
+				<whiteGeneList />
+				<whiteGeneTags />
+				<blackGeneList>
+					<!-- No flesh colored Xenomorphs but inherit Xenotype colors fine -->
+					<li>Skin_Melanin1</li>
+					<li>Skin_Melanin2</li>
+					<li>Skin_Melanin3</li>
+					<li>Skin_Melanin4</li>
+					<li>Skin_Melanin5</li>
+					<li>Skin_Melanin6</li>
+					<li>Skin_Melanin7</li>
+					<li>Skin_Melanin8</li>
+					<li>Skin_Melanin9</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">FacialRidges</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Body_Fat</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">Brow_Heavy</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Instability_Major</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Libido</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Immunity_SuperStrong</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Beauty_Beautiful</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Fertile</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XMT_Immunity_Weak</li>
+					<li MayRequire="vanillaracesexpanded.highmate">VRE_PerfectBody</li>	
+					<li MayRequire="Rooboid.Satyr,Rooboid.Minotaur,Rooboid.Faun">RBM_UnguligradeLegs</li>
+					<li MayRequire="det.stoneborn">DV_BushyEyebrows</li>
+				</blackGeneList>
+				<blackGeneTags> 
+					<li>EyeColor</li>
+					<li>Furskin</li>
+					<li>Tail</li>	
+					<li>HairColor</li>
+					<li>HairStyle</li>
+					<li>BeardStyle</li>
+					<li>Ears</li>
+					<li>Nose</li>
+					<li>Jaw</li>
+					<li>Addiction</li>	
+					<li>InsectorEye</li>
+					<li>Fur</li>
+					<li>Headeyes</li>
+					<li>AG_Heads</li>
+					<li>Heads</li>
+					<li>AG_Bodies</li>
+					<li>Bodies</li>
+					<li>EyeVisuals</li>
+				</blackGeneTags>
+				<blackEndoCategories/>
+				<!-- Apparel Restrictions-->
+				<apparelList>
+					<li>XMT_IFFCollar</li>
+				</apparelList>
+				<whiteApparelList>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_Maid</li>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_Maidb</li>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_MaidHead</li>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_MaidHeadb</li>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_TopHat</li>
+					<li MayRequire="Gunmar.VictorianEraApparels">Gunmar_Apparel_Monocle</li>
+					<li MayRequire="VanillaExpanded.VAPPE">VAE_Apparel_Apron</li>
+					<li>Apparel_WarVeil</li>
+					<li>Apparel_BowlerHat</li>
+					<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Corset</li>
+					<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_HatLadies</li>
+					<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_Beret</li>
+					<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_HatTop</li>
+					
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricUniformWorker</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricUniformLeader</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricFrillWorker</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricFrillCombat</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApronHalf</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApron</li>
+					<li MayRequire="Aelanna.EccentricTech.AngelApparel">EccentricApronTech</li>
+					
+				</whiteApparelList>
+				<onlyUseRaceRestrictedApparel>true</onlyUseRaceRestrictedApparel>
+				
+				<!-- Xenomorph Buildings -->
+				<onlyBuildRaceRestrictedBuildings>true</onlyBuildRaceRestrictedBuildings>
+				
+				<buildingList>
+				  <!-- Self Using Buildings -->
+				  <li>XMT_AmbushSpot</li>
+				  <!-- Mimic Buildings -->
+				  <li>HiveMimicWallBuildable</li>
+				  <li>SmoothHiveFloorBuildable</li>
+				  <!-- Instinctive Buildings -->
+				  <li>HiveMassBuildable</li>
+				  <li>HiveWebbingBuildable</li>
+				  <li>HiveFloorBuildable</li>
+				  <li>HiveBridgeBuildable</li>
+				  <li>XMT_NestSpot</li>
+				  <li>HiveSleepingSpotBuildable</li>
+				  <li>HiveSleepingSpot</li>
+				  <li>AtmospherePylon_Buildable</li>
+				  <!-- Reinforced Buildings -->
+				  <li>HiveReinforcementBuildable</li>
+				  <li>HeavyHiveFloorBuildable</li>
+				  <!-- Chrysalis Buildings -->
+				  <li>XMT_QueenChrysalis</li>
+				  <!-- Pipes -->
+				  <li>XMT_JellyPipe</li>
+				  <li>XMT_JellyStorage</li>
+				  <li>XMT_JellyDrain</li>
+				  <li>XMT_JellyPool</li>
+				  <!-- Ovomorph Crafts -->
+				  <li>HiveSleepingCocoonBuildable</li>
+				  <li>XMT_ExplosivePodBuildable</li>
+				  
+				</buildingList>
+				
+				<whiteBuildingList>
+					<li MayRequire="Ludeon.RimWorld.Ideology">SculptureTerror</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialBasicHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialSorneHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialNuchadusHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialChelisHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialKemianHive</li>
+					<li MayRequire="OskarPotocki.VFE.Insectoid2">VFEI2_ArtificialXanidesHive</li>
+					<li>SculptureGrand</li>
+					<li>SculptureLarge</li>
+					<li>SculptureSmall</li>
+					<li>Urn</li>
+					<li>XMT_Ovomorph</li>
+					<li>XMT_ExplosivePod</li>
+					<li>XMT_GeneOvomorph</li>
+					<li>XMT_MechaOvomorph</li>
+					<li>XMT_MeatballLarder</li>
+					<li>XMT_JellyWell</li>
+					<li>XMT_HibernationCocoon</li>
+					<li>XMT_CorpseSculptureSmall</li>
+					<li>XMT_CorpseSculptureLarge</li>
+					<li>XMT_CorpseSculptureGrand</li>
+					<li>XMT_dronePlushie</li>
+					<li>XMT_queenPlushie</li>
+				</whiteBuildingList>
+				
+				<!-- Xenomorph Recipes -->
+				<onlyDoRaceRestrictedRecipes>true</onlyDoRaceRestrictedRecipes>
+				
+				<whiteRecipeList>
+					<li>ButcherCorpseFlesh</li>
+					<li>ButcherCorpseMechanoid</li>
+					<li>SmashCorpseMechanoid</li>
+					<li>CremateCorpse</li>
+					<li>BurnApparel</li>
+					<li>BurnWeapon</li>
+					<li>BurnDrugs</li>
+					<li>RemoveBodyPart</li>
+					<li>SmeltWeapon</li>
+					<li>SmeltApparel</li>
+					<li>DestroyWeapon</li>
+					<li>DestroyApparel</li>
+					<li>SmeltOrDestroyThing</li>
+				</whiteRecipeList>
+				<!-- Xenomorph Plants -->
+				<onlyDoRaceRestrictedPlants>true</onlyDoRaceRestrictedPlants>
+				
+				<whitePlantList>
+				</whitePlantList>
+
+				<!-- Xenomorph Weapons -->
+				<blackWeaponList></blackWeaponList>
+				
+			</raceRestriction>
+			<compatibility />
+			<thoughtSettings Inherit="False">
+				<replacerList>
+				  <li>
+					<original>EnvironmentDark</original>
+					<replacer>StarbeastDark</replacer> 
+				  </li>
+				  <li>
+					<original>HoldingMePrisoner</original>
+					<replacer>StarbeastHeldPrisoner</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>KnowColonistExecuted</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Abhorrent</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedColonist_Know_Abhorrent_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedGuest_Know_Abhorrent_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerInnocent_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerInnocent_Know_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Know_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Know_Respected_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>Execution_Know_Respected_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>ExecutedPrisoner</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>KnowGuestExecuted</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>SharedBed</original>
+					<replacer>StarbeastCuddling</replacer> 
+				  </li>
+				  <li>
+					<original>WasImprisoned</original>
+					<replacer>StarbeastImprisoned</replacer> 
+				  </li>
+				  <li>
+					<original>PrisonCell</original>
+					<replacer>StarbeastPrisonCell</replacer> 
+				  </li>
+				  <li>
+					<original>PrisonBarracks</original>
+					<replacer>StarbeastPrisonBarracks</replacer> 
+				  </li>
+				  <li>
+					<original>RapportBuilt</original>
+					<replacer>StarbeastMockery</replacer> 
+				  </li>
+				  <li>
+					<original>KilledMyMother</original>
+					<replacer>StarbeastKilledMyQueen</replacer> 
+				  </li>
+				  <li>
+					<original>MyMotherLost</original>
+					<replacer>StarbeastLostMyQueen</replacer> 
+				  </li>
+				  <li>
+					<original>MyDaughterDied</original>
+					<replacer>StarbeastChildDied</replacer> 
+				  </li>
+				  <li>
+					<original>MySonDied</original>
+					<replacer>StarbeastChildDied</replacer> 
+				  </li>	  
+				</replacerList>
+				<restrictedThoughts>
+					<li>StarbeastDark</li>
+					<li>StarbeastHeldPrisoner</li>
+					<li>StarbeastKilledHost</li>
+					<li>StarbeastCuddling</li>
+					<li>StarbeastImprisoned</li>
+					<li>StarbeastPrisonCell</li>
+					<li>StarbeastPrisonBarracks</li>
+					<li>StarbeastMockery</li>
+					<li>StarbeastHarmedQueenMood</li>
+					<li>StarbeastHarmedMyQueen</li>
+					<li>StarbeastKilledMyQueen</li>
+					<li>StarbeastLostMyQueen</li>
+					<li>StarbeastQueenDied</li>
+					<li>SnuggledVictimMood</li>
+					<li>SnuggledVictim</li>
+					<li>HostImpregnated</li>
+					<li>CapturedHost</li>
+					<li>GrabbedPrey</li>
+					<li>OvomorphedVictim</li>
+					<li>XMT_RoomShape</li>
+				</restrictedThoughts>
+				<cannotReceiveThoughts>
+					<li MayRequire="kentington.saveourship2">SpaceThoughts</li>
+					<li>SleptOnGround</li>
+					<li>SoakingWet</li>
+					<li>AteWithoutTable</li>
+					<li>ColonistLeftUnburied</li>
+					<li>RotStink</li>
+					<li>RotStinkLingering</li>
+					<li>ToxicFallout</li>
+					<li>Affair</li>
+					<li>Incestuous</li>
+					<li>Disfigured</li>
+					<li>HardWorkerVsLazy</li>
+					<li>TeetotalerVsChemicalInterest</li>
+					<li>TeetotalerVsAddict</li>
+					<li>ChemicalInterestVsTeetotaler</li>
+					<li>MissingTongue</li>
+					<li>AteRawHumanlikeMeat</li>
+					<li>CreepyBreathing</li>
+					<li>Ugly</li>
+					<li>Drunk</li>
+					<li>KilledColonist</li>
+					<li>KilledColonyAnimal</li>
+					<li>HospitalPatientRoomStats</li>
+					<li>NeedOutdoors</li>
+					<li>RebuffedMyRomanceAttempt</li>
+					<li>RebuffedMyRomanceAttemptMood</li>
+					<li>BrokeUpWithMe</li>
+					<li>BrokeUpWithMeMood</li>
+					<li>CheatedOnMe</li>
+					<li>CheatedOnMeMood</li>
+					<li>DivorcedMe</li>
+					<li>DivorcedMeMood</li>
+					<li>RejectedMyProposal</li>
+					<li>RejectedMyProposalMood</li>
+					<li>IRejectedTheirProposal</li>
+					<li>KilledMyFriend</li>
+					<li>KilledMyLover</li>
+					<li>KilledMyFiance</li>
+					<li>KilledMySpouse</li>
+					<li>KilledMyFather</li>
+					<li>KilledMyBondedAnimal</li>
+					<li>AteInImpressiveDiningRoom</li>
+					<li>JoyActivityInImpressiveRecRoom</li>
+					<li>SleptInBedroom</li>
+					<li>SleptInBarracks</li>
+					<li>SleepDisturbed</li>
+					<li>SleptInCold</li>
+					<li>SleptInHeat</li>
+					<li>KnowBuriedInSarcophagus</li>
+					<li>ButcheredHumanlikeCorpse</li>
+					<li>KnowButcheredHumanlikeCorpse</li>
+					<li>ButcheredHumanlikeCorpseOpinion</li>
+					<li>ObservedLayingCorpse</li>
+					<li>ObservedLayingRottingCorpse</li>
+					<li>WitnessedDeathAlly</li>
+					<li>WitnessedDeathNonAlly</li>
+					<li>WitnessedDeathFamily</li>
+					<li>ColonistBanishedToDie</li>
+					<li>ColonistBanished</li>
+					<li>ColonistBanishedToDie</li>
+					<li>ColonistLost</li>
+					<li>PawnWithGoodOpinionLost</li>
+					<li>MySonLost</li>
+					<li>MyHusbandLost</li>
+					<li>MyWifeLost</li>
+					<li>MyFianceLost</li>
+					<li>MyFianceeLost</li>
+					<li>MyLoverLost</li>
+					<li>MyFatherLost</li>
+					<li>MyWifeLost</li>
+					<li>Naked</li>
+					<li>AteRawFood</li>
+					<li>AteKibble</li>
+					<li>AteCorpse</li>
+					<li>AteHumanlikeMeatDirect</li>
+					<li>AteHumanlikeMeatAsIngredient</li>
+					<li>AteInsectMeatDirect</li>
+					<li>AteInsectMeatAsIngredient</li>
+					<li>AteRottenFood</li>
+					<li>KnowColonistDied</li>
+					<li>AteInsectMeatAsIngredient</li>
+					<li>BondedAnimalDied</li>
+					<li>PawnWithGoodOpinionDied</li>
+					<li>NeedComfort</li>
+					<li>MyHusbandDied</li>
+					<li>MyWifeDied</li>
+					<li>MyFianceDied</li>
+					<li>MyFianceeDied</li>
+					<li>MyLoverDied</li>
+					<li>MyFatherDied</li>
+					<li>MyUncleDied</li>
+					<li>MyGrandparentDied</li>
+					<li>MyBrotherDied</li>
+					<li>MySisterDied</li>
+					<li>MyNieceDied</li>
+					<li>MyNephewDied</li>
+					<li>MyGrandchildDied</li>
+					<li>MyHalfSiblingDied</li>
+					<li>MyAuntDied</li>
+					<li>MyUncleDied</li>
+					<li>MyGrandparentDied</li>
+					<li>MyCousinDied</li>
+					<li>MyKinDied</li>
+					<li>ApparelDamaged</li>
+					<li>WrongApparelGender</li>
+					<li>DeadMansApparel</li>
+					<li>HumanLeatherApparelSad</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">ImprisonedWithEntity</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">EntityInRoom</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">IdeoRoleApparelRequirementNotMet</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">LookChangeDesired</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">WearingDesiredApparel_Strong</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">WearingDesiredApparel_Soft</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartCovered_Disapproved_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartCovered_Disapproved_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartCovered_Disapproved_Memory</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartCovered_Disapproved_Social_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartButGroinCovered_Disapproved_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartButGroinCovered_Disapproved_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartButGroinCovered_Disapproved_Memory</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartButGroinCovered_Disapproved_Social_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">AnyBodyPartButGroinCovered_Disapproved_Social_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinUncovered_Disapproved_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinUncovered_Disapproved_Social_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinUncovered_Disapproved_Social_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinOrChestUncovered_Disapproved_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinOrChestUncovered_Disapproved_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinOrChestUncovered_Disapproved_Social_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinOrChestUncovered_Disapproved_Social_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestOrHairUncovered_Disapproved_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestOrHairUncovered_Disapproved_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestOrHairUncovered_Disapproved_Social_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestOrHairUncovered_Disapproved_Social_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestHairOrFaceUncovered_Disapproved_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestHairOrFaceUncovered_Disapproved_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestHairOrFaceUncovered_Disapproved_Social_Male</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">GroinChestHairOrFaceUncovered_Disapproved_Social_Female</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">InnocentPrisonerDied_Abhorrent</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">KnowPrisonerDiedInnocent</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">InnocentPrisonerDied_Know_Abhorrent_Mood</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">InnocentPrisonerDied_Know_Horrible</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">InnocentPrisonerDied_Horrible</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">PrisonerDied_Respected</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">PrisonerDied_Know_Respected</li>
+					<li MayRequire="Ludeon.RimWorld.Ideology">NoRecentExecution</li>
+				  
+				</cannotReceiveThoughts>
+			</thoughtSettings>
+		</alienRace>
+		<recipes>
+			<li>ExtractJellyFromCreature</li>
+			<li>ExtractResinFromCreature</li>
+			<li>ExtractAcidFromCreature</li>
+		</recipes>
+		<modExtensions />
+	</ThingDef>
+	
+	<ThingDef Class="AlienRace.ThingDef_AlienRace" ParentName="XMT_Starbeast_Base" Name="XMT_Royal">
+		<defName>XMT_Royal_AlienRace</defName>
+		<label>queen</label>
+		<comps Inherit="False">
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompMatureMorphProperties">
+				<grabKnowledgeProfile>XMT_Profile_Adult</grabKnowledgeProfile>
+				<contactKnowledgeProfile>XMT_Profile_Adult</contactKnowledgeProfile>
+				<grabHediff>StarbeastGrab</grabHediff>
+				<cocoonHediff>StarbeastCocoon</cocoonHediff>
+				<OvomorphHediff>XMT_Ovomorphing</OvomorphHediff>
+				<larderHediff>XMT_Lardering</larderHediff>
+				<maturingHediff>Maturation</maturingHediff>
+				<hibernationCocoon>XMT_HibernationCocoon</hibernationCocoon>
+			</li>
+			<li Class="Xenomorphtype.CompAcidBloodProperties">
+				<knowledgeProfile>XMT_Profile_Acid</knowledgeProfile>
+				<appliedHediff>AcidCorrosion</appliedHediff>
+				<splashRange>1.5</splashRange>
+				<cells>6</cells>
+				<damage>26</damage>
+			</li>
+			<li Class="Xenomorphtype.CompStealthProperties">
+				<adultRevealKnowledgeProfile>XMT_Profile_Adult</adultRevealKnowledgeProfile>
+				<larvaRevealKnowledgeProfile>XMT_Profile_Larva</larvaRevealKnowledgeProfile>
+				<hideBrightness>0.25</hideBrightness>
+			</li>
+			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<ImpossibleHediffs>
+					<li>Anesthetic</li>
+					<li MayRequire="Ludeon.RimWorld.Odyssey">PorcupineQuill</li>
+					<li>CryptosleepSickness</li>
+					<li>XMT_RawJellyHigh</li>
+					<li>XMT_RoyalJellyHigh</li>
+					<li>XMT_EssenceAddiction</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">DarknessExposure</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">Digested</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermLossShock</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">XenogermReplicating</li>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">RevenantHypnosis</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
+					<li>LungRotExposure</li>
+					<li>Scaria</li>
+					<li>HeartAttack</li>
+					<li>Carcinoma</li>
+					<li>BadBack</li>
+					<li>Frail</li>
+					<li>Cataract</li>
+					<li>HearingLoss</li>
+					<li>Dementia</li>
+					<li>Alzheimers</li>
+					<li>Asthma</li>
+					<li>HeartArteryBlockage</li>
+					<!-- CE -->
+					<li MayRequire="CETeam.CombatExtended">SmokeInhalation</li>
+					<li MayRequire="CETeam.CombatExtended">VenomBuildup</li>
+					<li MayRequire="CETeam.CombatExtended">MuscleSpasms</li>
+					<li MayRequire="CETeam.CombatExtended">PrometheumSoaked</li>
+					<!-- anti-mutation list-->
+					<li>XMT_MildEssence</li>
+					<li>XMT_DebuffEssence</li>
+					<li>XMT_SilicateEssence</li>
+					<li>XMT_BoostingEssence</li>
+					<li>XMT_ImprovedStomach</li>
+					<li>XMT_SpikeTongue</li>
+					<li>XMT_SecondJaw</li>
+					<li>XMT_HostileGland</li>
+					<li>XMT_LoverGland</li>
+					<li>XMT_BladedTail</li>
+					<li>XMT_BreathingTubes</li>
+					<li>XMT_BreathingWafers</li>
+					<li>XMT_WarpedNeck</li>
+					<li>XMT_InternalNose</li>
+					<li>XMT_InternalEar</li>
+					<li>XMT_InternalEye</li>
+					<li>XMT_AcidFat</li>
+					<li>XMT_MuscleRestructure</li>
+					<li>XMT_Mesoskeleton</li>
+					<li>XMT_Stabilize</li>
+					<li>XMT_AcidbloodMarrow</li>
+					<li>XMT_SoftBone</li>
+					<li>XMT_Predatory</li>
+					<li>XMT_Unasthetic</li>
+					<li>XMT_Docile</li>
+					<li>XMT_Enthralled</li>
+				</ImpossibleHediffs>
+			</li>
+			<li Class="Xenomorphtype.CompClimberProperties">
+			</li>
+			<li Class="Xenomorphtype.CompJellyMakerProperties">
+				<jellyIngredientFilter>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
+					<disallowedThingDefs>
+						<li>Starbeast_RoyalJelly</li>
+					</disallowedThingDefs>
+				</jellyIngredientFilter>
+				<processingWork>200</processingWork>
+				<conversionRate>0.5</conversionRate>
+				<jellyProduct>Starbeast_RoyalJelly</jellyProduct>
+			</li>
+			<li Class="Xenomorphtype.CompQueenProperties">
+				<subjugationBaseRange>10</subjugationBaseRange>
+			</li>
+			<li Class="Xenomorphtype.CompQueenAssimilationProperties">
+			</li>
+			<li Class="Xenomorphtype.CompGeneManipulatorProperties">
+				<mutationOptions>
+					<li>
+						<requiredEvolution>Evo_MutantExpression</requiredEvolution>
+						<mutationSet>XMT_LovinMutationSet</mutationSet>
+						<displayOrder>10</displayOrder>
+					</li>
+					<li>
+						<requiredEvolution>Evo_MutantExpression</requiredEvolution>
+						<mutationSet>XMT_HostMeatMutationSet</mutationSet>
+						<displayOrder>20</displayOrder>
+					</li>
+					<li>
+						<requiredEvolution>Evo_SubjugatorCrest</requiredEvolution>
+						<mutationSet>XMT_AscendanceMutationSet</mutationSet>
+						<displayOrder>30</displayOrder>
+					</li>
+				</mutationOptions>
+			</li>
+			<li Class="Xenomorphtype.CompOvomorphLayerProperties">
+				<layKnowledgeProfile>XMT_Profile_Ovomorph</layKnowledgeProfile>
+				<foodCost>2</foodCost>
+				<OvomorphDef>XMT_Ovomorph</OvomorphDef>
+				<geneOvomorphDef>XMT_GeneOvomorph</geneOvomorphDef>
+				<options>
+					<li>
+						<thingDef>XMT_Ovomorph</thingDef>
+						<iconPath>UI/Abilities/Ovomorph</iconPath>
+						<displayOrder>0</displayOrder>
+						<foodCostFactor>1</foodCostFactor>
+						<persistSelection>true</persistSelection>
+						<defaultSelection>true</defaultSelection>
+					</li>
+					<li>
+						<label>Subverter Ovomorph</label>
+						<thingDef>XMT_MechaOvomorph</thingDef>
+						<requiredEvolution>Evo_MechanoidSubversion</requiredEvolution>
+						<iconPath>UI/Abilities/MechaOvomorph</iconPath>
+						<displayOrder>5</displayOrder>
+						<foodCostFactor>0.1</foodCostFactor>
+						<resourceDef>XMT_MechanoidMaterial</resourceDef>
+						<resourceCostFactor>40</resourceCostFactor>
+						<overrideGenes>true</overrideGenes>
+						<progressOverride>1</progressOverride>
+						<persistSelection>true</persistSelection>
+						<genes>
+							<!-- TODO: Implement Mechanoid Cryptimorph K-Series Genes -->
+						</genes>
+					</li>
+					<li>
+						<label>Gene Ovomorph</label>
+						<thingDef>XMT_GeneOvomorph</thingDef>
+						<requiredEvolution>Evo_GeneStorage</requiredEvolution>
+						<iconPath>UI/Abilities/GeneOvomorph</iconPath>
+						<displayOrder>10</displayOrder>
+						<foodCostFactor>0.5</foodCostFactor>
+						<openGeneDialog>true</openGeneDialog>
+					</li>
+					<li>
+						<label>Explosive Ovomorph</label>
+						<thingDef>XMT_ExplosivePod</thingDef>
+						<requiredGene>XMT_Chemfuel_Metabolism</requiredGene>
+						<iconPath>Things/Building/Security/ExplosivePod</iconPath>
+						<displayOrder>20</displayOrder>
+						<foodCostFactor>0.25</foodCostFactor>
+						<persistSelection>true</persistSelection>
+					</li>
+				</options>
+			</li>
+			<li MayRequire="otyoty.sizedapparel">
+				<compClass>SizedApparel.ApparelRecorderComp</compClass>
+			</li>
+			<li MayRequire="c0ffee.rimworld.animations" Class="Rimworld_Animations.CompProperties_ExtendedAnimator" />
+			<li>
+				<compClass>Xenomorphtype.CompPawnInfo</compClass>
+			</li>
+			<!--<li Class="CompProperties_HoldingPlatformTarget" MayRequire="Ludeon.RimWorld.Anomaly">
+				<baseEscapeIntervalMtbDays>120</baseEscapeIntervalMtbDays>
+				<getsColdContainmentBonus>true</getsColdContainmentBonus>
+			</li>
+			<li Class="CompProperties_Studiable">
+				<frequencyTicks>120000</frequencyTicks>
+				<knowledgeCategory>Advanced</knowledgeCategory>
+				<anomalyKnowledge>3</anomalyKnowledge>
+				<minMonolithLevelForStudy>1</minMonolithLevelForStudy>
+				<requiresHoldingPlatform>false</requiresHoldingPlatform>
+			</li>
+			<li Class="CompProperties_AttachPoints">
+				<points>
+					<li>
+						<offset>(-.35, 0, .35)</offset>
+						<type>PlatformRestraint0</type>
+					</li>
+					<li>
+						<offset>(.35, 0, .35)</offset>
+						<type>PlatformRestraint1</type>
+					</li>
+					<li>
+						<offset>(.2, 0, -.71)</offset>
+						<type>PlatformRestraint2</type>
+					</li>
+					<li>
+						<offset>(-.2, 0, -.71)</offset>
+						<type>PlatformRestraint3</type>
+					</li>
+				</points>
+			</li>-->
+		</comps>
+		<statBases>
+			<MarketValue>291650</MarketValue>
+			<RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">500</RoyalFavorValue>
+			<MeleeDodgeChance>1.25</MeleeDodgeChance>
+			<MoveSpeed>7.0</MoveSpeed>
+			<CrawlSpeed>8</CrawlSpeed>
+			<WorkSpeedGlobal>0.75</WorkSpeedGlobal>
+			<PsychicSensitivity>1.25</PsychicSensitivity>
+			<LeatherAmount>75</LeatherAmount>
+			<TerrorSource MayRequire="Ludeon.RimWorld.Ideology">100</TerrorSource>
+			<MinimumContainmentStrength MayRequire="Ludeon.RimWorld.Anomaly">500</MinimumContainmentStrength>
+			<XMT_GrappleStrength>6.0</XMT_GrappleStrength>
+			<XMT_Stealth>2.2</XMT_Stealth>
+			<XMT_StealthDetection>1.5</XMT_StealthDetection>
+			<XMT_HereditaryCapacity>22</XMT_HereditaryCapacity>
+		</statBases>
+		<race>
+			<body>XMT_Queen</body>
+			<baseBodySize>3</baseBodySize>
+		</race>
+		<alienRace>
+			<graphicPaths>
+				<skinShader>Cutout</skinShader>
+				<body>
+					<path>Pawn/Royalty/Bodies/</path>
+				</body>
+				<head>
+					<path>Pawn/Royalty/Heads/</path>
+				</head>
+				<skeleton>Pawn/Royalty/Bodies/Naked_Female</skeleton>
+				<skull>Pawn/Royalty/Heads/Skull/Skull</skull>
+			</graphicPaths>
+			<generalSettings>
+				<notXenophobistTowards>
+					<li>XMT_Starbeast_AlienRace</li>
+					<li>XMT_Hybrid_AlienRace</li>
+					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
+				</notXenophobistTowards>
+				<validBeds>
+					<li>XMT_QueenSleepingSpot</li>
+					<li>RoyalHidingSpot</li>
+				</validBeds>
+				<abilities Inherit="False">
+					<li>Starbeast_Bloodlet</li>
+					<li>Starbeast_Bloodspray</li>
+				</abilities>
+				<alienPartGenerator>
+					<headOffsetDirectional>
+					  <north>
+						<layerOffset>-0.5</layerOffset>
+						<offset>(0.0, 0.2)</offset>
+					  </north>
+					  <south>
+						<layerOffset>0.1</layerOffset>
+						<offset>(0.0, 0.2)</offset>
+					  </south>
+					  <east>
+						<layerOffset>0.1</layerOffset>
+						<offset>(0.36, 0.1)</offset>
+					  </east>
+					  <west>
+						<layerOffset>0.1</layerOffset>
+						<offset>(-0.36, 0.1)</offset>
+					  </west>
+					</headOffsetDirectional>
+					<customDrawSize>(1.5, 1.5)</customDrawSize>
+					<customHeadDrawSize>(1.5, 1.5)</customHeadDrawSize>
+					<customPortraitDrawSize>(1.5, 1.5)</customPortraitDrawSize>
+					<customPortraitHeadDrawSize>(1.5, 1.5)</customPortraitHeadDrawSize>
+					<bodyTypes Inherit="False">
+					  <li>Female</li>
+					</bodyTypes>
+					<bodyAddons Inherit="False">
+							<li>
+								<name>Crest</name>
+								<path>Pawn/Royalty/Crests/Crest_Princess</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<alignWithHead>true</alignWithHead>
+								<conditions>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_DivineHalo</path>
+										<conditions>
+											<Hediff>XMT_DivineHalo</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Witch</path>
+										<conditions>
+											<Hediff>XMT_WitchCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_RoyalCrown</path>
+										<conditions>
+											<Hediff>XMT_RoyalCrown</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Juggernaut</path>
+										<conditions>
+											<Hediff>XMT_JuggernautsCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Fierce</path>
+										<conditions>
+											<Hediff>XMT_FierceCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Subjugator</path>
+										<conditions>
+											<Hediff>XMT_SubjugatorCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li MayRequire="Ludeon.RimWorld.Biotech">
+										<path>Pawn/Royalty/Crests/Crest_MechanitorArray</path>
+										<conditions>
+											<Hediff>XMT_MechanitorArray</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li MayRequire="Ludeon.RimWorld.Biotech">
+										<path>Pawn/Royalty/Crests/Crest_SignalAmplifyingAntenna</path>
+										<conditions>
+											<Hediff>XMT_SignalAmplifyingAntenna</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+									<li>
+										<path>Pawn/Royalty/Crests/Crest_Queen</path>
+										<conditions>
+											<Hediff>XMT_MaternalCrest</Hediff>
+											<Not>
+												<Hediff>XMT_GeneIntegration</Hediff>
+											</Not>
+											<Not>
+												<Hediff>Maturation</Hediff>
+											</Not>
+										</conditions>
+									</li>
+								</extendedGraphics>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.33</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>0.74</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.33</layerOffset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>Scythe_L</name>
+								<path>Pawn/Royalty/Arms/Scythe_L</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPartLabel>left shoulder</bodyPartLabel>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Hediff>XMT_ScythingBlade</Hediff>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.4</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.3</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>0</layerOffset>
+								  </east>
+								  <west>
+									<layerOffset>-0.31</layerOffset>
+								  </west>
+								</offsets>
+							</li>
+							<li>
+								<name>Scythe_R</name>
+								<path>Pawn/Royalty/Arms/Scythe_R</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPartLabel>right shoulder</bodyPartLabel>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Hediff>XMT_ScythingBlade</Hediff>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.4</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.3</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.31</layerOffset>
+								  </east>
+								  <west>
+									<layerOffset>0</layerOffset>
+								  </west>
+								</offsets>
+							</li>
+							<li>
+								<name>Arm_L</name>
+								<path>Pawn/Royalty/Arms/Mainarm_L</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPartLabel>left shoulder</bodyPartLabel>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Hediff>XMT_RendingClaw</Hediff>
+								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Arms/Blank</path>
+										<conditions>
+											<Hediff>XMT_HexapedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.3</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>0</layerOffset>
+								  </east>
+								  <west>
+									<layerOffset>-0.31</layerOffset>
+								  </west>
+								</offsets>
+							</li>
+							<li>
+								<name>Arm_R</name>
+								<path>Pawn/Royalty/Arms/Mainarm_R</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPartLabel>right shoulder</bodyPartLabel>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Hediff>XMT_RendingClaw</Hediff>
+								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Arms/Blank</path>
+										<conditions>
+											<Hediff>XMT_HexapedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.3</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.31</layerOffset>
+								  </east>
+								  <west>
+									<layerOffset>0</layerOffset>
+								  </west>
+								</offsets>
+							</li>
+							<li>
+								<name>Miniarm_L</name>
+								<path>Pawn/Royalty/Miniarms/Miniarm_L</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPartLabel>lesser left shoulder</bodyPartLabel>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									
+									<Hediff>XMT_DelicateHand</Hediff>
+
+								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Miniarms/Blank</path>
+										<conditions>
+											<Hediff>XMT_QuadrupedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.3</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>0</layerOffset>
+								  </east>
+								  <west>
+									<layerOffset>-0.31</layerOffset>
+								  </west>
+								</offsets>
+							</li>
+							<li>
+								<name>Miniarm_R</name>
+								<path>Pawn/Royalty/Miniarms/Miniarm_R</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPartLabel>lesser right shoulder</bodyPartLabel>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Hediff>XMT_DelicateHand</Hediff>
+								</conditions>
+								<extendedGraphics>
+									<li>
+										<path>Pawn/Royalty/Miniarms/Blank</path>
+										<conditions>
+											<Hediff>XMT_QuadrupedalStance</Hediff>
+										</conditions>
+									</li>
+								</extendedGraphics>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.3</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.31</layerOffset>
+								  </east>
+								  <west>
+									<layerOffset>0</layerOffset>
+								  </west>
+								</offsets>
+							</li>
+							<li>
+								<name>Belly</name>
+								<path>Pawn/Royalty/Belly/FertileBelly</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<Hediff>XMT_Fertility</Hediff>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.3</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.31</layerOffset>
+								  </east>
+								  <west>
+									<layerOffset>-0.31</layerOffset>
+								  </west>
+								</offsets>
+							</li>
+							<li>
+								<name>Teeth</name>
+								<path>Pawn/Teeth/RoyalTeeth</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>base</colorChannel>
+								<alignWithHead>true</alignWithHead>
+								<conditions>
+									<Or>
+										<!--<Drafted>true</Drafted>-->
+										<Job>XMT_AbductHost</Job>
+										<Job>XMT_StealthHunt</Job>
+										<Job>XMT_Sabotage</Job>
+										<Job>PredatorHunt</Job>
+										<Job>Kidnap</Job>
+										<Job>Arrest</Job>
+										<Job>Capture</Job>
+										<Job>Slaughter</Job>
+										<Job>Hunt</Job>
+										<Job>PrisonerExecution</Job>
+										<Job>GuiltyColonistExecution</Job>
+										<Job>AttackMelee</Job>
+									</Or>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.75</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>0.75</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.75</layerOffset>
+								  </east>
+								</offsets>
+								<!--<inFrontOfBody>true</inFrontOfBody>-->
+								
+							</li>
+							<li>
+								<name>Thrumbo_Head</name>
+								<path>Pawn/HostVariation/RoyalThrumbo_Head</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<alignWithHead>true</alignWithHead>
+								<conditions>
+									<Hediff>XMT_ThrumboHorn</Hediff>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.90</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>-0.90</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.85</layerOffset>
+								  </east>
+								</offsets>
+								<!--<inFrontOfBody>true</inFrontOfBody>-->
+							</li>
+							<li>
+								<name>Muffalo_Body</name>
+								<path>Pawn/HostVariation/Muffalo_Body</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<alignWithHead>false</alignWithHead>
+								<conditions>
+									<Gene>XMT_Muffalo_Ruff</Gene>
+									<RotStage>Fresh,Rotting</RotStage>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+									<offset>( 0, -0.03)</offset>
+								  </south>
+								  <north>
+									<layerOffset>-0.29</layerOffset>
+									<offset>( 0, -0.07)</offset>
+								  </north>
+								  <east>
+									<layerOffset>-0.31</layerOffset>
+									<offset>( 0, -0.09)</offset>
+								  </east>
+								</offsets>
+								<!--<inFrontOfBody>true</inFrontOfBody>-->
+
+							</li>
+							<li>
+								<name>Boomalope_Head</name>
+								<path>Pawn/HostVariation/RoyalBoomalope_Head</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>base</colorChannel>
+								<alignWithHead>true</alignWithHead>
+								<conditions>
+									<RotStage>Fresh,Rotting</RotStage>
+									<Gene>XMT_Chemfuel_Metabolism</Gene>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.8</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>0.8</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.8</layerOffset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>Chrysalis</name>
+								<path>Pawn/Conditions/Chrysalis/Chrysalis</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>base</colorChannel>
+								<conditions>
+									<Hediff>Maturation</Hediff>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-2</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>2</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-2</layerOffset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>GeneChrysalis</name>
+								<path>Pawn/Conditions/Chrysalis/RoyalGeneChrysalis</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>base</colorChannel>
+								<conditions>
+									<Hediff>XMT_GeneIntegration</Hediff>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-2</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>2</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-2</layerOffset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>Spine</name>
+								<path>Pawn/Royalty/Back/Royal_Spine</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPart>Spine</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>0.25</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>0.30</layerOffset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>Tubes</name>
+								<path>Pawn/Royalty/Back/Tubes</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<conditions>
+									<BodyPart>
+										<bodyPart>StarbeastTubes</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>0.2</layerOffset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+								  </north>
+								  <east>
+									<layerOffset>-0.35</layerOffset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>EggsackOverlay</name>
+								<path>Pawn/Royalty/EggSack/EggSackOverlay</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<drawSize>(1.0,1.0)</drawSize>
+								<drawSizePortrait>(1.0,1.0)</drawSizePortrait>
+								<conditions>
+									<BodyPart>
+										<bodyPart>Pelvis</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Hediff>XMT_HyperFertility</Hediff>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Not>
+										<Hediff>XMT_Enthroned</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>-0.31</layerOffset>
+									<offset>( -0.052, -0.37)</offset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+									<offset>( 0.048, -0.9)</offset>
+								  </north>
+								  <east>
+									<layerOffset>-0.301</layerOffset>
+									<offset>(0.85, -0.58)</offset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>Eggsack</name>
+								<path>Pawn/Royalty/EggSack/EggSack</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<drawSize>(1.0,1.0)</drawSize>
+								<drawSizePortrait>(1.0,1.0)</drawSizePortrait>
+								<conditions>
+									<BodyPart>
+										<bodyPart>Pelvis</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Hediff>XMT_HyperFertility</Hediff>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Hediff>XMT_GeneIntegration</Hediff>
+									</Not>
+									<Not>
+										<Hediff>Maturation</Hediff>
+									</Not>
+									<Not>
+										<Hediff>XMT_Enthroned</Hediff>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>0.2</layerOffset>
+									<offset>( -0.052, -0.37)</offset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+									<offset>( 0.048, -0.9)</offset>
+								  </north>
+								  <east>
+									<layerOffset>-0.301</layerOffset>
+									<offset>(0.85, -0.58)</offset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>TailWithSack</name>
+								<path>Pawn/SkeletalTail/RoyalSackSkeletalTail</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<drawSize>(1.25,1.25)</drawSize>
+								<drawSizePortrait>(1.25,1.25)</drawSizePortrait>
+								<conditions>
+									<BodyPart>
+										<bodyPart>StarbeastTail</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture><!-- -->
+									<Not>
+										<Or>
+											<Hediff>XMT_GeneIntegration</Hediff>
+											<Hediff>Maturation</Hediff>
+											<And>
+												<BodyPart>
+													<bodyPart>Pelvis</bodyPart>
+												</BodyPart>
+												<Hediff>XMT_HyperFertility</Hediff>
+											</And>
+										</Or>
+									</Not>
+									<Hediff>XMT_Enthroned</Hediff>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>0.2</layerOffset>
+									<offset>( -0.052, -0.37)</offset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+									<offset>( 0.048, -0.9)</offset>
+								  </north>
+								  <east>
+									<layerOffset>0.25</layerOffset>
+									<offset>(0.85, -0.58)</offset>
+								  </east>
+								</offsets>
+							</li>
+							<li>
+								<name>tail</name>
+								<path>Pawn/SkeletalTail/RoyalSkeletalTail</path>
+								<userCustomizable>false</userCustomizable>
+								<colorChannel>skin</colorChannel>
+								<drawSize>(1.25,1.25)</drawSize>
+								<drawSizePortrait>(1.25,1.25)</drawSizePortrait>
+								<conditions>
+									<BodyPart>
+										<bodyPart>StarbeastTail</bodyPart>
+										<drawWithoutPart>false</drawWithoutPart>
+									</BodyPart>
+									<Posture>
+										<drawnStanding>true</drawnStanding>
+										<drawnLaying>true</drawnLaying>
+										<drawnInBed>false</drawnInBed>
+									</Posture>
+									<Not>
+										<Or>
+											<Hediff>XMT_GeneIntegration</Hediff>
+											<Hediff>Maturation</Hediff>
+											<And>
+												<BodyPart>
+													<bodyPart>Pelvis</bodyPart>
+												</BodyPart>
+												<Hediff>XMT_HyperFertility</Hediff>
+											</And>
+										</Or>
+									</Not>
+								</conditions>
+								<scaleWithPawnDrawsize>true</scaleWithPawnDrawsize>
+								<offsets>
+								  <south>
+									<layerOffset>0.2</layerOffset>
+									<offset>( -0.052, -0.37)</offset>
+								  </south>
+								  <north>
+									<layerOffset>0.25</layerOffset>
+									<offset>( 0.048, -0.9)</offset>
+								  </north>
+								  <east>
+									<layerOffset>0.25</layerOffset>
+									<offset>(0.85, -0.58)</offset>
+								  </east>
+								</offsets>
+							</li>
+						</bodyAddons>
+				</alienPartGenerator>
+			</generalSettings>
+			<relationSettings>
+				<relationChanceModifierChild>0.25</relationChanceModifierChild>
+			</relationSettings>
+			<raceRestriction>
+				<buildingList>
+					<li>XMT_QueenSleepingSpot</li>
+					<li>XMT_Ovothrone</li>
+				</buildingList>
+				<blackGeneList>
+					<li MayRequire="Ludeon.RimWorld.Biotech">PsychicAbility_Deaf</li>
+					<li>XMT_GuardianCrest</li>
+				</blackGeneList>
+				<blackGeneTags> 
+					<li MayRequire="Ludeon.RimWorld.Biotech">BodyType</li>
+				</blackGeneTags>
+				
+				<blackBuildingList>
+					<li>XMT_AmbushSpot</li>
+				</blackBuildingList>
+				
+				<onlyUseRaceRestrictedWeapons>true</onlyUseRaceRestrictedWeapons>
+				<whiteApparelList Inherit="False">
+				</whiteApparelList>
+			</raceRestriction>
+		</alienRace>
+	</ThingDef>
+
+	<ThingDef Class="AlienRace.ThingDef_AlienRace" ParentName="Human">
+		<defName>XMT_Hybrid_AlienRace</defName>
+	    <label>hybrid</label>
+		<modExtensions>
+			<li Class="Xenomorphtype.XMT_HorrorPawnExtension">
+				<tier>3</tier>
+				<demotionTargets><li><pawnKind>XMT_FetalHorror</pawnKind></li></demotionTargets>
+			</li>
+		</modExtensions>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompPerfectOrganismProperties">
+				<perfection>XMT_HybridOrganism</perfection>
+				<ImpossibleHediffs>
+					<li>Anesthetic</li>
+					<li>CryptosleepSickness</li>
+					<li>XMT_RawJellyHigh</li>
+					<li>XMT_EssenceAddiction</li>
+					<li>HeartAttack</li>
+					<li>Carcinoma</li>
+					<li>BadBack</li>
+					<li>Cataract</li>
+					<li>HearingLoss</li>
+					<li>Dementia</li>
+					<li>Alzheimers</li>
+					<li>Asthma</li>
+					<li>HeartArteryBlockage</li>
+					<li>LungRotExposure</li>
+					<li>Scaria</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">ToxGasExposure</li>
+				</ImpossibleHediffs>
+			</li>
+			<li Class="Xenomorphtype.CompCrawlerProperties">
+			</li>
+			<li Class="CompProperties_Studiable" MayRequire="Ludeon.RimWorld.Anomaly">
+				<frequencyTicks>120000</frequencyTicks>
+				<knowledgeCategory>Advanced</knowledgeCategory>
+				<anomalyKnowledge>3</anomalyKnowledge>
+				<minMonolithLevelForStudy>1</minMonolithLevelForStudy> 
+				<requiresHoldingPlatform>true</requiresHoldingPlatform>
+			</li>
+			<li Class="CompProperties_AttachPoints" MayRequire="Ludeon.RimWorld.Anomaly">
+				<points>
+					<li>
+						<offset>(-.2, 0, 0.0)</offset>
+						<type>PlatformRestraint0</type>
+					</li>
+					<li>
+						<offset>(.2, 0, 0.0)</offset>
+						<type>PlatformRestraint1</type>
+					</li>
+					<li>
+						<offset>(.2, 0, -.5)</offset>
+						<type>PlatformRestraint2</type>
+					</li>
+					<li>
+						<offset>(-.2, 0, -.5)</offset>
+						<type>PlatformRestraint3</type>
+					</li>
+				</points>
+			</li>
+			<li Class="Xenomorphtype.CompStudyXenomorphProperties" MayRequire="Ludeon.RimWorld.Anomaly">
+				<studyNotes>
+				  <li>
+					<thresholdRange>2~3</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>{PAWN_nameDef} has studied the organism {PAWN_nameDef} thinks {PAWN_pronoun} .</text>
+				  </li>
+				  <li>
+					<thresholdRange>5~6</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				  <li>
+					<thresholdRange>8~9</thresholdRange>
+					<label>Cryptimorph study progress</label>
+					<text>.</text>
+				  </li>
+				</studyNotes>
+			</li>
+		</comps>
+		<statBases>
+	    </statBases>
+		<tradeTags>
+			<li>ExoticMisc</li>
+		</tradeTags>
+		<race>
+			<isImmuneToInfections>true</isImmuneToInfections>
+			<foodType>OmnivoreHuman</foodType>
+			<manhunterOnTameFailChance>1</manhunterOnTameFailChance>
+			<manhunterOnDamageChance>1</manhunterOnDamageChance>
+			<baseHungerRate>0.01</baseHungerRate>
+			<predator>false</predator>
+			<canBePredatorPrey>false</canBePredatorPrey>
+			<specificMeatDef>Starbeast_Flesh_Meat</specificMeatDef>
+			<canBecomeShambler>false</canBecomeShambler>
+			<!--<bloodSmearDef Inherit="false">Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
+		</race>
+		<alienRace>
+			<generalSettings>
+				<immuneToAge>true</immuneToAge>
+				<notXenophobistTowards>
+					<li>XMT_Royal_AlienRace</li>
+					<li>XMT_Starbeast_AlienRace</li>
+					<li MayRequire="yanzihko.YZRCM">XMT_StarCutie_AlienRace</li>
+				</notXenophobistTowards>
+				<immuneToXenophobia>false</immuneToXenophobia>
+				<humanRecipeImport>true</humanRecipeImport>
+				<raceGenes>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>FireTerror</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_Metabolism</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>XMT_KillThirst</defName>
+						<chance>100</chance>
+					</li>
+					<li MayRequire="Ludeon.RimWorld.Biotech">
+						<defName>Body_Standard</defName>
+						<chance>100</chance>
+					</li>
+				</raceGenes>
+				<maleGenderProbability>0.25</maleGenderProbability>
+				<abilities>
+					<li>Starbeast_Bloodlet</li>
+					<li>Starbeast_Bloodspray</li>
+				</abilities>
+				<alienPartGenerator>
+					<headTypes Inherit="False">
+						<li>Male_AverageNormal</li>
+						<li>Female_AverageNormal</li>
+					</headTypes>
+					<bodyTypes Inherit="False">
+					  <li>Female</li>
+					  <li>Thin</li>
+					  <li>Hulk</li>
+					  <li>Male</li>
+					  <li MayRequire="Ludeon.RimWorld.Biotech">Child</li>
+					</bodyTypes>
+				</alienPartGenerator>
+			</generalSettings>
+			<graphicPaths>
+			</graphicPaths>
+			<styleSettings>
+				<li>
+					<key>HairDef</key>
+					<value>
+						<hasStyle>true</hasStyle>
+					</value>
+				</li>
+				<li>
+					<key>BeardDef</key>
+					<value>
+						<hasStyle>true</hasStyle>
+					</value>
+				</li>
+				<li>
+					<key>TattooDef</key>
+					<value>
+						<hasStyle>true</hasStyle>
+					</value>
+				</li>
+			</styleSettings>
+			
+			<relationSettings>
+			
+				<relationChanceModifierLover>0</relationChanceModifierLover>
+				<relationChanceModifierExLover>0</relationChanceModifierExLover>
+				<relationChanceModifierFiance>0</relationChanceModifierFiance>
+				<relationChanceModifierSpouse>0</relationChanceModifierSpouse>
+				<relationChanceModifierExSpouse>0</relationChanceModifierExSpouse>
+				<relationChanceModifierParent>0</relationChanceModifierParent>
+				<relationChanceModifierChild>0</relationChanceModifierChild>
+				<relationChanceModifierSibling>0</relationChanceModifierSibling>
+			</relationSettings>
+
+			<compatibility />
+			<thoughtSettings Inherit="False">
+				<replacerList>
+				  <li>
+					<original>EnvironmentDark</original>
+					<replacer>StarbeastDark</replacer> 
+				  </li>
+				  <li>
+					<original>HoldingMePrisoner</original>
+					<replacer>StarbeastHeldPrisoner</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>KnowColonistExecuted</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Abhorrent</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedColonist_Know_Abhorrent_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedGuest_Know_Abhorrent_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerInnocent_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerInnocent_Know_Horrible</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Know_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisonerGuilty_Know_Respected_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>ExecutedPrisoner_Know_Respected</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li MayRequire="Ludeon.RimWorld.Ideology">
+					<original>Execution_Know_Respected_Mood</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>ExecutedPrisoner</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>KnowGuestExecuted</original>
+					<replacer>StarbeastKilledHost</replacer> 
+				  </li>
+				  <li>
+					<original>SharedBed</original>
+					<replacer>StarbeastCuddling</replacer> 
+				  </li>
+				  <li>
+					<original>WasImprisoned</original>
+					<replacer>StarbeastImprisoned</replacer> 
+				  </li>
+				  <li>
+					<original>PrisonCell</original>
+					<replacer>StarbeastPrisonCell</replacer> 
+				  </li>
+				  <li>
+					<original>PrisonBarracks</original>
+					<replacer>StarbeastPrisonBarracks</replacer> 
+				  </li>
+				  <li>
+					<original>RapportBuilt</original>
+					<replacer>StarbeastMockery</replacer> 
+				  </li>
+				  <li>
+					<original>KilledMyMother</original>
+					<replacer>StarbeastKilledMyQueen</replacer> 
+				  </li>
+				  <li>
+					<original>MyMotherLost</original>
+					<replacer>StarbeastLostMyQueen</replacer> 
+				  </li>
+				  <li>
+					<original>MyDaughterDied</original>
+					<replacer>StarbeastChildDied</replacer> 
+				  </li>
+				  <li>
+					<original>MySonDied</original>
+					<replacer>StarbeastChildDied</replacer> 
+				  </li>
+				</replacerList>
+				<restrictedThoughts>
+					<li>StarbeastDark</li>
+					<li>StarbeastHeldPrisoner</li>
+					<li>StarbeastKilledHost</li>
+					<li>StarbeastCuddling</li>
+					<li>StarbeastImprisoned</li>
+					<li>StarbeastPrisonCell</li>
+					<li>StarbeastPrisonBarracks</li>
+					<li>StarbeastMockery</li>
+					<li>StarbeastHarmedQueenMood</li>
+					<li>StarbeastHarmedMyQueen</li>
+					<li>StarbeastKilledMyQueen</li>
+					<li>StarbeastLostMyQueen</li>
+					<li>StarbeastQueenDied</li>
+					<li>SnuggledVictimMood</li>
+					<li>SnuggledVictim</li>
+					<li>HostImpregnated</li>
+					<li>CapturedHost</li>
+					<li>GrabbedPrey</li>
+					<li>OvomorphedVictim</li>
+					<li>XMT_RoomShape</li>
+				</restrictedThoughts>
+				<cannotReceiveThoughts>
+				</cannotReceiveThoughts>
+			</thoughtSettings>
+		</alienRace>
+		<modExtensions>
+			<li Class="Xenomorphtype.AnimalMutateForms">
+				<resultCandidates>
+					<li>
+						<thingTransformationTarget>XMT_Starbeast_AlienRace</thingTransformationTarget>
+						<pawnTransformationTarget>XMT_StarbeastKind</pawnTransformationTarget>
+						<probability>1</probability>
+						<essenceMinimum>1</essenceMinimum>
+						<essenceMaximum>-1</essenceMaximum>
+					</li>
+				</resultCandidates>
+			</li>
+		</modExtensions>
+	</ThingDef>
+</Defs>

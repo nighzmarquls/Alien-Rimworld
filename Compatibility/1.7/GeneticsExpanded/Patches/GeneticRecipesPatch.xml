@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationConditional">
+		<xpath>Defs/ThingDef[defName="DrugLab"]/recipes</xpath>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="DrugLab"]</xpath>
+			<value>
+				<recipes>
+					<li>XMT_Purify_Basic</li>
+					<li>XMT_Purify_Advanced</li>
+					<li>XMT_Purify_Paragon</li>
+				</recipes>
+			</value>
+		</nomatch>
+		<match Class="PatchOperationAdd">
+			<xpath>Defs/ThingDef[defName="DrugLab"]/recipes</xpath>
+			<value>
+				<li>XMT_Purify_Basic</li>
+				<li>XMT_Purify_Advanced</li>
+				<li>XMT_Purify_Paragon</li>
+			</value>
+		</match>
+	</Operation>
+</Patch>

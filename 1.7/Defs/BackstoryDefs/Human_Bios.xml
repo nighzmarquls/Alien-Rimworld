@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_RomulusGirl00</defName>
+	  <childhood>XMT_ChildBotanist01</childhood>
+	  <adulthood>XMT_AdultSalvageSurvivor01</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Rain</first>
+		<nick>Rain</nick>
+		<last>Carradine</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedItems>
+		<XMT_Protofluid>1</XMT_Protofluid>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_IsolationGirl01</defName>
+	  <childhood>XMT_ChildCorpo02</childhood>
+	  <adulthood>XMT_AdultSalvageSurvivor02</adulthood>
+	  <gender>Female</gender>
+	  <name>
+		<first>Amanda</first>
+		<nick>Amy</nick>
+		<last>Ripley</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedItems>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_PrometheusGuy02</defName>
+	  <childhood>XMT_ChildCorpo03</childhood>
+	  <adulthood>XMT_AdultMissionAdjunct03</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>David</first>
+		<nick>David</nick>
+		<last>8</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+		<li MayRequire="vanillaracesexpanded.android">XMT_ConvertHumanToSynthetic</li>
+	  </forcedHediffs>
+	  <forcedItems>
+		<XMT_Protofluid>10</XMT_Protofluid>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_PredatorGuy03</defName>
+	  <childhood>XMT_ChildCadet04</childhood>
+	  <adulthood>XMT_AdultMercenary04</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>Alan</first>
+		<nick>Dutch</nick>
+		<last>Schaefer</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+	  </forcedHediffs>
+	  <forcedItems>
+		<Gun_Minigun>1</Gun_Minigun>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_TheArtist04</defName>
+	  <childhood>XMT_ChildTerrors05</childhood>
+	  <adulthood>XMT_PhantasmagoricalArtist04</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>Hans Ruedi</first>
+		<nick>Giger</nick>
+		<last>Giger</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+		<li>XMT_FriendlyGland</li>
+		<li>XMT_LoverGland</li>
+		<li>XMT_WarpedNeck</li>
+	  </forcedHediffs>
+	  <forcedItems>
+		<XMT_Protofluid>10</XMT_Protofluid>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+	
+	<AlienRace.PawnBioDef>
+	  <defName>XMT_Drakon5</defName>
+	  <childhood>TribeChild40</childhood>
+	  <adulthood>Brave88</adulthood>
+	  <gender>Male</gender>
+	  <name>
+		<first>Kane</first>
+		<nick>Drakon</nick>
+		<last>Drakon</last>
+	  </name>
+	  <validRaces>
+		<li>Human</li>
+	  </validRaces>
+	  <forcedHediffs>
+	  </forcedHediffs>
+	  <forcedItems>
+	  </forcedItems>
+	</AlienRace.PawnBioDef>
+</Defs>

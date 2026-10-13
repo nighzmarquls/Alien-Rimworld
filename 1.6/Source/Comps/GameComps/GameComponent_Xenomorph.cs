@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
@@ -494,6 +494,7 @@ namespace Xenomorphtype
 
                 foreach(PlanetTile target in targetTiles)
                 {
+                    Current.Game.GetComponent<GameComponent_Nemesis>().SampleBiome(target);
                     target.Tile.PrimaryBiome = XenoMapDefOf.XMT_DessicatedBlight;
 
                     if(shouldSpawnQueenNest && noQueenIncident)
@@ -1549,7 +1550,7 @@ namespace Xenomorphtype
             return map.mapPawns.AllPawnsSpawned.Count(pawn => pawn != null && !pawn.Dead && !pawn.Downed && HasPawnAccountingState(pawn, XenoformingPawnAccountingState.QueenAidBorrowed));
         }
 
-        internal Pawn TakeWorldCryptimorphForUse(XenoformingPawnAccountingState useState, bool allowPlayerPioneers)
+        internal Pawn TakeWorldCryptimorphForUse(XenoformingPawnAccountingState useState, bool allowPlayerPioneers, Predicate<Pawn> filter = null)
         {
             List<Pawn> worldPawns = Find.WorldPawns.AllPawnsAlive.ToList();
             foreach (Pawn queen in worldPawns.Where(XMTUtility.IsQueen).ToList())
@@ -1569,7 +1570,7 @@ namespace Xenomorphtype
             }
 
             List<Pawn> candidates = worldPawns
-                .Where(pawn => IsWorldCryptimorphCandidate(pawn, allowPlayerPioneers))
+                .Where(pawn => IsWorldCryptimorphCandidate(pawn, allowPlayerPioneers) && (filter == null || filter(pawn)))
                 .OrderBy(pawn => pawn.Faction == Faction.OfPlayer ? 0 : 1)
                 .ThenBy(_ => Rand.Value)
                 .ToList();
@@ -1590,6 +1591,7 @@ namespace Xenomorphtype
 
         private bool IsWorldCryptimorphCandidate(Pawn pawn, bool allowPlayerPioneers)
         {
+            if (Current.Game.GetComponent<GameComponent_Nemesis>().IsRecovering(pawn)) return false;
             if (pawn == null || pawn.Spawned || pawn.Dead || pawn.Downed || CaravanUtility.IsCaravanMember(pawn))
             {
                 return false;
@@ -1619,10 +1621,16 @@ namespace Xenomorphtype
             return pawn ?? XenoformingUtility.GenerateFeralXenomorph();
         }
 
-        internal Pawn GetWorldOrGeneratedCryptimorphForMission()
+        internal Pawn GetWorldOrGeneratedCryptimorphForMission(NemesisStrain strain = null, bool forceFresh = false)
         {
-            Pawn pawn = TakeWorldCryptimorphForUse(XenoformingPawnAccountingState.SiteBorrowed, false)
-                ?? XenoformingUtility.GenerateFeralXenomorph();
+            GameComponent_Nemesis nemesis = Current.Game.GetComponent<GameComponent_Nemesis>();
+            Pawn pawn = forceFresh ? null : TakeWorldCryptimorphForUse(XenoformingPawnAccountingState.SiteBorrowed, false,
+                candidate => strain == null || nemesis.CanEditMissionGenes
+                    || NemesisStrain.Signature(BioUtility.GetCanonicalPawnGenes(candidate)) == NemesisStrain.Signature(strain.genes));
+            bool generated = pawn == null;
+            pawn ??= XenoformingUtility.GenerateFeralXenomorph();
+            AddPawnAccountingState(pawn, XenoformingPawnAccountingState.SiteBorrowed);
+            if (strain != null && (generated || nemesis.CanEditMissionGenes)) BioUtility.TryApplyHorrorGenePayload(pawn, strain.Payload, true);
             AddPawnAccountingState(pawn, XenoformingPawnAccountingState.SiteBorrowed);
             if (pawn.Faction != null) pawn.SetFaction(null);
             return pawn;

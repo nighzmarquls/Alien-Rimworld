@@ -1,0 +1,49 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.10.12224.181 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_ME", "..\..\Compatibility\1.7\Asari\Source\XMT_ME\XMT_ME.csproj", "{4B361D25-9E06-4DC3-B8B4-B32E9480D53C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_CE", "..\..\Compatibility\1.7\CombatExtended\Source\XMT_CE\XMT_CE.csproj", "{6947F6F1-0EEA-47A3-AEBB-5FBAE8F402D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_AM", "..\..\Compatibility\1.7\MeleeAnimation\Source\XMT_AM\XMT_AM.csproj", "{88052768-0EA7-1BC0-A271-AEFBE8505E4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_FA", "..\..\Compatibility\1.7\FacialAnimation\Source\XMT_FA\XMT_FA.csproj", "{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT", "XMT.csproj", "{17460138-A266-46E2-8BB1-2CEDDC95B9F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B361D25-9E06-4DC3-B8B4-B32E9480D53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B361D25-9E06-4DC3-B8B4-B32E9480D53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B361D25-9E06-4DC3-B8B4-B32E9480D53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B361D25-9E06-4DC3-B8B4-B32E9480D53C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6947F6F1-0EEA-47A3-AEBB-5FBAE8F402D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6947F6F1-0EEA-47A3-AEBB-5FBAE8F402D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6947F6F1-0EEA-47A3-AEBB-5FBAE8F402D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6947F6F1-0EEA-47A3-AEBB-5FBAE8F402D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88052768-0EA7-1BC0-A271-AEFBE8505E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88052768-0EA7-1BC0-A271-AEFBE8505E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88052768-0EA7-1BC0-A271-AEFBE8505E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88052768-0EA7-1BC0-A271-AEFBE8505E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17460138-A266-46E2-8BB1-2CEDDC95B9F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17460138-A266-46E2-8BB1-2CEDDC95B9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17460138-A266-46E2-8BB1-2CEDDC95B9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17460138-A266-46E2-8BB1-2CEDDC95B9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {82EC5904-F9BB-44B1-83BA-77282894AC1B}
+	EndGlobalSection
+EndGlobal

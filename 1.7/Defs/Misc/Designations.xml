@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <DesignationDef>
+    <defName>XMT_Abduct</defName>
+    <texturePath>Designations/Abduct</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_Release</defName>
+    <texturePath>Designations/Break</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_CorpseArt</defName>
+    <texturePath>Designations/Art</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_Friend</defName>
+    <texturePath>Designations/Friend</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_Enemy</defName>
+    <texturePath>Designations/Enemy</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_Larder</defName>
+    <texturePath>Designations/Larder</texturePath>
+    <targetType>Thing</targetType>
+  </DesignationDef>
+  
+  <DesignationDef>
+    <defName>XMT_MakeJelly</defName>
+    <texturePath>Designations/MakeJelly</texturePath>
+    <targetType>Cell</targetType>
+  </DesignationDef>
+
+</Defs>

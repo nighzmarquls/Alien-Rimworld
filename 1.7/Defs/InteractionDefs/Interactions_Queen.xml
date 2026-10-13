@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<InteractionDef>
+		<defName>XMT_QueenResourceAssimilation</defName>
+		<label>assimilated resource</label>
+		<symbolSource>InitiatorFaction</symbolSource>
+		<logRulesInitiator>
+			<rulesStrings>
+				<li>r_logentry->[INITIATOR_nameDef] assimilated matter into internal reserves.</li>
+			</rulesStrings>
+		</logRulesInitiator>
+	</InteractionDef>
+
+</Defs>

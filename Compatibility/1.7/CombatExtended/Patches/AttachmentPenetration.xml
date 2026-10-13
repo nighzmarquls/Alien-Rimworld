@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef/comps/li[parasiteHediff="XMT_LarvalEmbrace" or parasiteHediff="XMT_SmotheringEmbrace" or parasiteHediff="XMT_Assasination"]/breachPenetration</xpath>
+    <value>
+      <!-- CE sharp units: normal EVA helmets are below 12; hardened EVA helmets start at 14. -->
+      <breachPenetration>12</breachPenetration>
+    </value>
+  </Operation>
+</Patch>

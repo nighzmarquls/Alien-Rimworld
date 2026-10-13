@@ -55,6 +55,7 @@ namespace Xenomorphtype
         {
             base.ExposeData();
             ExposeMissions();
+            ExposeGenetics();
             Scribe_Values.Look(ref awakened, "awakened", false);
             Scribe_Values.Look(ref awakenedTick, "awakenedTick", -1);
             Scribe_Values.Look(ref evidenceRevision, "evidenceRevision", 0);
@@ -93,7 +94,7 @@ namespace Xenomorphtype
             List<NemesisXenotypeRecord> normalized = new List<NemesisXenotypeRecord>();
             foreach (NemesisXenotypeRecord record in xenotypeKnowledge)
             {
-                if (record.xenotype != null)
+                if (record.xenotype != null && !record.signature.StartsWith("custom:", System.StringComparison.Ordinal))
                 {
                     record.signature = "def:" + record.xenotype.defName;
                 }
@@ -129,6 +130,8 @@ namespace Xenomorphtype
 
         public void NotifyXenoformingChanged(float previous, float current)
         {
+            if (previous > 0f && current <= 0f) ResetGeneticCycle();
+            UpdateGeneticAcquisition(current);
             if (!awakened && previous < Settings.activationXenoforming && current >= Settings.activationXenoforming)
             {
                 Awaken("xenoforming activation threshold crossed", runCensus: true);
@@ -252,12 +255,13 @@ namespace Xenomorphtype
 
         public void QueueAbductedXenotype(Pawn pawn)
         {
+            int tick = Find.TickManager?.TicksGame ?? 0;
+            int delay = Mathf.RoundToInt(Settings.abductedXenotypeProcessingDays * 60000f);
+            AcquireAbduction(pawn, tick + Mathf.Max(0, delay));
             if (!awakened)
             {
                 return;
             }
-            int tick = Find.TickManager?.TicksGame ?? 0;
-            int delay = Mathf.RoundToInt(Settings.abductedXenotypeProcessingDays * 60000f);
             NemesisXenotypeRecord record = NemesisXenotypeRecord.FromPawn(pawn, "abducted pawn", tick, tick + Mathf.Max(0, delay));
             if (record != null)
             {
@@ -373,6 +377,7 @@ namespace Xenomorphtype
 
         public void ResetAllState()
         {
+            ResetGeneticCycle();
             CancelPendingMission();
             awakened = false;
             awakenedTick = -1;
@@ -443,7 +448,9 @@ namespace Xenomorphtype
 
             foreach (NemesisStanceDef def in DefDatabase<NemesisStanceDef>.AllDefsListForReading.OrderBy(value => value.defName))
             {
-                assessment.stances.Add(NemesisStanceEvaluator.Evaluate(def, signalLookup));
+                NemesisStanceResult result = NemesisStanceEvaluator.Evaluate(def, signalLookup);
+                if (def.defName == "XMT_NemesisStance_FleshShaper") result.score += GeneticOpportunityBonus();
+                assessment.stances.Add(result);
             }
 
             assessment.stances.Sort((left, right) => right.score.CompareTo(left.score));

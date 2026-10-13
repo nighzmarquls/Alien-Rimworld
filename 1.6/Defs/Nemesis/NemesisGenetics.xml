@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Xenomorphtype.NemesisCapabilityDef>
+    <defName>XMT_NemesisCapability_InjuryRecovery</defName>
+    <minimumXenoforming>25</minimumXenoforming>
+  </Xenomorphtype.NemesisCapabilityDef>
+  <Xenomorphtype.NemesisCapabilityDef>
+    <defName>XMT_NemesisCapability_LimbRecovery</defName>
+    <minimumXenoforming>50</minimumXenoforming>
+  </Xenomorphtype.NemesisCapabilityDef>
+  <Xenomorphtype.NemesisCapabilityDef>
+    <defName>XMT_NemesisCapability_GeneControl</defName>
+    <requiredEvolution>Evo_GeneControl</requiredEvolution>
+  </Xenomorphtype.NemesisCapabilityDef>
+  <Xenomorphtype.NemesisMissionDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>XMT_NemesisMission_Ablative</defName>
+    <label>ablative assault</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_Ablative</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisAblative</lordJobClass>
+    <geneEvaluationWorkerClass>Xenomorphtype.NemesisGeneEvaluationWorker_Ablative</geneEvaluationWorkerClass>
+    <specialGeneConsideration>true</specialGeneConsideration>
+    <expectedSacrifice>true</expectedSacrifice>
+    <preferredGenes><li>XMT_Chemfuel_Metabolism</li></preferredGenes>
+    <allowDormant>false</allowDormant>
+    <requiredStance>XMT_NemesisStance_FleshShaper</requiredStance>
+    <requiredEvolutionLineage>Evo_GeneControl</requiredEvolutionLineage>
+    <populationRange>8~60</populationRange>
+    <xenoformingForMaximumPressure>75</xenoformingForMaximumPressure>
+    <maximumDurationTicks>30000</maximumDurationTicks>
+    <followUpMissions>
+      <li><mission>XMT_NemesisMission_Assault</mission><weight>1.5</weight></li>
+      <li><mission>XMT_NemesisMission_HostCollection</mission><weight>1</weight></li>
+    </followUpMissions>
+    <workerSettings>
+      <pawnKind>XMT_FeralStarbeastKind</pawnKind>
+      <localSearchRadius>9999</localSearchRadius>
+      <maximumRoutePoints>12</maximumRoutePoints>
+      <useThreatPointsForPopulation>true</useThreatPointsForPopulation>
+      <raidPointBudgetFactor>1</raidPointBudgetFactor>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+</Defs>

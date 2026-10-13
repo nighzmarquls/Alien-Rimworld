@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThingDef ParentName="FoodBitBase">
+		<defName>Mote_ResinBit</defName>
+		<graphicData>
+			<texPath>Things/Mote/ResinBit</texPath>
+			<shaderType>Mote</shaderType>
+		</graphicData>
+	</ThingDef>
+
+	<FleckDef ParentName="FleckBase_Thrown">
+		<defName>XMT_MutagenicMiasmaSmoke</defName>
+		<graphicData>
+			<texPath>Things/Mote/Smoke</texPath>
+			<color>(0.18,0.19,0.21)</color>
+			<renderInstanced>true</renderInstanced>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<fadeInTime>0.5</fadeInTime>
+		<solidTime>6</solidTime>
+		<fadeOutTime>3.2</fadeOutTime>
+		<growthRate>0.005</growthRate>
+	</FleckDef>
+  
+  	<EffecterDef>
+		<defName>ResinBuild</defName>
+		<children>
+		<li>
+			<subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+			<soundDef>Vomit</soundDef>
+		  </li>
+		  <li>
+			<subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+			<scale>0.5~0.7</scale>
+			<ticksBetweenMotes>20</ticksBetweenMotes>
+			<positionLerpFactor>0.35</positionLerpFactor>
+			<positionRadius>0.2</positionRadius>
+			<moteDef>Mote_ResinBit</moteDef>
+		  </li>
+		</children>
+	</EffecterDef>
+</Defs>

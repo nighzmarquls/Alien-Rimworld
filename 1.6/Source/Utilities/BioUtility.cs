@@ -697,7 +697,7 @@ namespace Xenomorphtype
                 canonicalGenes = GetCanonicalCryptimorphInheritableGenes(canonicalGenes);
             }
 
-            return new HorrorGenePayload(canonicalGenes, templateName);
+            return new HorrorGenePayload(canonicalGenes, templateName, holder?.removedDefaultGenes);
         }
 
         public static bool TryApplyHorrorGenePayload(Thing destination, HorrorGenePayload payload, bool replaceNativeGenes = false)
@@ -710,7 +710,7 @@ namespace Xenomorphtype
             CompHiveGeneHolder holder = destination.TryGetComp<CompHiveGeneHolder>();
             if (holder != null)
             {
-                holder.ReplaceGenes(payload.Genes, payload.TemplateName, replaceNativeGenes);
+                holder.ReplaceGenes(payload.Genes, payload.TemplateName, replaceNativeGenes, payload.RemovedDefaultGenes);
                 return true;
             }
 
@@ -726,6 +726,7 @@ namespace Xenomorphtype
 
                 GeneSet geneSet = new HorrorGenePayload(payload.Genes).ToGeneSet();
                 InsertGenesetToPawn(geneSet, ref pawn);
+                GeneLineageUtility.CleanDefaults(pawn, payload.RemovedDefaultGenes);
                 if (!payload.TemplateName.NullOrEmpty())
                 {
                     pawn.genes.xenotypeName = payload.TemplateName;
@@ -1293,6 +1294,11 @@ namespace Xenomorphtype
 
         public static void AssignAlteredGeneExpression(ref Pawn pawn, List<GeneDef> genes, string xenotypeName = "")
         {
+            if (pawn?.TryGetComp<CompHiveGeneHolder>() != null)
+            {
+                GeneLineageUtility.SetSelection(pawn, genes, xenotypeName);
+                return;
+            }
 
             if (pawn != null)
             {
@@ -1354,7 +1360,7 @@ namespace Xenomorphtype
                 {
                     Log.Message("[XMT][Biohorror] confirmed Gene Holder " + target);
                 }
-                geneHolder.ReplaceGenes(genes, xenotypeName);
+                GeneLineageUtility.SetSelection(target, genes, xenotypeName);
             }
 
             
@@ -1819,7 +1825,7 @@ namespace Xenomorphtype
         {
             if (pawn.genes != null)
             {
-                foreach (Gene gene in pawn.genes.GenesListForReading)
+                foreach (Gene gene in pawn.genes.GenesListForReading.ToList())
                 {
                     pawn.genes.RemoveGene(gene);
                 }

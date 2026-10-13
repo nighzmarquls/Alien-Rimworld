@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<XMT_FMO_Abduct>Abduct ({0} success)</XMT_FMO_Abduct>
+	<XMT_FMO_AbductTooltip>Predicted grapple check: {0} success, {1} resistance.\nAttacker strength: {2}\nTarget strength: {3}</XMT_FMO_AbductTooltip>
+	<XMT_FMO_Make>Make </XMT_FMO_Make>
+	
+	<XMT_FMO_NoNestEnclosed>Nest Spot is not Fully Enclosed.</XMT_FMO_NoNestEnclosed>
+	
+	<XMT_FMO_Tame>Advanced Tame</XMT_FMO_Tame>
+	
+	<XMT_FMO_TameNotEnabled>No Advanced Taming Selected.</XMT_FMO_TameNotEnabled>
+	
+	<XMT_FMO_Feed>Trophallaxis</XMT_FMO_Feed>
+	<XMT_FMO_ChargeMech>Charge {0}</XMT_FMO_ChargeMech>
+	<XMT_FMO_MechCharged>{0} is already charged to its desired level.</XMT_FMO_MechCharged>
+	<XMT_FMO_TooHungry>{0} is too hungry to perform Trophallaxis.</XMT_FMO_TooHungry>
+	<XMT_FMO_TooStuffed>{0} is too full to recieve Trophallaxis.</XMT_FMO_TooStuffed>
+	
+	<XMT_FMO_Hunt>Hunt</XMT_FMO_Hunt>
+	<XMT_FMO_TooFull>{0} Is too full to hunt!</XMT_FMO_TooFull>
+	
+	<XMT_FMO_Ovomorph>Ovomorph</XMT_FMO_Ovomorph>
+	
+	<XMT_FMO_Larder>Larder</XMT_FMO_Larder>
+	
+	<XMT_FMO_PruneLarder>Prune Larder</XMT_FMO_PruneLarder>
+	
+	<XMT_FMO_Hibernate>Hibernate</XMT_FMO_Hibernate>
+	<XMT_FMO_HibernationSpotUnavailable>Another pawn has reserved this hibernation spot.</XMT_FMO_HibernationSpotUnavailable>
+
+	<XMT_ForcedStartingHediffCountCount>Count</XMT_ForcedStartingHediffCountCount>
+	<XMT_ForcedStartingHediffCountHediff>Hediff</XMT_ForcedStartingHediffCountHediff>
+	<XMT_ForcedStartingHediffCountBodyPart>Body part</XMT_ForcedStartingHediffCountBodyPart>
+	<XMT_ForcedStartingHediffCountUseDefaultSeverity>Use hediff initial severity</XMT_ForcedStartingHediffCountUseDefaultSeverity>
+	<XMT_ForcedStartingHediffCountSeverity>Severity</XMT_ForcedStartingHediffCountSeverity>
+	<XMT_ForcedStartingHediffCountSummary>{0} starting pawns forced to have {1}</XMT_ForcedStartingHediffCountSummary>
+	
+	<XMT_FMO_ClimbTo>Climb To</XMT_FMO_ClimbTo>
+	
+	<XMT_AlterGenesLabel>Alter Genes</XMT_AlterGenesLabel>
+	<XMT_AlterGenesDescription>Alter Gene Expression in Target</XMT_AlterGenesDescription>
+	
+	<XMT_AlterMutationsLabel>Induce Mutations</XMT_AlterMutationsLabel>
+	<XMT_AlterMutationsDescription>Encourage mutated tissues to spread.</XMT_AlterMutationsDescription>
+	<XMT_ManageMutationLabel>Manage Mutation</XMT_ManageMutationLabel>
+	<XMT_ManageMutationDescription>Direct or suppress existing mutated tissues.</XMT_ManageMutationDescription>
+	<XMT_HorrorAdvanceLabel>Reshape Mutant</XMT_HorrorAdvanceLabel>
+	<XMT_HorrorAdvanceDescription>Use the Sovereign Crown to advance or regress a fully expressed mutant. The queen must approach the target, and increasing its biological mass consumes her nutrition.</XMT_HorrorAdvanceDescription>
+	<XMT_HorrorPromoteLabel>Promote</XMT_HorrorPromoteLabel>
+	<XMT_HorrorDemoteLabel>Demote</XMT_HorrorDemoteLabel>
+	<XMT_HorrorAdvanceOptionCost>{0} ({1} food)</XMT_HorrorAdvanceOptionCost>
+	<XMT_HorrorAdvanceOptionFree>{0} (no biomass needed)</XMT_HorrorAdvanceOptionFree>
+	<XMT_HorrorAdvanceOptionTooltip>Source biological size: {0}\nDestination biological size: {1}\nFood per added size: {2}\nQueen food required: {3}</XMT_HorrorAdvanceOptionTooltip>
+	<XMT_HorrorAdvanceInvalid_NoCrown>The queen does not have an active Sovereign Crown.</XMT_HorrorAdvanceInvalid_NoCrown>
+	<XMT_HorrorAdvanceInvalid_Target>Must select a spawned horror or mutated animal.</XMT_HorrorAdvanceInvalid_Target>
+	<XMT_HorrorAdvanceInvalid_Self>The queen cannot reshape herself with this command.</XMT_HorrorAdvanceInvalid_Self>
+	<XMT_HorrorAdvanceInvalid_Dead>{0} is dead.</XMT_HorrorAdvanceInvalid_Dead>
+	<XMT_HorrorAdvanceInvalid_Map>{0} is not on the queen's map.</XMT_HorrorAdvanceInvalid_Map>
+	<XMT_HorrorAdvanceInvalid_Hostile>{0} is hostile to the queen.</XMT_HorrorAdvanceInvalid_Hostile>
+	<XMT_HorrorAdvanceInvalid_NoOptions>{0} has no Crown transformation options.</XMT_HorrorAdvanceInvalid_NoOptions>
+	<XMT_HorrorAdvanceInvalid_Option>The selected Crown transformation is no longer valid.</XMT_HorrorAdvanceInvalid_Option>
+	<XMT_HorrorAdvanceInvalid_Adjacent>The queen is no longer adjacent to {0}.</XMT_HorrorAdvanceInvalid_Adjacent>
+	<XMT_HorrorAdvanceInvalid_Placement>There is not enough clear space to become {0}.</XMT_HorrorAdvanceInvalid_Placement>
+	<XMT_HorrorAdvanceInvalid_Food>Requires {0} food; the queen has {1}.</XMT_HorrorAdvanceInvalid_Food>
+	<XMT_InduceMutationLabel>Induce Mutation</XMT_InduceMutationLabel>
+	<XMT_InduceMutationDescription>Direct mutated tissues to spread in a chosen pattern.</XMT_InduceMutationDescription>
+	<XMT_RemoveMutationLabel>Remove Mutation</XMT_RemoveMutationLabel>
+	<XMT_RemoveMutationDescription>Revert a chosen induced mutation toward baseline.</XMT_RemoveMutationDescription>
+	<XMT_SuppressMutationLabel>Suppress Mutation</XMT_SuppressMutationLabel>
+	<XMT_FMO_MutationActions>Mutations: {0}</XMT_FMO_MutationActions>
+	<XMT_FMO_InduceMutation>Induce mutation in {0}...</XMT_FMO_InduceMutation>
+	<XMT_FMO_RemoveMutation>Suppress mutation in {0}...</XMT_FMO_RemoveMutation>
+	<XMT_MutationInvalid_Target>Must select a valid pawn.</XMT_MutationInvalid_Target>
+	<XMT_MutationInvalid_TargetDead>{0} is dead.</XMT_MutationInvalid_TargetDead>
+	<XMT_MutationInvalid_NoHealth>{0} has no health tracker.</XMT_MutationInvalid_NoHealth>
+	<XMT_MutationInvalid_Xenomorph>{0} is already cryptimorphic.</XMT_MutationInvalid_Xenomorph>
+	<XMT_MutationInvalid_NoMutation>No mutation selected.</XMT_MutationInvalid_NoMutation>
+	<XMT_MutationInvalid_NoEssence>No mutable essence present: {0} of any required essence.</XMT_MutationInvalid_NoEssence>
+	<XMT_MutationInvalid_EssenceLow>Essence is too low: {0} of {1} required.</XMT_MutationInvalid_EssenceLow>
+	<XMT_MutationInvalid_EssenceHigh>Essence is too high: {0} of {1} maximum.</XMT_MutationInvalid_EssenceHigh>
+	<XMT_MutationInvalid_MissingBodyPart>Missing required body part: {0}.</XMT_MutationInvalid_MissingBodyPart>
+	<XMT_MutationInvalid_NoBodyPart>No valid body part is available.</XMT_MutationInvalid_NoBodyPart>
+	<XMT_MutationInvalid_MaxSeverity>{0} is already fully expressed.</XMT_MutationInvalid_MaxSeverity>
+	<XMT_MutationInvalid_NotPresent>{0} is not present.</XMT_MutationInvalid_NotPresent>
+	<XMT_MutationInvalid_NoOptions>{0} has no available mutation options.</XMT_MutationInvalid_NoOptions>
+	<XMT_MutationMote_Added>Mutated: {0}</XMT_MutationMote_Added>
+	<XMT_MutationMote_Intensified>Mutation intensified: {0}</XMT_MutationMote_Intensified>
+	<XMT_MutationMote_Reduced>Mutation reduced: {0}</XMT_MutationMote_Reduced>
+	<XMT_MutationMote_Removed>Mutation removed: {0}</XMT_MutationMote_Removed>
+	
+	<XMT_ConsumeGenesLabel>Consume Genes</XMT_ConsumeGenesLabel>
+	<XMT_ConsumeGenesDescription>Extract Genes into a Gene Ovomorph.</XMT_ConsumeGenesDescription>
+
+	<XMT_SubjugateLabel>Biological Subjugation</XMT_SubjugateLabel>
+	<XMT_SubjugateDescription>Force a pawn with brain mutations or a horror into obedience. Range scales with the queen's psychic sensitivity.\n\nCurrent range: {0} cells.</XMT_SubjugateDescription>
+	<XMT_SubjugateInvalid_NoQueen>No controlling queen faction available.</XMT_SubjugateInvalid_NoQueen>
+	<XMT_SubjugateInvalid_Self>The queen already commands herself.</XMT_SubjugateInvalid_Self>
+	<XMT_SubjugateInvalid_Map>{0} is not on the queen's map.</XMT_SubjugateInvalid_Map>
+	<XMT_SubjugateInvalid_NoPsychicReach>The queen has no psychic reach.</XMT_SubjugateInvalid_NoPsychicReach>
+	<XMT_SubjugateInvalid_Range>{0} is outside biological subjugation range ({1} cells).</XMT_SubjugateInvalid_Range>
+	<XMT_SubjugateInvalid_AlreadyControlled>{0} is already controlled.</XMT_SubjugateInvalid_AlreadyControlled>
+	<XMT_SubjugateInvalid_NoInfluence>{0} has no brain mutation and does not count as a horror.</XMT_SubjugateInvalid_NoInfluence>
+	<XMT_SubjugateMote>Submitted</XMT_SubjugateMote>
+	<XMT_SubjugateSuccess>{0} submitted to {1}.</XMT_SubjugateSuccess>
+	
+	<XMT_AlterSelfLabel>Alter Self</XMT_AlterSelfLabel>
+	<XMT_AlterSelfDescription>Alter Gene Expression in self.</XMT_AlterSelfDescription> 
+	
+	<XMT_EvolutionLabel>Choose Traits</XMT_EvolutionLabel>
+	<XMT_EvolutionDescription>express different morphological traits.</XMT_EvolutionDescription>
+	<XMT_EvolutionRequires>requires: </XMT_EvolutionRequires>
+	<XMT_EvolutionReplaces>replaces: {0}</XMT_EvolutionReplaces>
+	<XMT_EvolutionPrerequisiteFor>is prerequisite for </XMT_EvolutionPrerequisiteFor>
+	<XMT_EvolutionIncompatible>conflicts with: </XMT_EvolutionIncompatible>
+	<XMT_EvolutionBlockedByIncompatible>Blocked by incompatible advancement: {0}</XMT_EvolutionBlockedByIncompatible>
+	<XMT_EvolutionAdd>Add</XMT_EvolutionAdd>
+	<XMT_EvolutionRemove>Remove</XMT_EvolutionRemove>
+	<XMT_TrampleInvalid_NoPath>No room to trample.</XMT_TrampleInvalid_NoPath>
+	<XMT_DefensiveStatureToggle>Defensive Stature</XMT_DefensiveStatureToggle>
+	<XMT_DefensiveStatureToggleDesc>Toggle a guarded stance that reinforces the queen's armor and redirects external violent hits from nearby allies to her.</XMT_DefensiveStatureToggleDesc>
+	<XMT_DefensiveStatureStatusActive>Active</XMT_DefensiveStatureStatusActive>
+	<XMT_DefensiveStatureStatusInactive>Inactive</XMT_DefensiveStatureStatusInactive>
+	<XMT_DefensiveStatureStats>Status: {0}\nProtection radius: {1} cells\nMovement speed: x50%\nBlunt, sharp, and heat armor: x150%\nNo line of sight is required. A downed queen cannot protect allies.</XMT_DefensiveStatureStats>
+	<XMT_MutagenicMiasmaStats>Current range: {0} cells\nCone angle: {1:0.#}°\nCooldown: {2}</XMT_MutagenicMiasmaStats>
+	<XMT_ArrayBodySizeBandwidth>Array Crown body size: +{0} bandwidth (body size {1})</XMT_ArrayBodySizeBandwidth>
+	<XMT_NetworkStunStats>Psychic sensitivity: {0}\nTotal bandwidth: {1}\nCenter range: {2} cells\nEffect radius: {3} cells\nMaximum reach: {4} cells\nStun duration: {5}\nCooldown: {6}\nIgnores line of sight. Mechanoids controlled by this queen and inorganics carrying an attached subverter are immune.</XMT_NetworkStunStats>
+	<XMT_NetworkStunEmpty>No eligible inorganic pawn or automated turret is within the effect area.</XMT_NetworkStunEmpty>
+	<XMT_NetworkStunOutOfRange>The signal center must be within {0} cells.</XMT_NetworkStunOutOfRange>
+	<XMT_NetworkStunNoArray>The Array Crown is not functional.</XMT_NetworkStunNoArray>
+	<XMT_NetworkStunNoBandwidth>A functioning mechlink and positive total bandwidth are required.</XMT_NetworkStunNoBandwidth>
+	<XMT_NetworkStunNoSensitivity>Psychic sensitivity is too low to transmit the payload.</XMT_NetworkStunNoSensitivity>
+	<XMT_SovereignRemoteStats>Sovereign transmission range: {0} cells\nChannel time: {1}\nNo line of sight is required.</XMT_SovereignRemoteStats>
+	<XMT_SovereignAlterationInvalidTarget>The alteration target is no longer available.</XMT_SovereignAlterationInvalidTarget>
+	<XMT_SovereignAlterationNotAdjacent>{0} is no longer within reach.</XMT_SovereignAlterationNotAdjacent>
+	<XMT_SovereignAlterationCasterMoved>The queen moved and lost the alteration channel.</XMT_SovereignAlterationCasterMoved>
+	<XMT_SovereignAlterationTargetMoved>{0} moved and broke the alteration channel.</XMT_SovereignAlterationTargetMoved>
+	<XMT_SovereignAlterationOutOfRange>{0} must remain within the Sovereign Crown's range of {1} cells.</XMT_SovereignAlterationOutOfRange>
+	<XMT_MutagenicMiasmaProtected>Protected ({0})</XMT_MutagenicMiasmaProtected>
+	<XMT_MutagenicMiasmaSuccess>Mutated!</XMT_MutagenicMiasmaSuccess>
+	<XMT_MutagenicMiasmaOutOfRange>Target is outside mutagenic miasma range ({0} cells).</XMT_MutagenicMiasmaOutOfRange>
+	<XMT_BattleLog_QueenTrampled>{QUEEN_nameDef} trampled {TARGET_labelShort}.</XMT_BattleLog_QueenTrampled>
+	<XMT_BattleLog_QueenGrazed>{QUEEN_nameDef} grazed {TARGET_labelShort} in her charge.</XMT_BattleLog_QueenGrazed>
+	
+	<XMT_LayOvomorphLabel>Lay {0}</XMT_LayOvomorphLabel>
+	<XMT_LayOvomorphDescription>Lay {0} at the designated location.</XMT_LayOvomorphDescription>
+	<XMT_InsufficientNutrition>Insufficient nutrition to lay {0}.</XMT_InsufficientNutrition>
+	<XMT_SelectEggOptionDesc>Right-click to choose what will be laid.</XMT_SelectEggOptionDesc>
+	<XMT_SelectedEggOption>Selected: {0}</XMT_SelectedEggOption>
+	<XMT_InvalidEggOption>No valid egg option is available.</XMT_InvalidEggOption>
+	<XMT_EggOptionRequiresEvolution>Requires {0}.</XMT_EggOptionRequiresEvolution>
+	<XMT_EggOptionRequiresGene>Requires gene: {0}.</XMT_EggOptionRequiresGene>
+	<XMT_EggOptionRequiresGeneHolder>{0} cannot hold genes.</XMT_EggOptionRequiresGeneHolder>
+	<XMT_EggSackProduction>Egg production: {0}/{1}</XMT_EggSackProduction>
+	<XMT_EggSackPendingMechGestation>Queued mechanoid: {0} ({1} reserve eggs).</XMT_EggSackPendingMechGestation>
+	<XMT_EggSackNutritionSufficient>Nutrition: sufficient for another egg.</XMT_EggSackNutritionSufficient>
+	<XMT_EggSackNutritionSufficientAmount>Nutrition: sufficient for another egg ({0}/{1}).</XMT_EggSackNutritionSufficientAmount>
+	<XMT_EggSackNutritionInsufficientAmount>Nutrition: insufficient for another egg ({0}/{1}).</XMT_EggSackNutritionInsufficientAmount>
+	<XMT_EggSackNutritionUnknown>Nutrition: no egg-layer detected.</XMT_EggSackNutritionUnknown>
+
+	<XMT_GoneFeral>{0} has gone feral.</XMT_GoneFeral>
+	<XMT_MotherEggHatch>{0}'s Ovomorph has hatched!</XMT_MotherEggHatch>
+	<XMT_ParasiteCrushing>The Parasite is crushing {0} to stay secured!</XMT_ParasiteCrushing>
+
+	<XMT_NoRoomToMature>Cannot Form a Chrystalis, no more room in nest!</XMT_NoRoomToMature>
+	<XMT_NoRoomToCocoon>Cannot Abduct more hosts, no more room in nest!</XMT_NoRoomToCocoon>
+	
+	
+	<XMT_DefendHive>{0} is defending the hive!</XMT_DefendHive>
+	
+	<XMT_CannotHatch>cannot hatch, still gestating."</XMT_CannotHatch>
+	<XMT_ForceHatch>Hatch Now</XMT_ForceHatch>
+	<XMT_Hatch>Hatch</XMT_Hatch>
+	<XMT_Ready>Ready.</XMT_Ready>
+	
+	<XMT_StandLabel>Stand-up</XMT_StandLabel>
+	<XMT_StandDescription>Stand to improve attack cooldown.</XMT_StandDescription>
+	
+	<XMT_CrawlLabel>Crawl</XMT_CrawlLabel>
+	<XMT_CrawlDescription>Drop to all fours to improve speed.</XMT_CrawlDescription>
+	
+	<XMT_Implant>Implant</XMT_Implant>
+	<XMT_ImplantDescription>Attempt attachment to a host for embryo implantation.</XMT_ImplantDescription>
+	<XMT_SubverterAttach>Subvert</XMT_SubverterAttach>
+	<XMT_SubverterAttachDescription>Attach to an inorganic pawn, or sacrifice this subverter to corrupt an unmanned direct-fire turret.</XMT_SubverterAttachDescription>
+	<XMT_SubvertTurretReport>Subverting turret.</XMT_SubvertTurretReport>
+	<XMT_SubvertedTurretIndicator>Malfunctioning</XMT_SubvertedTurretIndicator>
+	
+	<XMT_ReadyIn>Ready in</XMT_ReadyIn>
+	<XMT_EggNeedResin>Needs resin floor to help mature.</XMT_EggNeedResin>
+	
+	<XMT_MustPlaceOnEmptyOvomorph>Must place on empty Ovomorph.</XMT_MustPlaceOnEmptyOvomorph>
+	
+	<XMT_LetterLabelQueenDefendersArrived>Defenders have arrived</XMT_LetterLabelQueenDefendersArrived>
+	<XMT_QueenDefendersArrived>A pack of {0} have come to defend their mother! They will hunt down all enemies who dared to harm her!</XMT_QueenDefendersArrived>
+	<XMT_LetterLabelQueenAidScreech>A queen screams</XMT_LetterLabelQueenAidScreech>
+	<XMT_QueenAidScreech>A wounded queen's shriek rolls across the hive. Something in the dark has heard her.</XMT_QueenAidScreech>
+	
+	<XMT_CommandMarkFriend>Mark Friend</XMT_CommandMarkFriend>
+	<XMT_CommandMarkFriendDescription>Mark as friends of the family!</XMT_CommandMarkFriendDescription>
+	
+	<XMT_CommandMarkEnemy>Mark Enemy</XMT_CommandMarkEnemy>
+	<XMT_CommandMarkEnemyDescription>Mark as enemies of the family!</XMT_CommandMarkEnemyDescription>
+	
+	<XMT_MessageMustDesignateAlive>Must designate a living non-cryptimorph target.</XMT_MessageMustDesignateAlive>
+	
+	<XMT_CommandAbduct>Abduct</XMT_CommandAbduct>
+	<XMT_CommandAbductDescription>Designate targets for abduction. Assigned workers compare their grapple strength against the target's grapple strength and may skip targets that are likely to resist.</XMT_CommandAbductDescription>
+	
+	<XMT_MessageMustDesignateAbductable>Must designate a living target.</XMT_MessageMustDesignateAbductable>
+	<XMT_TextMote_AbductGrappleResisted>Resisted\n{0} resist chance\n{1} success chance</XMT_TextMote_AbductGrappleResisted>
+	
+	<XMT_CommandInvestigateSite>Investigate Settlement</XMT_CommandInvestigateSite>
+	<XMT_CommandInvestigateSiteDesc>No one seems to be home? that's odd.</XMT_CommandInvestigateSiteDesc>
+	<XMT_LetterLabelCaravanEnteredAftermathBase>Investigating Settlement</XMT_LetterLabelCaravanEnteredAftermathBase>
+	<XMT_LetterCaravanEnteredAftermathBase>The Settlement is eeriely quiet, the area pockmarked with signs of corrosive acid burned into the ground.</XMT_LetterCaravanEnteredAftermathBase>
+	<XMT_LetterLabelSettlementDistressSignal>Distress signal</XMT_LetterLabelSettlementDistressSignal>
+	<XMT_LetterSettlementDistressSignal>A broken transmission from {0} has reached you. {1} reports the settlement has gone silent after confused calls for help. They are asking anyone nearby to investigate and return word of what happened. They will remember a truthful report.</XMT_LetterSettlementDistressSignal>
+	<XMT_LetterLabelSettlementDistressSignals>Distress signals</XMT_LetterLabelSettlementDistressSignals>
+	<XMT_LetterSettlementDistressSignals>{0} settlements have gone silent in rapid succession: {1}. Their factions are circulating confused distress calls and asking for confirmation of what happened. Those who bring back reliable reports will earn their gratitude.</XMT_LetterSettlementDistressSignals>
+	<XMT_UnknownFaction>Unknown faction</XMT_UnknownFaction>
+	<XMT_MoreSettlements>others</XMT_MoreSettlements>
+
+	<XMT_LetterLabelCaravanAttackedByBase>Settlement Attacking!</XMT_LetterLabelCaravanAttackedByBase>
+	<XMT_LetterCaravanAttackedByBase> Negotiations with {1} have broken down, and they are attacking {0}!</XMT_LetterCaravanAttackedByBase>
+	
+	<XMT_LoadPatching>Alien|Rimworld Patching</XMT_LoadPatching>
+	
+	<XMT_CommandLarder>Induce Larder</XMT_CommandLarder>
+	<XMT_CommandLarderDescription>Designate a living organic target to be grown into a larder.</XMT_CommandLarderDescription>
+	
+	<XMT_MessageMustDesignateLarder>Must designate living, downed, organic target.</XMT_MessageMustDesignateLarder>
+	
+	<XMT_CommandMakeJelly>Make Jelly</XMT_CommandMakeJelly>
+	<XMT_CommandMakeJellyDescription>Designate organic material to be made into resinous jelly.</XMT_CommandMakeJellyDescription>
+	
+	<XMT_MessageMustDesignateJelly>Must Designate organic matter or fertile terrain.</XMT_MessageMustDesignateJelly>
+	
+	<XMT_CommandArt>Sculpt</XMT_CommandArt>
+	<XMT_CommandArtDescription>Designate skeletons for art sculpture.</XMT_CommandArtDescription>
+	<XMT_CommandHiveIdeologyBuildings>Shape Ideology Structure</XMT_CommandHiveIdeologyBuildings>
+	<XMT_CommandHiveIdeologyBuildingsDescription>Shape a believed ideological structure from resin.</XMT_CommandHiveIdeologyBuildingsDescription>
+	<XMT_IdeologyBuildOptionWithIdeo>{0} ({1})</XMT_IdeologyBuildOptionWithIdeo>
+	
+	<XMT_MessageMustDesignateArtable>Must Designate Dessicated Corpses.</XMT_MessageMustDesignateArtable>
+	
+	<XMT_GameOverJoinXenomorphs>Embrace Perfection</XMT_GameOverJoinXenomorphs>
+	
+	<XMT_RitualTargetJellyInfo>You need {0} jelly for each participant ({1} total).</XMT_RitualTargetJellyInfo>
+	<XMT_RitualTargetJellyInfoAppend>A participant cannot reach enough jelly.</XMT_RitualTargetJellyInfoAppend>
+	<XMT_RitualTargetJellyInfoAppendMultiple>{0} participants cannot reach enough jelly.</XMT_RitualTargetJellyInfoAppendMultiple>
+	<XMT_RitualTargetJellyInfoWarning>{PAWN_labelShort} cannot reach enough jelly.</XMT_RitualTargetJellyInfoWarning>
+	
+	<XMT_QueenAscensionLetterTitle>Advancement Complete!</XMT_QueenAscensionLetterTitle>
+	<XMT_QueenAscensionLetterDescription>{PAWN_labelShort} has finished her advancement, her voice now commands all cryptimorphs on the planet.</XMT_QueenAscensionLetterDescription>
+	
+	<XMT_HiveRisesLetterTitle>Cryptimorphs Triumphant!</XMT_HiveRisesLetterTitle>
+	<XMT_HiveRisesLetterDescription>The prey has been overcome and this nesting site is now secure, gather more hosts, grow the family, ascend!</XMT_HiveRisesLetterDescription>
+	
+	<XMT_HumanRebellionLetterTitle>Prey Resists!</XMT_HumanRebellionLetterTitle>
+	<XMT_HumanRebellionLetterDescription>The prey are not yet docile! Some have turned violent in the face of your ascendency and must be repelled or contained!</XMT_HumanRebellionLetterDescription>
+	
+	<XMT_RequiresJellyExtraction>Requires cryptimorphic biochemistry.</XMT_RequiresJellyExtraction>
+	
+	<XMT_JellyExtraction>Extract Jelly</XMT_JellyExtraction>
+	<XMT_JellyExtractionDescription>Doctors will extract Resinous Jelly from the captured entity whenever possible. This extraction method is simple, but inefficient. Can't be done if the entity is too metabolically taxed.</XMT_JellyExtractionDescription>
+	<XMT_ResinExtraction>Extract Resin</XMT_ResinExtraction>
+	<XMT_ResinExtractionDescription>Doctors will milk cryptimorphic resin from the captured entity whenever possible. This extraction method is simple, but inefficient. Can't be done if the entity is too metabolically taxed.</XMT_ResinExtractionDescription>
+	
+	<XMT_RequiresAcidExtraction>Requires cryptimorphic acid chemistry.</XMT_RequiresAcidExtraction>
+	
+	<XMT_AcidExtraction>Extract Acid</XMT_AcidExtraction>
+	<XMT_AcidExtractionDescription>Doctors will draw acid blood from the captured entity whenever possible. This extraction method is simple, but inefficient. Can't be done if the entity is too metabolically taxed.</XMT_AcidExtractionDescription>
+	
+	
+	<XMT_MessageCannotStartJellyExtraction>{PAWN_nameDef}'s metabolism cannot yet produce more jelly.</XMT_MessageCannotStartJellyExtraction>
+	<XMT_MessagePawnHadNotEnoughToProduceJelly>{PAWN_nameDef}'s metabolism is not recovered enough to produce jelly. </XMT_MessagePawnHadNotEnoughToProduceJelly>
+	
+	<XMT_MessageCannotStartResinExtraction>{PAWN_nameDef}'s metabolism cannot yet produce more resin.</XMT_MessageCannotStartResinExtraction>
+	<XMT_MessagePawnHadNotEnoughToProduceResin>{PAWN_nameDef}'s metabolism is not recovered enough to produce resin. </XMT_MessagePawnHadNotEnoughToProduceResin>
+	<XMT_MessageContainedExtractionFailed>{SURGEON_labelShort} failed while extracting from {PAWN_labelShort}, spilling acid blood. Automatic extraction has been suspended.</XMT_MessageContainedExtractionFailed>
+	
+	<XMT_Tame>Taming</XMT_Tame>
+	
+	<XMT_TameAmount>Taming Progress: </XMT_TameAmount>
+	
+	<XMT_TextMote_TameFail>Tame failed\n{0} progress</XMT_TextMote_TameFail>
+	
+	<XMT_TameSocial>Socialize</XMT_TameSocial>
+	<XMT_TameSocialDescription>Attempt to socialize the organism through communication in multi-spectrum infra and ultra sound vocalizations.</XMT_TameSocialDescription>
+	<XMT_TameSocialDisabled>No Colonist capable of required vocalizations.</XMT_TameSocialDisabled>
+	
+	<XMT_TameCondition>Opperant Condition</XMT_TameCondition>
+	<XMT_TameConditionDescription>Attempt to condition away from unwanted behaviors with operant conditioning.</XMT_TameConditionDescription>
+	<XMT_TameConditionDisabled>No Colonist capable of violence equipped with weapon.</XMT_TameConditionDisabled>
+	
+	<XMT_TameBribery>Feed</XMT_TameBribery>
+	<XMT_TameBriberyDescription>Attempt to train desired  behaviors with food as a motivator.</XMT_TameBriberyDescription>
+	<XMT_TameBriberyDisabled>No Colonist capable of animal handling.</XMT_TameBriberyDisabled>
+	
+	<XMT_TameSmell>Pheromones</XMT_TameSmell>
+	<XMT_TameSmellDescription>Acclimate and guide behavior using pheromone conditioning.</XMT_TameSmellDescription>
+	<XMT_TameSmellDisabled>No suitable Pheromone marked individuals available.</XMT_TameSmellDisabled>
+	
+	<XMT_TameThreat>Threaten Hostage</XMT_TameThreat>
+	<XMT_TameThreatDescription>Attempt to train by holding Ovomorphs or the Egglaying Caste Hostage.</XMT_TameThreatDescription>
+	<XMT_TameThreatDisabled>No suitable hostage available.</XMT_TameThreatDisabled>
+	
+	<XMT_TameRelease>Release On Tame</XMT_TameRelease>
+	<XMT_TameReleaseDescription>Once it shows obedience release the entity.</XMT_TameReleaseDescription>
+	
+	<XMT_GameOverXenoformedIntro>You've overwhelmed all resistance on this world.\n\n</XMT_GameOverXenoformedIntro>
+	<XMT_GameOverXenoformedEnding>You have struggled against the prey but now all the world sings with the voice of your children. \n\nYou may now do with this world as you wish, to ravage or preserve as you see fit until you deem it necessary to rest and await new hosts...</XMT_GameOverXenoformedEnding>
+	<XMT_GameOverChildren>These offspring survived to see your apotheosis:\n\n{0}</XMT_GameOverChildren>
+	
+	<XMT_XenoformingRaised>Your children are prospering on this world.</XMT_XenoformingRaised>
+	<XMT_XenoformingLowered>Your children are faltering on this world</XMT_XenoformingLowered>
+	
+	<XMT_ReleasePioneer>Release Pioneer</XMT_ReleasePioneer>
+	<XMT_ReleasePioneerDescription>Send this child into the world to spread the family.</XMT_ReleasePioneerDescription>
+	
+	<XMT_Info_Inorganic>inorganic\n</XMT_Info_Inorganic>
+	
+	<XMT_Info_HiveLover>marked hive lover</XMT_Info_HiveLover>
+	<XMT_Info_HiveFriend>marked hive friend</XMT_Info_HiveFriend>
+	<XMT_Info_HiveEnemy>marked hive enemy</XMT_Info_HiveEnemy>
+	
+	<XMT_Info_Stinky>drenched in stink</XMT_Info_Stinky>
+	<XMT_Info_Smelly>overpowering smell</XMT_Info_Smelly>
+	<XMT_Info_Cloying>cloying scent</XMT_Info_Cloying>
+	<XMT_Info_Odor>strange odor</XMT_Info_Odor>
+	<XMT_Info_AggregationPheromoneExposure>aggregation pheromone exposure</XMT_Info_AggregationPheromoneExposure>
+	<XMT_Info_ReproductivePheromoneExposure>reproductive pheromone exposure</XMT_Info_ReproductivePheromoneExposure>
+	<XMT_Info_AlarmPheromoneExposure>alarm pheromone exposure</XMT_Info_AlarmPheromoneExposure>
+	<XMT_Info_MixedPheromoneExposure>mixed pheromone exposure</XMT_Info_MixedPheromoneExposure>
+	<XMT_Info_Desc_ClinicalPheromones>Clinical analysis identifies cryptimorphic signaling compounds applied over the body. Aggregation concentration: {0}. Reproductive concentration: {1}. Alarm concentration: {2}.</XMT_Info_Desc_ClinicalPheromones>
+
+	<XMT_PheromoneGland_UnidentifiedLabel>scent gland</XMT_PheromoneGland_UnidentifiedLabel>
+	<XMT_PheromoneGland_UnidentifiedDescription>An unfamiliar glandular growth is producing a sticky, clear secretion. A strange scent of spice lingers around the body, becoming cloyingly sweet and sharply pungent at close range.</XMT_PheromoneGland_UnidentifiedDescription>
+	<XMT_PheromoneGland_AggregationLabel>aggregation pheromone gland</XMT_PheromoneGland_AggregationLabel>
+	<XMT_PheromoneGland_AggregationDescription>A modified exocrine gland secreting an identified aggregation pheromone. Analysis predicts that cryptimorphic organisms will interpret the marked subject as socially affiliated, familiar, or tolerated.</XMT_PheromoneGland_AggregationDescription>
+	<XMT_PheromoneGland_ReproductiveLabel>reproductive pheromone gland</XMT_PheromoneGland_ReproductiveLabel>
+	<XMT_PheromoneGland_ReproductiveDescription>A modified exocrine gland secreting an identified reproductive pheromone. Analysis predicts that cryptimorphic organisms will interpret the marked subject as a potential reproductive partner.</XMT_PheromoneGland_ReproductiveDescription>
+	<XMT_PheromoneGland_AlarmLabel>alarm pheromone gland</XMT_PheromoneGland_AlarmLabel>
+	<XMT_PheromoneGland_AlarmDescription>A modified exocrine gland secreting an identified alarm pheromone. Analysis predicts that cryptimorphic organisms will interpret the marked subject as a danger and may respond aggressively.</XMT_PheromoneGland_AlarmDescription>
+	<XMT_PheromoneGland_MixedLabel>mixed pheromone gland</XMT_PheromoneGland_MixedLabel>
+	<XMT_PheromoneGland_MixedDescription>A modified exocrine gland secreting several identified cryptimorphic signaling compounds with overlapping social, reproductive, and alarm functions.</XMT_PheromoneGland_MixedDescription>
+
+	<XMT_PheromoneApplicationFailed>{PAWN_labelShort}'s body could not be treated with the pheromone.</XMT_PheromoneApplicationFailed>
+	<XMT_MessageCannotStartPheromoneExtraction>{PAWN_labelShort} cannot currently produce a raw pheromone gland.</XMT_MessageCannotStartPheromoneExtraction>
+	<XMT_MessagePawnHadNotEnoughToProducePheromone>{PAWN_labelShort} no longer has enough metabolic reserves to produce a raw pheromone gland.</XMT_MessagePawnHadNotEnoughToProducePheromone>
+	<XMT_RequiresPheromoneExtraction>Requires cryptimorphic pheromones research.</XMT_RequiresPheromoneExtraction>
+	<XMT_PheromoneExtraction>Extract Pheromone Gland</XMT_PheromoneExtraction>
+	<XMT_PheromoneExtractionDescription>Periodically extract one raw pheromone gland from this contained organism. Extraction strains its metabolism and causes it to resent the extractor.</XMT_PheromoneExtractionDescription>
+
+	<XMT_Pheromone_Aggregation>Aggregation pheromone</XMT_Pheromone_Aggregation>
+	<XMT_Pheromone_Reproductive>Reproductive pheromone</XMT_Pheromone_Reproductive>
+	<XMT_Pheromone_Alarm>Alarm pheromone</XMT_Pheromone_Alarm>
+	<XMT_Pheromone_None>No pheromone</XMT_Pheromone_None>
+	<XMT_PheromoneEmitter_ApplyLabel>Apply pheromone</XMT_PheromoneEmitter_ApplyLabel>
+	<XMT_PheromoneEmitter_ApplyDescription>Select a pheromone for the emitter to apply directly over its wearer's body.</XMT_PheromoneEmitter_ApplyDescription>
+	<XMT_PheromoneEmitter_Charges>Pheromone charges: {0} / {1}</XMT_PheromoneEmitter_Charges>
+	<XMT_PheromoneEmitter_Cooldown>Emitter cooling down: {0}</XMT_PheromoneEmitter_Cooldown>
+	<XMT_PheromoneEmitter_CooldownInspect>Cooldown remaining: {0}</XMT_PheromoneEmitter_CooldownInspect>
+	<XMT_PheromoneDoorway_SelectLabel>Select pheromone</XMT_PheromoneDoorway_SelectLabel>
+	<XMT_PheromoneDoorway_SelectDescription>Select which pheromone the doorway applies. Current selection: {0}.</XMT_PheromoneDoorway_SelectDescription>
+	
+	<XMT_Info_And> and </XMT_Info_And>
+	<XMT_Obsessed>obsessed</XMT_Obsessed>
+	
+	<XMT_Info_Traumatized>traumatized</XMT_Info_Traumatized>
+	<XMT_Info_Paranoid>paranoid</XMT_Info_Paranoid>
+	<XMT_Info_Anxious>anxious</XMT_Info_Anxious>
+	<XMT_Info_Concern>concerned</XMT_Info_Concern>
+	
+	<XMT_Info_Desc_HiveLover>Has been marked as a lover of the hive. \n</XMT_Info_Desc_HiveLover>
+	<XMT_Info_Desc_HiveFriend>Has been marked as an ally and friend of the hive. \n</XMT_Info_Desc_HiveFriend>
+	<XMT_Info_Desc_HiveEnemy>Has been marked as a threat to the hive \n</XMT_Info_Desc_HiveEnemy>
+	
+	<XMT_Info_Desc_Stinky>Covered in a sticky clear goop with an overwhelmingly pungant scent. \n</XMT_Info_Desc_Stinky>
+	<XMT_Info_Desc_Smelly>An overwhelming scent of smokey spices and sharp accents suffuces chokingly. \n</XMT_Info_Desc_Smelly>
+	<XMT_Info_Desc_Cloying>There is a deep sweetly savory smell filling the air around them. \n</XMT_Info_Desc_Cloying>
+	<XMT_Info_Desc_Odor>A strange scent of spice lingers. \n</XMT_Info_Desc_Odor>
+	
+	<XMT_Info_Ovomorph>Has witnessed what comes from Ovomorphs. \n</XMT_Info_Ovomorph>
+	<XMT_Info_Ovomorph_Obsessed>Is fascinated by the life cycle of Ovomorphs. \n</XMT_Info_Ovomorph_Obsessed>
+
+	<XMT_Info_Larva>Knows to be wary of skittering spider like things that leap for your face. \n</XMT_Info_Larva>
+	<XMT_Info_Larva_Obsessed>Admires the parasitic larva of the Cryptimorphic lifecycle. \n</XMT_Info_Larva_Obsessed>
+	
+	<XMT_Info_Horror>Has seen the brutality and horror in the dark. \n</XMT_Info_Horror>
+	<XMT_Info_Horror_Obsessed>Adores the purity of the perfect organism. \n</XMT_Info_Horror_Obsessed>
+	
+	<XMT_Info_Acid>Has experienced how dangerous acidic blood is. \n</XMT_Info_Acid>
+	<XMT_Info_Acid_Obsessed>Is amazed by the strength of cryptimorph acidic blood. \n</XMT_Info_Acid_Obsessed>
+	
+	<XMT_Info_Psychic>Is haunted by strange whispers just outside of legibility. \n</XMT_Info_Psychic>
+	<XMT_Info_Psychic_Obsessed>Hears beautiful voices whispering, calling out. \n</XMT_Info_Psychic_Obsessed>
+
+	<XMT_Info_Informed>cryptimorph informed</XMT_Info_Informed>
+	<XMT_Trauma_Concerned>concerned</XMT_Trauma_Concerned>
+	<XMT_Trauma_Anxious>anxious</XMT_Trauma_Anxious>
+	<XMT_Trauma_Paranoid>paranoid</XMT_Trauma_Paranoid>
+	<XMT_Trauma_Traumatized>traumatized</XMT_Trauma_Traumatized>
+	<XMT_Obsession_Intrigued>intrigued</XMT_Obsession_Intrigued>
+	<XMT_Obsession_Fascinated>fascinated</XMT_Obsession_Fascinated>
+	<XMT_Obsession_Obsessed>obsessed</XMT_Obsession_Obsessed>
+	<XMT_Obsession_Enthralled>enthralled</XMT_Obsession_Enthralled>
+	<XMT_KnowledgeLevel_Vague>vague awareness</XMT_KnowledgeLevel_Vague>
+	<XMT_KnowledgeLevel_Basic>basic knowledge</XMT_KnowledgeLevel_Basic>
+	<XMT_KnowledgeLevel_Practical>practical knowledge</XMT_KnowledgeLevel_Practical>
+	<XMT_KnowledgeLevel_Thorough>thorough knowledge</XMT_KnowledgeLevel_Thorough>
+	<XMT_KnowledgeLevel_Complete>complete knowledge</XMT_KnowledgeLevel_Complete>
+	<XMT_Knowledge_Ovomorph_Learned>Has {0} of ovomorphs and their role in the cryptimorph lifecycle. \n</XMT_Knowledge_Ovomorph_Learned>
+	<XMT_Knowledge_Ovomorph_Experienced>Has {0} of ovomorphs through direct experience. \n</XMT_Knowledge_Ovomorph_Experienced>
+	<XMT_Knowledge_Larva_Learned>Has {0} of cryptimorph larvae, implantation, and the danger of close contact. \n</XMT_Knowledge_Larva_Learned>
+	<XMT_Knowledge_Larva_Experienced>Has {0} of cryptimorph larvae and implantation through direct experience. \n</XMT_Knowledge_Larva_Experienced>
+	<XMT_Knowledge_Adult_Learned>Has {0} of adult cryptimorph behavior and danger. \n</XMT_Knowledge_Adult_Learned>
+	<XMT_Knowledge_Adult_Experienced>Has {0} of adult cryptimorphs through direct encounters. \n</XMT_Knowledge_Adult_Experienced>
+	<XMT_Knowledge_Acid_Learned>Has {0} of cryptimorph acid blood and safe handling precautions. \n</XMT_Knowledge_Acid_Learned>
+	<XMT_Knowledge_Acid_Experienced>Has {0} of acid blood through direct exposure. \n</XMT_Knowledge_Acid_Experienced>
+	<XMT_Knowledge_Psychic_Learned>Has {0} of cryptimorph psychic influence. \n</XMT_Knowledge_Psychic_Learned>
+	<XMT_Knowledge_Psychic_Experienced>Recognizes cryptimorph psychic influence through direct experience. \n</XMT_Knowledge_Psychic_Experienced>
+	
+	<XMT_Info_Error>Removing the info hediff does not do anything cheater!</XMT_Info_Error>
+	
+	<XMT_Cloner_Sample>Sample for Cloning</XMT_Cloner_Sample>
+	<XMT_Cloner_Sample_Description>Sample an organic living baseline that will be cloned in eggs.</XMT_Cloner_Sample_Description>
+	
+	<XMT_Vermin_Target>Choose Target</XMT_Vermin_Target>
+	<XMT_Vermin_Target_Description>Choose a species to be exterminated.</XMT_Vermin_Target_Description>
+	
+	<XMT_Guard_Target>Choose Ward</XMT_Guard_Target>
+	<XMT_Guard_Target_Description>Choose a living being to protect.</XMT_Guard_Target_Description>
+	<XMT_Guard_Sad_Reason>Ward is missing.</XMT_Guard_Sad_Reason>
+	<XMT_Guard_Coma_Reason>Ward died.</XMT_Guard_Coma_Reason>
+	<XMT_TerribleHowling>terrible howling</XMT_TerribleHowling>
+	<XMT_LivingReason>living</XMT_LivingReason>
+
+	<XMT_Assimilate>Assimilate</XMT_Assimilate>
+	<XMT_AssimilateDesc>Integrate compatible matter or technology into the queen's body.</XMT_AssimilateDesc>
+	<XMT_AssimilateThing>Assimilate {0}</XMT_AssimilateThing>
+	<XMT_AssimilationCannotReach>Cannot reach {0}.</XMT_AssimilationCannotReach>
+	<XMT_AssimilationNotAssimilatable>Not assimilatable.</XMT_AssimilationNotAssimilatable>
+	<XMT_AssimilationAlreadyAssimilated>Already assimilated.</XMT_AssimilationAlreadyAssimilated>
+	<XMT_AssimilationRequires>Requires {0}.</XMT_AssimilationRequires>
+	<XMT_AssimilationRequiresCount>Requires {0} {1}.</XMT_AssimilationRequiresCount>
+	<XMT_AssimilationCompletedGeneric>{PAWN_nameDef} assimilated {0}.</XMT_AssimilationCompletedGeneric>
+	<XMT_AssimilatedMechlinkMessage>{PAWN_nameDef} has assimilated a mechlink.</XMT_AssimilatedMechlinkMessage>
+	<XMT_AssimilatedMechanoidTransponderMessage>{PAWN_nameDef} has assimilated a mechanoid transponder.</XMT_AssimilatedMechanoidTransponderMessage>
+	<XMT_AssimilatedSignalChipMessage>{PAWN_nameDef} has assimilated a signal chip and decoded standard mechtech.</XMT_AssimilatedSignalChipMessage>
+	<XMT_AssimilatedPowerfocusChipMessage>{PAWN_nameDef} has assimilated a powerfocus chip and decoded high mechtech.</XMT_AssimilatedPowerfocusChipMessage>
+	<XMT_AssimilatedNanostructuringChipMessage>{PAWN_nameDef} has assimilated a nanostructuring chip and decoded ultra mechtech.</XMT_AssimilatedNanostructuringChipMessage>
+	<XMT_MechanitorShipDecryptedLabel>Mechanitor ship decrypted</XMT_MechanitorShipDecryptedLabel>
+	<XMT_MechanitorShipDecryptedText>{PAWN_nameDef} has assimilated the mechanoid transponder and decrypted the location of a mechanitor ship.</XMT_MechanitorShipDecryptedText>
+	<XMT_CallMechThreat>Call mech threat</XMT_CallMechThreat>
+	<XMT_CallMechThreatDesc>Broadcast a hostile mechanoid challenge through the queen's integrated mech signals.</XMT_CallMechThreatDesc>
+	<XMT_CallMechThreatOption>Call {0}</XMT_CallMechThreatOption>
+	<XMT_CallMechThreatRequires>Call {0}: requires {1}</XMT_CallMechThreatRequires>
+	<XMT_CallMechThreatReward>Reward: {0}.</XMT_CallMechThreatReward>
+	<XMT_CallMechThreatWave>Call wave: {0}.</XMT_CallMechThreatWave>
+	<XMT_CalledMechThreat>{PAWN_nameDef} called a {0} threat.</XMT_CalledMechThreat>
+	<XMT_NoMechThreatsAvailable>No mech threats available.</XMT_NoMechThreatsAvailable>
+	<XMT_HijackComms>Hijack comms</XMT_HijackComms>
+	<XMT_HijackCommsDesc>Open long-range communications through the queen's signal-amplifying antenna.</XMT_HijackCommsDesc>
+	<XMT_NoCommsTargetsAvailable>No comms targets available.</XMT_NoCommsTargetsAvailable>
+	<XMT_QueenResources>Reserves</XMT_QueenResources>
+	<XMT_AssimilatedResourcesMessage>{PAWN_nameDef} assimilated {1}, recovering {2}.</XMT_AssimilatedResourcesMessage>
+	<XMT_GestateMechanoid>Gestate mechanoid</XMT_GestateMechanoid>
+	<XMT_GestateMechanoidDesc>Gestate a small mechanoid from assimilated mechanoid material.</XMT_GestateMechanoidDesc>
+	<XMT_GestateMechanoidThroneDesc>Use the ovothrone's reserve eggs to gestate a mechanoid behind the throne.</XMT_GestateMechanoidThroneDesc>
+	<XMT_GestateMechanoidOption>Gestate {0}: {1} material, {2}h</XMT_GestateMechanoidOption>
+	<XMT_GestateMechanoidThroneOption>Gestate {0}: {1} material, {2} reserve eggs</XMT_GestateMechanoidThroneOption>
+	<XMT_CancelMechGestation>Cancel queued mechanoid</XMT_CancelMechGestation>
+	<XMT_MechGestationQueued>Queued {0} for ovothrone gestation. Requires {1} reserve eggs.</XMT_MechGestationQueued>
+	<XMT_NoMechGestationOptions>No mechanoid patterns available.</XMT_NoMechGestationOptions>
+	<XMT_MechGestationUnavailable>Unavailable.</XMT_MechGestationUnavailable>
+	<XMT_MechGestationLocked>Requires mechanoid gestation.</XMT_MechGestationLocked>
+	<XMT_MechGestationResearchMissing>Requires {0}.</XMT_MechGestationResearchMissing>
+	<XMT_MechGestationNeedsMaterial>Requires {0} {1}.</XMT_MechGestationNeedsMaterial>
+	<XMT_MechGestationNeedsReserveEggs>Requires {0} reserve eggs ({1}/{2}).</XMT_MechGestationNeedsReserveEggs>
+	<XMT_MechGestationNoBandwidth>Requires mechanitor control.</XMT_MechGestationNoBandwidth>
+	<XMT_MechGestationComplete>{PAWN_nameDef} finished gestating {MECH_labelShort}.</XMT_MechGestationComplete>
+	<XMT_WorkTypeCryptimorphHeader>Cryptimorph behavior:</XMT_WorkTypeCryptimorphHeader>
+	<XMT_WorkTypeNote_Childcare>Moves Ovomorphs into place and applies ovomorphing to valid hosts.</XMT_WorkTypeNote_Childcare>
+	<XMT_WorkTypeNote_Hauling>Installs unused ovomorphs inside designated ovomorph storage zones.</XMT_WorkTypeNote_Hauling>
+	<XMT_HostPlacementZone>Host placement zone</XMT_HostPlacementZone>
+	<XMT_HostPlacementZoneDescription>Preferred enclosed-room area for cryptimorphs to install cocoons containing abducted hosts.</XMT_HostPlacementZoneDescription>
+	<XMT_HostPlacementZoneGroup>Host placement zones</XMT_HostPlacementZoneGroup>
+	<XMT_OvomorphStorageZone>Ovomorph storage zone</XMT_OvomorphStorageZone>
+	<XMT_OvomorphStorageZoneDescription>Area where hauling cryptimorphs install unused ovomorphs until they are needed beside a host.</XMT_OvomorphStorageZoneDescription>
+	<XMT_OvomorphStorageZoneGroup>Ovomorph storage zones</XMT_OvomorphStorageZoneGroup>
+	<XMT_ZoneNeedsPlayerQueen>A player cryptimorph queen must be active before these zones can be changed.</XMT_ZoneNeedsPlayerQueen>
+	<XMT_ZoneCannotIncludeDoorway>Doors and resin webbing cannot be included in this zone.</XMT_ZoneCannotIncludeDoorway>
+	<XMT_ZoneMustBeEnclosed>These zones can only be placed inside an enclosed room.</XMT_ZoneMustBeEnclosed>
+	<XMT_HostZoneInvalidRoom>A host placement zone is not inside an enclosed room and will be skipped.</XMT_HostZoneInvalidRoom>
+	<XMT_HostZonesUnavailable>Host placement zones are full or invalid. The host will be taken elsewhere in the nest.</XMT_HostZonesUnavailable>
+	<XMT_OvomorphStorageFull>Ovomorph storage zones are full or unreachable.</XMT_OvomorphStorageFull>
+	<XMT_WorkTypeNote_Doctor>Feeds hive dependents and electro-metabolically charges mechs.</XMT_WorkTypeNote_Doctor>
+	<XMT_WorkTypeNote_Warden>Feeds or cocoons prisoners and electro-metabolically charges mechs.</XMT_WorkTypeNote_Warden>
+	<XMT_WorkTypeNote_Handling>Befriends or abducts marked targets.</XMT_WorkTypeNote_Handling>
+	<XMT_WorkTypeNote_Cooking>Produces jelly from jelly makers.</XMT_WorkTypeNote_Cooking>
+	<XMT_WorkTypeNote_Crafting>Lets cryptimorph mechanitors fill accessible mechanoid material reserves.</XMT_WorkTypeNote_Crafting>
+	<XMT_WorkTypeNote_Hunting>Hunts prey and responds to marked enemies.</XMT_WorkTypeNote_Hunting>
+	<XMT_WorkTypeNote_Construction>Cools nest structures when the hive overheats.</XMT_WorkTypeNote_Construction>
+	<XMT_WorkTypeNote_Growing>Applies larder transformation to valid targets.</XMT_WorkTypeNote_Growing>
+	<XMT_WorkTypeNote_PlantCutting>Prunes mature larders.</XMT_WorkTypeNote_PlantCutting>
+	<XMT_WorkTypeNote_Art>Creates cryptimorph corpse sculptures and resin art frames.</XMT_WorkTypeNote_Art>
+
+	<XMT_CreateJellyWell>Create Jelly Well</XMT_CreateJellyWell>
+	<XMT_CreateJellyWellDesc>Target will devour the larder and become a Jelly Well.</XMT_CreateJellyWellDesc>
+	<XMT_CreateJellyWellConfirmation>The target will merge to become a Jelly Well, this is lethal and irreversible.\nAre you sure?</XMT_CreateJellyWellConfirmation>
+	<XMT_ApplyGenes>Apply Genes</XMT_ApplyGenes>
+	<XMT_ApplyGenesDesc>Apply Genes to Target, overwriting existing genome.</XMT_ApplyGenesDesc>
+	<XMT_Release>Release</XMT_Release>
+	<XMT_ReleaseFrom>Release from {0}</XMT_ReleaseFrom>
+	<XMT_CancelRelease>Cancel Release</XMT_CancelRelease>
+	<XMT_CancelReleaseFrom>Cancel Release from {0}</XMT_CancelReleaseFrom>
+	<XMT_LoadIntoBioContainer>Load {0} into biocontainer</XMT_LoadIntoBioContainer>
+	<XMT_NoEmptyBioContainer>No empty, reachable stasis biocontainer is available.</XMT_NoEmptyBioContainer>
+	<XMT_NoBioContainerSurgerySpace>No free space is available to install a stasis biocontainer beside the patient.</XMT_NoBioContainerSurgerySpace>
+	<XMT_LoadIntoContainmentHarness>Capture {0} in containment harness</XMT_LoadIntoContainmentHarness>
+	<XMT_EnterContainmentHarness>Enter containment harness</XMT_EnterContainmentHarness>
+	<XMT_NoEmptyContainmentHarness>No empty, reachable containment harness is available.</XMT_NoEmptyContainmentHarness>
+	<XMT_ContainmentHarnessTargetTooLarge>{0} is too large for the containment harness.</XMT_ContainmentHarnessTargetTooLarge>
+	<XMT_CaptureInHarness>Capture</XMT_CaptureInHarness>
+	<XMT_CaptureInHarnessDesc>Select a humanlike to restrain in this containment harness. A conscious target must accept an arrest attempt.</XMT_CaptureInHarnessDesc>
+	<XMT_ReleaseFromHarness>Release</XMT_ReleaseFromHarness>
+	<XMT_ReleaseFromHarnessDesc>Remove the occupant from this containment harness. This does not release a prisoner from prisoner status.</XMT_ReleaseFromHarnessDesc>
+	<XMT_NoHarnessCapturer>No available colonist can capture {PAWN_labelShort} in this harness.</XMT_NoHarnessCapturer>
+	<XMT_CannotArrestForHarness>{PAWN_labelShort} cannot currently be arrested.</XMT_CannotArrestForHarness>
+	<XMT_TransferContainedPawn>Transfer {PAWN_labelShort}</XMT_TransferContainedPawn>
+	<XMT_TransferContainedPawnDesc>Transfer {PAWN_labelShort} to a biocontainment tube, containment harness, available prisoner bed, or Anomaly holding platform. A non-prisoner transferred from a stasis biocontainer or Anomaly holding platform to a prisoner bed will be arrested.</XMT_TransferContainedPawnDesc>
+	<XMT_NoContainmentWorker>No available colonist can perform this containment job.</XMT_NoContainmentWorker>
+	<XMT_MedicalExaminationLetterLabel>Medical examination complete</XMT_MedicalExaminationLetterLabel>
+	<XMT_MedicalExaminationNothing>{DOCTOR_nameDef} completed a medical examination of {PATIENT_nameDef}, but found no hidden cryptimorphic abnormalities.</XMT_MedicalExaminationNothing>
+	<XMT_MedicalExaminationDetected>{DOCTOR_nameDef} completed a medical examination of {PATIENT_nameDef} and identified the following:\n\n{FINDINGS}</XMT_MedicalExaminationDetected>
+	<XMT_MedicalExaminationMutationFinding>{PAWN_nameDef} has an anomalous mutation: {MUTATION}.</XMT_MedicalExaminationMutationFinding>
+	<XMT_ContainmentQuality>Containment</XMT_ContainmentQuality>
+	<XMT_ContainmentQualityInspect>Containment quality: {0}</XMT_ContainmentQualityInspect>
+	<XMT_ContainmentQualityDescription>The harness's ability to restrain its occupant. Material strength, temperature, illumination, power, and acid resistance all contribute.</XMT_ContainmentQualityDescription>
+	<XMT_ContainmentQualityBase>Base: {0}</XMT_ContainmentQualityBase>
+	<XMT_ContainmentQualityMaterial>Material strength: +{0}</XMT_ContainmentQualityMaterial>
+	<XMT_ContainmentQualityTemperature>Temperature: {0} ({1})</XMT_ContainmentQualityTemperature>
+	<XMT_ContainmentQualityLight>Light: +{0}</XMT_ContainmentQualityLight>
+	<XMT_ContainmentQualityPower>Power: {0}</XMT_ContainmentQualityPower>
+	<XMT_ContainmentQualityAcid>Acid immunity: +{0}</XMT_ContainmentQualityAcid>
+	<XMT_ContainmentPowerOccupied>Power needed while occupied: {0} W</XMT_ContainmentPowerOccupied>
+	<XMT_ContainmentPowerIdle>Power needed while empty: 0 W</XMT_ContainmentPowerIdle>
+	<XMT_ContainmentTab>Harness</XMT_ContainmentTab>
+	<XMT_ContainmentOccupant>Occupant: {PAWN_labelShort}</XMT_ContainmentOccupant>
+	<XMT_ContainmentPowered>Powered</XMT_ContainmentPowered>
+	<XMT_ContainmentUnpowered>Unpowered</XMT_ContainmentUnpowered>
+	<XMT_ContainmentAcidImmune>Acid immune</XMT_ContainmentAcidImmune>
+	<XMT_ContainmentNotAcidImmune>Not acid immune</XMT_ContainmentNotAcidImmune>
+	<XMT_ContainmentExtractionOptions>Cryptimorph extraction</XMT_ContainmentExtractionOptions>
+
+	<XMT_ModSettingsCategory>Alien | Rimworld</XMT_ModSettingsCategory>
+	<XMT_SettingsLogJobGiver>Log Job Giver</XMT_SettingsLogJobGiver>
+	<XMT_SettingsLogJobGiverDesc>Enable log reporting on job giver</XMT_SettingsLogJobGiverDesc>
+	<XMT_SettingsLogClimbing>Log Climbing</XMT_SettingsLogClimbing>
+	<XMT_SettingsLogClimbingDesc>Enable log reporting on climbing</XMT_SettingsLogClimbingDesc>
+	<XMT_SettingsLogStructures>Log Structures</XMT_SettingsLogStructures>
+	<XMT_SettingsLogStructuresDesc>Enable diagnostic logging for hive structures, rooms, zones, and placement.</XMT_SettingsLogStructuresDesc>
+	<XMT_SettingsLogBioHorror>Log Bio Horror</XMT_SettingsLogBioHorror>
+	<XMT_SettingsLogBioHorrorDesc>Enable log reporting on mutations and other biohorror</XMT_SettingsLogBioHorrorDesc>
+	<XMT_SettingsLogNemesis>Log Nemesis</XMT_SettingsLogNemesis>
+	<XMT_SettingsLogNemesisDesc>Enable detailed Nemesis logging for intelligence, mission selection, and lord decisions. Explicit debug commands, scenario results, warnings, and errors are still logged when disabled.</XMT_SettingsLogNemesisDesc>
+	<XMT_SettingsLogWorldHorror>Log World Horror</XMT_SettingsLogWorldHorror>
+	<XMT_SettingsLogWorldHorrorDesc>Enable log reporting on world horror system</XMT_SettingsLogWorldHorrorDesc>
+	<XMT_SettingsPlayerSabotage>Enable Player Sabotage Behavior</XMT_SettingsPlayerSabotage>
+	<XMT_SettingsPlayerSabotageDesc>If enabled player xenomorphs will sabotage human infrastructure when recreation or mood is low.</XMT_SettingsPlayerSabotageDesc>
+	<XMT_SettingsHorrorPregnancies>Enable Horror Pregnancies</XMT_SettingsHorrorPregnancies>
+	<XMT_SettingsHorrorPregnanciesDesc>If enabled xenomorph corruption will cause horror pregnancies.</XMT_SettingsHorrorPregnanciesDesc>
+	<XMT_SettingsJellyNutritionEfficiency>Jelly Nutrition Efficiency</XMT_SettingsJellyNutritionEfficiency>
+	<XMT_SettingsJellyMassEfficiency>Jelly Mass Efficiency</XMT_SettingsJellyMassEfficiency>
+	<XMT_SettingsMaturationFactor>Maturation Factor</XMT_SettingsMaturationFactor>
+	<XMT_SettingsWildEmbryoChanceFactor>Wild Embryo Chance Factor</XMT_SettingsWildEmbryoChanceFactor>
+	<XMT_SettingsWildAlienChanceFactor>Wild Alien Chance Factor</XMT_SettingsWildAlienChanceFactor>
+	<XMT_SettingsSiteAttackChanceFactor>Site Attack Chance Factor</XMT_SettingsSiteAttackChanceFactor>
+	<XMT_SettingsMinRelationshipForHiveFriend>Min Relationship For Hive Friend</XMT_SettingsMinRelationshipForHiveFriend>
+	<XMT_SettingsLaidOvomorphIncubationTime>Time for Laid Ovomorphs to Incubate</XMT_SettingsLaidOvomorphIncubationTime>
+	<XMT_SettingsXenoformBiomeSpreadFactor>Xenoform Biome Spread Factor</XMT_SettingsXenoformBiomeSpreadFactor>
+	<XMT_SettingsXenoformingGrowthFactor>Xenoforming Growth Factor</XMT_SettingsXenoformingGrowthFactor>
+	<XMT_SettingsMinimumAwarenessForAutoAggression>Minimum Awareness for Auto Aggression</XMT_SettingsMinimumAwarenessForAutoAggression>
+	<XMT_SettingsResetToDefault>Reset To Default</XMT_SettingsResetToDefault>
+	<XMT_SettingsHours>{0} hours</XMT_SettingsHours>
+	<XMT_SettingsPercentFactor>{0}% factor</XMT_SettingsPercentFactor>
+	<XMT_SettingsPercent>{0}%</XMT_SettingsPercent>
+	<XMT_SettingsPercentChance>{0}% chance</XMT_SettingsPercentChance>
+	<XMT_SettingsPercentEfficient>{0}% efficient</XMT_SettingsPercentEfficient>
+	<XMT_OvomorphStock>Ovomorph stock</XMT_OvomorphStock>
+	<XMT_OvomorphStockTooltip>Stored: {0} / {1}\nBody size: {2}\nNext egg: {3}\nNutrition per egg: {4}\nSelected type: {5}\nStatus: {6}\nAutolay: {7}</XMT_OvomorphStockTooltip>
+	<XMT_OvomorphStockProducing>Producing</XMT_OvomorphStockProducing>
+	<XMT_OvomorphStockStarving>Production halted: starving</XMT_OvomorphStockStarving>
+	<XMT_OvomorphStockFull>Stockpile full</XMT_OvomorphStockFull>
+	<XMT_OvomorphStockNeedsFood>Waiting for nutrition</XMT_OvomorphStockNeedsFood>
+	<XMT_AutoLayOvomorphs>Autolay ovomorphs</XMT_AutoLayOvomorphs>
+	<XMT_AutoLayOvomorphsDesc>Automatically lay the selected ovomorph type whenever the stockpile fills.</XMT_AutoLayOvomorphsDesc>
+	<XMT_MassLayOvomorphs>Mass lay ovomorphs</XMT_MassLayOvomorphs>
+	<XMT_MassLayOvomorphsDesc>Immediately lay up to {0} mature ovomorphs of the selected type around the queen.</XMT_MassLayOvomorphsDesc>
+	<XMT_NoStoredOvomorphs>No stored ovomorphs.</XMT_NoStoredOvomorphs>
+	<XMT_MassLayStopped>Laid {0} ovomorphs before stopping: {1}</XMT_MassLayStopped>
+	<XMT_MassLayComplete>Laid {0} ovomorphs.</XMT_MassLayComplete>
+	<XMT_OvomorphOverflowLost>{0} stored ovomorphs could not be laid and were lost.</XMT_OvomorphOverflowLost>
+	<XMT_PsychicDefenseToggle>Psychic defense</XMT_PsychicDefenseToggle>
+	<XMT_PsychicDefenseToggleDesc>Toggle the queen's protection against hostile psychic influence.</XMT_PsychicDefenseToggleDesc>
+	<XMT_PsychicDefenseStatusActive>Active</XMT_PsychicDefenseStatusActive>
+	<XMT_PsychicDefenseStatusInactive>Inactive</XMT_PsychicDefenseStatusInactive>
+	<XMT_PsychicDefenseTooltip>Status: {0}\nTargeted defense: {1} neural heat per contest\nAmbient defense: {2} neural heat every {3}</XMT_PsychicDefenseTooltip>
+	<XMT_PsychicDefenseRepelled>{0}'s {1} was repelled by psychic defense.</XMT_PsychicDefenseRepelled>
+	<XMT_UnknownPsycaster>Unknown psycaster</XMT_UnknownPsycaster>
+	<XMT_UnknownPsycast>psychic effect</XMT_UnknownPsycast>
+	<XMT_QueenHomecomingLetterTitle>Welcomed home</XMT_QueenHomecomingLetterTitle>
+	<XMT_QueenHomecomingLetterDescription>A sister has ascended. From within the resinous hill, her voice answers the silence of a hive without its queen. She recognizes your kin and welcomes you home.\n\nThe queen, the cryptimorphs of this hive, and its structures have joined your faction.</XMT_QueenHomecomingLetterDescription>
+	<XMT_QueenMotherWarningLetterTitle>The mother</XMT_QueenMotherWarningLetterTitle>
+	<XMT_QueenMotherWarningLetterDescription>Since approaching the hill, your cryptimorph companions have become restless and distracted, repeatedly turning toward something deep inside. Their behavior is increasingly erratic.\n\nA presence waits beneath the resin. To them, she is "the mother."</XMT_QueenMotherWarningLetterDescription>
+	
+	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
+</LanguageData>

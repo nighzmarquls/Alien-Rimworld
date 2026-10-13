@@ -1,0 +1,266 @@
+﻿
+using RimWorld;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Verse;
+
+namespace Xenomorphtype
+{
+    internal class XMTSettings : ModSettings
+    {
+        private const int StructureLogRepeatCooldownTicks = 60;
+        private static readonly Dictionary<string, int> lastStructureLogTick = new Dictionary<string, int>();
+
+        static private XMTSettings instance;
+
+        private static Vector2 scrollPosition;
+        private static float settingsContentHeight = 1200f;
+
+        //SETTINGS
+        public static bool LogJobGiver => instance != null ? instance._logJobGiver : false;
+        public static bool LogClimbing => instance != null ? instance._logClimbing : false;
+        public static bool LogBiohorror => instance != null ? instance._logBiohorror : false;
+        public static bool LogStructures => instance != null ? instance._logStructures : false;
+        public static bool LogWorld => instance != null ? instance._logWorld : false;
+        public static bool LogNemesis => instance != null ? instance._logNemesis : false;
+
+        private bool _logJobGiver = false;
+        private bool _logClimbing = false;
+        private bool _logBiohorror = false;
+        private bool _logStructures = false;
+        private bool _logWorld = false;
+        private bool _logNemesis = false;
+
+        public static bool PlayerSabotage => instance != null ? instance._playerSabotage : true;
+        private bool _playerSabotage = true;
+
+        public static bool HorrorPregnancy => instance != null ? instance._horrorPregnancy : true;
+        private bool _horrorPregnancy = true;
+        public static float JellyNutritionEfficiency => instance != null ? instance._jellyNutritionEfficiency : 0.5f;
+        public static float JellyMassEfficiency => instance != null ? instance._jellyMassEfficiency : 0.025f;
+
+        private float _jellyNutritionEfficiency = 0.5f;
+        private float _jellyMassEfficiency = 0.025f;
+
+        public static float MaturationFactor => instance != null ? instance._maturationFactor : 1f;
+        private float _maturationFactor = 1f;
+
+        public static int MinimumOpinionForHiveFriend = instance != null ? instance._minimumOpinionForHiveFriend : 80;
+        private int _minimumOpinionForHiveFriend = 80;
+
+        public static float WildEmbryoChance => instance != null ? instance._wildEmbryoChance : 0.25f;
+        private float _wildEmbryoChance = 0.25f;
+
+        public static float WildMorphHuntChance => instance != null ? instance._wildMorphHuntChance : 0.25f;
+        private float _wildMorphHuntChance = 0.25f;
+        public static float SiteAttackChance => instance != null ? instance._siteAttackChance : 0.25f;
+        private float _siteAttackChance = 0.25f;
+
+        public static float LaidEggMaturationTime => instance != null ? instance._laidEggMaturationTime : 1f;
+        private float _laidEggMaturationTime = 1;
+
+        public static float BiomeSpreadFactor => instance != null ? instance._biomeSpreadFactor : 0.01f;
+        private float _biomeSpreadFactor = 0.01f;
+
+        public static float XenoformingGrowthFactor => instance != null ? instance._xenoformingGrowthFactor : 1f;
+        private float _xenoformingGrowthFactor = 1f;
+
+        public static float MinAwarenessAutoAggression => instance != null ? instance._minAutoAggression : 1f;
+        private float _minAutoAggression = 1f;
+
+        private void ResetToDefault()
+        {
+            _logJobGiver = false;
+            _logClimbing = false;
+            _logBiohorror = false;
+            _logStructures = false;
+            _logWorld = false;
+            _logNemesis = false;
+            _playerSabotage = true;
+            _horrorPregnancy = true;
+  
+            _jellyNutritionEfficiency = 0.5f;
+            _jellyMassEfficiency = 0.025f;
+            _maturationFactor = 1f;
+            _minimumOpinionForHiveFriend = 80;
+            _wildEmbryoChance = 0.25f;
+            _wildMorphHuntChance = 0.25f;
+            _siteAttackChance = 0.25f;
+            _laidEggMaturationTime = 1;
+            _biomeSpreadFactor = 0.01f;
+            _xenoformingGrowthFactor = 1f;
+            _minAutoAggression = 1f;
+        }
+        private string TooltipForEggMaturation()
+        {
+            return "XMT_SettingsHours".Translate(Mathf.Floor(_laidEggMaturationTime * 24));
+        }
+
+        private string TooltipForFactor(float value)
+        {
+            return "XMT_SettingsPercentFactor".Translate(Mathf.Floor(value * 100));
+        }
+
+        private string TooltipForPercent(float value)
+        {
+            return "XMT_SettingsPercent".Translate(Mathf.Floor(value * 100));
+        }
+        private string TooltipForChance(float value)
+        {
+            return "XMT_SettingsPercentChance".Translate(Mathf.Floor(value * 100));
+        }
+        private string TooltipForJellyNutrition()
+        {
+            return "XMT_SettingsPercentEfficient".Translate(Mathf.Floor(_jellyNutritionEfficiency * 100));
+        }
+
+        private string TooltipForJellyMass()
+        {
+            return "XMT_SettingsPercentEfficient".Translate(Mathf.Floor(_jellyMassEfficiency * 100));
+        }
+        public void DoWindowContents(Rect inRect)
+        {
+            Rect outRect = new Rect(0f, 30f, inRect.width, inRect.height - 30f);
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 16f, Mathf.Max(outRect.height, settingsContentHeight));
+
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect); 
+
+            Listing_Standard listingStandard = new Listing_Standard();
+            listingStandard.maxOneColumn = true;
+            listingStandard.ColumnWidth = viewRect.width;
+            listingStandard.Begin(viewRect);
+            listingStandard.Gap(4f);
+            listingStandard.CheckboxLabeled("XMT_SettingsLogJobGiver".Translate(), ref _logJobGiver, "XMT_SettingsLogJobGiverDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsLogClimbing".Translate(), ref _logClimbing, "XMT_SettingsLogClimbingDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsLogStructures".Translate(), ref _logStructures, "XMT_SettingsLogStructuresDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsLogBioHorror".Translate(), ref _logBiohorror, "XMT_SettingsLogBioHorrorDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsLogWorldHorror".Translate(), ref _logWorld, "XMT_SettingsLogWorldHorrorDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsLogNemesis".Translate(), ref _logNemesis, "XMT_SettingsLogNemesisDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsPlayerSabotage".Translate(), ref _playerSabotage, "XMT_SettingsPlayerSabotageDesc".Translate());
+            listingStandard.Gap(5f);
+            listingStandard.CheckboxLabeled("XMT_SettingsHorrorPregnancies".Translate(), ref _horrorPregnancy, "XMT_SettingsHorrorPregnanciesDesc".Translate());
+            listingStandard.Gap(5f);
+
+            _jellyNutritionEfficiency = listingStandard.SliderLabeled("XMT_SettingsJellyNutritionEfficiency".Translate(), _jellyNutritionEfficiency, 0.01f, 4f, tooltip: TooltipForJellyNutrition());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("",TooltipForJellyNutrition());
+            listingStandard.Gap(5f);
+            _jellyMassEfficiency = listingStandard.SliderLabeled("XMT_SettingsJellyMassEfficiency".Translate(), _jellyMassEfficiency, 0.01f, 4f, tooltip: TooltipForJellyMass());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForJellyMass());
+            listingStandard.Gap(5f);
+            _maturationFactor = listingStandard.SliderLabeled("XMT_SettingsMaturationFactor".Translate(), _maturationFactor, 0.00f, 10f, tooltip: TooltipForFactor(_maturationFactor));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForFactor(_maturationFactor));
+            listingStandard.Gap(5f);
+            _wildEmbryoChance = listingStandard.SliderLabeled("XMT_SettingsWildEmbryoChanceFactor".Translate(), _wildEmbryoChance, 0.00f, 1f, tooltip: TooltipForChance(_wildEmbryoChance));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForChance(_wildEmbryoChance));
+            listingStandard.Gap(5f);
+            _wildMorphHuntChance = listingStandard.SliderLabeled("XMT_SettingsWildAlienChanceFactor".Translate(), _wildMorphHuntChance, 0.00f, 1f, tooltip: TooltipForChance(_wildMorphHuntChance));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForChance(_wildMorphHuntChance));
+            listingStandard.Gap(5f);
+            _siteAttackChance = listingStandard.SliderLabeled("XMT_SettingsSiteAttackChanceFactor".Translate(), _siteAttackChance, 0.00f, 1f, tooltip: TooltipForChance(_siteAttackChance));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForChance(_siteAttackChance));
+            listingStandard.Gap(5f);
+            _minimumOpinionForHiveFriend = Mathf.FloorToInt(listingStandard.SliderLabeled("XMT_SettingsMinRelationshipForHiveFriend".Translate(), _minimumOpinionForHiveFriend, -100, 100f, tooltip: ""));
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", _minimumOpinionForHiveFriend.ToString());
+            listingStandard.Gap(5f);
+            _laidEggMaturationTime = listingStandard.SliderLabeled("XMT_SettingsLaidOvomorphIncubationTime".Translate(), _laidEggMaturationTime, 0, 10f, tooltip: TooltipForEggMaturation());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForEggMaturation());
+            listingStandard.Gap(5f);
+            _biomeSpreadFactor = listingStandard.SliderLabeled("XMT_SettingsXenoformBiomeSpreadFactor".Translate(), _biomeSpreadFactor, 0, 1f, tooltip: TooltipForEggMaturation());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForPercent(_biomeSpreadFactor));
+            listingStandard.Gap(5f);
+            _xenoformingGrowthFactor = listingStandard.SliderLabeled("XMT_SettingsXenoformingGrowthFactor".Translate(), _xenoformingGrowthFactor, 0, 10f, tooltip: TooltipForEggMaturation());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForPercent(_xenoformingGrowthFactor));
+            listingStandard.Gap(5f);
+            _minAutoAggression = listingStandard.SliderLabeled("XMT_SettingsMinimumAwarenessForAutoAggression".Translate(), _minAutoAggression, 0, 10f, tooltip: TooltipForEggMaturation());
+            listingStandard.Gap(2f);
+            listingStandard.LabelDouble("", TooltipForPercent(_minAutoAggression));
+            listingStandard.Gap(5f);
+            if (listingStandard.ButtonText("XMT_SettingsResetToDefault".Translate()))
+            {
+                ResetToDefault();
+            }
+            settingsContentHeight = listingStandard.CurHeight + 100f;
+            listingStandard.End();
+            Widgets.EndScrollView();
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref _logJobGiver, "logJobGiver", false, false);
+            Scribe_Values.Look(ref _logBiohorror, "logBiohorror", false, false);
+            Scribe_Values.Look(ref _logClimbing, "logClimbing", false, false);
+            Scribe_Values.Look(ref _logStructures, "logStructures", false, false);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && !_logStructures)
+            {
+                bool legacyLogRituals = false;
+                Scribe_Values.Look(ref legacyLogRituals, "logRituals", false, false);
+                _logStructures = legacyLogRituals;
+            }
+            Scribe_Values.Look(ref _logWorld, "logWorld", false, false);
+            Scribe_Values.Look(ref _logNemesis, "logNemesis", false, false);
+
+            Scribe_Values.Look(ref _playerSabotage, "playerSabotage", true, false);
+            Scribe_Values.Look(ref _horrorPregnancy, "horrorPregnancy", true, false);
+
+            Scribe_Values.Look(ref _maturationFactor, "maturationFactor", 1f, false);
+
+            Scribe_Values.Look(ref _jellyNutritionEfficiency, "jellyNutritionEfficiency", 0.5f, false);
+            Scribe_Values.Look(ref _jellyMassEfficiency, "jellyMassEfficiency", 0.025f, false);
+            Scribe_Values.Look(ref _wildEmbryoChance, "wildEmbryoChance", 0.25f, false);
+            Scribe_Values.Look(ref _wildMorphHuntChance, "wildMorphHuntChance", 0.25f, false);
+            Scribe_Values.Look(ref _siteAttackChance, "siteAttackChance", 0.25f, false);
+            Scribe_Values.Look(ref _minimumOpinionForHiveFriend, "minimumOpinionForHiveFriend", 80, false);
+            Scribe_Values.Look(ref _laidEggMaturationTime, "laidEggMaturationTime", 1, false);
+
+            Scribe_Values.Look(ref _biomeSpreadFactor, "biomeSpreadFactor", 0.01f, false);
+            Scribe_Values.Look(ref _xenoformingGrowthFactor, "xenoformingGrowthFactor", 1, false);
+            Scribe_Values.Look(ref _minAutoAggression, "minAutoAggression", 1, false);
+            instance = this;
+        }
+
+        internal static void LogStructure(string message)
+        {
+            if (!LogStructures || message.NullOrEmpty())
+            {
+                return;
+            }
+
+            int tick = Current.Game?.tickManager?.TicksGame ?? -1;
+            if (lastStructureLogTick.TryGetValue(message, out int lastTick) &&
+                tick >= 0 &&
+                lastTick >= 0 &&
+                tick - lastTick < StructureLogRepeatCooldownTicks)
+            {
+                return;
+            }
+
+            lastStructureLogTick[message] = tick;
+            if (lastStructureLogTick.Count > 256)
+            {
+                lastStructureLogTick.Clear();
+                lastStructureLogTick[message] = tick;
+            }
+
+            Log.Message("[XMT][Structure] " + message);
+        }
+        
+    }
+}

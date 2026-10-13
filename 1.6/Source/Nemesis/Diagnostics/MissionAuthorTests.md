@@ -44,6 +44,16 @@ Enable **Log Nemesis** in mod settings for detailed `[XMT][Nemesis][context]` in
 | Abandoned rescue | Leave the generated site. The placed pawn follows ordinary cocoon, world-pawn, and xenoforming handling and is never offered by the retention service again. |
 | Queen defense | Trigger the established queen-defense flow. Its lord still derives from `LordJob_Nemesis`, preserving shared reveal and threat hooks without using mission scheduling or mission state. |
 
+## Genetic adaptation and lineage checks
+
+`Debug actions → Alien | Rimworld → Gene tests → Regular ovomorph lineage` creates ordinary eggs with empty, full-default, single-gene, and multi-gene selections. Eggs are ready to hatch and preserve their removal lists without requiring a queen. The contracts exercise pre-spawn egg initialization, actual larva generation, host-gene merging, and embryo birth. Fixture contracts are intended for a disposable test map.
+
+`Nemesis → Mission → Genetics` reports donor templates, expressed-complexity costs, generic/specialist fitness, probe changes, deferred outcomes, and recovery state. Its genetic contracts use an isolated component and fixed random seed: they verify 50/500/1000 sampling, no resampling on decreases, all represented xenotypes at full coverage, cost scaling, escape priority, continuous fitness, stance persistence, and cycle reset.
+
+Live validation: compare ordinary and probe deployments; verify no existing pawn changes without gene control; verify adult-only evaluation; retreat a wounded member and confirm one-day unavailability then recovery; destroy every ablative member and check that death effects precede defense scoring/follow-up. Expected sacrifice must not add hive-loss stance evidence. Test limb recovery at 49% and 50%, and repeat with pawn cleanup triggered during recovery.
+
+Save/reload with an edited egg in inventory/minified/on-map, an attached facehugger, an implanted embryo, a partially resolved probe, a withdrawing survivor, a pending ablative outcome, and a recovering pawn. Confirm no omitted default returns, no acquisition rerolls, and no fitness/follow-up is credited twice. Milestone-only progression scenarios suppress genetic acquisition so restoring their original percentage does not unlock the whole library.
+
 ## Save/load checkpoints
 
 Save and reload with a pending daylight request, an active route, a partial grab, a carried host, revealed members, and a retained host before and after delayed processing. Verify that the lord restores its route/member/threat state, pending selection does not reroll, and world-pawn credit or placement cannot repeat.

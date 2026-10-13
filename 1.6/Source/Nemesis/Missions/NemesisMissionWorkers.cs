@@ -72,7 +72,8 @@ namespace Xenomorphtype
             }
 
             PawnGenerationRequest request = new PawnGenerationRequest(def.workerSettings.pawnKind, null);
-            request.FixedBiologicalAge = 0f;
+            request.FixedBiologicalAge = def.workerSettings.pawnKind.race == InternalDefOf.XMT_Starbeast_AlienRace
+                ? def.workerSettings.pawnKind.race.race.lifeStageAges.First(stage => stage.def.developmentalStage == DevelopmentalStage.Adult).minAge : 0f;
             request.FixedChronologicalAge = 0f;
             request.ForceGenerateNewPawn = forceGenerateNewPawn;
             if (forceGenerateNewPawn) request.CanGeneratePawnRelations = false;

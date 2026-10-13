@@ -31,7 +31,7 @@ namespace Xenomorphtype
             PawnGenerationRequest request = new PawnGenerationRequest(hatchedPawnKind, parent.Faction);
             request.FixedBiologicalAge = age;
             Pawn pawn = PawnGenerator.GeneratePawn(request);
-            HorrorGenePayload payload = new HorrorGenePayload(GenesListForReading, EffectiveTemplateName);
+            HorrorGenePayload payload = new HorrorGenePayload(GenesListForReading, EffectiveTemplateName, removedDefaultGenes);
             BioUtility.TryApplyHorrorGenePayload(pawn, payload);
 
             CompLarvalGenes larvalGenes = pawn.GetComp<CompLarvalGenes>();

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<ThingDef ParentName="ResourceBase">
+		<defName>XMT_GreaseWool</defName>
+		<label>greasy wool</label>
+		<description>Soft, light and provides very good insulation, if only it was not so greasy.</description>
+		<stackLimit>100</stackLimit>
+		<statBases>
+			<MaxHitPoints>90</MaxHitPoints>
+			<MarketValue>2.7</MarketValue>
+			<Mass>0.028</Mass>
+			<Flammability>0.4</Flammability>
+			<DeteriorationRate>3.4</DeteriorationRate>
+			<StuffPower_Armor_Sharp>0.36</StuffPower_Armor_Sharp>
+			<StuffPower_Armor_Blunt>0.00</StuffPower_Armor_Blunt>
+			<StuffPower_Armor_Heat>1.10</StuffPower_Armor_Heat>
+			<StuffPower_Insulation_Cold>28</StuffPower_Insulation_Cold>
+			<StuffPower_Insulation_Heat>12</StuffPower_Insulation_Heat>
+		</statBases>
+		<burnableByRecipe>true</burnableByRecipe>
+		<healthAffectsPrice>false</healthAffectsPrice>
+		<minRewardCount>30</minRewardCount>
+		<stuffProps>
+			<color>(189,161,116)</color>
+			<commonality>0.01</commonality>
+			<statFactors>
+				<Flammability>1.7</Flammability>
+				<Beauty>1.5</Beauty>
+			</statFactors>
+			<categories>
+				<li>Fabric</li>
+			</categories>
+			<canSuggestUseDefaultStuff>true</canSuggestUseDefaultStuff>
+		</stuffProps>
+		<thingCategories>
+			<li>Wools</li>
+		</thingCategories>
+		<graphicData>
+			<texPath>Things/Item/Resource/GreaseWool</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<tickerType>Normal</tickerType>
+		<allowedArchonexusCount>80</allowedArchonexusCount>
+		<comps>
+			<li Class="Xenomorphtype.CompStackMaturingProperties">
+				<pawnMaturation>XMT_StrangleMoss</pawnMaturation>
+				<maturationHours>1</maturationHours>
+				<minStackToMature>100</minStackToMature>
+				<maxActivePawnMaturationOnMap>10</maxActivePawnMaturationOnMap>
+			</li>
+			<li Class="Xenomorphtype.CompFilthSpreaderProperties">
+				<filth>Filth_AnimalFilth</filth>
+				<hourInterval>2</hourInterval>
+			</li>
+		</comps>
+	</ThingDef>
+	<ThingDef ParentName="EggUnfertBase">
+		<defName>XMT_BarnacleEgg</defName>
+		<label>strange egg</label>
+		<description>A strangely fleshy egg. It smells of smoked pork and can be eaten raw, but it's much, much better cooked.</description>
+		<possessionCount>1</possessionCount>
+		<tickerType>Normal</tickerType>
+		<graphicData>
+			<texPath>Things/Item/Resource/Horror_AnimalProducts/BarnacleEgg</texPath>
+			<color>(245,245,245)</color>
+		</graphicData>
+		<stackLimit>9</stackLimit>
+		<ingestible>
+			<preferability>RawTasty</preferability>
+			<joy>0.08</joy>
+			<joyKind>Gluttonous</joyKind>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>XMT_RawJellyHigh</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<statBases>
+			<MarketValue>15.0</MarketValue>
+			<Nutrition>0.5</Nutrition>
+		</statBases>
+		<comps>
+			<li Class="CompProperties_Hatcher">
+				<hatcherDaystoHatch>2</hatcherDaystoHatch>
+				<hatcherPawn>XMT_FleshTick</hatcherPawn>
+			</li>
+			<li Class="CompProperties_TemperatureRuinable">
+				<minSafeTemperature>-270</minSafeTemperature>
+				<maxSafeTemperature>50</maxSafeTemperature>
+				<progressPerDegreePerTick>0.00003</progressPerDegreePerTick>
+			</li>
+		</comps>
+	</ThingDef>
+	
+	<ThingDef ParentName="XMT_Fabric">
+		<defName>XMT_ThreadWool</defName>
+		<label>Hyper-Wool</label>
+		<description>An ultra strong fibre made from exotic resins and organometallic compounds. Unlike most thread it can be electrically treated to crystalize into a metallic solid.</description>
+		<graphicData>
+			<color>(174,219,228)</color>
+			<texPath>Things/Item/Resource/Wool</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<stuffProps>
+			<color>(174,219,228)</color>
+		</stuffProps>
+		<costList IsNull="True"/>
+		<recipeMaker IsNull="True"/>
+	</ThingDef>
+	
+	<ThingDef ParentName="OrganicProductBase">
+		<defName>XMT_Medicine_Jelly</defName>
+		<thingClass>Medicine</thingClass>
+		<label>medicinal jelly</label>
+		<description>A strange resinous jelly. It is simultaneously anti-microbial, anti-viral and wound clotting. It does not rot.</description>
+		<possessionCount>10</possessionCount>
+		<graphicData>
+			<texPath>Things/Item/Resource/Medicine_Jelly</texPath>
+			<graphicClass>Graphic_StackCount</graphicClass>
+		</graphicData>
+		<socialPropernessMatters>true</socialPropernessMatters>
+		<statBases>
+			<MarketValue>8.0</MarketValue>
+			<Mass>0.025</Mass>
+			<FoodPoisonChanceFixedHuman>0.0</FoodPoisonChanceFixedHuman>
+			<MedicalPotency>0.60</MedicalPotency>
+			<MedicalQualityMax>0.70</MedicalQualityMax>
+			<DeteriorationRate>0</DeteriorationRate>
+			<WorkToMake>300</WorkToMake>
+		</statBases>
+		<ingestible>
+			<foodType>AnimalProduct</foodType>
+			<joy>0.08</joy>
+			<preferability>NeverForNutrition</preferability>
+			<joyKind>Gluttonous</joyKind>
+			<ingestEffect>ResinBuild</ingestEffect>
+			<ingestSound>Meal_Eat</ingestSound>
+			<lowPriorityCaravanFood>true</lowPriorityCaravanFood>
+			<babiesCanIngest>true</babiesCanIngest>
+			<outcomeDoers>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>XMT_Medicinal_Boost</hediffDef>
+					<severity>1.00</severity>
+					<doToGeneratedPawnIfAddicted>false</doToGeneratedPawnIfAddicted>
+				</li>
+			</outcomeDoers>
+		</ingestible>
+		<thingCategories>
+			<li>AnimalProductRaw</li>
+			<li>Medicine</li>
+		</thingCategories>
+		<comps>
+			<li Class="CompProperties_Drug">
+				<chemical>XMT_Essence</chemical>
+				<addictiveness>0.00</addictiveness>
+				<needLevelOffset>1</needLevelOffset>
+				<listOrder>1010</listOrder>
+			</li>
+		</comps>
+		<allowedArchonexusCount>150</allowedArchonexusCount>
+		<modExtensions>
+			<li MayRequire="Dubwise.DubsBadHygiene" Class="DubsBadHygiene.WaterExt">
+				<water>2</water>
+				<UseForWashing>false</UseForWashing>
+				<SeekForThirst>true</SeekForThirst>
+			</li>
+		</modExtensions>
+	</ThingDef>
+</Defs>

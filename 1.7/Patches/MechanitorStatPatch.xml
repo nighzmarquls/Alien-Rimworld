@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationConditional" MayRequire="Ludeon.RimWorld.Biotech">
+		<xpath>/Defs/StatDef[defName="MechBandwidth"]/parts</xpath>
+		<match Class="PatchOperationAdd">
+			<xpath>/Defs/StatDef[defName="MechBandwidth"]/parts</xpath>
+			<value>
+				<li Class="Xenomorphtype.StatPart_ArrayBodySizeBandwidth" />
+			</value>
+		</match>
+		<nomatch Class="PatchOperationAdd">
+			<xpath>/Defs/StatDef[defName="MechBandwidth"]</xpath>
+			<value>
+				<parts>
+					<li Class="Xenomorphtype.StatPart_ArrayBodySizeBandwidth" />
+				</parts>
+			</value>
+		</nomatch>
+	</Operation>
+</Patch>

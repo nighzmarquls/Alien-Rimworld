@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+	<RecipeDef Abstract="True" Name="Starbeast_Surgery" ParentName="SurgeryFlesh">
+		<effectWorking>Surgery</effectWorking>
+		<soundWorking>Recipe_Surgery</soundWorking>
+		<workSpeedStat>MedicalOperationSpeed</workSpeedStat>
+		<workSkill>Medicine</workSkill>
+		<workSkillLearnFactor>16</workSkillLearnFactor>
+	</RecipeDef>
+
+	<RecipeDef Abstract="True" ParentName="Starbeast_Surgery" Name="Starbeast_RemoveHediff">
+		<label>remove...</label>
+		<description>Removes egg.</description>
+		<workerClass>Recipe_RemoveHediff</workerClass>
+		<jobString>Removing...</jobString>
+		<workAmount>500</workAmount>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="Starbeast_RemoveHediff">
+		<defName>RemoveStarbeastParasite</defName>
+		<label>remove attached parasite.</label>
+		<description>Attempt to forcefully remove the attached parasite.</description>
+		<jobString>Removing Parasite.</jobString>
+		<surgerySuccessChanceFactor>1.2</surgerySuccessChanceFactor>
+		<successfullyRemovedHediffMessage>{0} has successfully removed the parasite from {1}.</successfullyRemovedHediffMessage>
+		<removesHediff>XMT_LarvalEmbrace</removesHediff>
+		<uiIconThing>XMT_Larva</uiIconThing>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractJellyFromCreature</defName>
+		<label>extract resinous jelly</label>
+		<description>Extract resinous jelly from the target. The operation will fail to produce a jelly if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractJelly</workerClass>
+		<jobString>Extracting resinous jelly.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+		  <ThingDef>Starbeast_Jelly</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>Starbeast_Jelly</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+		</researchPrerequisites>
+		<displayPriority>0</displayPriority>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractResinFromCreature</defName>
+		<label>extract resinous secreion</label>
+		<description>Extract resin from the target. The operation will fail to produce a material if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractResin</workerClass>
+		<jobString>extracting resinous secretion.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+		  <ThingDef>Starbeast_Resin</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>Starbeast_Resin</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_Jelly_Extraction</li>
+		</researchPrerequisites>
+		<displayPriority>1</displayPriority>
+	</RecipeDef>
+	
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractPheromoneGland</defName>
+		<label>extract raw pheromone gland</label>
+		<description>Extract a pheromone-producing gland from the target. The operation will fail to produce a gland if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractPheromone</workerClass>
+		<jobString>extracting raw pheromone gland.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+			<ThingDef>XMT_RawPheromone</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>XMT_RawPheromone</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_CryptimorphicPheromones</li>
+		</researchPrerequisites>
+		<displayPriority>2</displayPriority>
+	</RecipeDef>
+
+	<RecipeDef ParentName="SurgeryFlesh">
+		<defName>ExtractAcidFromCreature</defName>
+		<label>extract acid blood</label>
+		<description>Extract acid from the target. The operation will fail to produce any material if the target's metabolism is too strained.</description>
+		<workerClass>Xenomorphtype.Recipe_ExtractAcid</workerClass>
+		<jobString>extracting acid blood.</jobString>
+		<workAmount>500</workAmount>
+		<hideBodyPartNames>true</hideBodyPartNames>
+		<targetsBodyPart>false</targetsBodyPart>
+		<isViolation>true</isViolation>
+		<descriptionHyperlinks>
+		  <ThingDef>XMT_Acid</ThingDef>
+		</descriptionHyperlinks>
+		<uiIconThing>XMT_Acid</uiIconThing>
+		<anesthetize>false</anesthetize>
+		<workSkillLearnFactor>2</workSkillLearnFactor>
+		<researchPrerequisites>
+			<li>XMT_Acid_Utilization</li>
+		</researchPrerequisites>
+		<displayPriority>1</displayPriority>
+	</RecipeDef>
+	
+</Defs>

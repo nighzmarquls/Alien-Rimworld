@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<HeadTypeDef ParentName="AverageBase">
+		<defName>XMT_Asari_Head_Normal</defName>
+		<graphicPath>Things/Pawn/ReplacedHumanlike/Heads/XMT_Asari/XMT_Asari_Normal</graphicPath>
+		<randomChosen>false</randomChosen>
+		<requiredGenes>
+			<li>XMT_AsariCrestGene</li>
+		</requiredGenes>
+		<selectionWeight>1</selectionWeight>
+	</HeadTypeDef>
+
+</Defs>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <CultureDef>
+    <defName>XMT_Cryptimorph</defName>
+    <label>cryptimorph</label>
+    <description>a collection of behaviors exhibited by cryptimorphs.</description>
+    <ideoNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerIdeoCorunan</ideoNameMaker>
+    <deityNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerDeityCorunan</deityNameMaker>
+    <deityTypeMaker MayRequire="Ludeon.RimWorld.Ideology">DeityTypeMakerCorunan</deityTypeMaker>
+    <festivalNameMaker MayRequire="Ludeon.RimWorld.Ideology">NamerFestivalCorunan</festivalNameMaker>
+    <leaderTitleMaker MayRequire="Ludeon.RimWorld.Ideology">LeaderTitleMaker_Corunan</leaderTitleMaker>
+    <allowedPlaceTags>
+      <li>OriginTribal</li>
+    </allowedPlaceTags>
+    <iconPath>World/WorldObjects/Expanding/Village</iconPath>
+    <preferredWeaponClasses>
+      <noble>Neolithic</noble>
+      <despised>Ultratech</despised>
+    </preferredWeaponClasses>
+    <thingStyleCategories>
+      <li MayRequire="Ludeon.RimWorld.Ideology">
+        <category>Totemic</category>
+        <priority>2</priority>
+      </li>
+    </thingStyleCategories>
+    <styleItemTags>
+      <li>
+        <tag>NoTattoo</tag>
+        <baseWeight>1</baseWeight>
+        <weightFactor>1</weightFactor>
+      </li>
+    </styleItemTags>
+  </CultureDef>
+  
+
+</Defs>

@@ -1,0 +1,212 @@
+﻿using HarmonyLib;
+using RimWorld;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+using Verse;
+
+namespace Xenomorphtype
+{
+    internal class XMTPosturePatches
+    {
+
+        [HarmonyPatch(typeof(Pawn), "TicksPerMove")]
+        public static class Patch_Pawn_TicksPerMove
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(ref float __result, Pawn __instance, bool diagonal)
+            {
+                if (!XMTUtility.IsCrawler(__instance))
+                {
+                    return true;
+                }
+
+                float speed = __instance.GetStatValue(StatDefOf.MoveSpeed);
+                if (__instance.Crawling)
+                {
+                    speed = __instance.GetStatValue(StatDefOf.CrawlSpeed);
+                }
+
+                if (RestraintsUtility.InRestraints(__instance))
+                {
+                    speed *= 0.35f;
+                }
+
+                if (__instance.carryTracker?.CarriedThing != null && __instance.carryTracker.CarriedThing.def.category == ThingCategory.Pawn)
+                {
+                    speed *= 0.6f;
+                }
+
+                float speedDelta = speed / 60f;
+                float output;
+                if (speedDelta == 0f)
+                {
+                    output = 450f;
+                }
+                else
+                {
+                    output = 1f / speedDelta;
+                    if (__instance.Spawned && !__instance.Map.roofGrid.Roofed(__instance.Position))
+                    {
+                        output /= __instance.Map.weatherManager.CurMoveSpeedMultiplier;
+                    }
+
+                    if (diagonal)
+                    {
+                        output *= 1.41421f;
+                    }
+                }
+
+                output = Mathf.Clamp(output, 1f, 450f);
+                if (__instance.debugMaxMoveSpeed)
+                {
+                    __result = 1f;
+                    return false;
+                }
+
+                __result = output;
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(Pawn), "CanAttackWhileCrawling", MethodType.Getter)]
+        public static class Patch_Pawn_CanAttackWhileCrawling
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(ref bool __result, Pawn __instance)
+            {
+                if (!XMTUtility.IsCrawler(__instance))
+                {
+                    return true;
+                }
+
+                __result = true;
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(Pawn), "Crawling", MethodType.Getter)]
+        public static class Patch_Pawn_Crawling
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(ref bool __result, Pawn __instance)
+            {
+                if (__instance.ParentHolder is Building_ContainmentHarness)
+                {
+                    __result = true;
+                    return false;
+                }
+
+                if (__instance.Downed)
+                {
+                    return true;
+                }
+
+                if (!XMTUtility.IsCrawler(__instance))
+                {
+                    return true;
+                }
+
+                if(__instance.InBed())
+                {
+                    return true;
+                }
+
+                if (!__instance.health.CanCrawl)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                if (__instance.GetMorphComp() is CompMatureMorph compMorph && !__instance.ageTracker.Adult)
+                {
+                    __result = true;
+                    __instance.jobs.posture = PawnPosture.LayingOnGroundNormal;
+                    return false;
+                }
+
+                if (__instance.GetCrawlerComp() is CompCrawler compCrawler)
+                {
+                    __result = compCrawler.Crawling;
+                    if (__result)
+                    {   
+                        if(__instance.jobs.curDriver != null)
+                        {
+                            switch(__instance.jobs.curDriver.CurToilString)
+                            {
+                                case "GotoThing":
+                                case "GotoCell":
+                                case "GotoBuild":
+                                case "MoveOffTargetBlueprint":
+                                case "ClimbToThing":
+                                case "ClimbToCell":
+                                    break;
+                                default:
+                                    if (__instance.jobs.posture == PawnPosture.LayingOnGroundNormal)
+                                    {
+                                        __instance.jobs.posture = PawnPosture.Standing;
+                                    }
+                                    return true;
+                            }
+                        }
+                        __instance.jobs.posture = PawnPosture.LayingOnGroundNormal;
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(Pawn_HealthTracker), "CanCrawl", MethodType.Getter)]
+        public static class Patch_Pawn_HealthTracker_CanCrawl
+        {
+            public static void Postfix(ref bool __result, Pawn ___pawn, Pawn_HealthTracker __instance)
+            {
+                if (__result)
+                {
+                    return;
+                }
+
+                if (!XMTUtility.IsCrawler(___pawn))
+                {
+                    return;
+                }
+
+                if (__instance.capacities.GetLevel(PawnCapacityDefOf.Manipulation) < 0.15f)
+                {
+                    return;
+                }
+
+                if (__instance.hediffSet.AnyHediffPreventsCrawling)
+                {
+                    return;
+                }
+
+                __result = true;
+            }
+        }
+
+        [HarmonyPatch(typeof(Verb_MeleeAttackDamage), "ApplyMeleeDamageToTarget")]
+        public static class Patch_Verb_MeleeAttackDamage_ApplyMeleeDamageToTarget
+        {
+            public static void Postfix(Verb_MeleeAttackDamage __instance)
+            {
+                Pawn pawn = __instance?.CasterPawn;
+                if (pawn == null || !XMTUtility.IsCrawler(pawn))
+                {
+                    return;
+                }
+
+                CompCrawler compCrawler = pawn.GetCrawlerComp();
+                if (compCrawler != null && compCrawler.Crawling)
+                {
+                    compCrawler.Crawling = false;
+                }
+            }
+        }
+        
+    }
+}

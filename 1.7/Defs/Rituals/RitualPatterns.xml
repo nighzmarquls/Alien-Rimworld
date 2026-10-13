@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <RitualPatternDef>
+    <defName>XMT_QueenAscension</defName>
+	<ritualObligationTargetFilter>XMT_QueenAscension</ritualObligationTargetFilter>
+    <ritualTargetFilter>XMT_QueenAscension</ritualTargetFilter>
+    <ritualBehavior>XMT_QueenAscension</ritualBehavior>
+    <ritualOnlyForIdeoMembers>false</ritualOnlyForIdeoMembers>
+    <ritualOutcomeEffect>XMT_QueenAscension</ritualOutcomeEffect>
+	<alwaysStartAnytime>true</alwaysStartAnytime>
+  </RitualPatternDef>
+  
+</Defs>

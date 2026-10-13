@@ -82,6 +82,7 @@ namespace Xenomorphtype
 
         private static string WorldPawnCleanupProtection(Pawn pawn, GameComponent_NemesisWorldPawns retained)
         {
+            if (Current.Game?.GetComponent<GameComponent_Nemesis>()?.ProtectGeneticPawn(pawn) == true) return "Nemesis recovery/trial";
             if (pawn.Spawned) return "spawned";
             if (pawn.Faction == Faction.OfPlayerSilentFail || pawn.HostFaction == Faction.OfPlayerSilentFail)
                 return "player-owned";
@@ -552,13 +553,15 @@ namespace Xenomorphtype
             request.ForceNoBackstory = true;
             request.ForceNoGear = true;
             request.ForceBaselinerChance = 100;
+            request.FixedBiologicalAge = InternalDefOf.XMT_Starbeast_AlienRace.race.lifeStageAges
+                .First(stage => stage.def.developmentalStage == DevelopmentalStage.Adult).minAge;
 
             Pawn pawn = PawnGenerator.GeneratePawn(request);
             BioUtility.ClearGenes(ref pawn);
 
             GeneSet genes = new GeneSet();
             BioUtility.ExtractCryptimorphGenesToGeneset(ref genes, BioUtility.GetWorldAppropriateXenotype().genes);
-            BioUtility.ExtractGenesToGeneset(ref genes, InternalDefOf.XMT_Starbeast_AlienRace.alienRace.raceRestriction.geneList);
+            BioUtility.ExtractGenesToGeneset(ref genes, GeneLineageUtility.Defaults);
             BioUtility.InsertGenesetToPawn(genes, ref pawn);
             return pawn;
         }
@@ -624,6 +627,7 @@ namespace Xenomorphtype
             }
 
             newQueen.GetComp<CompQueenAssimilation>()?.ApplyNpcProgression(advancementSet, GetXenoforming());
+            Current.Game.GetComponent<GameComponent_Nemesis>().ApplyQueenGenome(newQueen);
 
             return newQueen;
         }

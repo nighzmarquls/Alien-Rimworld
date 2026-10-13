@@ -19,10 +19,7 @@ namespace Xenomorphtype
                 return;
             }
 
-            BioUtility.ClearGenes(ref parent.pawn);
-            GeneSet newGenes = new GeneSet();
-            BioUtility.ExtractGenesToGeneset(ref newGenes, Props.genes);
-            BioUtility.InsertGenesetToPawn(newGenes, ref parent.pawn);
+            GeneLineageUtility.SetSelection(Pawn, Props.genes, Props.xenotype);
 
             Pawn.genes.xenotypeName = Props.xenotype;
             finished = true;

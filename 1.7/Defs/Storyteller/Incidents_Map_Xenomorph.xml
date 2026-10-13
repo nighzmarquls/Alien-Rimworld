@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<IncidentDef>
+		<defName>XMT_HuntingPack</defName>
+		<label>hunting pack</label>
+		<targetTags>
+		  <li>Map_PlayerHome</li>
+		</targetTags>
+		<workerClass>Xenomorphtype.IncidentWorker_HuntingXenomorph</workerClass>
+		<baseChance>2.0</baseChance>
+		<category>ThreatBig</category>
+		<pointsScaleable>true</pointsScaleable>
+		<tale>ManhunterPack</tale>
+		<pawnKind>XMT_FeralStarbeastKind</pawnKind>
+	</IncidentDef>
+	
+	<IncidentDef ParentName="GiveQuestBase">
+		<defName>XMT_GiveQuest_smallNest</defName>
+		<questScriptDef>XMT_OpportunitySite_StrangeStructure</questScriptDef>
+		<baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+	</IncidentDef>
+	
+	<IncidentDef ParentName="GiveQuestBase">
+		<defName>XMT_GiveQuest_largeNest</defName>
+		<questScriptDef>XMT_OpportunitySite_ComplexNest</questScriptDef>
+		<baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+	</IncidentDef>
+	
+	<IncidentDef ParentName="GiveQuestBase">
+		<defName>XMT_GiveQuest_queenNest</defName>
+		<workerClass>Xenomorphtype.IncidentWorker_QueenQuest</workerClass>
+		<questScriptDef>XMT_OpportunitySite_QueenNest</questScriptDef>
+		<baseChance>0</baseChance> <!-- given by a special storyteller comp -->
+	</IncidentDef>
+	
+</Defs>

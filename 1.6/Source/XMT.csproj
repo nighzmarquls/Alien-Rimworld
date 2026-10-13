@@ -305,6 +305,14 @@
     <Compile Include="UI\Tabs\ITab_TamableXeno.cs" />
     <Compile Include="Utilities\AcidUtility.cs" />
     <Compile Include="Utilities\BioUtility.cs" />
+    <Compile Include="Utilities\GeneLineageUtility.cs" />
+    <Compile Include="Nemesis\Core\NemesisGeneticRecords.cs" />
+    <Compile Include="Nemesis\Core\GameComponent_Nemesis.Genetics.cs" />
+    <Compile Include="Nemesis\Core\GameComponent_Nemesis.GeneticTrials.cs" />
+    <Compile Include="Nemesis\Missions\NemesisGeneEvaluationWorker.cs" />
+    <Compile Include="Nemesis\Missions\Lords\LordJob_NemesisAblative.cs" />
+    <Compile Include="Debug\DebugActions_OvomorphLineage.cs" />
+    <Compile Include="Nemesis\Diagnostics\DebugActions_NemesisGenetics.cs" />
     <Compile Include="Utilities\BioContainerUtility.cs" />
     <Compile Include="Utilities\AttachmentUtility.cs" />
     <Compile Include="Utilities\PenetrationUtility.cs" />

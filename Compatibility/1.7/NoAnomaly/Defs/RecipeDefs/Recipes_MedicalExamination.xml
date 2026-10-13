@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>XMT_MedicalExamination</defName>
+    <label>medical examination</label>
+    <description>Perform an invasive examination to identify hidden cryptimorphic embryos and mutations.</description>
+    <workerClass>Xenomorphtype.Recipe_MedicalExamination</workerClass>
+    <jobString>medically examining TargetA.</jobString>
+    <workAmount>2000</workAmount>
+    <hideBodyPartNames>true</hideBodyPartNames>
+    <targetsBodyPart>false</targetsBodyPart>
+    <isViolation>false</isViolation>
+    <deathOnFailedSurgeryChance>0</deathOnFailedSurgeryChance>
+    <surgerySuccessChanceFactor>1.5</surgerySuccessChanceFactor>
+    <skillRequirements>
+      <Medicine>3</Medicine>
+    </skillRequirements>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+    <surgeryOutcomeEffect>SurgeryOutcomeMinorFailure</surgeryOutcomeEffect>
+  </RecipeDef>
+</Defs>

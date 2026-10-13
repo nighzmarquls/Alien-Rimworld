@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <HediffDef>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defName>XMT_ConvertHumanToSynthetic</defName>
+    <label>Convert To Synthetic</label>
+    <description>DEV:converts the applied pawn into an awakened android on application.</description>
+    <isBad>false</isBad>
+	<stages>
+	  <li>
+	    <label>hidden</label>
+	    <becomeVisible>false</becomeVisible>
+      </li>
+    </stages>
+    <comps>
+      <li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
+		<genes>
+			<li>VREA_MemoryProcessing</li>
+			<li>VREA_Power</li>
+			<li>VREA_SyntheticBody</li>
+			<li>VREA_NeutroCirculation</li>
+			<li>VREA_SyntheticImmunity</li>
+			<li>VREA_ComponentFreezing</li>
+			<li>VREA_ComponentOverheating</li>
+			<li>VREA_ColdTolerant</li>
+			<li>VREA_HeatTolerant</li>
+			<li>VREA_PsychicallyDeaf</li>
+		</genes>
+		<xenotype>synthetic</xenotype>
+      </li>
+    </comps>
+  </HediffDef>
+  
+</Defs>
