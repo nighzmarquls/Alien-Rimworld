@@ -37,6 +37,54 @@ namespace Xenomorphtype
 
         private JobDriver detachedDriver;
 
+        private bool preservingDepartureReservations;
+        private bool preservingLandingReservations;
+
+        internal Job DetachedJob => detachedJob;
+        internal bool PreservingDepartureReservations => preservingDepartureReservations;
+        internal bool PreservesEnrouteReservations(Pawn pawn) => preservingDepartureReservations ||
+            preservingLandingReservations || pawn.CurJob?.def == JobDefOf.Carried;
+
+        internal static PawnClimber ReservationOwnerFor(Pawn pawn)
+        {
+            if (pawn == null || pawn.Dead || pawn.Destroyed)
+            {
+                return null;
+            }
+
+            PawnClimber owner = pawn.ParentHolder as PawnClimber ?? pawn.GetClimberComp()?.pawnClimber;
+            return owner != null && !owner.Destroyed && owner.detachedJob != null &&
+                owner.detachedDriver?.pawn == pawn ? owner : null;
+        }
+
+        internal bool CancelDetachedJob(JobCondition condition)
+        {
+            Job job = detachedJob;
+            JobDriver driver = detachedDriver;
+            if (job == null)
+            {
+                return false;
+            }
+
+            // Remove ownership before cleanup so reservation patches allow release.
+            detachedJob = null;
+            detachedDriver = null;
+            Pawn pawn = driver?.pawn ?? ClimbingPawn;
+            pawn?.ClearReservationsForJob(job);
+            if (driver != null)
+            {
+                driver.ended = true;
+                driver.Cleanup(condition);
+            }
+            pawn?.GetClimberComp()?.ClearClimberData();
+            if (XMTSettings.LogClimbing)
+            {
+                Log.Message("[XMT][Climbing] " + pawn + " cancelled suspended traversal job " + job +
+                    " with " + condition + "; released its reservations.");
+            }
+            return true;
+        }
+
         private JobQueue jobQueue;
 
         protected EffecterDef climbEffectorDef;
@@ -138,6 +186,13 @@ namespace Xenomorphtype
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
+            Pawn pawn = detachedDriver?.pawn ?? ClimbingPawn;
+            CancelDetachedJob(JobCondition.InterruptForced);
+            if (pawn != null && jobQueue != null)
+            {
+                jobQueue.Clear(pawn, canReturnToPool: true);
+                jobQueue = null;
+            }
             climbEffector?.Cleanup();
             base.Destroy(mode);
         }
@@ -188,15 +243,36 @@ namespace Xenomorphtype
         protected virtual void RespawnPawn()
         {
             Thing flyingThing = ClimbingThing;
+            Pawn pawn = flyingThing as Pawn;
+            if (carriedThing != null && pawn != null)
+            {
+                // Keep the exact job target out of the map's stack-merging path.
+                if (!innerContainer.TryTransferToContainer(carriedThing,
+                    pawn.carryTracker.GetDirectlyHeldThings(), canMergeWithExistingStacks: false))
+                {
+                    Log.ErrorOnce("Could not return traversal cargo " + carriedThing.ToStringSafe() +
+                        " to " + pawn + "; retaining the pawn and cargo in the climber.", thingIDNumber);
+                    return;
+                }
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message("[XMT][Climbing] " + pawn + " restored traversal cargo " + carriedThing +
+                        " directly to the carry tracker; current cargo=" + pawn.carryTracker.CarriedThing);
+                }
+                carriedThing = null;
+            }
             LandingEffects();
             bool droppedPawn = innerContainer.TryDrop(flyingThing, destCell, flyingThing.MapHeld, ThingPlaceMode.Direct, out var lastResultingThing, null, null, playDropSound: false);
-            Pawn pawn = flyingThing as Pawn;
             if (XMTSettings.LogClimbing)
             {
                 Log.Message("[XMT][Climbing] " + pawn + " completed climb flyer drop; originally planned landing=" + plannedDestCell +
                     "; resolved landing=" + destCell + "; drop succeeded=" + droppedPawn +
                     "; actual position=" + (lastResultingThing?.PositionHeld ?? IntVec3.Invalid) +
                     "; spawned=" + (lastResultingThing?.Spawned ?? false));
+            }
+            if (!droppedPawn)
+            {
+                return;
             }
             if (pawn?.drafter != null)
             {
@@ -205,15 +281,6 @@ namespace Xenomorphtype
             }
 
             flyingThing.Rotation = base.Rotation;
-            if (carriedThing != null && innerContainer.TryDrop(carriedThing, destCell, flyingThing.MapHeld, ThingPlaceMode.Direct, out lastResultingThing, null, null, playDropSound: false) && pawn != null)
-            {
-                carriedThing.DeSpawn();
-                if (!pawn.carryTracker.TryStartCarry(carriedThing))
-                {
-                    Log.Error("Could not carry " + carriedThing.ToStringSafe() + " after respawning flyer pawn.");
-                }
-            }
-
             if (pawn == null)
             {
                 return;
@@ -228,18 +295,36 @@ namespace Xenomorphtype
                     "; route registered=" + climber.climbParameters.ClimbCellsRegistered);
             }
 
-            if (pawn.jobs.curJob != null && pawn.jobs.curJob != detachedJob)
+            preservingLandingReservations = true;
+            try
             {
-                pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false, canReturnToPool: true);
-            }
+                if (pawn.jobs.curJob != null && pawn.jobs.curJob != detachedJob)
+                {
+                    pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, startNewJob: false, canReturnToPool: true);
+                }
 
-            if (pawn.jobs.jobQueue != null && pawn.jobs.jobQueue != jobQueue)
+                if (pawn.jobs.jobQueue != null && pawn.jobs.jobQueue != jobQueue)
+                {
+                    pawn.jobs.jobQueue.Clear(pawn, canReturnToPool: true);
+                }
+            }
+            finally
             {
-                pawn.jobs.jobQueue.Clear(pawn, canReturnToPool: true);
+                preservingLandingReservations = false;
             }
 
             pawn.jobs.jobQueue = jobQueue ?? new JobQueue();
             jobQueue = null;
+
+            // Hauling's initial reservations remain valid at pickup and delivery.
+            // Recheck them quietly for stolen/destroyed targets and older mid-flight saves.
+            // Other drivers may consume or repurpose initial targets; do not rerun them.
+            if (detachedJob?.def == JobDefOf.HaulToCell &&
+                detachedDriver?.GetType() == typeof(JobDriver_HaulToCell) &&
+                !detachedDriver.TryMakePreToilReservations(errorOnFailed: false))
+            {
+                CancelDetachedJob(JobCondition.Incompletable);
+            }
 
             if (detachedJob != null && detachedDriver != null)
             {
@@ -313,7 +398,10 @@ namespace Xenomorphtype
             if (ticksClimbing >= ticksFlightTime)
             {
                 RespawnPawn();
-                Destroy();
+                if (ClimbingPawn == null)
+                {
+                    Destroy();
+                }
             }
             else
             {
@@ -441,24 +529,24 @@ namespace Xenomorphtype
 
             pawnClimber.detachedJob = pawn.jobs.curJob;
             pawnClimber.detachedDriver = pawn.jobs.curDriver;
+            // Expose the owner before despawn invokes reservation cleanup.
+            pawn.GetClimberComp().pawnClimber = pawnClimber;
             pawnClimber.jobQueue = pawn.jobs.jobQueue;
             pawn.jobs.curJob = null;
             pawn.jobs.curDriver = null;
             pawn.jobs.jobQueue = new JobQueue();
 
-            if (flyWithCarriedThing && pawn.carryTracker.CarriedThing != null && pawn.carryTracker.TryDropCarriedThing(pawn.Position, ThingPlaceMode.Direct, out pawnClimber.carriedThing))
-            {
-                if (pawnClimber.carriedThing.holdingOwner != null)
-                {
-                    pawnClimber.carriedThing.holdingOwner.Remove(pawnClimber.carriedThing);
-                }
-
-                pawnClimber.carriedThing.DeSpawn();
-            }
-
             if (pawn.Spawned)
             {
-                pawn.DeSpawn(DestroyMode.WillReplace);
+                pawnClimber.preservingDepartureReservations = true;
+                try
+                {
+                    pawn.DeSpawn(DestroyMode.WillReplace);
+                }
+                finally
+                {
+                    pawnClimber.preservingDepartureReservations = false;
+                }
             }
 
             if (!pawnClimber.innerContainer.TryAdd(pawn))
@@ -467,9 +555,23 @@ namespace Xenomorphtype
                 pawn.Destroy();
             }
 
-            if (pawnClimber.carriedThing != null && !pawnClimber.innerContainer.TryAdd(pawnClimber.carriedThing))
+            // Insert the pawn first: ClimbingThing relies on it being the first entry.
+            Thing cargo = flyWithCarriedThing ? pawn.carryTracker.CarriedThing : null;
+            if (cargo != null && pawn.carryTracker.GetDirectlyHeldThings().TryTransferToContainer(cargo,
+                pawnClimber.innerContainer, canMergeWithExistingStacks: false))
             {
-                Log.Error("Could not add " + pawnClimber.carriedThing.ToStringSafe() + " to a climber.");
+                pawnClimber.carriedThing = cargo;
+                if (XMTSettings.LogClimbing)
+                {
+                    Log.Message("[XMT][Climbing] " + pawn + " transferred traversal cargo " + cargo +
+                        " directly into the climber; detached job=" + pawnClimber.detachedJob);
+                }
+            }
+            else if (cargo != null)
+            {
+                // A failed transfer leaves the item in the held pawn's carry container.
+                Log.Error("Could not transfer traversal cargo " + cargo.ToStringSafe() +
+                    " into the climber; retaining it in " + pawn + "'s carry tracker.");
             }
 
             return pawnClimber;

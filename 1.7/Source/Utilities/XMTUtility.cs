@@ -1723,47 +1723,37 @@ namespace Xenomorphtype
 
         public static void DropAmountThing(ThingDef thingDef, int stackTotal, IntVec3 position, Map targetMap, ThingDef Filth = null)
         {
-
-            int stackLimit = thingDef.stackLimit;
-            int totalstacks = stackTotal / stackLimit;
-
-            List<Thing> DroppedThing = new List<Thing>();
-
-            for (int i = 0; i < totalstacks; i++)
+            if (stackTotal <= 0)
             {
-                if (stackTotal <= 0)
-                {
-                    break;
-                }
-                Thing thing = ThingMaker.MakeThing(thingDef);
-                thing.stackCount = stackTotal > stackLimit ? stackLimit : totalstacks;
-                stackTotal -= thing.stackCount;
-                DroppedThing.Add(thing);
+                return;
             }
 
-            if (stackTotal > 0)
+            if (thingDef == null || targetMap == null || !position.InBounds(targetMap))
             {
-                Thing thing = ThingMaker.MakeThing(thingDef);
-                thing.stackCount = stackTotal;
-                DroppedThing.Add(thing);
+                Log.Warning("[XMT] Cannot drop " + stackTotal + " of " + thingDef + " at " + position + ": invalid def, map, or position.");
+                return;
             }
 
+            Thing thing = ThingMaker.MakeThing(thingDef);
+            thing.stackCount = stackTotal;
 
-            List<IntVec3> dropRadial = GenRadial.RadialCellsAround(position, GenRadial.RadiusOfNumCells(DroppedThing.Count *2), false).ToList();
-
-            int totalDropped = 0;
-            for (int i = 0; i < DroppedThing.Count; i++)
+            Action<Thing, int> onPlaced = null;
+            if (Filth != null)
             {
-                if (dropRadial[i].Standable(targetMap))
+                HashSet<IntVec3> filthCells = new HashSet<IntVec3>();
+                onPlaced = (placedThing, count) =>
                 {
-                    if (Filth != null)
+                    if (filthCells.Add(placedThing.Position))
                     {
-                        FilthMaker.TryMakeFilth(dropRadial[i], targetMap, Filth);
+                        FilthMaker.TryMakeFilth(placedThing.Position, targetMap, Filth);
                     }
-                    
-                    GenSpawn.Spawn(DroppedThing[totalDropped], dropRadial[i], targetMap, WipeMode.VanishOrMoveAside);
-                    totalDropped++;
-                }
+                };
+            }
+
+            // Vanilla merges compatible stacks and splits oversized quantities across nearby cells.
+            if (!GenPlace.TryPlaceThing(thing, position, targetMap, ThingPlaceMode.Near, onPlaced))
+            {
+                Log.Warning("[XMT] Could only place " + (stackTotal - thing.stackCount) + " of " + stackTotal + " " + thingDef + " near " + position + "; " + thing.stackCount + " remain unplaced.");
             }
         }
 

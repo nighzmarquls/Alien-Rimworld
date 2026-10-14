@@ -349,7 +349,6 @@
 			<!--<bloodSmearDef Inherit="false">Starbeast_Filth_AcidBloodSmear</bloodSmearDef>-->
 		</race>
 		<alienRace>
-
 			<generalSettings>
 				<immuneToAge>true</immuneToAge>
 				<notXenophobistTowards>

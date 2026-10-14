@@ -1,17 +1,17 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT", "XMT.csproj", "{17460138-A266-46E2-8BB1-2CEDDC95B9F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_CE", "..\..\Compatibility\CombatExtended\Source\XMT_CE\XMT_CE.csproj", "{6947F6F1-0EEA-47A3-AEBB-5FBAE8F402D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_CE", "..\..\Compatibility\1.6\CombatExtended\Source\XMT_CE\XMT_CE.csproj", "{6947F6F1-0EEA-47A3-AEBB-5FBAE8F402D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_ME", "..\..\Compatibility\Asari\Source\XMT_ME\XMT_ME.csproj", "{4B361D25-9E06-4DC3-B8B4-B32E9480D53C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_ME", "..\..\Compatibility\1.6\Asari\Source\XMT_ME\XMT_ME.csproj", "{4B361D25-9E06-4DC3-B8B4-B32E9480D53C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_FA", "..\..\Compatibility\FacialAnimation\Source\XMT_FA\XMT_FA.csproj", "{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_FA", "..\..\Compatibility\1.6\FacialAnimation\Source\XMT_FA\XMT_FA.csproj", "{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_AM", "..\..\Compatibility\MeleeAnimation\Source\XMT_AM\XMT_AM.csproj", "{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMT_AM", "..\..\Compatibility\1.6\MeleeAnimation\Source\XMT_AM\XMT_AM.csproj", "{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,8 +37,8 @@ Global
 		{70D4F85E-0C6D-4E05-AFC1-B7786B3BB52E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D5AC6FA-4194-77F1-5B68-1615A3C3EF73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

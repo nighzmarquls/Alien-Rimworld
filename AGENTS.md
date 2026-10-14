@@ -89,6 +89,11 @@ Add durable observations here when they would help a future agent work safely an
 
 - Future mission integration (proposed, not implemented): retain and track successfully abducted world pawns for a bounded period so later systems can preferentially reuse eligible captives as hosts when the player investigates a strange hill (`XMT_Hivesite_Small`). Preserve captive identity beyond delayed xenoforming credit; retention duration and site-host selection remain to be designed.
 
+- Last checked RimWorld 1.7.4977 rev1248 local assembly on 2026-10-13: do not detach a job during movement toil `initAction`; vanilla `TryActuallyStartNextToil` resumes by reading `CurToil`, which returns null once the job is detached. If already at the traversal entrance, stop pathing and depart from the existing traversal tick instead.
+- Last checked RimWorld 1.7.4977 rev1248 local assembly on 2026-10-13: pawn despawn clears reservations even when its job/driver were detached first. Preserve only the suspended job's normal claims; temporary `Carried` cleanup also clears all pawn en-route capacity claims. Route forced cancellation to the detached job and release claims on cancellation/carrier destruction. Native reservation serialization supports held claimants and references to deep-saved detached jobs.
+- Preserve cargo identity across traversal with `ThingOwner.TryTransferToContainer(..., canMergeWithExistingStacks: false)` between the carry tracker and carrier. Map drop/re-pickup can merge stacks, destroy the original job target, or capture another stack. Keep the pawn first in `PawnClimber.innerContainer`; `ClimbingThing` depends on that ordering.
+- Verified in-game on RimWorld 1.7.4977 rev1248 on 2026-10-13: network hauling and save/load during both approach-to-pickup traversal and carrying-to-delivery traversal work with direct cargo transfers. Regressions should include occupied entrances with compatible item stacks and multiple competing haulers; isolated harness success does not cover those conditions. Matching 1.6 source changes require independent build/runtime validation.
+
 ## Agent Update Rule
 
 - Consider updating this file when a completed task reveals durable workflow, release, compatibility, validation, or file-structure knowledge useful to future sessions.

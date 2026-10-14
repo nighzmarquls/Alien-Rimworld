@@ -711,7 +711,9 @@ namespace Xenomorphtype
 
             if (actor.Position == climber.StartClimbCell)
             {
-                BeginClimb(actor, ref climber, toil);
+                // Depart on the traversal tick: detaching the job during initAction
+                // leaves vanilla toil setup without a current toil when it resumes.
+                actor.pather.StopDead();
                 return;
             }
 

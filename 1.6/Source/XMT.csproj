@@ -35,8 +35,7 @@
   <ItemGroup>
     <Compile Include="Knowledge\KnowledgeSystem.cs" />
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\1.6\Assemblies\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="AlienRace">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\839005762\1.6\Assemblies\AlienRace.dll</HintPath>

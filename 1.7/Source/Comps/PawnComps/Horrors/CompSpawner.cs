@@ -47,10 +47,7 @@ namespace Xenomorphtype
                             }
                             if (Props.thingSpawned != null)
                             {
-                                Thing spawnedThing = ThingMaker.MakeThing(Props.thingSpawned);
-                                spawnedThing.stackCount = Props.spawnStackCount;
-                                ApplyLineageIfSupported(spawnedThing);
-                                GenSpawn.Spawn(spawnedThing, Parent.PositionHeld, Parent.MapHeld);
+                                SpawnThing();
                             }
                         }
                     }
@@ -74,12 +71,33 @@ namespace Xenomorphtype
 
                     if (Props.thingSpawned != null)
                     {
-                        Thing spawnedThing = ThingMaker.MakeThing(Props.thingSpawned);
-                        spawnedThing.stackCount = Props.spawnStackCount;
-                        ApplyLineageIfSupported(spawnedThing);
-                        GenSpawn.Spawn(spawnedThing, parent.PositionHeld, parent.MapHeld);
+                        SpawnThing();
                     }
                 }
+            }
+        }
+
+        private void SpawnThing()
+        {
+            if (Props.spawnStackCount <= 0)
+            {
+                return;
+            }
+
+            Thing spawnedThing = ThingMaker.MakeThing(Props.thingSpawned);
+            spawnedThing.stackCount = Props.spawnStackCount;
+            ApplyLineageIfSupported(spawnedThing);
+
+            if (spawnedThing.def.category == ThingCategory.Item)
+            {
+                if (!GenPlace.TryPlaceThing(spawnedThing, parent.PositionHeld, parent.MapHeld, ThingPlaceMode.Near))
+                {
+                    Log.Warning("[XMT] Could only place " + (Props.spawnStackCount - spawnedThing.stackCount) + " of " + Props.spawnStackCount + " " + Props.thingSpawned + " near " + parent.PositionHeld + "; " + spawnedThing.stackCount + " remain unplaced.");
+                }
+            }
+            else
+            {
+                GenSpawn.Spawn(spawnedThing, parent.PositionHeld, parent.MapHeld);
             }
         }
 

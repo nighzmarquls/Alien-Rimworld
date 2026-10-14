@@ -56,7 +56,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="VEF">
-      <HintPath>..\..\..\..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\VEF.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\VEF.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

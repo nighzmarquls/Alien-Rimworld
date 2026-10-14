@@ -54,11 +54,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MVCF">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\MVCF.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\MVCF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PipeSystem">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\PipeSystem.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\PipeSystem.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityStubs">
@@ -71,7 +71,7 @@
     </Reference>
     <Reference Include="VEF, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.6\Assemblies\VEF.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\VEF.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -591,8 +591,5 @@
     <Folder Include="Abilities\Psycasting\Paths\" />
     <Folder Include="AI\Toils\" />
     <Folder Include="UI\Letters\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="VEF.dll" />
   </ItemGroup>
 </Project>

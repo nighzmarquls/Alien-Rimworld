@@ -187,7 +187,7 @@ namespace Xenomorphtype
     {
         public PawnKindDef hatchedPawnKind;
         public KnowledgeProfileDef hatchKnowledgeProfile;
-
+        public int hatchCount;
         public CompHatchingEggProperties()
         {
             this.compClass = typeof(CompHatchingEgg);

@@ -1,11 +1,6 @@
-﻿
+
 using RimWorld;
 using RimWorld.Planet;
-using System;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
-
 using Verse;
 using Verse.AI;
 using VEF.Abilities;
@@ -36,38 +31,9 @@ namespace Xenomorphtype
             pawn.jobs.StartJob(job, JobCondition.InterruptForced);
             if (fleckOnTarget != null)
             {
-                MakeStaticFleckWithSanitizedVector(pawn.DrawPos, pawn.Map, fleckOnTarget);
+                Ability.MakeStaticFleck(pawn.DrawPos, pawn.Map, fleckOnTarget, 1f, 0f);
             }
             
-        }
-
-        // Temporary VEF 1.6 -> RimWorld 1.7 bridge: pass scalar components through the
-        // overload's runtime Vector3 type without referencing UnityEngine.CoreModule.
-        // Revert this helper to Ability.MakeStaticFleck(loc, map, fleckDef, 1f, 0f)
-        // when VEF is rebuilt against 1.7's UnityStubs.
-        private static void MakeStaticFleckWithSanitizedVector(Vector3 loc, Map map, FleckDef fleckDef)
-        {
-            MethodInfo makeStaticFleck = typeof(Ability).GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .Single(method =>
-                {
-                    if (method.Name != nameof(Ability.MakeStaticFleck))
-                    {
-                        return false;
-                    }
-
-                    ParameterInfo[] parameters = method.GetParameters();
-                    return parameters.Length == 5
-                        && parameters[0].ParameterType.FullName == "UnityEngine.Vector3"
-                        && parameters[1].ParameterType == typeof(Map)
-                        && parameters[2].ParameterType == typeof(FleckDef)
-                        && parameters[3].ParameterType == typeof(float)
-                        && parameters[4].ParameterType == typeof(float);
-                });
-            Type vectorType = makeStaticFleck.GetParameters()[0].ParameterType;
-            object sanitizedLoc = vectorType == typeof(Vector3)
-                ? (object)loc
-                : Activator.CreateInstance(vectorType, new object[] { loc.x, loc.y, loc.z });
-            makeStaticFleck.Invoke(null, new object[] { sanitizedLoc, map, fleckDef, 1f, 0f });
         }
 
         public override void Cast(GlobalTargetInfo[] targets, Ability ability)
