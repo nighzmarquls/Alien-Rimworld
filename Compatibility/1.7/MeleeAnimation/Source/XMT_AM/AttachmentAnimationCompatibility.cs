@@ -1,7 +1,6 @@
 using AM;
 using AM.Grappling;
 using Verse;
-using Xenomorphtype;
 
 namespace XMT_AM
 {

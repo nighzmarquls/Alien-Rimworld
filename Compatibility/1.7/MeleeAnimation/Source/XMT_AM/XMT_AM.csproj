@@ -35,6 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AttachmentAnimationCompatibility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\1.7\Source\XMT.csproj">
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\..\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
@@ -47,13 +55,5 @@
       <HintPath>..\..\..\..\..\..\..\..\..\workshop\content\294100\2944488802\1.6\Assemblies\zAnimationMod.dll</HintPath>
       <Private>False</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AttachmentAnimationCompatibility.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\1.7\Source\XMT.csproj">
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
 </Project>
