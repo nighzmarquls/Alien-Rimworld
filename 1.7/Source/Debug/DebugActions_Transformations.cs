@@ -26,7 +26,10 @@ namespace Xenomorphtype
                     MakePawnDestinationRoute("Pawn to pawn", TransformPawnToPawn),
                     MakeThingDestinationRoute("Pawn to thing", TransformPawnToThing),
                     MakePawnDestinationRoute("Thing to pawn", TransformThingToPawn),
-                    MakeThingDestinationRoute("Thing to thing", TransformThingToThing)
+                    MakeThingDestinationRoute("Thing to thing", TransformThingToThing),
+                    new DebugActionNode("Split transformed building", DebugActionType.Action, () => SplitBuilding(false)),
+                    new DebugActionNode("Release all preserved pawns", DebugActionType.Action, () => SplitBuilding(true)),
+                    new DebugActionNode("Verify preservation ownership/recovery", DebugActionType.Action, VerifyPreservation)
                 };
             };
 
@@ -124,6 +127,45 @@ namespace Xenomorphtype
                 HorrorGenePayload before = BioUtility.CaptureHorrorGenePayload(source);
                 bool success = XMTUtility.TransformPawnIntoPawn((Pawn)source, destination, out Pawn result);
                 ReportResult("Pawn to pawn", source, destination.defName, success, result, before);
+            });
+        }
+
+        private static void SplitBuilding(bool releaseAll)
+        {
+            BeginSourceTargeting(false, "Select transformed building to split.", source =>
+            {
+                bool success = PreservedBuildingUtility.TrySplitTransformedBuilding(source, out List<Thing> outputs, releaseAll);
+                Messages.Message(success ? "Split completed: " + outputs.Count + " outputs."
+                    : "Split failed or no preserved contributors were recoverable; see the log.",
+                    success ? MessageTypeDefOf.NeutralEvent : MessageTypeDefOf.RejectInput, false);
+            });
+        }
+
+        private static void VerifyPreservation()
+        {
+            BeginSourceTargeting(false, "Select a building or minified building to verify preservation.", source =>
+            {
+                Thing building = source is MinifiedThing minified ? minified.InnerThing : source;
+                CompPawnPreservation comp = building.TryGetComp<CompPawnPreservation>();
+                if (comp == null) throw new InvalidOperationException("No preservation comp on selection.");
+                if (!comp.EnsureRecovery()) throw new InvalidOperationException("Recovery configuration could not be satisfied.");
+                List<Pawn> before = comp.Entries.Select(entry => entry.Pawn).ToList();
+                if (!comp.EnsureRecovery() || !before.SequenceEqual(comp.Entries.Select(entry => entry.Pawn)))
+                    throw new InvalidOperationException("Recovery changed valid contributors on its second invocation.");
+                if (before.Distinct().Count() != before.Count)
+                    throw new InvalidOperationException("Duplicate pawn contribution ownership.");
+                foreach (PreservedPawn entry in comp.Entries)
+                {
+                    if (entry.Pawn == null || entry.Pawn.Destroyed || entry.Pawn.Discarded || entry.buildingDef == null
+                        || entry.Contents?.holdingOwner != comp.GetDirectlyHeldThings() || !entry.Pawn.Suspended)
+                        throw new InvalidOperationException("Invalid ownership, suspension or contribution association.");
+                    if (Find.WorldPawns.Contains(entry.Pawn))
+                        throw new InvalidOperationException("Contributor is also independently owned by WorldPawns.");
+                    if (entry.Contents.MapHeld != building.MapHeld)
+                        throw new InvalidOperationException("Held contributor map does not match the building map.");
+                }
+                Messages.Message("Preservation verified: " + before.Count + " contributors; ownership, suspension and recovery idempotence passed.",
+                    MessageTypeDefOf.NeutralEvent, false);
             });
         }
 

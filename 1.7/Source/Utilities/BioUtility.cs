@@ -148,10 +148,8 @@ namespace Xenomorphtype
            
             float essence = GetXenomorphInfluence(pawn)+bonusEssence;
 
-            if(pawn.health.hediffSet.HasPregnancyHediff())
-            {
-                ApplyHorrorPregnancy(pawn);
-            }
+            // Optional pregnancy types need not set vanilla's pregnant flag.
+            HorrorPregnancyUtility.TryApply(pawn, extraEssence: bonusEssence, existingOnly: true);
 
             XMT_MutationsHealthSet mutations = customSet != null ? customSet : XenoGeneDefOf.XMT_MutationsSet;
             foreach (MutationHealth health in mutations.mutations)
@@ -251,7 +249,7 @@ namespace Xenomorphtype
 
             if (!mutation.uiLabel.NullOrEmpty())
             {
-                return mutation.uiLabel;
+                return mutation.uiLabel.CanTranslate() ? mutation.uiLabel.Translate().ToString() : mutation.uiLabel;
             }
 
             if (mutation.horror != null)
@@ -384,6 +382,17 @@ namespace Xenomorphtype
             if (!report.Accepted)
             {
                 return false;
+            }
+
+            // Pregnancy mutations must use the same ownership-aware conversion path as lovin.
+            // Adding the core hediff directly could otherwise delete a Menstruation pregnancy.
+            if (mutation.horror.comps?.Any(c => c is HediffCompProperties_Comp_HorrorPregnant) == true)
+            {
+                bool applied = HorrorPregnancyUtility.TryApply(target, extraEssence: bonusEssence,
+                    force: true, pregnancyDef: mutation.horror);
+                changedHediff = target.health.hediffSet.hediffs.FirstOrDefault(h =>
+                    h is HediffWithComps withComps && withComps.comps?.OfType<IHorrorPregnancy>().Any(p => p.IsHorror) == true);
+                return applied;
             }
 
             BodyPartRecord specificPart = SpecificMutationPart(target, mutation);
@@ -1024,113 +1033,41 @@ namespace Xenomorphtype
 
             return essence;
         }
-        public static bool CanGiveHorrorBirth(Pawn pawn)
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        public static bool CanGiveHorrorBirth(Pawn pawn) => pawn?.gender == Gender.Female;
+
+        private sealed class LovinCallback
         {
-            bool birth = false;
-
-            if(pawn.gender == Gender.Female)
-            {
-                birth = true;
-            }
-
-            //TODO: RJW support.
-
-            return birth;
+            public int partnerId;
+            public int tick = -1;
         }
-        public static void ApplySexEffects(Pawn first, Pawn second )
+        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Pawn, LovinCallback> lovinCallbacks =
+            new System.Runtime.CompilerServices.ConditionalWeakTable<Pawn, LovinCallback>();
+
+        public static void ApplySexEffects(Pawn first, Pawn second)
         {
-
-            bool firstIsXenomorph = XMTUtility.IsXenomorph(first);
-            bool secondIsXenomorph = XMTUtility.IsXenomorph(second);
-
-            if(firstIsXenomorph && secondIsXenomorph)
+            if (first == null || second == null || first == second) return;
+            Pawn key = first.thingIDNumber < second.thingIDNumber ? first : second;
+            Pawn other = key == first ? second : first;
+            LovinCallback callback = lovinCallbacks.GetOrCreateValue(key);
+            int tick = Find.TickManager.TicksGame;
+            if (callback.partnerId == other.thingIDNumber && callback.tick >= 0 && tick - callback.tick < 60) return;
+            callback.partnerId = other.thingIDNumber;
+            callback.tick = tick;
+            if (XMTUtility.IsXenomorph(first) && XMTUtility.IsXenomorph(second)) return;
+            foreach (Pawn recipient in new[] { first, second })
             {
-                return;
+                Pawn partner = recipient == first ? second : first;
+                if (XMTUtility.IsXenomorph(recipient)) continue;
+                if (XMTUtility.IsXenomorph(partner))
+                {
+                    recipient.Info()?.ApplyLoverPheromone(partner);
+                    recipient.Info()?.GainObsession(0.12f);
+                    AddLovinMutation(recipient);
+                }
+                HorrorPregnancyUtility.ApplyReproductiveMutation(recipient, partner);
+                HorrorPregnancyUtility.TryApply(recipient, partner);
             }
-
-            if ((firstIsXenomorph) && !secondIsXenomorph && second != null)
-            {
-                CompPawnInfo info = second.Info();
-                if (info != null)
-                {
-                    info.ApplyLoverPheromone(first);
-                    info.GainObsession(0.12f);
-                }
-
-                AddLovinMutation(second);
-                if(CanGiveHorrorBirth(second) && XMTSettings.HorrorPregnancy)
-                {
-                    ApplyHorrorPregnancy(second);
-                    
-                }
-                return;
-            }
-
-            if ((secondIsXenomorph) && !firstIsXenomorph)
-            {
-                CompPawnInfo info = first.Info();
-                if (info != null)
-                {
-                    info.ApplyLoverPheromone(second);
-                    info.GainObsession(0.12f);
-                }
-                AddLovinMutation(first);
-                if (CanGiveHorrorBirth(first) && XMTSettings.HorrorPregnancy)
-                {
-                    ApplyHorrorPregnancy(first);
-                }
-                return;
-            }
-
-            float firstXenomorphEssence = GetXenomorphInfluence(first);
-            float secondXenomorphEssence = GetXenomorphInfluence(second);
-
-            if (Rand.Chance( (firstXenomorphEssence + secondXenomorphEssence)/2))
-            {
-                if (CanGiveHorrorBirth(first) && XMTSettings.HorrorPregnancy)
-                {
-                    ApplyHorrorPregnancy(first);
-                }
-                if (CanGiveHorrorBirth(second) && XMTSettings.HorrorPregnancy)
-                {
-                    ApplyHorrorPregnancy(second);
-                }
-            }
-        }
-
-
-        private static HediffDef GetHorrorPregnancyForPawn(Pawn target)
-        {
-
-            HediffDef pregnancy = XenoGeneDefOf.XMT_HorrorPregnant;
-            if (target != null)
-            {
-                if (target.def.modExtensions != null)
-                {
-                    foreach (DefModExtension modExt in target.def.modExtensions)
-                    {
-                        AnimalMutateForms animalMutateForms = modExt as AnimalMutateForms;
-                        if (animalMutateForms != null)
-                        {
-                            if (animalMutateForms.horrorPregnancy != null)
-                            {
-                                pregnancy = animalMutateForms.horrorPregnancy;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-            return pregnancy;
-        }
-        private static void ApplyHorrorPregnancy(Pawn target)
-        {
-            if(target == null)
-            {
-                return;
-            }
-
-            target.health.AddHediff(GetHorrorPregnancyForPawn(target));
         }
 
         public static void AddLovinMutation(Pawn target)
@@ -1620,7 +1557,7 @@ namespace Xenomorphtype
             }
         }
 
-        internal static bool TryContainedExtraction(Pawn target, Pawn extractor)
+        internal static bool TryContainedExtraction(Thing target, Pawn extractor)
         {
             if (target == null || extractor == null)
             {
@@ -1634,7 +1571,14 @@ namespace Xenomorphtype
                 return true;
             }
 
-            AcidUtility.TrySurgicalAcidSpill(target, extractor);
+            if (target is Pawn patient)
+            {
+                AcidUtility.TrySurgicalAcidSpill(patient, extractor);
+            }
+            else
+            {
+                target.TryGetComp<CompAcidBlood>()?.TrySplashAcidThing(1f, extractor);
+            }
             Messages.Message("XMT_MessageContainedExtractionFailed".Translate(
                 extractor.Named("SURGEON"), target.Named("PAWN")), extractor, MessageTypeDefOf.NegativeEvent);
             return false;

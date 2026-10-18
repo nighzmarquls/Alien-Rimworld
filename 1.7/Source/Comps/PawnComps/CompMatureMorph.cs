@@ -1,4 +1,4 @@
-﻿using AlienRace;
+using AlienRace;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -19,6 +19,7 @@ namespace Xenomorphtype
         public bool NeedEggs => XMTHiveUtility.NeedEggs(Parent.Map);
 
         CompJellyMaker JellyMaker = null;
+        private readonly HashSet<WorkTypeDef> checkedNestWorkTypes = new HashSet<WorkTypeDef>();
         CompMatureMorphProperties Props => props as CompMatureMorphProperties;
         internal Pawn Parent => parent as Pawn;
         public float abductRange => Props.abductRange;
@@ -1328,41 +1329,11 @@ namespace Xenomorphtype
             Parent.mindState.lastAttackTargetTick = Find.TickManager.TicksGame;
         }
 
+        // Legacy entry point retained for queued jobs/external callers.
         public void TryLardering(Pawn target)
         {
-            if (!XMTUtility.IsTargetImmobile(target))
-            {
-                if (Rand.Chance(XMTUtility.GetDodgeChance(target, Parent.IsPsychologicallyInvisible())))
-                {
-                    MoteMaker.ThrowText(target.DrawPos, target.Map, "TextMote_Dodge".Translate(), 1.9f);
-                    return;
-                }
-            }
-            Hediff hediff = HediffMaker.MakeHediff(Props.larderHediff, target);
-
-            if (Parent.Faction != null && Parent.Faction.IsPlayer)
-            {
-                hediff.SetVisible();
-            }
-
-            XMTUtility.GiveInteractionMemory(target, HorrorMoodDefOf.Ovomorphed, Parent);
-            XMTUtility.GiveMemory(Parent, HorrorMoodDefOf.OvomorphedVictim);
-
-            if (Parent.needs.joy != null)
-            {
-                Parent.needs.joy.GainJoy(0.12f, InternalDefOf.NestTending);
-            }
-
-            HediffComp_BuildingMorphing building = hediff.TryGetComp<HediffComp_BuildingMorphing>();
-
-            if (building != null)
-            {
-                building.InheritFromInjector(Parent);
-            }
-
-            target.health.AddHediff(hediff);
-
-            Parent.Map.designationManager.RemoveAllDesignationsOn(target);
+            HiveStructureUnlockDef def = DefDatabase<HiveStructureUnlockDef>.GetNamedSilentFail("XMT_CreateLarder");
+            if (def != null && HiveStructureUtility.Unlocked(def)) def.Worker.Complete(def, Parent, target);
         }
         public void TryOvomorphing(Pawn target)
         {
@@ -1875,43 +1846,18 @@ namespace Xenomorphtype
             
         }
 
-        protected bool GetLarderJob(out Job job)
-        {
-            job = null;
-            if (!XMTUtility.HasQueenWithEvolution(RoyalEvolutionDefOf.Evo_LarderSerum))
-            {
-                return false;
-            }
-            
-            Pawn candidate = XMTHiveUtility.GetBestLarderCandidate(Parent.Map, forPawn: Parent);
-            if (candidate != null)
-            {
-                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ApplyLardering, candidate);
-                FeralJobUtility.ReserveThingForJob(Parent, job, candidate);
-                return true;
-            }
-
-            return false;
-        }
-
+        protected bool GetLarderJob(out Job job) => HiveStructureUtility.TryGetAutomaticJob(Parent, null, out job);
         protected bool GetPruningJob(out Job job)
         {
             job = null;
-            
-            MeatballLarder PruningLarder = XMTHiveUtility.GetMostPrunableLarder(Parent.Map, Parent);
-            if (PruningLarder != null)
-            {
-                if (PruningLarder.CanBePruned())
-                {
-                    job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, PruningLarder);
-                    FeralJobUtility.ReserveThingForJob(Parent, job, PruningLarder);
-                    return true;
-                }
-            }
-            
-            return false;
+            Thing target = HivePruningUtility.CandidatesOn(Parent.Map)
+                .Where(t => t.Faction == Parent.Faction && t.GetComp<CompHivePrunable>()?.CanPrune == true
+                    && Parent.CanReserveAndReach(t, PathEndMode.Touch, Danger.Some))
+                .OrderByDescending(t => t.GetComp<CompOrganicGrowth>()?.TotalBodySize() ?? 1f).FirstOrDefault();
+            if (target == null) return false;
+            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_PruneLarder, target);
+            return true;
         }
-
         protected bool GetNestBuildJob(out Job job)
         {
             if (Find.TickManager.TicksGame >= canTunnelTick &&
@@ -2202,6 +2148,7 @@ namespace Xenomorphtype
         public bool GetNestJobByWorkType(WorkTypeDef workType, out Job job)
         {
             job = null;
+            if (HiveStructureUtility.TryGetAutomaticJob(Parent, workType, out job)) return true;
            
             if(workType == XenoWorkDefOf.Childcare)
             {
@@ -2219,7 +2166,9 @@ namespace Xenomorphtype
 
             if (workType == XenoWorkDefOf.Hauling)
             {
-                return GetOvomorphStorageJob(out job);
+                if (GetOvomorphStorageJob(out job)) return true;
+                job = AcidDisposalUtility.FindJob(Parent);
+                return job != null;
             }
 
             if (workType == XenoWorkDefOf.Doctor)
@@ -2325,20 +2274,6 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (workType == XenoWorkDefOf.Growing)
-            {
-                /*
-                Auto Larder Implanting.
-                */
-
-                if (GetLarderJob(out job))
-                {
-                    return true;
-                }
-                
-                return false;
-            }
-
             if (workType == XenoWorkDefOf.PlantCutting)
             {
                 if (GetPruningJob(out job))
@@ -2366,8 +2301,10 @@ namespace Xenomorphtype
             Job job;
             if (Parent.workSettings.EverWork)
             {
+                checkedNestWorkTypes.Clear();
                 foreach(WorkGiver work in Parent.workSettings.WorkGiversInOrderNormal)
                 {
+                    if (!checkedNestWorkTypes.Add(work.def.workType)) continue;
                     if(GetNestJobByWorkType(work.def.workType, out job))
                     {
                         return job;
@@ -2431,6 +2368,9 @@ namespace Xenomorphtype
                 {
                     return job;
                 }
+
+                job = AcidDisposalUtility.FindJob(Parent);
+                if (job != null) return job;
 
                 if (GetLarderJob(out job))
                 {

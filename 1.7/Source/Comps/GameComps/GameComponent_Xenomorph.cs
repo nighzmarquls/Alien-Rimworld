@@ -188,7 +188,7 @@ namespace Xenomorphtype
         {
             timeLeft = ScreenFadeSeconds;
 
-            SoundDefOf.PlanetkillerImpact.PlayOneShot(Queen);
+            SoundDefOf.PlanetkillerImpact.PlayOneShotOnCamera();
             ScreenFader.StartFade(Color.black, 6f);
 
    
@@ -202,7 +202,7 @@ namespace Xenomorphtype
             }
 
             StringBuilder stringBuilder = new StringBuilder();
-            List<Pawn> list = (from p in Queen.MapHeld.mapPawns.PawnsInFaction(Faction.OfPlayer)
+            List<Pawn> list = (from p in PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive.Where(pawn => pawn.Faction == Faction.OfPlayer)
                                where p.GetMorphComp() != null
                                select p).ToList();
             foreach (Pawn item in list)
@@ -234,6 +234,7 @@ namespace Xenomorphtype
         public override void GameComponentTick()
         {
             base.GameComponentTick();
+            HiveQueenUtility.Resolve();
             ProcessStartupQueenPurge();
             ReconcileProgressionGuidance();
             QueenAidTick();
@@ -596,6 +597,7 @@ namespace Xenomorphtype
             XMTHiveUtility.ClearAllNestSites();
             TraversalTopologyMapComponent.ClearAllMapCaches();
             PawnCacheWrapper.ClearAllPawnCaches();
+            ResourceHelperUtility.ClearCaches();
             worldQueenPurgePending = true;
             nextProgressionGuidanceTick = Find.TickManager.TicksGame + 1;
         }
@@ -603,6 +605,7 @@ namespace Xenomorphtype
         public override void ExposeData()
         {
             base.ExposeData();
+            Scribe_References.Look(ref Queen, "hiveQueen");
             Scribe_Values.Look(ref _xenoforming, "Xenoforming", 0);
             Scribe_Values.Look(ref _lastxenoforming, "lastXenoforming", 0);
             Scribe_Values.Look(ref _xenoformingStartTick, "xenoformingStartTick", -1);
@@ -649,6 +652,7 @@ namespace Xenomorphtype
                 XMTHiveUtility.ClearAllNestSites();
                 TraversalTopologyMapComponent.ClearAllMapCaches();
                 PawnCacheWrapper.ClearAllPawnCaches();
+                ResourceHelperUtility.ClearCaches();
                 xenoformingPawnAccounting ??= new Dictionary<string, XenoformingPawnAccountingState>();
                 deadMorphs ??= new List<string>();
                 queenAidPawnIDs ??= new List<int>();
@@ -698,19 +702,11 @@ namespace Xenomorphtype
             Log.Message("[XMT][World] Completed startup queen purge; removed " + purged + " non-player world queens.");
         }
 
-        private static bool IsActivePlayerQueen(Pawn pawn)
-        {
-            if (pawn?.Faction != Faction.OfPlayerSilentFail)
-            {
-                return false;
-            }
-
-            return pawn.MapHeld?.IsPlayerHome == true || CaravanUtility.IsCaravanMember(pawn);
-        }
+        private static bool IsActivePlayerQueen(Pawn pawn) => HiveQueenUtility.IsProtectedPlayerQueen(pawn);
 
         private void DiscardWorldQueen(Pawn pawn)
         {
-            if (pawn == null || pawn.Destroyed)
+            if (pawn == null || pawn.Destroyed || HiveQueenUtility.IsProtectedPlayerQueen(pawn))
             {
                 return;
             }

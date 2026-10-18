@@ -54,6 +54,12 @@ namespace Xenomorphtype
             Destroy();
         }
 
+        public override void EjectContents()
+        {
+            base.EjectContents();
+            HiveColonistBarUtility.NotifyContentsChanged();
+        }
+
         public override bool Accepts(Thing thing)
         {
             return ContainedThing == null && thing is Pawn pawn && CanOccupy(pawn);
@@ -72,6 +78,7 @@ namespace Xenomorphtype
                 hasExplicitOccupantAssignment = true;
                 fallbackAttemptTick = -1;
                 Notify_OccupantRegistered(pawn);
+                HiveColonistBarUtility.NotifyContentsChanged();
             }
 
             return true;
@@ -234,6 +241,7 @@ namespace Xenomorphtype
                 pendingOccupant = null;
                 hasExplicitOccupantAssignment = true;
                 Notify_OccupantRegistered(pawn);
+                HiveColonistBarUtility.NotifyContentsChanged();
                 Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
                 return true;
             }

@@ -18,6 +18,7 @@ namespace Xenomorphtype
         public static XMT_ThingDefList XMT_OvomorphStorageEligible;
         //Xenomorph buildings
         public static ThingDef XMT_JellyWell;
+        public static ThingDef XMT_HiveStructureSite;
         public static ThingDef XMT_Ovomorph;
         public static ThingDef XMT_GeneOvomorph;
         public static ThingDef XMT_CocoonBase;

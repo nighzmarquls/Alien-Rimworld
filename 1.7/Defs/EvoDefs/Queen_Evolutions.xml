@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 	<!--
-	Developer reference: all RoyalEvolutionDef fields are shown below. This example is not loaded.
+		Developer reference: all RoyalEvolutionDef fields are shown below. This example is not loaded.
 
-	<Xenomorphtype.RoyalEvolutionDef MayRequire="Package.Id">
+		<Xenomorphtype.RoyalEvolutionDef MayRequire="Package.Id">
 		<defName>Evo_ExampleCrown</defName>
 		<label>example crown</label>
 		<description>Player-facing description. State that this advancement replaces another when applicable; preservation details are implementation concerns.</description>
@@ -11,38 +11,37 @@
 		<evolutionHediff>Example_CrownHediff</evolutionHediff>
 		<targetBodyPart>ExampleBodyPart</targetBodyPart>
 		<unlockedAbilities>
-			<li>Example_Ability</li>
+		<li>Example_Ability</li>
 		</unlockedAbilities>
 		<unlockedGenes>
-			<li>Example_Gene</li>
+		<li>Example_Gene</li>
 		</unlockedGenes>
 		<replaces>
-			<li>Evo_ExampleCrest</li>
+		<li>Evo_ExampleCrest</li>
 		</replaces>
 		<prerequisites>
-			<li>Evo_ExampleCrest</li>
+		<li>Evo_ExampleCrest</li>
 		</prerequisites>
 		<incompatible>
-			<li>Evo_IncompatibleExample</li>
+		<li>Evo_IncompatibleExample</li>
 		</incompatible>
 		<preserveReplacedFeatures>true</preserveReplacedFeatures>
 		<preserveHediff>true</preserveHediff>
 		<tutorialConcept>Example_TutorialConcept</tutorialConcept>
-	</Xenomorphtype.RoyalEvolutionDef>
+		</Xenomorphtype.RoyalEvolutionDef>
 
-	preserveReplacedFeatures defaults to false. When true, purchased replaced advancements remain available through
-	the CompQueen feature resolver for abilities, genes, commands, prerequisites, incompatibilities and passive logic.
-	Each replacement edge must opt in, so preservation is transitive only through consecutive opted-in replacements.
-	Third-party feature code must use HasEvolutionFeature or HasFunctionalEvolutionFeature to participate.
+		preserveReplacedFeatures defaults to false. When true, purchased replaced advancements remain available through
+		the CompQueen feature resolver for abilities, genes, commands, prerequisites, incompatibilities and passive logic.
+		Each replacement edge must opt in, so preservation is transitive only through consecutive opted-in replacements.
+		Third-party feature code must use HasEvolutionFeature or HasFunctionalEvolutionFeature to participate.
 
-	preserveHediff defaults to false and is independent from feature preservation. When true, the replaced advancement's
-	physical hediff is retained alongside the replacement's hediff. No first-party advancement currently enables it.
+		preserveHediff defaults to false and is independent from feature preservation. When true, the replaced advancement's
+		physical hediff is retained alongside the replacement's hediff. No first-party advancement currently enables it.
 
-	tutorialConcept is optional. Its ConceptDef is offered when the advancement is committed; RimWorld's learned-concept
-	tracking prevents repeat lessons.
-	-->
+		tutorialConcept is optional. Its ConceptDef is offered when the advancement is committed; RimWorld's learned-concept
+		tracking prevents repeat lessons.
+		-->
 	<!-- first tier -->
-
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_MaternalCrest</defName>
 		<label>Maternal Crest</label>
@@ -51,7 +50,7 @@
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
 		<description>An extended crest for greater dominance over the nest.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_DelicateHands</defName>
 		<label>Fine Dexterity Hands</label>
@@ -60,7 +59,7 @@
 		<targetBodyPart>XMT_LesserShoulder</targetBodyPart>
 		<description>A secondary pair of dextrous hands for finer manipulation.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_RendingClaws</defName>
 		<label>Rending Claws</label>
@@ -69,7 +68,7 @@
 		<targetBodyPart>Shoulder</targetBodyPart>
 		<description>Sharpened claws on the primary pair of hands.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_FertileBelly</defName>
 		<label>Fecundity</label>
@@ -78,19 +77,23 @@
 		<targetBodyPart>Torso</targetBodyPart>
 		<description>All internal organs and abdomen are altered to maximize Ovomorph Production efficiency.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_GeneControl</defName>
 		<label>Gene Expression Control</label>
 		<evoPointCost>1</evoPointCost>
 		<description>Unlocks the metamorphic potential in the hive. Allows the addition or removal of genes within all offspring.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_LarderSerum</defName>
+		<tutorialConcept>XMT_MeatballLarderHelp</tutorialConcept>
 		<label>Meat Larder Serum</label>
 		<evoPointCost>1</evoPointCost>
 		<description>A potent growth serum which hive daughters can inject into prey to promote tissue growth above all else.</description>
+		<structureUnlocks>
+			<li>XMT_CreateLarder</li>
+		</structureUnlocks>
 	</Xenomorphtype.RoyalEvolutionDef>
 
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
@@ -100,7 +103,7 @@
 		<tutorialConcept>XMT_CryptomechanicalAssimilation</tutorialConcept>
 		<description>The queen adapts a mechanitor chip into cryptic nerve and resin, preparing her body to command machines through alien impulse. Other mechanoid chips can later be consumed to unlock equivalent mech technology.</description>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX1</defName>
 		<label>Maternal Stature</label>
@@ -112,9 +115,8 @@
 			<li>Evo_OvoThrone</li>
 		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<!-- 2nd tier -->
-	
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_OvoThrone</defName>
 		<label>Hypertrophied Ovipositor</label>
@@ -127,7 +129,7 @@
 			<li>Evo_FertileBelly</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX2</defName>
 		<label>Noble Stature</label>
@@ -145,7 +147,7 @@
 			<li>Evo_OvoThrone</li>
 		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
-		
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_ScythingBlades</defName>
 		<label>Scything Blades</label>
@@ -160,7 +162,7 @@
 			<li>Evo_RendingClaws</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_GeneStorage</defName>
 		<label>Genetic Storage</label>
@@ -170,7 +172,7 @@
 			<li>Evo_GeneControl</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_MutantExpression</defName>
 		<label>mutation expression</label>
@@ -196,15 +198,19 @@
 			<li>Evo_GeneControl</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_JellyWellSerum</defName>
+		<tutorialConcept>XMT_JellyWellHelp</tutorialConcept>
 		<label>Jelly Wells</label>
 		<evoPointCost>2</evoPointCost>
 		<description>Unlocks the ability to merge a hive daughter with a Larder in order to become a means of mass producing Resinous Jelly.</description>
 		<prerequisites>
 			<li>Evo_LarderSerum</li>
 		</prerequisites>
+		<structureUnlocks>
+			<li>XMT_CreateJellyWell</li>
+		</structureUnlocks>
 	</Xenomorphtype.RoyalEvolutionDef>
 
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
@@ -292,7 +298,6 @@
 	</Xenomorphtype.RoyalEvolutionDef>
 
 	<!-- 3rd tier -->
-
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_SubjugatorCrest</defName>
 		<label>Subjugator Crest</label>
@@ -308,7 +313,7 @@
 			<li>Evo_MutantExpression</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Royalty">
 		<defName>Evo_WitchCrest</defName>
 		<label>Witch Crest</label>
@@ -352,7 +357,7 @@
 			<li>Evo_GeneStorage</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanoidSynthesis</defName>
 		<label>Mechanoid Synthesis</label>
@@ -364,7 +369,7 @@
 			<li>Evo_MechanoidGestation</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanoidSubversion</defName>
 		<label>Mechanoid Subversion</label>
@@ -375,7 +380,7 @@
 			<li>Evo_MechanoidGestation</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_IntegratedEggSac</defName>
 		<label>Integrated Egg Sac</label>
@@ -406,6 +411,7 @@
 			<li>Evo_RendingClaws</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
+
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanitorArray</defName>
 		<label>Array Crown</label>
@@ -425,10 +431,6 @@
 		<preserveReplacedFeatures>true</preserveReplacedFeatures>
 	</Xenomorphtype.RoyalEvolutionDef>
 
-	
-	
-
-
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_JuggernautsCrest</defName>
 		<label>Juggernaut Crown</label>
@@ -447,8 +449,8 @@
 			<li>Evo_FierceCrest</li>
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
-	<!-- 4th tier -->
 
+	<!-- 4th tier -->
 	<Xenomorphtype.RoyalEvolutionDef MayRequire="RedMattis.BetterPrerequisites">
 		<defName>Evo_IncreasedSizeX4</defName>
 		<label>Imperial Stature</label>
@@ -466,7 +468,7 @@
 			<li>Evo_OvoThrone</li>
 		</incompatible>
 	</Xenomorphtype.RoyalEvolutionDef>
-	
+
 	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_GeneSelfExpression</defName>
 		<label>Genetic Self Expression</label>
@@ -477,7 +479,7 @@
 		</prerequisites>
 	</Xenomorphtype.RoyalEvolutionDef>
 
-		<Xenomorphtype.RoyalEvolutionDef>
+	<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_RoyalCrown</defName>
 		<label>Sovereign Crown</label>
 		<evoPointCost>8</evoPointCost>
@@ -495,17 +497,18 @@
 		</prerequisites>
 		<preserveReplacedFeatures>true</preserveReplacedFeatures>
 	</Xenomorphtype.RoyalEvolutionDef>
-<!--
-	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+
+	<!--
+		<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_SignalBoostingPylon</defName>
 		<label>Signal Boosting Pylon</label>
 		<evoPointCost>8</evoPointCost>
 		<description>The royal can lay ovamorphs that grow into bandwidth-amplifying pylons at mechanoid material cost. This advancement is inert without a mechlink.</description>
 		<prerequisites>
-			<li>Evo_MechanitorArray</li>
+		<li>Evo_MechanitorArray</li>
 		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
-	<Xenomorphtype.RoyalEvolutionDef>
+		</Xenomorphtype.RoyalEvolutionDef>
+		<Xenomorphtype.RoyalEvolutionDef>
 		<defName>Evo_DivineHalo</defName>
 		<label>Divine Halo</label>
 		<evoPointCost>8</evoPointCost>
@@ -513,22 +516,22 @@
 		<targetBodyPart>StarbeastCrest</targetBodyPart>
 		<description>The imperial crown unfolds into a halo-like organ of psychic tissue, granting the queen her highest resonance and preparing divine crest psycast unlocks.</description>
 		<replaces>
-			<li>Evo_ImperialCrown</li>
+		<li>Evo_ImperialCrown</li>
 		</replaces>
 		<prerequisites>
-			<li>Evo_ImperialCrown</li>
+		<li>Evo_ImperialCrown</li>
 		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
+		</Xenomorphtype.RoyalEvolutionDef>
 
-	<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
+		<Xenomorphtype.RoyalEvolutionDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>Evo_MechanoidDominion</defName>
 		<label>Mechanoid Dominion</label>
 		<evoPointCost>8</evoPointCost>
 		<description>The queen becomes a sovereign signal over artificial organisms, overwhelming all protections and defenses. This advancement is inert without a mechlink.</description>
 		<prerequisites>
-			<li>Evo_MechanoidSubversion</li>
-			<li>Evo_MechanitorArray</li>
+		<li>Evo_MechanoidSubversion</li>
+		<li>Evo_MechanitorArray</li>
 		</prerequisites>
-	</Xenomorphtype.RoyalEvolutionDef>
-	-->
+		</Xenomorphtype.RoyalEvolutionDef>
+		-->
 </Defs>

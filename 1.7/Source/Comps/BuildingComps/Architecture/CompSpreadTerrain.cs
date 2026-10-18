@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using UnityEngine;
 
 namespace Xenomorphtype
 {
@@ -27,14 +28,17 @@ namespace Xenomorphtype
                 return;
             }
 
-            foreach (IntVec3 item in GenRadial.RadialCellsAround(parent.Position, Props.radius, useCenter: true))
+            IEnumerable<IntVec3> cells = Props.useOccupiedRect
+                ? parent.OccupiedRect().ExpandedBy(Mathf.CeilToInt(Props.radius))
+                : GenRadial.RadialCellsAround(parent.Position, Props.radius, useCenter: true);
+            foreach (IntVec3 item in cells)
             {
                 if (!item.InBounds(parent.Map))
                 {
                     continue;
                 }
                 TerrainDef terrainAt = parent.Map.terrainGrid.TerrainAt(item);
-                List<Thing> things = parent.Position.GetThingList(parent.Map);
+                List<Thing> things = item.GetThingList(parent.Map);
                 List<TerrainSpreadingFrame> terrainSpreaders = new List<TerrainSpreadingFrame>();
                 foreach(Thing thing in things)
                 {
@@ -117,6 +121,7 @@ namespace Xenomorphtype
         public TerrainDef upgradeTerrain = null;
 
         public float radius = 1;
+        public bool useOccupiedRect;
 
         public CompSpreadTerrainProperties()
         {

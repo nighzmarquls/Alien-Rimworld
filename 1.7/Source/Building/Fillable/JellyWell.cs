@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,14 +23,6 @@ namespace Xenomorphtype
             }
         }
 
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
-        {
-            Graphic.drawSize = compJellyWell.DisplaySize;
-            base.DrawAt(drawLoc, flip);
-            Graphic.drawSize = def.graphic.drawSize;
-            Graphic.color = def.graphic.color;
-        }
-
         private Graphic _fullGraphic;
         public override Graphic Graphic
         {
@@ -53,27 +45,6 @@ namespace Xenomorphtype
                     return base.Graphic;
                 }
             }
-        }
-
-        public override void SpawnSetup(Map map, bool respawningAfterLoad)
-        {
-            base.SpawnSetup(map, respawningAfterLoad);
-        }
-
-        public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
-        {
-            base.DeSpawn(mode);
-        }
-
-        public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
-        {
-            if (compJellyWell != null && Spawned)
-            {
-                int stackTotal = HitPoints;
-
-            }
-
-            base.Destroy(mode);
         }
 
         public override void TransformedFrom(Pawn pawn, Pawn instigator)

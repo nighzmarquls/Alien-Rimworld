@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>../Source/obj/ResourceConversionChecks/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputPath>../Source/obj/ResourceConversionChecks/bin/</OutputPath>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ResourceConversions.cs" />
+    <None Include="../Defs/EvoDefs/Resource_Conversions.xml" Link="Resource_Conversions.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../../../Data/Core/Defs/ThingDefs_Misc/Apparel_Various.xml" Link="CoreApparel_Various.xml" CopyToOutputDirectory="PreserveNewest" />
+    <Reference Include="XMT"><HintPath>../Assemblies/XMT.dll</HintPath></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>../../../../Assembly-CSharp.dll</HintPath></Reference>
+    <Reference Include="UnityStubs"><HintPath>../../../../UnityStubs.dll</HintPath></Reference>
+    <Reference Include="Waylith"><HintPath>../../../../Waylith.dll</HintPath></Reference>
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +9,11 @@ using Verse;
 
 namespace Xenomorphtype
 {
-    internal class Slumberer : XMTBase_Building
+    internal class Slumberer : XMTAnimatedBuilding
     {
-        CompSlumberer slumberer;
+        CompSlumberer slumberer => GetComp<CompSlumberer>();
 
         public float bodySize => slumberer.TotalBodySize();
-
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
-        {
-            Graphic.drawSize = slumberer.DisplaySize;
-            base.DrawAt(drawLoc, flip);
-            Graphic.drawSize = def.graphic.drawSize;
-        }
-
-        public override void SpawnSetup(Map map, bool respawningAfterLoad)
-        {
-            base.SpawnSetup(map, respawningAfterLoad);
-            if (slumberer == null)
-            {
-                slumberer = this.GetComp<CompSlumberer>();
-            }
-
-        }
-
-        public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
-        {
-            base.DeSpawn(mode);
-        }
 
         public override void TransformedFrom(Pawn pawn, Pawn instigator)
         {
@@ -44,13 +22,12 @@ namespace Xenomorphtype
 
         public override void TransformingInto(Pawn pawn, Pawn instigator = null)
         {
-            CompAwakenedSlumberer awakenedSlumberer = pawn?.GetComp<CompAwakenedSlumberer>();
+            CompBuildingOrganism awakenedSlumberer = pawn?.GetComp<CompBuildingOrganism>();
             if (awakenedSlumberer != null)
             {
-                awakenedSlumberer.InitializeSleeper(bodySize);
+                awakenedSlumberer.InitializeFromBuilding(bodySize);
             }
 
-            pawn?.ageTracker?.DebugSetAge(0);
         }
     }
 }

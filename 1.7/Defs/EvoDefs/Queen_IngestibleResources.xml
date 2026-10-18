@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
 	<Xenomorphtype.QueenIngestibleResourceDef MayRequire="Ludeon.RimWorld.Biotech">
 		<defName>XMT_MechanoidMaterial</defName>
 		<label>mechanoid material</label>
@@ -14,9 +13,19 @@
 		<baseCapacity>180</baseCapacity>
 		<bodySizeFactor>1</bodySizeFactor>
 		<metabolismFactor>0.08</metabolismFactor>
+		<corpseFilter>
+			<categories>
+				<li>CorpsesMechanoid</li>
+			</categories>
+		</corpseFilter>
 		<allowDerivedIngredientValue>true</allowDerivedIngredientValue>
 		<derivedIngredientFactor>0.8</derivedIngredientFactor>
 		<entries>
+			<li>
+				<thingDef>Starbeast_Resin</thingDef>
+				<!-- One steel yields one resin at the acid pit's standard conversion rate. -->
+				<valuePerUnit>1</valuePerUnit>
+			</li>
 			<li>
 				<thingDef>Steel</thingDef>
 				<valuePerUnit>1</valuePerUnit>
@@ -55,5 +64,4 @@
 			</li>
 		</entries>
 	</Xenomorphtype.QueenIngestibleResourceDef>
-
 </Defs>

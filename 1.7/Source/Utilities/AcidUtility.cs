@@ -1,4 +1,4 @@
-﻿
+
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +19,11 @@ namespace Xenomorphtype
         public static float GetBloodFullness(Thing bleeder, bool includeHitPoints = true)
         {
             float fullness = 1f;
+            CompAcidPit acidPit = bleeder?.TryGetComp<CompAcidPit>();
+            if (acidPit != null)
+            {
+                return acidPit.AcidFullness;
+            }
 
             if(bleeder is Ovomorph ovoBleeder)
             {
@@ -254,7 +259,7 @@ namespace Xenomorphtype
 
             return false;
         }
-        public static bool TrySplashAcidThing(Thing bleeder, float severity, Thing thing, float damage = 1, HediffDef appliedHediff = null, float damageToSeverity = 1)
+        public static bool TrySplashAcidThing(Thing bleeder, float severity, Thing thing, float damage = 1, HediffDef appliedHediff = null, float damageToSeverity = 1, bool boundedDamage = false)
         {
 
             if (bleeder == null)
@@ -292,7 +297,7 @@ namespace Xenomorphtype
                     }
                     else
                     {
-                        inanimateDamage = true;
+                        inanimateDamage = !boundedDamage;
                     }
 
                     if (acidHit && thing != null)
@@ -302,7 +307,7 @@ namespace Xenomorphtype
                         if (thingAsPawn != null)
                         {
                             IEnumerable<BodyPartRecord> acidContact = thingAsPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Outside, null, null)
-                                .Where(x => x.coverageAbs > 0f && x.def.hitPoints >= modifiedDamage);
+                                .Where(x => x.coverageAbs > 0f && (boundedDamage || x.def.hitPoints >= modifiedDamage));
 
                             if (acidContact.Any())
                             {

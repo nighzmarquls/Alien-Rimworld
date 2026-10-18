@@ -1,221 +1,124 @@
-﻿using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+using RimWorld;
 using Verse;
-using Verse.AI;
 
 namespace Xenomorphtype
 {
-    internal class CompJellyWell : ThingComp
+    // Usable on ordinary buildings; no XMT building or animated class is required.
+    public class CompLocalResourceProcessor : ThingComp
     {
-        Pawn progenitorPawn = null;
-        float breathingSize = 0;
-        public int RealMaxHP => parent.MaxHitPoints;
-        public Vector2 DisplaySize => Vector2.one * displaySize;
-        float displaySize => 2 + breathingSize;
-
-        bool NoJellyPresent = false;
+        protected bool NoJellyPresent;
+        protected int tickCountUp;
         public bool processedJelly => !NoJellyPresent;
-
-        int tickCountUp = 0;
-
-        PipeSystem.CompResource _network;
-
-        PipeSystem.CompResource network
-        {
-            get
-            {
-                if(_network == null)
-                {
-                    _network = parent.GetComp<PipeSystem.CompResource>();
-                }
-
-                return _network;
-            }
-        }
-
-        CompJellywellProperties Props => props as CompJellywellProperties;
-        CompJellyMaker _compJellyMaker;
-        CompJellyMaker compJellyMaker
-        {
-            get
-            {
-                if(_compJellyMaker == null)
-                {
-                    _compJellyMaker = parent.GetComp<CompJellyMaker>();
-                    if (_compJellyMaker == null)
-                    {
-                        Log.Error("No CompJellyMaker on " + parent);
-                    }
-                }
-                return _compJellyMaker;
-            }
-        }
-        float tickBreath => (Props.maxSizeChange) / (Props.breathticks / 2);
-        bool inhaling;
+        protected CompJellyMaker Maker => parent.GetComp<CompJellyMaker>();
+        protected PipeSystem.CompResource Network => parent.GetComp<PipeSystem.CompResource>();
+        protected CompProperties_LocalResourceProcessor Settings => (CompProperties_LocalResourceProcessor)props;
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Deep.Look(ref progenitorPawn, "progenitorPawn");
-
             Scribe_Values.Look(ref tickCountUp, "tickCount", 0);
+            Scribe_Values.Look(ref NoJellyPresent, "noProductPresent");
         }
-
-        public void SetProgenitor(Pawn pawn)
+        public override void CompTick()
         {
-            parent.HitPoints = parent.MaxHitPoints;
+            if (!parent.Spawned || parent.Destroyed) return;
+            if (++tickCountUp < Math.Max(1, Settings.processingInterval)) return;
+            tickCountUp = 0;
+            NoJellyPresent = true;
+            if (Maker == null) return;
+            PipeSystem.PipeNet pipeNet = Network?.PipeNet;
+            if (pipeNet != null && pipeNet.Stored > Settings.networkRepairCost)
+            {
+                NoJellyPresent = false;
+                if (parent.HitPoints < parent.MaxHitPoints)
+                {
+                    Repair(Settings.networkRepairAmount);
+                    pipeNet.DrawAmongStorage(Settings.networkRepairCost, pipeNet.storages);
+                }
+            }
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(parent.Position, parent.def.specialDisplayRadius, true))
+            {
+                if (!cell.InBounds(parent.Map)) continue;
+                foreach (Thing thing in cell.GetThingList(parent.Map).ToList())
+                {
+                    if (thing == parent) continue;
+                    if (Maker.GetJellyProduct() == thing.def)
+                    {
+                        NoJellyPresent = false;
+                        if (parent.HitPoints < parent.MaxHitPoints)
+                        {
+                            Repair(thing.stackCount * Settings.productRepairAmount);
+                            thing.Destroy();
+                            return;
+                        }
+                    }
+                    else if (Maker.CanMakeIntoJelly(thing))
+                    {
+                        NoJellyPresent = false;
+                        Repair(Maker.ConvertToJelly(thing, Maker.Efficiency));
+                        return;
+                    }
+                }
+            }
+            // Environmental resources have no Thing target. Process them only after the item scan.
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(parent.Position, parent.def.specialDisplayRadius, true))
+            {
+                if (!cell.InBounds(parent.Map)) continue;
+                int amount = Maker.ConvertTerrainToJelly(cell, parent.Map, Maker.Efficiency);
+                if (!Maker.LastConversionSucceeded) continue;
+                NoJellyPresent = false;
+                Repair(amount);
+                return;
+            }
         }
+        private void Repair(int amount)
+        {
+            parent.HitPoints = Math.Min(parent.MaxHitPoints, parent.HitPoints + amount);
+            parent.GetComp<CompPawnPreservation>()?.HealToBuildingHealth();
+        }
+    }
+    public class CompProperties_LocalResourceProcessor : CompProperties
+    {
+        public int processingInterval = 500;
+        public int productRepairAmount = 5;
+        public int networkRepairAmount = 50;
+        public float networkRepairCost = 10f;
+        public CompProperties_LocalResourceProcessor() { compClass = typeof(CompLocalResourceProcessor); }
+        public CompProperties_LocalResourceProcessor(Type type) { compClass = type; }
+    }
 
+    // Existing XML and save class names remain valid.
+    public class CompJellyWell : CompLocalResourceProcessor
+    {
+        private Pawn legacyPawn;
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            if (Scribe.mode == LoadSaveMode.LoadingVars || legacyPawn != null)
+                Scribe_Deep.Look(ref legacyPawn, "progenitorPawn");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                PreservedBuildingUtility.MigrateLegacyPawn(parent, legacyPawn);
+                legacyPawn = null;
+            }
+        }
+        public void SetProgenitor(Pawn pawn) => parent.HitPoints = parent.MaxHitPoints;
         public void SetProgenitor(Thing thing)
         {
             parent.HitPoints = parent.MaxHitPoints;
-
-            if(thing is MeatballLarder meatball)
-            {
-                CompMeatBall progenitorBall =  meatball.GetComp<CompMeatBall>();
-
-                compJellyMaker.MakeJellyByDef(meatball.HitPoints, progenitorBall.GetMeat(), meatball.Position,meatball.Map, compJellyMaker.Efficiency);
-                meatball.HitPoints = 0;
-            }
-        }
-
-
-        public override void CompTick()
-        {
-            base.CompTick();
-            if (!parent.Spawned)
-            {
-                return;
-            }
-
-            tickCountUp++;
-
-            if (inhaling)
-            {
-                breathingSize += tickBreath;
-
-                if (breathingSize > Props.maxSizeChange)
-                {
-                    inhaling = false;
-                }
-            }
-            else
-            {
-                breathingSize -= tickBreath;
-
-                if (breathingSize < -Props.maxSizeChange)
-                {
-                    inhaling = true;
-                }
-
-            }
-
-            if (parent.HitPoints > parent.MaxHitPoints)
-            {
-                parent.HitPoints = parent.MaxHitPoints;
-            }
-
-            if (tickCountUp >= 500)
-            {
-                tickCountUp = 0;
-
-                NoJellyPresent = true;
-              
-                IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(parent.Position, parent.def.specialDisplayRadius, true);
-                if (cells.Any())
-                {
-                    ConvertJellyCell(cells);
-                }
-
-            }
-
-        }
-
-        protected void ConvertJellyCell(IEnumerable<IntVec3> Cells)
-        {
-
-            IntVec3 bestCell = Cells.First();
-
-            if (compJellyMaker == null)
-            {
-                return;
-            }
-
-            if (network != null)
-            {
-                float jellyStored = network.PipeNet.Stored;
-                bool hasCapacityInNetwork = network.PipeNet.AvailableCapacity > 0;
-
-                if (jellyStored > 10)
-                {
-                    NoJellyPresent = false;
-                    if (parent.HitPoints < parent.MaxHitPoints)
-                    {
-                        parent.HitPoints += 50;
-                        network.PipeNet.DrawAmongStorage(10, network.PipeNet.storages);
-                    }
-                }
-            } 
-
-            foreach (IntVec3 cell in Cells)
-            {
-               List<Thing> thingList = cell.GetThingList(parent.Map).ListFullCopy();
-               bool madeJelly = false;
-               foreach (Thing thing in thingList)
-               {
-                    if (compJellyMaker.CanMakeIntoJelly(thing))
-                    {
-                        madeJelly = true;
-                        NoJellyPresent = false;
-                        int total = compJellyMaker.ConvertToJelly(thing,compJellyMaker.Efficiency);
-                        if (parent.HitPoints < parent.MaxHitPoints)
-                        {
-                            parent.HitPoints += total;
-                        }
-                        break;
-                    }
-                    else if(compJellyMaker.GetJellyProduct() == thing.def)
-                    {
-                        NoJellyPresent = false;
-                        if (parent.HitPoints < parent.MaxHitPoints)
-                        {
-                            parent.HitPoints += (thing.stackCount*5);
-                            thing.Destroy();
-                            break;
-                        }
-                    }
-                }
-
-                if (madeJelly)
-                {
-                    break;
-                }
-
-            }
-
-
+            if (thing is MeatballLarder meatball)
+                Maker?.MakeJellyByDef(meatball.HitPoints, meatball.GetComp<CompMeatBall>().GetMeat(),
+                    parent.Position, parent.Map, Maker.Efficiency);
         }
     }
-
-
-    public class CompJellywellProperties : CompProperties
+    public class CompJellywellProperties : CompProperties_LocalResourceProcessor
     {
         public int breathticks = 120;
         public float maxSizeChange = 0.005f;
-        public CompJellywellProperties()
-        {
-            this.compClass = typeof(CompJellyWell);
-        }
-
-        public CompJellywellProperties(Type compClass) : base(compClass)
-        {
-            this.compClass = compClass;
-        }
+        public CompJellywellProperties() : base(typeof(CompJellyWell)) { }
+        public CompJellywellProperties(Type type) : base(type) { }
     }
 }

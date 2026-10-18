@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -61,7 +61,7 @@ namespace Xenomorphtype
                 if(pawn.GetComp<CompJellyMaker>() is CompJellyMaker jellyMaker)
                 {
                     ThingDef jellyDef = jellyMaker.GetJellyProduct();
-                    if (jellyDef.ingestible.outcomeDoers != null)
+                    if (jellyDef?.ingestible?.outcomeDoers != null)
                     {
                         recipient.mindState.lastIngestTick = Find.TickManager.TicksGame;
                         Thing jellyThing = ThingMaker.MakeThing(jellyDef);

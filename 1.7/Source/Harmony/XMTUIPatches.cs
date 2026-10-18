@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,77 +63,7 @@ namespace Xenomorphtype
             {
                 PawnColumnDef columnDef = pawnColumnDefField?.GetValue(__instance) as PawnColumnDef;
                 WorkTypeDef workType = columnDef?.workType;
-                if (workType == null || !ShouldShowCryptimorphWorkNotes(table))
-                {
-                    return;
-                }
-
-                string key = WorkTypeNoteKey(workType);
-                if (key.NullOrEmpty())
-                {
-                    return;
-                }
-
-                __result += "\n\n" + "XMT_WorkTypeCryptimorphHeader".Translate() + "\n" + key.Translate();
-            }
-
-            private static bool ShouldShowCryptimorphWorkNotes(PawnTable table)
-            {
-                return table?.PawnsListForReading?.Any(pawn => pawn != null && XMTUtility.IsXenomorph(pawn)) == true;
-            }
-
-            private static string WorkTypeNoteKey(WorkTypeDef workType)
-            {
-                if (workType == XenoWorkDefOf.Childcare)
-                {
-                    return "XMT_WorkTypeNote_Childcare";
-                }
-                if (workType == XenoWorkDefOf.Hauling)
-                {
-                    return "XMT_WorkTypeNote_Hauling";
-                }
-                if (workType == XenoWorkDefOf.Doctor)
-                {
-                    return "XMT_WorkTypeNote_Doctor";
-                }
-                if (workType == XenoWorkDefOf.Warden)
-                {
-                    return "XMT_WorkTypeNote_Warden";
-                }
-                if (workType == XenoWorkDefOf.Handling)
-                {
-                    return "XMT_WorkTypeNote_Handling";
-                }
-                if (workType == XenoWorkDefOf.Cooking)
-                {
-                    return "XMT_WorkTypeNote_Cooking";
-                }
-                if (workType == XenoWorkDefOf.Crafting)
-                {
-                    return "XMT_WorkTypeNote_Crafting";
-                }
-                if (workType == XenoWorkDefOf.Hunting)
-                {
-                    return "XMT_WorkTypeNote_Hunting";
-                }
-                if (workType == XenoWorkDefOf.Construction)
-                {
-                    return "XMT_WorkTypeNote_Construction";
-                }
-                if (workType == XenoWorkDefOf.Growing)
-                {
-                    return "XMT_WorkTypeNote_Growing";
-                }
-                if (workType == XenoWorkDefOf.PlantCutting)
-                {
-                    return "XMT_WorkTypeNote_PlantCutting";
-                }
-                if (workType == XenoWorkDefOf.Art)
-                {
-                    return "XMT_WorkTypeNote_Art";
-                }
-
-                return null;
+                HiveWorkPresentation.HeaderTip(workType, table, ref __result);
             }
         }
 

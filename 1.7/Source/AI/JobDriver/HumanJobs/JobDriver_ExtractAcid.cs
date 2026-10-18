@@ -11,6 +11,7 @@ namespace Xenomorphtype
         private Thing Platform => base.TargetThingA;
 
         private Pawn InnerPawn => XMTContainmentUtility.HeldPawn(Platform);
+        private CompAcidPit Pit => Platform?.TryGetComp<CompAcidPit>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -28,21 +29,36 @@ namespace Xenomorphtype
             this.FailOn(delegate
             {
                 Pawn innerPawn2 = InnerPawn;
-                if (XenoGeneDefOf.XMT_Acid_Utilization?.IsFinished != true || innerPawn2 == null || innerPawn2.Destroyed)
+                if (XenoGeneDefOf.XMT_Acid_Utilization?.IsFinished != true)
                 {
                     return true;
                 }
+                if (Pit != null)
+                {
+                    return Platform.Faction != pawn.Faction || !Pit.HarvestReady
+                        || (!job.playerForced && !Pit.AllowAcidExtraction);
+                }
+                if (innerPawn2 == null || innerPawn2.Destroyed) return true;
 
                 return !BioUtility.PawnHasEnoughForExtraction(InnerPawn, false);
             });
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
-            int ticks = (int)(1f / pawn.GetStatValue(StatDefOf.MedicalTendSpeed) * 2000f);
+            int ticks = (int)(1f / pawn.GetStatValue(StatDefOf.MedicalTendSpeed) * (Pit?.Props.harvestWork ?? 2000));
             Toil toil = Toils_General.WaitWith(TargetIndex.A, ticks, useProgressBar: true, maintainPosture: false, maintainSleep: false, TargetIndex.A);
             toil.activeSkill = () => SkillDefOf.Medicine;
             toil.FailOnCannotTouch(TargetIndex.A, PathEndMode.ClosestTouch).WithProgressBarToilDelay(TargetIndex.A).PlaySustainerOrSound(SoundDefOf.Recipe_Surgery);
             yield return toil;
             yield return Toils_General.Do(delegate
             {
+                if (Pit != null)
+                {
+                    if (!BioUtility.TryContainedExtraction(Platform, pawn)) return;
+                    if (Pit.TryHarvest(pawn))
+                    {
+                        ResearchUtility.ProgressAcidTech(Pit.Props.harvestYield, pawn);
+                    }
+                    return;
+                }
                 Pawn innerPawn = InnerPawn;
                 if (!BioUtility.TryContainedExtraction(innerPawn, pawn))
                 {
@@ -69,7 +85,7 @@ namespace Xenomorphtype
 
         public override string GetReport()
         {
-            return JobUtility.GetResolvedJobReport(job.def.reportString, InnerPawn, job.targetB, job.targetC);
+            return JobUtility.GetResolvedJobReport(job.def.reportString, Pit != null ? Platform : InnerPawn, job.targetB, job.targetC);
         }
     }
 }

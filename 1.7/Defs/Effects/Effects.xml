@@ -1,6 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
 	<ThingDef ParentName="FoodBitBase">
 		<defName>Mote_ResinBit</defName>
 		<graphicData>
@@ -22,22 +21,130 @@
 		<fadeOutTime>3.2</fadeOutTime>
 		<growthRate>0.005</growthRate>
 	</FleckDef>
-  
-  	<EffecterDef>
+
+	<EffecterDef>
 		<defName>ResinBuild</defName>
 		<children>
-		<li>
-			<subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
-			<soundDef>Vomit</soundDef>
-		  </li>
-		  <li>
-			<subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
-			<scale>0.5~0.7</scale>
-			<ticksBetweenMotes>20</ticksBetweenMotes>
-			<positionLerpFactor>0.35</positionLerpFactor>
-			<positionRadius>0.2</positionRadius>
-			<moteDef>Mote_ResinBit</moteDef>
-		  </li>
+			<li>
+				<subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+				<soundDef>Vomit</soundDef>
+			</li>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+				<scale>0.5~0.7</scale>
+				<ticksBetweenMotes>20</ticksBetweenMotes>
+				<positionLerpFactor>0.35</positionLerpFactor>
+				<positionRadius>0.2</positionRadius>
+				<moteDef>Mote_ResinBit</moteDef>
+			</li>
+		</children>
+	</EffecterDef>
+
+	<EffecterDef>
+		<defName>XMT_AcidPitProcessing</defName>
+		<children>
+			<li>
+				<subEffecterClass>SubEffecter_Sustainer</subEffecterClass>
+				<soundDef>Recipe_CookMeal</soundDef>
+			</li>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerContinuous</subEffecterClass>
+				<fleckDef>Smoke</fleckDef>
+				<ticksBetweenMotes>90</ticksBetweenMotes>
+				<spawnLocType>OnSource</spawnLocType>
+				<positionRadius>0.3</positionRadius>
+				<scale>0.35~0.55</scale>
+				<absoluteAngle>true</absoluteAngle>
+				<angle>25~65</angle>
+				<speed>0.2~0.35</speed>
+			</li>
+		</children>
+	</EffecterDef>
+
+	<FleckDef ParentName="FleckBase_Thrown">
+		<defName>XMT_YellowAcidSpray</defName>
+		<graphicData>
+			<texPath>Things/Mote/AcidSpray</texPath>
+			<color>(255, 220, 34, 255)</color>
+			<renderInstanced>true</renderInstanced>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<fadeInTime>0.04</fadeInTime>
+		<solidTime>0.2</solidTime>
+		<fadeOutTime>1</fadeOutTime>
+		<growthRate>0.9</growthRate>
+	</FleckDef>
+
+	<EffecterDef>
+		<defName>XMT_AcidPitSplash</defName>
+		<children>
+			<li>
+				<subEffecterClass>SubEffecter_SoundTriggered</subEffecterClass>
+				<soundDef>AcidSpray_Resolve</soundDef>
+			</li>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerChance</subEffecterClass>
+				<fleckDef>XMT_YellowAcidSpray</fleckDef>
+				<chancePerTick>0.9</chancePerTick>
+				<positionRadius>0.15</positionRadius>
+				<burstCount>1~2</burstCount>
+				<speed>6~9.5</speed>
+				<scale>0.8~1.2</scale>
+				<angle>-30~30</angle>
+				<positionLerpFactor>0.85</positionLerpFactor>
+				<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+			</li>
+		</children>
+	</EffecterDef>
+
+	<EffecterDef>
+		<defName>XMT_SteamVentPuff</defName>
+		<children>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+				<fleckDef>AirPuff</fleckDef>
+				<spawnLocType>OnSource</spawnLocType>
+				<positionRadius>0.15</positionRadius>
+				<burstCount>2~3</burstCount>
+				<scale>0.35~0.6</scale>
+				<absoluteAngle>true</absoluteAngle>
+				<angle>-45~45</angle>
+				<speed>0.3~0.6</speed>
+				<rotationRate>-240~240</rotationRate>
+				<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+			</li>
+		</children>
+	</EffecterDef>
+
+	<FleckDef ParentName="FleckBase_Thrown">
+		<defName>XMT_DenseSteamCloud</defName>
+		<graphicData>
+			<texPath>Things/Mote/AirPuff</texPath>
+			<renderInstanced>true</renderInstanced>
+		</graphicData>
+		<altitudeLayer>MoteOverhead</altitudeLayer>
+		<fadeInTime>0.03</fadeInTime>
+		<solidTime>0.5</solidTime>
+		<fadeOutTime>2.5</fadeOutTime>
+		<growthRate>0.4</growthRate>
+	</FleckDef>
+
+	<EffecterDef>
+		<defName>XMT_SteamSpillCloud</defName>
+		<children>
+			<li>
+				<subEffecterClass>SubEffecter_SprayerTriggered</subEffecterClass>
+				<fleckDef>XMT_DenseSteamCloud</fleckDef>
+				<spawnLocType>OnSource</spawnLocType>
+				<positionRadius>0.8</positionRadius>
+				<burstCount>8~12</burstCount>
+				<scale>1.2~2</scale>
+				<absoluteAngle>true</absoluteAngle>
+				<angle>0~360</angle>
+				<speed>0.15~0.5</speed>
+				<rotationRate>-30~30</rotationRate>
+				<fleckUsesAngleForVelocity>true</fleckUsesAngleForVelocity>
+			</li>
 		</children>
 	</EffecterDef>
 </Defs>

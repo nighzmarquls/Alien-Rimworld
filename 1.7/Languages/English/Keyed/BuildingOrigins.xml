@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <XMT_OriginIdentity>{0} — {1}</XMT_OriginIdentity>
+    <XMT_OriginBuildingLabel>{0} ({1})</XMT_OriginBuildingLabel>
+    <XMT_OriginSources>Sources: {0}</XMT_OriginSources>
+    <XMT_LarderTooSmall>The larder is not large enough.</XMT_LarderTooSmall>
+</LanguageData>

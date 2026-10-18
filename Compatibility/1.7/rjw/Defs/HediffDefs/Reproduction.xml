@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <XMT_RJW.RJWReproductionDef>
+    <defName>XMT_RJWReproduction</defName>
+    <reproductiveTissue>XMT_ReproductiveTissue</reproductiveTissue>
+    <femalePart>XMT_Vagina</femalePart>
+    <lovinMutationChance>0.5</lovinMutationChance>
+    <repeatedLovinGrowth>0.1</repeatedLovinGrowth>
+    <maturationPerDay>0.25</maturationPerDay>
+    <fluidRetentionDays>1</fluidRetentionDays>
+    <maxFluidEssence>4</maxFluidEssence>
+    <fluids>
+      <li><fluid>XMT_Cum</fluid><essence>1</essence></li>
+    </fluids>
+  </XMT_RJW.RJWReproductionDef>
+  <HediffDef>
+    <defName>XMT_ReproductiveTissue</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>reproductive tissue</label>
+    <description>Alien tissue is developing a functional reproductive system. When mature, it reshapes existing female reproductive anatomy or grows it alongside other anatomy.</description>
+    <isBad>false</isBad>
+    <initialSeverity>0.1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps><li Class="XMT_RJW.HediffCompProperties_ReproductiveTissue" /></comps>
+    <stages>
+      <li><label>developing</label></li>
+      <li><minSeverity>1</minSeverity><label>mature</label></li>
+    </stages>
+  </HediffDef>
+  <HediffDef>
+    <defName>XMT_CorruptingFluidExposure</defName>
+    <hediffClass>XMT_RJW.Hediff_FluidEssence</hediffClass>
+    <label>corrupting fluid exposure</label>
+    <description>Retained alien fluid contributes to the body's pregnancy essence load.</description>
+    <initialSeverity>0.001</initialSeverity>
+    <maxSeverity>100</maxSeverity>
+    <isBad>false</isBad>
+  </HediffDef>
+</Defs>

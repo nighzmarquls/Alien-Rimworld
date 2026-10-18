@@ -1,165 +1,97 @@
-﻿using HarmonyLib;
 using RimWorld;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
-using Verse.AI;
 
 namespace Xenomorphtype
-{ 
+{
     public class HorrorChild
     {
         public PawnKindDef childKind;
         public float gestationFactor;
         public float probability;
-        public float essenceMinimum = 0;
+        public float essenceMinimum;
         public float essenceMaximum = float.MaxValue;
     }
-    public class HediffComp_HorrorPregnant : HediffComp_SeverityModifierBase
+
+    public class HediffComp_HorrorPregnant : HediffComp_SeverityModifierBase, IHorrorPregnancy
     {
-        private readonly static Type SexPartDefType = AccessTools.TypeByName("HediffDef_SexPart");
-        HediffCompProperties_Comp_HorrorPregnant Props => props as HediffCompProperties_Comp_HorrorPregnant;
-        PawnKindDef childKind;
-        bool birthed = false;
-        float gestationFactor = 1;
+        private PawnKindDef childKind;
+        private float gestationFactor = 1f;
+        private bool birthed;
+        private Pawn father;
+        private GeneSet genes;
+        private int remaining = -1;
+        private Pawn pendingChild;
+        private bool discovered;
+        public bool IsHorror => true;
+        public bool Discovered { get => discovered; set => discovered = value; }
+        public bool Initialized => childKind != null && remaining > 0;
+
+        public void Initialize(Pawn donor, GeneSet inherited, float essence, int count)
+        {
+            if (remaining >= 0) return;
+            HorrorChild selected = HorrorPregnancyUtility.Tuning.Select(parent.def, essence);
+            if (selected == null) return;
+            childKind = selected.childKind;
+            gestationFactor = selected.gestationFactor;
+            father = donor;
+            genes = HorrorPregnancyUtility.CopyGenes(inherited);
+            remaining = count;
+        }
+
+        public override void CompPostPostAdd(DamageInfo? dinfo)
+        {
+            base.CompPostPostAdd(dinfo);
+            if (remaining >= 0) return;
+            Hediff_Pregnant source = Pawn.health.hediffSet.GetFirstHediff<Hediff_Pregnant>();
+            father = source?.Father;
+            GeneSet inherited = source?.geneSet ?? PregnancyUtility.GetInheritedGeneSet(father, Pawn);
+            if (parent is HediffWithParents parents) parents.SetParents(Pawn, father, HorrorPregnancyUtility.CopyGenes(inherited));
+            Initialize(father, inherited, HorrorPregnancyUtility.EssenceLoad(Pawn, father),
+                source == null ? HorrorPregnancyUtility.LitterSize(Pawn.def) : 1);
+            if (source != null && Initialized)
+            {
+                parent.Severity = source.GestationProgress;
+                Pawn.health.RemoveHediff(source);
+            }
+        }
+
         public override void CompExposeData()
         {
             base.CompExposeData();
             Scribe_Defs.Look(ref childKind, "childKind");
-            Scribe_Values.Look(ref gestationFactor, "gestationFactor", defaultValue: 1);
-            Scribe_Values.Look(ref birthed, "birthed", defaultValue: false);
-        }
-
-        public override bool CompShouldRemove => (base.CompShouldRemove || birthed);
-        public override void CompPostPostAdd(DamageInfo? dinfo)
-        {
-            base.CompPostPostAdd(dinfo);
-
-            SelectChildKind();
-
-            if(Pawn.health.hediffSet.HasPregnancyHediff())
+            Scribe_Values.Look(ref gestationFactor, "gestationFactor", 1f);
+            Scribe_Values.Look(ref birthed, "birthed");
+            Scribe_References.Look(ref father, "father");
+            Scribe_Deep.Look(ref genes, "inheritedGenes");
+            Scribe_Values.Look(ref remaining, "remainingOffspring", -1);
+            Scribe_Deep.Look(ref pendingChild, "pendingChild");
+            Scribe_Values.Look(ref discovered, "discovered");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && remaining < 0)
             {
-                Hediff pregnancy = Pawn.health.hediffSet.GetFirstHediff<Hediff_Pregnant>();
-
-                if (pregnancy != null)
-                {
-                    Pawn.health.RemoveHediff(pregnancy);
-                }
+                remaining = birthed ? 0 : 1;
+                genes ??= new HorrorGenePayload(BioUtility.GetCanonicalPawnGenes(Pawn)).ToGeneSet();
             }
         }
 
-        protected float GetMotherEssence()
+        public override bool CompShouldRemove => birthed;
+        public override float SeverityChangePerDay() => childKind == null ? 0f :
+            1f / UnityEngine.Mathf.Max(0.01f, Pawn.RaceProps.gestationPeriodDays * gestationFactor);
+
+        public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
-            return BioUtility.GetXenomorphInfluence(Pawn);
-        }
-
-        protected void SelectChildKind()
-        {
-            float essence = GetMotherEssence();
-            foreach(HorrorChild baby in Props.babies)
+            base.CompPostTickInterval(ref severityAdjustment, delta);
+            if (birthed || remaining <= 0 || childKind == null || parent.Severity < 1f) return;
+            while (remaining > 0)
             {
-                if(essence >= baby.essenceMinimum && essence <= baby.essenceMaximum)
-                {
-                    if(Rand.Chance(baby.probability))
-                    {
-                        childKind = baby.childKind;
-                        gestationFactor = baby.gestationFactor;
-                        break;
-                    }
-                }
-            }
-        }
-        public override float SeverityChangePerDay()
-        {
-            return 1 / (Pawn.RaceProps.gestationPeriodDays * gestationFactor);
-        }
-
-        public override void CompPostTick(ref float severityAdjustment)
-        {
-            base.CompPostTick(ref severityAdjustment);
-
-            if(parent.Severity >= 1)
-            {
-                BirthChild();
-            }
-        }
-
-        private void BirthChild()
-        {
-            if(birthed)
-            {
-                return;
-            }
-            if(childKind == null)
-            {
-                Log.Error("No Child Kind when birthing.");
-                return;
-            }
-
-            if (ModsConfig.IsActive("rim.job.world"))
-            {
-                bool makeBirthCanal = true;
-
-                foreach(Hediff hediff in Pawn.health.hediffSet.hediffs)
-                {
-                    if(hediff.def.GetType() == SexPartDefType)
-                    {
-                        if(hediff.def == ExternalDefOf.XMT_Vagina)
-                        {
-                            makeBirthCanal = false;
-                            break;
-                        }
-                        if (hediff.def.label.Contains("vagina".Translate()))
-                        {
-                            makeBirthCanal = false;
-                            break;
-                        }
-
-                    }
-                }
-
-                if (makeBirthCanal)
-                {
-                    BodyPartRecord newPart = Pawn.def.race.body.AllParts.FirstOrDefault(part => part.Label == "genitals");
-                    if (newPart != null)
-                    {
-                        Hediff newHediff = Pawn.health.GetOrAddHediff(ExternalDefOf.XMT_Vagina, newPart);
-                        Pawn.health.AddHediff(newHediff, newHediff.Part);
-                    }
-                }
-            }
-            else if (Pawn.gender != Gender.Female)
-            {
-                Pawn.gender = Gender.Female;
-            }
-
-            PawnGenerationRequest request = new PawnGenerationRequest(childKind, Pawn.Faction);
-            request.FixedBiologicalAge = 0;
-            Pawn child = PawnGenerator.GeneratePawn(request);
-            HorrorGenePayload inheritedGenes = BioUtility.CaptureHorrorGenePayload(Pawn, inheritableOnly: true);
-
-            if (child != null)
-            {
-                BioUtility.TryApplyHorrorGenePayload(child, inheritedGenes);
-                if(child.relations != null)
-                {
-                    child.relations.AddDirectRelation(PawnRelationDefOf.ParentBirth, Pawn);
-                }
-
-                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth, Pawn.Named(HistoryEventArgsNames.Doer), child.Named(HistoryEventArgsNames.Victim)), true);
-                
-                CompLarvalGenes larvalGenes = child.GetComp<CompLarvalGenes>();
-
-                if (larvalGenes != null)
-                {
-                    larvalGenes.mother = Pawn;
-                }
-
-                XMTUtility.TrySpawnPawnFromTarget(child, Pawn);
+                pendingChild ??= HorrorPregnancyUtility.MakeChild(childKind, Pawn, father, genes);
+                if (pendingChild == null) return;
+                if (!pendingChild.Spawned && XMTUtility.TrySpawnPawnFromTarget(pendingChild, Pawn) == null) return;
+                Pawn delivered = pendingChild;
+                pendingChild = null;
+                remaining--;
+                Find.HistoryEventsManager.RecordEvent(new HistoryEvent(XenoPreceptDefOf.XMT_Parasite_Birth,
+                    Pawn.Named(HistoryEventArgsNames.Doer), delivered.Named(HistoryEventArgsNames.Victim)), true);
             }
             birthed = true;
         }
@@ -167,10 +99,8 @@ namespace Xenomorphtype
 
     public class HediffCompProperties_Comp_HorrorPregnant : HediffCompProperties
     {
+        // Legacy and third-party XML fallback; shipped templates live in HorrorPregnancyDef.
         public List<HorrorChild> babies;
-        public HediffCompProperties_Comp_HorrorPregnant()
-        {
-            compClass = typeof(HediffComp_HorrorPregnant);
-        }
+        public HediffCompProperties_Comp_HorrorPregnant() { compClass = typeof(HediffComp_HorrorPregnant); }
     }
 }

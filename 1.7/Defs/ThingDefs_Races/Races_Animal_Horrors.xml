@@ -768,8 +768,8 @@
 		</li>
 		<li Class="CompProperties_Milkable">
 			<milkDef>XMT_Medicine_Jelly</milkDef>
-			<milkIntervalDays>0.5</milkIntervalDays>
-			<milkAmount>1</milkAmount>
+			<milkIntervalDays>1</milkIntervalDays>
+			<milkAmount>2</milkAmount>
 			<milkFemaleOnly>false</milkFemaleOnly>
 		</li>
 	</comps>
@@ -3130,8 +3130,8 @@
 		</li>
 		<li Class="CompProperties_Milkable">
 			<milkDef>XMT_Acid</milkDef>
-			<milkIntervalDays>0.25</milkIntervalDays>
-			<milkAmount>1</milkAmount>
+			<milkIntervalDays>1</milkIntervalDays>
+			<milkAmount>4</milkAmount>
 			<milkFemaleOnly>false</milkFemaleOnly>
 		</li>
 	</comps>

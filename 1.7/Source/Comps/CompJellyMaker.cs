@@ -1,435 +1,196 @@
-﻿using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Noise;
-using static UnityEngine.GraphicsBuffer;
-
 
 namespace Xenomorphtype
 {
-    public class CompJellyMaker : ThingComp
+    public class CompJellyMaker : ThingComp, IHiveInputProcessor
     {
+        private HiveInputSettings inputs;
+        private Dictionary<ThingDef, double> outputRemainders = new Dictionary<ThingDef, double>();
+        private string remainderSettings;
+        public bool LastConversionSucceeded { get; private set; }
+        public HiveInputSettings Inputs => inputs ??= new HiveInputSettings(CanPotentiallyConvert);
+        public IEnumerable<QueenIngestibleResourceDef> InputResources => Resources.Where(entry => entry?.resourceDef != null).Select(entry => entry.resourceDef);
+        private bool CanPotentiallyConvert(ThingDef def) => HiveInputSettings.PotentiallyConvertible(def, Resources, parent);
+        public override void PostExposeData()
+        {
+            base.PostExposeData();
+            Inputs.ExposeData();
+            Scribe_Collections.Look(ref outputRemainders, "outputRemainders", LookMode.Def, LookMode.Value);
+            Scribe_Values.Look(ref remainderSettings, "remainderSettings");
+            if (Scribe.mode == LoadSaveMode.PostLoadInit) outputRemainders ??= new Dictionary<ThingDef, double>();
+        }
         private const float MinimumFeralJellyLightSuitability = 0.55f;
-
         public float WorkPerJelly => Props.processingWork;
+        // Retained API: this is the fraction of the source consumed per building cycle.
         public float Efficiency => Props.conversionRate;
-        CompJellyMakerProperties Props => props as CompJellyMakerProperties;
+        private CompJellyMakerProperties Props => (CompJellyMakerProperties)props;
+        public List<ResourceConversionEntry> Resources => Props.resources;
+        private PipeSystem.CompResource Network => parent.GetComp<PipeSystem.CompResource>();
 
-        protected Thing ingredient;
+        public bool CanMakeIntoJelly(Thing thing) => Inputs.Allows(thing) && Evaluate(thing, 1f).Count > 0;
+        public bool CanMakeIntoJelly(ThingDef def) => Inputs.GetStoreSettings().filter.Allows(def) && CanPotentiallyConvert(def);
+        public bool CanConvertCell(IntVec3 cell)
+            => parent.Map != null && cell.InBounds(parent.Map) && (FindIngredient(cell, parent.Map) != null
+                || TerrainCellEmpty(cell, parent.Map) && ResourceHelperUtility.AllocateTerrain(Resources, parent, cell, parent.Map, out _).Count > 0);
+        public static bool TerrainCellEmpty(IntVec3 cell, Map map) => map != null && cell.InBounds(map)
+            && !cell.GetThingList(map).Any(t => t.def.category == ThingCategory.Item || t is Plant || t is Pawn);
+        private Thing FindIngredient(IntVec3 cell, Map map)
+            => cell.GetThingList(map).FirstOrDefault(t => t != parent && t.Spawned && !t.Destroyed && t.def.category == ThingCategory.Item && CanMakeIntoJelly(t));
 
-        PipeSystem.CompResource _network;
-
-        PipeSystem.CompResource network
-        {
-            get
-            {
-                if (_network == null)
-                {
-                    _network = parent.GetComp<PipeSystem.CompResource>();
-                }
-
-                return _network;
-            }
-        }
-
-        public bool CanMakeIntoJelly(Thing thing)
-        {
-            if (thing == null)
-            {
-                return false;
-            }
-
-            if (thing is Corpse corpse)
-            {
-                if (corpse.GetRotStage() == RotStage.Dessicated)
-                {
-                    return false;
-                }
-            }
-
-            return CanMakeIntoJelly(thing.def);
-        }
-
-        public bool CanMakeIntoJelly(ThingDef thing)
-        {
-            if (parent is Pawn pawn && XMTUtility.IsQueen(pawn))
-            {
-                if (pawn.genes != null)
-                {
-                    if (pawn.genes.HasActiveGene(XenoGeneDefOf.XMT_Chemfuel_Metabolism))
-                    {
-                        if (ThingDefOf.Chemfuel == thing)
-                        {
-                            return true;
-                        }
-                    }
-
-                    if (pawn.genes.HasActiveGene(XenoGeneDefOf.XMT_Muffalo_Ruff))
-                    {
-                        if (ExternalDefOf.WoolMuffalo == thing)
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return Props.jellyIngredientFilter.Allows(thing);
-        }
         public bool GetJellyMakingJob(out Job job, bool requireLightLevel = false)
         {
-            Region localRegion = parent.GetRegion();
             job = null;
-            if (localRegion != null)
-            {
-                if (parent is Pawn pawn)
+            Region region = parent.GetRegion();
+            if (region == null || !(parent is Pawn pawn)) return false;
+            if (XMTUtility.QueenIsPlayer() && GetJellyProduct() == InternalDefOf.Starbeast_Jelly)
+                foreach (Designation designation in region.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_MakeJelly))
                 {
-                    if (XMTUtility.QueenIsPlayer()&& Props.jellyProduct == InternalDefOf.Starbeast_Jelly)
+                    IntVec3 cell = designation.target.Cell;
+                    if (CanConvertCell(cell) && (!requireLightLevel || IsProperLightLevelForFeralJelly(cell, region.Map))
+                        && FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
                     {
-                        IEnumerable<Designation> JellyDesignations = localRegion.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_MakeJelly);
-                        foreach (Designation des in JellyDesignations)
-                        {
-
-                            if ((!requireLightLevel || IsProperLightLevelForFeralJelly(des.target.Cell, localRegion.Map)) &&
-                                FeralJobUtility.IsPlaceAvailableForJobBy(pawn, des.target.Cell))
-                            {
-                                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, des.target.Cell);
-                                FeralJobUtility.ReservePlaceForJob(pawn, job, des.target.Cell);
-                                return true;
-                            }
-                        }
-                    }
-
-                    Thing ingredient = XMTUtility.SearchRegionsForJellyMakable(localRegion, pawn, this, requireLightLevel);
-
-                    if (ingredient != null)
-                    {
-                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, ingredient);
-                        FeralJobUtility.ReserveThingForJob(pawn, job, ingredient);
+                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, cell);
+                        FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
                         return true;
                     }
                 }
-            }
-           
-            return false;
+            Thing ingredient = XMTUtility.SearchRegionsForJellyMakable(region, pawn, this, requireLightLevel);
+            if (ingredient == null) return false;
+            job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, ingredient);
+            FeralJobUtility.ReserveThingForJob(pawn, job, ingredient);
+            return true;
         }
-
         internal static bool IsProperLightLevelForFeralJelly(IntVec3 cell, Map map)
-        {
-            return map != null && cell.InBounds(map) && XMTHiveUtility.HiveLightSuitabilityAt(cell, map) >= MinimumFeralJellyLightSuitability;
-        }
+            => map != null && cell.InBounds(map) && XMTHiveUtility.HiveLightSuitabilityAt(cell, map) >= MinimumFeralJellyLightSuitability;
 
-        public float GetNutritionFromThing(Thing ingredient, float efficiency = 1f)
-        {
-            float output = ingredient.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * ingredient.stackCount;
-            float ingredientMass = ingredient.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency * ingredient.stackCount;
-            if (ingredient is Corpse corpse)
-            {
-                output = 0;
-                if (corpse.GetRotStage() != RotStage.Dessicated)
-                {
-                    if (corpse.InnerPawn != null)
-                    {
-                        if (parent is Pawn pawn)
-                        {
-
-                            IEnumerable<Thing> products = corpse.InnerPawn.ButcherProducts(pawn, efficiency);
-                            foreach (Thing product in products)
-                            {
-                                float nutrition = product.GetStatValue(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency * product.stackCount; ;
-                                if (nutrition <= 0)
-                                {
-                                    output += (product.GetStatValue(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency) * product.stackCount;
-                                }
-                                output += nutrition;
-                            }
-                        }
-                        else
-                        {
-                            if (corpse.InnerPawn.def.race != null)
-                            {
-                                ThingDef meatDef = corpse.InnerPawn.def.race.meatDef;
-                                if (meatDef != null)
-                                {
-                                    if (CanMakeIntoJelly(meatDef))
-                                    {
-                                        output += JellyFromDef(meatDef, corpse.InnerPawn.def.GetStatValueAbstract(StatDefOf.MeatAmount));
-                                    }
-                                }
-
-                                ThingDef leatherDef = corpse.InnerPawn.def.race.leatherDef;
-                                if (leatherDef != null)
-                                {
-                                    if (CanMakeIntoJelly(leatherDef))
-                                    {
-                                        output += JellyFromDef(leatherDef, corpse.InnerPawn.def.GetStatValueAbstract(StatDefOf.LeatherAmount));
-                                    }
-                                }
-
-                                if (corpse.InnerPawn.def.butcherProducts != null)
-                                {
-                                    foreach (ThingDefCountClass thingCount in corpse.InnerPawn.def.butcherProducts)
-                                    {
-                                        if (CanMakeIntoJelly(thingCount.stuff))
-                                        {
-                                            output += JellyFromDef(thingCount.stuff, thingCount.count);
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-
-                    CompRottable rottable = corpse.TryGetComp<CompRottable>();
-                    if (rottable != null)
-                    {
-                        float remaining = 1 - ((float)rottable.RotProgress / (float)rottable.PropsRot.TicksToDessicated);
-
-                        output *= remaining;
-                    }
-                }
-            }
-
-            if (output <= 0)
-            {
-                output = ingredientMass;
-            }
-            return output;
-        }
-
+        private List<ResourceHelperUtility.Allocation> Evaluate(Thing thing, float fraction)
+            => ResourceHelperUtility.PlanConversion(thing, Resources, parent, fraction).Allocations;
+        // Compatibility API: the returned quantity is now a shared mass-equivalent value.
+        public float GetNutritionFromThing(Thing thing, float efficiency = 1f) => Evaluate(thing, efficiency).Sum(a => a.mass);
+        public int JellyFromThing(Thing thing, float efficiency = 1f) => FinalCounts(Evaluate(thing, efficiency)).Sum(p => p.count);
         public int JellyFromCell(IntVec3 cell, float efficiency = 1f)
         {
-            float jellyValue = 1;
-            Map currentMap = parent.Map;
-            if (currentMap != null)
-            {
-                Thing item = cell.GetFirstItem(currentMap);
-                if (item != null)
-                {
-                    jellyValue = JellyFromThing(item, efficiency);
-                }
-
-                float TerrainFertility = XenoformingUtility.ValueOfTerrainOnCell(currentMap, cell, out TerrainDef degraded);
-
-                jellyValue += (TerrainFertility * 10);
-            }
-            return Mathf.CeilToInt(jellyValue);
+            Map map = parent.Map;
+            if (map == null || !cell.InBounds(map)) return 0;
+            Thing ingredient = FindIngredient(cell, map);
+            if (ingredient != null) return JellyFromThing(ingredient, efficiency);
+            if (!TerrainCellEmpty(cell, map)) return 0;
+            return FinalCounts(ResourceHelperUtility.AllocateTerrain(Resources, parent, cell, map, out _), efficiency).Sum(p => p.count);
         }
-        public int JellyFromThing(Thing ingredient, float efficiency = 1f)
-        {
-            float nutrition = GetNutritionFromThing(ingredient, efficiency);
-
-            float jellyNutrition = Props.jellyProduct.GetStatValueAbstract(StatDefOf.Nutrition);
-            float jellyMass = Props.jellyProduct.GetStatValueAbstract(StatDefOf.Mass);
-
-            float jellyValue = jellyNutrition > 0 ? nutrition / jellyNutrition : nutrition / jellyMass;
-
-            return Mathf.CeilToInt(jellyValue * efficiency * Props.conversionRate);
-        }
-
-        public int ConvertTerrainToJelly(IntVec3 cell, Map currentMap, float efficiency = 1f)
-        {
-            int terrainStack = 1;
-            if (XenoformingUtility.CellIsFertile(cell, currentMap))
-            {
-                TerrainDef terrain = cell.GetTerrain(currentMap);
-                if (!terrain.affordances.Contains(InternalDefOf.Resin))
-                {
-                    XenoformingUtility.DegradeTerrainOnCell(currentMap, cell);
-                }
-            }
-            return terrainStack;
-        }
-
         public int ConvertToJelly(IntVec3 cell, float efficiency = 1f)
         {
-            int droppedJelly = 0;
-            Map currentMap = parent.Map;
-            if (currentMap != null)
-            {
-                Designation JellymakeDesignation = currentMap.designationManager.DesignationAt(cell, XenoWorkDefOf.XMT_MakeJelly);
-                if (JellymakeDesignation != null)
-                {
-                    currentMap.designationManager.RemoveDesignation(JellymakeDesignation);
-                }
-
-                Thing item = cell.GetFirstItem(currentMap);
-                if (item != null)
-                {
-                    return ConvertToJelly(item, efficiency);
-                }
-                else
-                {
-                    droppedJelly = ConvertTerrainToJelly(cell, currentMap, efficiency);
-                }
-            }
-
-            int totalJelly = droppedJelly;
-            if (network != null)
-            {
-                if (network.PipeNet.AvailableCapacity > 0)
-                {
-                    float stored = 0;
-                   
-                    network.PipeNet.DistributeAmongStorage(totalJelly, out stored);
-                    droppedJelly -= Mathf.CeilToInt(stored);
-                }
-            }
-
-            ResearchUtility.ProgressEvolutionTech(totalJelly, parent);
-            DropJelly(droppedJelly, cell, currentMap);
-            return totalJelly;
+            LastConversionSucceeded = false;
+            Map map = parent.Map;
+            if (map == null || !cell.InBounds(map) || efficiency <= 0f) return 0;
+            Thing ingredient = FindIngredient(cell, map);
+            return ingredient != null ? ConvertToJelly(ingredient, efficiency) : ConvertTerrainToJelly(cell, map, efficiency);
         }
-
+        public int ConvertTerrainToJelly(IntVec3 cell, Map map, float efficiency = 1f)
+        {
+            LastConversionSucceeded = false;
+            if (efficiency <= 0f || !TerrainCellEmpty(cell, map)) return 0;
+            var allocations = ResourceHelperUtility.AllocateTerrain(Resources, parent, cell, map, out var terrain);
+            if (allocations.Count == 0 || !ResourceHelperUtility.ApplyTerrain(terrain, cell, map)) return 0;
+            List<ThingDefCountClass> products = FinalCounts(allocations, efficiency, true);
+            LastConversionSucceeded = true;
+            RemoveDesignation(cell, map);
+            return Deliver(products, cell, map);
+        }
         public int ConvertToJelly(Thing ingredient, float efficiency = 1f)
         {
-            
-            IntVec3 cell = ingredient.Position;
+            LastConversionSucceeded = false;
+            if (ingredient == null || !ingredient.Spawned || efficiency <= 0f || !CanMakeIntoJelly(ingredient)) return 0;
             Map map = ingredient.Map;
-
-            if(ingredient.stackCount * efficiency < 1.0)
-            {
-                efficiency = 1f / ingredient.stackCount;
-            }
-            int droppedJelly = JellyFromThing(ingredient, efficiency);
-            CleanUpConvertedAmount(ingredient, efficiency);
-
-            int totalJelly = droppedJelly;
-            if (network != null)
-            {
-                if (network.PipeNet.AvailableCapacity > 0)
-                {
-                    float stored = 0;
-                    network.PipeNet.DistributeAmongStorage(totalJelly, out stored);
-                    droppedJelly -= Mathf.CeilToInt(stored);
-                }
-            }
-
-            ResearchUtility.ProgressEvolutionTech(totalJelly, parent);
-            droppedJelly += ConvertTerrainToJelly(cell, map, efficiency);
-            DropJelly(droppedJelly, cell, map);
-            return totalJelly;
+            IntVec3 cell = ingredient.Position;
+            ResourceHelperUtility.ConversionPlan plan = ResourceHelperUtility.PlanConversion(ingredient, Resources, parent, efficiency);
+            if (!plan.TryConsume()) return 0;
+            List<ThingDefCountClass> products = FinalCounts(plan.Allocations, 1f, true);
+            LastConversionSucceeded = true;
+            RemoveDesignation(cell, map);
+            return Deliver(products, cell, map);
         }
-
-        private void CleanUpConvertedAmount(Thing ingredient, float efficiency)
+        private static void RemoveDesignation(IntVec3 cell, Map map)
         {
-            if (ingredient is Corpse corpse)
+            Designation designation = map.designationManager.DesignationAt(cell, XenoWorkDefOf.XMT_MakeJelly);
+            if (designation != null) map.designationManager.RemoveDesignation(designation);
+        }
+        // Bank output units, not unpriced material. Preview never modifies the saved balance.
+        private List<ThingDefCountClass> FinalCounts(List<ResourceHelperUtility.Allocation> allocations, float fraction = 1f, bool commit = false)
+        {
+            string signature = XMTSettings.JellyMassEfficiency.ToString("R", System.Globalization.CultureInfo.InvariantCulture) + ":" +
+                XMTSettings.JellyNutritionEfficiency.ToString("R", System.Globalization.CultureInfo.InvariantCulture) + ":" + Props.conversionRate.ToString("R", System.Globalization.CultureInfo.InvariantCulture);
+            bool compatible = remainderSettings == signature;
+            if (commit && !compatible) { outputRemainders.Clear(); remainderSettings = signature; }
+            var products = new List<ThingDefCountClass>();
+            foreach (var group in allocations.Where(a => a.mass > 0f && a.resource.product != null).GroupBy(a => a.resource.product))
             {
-                CompRottable rottable = corpse.TryGetComp<CompRottable>();
-                if (rottable != null)
+                decimal exact = group.Sum(a => (decimal)a.mass * (decimal)fraction * (decimal)Props.conversionRate / (decimal)Math.Max(0.000001f, a.resource.product.GetStatValueAbstract(StatDefOf.Mass)));
+                if (compatible && outputRemainders.TryGetValue(group.Key, out double saved)) exact += (decimal)saved;
+                int count = (int)Math.Min(int.MaxValue, Math.Floor(Math.Max(0m, exact)));
+                if (commit) outputRemainders[group.Key] = (double)(exact - count);
+                if (count > 0) products.Add(new ThingDefCountClass(group.Key, count));
+            }
+            return products;
+        }
+        private int Deliver(List<ThingDefCountClass> products, IntVec3 cell, Map map)
+        {
+            int total = products.Sum(p => p.count);
+            foreach (ThingDefCountClass product in products)
+            {
+                int remaining = product.count;
+                // A pipe net represents the primary product only; side products remain physical items.
+                if (product.thingDef == GetJellyProduct() && Network?.PipeNet != null && Network.PipeNet.AvailableCapacity > 0f)
                 {
-                    rottable.RotProgress += (rottable.PropsRot.TicksToDessicated) * efficiency;
-
-
-                }
-                if (corpse.IsDessicated())
-                {
-                    if (corpse.MapHeld is Map map)
+                    int toStore = Mathf.Min(remaining, Mathf.FloorToInt(Network.PipeNet.AvailableCapacity));
+                    if (toStore > 0)
                     {
-                        FeralJobUtility.ClearFeralJobReservationsForTarget(map, corpse);
+                        Network.PipeNet.DistributeAmongStorage(toStore, out float stored);
+                        remaining -= Mathf.Min(remaining, Mathf.RoundToInt(stored));
                     }
                 }
-                return;
+                if (remaining > 0) XMTUtility.DropAmountThing(product.thingDef, remaining, cell, map, InternalDefOf.Starbeast_Filth_Resin);
             }
-
-            if (efficiency >= 1f )
-            {
-                ingredient.Destroy();
-                return;
-            }
-
-            int adjustedStack = Mathf.FloorToInt(ingredient.stackCount*efficiency);
-
-            ingredient.stackCount = ingredient.stackCount - adjustedStack;
+            if (total > 0) ResearchUtility.ProgressEvolutionTech(total, parent);
+            return total;
         }
-
-        public ThingDef GetJellyProduct()
-        {
-            Pawn pawn = parent as Pawn;
-
-            if (pawn != null && !XMTUtility.IsQueen(pawn))
-            {
-                if(pawn.genes != null)
-                {
-                    if(pawn.genes.HasActiveGene(XenoGeneDefOf.XMT_Chemfuel_Metabolism))
-                    {
-                        return ThingDefOf.Chemfuel;
-                    }
-
-                    if(pawn.genes.HasActiveGene(XenoGeneDefOf.XMT_Muffalo_Ruff))
-                    {
-                        return ExternalDefOf.WoolMuffalo;
-                    }
-                }
-            }
-
-            return Props.jellyProduct;
-        }
-
-        protected void DropJelly(int stackTotal, IntVec3 cell, Map currentmap)
-        {
-            ThingDef Jelly = GetJellyProduct();
-
-            bool geneProduct = Props.jellyProduct != Jelly;
-
-            if (geneProduct)
-            {
-                int halfstack = stackTotal / 2;
-                XMTUtility.DropAmountThing(Jelly, halfstack, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
-                XMTUtility.DropAmountThing(Props.jellyProduct, halfstack, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
-            }
-            else
-            {
-                XMTUtility.DropAmountThing(Jelly, stackTotal, cell, currentmap, InternalDefOf.Starbeast_Filth_Resin);
-            }
-        }
-
-        protected int JellyFromDef(ThingDef thingDef, float efficiency = 1f)
-        {
-            float output = thingDef.GetStatValueAbstract(StatDefOf.Nutrition) * XMTSettings.JellyNutritionEfficiency;
-            float ingredientMass = thingDef.GetStatValueAbstract(StatDefOf.Mass) * XMTSettings.JellyMassEfficiency;
-
-            if(output == 0)
-            {
-                output = ingredientMass;
-            }
-
-            return Mathf.CeilToInt(output* efficiency);
-        }
-
+        public ThingDef GetJellyProduct() => Resources.FirstOrDefault(e => ResourceHelperUtility.Available(e?.resourceDef, parent))?.resourceDef.product;
         public int MakeJellyByDef(int count, ThingDef thingDef, IntVec3 position, Map map, float efficiency = 1f)
         {
-            int total = count * JellyFromDef(thingDef, efficiency);
-            DropJelly(total, position, map);
-            return total;
+            if (map == null || efficiency <= 0f) return 0;
+            var allocations = ResourceHelperUtility.AllocateDefinition(thingDef, count, Resources, parent);
+            return Deliver(FinalCounts(allocations, efficiency, true), position, map);
         }
     }
 
     public class CompJellyMakerProperties : CompProperties
     {
-        public ThingFilter         jellyIngredientFilter;
-        public ThingDef            jellyProduct;
-        public float               conversionRate = 0.5f;
-        public float               processingWork = 20;
-        public CompJellyMakerProperties()
+        public List<ResourceConversionEntry> resources = new List<ResourceConversionEntry>();
+        public float conversionRate = 0.5f;
+        public float processingWork = 20f;
+        public bool CanConvert(ThingDef def, Thing consumer = null)
+            => ResourceHelperUtility.CanConvertDefinition(def, resources, consumer);
+        public bool CanConvert(Thing thing, Thing consumer = null) => ResourceHelperUtility.Allocate(thing, resources, consumer).Count > 0;
+        public bool CanConvertTerrain(IntVec3 cell, Map map)
+            => ResourceHelperUtility.AllocateTerrain(resources, null, cell, map, out _).Count > 0;
+        public CompJellyMakerProperties() { compClass = typeof(CompJellyMaker); }
+        public CompJellyMakerProperties(Type compClass) : base(compClass) { }
+        public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
         {
-            this.compClass = typeof(CompJellyMaker);
-        }
-
-        public override void ResolveReferences(ThingDef parentDef)
-        {
-            base.ResolveReferences(parentDef);
-            jellyIngredientFilter.ResolveReferences();
-        }
-        public CompJellyMakerProperties(Type compClass) : base(compClass)
-        {
-            this.compClass = compClass;
+            foreach (string error in base.ConfigErrors(parentDef)) yield return error;
+            if (resources.NullOrEmpty()) yield return "Jelly makers require resource definitions.";
+            if (resources != null)
+            {
+                foreach (ResourceConversionEntry entry in resources)
+                    if (entry?.resourceDef?.product == null) yield return "Jelly maker resources require an output product.";
+                foreach (string error in ResourceHelperUtility.TerrainConfigErrors(resources.Where(e => e?.resourceDef?.terrainProfiles != null).SelectMany(e => e.resourceDef.terrainProfiles))) yield return error;
+            }
+            if (conversionRate <= 0f || processingWork <= 0f) yield return "Jelly maker conversion/work factors must be positive.";
         }
     }
 }

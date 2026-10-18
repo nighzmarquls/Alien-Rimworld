@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/rjw.HediffDef_SexPart[defName="XMT_Vagina"]/comps/li[@Class="RJW_Menstruation.CompProperties_Menstruation"]</xpath>
+    <nomatch Class="PatchOperationConditional">
+      <xpath>Defs/rjw.HediffDef_SexPart[defName="XMT_Vagina"]/comps</xpath>
+      <match Class="PatchOperationAdd">
+        <xpath>Defs/rjw.HediffDef_SexPart[defName="XMT_Vagina"]/comps</xpath>
+        <value>
+          <li Class="RJW_Menstruation.CompProperties_Menstruation">
+            <maxCumCapacity>10</maxCumCapacity>
+            <baseImplantationChanceFactor>2</baseImplantationChanceFactor>
+            <basefertilizationChanceFactor>2</basefertilizationChanceFactor>
+            <!-- DemonVagina numerical profile; retain the cycle comp to preserve existing womb state. -->
+            <follicularIntervalDays>14</follicularIntervalDays>
+            <lutealIntervalDays>14</lutealIntervalDays>
+            <bleedingIntervalDays>0</bleedingIntervalDays>
+            <recoveryIntervalDays>3</recoveryIntervalDays>
+            <eggLifespanDays>1</eggLifespanDays>
+            <estrusDaysBeforeOvulation>6</estrusDaysBeforeOvulation>
+          </li>
+        </value>
+      </match>
+      <nomatch Class="PatchOperationAdd">
+        <xpath>Defs/rjw.HediffDef_SexPart[defName="XMT_Vagina"]</xpath>
+        <value>
+          <comps>
+            <li Class="RJW_Menstruation.CompProperties_Menstruation">
+              <maxCumCapacity>10</maxCumCapacity>
+              <baseImplantationChanceFactor>2</baseImplantationChanceFactor>
+              <basefertilizationChanceFactor>2</basefertilizationChanceFactor>
+              <!-- DemonVagina numerical profile; retain the cycle comp to preserve existing womb state. -->
+              <follicularIntervalDays>14</follicularIntervalDays>
+              <lutealIntervalDays>14</lutealIntervalDays>
+              <bleedingIntervalDays>0</bleedingIntervalDays>
+              <recoveryIntervalDays>3</recoveryIntervalDays>
+              <eggLifespanDays>1</eggLifespanDays>
+              <estrusDaysBeforeOvulation>6</estrusDaysBeforeOvulation>
+            </li>
+          </comps>
+        </value>
+      </nomatch>
+    </nomatch>
+  </Operation>
+</Patch>

@@ -24,6 +24,7 @@ namespace Xenomorphtype
 
         public void Transform()
         {
+            if (HorrorPregnancyUtility.ShouldDeferMotherTransformation(Pawn)) return;
 
             if (BioUtility.TryGetMutationForm(Pawn, out ThingDef thingForm, out PawnKindDef pawnForm))
             {

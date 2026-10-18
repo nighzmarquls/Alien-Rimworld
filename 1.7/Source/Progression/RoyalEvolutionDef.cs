@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System.Collections.Generic;
 using Verse;
 
@@ -12,6 +12,7 @@ namespace Xenomorphtype
 
         public BodyPartDef targetBodyPart;
 
+        public List<HiveStructureUnlockDef> structureUnlocks;
         public List<AbilityDef> unlockedAbilities;
         public List<GeneDef> unlockedGenes;
 

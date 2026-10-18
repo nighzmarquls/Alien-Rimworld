@@ -543,30 +543,8 @@ namespace Xenomorphtype
 
         public bool ResourceUnlocked(QueenIngestibleResourceDef resource)
         {
-            if (resource == null)
-            {
-                return false;
-            }
-
-            if (resource.requiredEvolution != null && !HasEvolution(resource.requiredEvolution))
-            {
-                return false;
-            }
-
-            if (resource.prerequisiteAssimilations != null)
-            {
-                foreach (QueenAssimilationDef prerequisite in resource.prerequisiteAssimilations)
-                {
-                    if (!HasAssimilated(prerequisite))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return GetResourceCapacity(resource) > 0f;
+            return resource?.usesStorage == true && ResourceHelperUtility.Available(resource, Parent) && GetResourceCapacity(resource) > 0f;
         }
-
         public float GetResourceAmount(QueenIngestibleResourceDef resource)
         {
             int index = ResourceIndex(resource);

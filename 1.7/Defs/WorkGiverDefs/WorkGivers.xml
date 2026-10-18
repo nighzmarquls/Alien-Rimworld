@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
 	<!-- Taming -->
-
 	<WorkGiverDef>
 		<defName>XMT_AdvancedTame</defName>
 		<label>tame cryptimorph</label>
@@ -17,7 +15,6 @@
 	</WorkGiverDef>
 
 	<!-- Genetics -->
-
 	<WorkGiverDef>
 		<defName>XMT_HaulToGeneBank</defName>
 		<label>bank genepack</label>
@@ -114,4 +111,31 @@
 		<prioritizeSustains>true</prioritizeSustains>
 	</WorkGiverDef>
 
+	<WorkGiverDef>
+		<defName>XMT_AcidDisposal</defName>
+		<label>feed acid pit</label>
+		<giverClass>Xenomorphtype.WorkGiver_AcidDisposal</giverClass>
+		<workType>Hauling</workType>
+		<verb>dissolve</verb>
+		<gerund>dissolving</gerund>
+		<priorityInType>113</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<nonColonistsCanDo>true</nonColonistsCanDo>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>XMT_HiveMutation</defName>
+		<label>transform host</label>
+		<giverClass>Xenomorphtype.WorkGiver_HiveStructure</giverClass>
+		<workType>Growing</workType>
+		<verb>mutate</verb>
+		<gerund>mutating</gerund>
+		<priorityInType>110</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+		<nonColonistsCanDo>true</nonColonistsCanDo>
+	</WorkGiverDef>
 </Defs>

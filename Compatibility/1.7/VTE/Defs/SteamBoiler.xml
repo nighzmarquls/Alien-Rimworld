@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<XMT_VTE.SteamBoilerCompatibilityDef>
+		<defName>XMT_VTESteamBoiler</defName>
+		<storage>
+			<pipeNet>XMT_SteamNet</pipeNet>
+			<storageCapacity>20</storageCapacity>
+			<contentRequirePower>false</contentRequirePower>
+			<drawStorageBar>false</drawStorageBar>
+		</storage>
+		<steam>
+			<role>Boiler</role>
+			<pipeNet>XMT_SteamNet</pipeNet>
+			<boilerEnergyPerSteam>400</boilerEnergyPerSteam>
+		</steam>
+	</XMT_VTE.SteamBoilerCompatibilityDef>
+</Defs>

@@ -1,4 +1,4 @@
-﻿using AlienRace;
+using AlienRace;
 using RimWorld;
 using RimWorld.Planet;
 using System;
@@ -19,53 +19,13 @@ namespace Xenomorphtype
     {
         private static Pawn Queen
         {
-            get
-            {
-
-                GameComponent_Xenomorph gameComp = Current.Game.GetComponent<GameComponent_Xenomorph>();
-
-                if(gameComp == null)
-                {
-                    Log.Warning("No GameComponent_Xenomorph");
-                    return null;
-                }
-                if (gameComp.Queen != null)
-                {
-                    if (gameComp.Queen.Destroyed || gameComp.Queen.Dead)
-                    {
-                        gameComp.Queen = null;
-                    }
-                }
-                return gameComp.Queen;
-            }
+            get => HiveQueenUtility.Resolve();
             set
             {
-
-                GameComponent_Xenomorph gameComp = Current.Game.GetComponent<GameComponent_Xenomorph>();
-       
-                if (gameComp == null)
-                {
-                    Log.Warning("No GameComponent_Xenomorph");
-                    return;
-                }
-
-                if(value == null)
-                {
-                    gameComp.Queen = null;
-                    return;
-                }
-
-                if(WorldPawnsUtility.IsWorldPawn(value))
-                {
-                    return;
-                }
-
-                if (value.Dead)
-                {
-                    return;
-                }
-
-                gameComp.Queen = value;
+                GameComponent_Xenomorph component = Current.Game?.GetComponent<GameComponent_Xenomorph>();
+                if (component == null) return;
+                if (value == null) component.Queen = null;
+                else HiveQueenUtility.Register(value);
             }
         }
         public static bool IsThingWaryOfTarget(Thing thing, Thing Target)
@@ -662,15 +622,18 @@ namespace Xenomorphtype
         }
         public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker, bool requireLightLevel = false)
         {
-            if(pawn == null)
-            {
-                return null;
-            }
+            if (jellyMaker == null) return null;
+            return SearchRegionsForHaulable(region, pawn, thing => jellyMaker.CanMakeIntoJelly(thing)
+                && (!requireLightLevel || CompJellyMaker.IsProperLightLevelForFeralJelly(thing.PositionHeld, thing.MapHeld)));
+        }
+        public static Thing SearchRegionsForHaulable(Region region, Pawn pawn, System.Predicate<Thing> validator, Danger danger = Danger.Deadly)
+        {
+            if (region == null || pawn?.Map == null || validator == null) return null;
             Thing found = null;
           
             TraverseParms traverseParams = TraverseParms.For(pawn);
 
-            traverseParams.maxDanger = Danger.Deadly;
+            traverseParams.maxDanger = danger;
             traverseParams.mode = TraverseMode.PassDoors;
             RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParams, isDestination: false);
             RegionProcessor regionProcessor = delegate (Region r)
@@ -681,14 +644,9 @@ namespace Xenomorphtype
                 {
                     Thing thing = list[i];
 
-                    if (jellyMaker.CanMakeIntoJelly(thing) &&
-                        (!requireLightLevel || CompJellyMaker.IsProperLightLevelForFeralJelly(thing.PositionHeld, thing.MapHeld)) &&
+                    if (validator(thing) &&
                         FeralJobUtility.IsThingAvailableForJobBy(pawn, thing))
                     {
-                        if(!FeralJobUtility.IsThingAvailableForJobBy(pawn,thing))
-                        {
-                            continue;
-                        }
                         found = thing;
                         return true;
                     }
@@ -1126,6 +1084,7 @@ namespace Xenomorphtype
         public static bool TransformPawnIntoPawn(Pawn target, PawnKindDef targetDef, out Pawn result, Pawn instigator = null, long? biologicalAgeTicksOverride = null)
         {
             result = null;
+            if (PreservedBuildingUtility.IsBeingDisposed(target) || HorrorPregnancyUtility.ShouldDeferMotherTransformation(target)) return false;
             if (targetDef == null)
             {
                 return false;
@@ -1479,7 +1438,7 @@ namespace Xenomorphtype
             }
         }
 
-        internal static bool TransformThingIntoThing(Thing target, ThingDef targetDef, out Thing result, Pawn instigator = null)
+        internal static bool TransformThingIntoThing(Thing target, ThingDef targetDef, out Thing result, Pawn instigator = null, Pawn contributor = null)
         {
             result = null;
             if (targetDef == null || target == null || target.Destroyed || target is Pawn)
@@ -1496,6 +1455,8 @@ namespace Xenomorphtype
             IntVec3 position = target.Position;
             Rot4 rotation = target.Rotation;
             Thing newThing = null;
+            CompPawnPreservation sourcePreservation = target.TryGetComp<CompPawnPreservation>();
+            List<PreservedPawn> transferredContributors = new List<PreservedPawn>();
             HorrorGenePayload genePayload = BioUtility.CaptureHorrorGenePayload(target);
 
             try
@@ -1505,11 +1466,12 @@ namespace Xenomorphtype
                 {
                     return false;
                 }
+                if (newThing is Building) newThing.SetFaction(instigator?.Faction ?? target.Faction);
 
                 BioUtility.TryApplyHorrorGenePayload(newThing, genePayload);
                 if (newThing is XMTBase_Building building)
                 {
-                    building.TransformedFrom(target, instigator);
+                    building.InheritOrigins(target as XMTBase_Building);
                 }
 
                 target.DeSpawn(DestroyMode.Vanish);
@@ -1521,6 +1483,25 @@ namespace Xenomorphtype
                     return false;
                 }
 
+                CompPawnPreservation destinationPreservation = newThing.TryGetComp<CompPawnPreservation>();
+                if (sourcePreservation != null && destinationPreservation != null)
+                    foreach (PreservedPawn entry in sourcePreservation.Entries.ToList())
+                    {
+                        if (!sourcePreservation.TransferEntry(entry, destinationPreservation))
+                            throw new InvalidOperationException("Could not transfer preserved contributor.");
+                        transferredContributors.Add(entry);
+                    }
+                if (contributor != null)
+                {
+                    if (destinationPreservation == null || !destinationPreservation.TryPreserve(contributor, newThing.def))
+                        throw new InvalidOperationException("Could not preserve merging contributor.");
+                    (newThing as XMTBase_Building)?.RecordOrigin(contributor);
+                }
+                // Source-dependent conversion runs after placement and ownership transfer.
+                // Its map remains available explicitly even though the source was despawned.
+                if (newThing is XMTBase_Building initialized) initialized.TransformedFrom(target, instigator);
+                if (sourcePreservation != null && destinationPreservation == null) sourcePreservation.DisposeContents(null, map);
+                if (target is XMTBase_Building retired) retired.SuppressTransformationEffects = true;
                 target.Destroy(DestroyMode.Vanish);
                 result = spawnedThing;
                 return true;
@@ -1529,8 +1510,26 @@ namespace Xenomorphtype
             {
                 Log.Error("Failed to transform " + target + " into " + targetDef + ": " + exception);
 
+                if (target.Destroyed && newThing?.Spawned == true)
+                {
+                    result = newThing;
+                    return true;
+                }
+
+                CompPawnPreservation rollbackPreservation = newThing?.TryGetComp<CompPawnPreservation>();
+                if (rollbackPreservation != null && sourcePreservation != null)
+                    foreach (PreservedPawn entry in transferredContributors)
+                        rollbackPreservation.TransferEntry(entry, sourcePreservation);
+                if (contributor != null && rollbackPreservation?.Contains(contributor) == true)
+                {
+                    PreservedPawn entry = rollbackPreservation.Entries.First(item => item.pawn == contributor);
+                    rollbackPreservation.GetDirectlyHeldThings().TryDrop(entry.Contents, position, map, ThingPlaceMode.Near, out _);
+                    rollbackPreservation.Forget(entry);
+                }
+
                 if (newThing != null && !newThing.Destroyed)
                 {
+                    if (newThing is XMTBase_Building failed) failed.SuppressTransformationEffects = true;
                     if (newThing.Spawned)
                     {
                         newThing.DeSpawn(DestroyMode.Vanish);
@@ -1642,80 +1641,65 @@ namespace Xenomorphtype
             }
         }
 
-        internal static bool TransformPawnIntoThing(Pawn target, ThingDef targetDef, out Thing result, Pawn instigator = null)
+        internal static bool TransformPawnIntoThing(Pawn target, ThingDef targetDef, out Thing result, Pawn instigator = null, IntVec3? exactPosition = null, Rot4? exactRotation = null)
         {
             result = null;
-            if (targetDef == null)
+            if (PreservedBuildingUtility.IsBeingDisposed(target) || HorrorPregnancyUtility.ShouldDeferMotherTransformation(target)) return false;
+            if (targetDef == null || target == null || target.Destroyed || target.Discarded) return false;
+            Thing original = target.Dead ? target.Corpse : target;
+            Map map = original?.MapHeld;
+            if (map == null) return false;
+            IntVec3 position = original.PositionHeld;
+            ThingOwner originalOwner = original.holdingOwner;
+            Thing replacement = null;
+            try
             {
-                return false;
-            }
-
-            if (target == null)
-            {
-                return false;
-            }
-
-            Thing spawnAnchor = target.Dead ? target.Corpse : target.SpawnedParentOrMe;
-            IntVec3 spawnPosition = spawnAnchor?.PositionHeld ?? target.PositionHeld;
-            Map spawnMap = spawnAnchor?.MapHeld ?? target.MapHeld;
-            if (spawnMap == null)
-            {
-                return false;
-            }
-
-            HorrorGenePayload genePayload = BioUtility.CaptureHorrorGenePayload(target);
-
-            Thing NewThing = ThingMaker.MakeThing(targetDef);
-            BioUtility.TryApplyHorrorGenePayload(NewThing, genePayload);
-            if(!GenPlace.TryPlaceThing(NewThing, spawnPosition, spawnMap, ThingPlaceMode.Near))
-            {
-                Log.Warning("Failure to place " + NewThing);
-                return false;
-            }
-
-            if (target?.health.hediffSet != null)
-            {
-                List<Hediff> hediffList = target.health.hediffSet.hediffs.ToList();
-                foreach (Hediff hediff in hediffList)
+                replacement = ThingMaker.MakeThing(targetDef);
+                if (replacement is Building) replacement.SetFaction(instigator?.Faction ?? target.Faction);
+                BioUtility.TryApplyHorrorGenePayload(replacement, BioUtility.CaptureHorrorGenePayload(target));
+                bool placed = exactPosition.HasValue ? GenSpawn.Spawn(replacement, exactPosition.Value, map, exactRotation ?? Rot4.North) != null
+                    : GenPlace.TryPlaceThing(replacement, position, map, ThingPlaceMode.Near);
+                if (!placed)
+                    throw new InvalidOperationException("Could not place transformed building.");
+                if (replacement is XMTBase_Building building) building.InitializeFrom(target, instigator);
+                CompPawnPreservation preservation = replacement.TryGetComp<CompPawnPreservation>();
+                if (preservation != null)
                 {
-                    BodyPartDef partDef = hediff.Part?.def;
-                    string label = hediff.Part?.Label;
-                    if (partDef == null || label == null)
-                    {
-                        if (XMTSettings.LogBiohorror)
-                        {
-                            Log.Message("[XMT][Biohorror] part or label is null in TransformPawnIntoThing on " + target);
-                        }
-                        continue;
-                    }
-                    switch (label)
-                    {
-                        case "genitals":
-                        case "chest":
-                        case "anus":
-                            continue;
-                    }
-
-                    ThingDef ThingDefToSpawnFromHediff = hediff.def.spawnThingOnRemoved;
-                    if (ThingDefToSpawnFromHediff != null)
-                    {
-                        Thing hediffThing = ThingMaker.MakeThing(ThingDefToSpawnFromHediff);
-                        GenPlace.TryPlaceThing(hediffThing, spawnPosition, spawnMap, ThingPlaceMode.Near);
-                        continue;
-                    }
+                    if (!preservation.TryPreserve(target, replacement.def))
+                        throw new InvalidOperationException("Could not preserve transformed pawn.");
+                    preservation.HealToBuildingHealth();
                 }
+                else
+                {
+                    // This source is retired immediately; do not remove a vital implant and
+                    // invoke death/mutation callbacks halfway through a non-preserving conversion.
+                    PreservedBuildingUtility.ExtractImplants(target, position, map, false);
+                    if (original is Corpse corpse) corpse.Destroy();
+                    else target.Destroy();
+                }
+                result = replacement;
+                return true;
             }
-            XMTBase_Building building = NewThing as XMTBase_Building;
-            if (building != null)
+            catch (Exception exception)
             {
-                building.TransformedFrom(target, instigator);
+                Log.Error("[XMT] Pawn-to-building transformation failed: " + exception);
+                CompPawnPreservation preservation = replacement?.TryGetComp<CompPawnPreservation>();
+                if (preservation?.Contains(target) == true)
+                {
+                    PreservedPawn entry = preservation.Entries.First(item => item.pawn == target);
+                    preservation.GetDirectlyHeldThings().Remove(entry.Contents);
+                    preservation.Forget(entry);
+                    if (originalOwner != null) originalOwner.TryAddOrTransfer(original, false);
+                    else GenPlace.TryPlaceThing(original, position, map, ThingPlaceMode.Near);
+                }
+                if (replacement != null)
+                {
+                    if (replacement is XMTBase_Building failed) failed.SuppressTransformationEffects = true;
+                    replacement.Destroy();
+                }
+                return false;
             }
-
-            target.Destroy();
-            result = NewThing;
-            return true;
         }
-
         public static bool PlayerXenosOnMap(Map localMap)
         {
             return XMTHiveUtility.PlayerXenosOnMap(localMap);
@@ -1806,17 +1790,7 @@ namespace Xenomorphtype
             }
         }
 
-        public static void DeclareQueen(Pawn p)
-        {
-            
-            if (Queen == null)
-            {
-                if (IsQueen(p))
-                {
-                    Queen = p;
-                }
-            }
-        }
+        public static void DeclareQueen(Pawn p) => HiveQueenUtility.Register(p);
 
         internal static bool IsHiveBuilding(ThingDef buildDef)
         {
@@ -1925,7 +1899,7 @@ namespace Xenomorphtype
             }
             else
             {
-                CompAwakenedSlumberer slumberer = pawn.GetComp<CompAwakenedSlumberer>();
+                CompBuildingOrganism slumberer = pawn.GetComp<CompBuildingOrganism>();
 
                 if (slumberer != null && slumberer.BodySize > 0)
                 {

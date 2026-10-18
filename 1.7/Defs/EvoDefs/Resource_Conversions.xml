@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!-- Yields are input mass equivalents. Matching profiles stack; depletion happens once. -->
+	<Xenomorphtype.ResourceTerrainDef Name="XMT_FertilityBase" Abstract="True">
+		<excludedAffordances>
+			<li>Resin</li>
+		</excludedAffordances>
+		<yieldFromFertilityLoss>true</yieldFromFertilityLoss>
+		<useDriesToFertility>true</useDriesToFertility>
+		<yield>1</yield>
+		<depletionPriority>10</depletionPriority>
+	</Xenomorphtype.ResourceTerrainDef>
+
+	<Xenomorphtype.ResourceTerrainDef ParentName="XMT_FertilityBase">
+		<defName>XMT_Fertility_Rich</defName>
+		<minFertility>1.00001</minFertility>
+		<depletedTerrain>Soil</depletedTerrain>
+	</Xenomorphtype.ResourceTerrainDef>
+
+	<Xenomorphtype.ResourceTerrainDef ParentName="XMT_FertilityBase">
+		<defName>XMT_Fertility_Soil</defName>
+		<minFertility>1</minFertility>
+		<maxFertility>1</maxFertility>
+		<depletedTerrain>Gravel</depletedTerrain>
+	</Xenomorphtype.ResourceTerrainDef>
+
+	<Xenomorphtype.ResourceTerrainDef ParentName="XMT_FertilityBase">
+		<defName>XMT_Fertility_Gravel</defName>
+		<minFertility>0.50001</minFertility>
+		<maxFertility>0.99999</maxFertility>
+		<depletedTerrain>Sand</depletedTerrain>
+	</Xenomorphtype.ResourceTerrainDef>
+
+	<Xenomorphtype.ResourceTerrainDef ParentName="XMT_FertilityBase">
+		<defName>XMT_Fertility_Sand</defName>
+		<minFertility>0.00001</minFertility>
+		<maxFertility>0.5</maxFertility>
+		<depletedTerrain>BarrenDust</depletedTerrain>
+	</Xenomorphtype.ResourceTerrainDef>
+
+	<Xenomorphtype.ResourceTerrainDef>
+		<defName>XMT_ResinFloor</defName>
+		<terrains>
+			<li>HiveFloor</li>
+		</terrains>
+		<yield>0.5</yield>
+		<removeTopLayer>true</removeTopLayer>
+		<depletionPriority>20</depletionPriority>
+	</Xenomorphtype.ResourceTerrainDef>
+
+	<Xenomorphtype.ResourceTerrainDef>
+		<defName>XMT_HeavyResinFloor</defName>
+		<terrains>
+			<li>HeavyHiveFloor</li>
+		</terrains>
+		<yield>1</yield>
+		<removeTopLayer>true</removeTopLayer>
+		<depletionPriority>20</depletionPriority>
+	</Xenomorphtype.ResourceTerrainDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef Name="XMT_ConverterBase" Abstract="True">
+		<usesStorage>false</usesStorage>
+		<massBased>true</massBased>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef Name="XMT_JellyResourceBase" ParentName="XMT_ConverterBase" Abstract="True">
+		<applyJellySettings>true</applyJellySettings>
+		<!-- Default settings are neutral multipliers against these base conversion rates. -->
+		<massFactor>0.0125</massFactor>
+		<nutritionToMass>0.25</nutritionToMass>
+		<inputFilter>
+			<categories>
+				<li>Leathers</li>
+				<li>Wools</li>
+				<li>Foods</li>
+				<li>Corpses</li>
+				<li>PlantMatter</li>
+				<li MayRequire="DankPyon.Medieval.Overhaul">ResourcesRaw</li>
+				<li MayRequire="DankPyon.Medieval.Overhaul">FoodRaw</li>
+				<li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_RawWood</li>
+			</categories>
+			<thingDefs>
+				<li>WoodLog</li>
+				<li>MedicineHerbal</li>
+				<li>Starbeast_Resin</li>
+				<li>Cloth</li>
+				<li>DevilstrandCloth</li>
+			</thingDefs>
+			<disallowedCategories>
+				<li>CorpsesMechanoid</li>
+				<li MayRequire="Ludeon.RimWorld.Odyssey">CorpsesDrone</li>
+			</disallowedCategories>
+			<disallowedThingDefs>
+				<li>Starbeast_Jelly</li>
+				<li>Starbeast_RoyalJelly</li>
+			</disallowedThingDefs>
+		</inputFilter>
+		<corpseRotStages>
+			<li>Fresh</li>
+			<li>Rotting</li>
+		</corpseRotStages>
+		<terrainYieldFactor>40</terrainYieldFactor>
+		<terrainProfiles>
+			<li>XMT_Fertility_Rich</li>
+			<li>XMT_Fertility_Soil</li>
+			<li>XMT_Fertility_Gravel</li>
+			<li>XMT_Fertility_Sand</li>
+		</terrainProfiles>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_JellyResourceBase">
+		<defName>XMT_OrganicJelly</defName>
+		<label>resinous jelly conversion</label>
+		<product>Starbeast_Jelly</product>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_JellyResourceBase" MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_GeneChemfuel</defName>
+		<label>chemfuel conversion</label>
+		<product>Chemfuel</product>
+		<requiredGene>XMT_Chemfuel_Metabolism</requiredGene>
+		<nonQueenOnly>true</nonQueenOnly>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_JellyResourceBase" MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_GeneWool</defName>
+		<label>wool conversion</label>
+		<product>WoolMuffalo</product>
+		<requiredGene>XMT_Muffalo_Ruff</requiredGene>
+		<nonQueenOnly>true</nonQueenOnly>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef Name="XMT_RoyalResourceBase" ParentName="XMT_ConverterBase" Abstract="True">
+		<product>Starbeast_RoyalJelly</product>
+		<queenOnly>true</queenOnly>
+		<applyJellySettings>true</applyJellySettings>
+		<massFactor>0.0025</massFactor>
+		<nutritionToMass>0.05</nutritionToMass>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_RoyalResourceBase">
+		<defName>XMT_RoyalJelly</defName>
+		<label>iridescent jelly conversion</label>
+		<inputFilter>
+			<thingDefs>
+				<li>Starbeast_Jelly</li>
+			</thingDefs>
+			<disallowedThingDefs>
+				<li>Starbeast_RoyalJelly</li>
+			</disallowedThingDefs>
+		</inputFilter>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_RoyalResourceBase" MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_RoyalJellyFromChemfuel</defName>
+		<label>iridescent jelly from chemfuel</label>
+		<requiredGene>XMT_Chemfuel_Metabolism</requiredGene>
+		<inputFilter>
+			<thingDefs>
+				<li>Chemfuel</li>
+			</thingDefs>
+		</inputFilter>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_RoyalResourceBase" MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_RoyalJellyFromWool</defName>
+		<label>iridescent jelly from wool</label>
+		<requiredGene>XMT_Muffalo_Ruff</requiredGene>
+		<inputFilter>
+			<thingDefs>
+				<li>WoolMuffalo</li>
+			</thingDefs>
+		</inputFilter>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_ConverterBase">
+		<defName>XMT_ChemfuelConversion</defName>
+		<label>chemfuel conversion</label>
+		<product>Chemfuel</product>
+		<applyJellySettings>true</applyJellySettings>
+		<massFactor>0.025</massFactor>
+		<nutritionToMass>0.5</nutritionToMass>
+		<inputFilter>
+			<categories>
+				<li>Leathers</li>
+				<li>Foods</li>
+				<li>Corpses</li>
+				<li>PlantMatter</li>
+				<li>Fabric</li>
+				<li>Wools</li>
+				<li MayRequire="DankPyon.Medieval.Overhaul">ResourcesRaw</li>
+				<li MayRequire="DankPyon.Medieval.Overhaul">FoodRaw</li>
+				<li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_RawWood</li>
+			</categories>
+			<thingDefs>
+				<li>WoodLog</li>
+				<li>Starbeast_Resin</li>
+				<li>Cloth</li>
+				<li>DevilstrandCloth</li>
+			</thingDefs>
+			<disallowedCategories>
+				<li>CorpsesMechanoid</li>
+			</disallowedCategories>
+			<disallowedThingDefs>
+				<li>Chemfuel</li>
+			</disallowedThingDefs>
+		</inputFilter>
+		<terrainProfiles>
+			<li>XMT_Fertility_Rich</li>
+			<li>XMT_Fertility_Soil</li>
+			<li>XMT_Fertility_Gravel</li>
+			<li>XMT_Fertility_Sand</li>
+		</terrainProfiles>
+		<terrainYieldFactor>40</terrainYieldFactor>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_ConverterBase">
+		<defName>XMT_OrganicFeeding</defName>
+		<label>organic feeding</label>
+		<inputFilter>
+			<categories>
+				<li>Corpses</li>
+				<li>Plants</li>
+				<li>Foods</li>
+				<li>PlantMatter</li>
+			</categories>
+		</inputFilter>
+		<corpseRotStages>
+			<li>Fresh</li>
+			<li>Rotting</li>
+			<li>Dessicated</li>
+		</corpseRotStages>
+		<nutritionToMass>20</nutritionToMass>
+		<terrainYieldFactor>7.5</terrainYieldFactor>
+		<terrainProfiles>
+			<li>XMT_Fertility_Rich</li>
+			<li>XMT_Fertility_Soil</li>
+			<li>XMT_Fertility_Gravel</li>
+			<li>XMT_Fertility_Sand</li>
+		</terrainProfiles>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef ParentName="XMT_ConverterBase">
+		<defName>XMT_HeatFeeding</defName>
+		<label>heat feeding</label>
+		<temperature>
+			<enabled>true</enabled>
+			<restingCelsius>20</restingCelsius>
+			<celsiusPerInterval>80</celsiusPerInterval>
+			<yieldPerInterval>0.1</yieldPerInterval>
+		</temperature>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+
+	<Xenomorphtype.QueenIngestibleResourceDef>
+		<defName>XMT_InorganicResin</defName>
+		<label>inorganic resin conversion</label>
+		<usesStorage>false</usesStorage>
+		<massBased>true</massBased>
+		<massFactor>1</massFactor>
+		<product>Starbeast_Resin</product>
+		<inputFilter>
+			<categories>
+				<li>StoneChunks</li>
+				<li>StoneBlocks</li>
+			</categories>
+			<thingDefs>
+				<li>Steel</li>
+				<li>Plasteel</li>
+				<li>Gold</li>
+				<li>Silver</li>
+				<li>Uranium</li>
+				<li>ChunkSlagSteel</li>
+			</thingDefs>
+			<disallowedThingDefs>
+				<li>Starbeast_Resin</li>
+			</disallowedThingDefs>
+		</inputFilter>
+	</Xenomorphtype.QueenIngestibleResourceDef>
+</Defs>

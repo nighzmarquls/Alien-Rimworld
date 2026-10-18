@@ -57,6 +57,7 @@ namespace Xenomorphtype
         public static JobDef XMT_CocoonTarget;
         public static JobDef XMT_ApplyOvomorphing;
         public static JobDef XMT_ApplyLardering;
+        public static JobDef XMT_AcidDisposal;
         public static JobDef XMT_MoveOvomorph;
         public static JobDef XMT_Snuggle;
         public static JobDef XMT_MarkEnemy;

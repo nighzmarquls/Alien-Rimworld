@@ -616,4 +616,6 @@
 	<XMT_QueenMotherWarningLetterDescription>Since approaching the hill, your cryptimorph companions have become restless and distracted, repeatedly turning toward something deep inside. Their behavior is increasingly erratic.\n\nA presence waits beneath the resin. To them, she is "the mother."</XMT_QueenMotherWarningLetterDescription>
 	
 	<XMTCE_LoadPatching>Alien|Rimworld Combat Extended Patching</XMTCE_LoadPatching>
+  <XMT_HorrorPregnancyFinding>{PAWN_nameDef} is carrying alien offspring disguised as a normal pregnancy.</XMT_HorrorPregnancyFinding>
+  <XMT_ReproductiveAdaptation>Reproductive adaptation</XMT_ReproductiveAdaptation>
 </LanguageData>

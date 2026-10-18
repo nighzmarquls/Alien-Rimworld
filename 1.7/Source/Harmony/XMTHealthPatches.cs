@@ -153,11 +153,7 @@ namespace Xenomorphtype
                     CompPerfectOrganism perfectOrganism = pawn.GetComp<CompPerfectOrganism>();
                     if (perfectOrganism != null)
                     {
-                        if (hediff.def.pregnant && hediff.def != XenoGeneDefOf.XMT_HorrorPregnant)
-                        {
-                            pawn.health.RemoveHediff(hediff);
-                            pawn.health.AddHediff(XenoGeneDefOf.XMT_HorrorPregnant);
-                        }
+                        // Convert on the pawn tick: parents/genes may be assigned after AddDirect.
                         perfectOrganism.RemoveImperfection(hediff);
                     }
                     CompPawnInfo info = pawn.Info();

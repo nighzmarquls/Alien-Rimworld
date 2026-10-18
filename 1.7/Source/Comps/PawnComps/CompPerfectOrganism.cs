@@ -85,6 +85,7 @@ namespace Xenomorphtype
 
             if (pawn != null)
             {
+                HorrorPregnancyUtility.TryApply(pawn, existingOnly: true, force: true);
                 if (pawn.IsHashIntervalTick(500))
                 {
                     List<Hediff> hediffs = pawn.health.hediffSet.hediffs;

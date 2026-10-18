@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <XMT_Menstruation.CryptimorphPaletteDef>
+    <defName>XMT_CryptimorphPalette</defName>
+    <enabled>true</enabled>
+    <neutralizeWombTint>true</neutralizeWombTint>
+    <!-- Keep the pawn's native blood hue; scale its saturation and brightness.
+         Minimum brightness keeps dark blood readable. Shared human UI colors,
+         fluid mixture tints, skin/nipple colors and shine masks are unchanged. -->
+    <states>
+      <li><stage>Follicular</stage><saturationFactor>0.45</saturationFactor><brightnessFactor>0.85</brightnessFactor><minimumBrightness>0.25</minimumBrightness></li>
+      <li><stage>Ovulatory</stage><saturationFactor>1</saturationFactor><brightnessFactor>1.15</brightnessFactor><minimumBrightness>0.45</minimumBrightness></li>
+      <li><stage>Luteal</stage><saturationFactor>0.65</saturationFactor><brightnessFactor>0.95</brightnessFactor><minimumBrightness>0.35</minimumBrightness></li>
+      <li><stage>Bleeding</stage><saturationFactor>1</saturationFactor><brightnessFactor>0.55</brightnessFactor><minimumBrightness>0.20</minimumBrightness></li>
+      <li><stage>Pregnant</stage><saturationFactor>0.50</saturationFactor><brightnessFactor>1.25</brightnessFactor><minimumBrightness>0.50</minimumBrightness></li>
+      <li><stage>Recover</stage><saturationFactor>0.30</saturationFactor><brightnessFactor>0.70</brightnessFactor><minimumBrightness>0.25</minimumBrightness></li>
+      <li><stage>Animal</stage><saturationFactor>0.75</saturationFactor><brightnessFactor>0.75</brightnessFactor><minimumBrightness>0.25</minimumBrightness></li>
+      <li><stage>Default</stage><saturationFactor>0.25</saturationFactor><brightnessFactor>0.60</brightnessFactor><minimumBrightness>0.20</minimumBrightness></li>
+    </states>
+  </XMT_Menstruation.CryptimorphPaletteDef>
+</Defs>

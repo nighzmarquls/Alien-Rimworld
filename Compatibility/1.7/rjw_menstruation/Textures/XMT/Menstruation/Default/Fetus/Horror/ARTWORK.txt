@@ -1,0 +1,4 @@
+Source templates copied unchanged from RJW Menstruation 1.6 Textures/Fetus/~Dev.
+Place your illustrated 256x256 stages beside this folder as Horror00.png through Horror05.png.
+Core HorrorPregnancyDef.fetusTexPath controls the runtime prefix. No extension or stage suffix in the prefix.
+All horror templates share these six stages by default. Missing art falls back to upstream fetus graphics.

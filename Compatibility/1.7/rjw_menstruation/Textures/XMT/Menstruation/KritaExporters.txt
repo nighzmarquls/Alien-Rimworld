@@ -1,0 +1,83 @@
+Krita batch texture exporters
+
+1. Open the artwork document you want to export in Krita and make it active.
+   Your current unsaved edits and color-treatment layers are used.
+2. Open Tools > Scripts > Scripter. If unavailable, enable Scripter in Settings >
+   Configure Krita > Python Plugin Manager, then restart Krita.
+3. In Scripter, open the corresponding Python file below and press Run (Ctrl+R).
+
+Document                         Script                          Outputs
+Breasts.ora / .kra                Export_Breasts.py               176 nipple/areola textures
+Genitals.ora / .kra               Export_Genitals.py               36 textures
+Womb_and_Fetus.ora / .kra         Export_Womb_and_Fetus.py        223 cryptimorph textures
+Egg_and_Ovary.ora / .kra          Export_Egg_and_Ovary.py          11 textures
+Fetus.kra                        Export_Fetus.py                   6 textures
+
+The original Fetus.kra exports Womb/00.png through Womb/05.png into
+Cryptimorph/Fetus/Horror/00.png through 05.png. Its Background and added treatment
+layers keep their current visibility. Those same six destinations are also
+included in Export_Womb_and_Fetus.py; use whichever document is your current
+source for that artwork, or exclude Cryptimorph/Fetus/Horror/* from the larger exporter.
+
+Current defaults: the breast exporter includes nip/nipple and areola textures
+across natural, artificial and udder groups, leaving breast bases untouched.
+Fetus, womb and egg/ovary exporters include all their cryptimorph variants.
+The womb exporter's Default group is not exported with these settings.
+
+Each script is self-contained, with no third-party Python packages to install.
+It exports the active document, never another open tab or an older saved copy.
+Keep the matching document filename stem (for example Egg_and_Ovary.kra).
+
+The exporter creates an invisible clone of the live document. Only source PNG
+variants and their ancestor groups are cycled there. Your original visibility,
+active layer, filters, masks, opacity, blend modes, pixels and unsaved edits are
+left untouched. Every artist-created treatment layer keeps its existing settings
+in the clone and contributes wherever it normally applies. Keep upstream reference
+groups hidden if you do not want them in the output; the script does not hide them.
+
+Each PNG is exported independently. Breast bases, nipples and areolas remain
+separate runtime files, with shared color treatment applied to each. Put local
+adjustments inside the appropriate variant group or attach filter masks to the
+source layer. Global treatment/filter layers can stay above the source groups.
+
+Configuration at the top of each script:
+  INCLUDE_PATTERNS = ["*"]                 Export every mapped runtime texture.
+  INCLUDE_PATTERNS = ["Cryptimorph/*"]     Exclude default horror artwork.
+  INCLUDE_PATTERNS = ["Cryptimorph/Breasts/*"]
+  EXCLUDE_PATTERNS = ["*/Fetus/*"]
+  OUTPUT_ROOT = None                      Use the artwork document's folder.
+  DRY_RUN = True                          Validate/list paths without exporting.
+Patterns use forward slashes and are case-sensitive. They filter destination
+paths, not layer names. Change the examples to suit the desired batch.
+Associated shine masks follow those same ART path patterns and are exported too
+when the document has the matching mask group. Counts above describe art PNGs;
+mask-enabled batches add one mask per selected cryptimorph art PNG.
+EXPORT_SHINE_MASKS = False leaves all existing mask PNGs untouched.
+Masks bypass global color treatments; see ShineMasks.txt for details.
+
+The output root is this Menstruation artwork folder containing Cryptimorph/ and
+Default/. Set OUTPUT_ROOT to its full path if you save your KRA somewhere else.
+PNG files are overwritten only after all selected renders succeed; a write error
+attempts to restore any destinations already replaced in that batch. Rendered
+outputs retain alpha and original dimensions. Shared additive fluid overlays and
+their empty placeholder are not included in cryptimorph documents or exports.
+The scripts never save over your ORA/KRA, and never write into the upstream mod.
+
+Keep the mapped source group/layer names. A missing or duplicate mapped name stops
+the export before any PNG is changed. You can add treatment layers or turn a source
+layer into a same-named group; its added children keep their configured visibility.
+Source ~ templates are not exported.
+
+Tools/BuildKritaExporters.py in this compatibility mod regenerates the standalone
+scripts from Tools/KritaExportRuntime.py and the established document layout.
+It does not modify artwork documents. Regenerating scripts resets their top-level
+include/exclude/output settings. All paths are embedded in the generated scripts,
+so they still work after Krita discards source-map.json during an ORA/KRA save.
+
+References:
+https://docs.krita.org/en/user_manual/python_scripting/introduction_to_python_scripting.html
+https://api.kde.org/legacy/krita/html/classDocument.html
+https://api.kde.org/legacy/krita/html/classNode.html
+
+Validation: mapping and export logic tested against the saved document hierarchies
+and a minimal Krita API double. Live Krita rendering still needs verification.

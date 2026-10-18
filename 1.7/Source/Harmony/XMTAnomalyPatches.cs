@@ -29,6 +29,9 @@ namespace Xenomorphtype
                 ref SurgicalInspectionOutcome __result, List<Hediff> __state)
             {
                 string findings = XMTMedicalExaminationUtility.RevealMutations(__instance, surgeon, __state);
+                string pregnancyFindings = HorrorPregnancyUtility.Reveal(__instance);
+                if (!pregnancyFindings.NullOrEmpty())
+                    findings = findings.NullOrEmpty() ? pregnancyFindings : findings + "\n\n" + pregnancyFindings;
                 if (findings.NullOrEmpty())
                 {
                     return;

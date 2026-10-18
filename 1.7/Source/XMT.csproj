@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,6 +47,7 @@
     </Reference>
     <Reference Include="AlienRace">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2640710953\1.7\Assemblies\AlienRace.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\Assembly-CSharp.dll</HintPath>
@@ -150,7 +151,6 @@
     <Compile Include="AI\JobDriver\JobDriver_CopyGenesFrom.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractAcid.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractPheromone.cs" />
-    <Compile Include="AI\JobDriver\JobDriver_MergeIntoJellyWell.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_Protofluid.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_MutateTarget.cs" />
     <Compile Include="AI\JobDriver\Queen\JobDriver_AdvanceHorror.cs" />
@@ -285,9 +285,7 @@
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphClimbTo.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphHibernate.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphHunt.cs" />
-    <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphLarder.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphOvomorph.cs" />
-    <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphPruneLarder.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphTrophallaxis.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_LoadBioContainer.cs" />
@@ -318,6 +316,8 @@
     <Compile Include="Utilities\XMT_IFFUtility.cs" />
     <Compile Include="Utilities\XMTZoneUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
+    <Compile Include="BioHorror\HorrorPregnancyDef.cs" />
+    <Compile Include="BioHorror\HorrorPregnancyUtility.cs" />
     <Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractJelly.cs" />
@@ -374,6 +374,10 @@
     <Compile Include="Building\Reproduction\GeneOvomorph.cs" />
     <Compile Include="Building\Reproduction\MechaOvomorph.cs" />
     <Compile Include="Building\XMTBase_Building.cs" />
+    <Compile Include="Building\XMTAnimatedBuilding.cs" />
+    <Compile Include="Comps\BuildingComps\CompPawnPreservation.cs" />
+    <Compile Include="Comps\BuildingComps\Horrors\CompOrganicGrowth.cs" />
+    <Compile Include="Utilities\PreservedBuildingUtility.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompPetrolsump.cs" />
     <Compile Include="Comps\BuildingComps\Horrors\CompSlumberer.cs" />
     <Compile Include="Comps\CompHiveGeneHolder.cs" />
@@ -582,9 +586,43 @@
     <Compile Include="XMT.cs" />
     <Compile Include="Settings\XMTMod.cs" />
     <Compile Include="Utilities\QueenIngestibleResourceUtility.cs" />
+    <Compile Include="Utilities\ResourceHelperUtility.cs" />
+    <Compile Include="Progression\ResourceTerrainDef.cs" />
     <Compile Include="Utilities\QueenMechGestationUtility.cs" />
     <Compile Include="Utilities\PawnTransformationIdentityUtility.cs" />
     <Compile Include="Utilities\XMTUtility.cs" />
+    <Compile Include="Utilities\HiveQueenUtility.cs" />
+    <Compile Include="UI\HiveWorkPresentation.cs" />
+    <Compile Include="Comps\BuildingComps\CompSteam.cs" />
+    <Compile Include="AI\JobDriver\WorkJobs\JobDriver_AcidDisposal.cs" />
+    <Compile Include="Comps\BuildingComps\CompAcidPit.cs" />
+    <Compile Include="Comps\BuildingComps\CompRefuelableWithInspect.cs" />
+    <Compile Include="Comps\BuildingComps\CompHivePrunable.cs" />
+    <Compile Include="Building\HiveStructureSite.cs" />
+    <Compile Include="UI\Designators\Designator_HiveStructures.cs" />
+    <Compile Include="Utilities\HiveStructureUtility.cs" />
+    <Compile Include="Utilities\HivePruningUtility.cs" />
+    <Compile Include="Progression\HiveStructureUnlockDef.cs" />
+    <Compile Include="UI\Tabs\ITab_HiveInputs.cs" />
+    <Compile Include="UI\HiveInputSelection.cs" />
+    <Compile Include="Harmony\HiveInputSelectionPatch.cs" />
+    <Compile Include="Harmony\XMTColonistBarPatches.cs" />
+    <Compile Include="Building\Fillable\AcidPit.cs" />
+    <Compile Include="Utilities\AcidPitEconomy.cs" />
+    <Compile Include="Utilities\AcidPitSpray.cs" />
+    <Compile Include="Building\PlumbedGeyser.cs" />
+    <Compile Include="Building\SteamSpill.cs" />
+    <Compile Include="AI\JobDriver\JobDriver_HiveStructure.cs" />
+    <Compile Include="AI\WorkGiver\WorkGiver_HiveStructure.cs" />
+    <Compile Include="Comps\BuildingComps\CompStructureCreationCommands.cs" />
+    <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_HiveStructures.cs" />
+    <Compile Include="UI\PlaceWorker\PlaceWorker_HiveStructureUnlock.cs" />
+    <Compile Include="Harmony\HiveArchitectCommandsPatch.cs" />
+    <Compile Include="Utilities\HiveInputSettings.cs" />
+    <Compile Include="UI\HiveInputClipboard.cs" />
+    <Compile Include="Progression\HiveStructureCreationWorker.cs" />
+    <Compile Include="Utilities\AcidDisposalUtility.cs" />
+    <Compile Include="AI\WorkGiver\WorkGiver_AcidDisposal.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Abilities\Psycasting\Paths\" />

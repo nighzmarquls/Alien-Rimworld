@@ -87,6 +87,7 @@ namespace Xenomorphtype
             }
 
             AppendFinding(findings, RevealMutations(patient, surgeon, HiddenMutations(patient)));
+            AppendFinding(findings, HorrorPregnancyUtility.Reveal(patient));
             return findings.ToString();
         }
 

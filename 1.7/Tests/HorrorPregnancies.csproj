@@ -1,0 +1,25 @@
+<Project>
+  <PropertyGroup><BaseIntermediateOutputPath>../Source/obj/HorrorPregnancyChecks/obj/</BaseIntermediateOutputPath></PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputPath>../Source/obj/HorrorPregnancyChecks/bin/</OutputPath>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="HorrorPregnancies.cs" />
+    <None Include="../Defs/HediffDefs/HorrorPregnancyTuning.xml" Link="HorrorPregnancyTuning.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../Compatibility/1.7/rjw/Defs/HediffDefs/Reproduction.xml" Link="RJWReproduction.xml" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../Compatibility/1.7/rjw_menstruation/Defs/CryptimorphPalette.xml" Link="CryptimorphPalette.xml" CopyToOutputDirectory="PreserveNewest" />
+    <Reference Include="XMT" HintPath="../Assemblies/XMT.dll" />
+    <Reference Include="XMT_RJW" HintPath="../../Compatibility/1.7/rjw/Assemblies/XMT_RJW.dll" />
+    <Reference Include="XMT_Menstruation" HintPath="../../Compatibility/1.7/rjw_menstruation/Assemblies/XMT_Menstruation.dll" />
+    <Reference Include="Assembly-CSharp" HintPath="../../../../Assembly-CSharp.dll" />
+    <Reference Include="UnityStubs" HintPath="../../../../UnityStubs.dll" />
+    <Reference Include="Waylith" HintPath="../../../../Waylith.dll" />
+    <Reference Include="0Harmony" HintPath="../../../../../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll" />
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

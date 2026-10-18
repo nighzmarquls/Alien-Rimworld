@@ -1,29 +1,28 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
 	<PipeSystem.PipeNetDef>
 		<defName>XMT_JellyNet</defName>
 		<resource>
-		  <name>Jelly</name>
-		  <unit>l</unit>
-		  <color>(46,49,54)</color>
-		  <onlyShowStored>True</onlyShowStored>
+			<name>Jelly</name>
+			<unit>l</unit>
+			<color>(46,49,54)</color>
+			<onlyShowStored>True</onlyShowStored>
 		</resource>
 		<pipeDefs>
-		  <li>XMT_JellyPipe</li>
+			<li>XMT_JellyPipe</li>
 		</pipeDefs>
 		<designator>
-		  <deconstructIconPath>UI/Designators/Break</deconstructIconPath>
-		  <designationCategoryDef>XMT_Hive</designationCategoryDef>
+			<deconstructIconPath>UI/Designators/Break</deconstructIconPath>
+			<designationCategoryDef>XMT_Hive</designationCategoryDef>
 		</designator>
 		<overlayOptions>
-		  <overlayColor>(46,49,54)</overlayColor>
+			<overlayColor>(46,49,54)</overlayColor>
 		</overlayOptions>
 		<linkToRefuelables>
-		  <li>
-			<thing>Starbeast_Jelly</thing>
-			<ratio>1</ratio>
-		  </li>
+			<li>
+				<thing>Starbeast_Jelly</thing>
+				<ratio>1</ratio>
+			</li>
 		</linkToRefuelables>
 		<noLinkedGraphicDefs>
 			<li>XMT_JellyDrain</li>
@@ -38,54 +37,53 @@
 		<category>Building</category>
 		<tickerType>Rare</tickerType>
 		<graphicData>
-		  <texPath>Things/Building/Linked/Hive_Tube_Atlas</texPath>
-		  <graphicClass>Graphic_Single</graphicClass>
-		  <linkType>Basic</linkType>
-		  <linkFlags>
-			<li>Custom7</li>
-		  </linkFlags>
-		  <damageData>
-			<rect>(0,0.35,1,0.3)</rect>
-		  </damageData>
+			<texPath>Things/Building/Linked/Hive_Tube_Atlas</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<linkType>Basic</linkType>
+			<linkFlags>
+				<li>Custom7</li>
+			</linkFlags>
+			<damageData>
+				<rect>(0,0.35,1,0.3)</rect>
+			</damageData>
 		</graphicData>
 		<uiIconPath>Things/Building/Linked/HiveTube_MenuIcon</uiIconPath>
 		<uiIconScale>0.7</uiIconScale>
 		<building>
-		  <ai_chillDestination>false</ai_chillDestination>
-		  <isInert>true</isInert>
-		  <isEdifice>false</isEdifice>
-		  <blueprintGraphicData>
-			<texPath>Things/Building/Linked/Hive_Tube_Atlas</texPath>
-		  </blueprintGraphicData>
-		  <relatedBuildCommands>
-			<li>XMT_JellyDrain</li>
-			<li>XMT_JellyStorage</li>
-		  </relatedBuildCommands>
+			<ai_chillDestination>false</ai_chillDestination>
+			<isInert>true</isInert>
+			<isEdifice>false</isEdifice>
+			<blueprintGraphicData>
+				<texPath>Things/Building/Linked/Hive_Tube_Atlas</texPath>
+			</blueprintGraphicData>
+			<relatedBuildCommands>
+				<li>XMT_JellyDrain</li>
+				<li>XMT_JellyStorage</li>
+			</relatedBuildCommands>
 		</building>
 		<drawerType>MapMeshOnly</drawerType>
 		<altitudeLayer>Conduits</altitudeLayer>
 		<passability>Standable</passability>
 		<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
 		<statBases>
-		  <MaxHitPoints>80</MaxHitPoints>
-		  <WorkToBuild>35</WorkToBuild>
-		  <Flammability>0.7</Flammability>
+			<MaxHitPoints>80</MaxHitPoints>
+			<WorkToBuild>35</WorkToBuild>
+			<Flammability>0.7</Flammability>
 		</statBases>
-		<costList>
-		</costList>
+		<costList></costList>
 		<comps>
-		  <li Class="PipeSystem.CompProperties_Resource">
-			<pipeNet>XMT_JellyNet</pipeNet>
-		  </li>
-		  <li Class="PipeSystem.CompProperties_SpillWhenDamaged">
-			<spillEachTicks>600</spillEachTicks>
-			<startAtHitPointsPercent>0.333</startAtHitPointsPercent>
-			<amountToDraw>1</amountToDraw>
-			<filthMaxSpawnRadius>1</filthMaxSpawnRadius>
-		  </li>
+			<li Class="PipeSystem.CompProperties_Resource">
+				<pipeNet>XMT_JellyNet</pipeNet>
+			</li>
+			<li Class="PipeSystem.CompProperties_SpillWhenDamaged">
+				<spillEachTicks>600</spillEachTicks>
+				<startAtHitPointsPercent>0.333</startAtHitPointsPercent>
+				<amountToDraw>1</amountToDraw>
+				<filthMaxSpawnRadius>1</filthMaxSpawnRadius>
+			</li>
 		</comps>
 		<placeWorkers>
-		  <li>PipeSystem.PlaceWorker_Pipe</li>
+			<li>PipeSystem.PlaceWorker_Pipe</li>
 		</placeWorkers>
 		<rotatable>false</rotatable>
 		<selectable>true</selectable>
@@ -96,11 +94,11 @@
 		<constructEffect>ResinBuild</constructEffect>
 		<clearBuildingArea>false</clearBuildingArea>
 		<researchPrerequisites>
-		  <li>XMT_Starbeast_JellyTransport</li>
+			<li>XMT_Starbeast_JellyTransport</li>
 		</researchPrerequisites>
 		<drawStyleCategory>Organic1D</drawStyleCategory>
 	</ThingDef>
-	
+
 	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_JellyDrain</defName>
 		<label>dripping cavity</label>
@@ -108,24 +106,23 @@
 		<rotatable>true</rotatable>
 		<thingClass>Building_Storage</thingClass>
 		<graphicData>
-		  <texPath>Things/Building/JellyDrain/JellyDrain</texPath>
-		  <graphicClass>Graphic_Multi</graphicClass>
-		  <drawOffsetNorth>(0,0,0.9)</drawOffsetNorth>
-		  <drawOffsetSouth>(0,0,-0.9)</drawOffsetSouth>
-		  <drawOffsetWest>(-0.9,0,0)</drawOffsetWest>
-		  <drawOffsetEast>(0.9,0,0)</drawOffsetEast>
-		  <damageData>
-			<enabled>false</enabled>
-		  </damageData>
+			<texPath>Things/Building/JellyDrain/JellyDrain</texPath>
+			<graphicClass>Graphic_Multi</graphicClass>
+			<drawOffsetNorth>(0,0,0.9)</drawOffsetNorth>
+			<drawOffsetSouth>(0,0,-0.9)</drawOffsetSouth>
+			<drawOffsetWest>(-0.9,0,0)</drawOffsetWest>
+			<drawOffsetEast>(0.9,0,0)</drawOffsetEast>
+			<damageData>
+				<enabled>false</enabled>
+			</damageData>
 		</graphicData>
 		<!--<uiIconPath>Things/Building/Furniture/WallLamp/WallLamp_MenuIcon</uiIconPath>-->
 		<altitudeLayer>BuildingOnTop</altitudeLayer>
-		<costList>
-		</costList>
+		<costList></costList>
 		<statBases>
-		  <WorkToBuild>330</WorkToBuild>
-		  <MaxHitPoints>35</MaxHitPoints>
-		  <Mass>2</Mass>
+			<WorkToBuild>330</WorkToBuild>
+			<MaxHitPoints>35</MaxHitPoints>
+			<Mass>2</Mass>
 		</statBases>
 		<uiOrder>2991</uiOrder>
 		<passability>Standable</passability>
@@ -142,22 +139,22 @@
 				<filter>
 					<disallowNotEverStorable>true</disallowNotEverStorable>
 					<thingDefs>
-					<li>Starbeast_Jelly</li>
+						<li>Starbeast_Jelly</li>
 					</thingDefs>
 				</filter>
 			</fixedStorageSettings>
 			<defaultStorageSettings>
 				<priority>Important</priority>
 				<filter>
-				  <disallowNotEverStorable>true</disallowNotEverStorable>
-				  <thingDefs>
-					<li>Starbeast_Jelly</li>
-				  </thingDefs>
+					<disallowNotEverStorable>true</disallowNotEverStorable>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
 				</filter>
 			</defaultStorageSettings>
 		</building>
 		<placeWorkers>
-		  <li>Placeworker_AttachedToWall</li>
+			<li>Placeworker_AttachedToWall</li>
 		</placeWorkers>
 		<comps>
 			<li Class="PipeSystem.CompProperties_ConvertResourceToThing">
@@ -170,10 +167,10 @@
 		<designationCategory>XMT_Hive</designationCategory>
 		<constructEffect>ResinBuild</constructEffect>
 		<researchPrerequisites>
-		  <li>XMT_Starbeast_JellyTransport</li>
+			<li>XMT_Starbeast_JellyTransport</li>
 		</researchPrerequisites>
 	</ThingDef>
-	
+
 	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_JellyPool</defName>
 		<label>resinous bowl</label>
@@ -181,19 +178,18 @@
 		<rotatable>true</rotatable>
 		<thingClass>Building_Storage</thingClass>
 		<graphicData>
-		  <texPath>Things/Building/JellyPool</texPath>
-		  <graphicClass>Graphic_Single</graphicClass>
-		  <damageData>
-			<enabled>false</enabled>
-		  </damageData>
+			<texPath>Things/Building/JellyPool</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<damageData>
+				<enabled>false</enabled>
+			</damageData>
 		</graphicData>
 		<altitudeLayer>BuildingOnTop</altitudeLayer>
-		<costList>
-		</costList>
+		<costList></costList>
 		<statBases>
-		  <WorkToBuild>330</WorkToBuild>
-		  <MaxHitPoints>35</MaxHitPoints>
-		  <Mass>2</Mass>
+			<WorkToBuild>330</WorkToBuild>
+			<MaxHitPoints>35</MaxHitPoints>
+			<Mass>2</Mass>
 		</statBases>
 		<uiOrder>2991</uiOrder>
 		<passability>Standable</passability>
@@ -217,10 +213,10 @@
 			<defaultStorageSettings>
 				<priority>Important</priority>
 				<filter>
-				  <disallowNotEverStorable>true</disallowNotEverStorable>
-				  <thingDefs>
-					<li>Starbeast_Jelly</li>
-				  </thingDefs>
+					<disallowNotEverStorable>true</disallowNotEverStorable>
+					<thingDefs>
+						<li>Starbeast_Jelly</li>
+					</thingDefs>
 				</filter>
 			</defaultStorageSettings>
 		</building>
@@ -234,23 +230,23 @@
 		<designationCategory>XMT_Hive</designationCategory>
 		<constructEffect>ResinBuild</constructEffect>
 		<researchPrerequisites>
-		  <li>XMT_Starbeast_JellyTransport</li>
+			<li>XMT_Starbeast_JellyTransport</li>
 		</researchPrerequisites>
 	</ThingDef>
-	
+
 	<ThingDef ParentName="BuildingBase">
 		<defName>XMT_JellyStorage</defName>
 		<label>turgid structure</label>
 		<description>a large resinous structure, it gurgles, shifts and groans with fluids. (Stores Resinous Jelly for the Network.)</description>
 		<drawerType>MapMeshAndRealTime</drawerType>
 		<graphicData>
-		  <texPath>Things/Building/JellyStorage</texPath>
-		  <graphicClass>Graphic_Single</graphicClass>
-		  <drawSize>(3,3)</drawSize>
-		  <damageData>
-			<cornerTL>Damage/Corner</cornerTL>
-			<cornerTR>Damage/Corner</cornerTR>
-		  </damageData>
+			<texPath>Things/Building/JellyStorage</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(3,3)</drawSize>
+			<damageData>
+				<cornerTL>Damage/Corner</cornerTL>
+				<cornerTR>Damage/Corner</cornerTR>
+			</damageData>
 		</graphicData>
 		<altitudeLayer>Building</altitudeLayer>
 		<passability>Impassable</passability>
@@ -258,28 +254,27 @@
 		<castEdgeShadows>true</castEdgeShadows>
 		<fillPercent>1</fillPercent>
 		<statBases>
-		  <MaxHitPoints>150</MaxHitPoints>
-		  <WorkToBuild>800</WorkToBuild>
-		  <Mass>20</Mass>
-		  <Flammability>1.0</Flammability>
+			<MaxHitPoints>150</MaxHitPoints>
+			<WorkToBuild>800</WorkToBuild>
+			<Mass>20</Mass>
+			<Flammability>1.0</Flammability>
 		</statBases>
 		<size>(2,2)</size>
-		<costList>
-		</costList>
+		<costList></costList>
 		<comps>
-		  <li Class="PipeSystem.CompProperties_ResourceStorage">
-			<pipeNet>XMT_JellyNet</pipeNet>
-			<storageCapacity>500</storageCapacity>
-			<barSize>(0.0, 0.0)</barSize>
-			<margin>0.0</margin>
-			<centerOffset>(0, 0, -0.35)</centerOffset>
-			<destroyOption>
-			  <filth>Starbeast_Filth_Goop</filth>
-			  <ratio>1</ratio>
-			  <maxRadius>5</maxRadius>
-			</destroyOption>
-			<contentRequirePower>false</contentRequirePower>
-		  </li>
+			<li Class="PipeSystem.CompProperties_ResourceStorage">
+				<pipeNet>XMT_JellyNet</pipeNet>
+				<storageCapacity>500</storageCapacity>
+				<barSize>(0.0, 0.0)</barSize>
+				<margin>0.0</margin>
+				<centerOffset>(0, 0, -0.35)</centerOffset>
+				<destroyOption>
+					<filth>Starbeast_Filth_Goop</filth>
+					<ratio>1</ratio>
+					<maxRadius>5</maxRadius>
+				</destroyOption>
+				<contentRequirePower>false</contentRequirePower>
+			</li>
 		</comps>
 		<tickerType>Rare</tickerType>
 		<rotatable>false</rotatable>
@@ -288,8 +283,236 @@
 		<constructEffect>ResinBuild</constructEffect>
 		<canOverlapZones>false</canOverlapZones>
 		<researchPrerequisites>
-		  <li>XMT_Starbeast_JellyTransport</li>
+			<li>XMT_Starbeast_JellyTransport</li>
 		</researchPrerequisites>
 	</ThingDef>
 	
+	<!-- STEAM -->
+
+	<PipeSystem.PipeNetDef>
+		<defName>XMT_SteamNet</defName>
+		<resource>
+			<name>Steam</name>
+			<unit>u</unit>
+			<color>(170,200,190)</color>
+			<onlyShowStored>true</onlyShowStored>
+		</resource>
+		<pipeDefs>
+			<li>XMT_SteamPipe</li>
+		</pipeDefs>
+		<designator>
+			<deconstructIconPath>UI/Designators/Break</deconstructIconPath>
+			<designationCategoryDef>XMT_Hive</designationCategoryDef>
+		</designator>
+		<overlayOptions>
+			<overlayColor>(170,200,190)</overlayColor>
+		</overlayOptions>
+	</PipeSystem.PipeNetDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_SteamPipe</defName>
+		<label>steam tube</label>
+		<description>A resin tube that carries steam. Cryptimorph construction consumes food.</description>
+		<thingClass>PipeSystem.Building_Pipe</thingClass>
+		<tickerType>Rare</tickerType>
+		<graphicData>
+			<texPath>Things/Building/Linked/Hive_VentTube</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<linkType>Basic</linkType>
+			<linkFlags>
+				<li>Custom6</li>
+			</linkFlags>
+		</graphicData>
+		<uiIconPath>Things/Building/Linked/VentTube_MenuIcon</uiIconPath>
+		<uiIconScale>0.7</uiIconScale>
+		<drawerType>MapMeshOnly</drawerType>
+		<altitudeLayer>Conduits</altitudeLayer>
+		<passability>Standable</passability>
+		<rotatable>false</rotatable>
+		<statBases>
+			<MaxHitPoints>80</MaxHitPoints>
+			<WorkToBuild>35</WorkToBuild>
+			<Flammability>0.7</Flammability>
+		</statBases>
+		<building>
+			<isEdifice>false</isEdifice>
+			<isInert>true</isInert>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<clearBuildingArea>false</clearBuildingArea>
+		<costList />
+		<placeWorkers>
+			<li>PipeSystem.PlaceWorker_Pipe</li>
+			<li>Xenomorphtype.PlaceWorker_HiveStructureUnlock</li>
+		</placeWorkers>
+		<drawStyleCategory>Organic1D</drawStyleCategory>
+		<comps>
+			<li Class="PipeSystem.CompProperties_Resource">
+				<pipeNet>XMT_SteamNet</pipeNet>
+			</li>
+			<li Class="PipeSystem.CompProperties_SpillWhenDamaged">
+				<spillEachTicks>600</spillEachTicks>
+				<startAtHitPointsPercent>0.333</startAtHitPointsPercent>
+				<amountToDraw>1</amountToDraw>
+				<chooseFilthFrom>
+					<li>XMT_SteamSpill</li>
+				</chooseFilthFrom>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_PlumbedGeyser</defName>
+		<label>plumbed geyser</label>
+		<description>A hive daughter wrapped around a geothermal vent, capturing steam for distribution through the hive.</description>
+		<thingClass>Xenomorphtype.PlumbedGeyser</thingClass>
+		<size>(4,4)</size>
+		<tickerType>Normal</tickerType>
+		<rotatable>false</rotatable>
+		<bringAlongOnGravship>false</bringAlongOnGravship>
+		<graphicData>
+			<texPath>Things/Building/PlumbedGeyser/PlumbedGeyser</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(4.5,4.5)</drawSize>
+		</graphicData>
+		<drawerType>RealtimeOnly</drawerType>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>Impassable</passability>
+		<fillPercent>1</fillPercent>
+		<statBases>
+			<MaxHitPoints>1000</MaxHitPoints>
+			<Mass>500</Mass>
+			<Flammability>0</Flammability>
+			<WorkToBuild>1000</WorkToBuild>
+		</statBases>
+		<terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+		<building>
+			<repairable>false</repairable>
+			<expandHomeArea>false</expandHomeArea>
+			<ai_chillDestination>false</ai_chillDestination>
+		</building>
+		<placeWorkers>
+			<li>PlaceWorker_OnSteamGeyser</li>
+			<li>Xenomorphtype.PlaceWorker_HiveStructureUnlock</li>
+		</placeWorkers>
+		<comps>
+			<li>
+				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_PawnPreservation">
+				<recovery>
+					<li>
+						<pawnKind>XMT_StarbeastKind</pawnKind>
+						<buildingDef>XMT_PlumbedGeyser</buildingDef>
+					</li>
+				</recovery>
+			</li>
+			<li Class="PipeSystem.CompProperties_ResourceStorage">
+				<pipeNet>XMT_SteamNet</pipeNet>
+				<storageCapacity>500</storageCapacity>
+				<contentRequirePower>false</contentRequirePower>
+				<destroyOption>
+					<thing>XMT_SteamSpill</thing>
+					<ratio>10</ratio>
+					<maxRadius>1</maxRadius>
+				</destroyOption>
+				<drawStorageBar>false</drawStorageBar>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_Steam">
+				<role>Geyser</role>
+				<production>20</production>
+				<resourceInterval>2500</resourceInterval>
+				<pipeNet>XMT_SteamNet</pipeNet>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_Breathing">
+				<amplitude>0.01</amplitude>
+				<periodTicks>2500</periodTicks>
+			</li>
+			<li Class="Xenomorphtype.CompSpreadTerrainProperties">
+				<spreadTerrain>HiveFloor</spreadTerrain>
+				<upgradeTerrain>HeavyHiveFloor</upgradeTerrain>
+				<radius>0.5</radius>
+				<useOccupiedRect>true</useOccupiedRect>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BuildingBase">
+		<defName>XMT_SteamVent</defName>
+		<label>steam vent</label>
+		<description>A resin outlet that consumes steam to heat its room toward 30°C. Consumption is proportional to the temperature deficit. Cryptimorph construction consumes food.</description>
+		<tickerType>Normal</tickerType>
+		<rotatable>false</rotatable>
+		<graphicData>
+			<texPath>Things/Building/SteamTubeOutput</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+		</graphicData>
+		<altitudeLayer>Building</altitudeLayer>
+		<passability>PassThroughOnly</passability>
+		<fillPercent>0.2</fillPercent>
+		<statBases>
+			<MaxHitPoints>120</MaxHitPoints>
+			<Mass>5</Mass>
+			<WorkToBuild>330</WorkToBuild>
+			<Flammability>0.7</Flammability>
+		</statBases>
+		<terrainAffordanceNeeded>Resin</terrainAffordanceNeeded>
+		<designationCategory>XMT_Hive</designationCategory>
+		<costList />
+		<placeWorkers>
+			<li>Xenomorphtype.PlaceWorker_HiveStructureUnlock</li>
+		</placeWorkers>
+		<comps>
+			<li Class="PipeSystem.CompProperties_ResourceStorage">
+				<pipeNet>XMT_SteamNet</pipeNet>
+				<storageCapacity>5</storageCapacity>
+				<contentRequirePower>false</contentRequirePower>
+				<destroyOption>
+					<thing>XMT_SteamSpill</thing>
+					<ratio>1</ratio>
+					<maxRadius>1</maxRadius>
+				</destroyOption>
+				<drawStorageBar>false</drawStorageBar>
+			</li>
+			<li Class="Xenomorphtype.CompProperties_Steam">
+				<role>Vent</role>
+				<minimumDemandPerInterval>5</minimumDemandPerInterval>
+				<consumptionEffect>XMT_SteamVentPuff</consumptionEffect>
+				<heatPerSecond>168</heatPerSecond>
+				<heatPerSteam>400</heatPerSteam>
+				<targetTemperature>30</targetTemperature>
+				<resourceInterval>2500</resourceInterval>
+				<pipeNet>XMT_SteamNet</pipeNet>
+			</li>
+		</comps>
+	</ThingDef>
+
+	<ThingDef ParentName="BaseFilth">
+		<defName>XMT_SteamSpill</defName>
+		<modExtensions>
+			<li Class="Xenomorphtype.SteamSpillProperties">
+				<spillEffect>XMT_SteamSpillCloud</spillEffect>
+				<targetTemperature>100</targetTemperature>
+				<heatPerUnit>100</heatPerUnit>
+				<damage>3</damage>
+				<damageDef>Burn</damageDef>
+			</li>
+		</modExtensions>
+		<label>escaping steam</label>
+		<description>A fleeting cloud of scalding steam.</description>
+		<thingClass>Xenomorphtype.SteamSpill</thingClass>
+		<graphicData>
+			<texPath>Things/Filth/PoolSoft</texPath>
+			<graphicClass>Graphic_Random</graphicClass>
+		</graphicData>
+		<statBases>
+			<Beauty>0</Beauty>
+			<Cleanliness>0</Cleanliness>
+		</statBases>
+		<filth>
+			<cleaningWorkToReduceThickness>0</cleaningWorkToReduceThickness>
+		</filth>
+	</ThingDef>
 </Defs>

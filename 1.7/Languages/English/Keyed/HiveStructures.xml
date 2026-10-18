@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+	<XMT_StructureCommands>Hive structures</XMT_StructureCommands>
+	<XMT_StructureCommandsDesc>Create structures unlocked by the queen's advancements.</XMT_StructureCommandsDesc>
+	<XMT_StructureLocked>The queen has not unlocked this structure.</XMT_StructureLocked>
+	<XMT_StructureSiteOccupied>Another hive transformation already reserves this footprint.</XMT_StructureSiteOccupied>
+	<XMT_StructureSourceInvalid>This structure is not sufficiently grown or otherwise eligible.</XMT_StructureSourceInvalid>
+	<XMT_StructureSacrificeWarning>This creates a living structure by transforming a cryptimorph. The selected pawn will cease acting independently and be preserved inside the structure. Continue to select a contributor?</XMT_StructureSacrificeWarning>
+	<XMT_StructureSacrificeConfirm>Transform {0} into {1}? This sacrifices their independent pawn form and preserves them inside the structure.</XMT_StructureSacrificeConfirm>
+	<XMT_JellyWellFirstWarning>Creating a jelly well merges a cryptimorph with a larder of body size 4 or greater. Both contributors are preserved. Continue to choose the larder?</XMT_JellyWellFirstWarning>
+	<XMT_InputTab>Jelly</XMT_InputTab>
+	<XMT_GroupInputs>Editing {0} selected entities.</XMT_GroupInputs>
+	<XMT_GroupInputsDesc>The filter initially shows the first selected entity's settings. Editing or pasting replaces the filters of every selected entity. Only materials valid for all selected entities are available.</XMT_GroupInputsDesc>
+	<XMT_CopyInputs>Copy jelly filter</XMT_CopyInputs>
+	<XMT_PasteInputs>Paste jelly filter</XMT_PasteInputs>
+	<XMT_PruneStructure>Prune {0}</XMT_PruneStructure>
+	<XMT_AcidInspect>Acid: {0}</XMT_AcidInspect>
+	<XMT_AcidDigesting>Processing {0}. Estimated time remaining: {1} with jelly supplied.</XMT_AcidDigesting>
+	<XMT_AcidProcessingNeedsJelly>Additional jelly required to finish processing.</XMT_AcidProcessingNeedsJelly>
+	<XMT_AcidRetainedResidue>Retained material: {0} resin. Waiting for more material to produce a whole unit.</XMT_AcidRetainedResidue>
+	<XMT_AcidRecycleOrder>Haul material here for recycling</XMT_AcidRecycleOrder>
+	<XMT_AcidOccupied>already processing material</XMT_AcidOccupied>
+	<XMT_AcidAcceptanceDisabled>material acceptance is disabled</XMT_AcidAcceptanceDisabled>
+	<XMT_AcidCannotHaul>pawn cannot haul here</XMT_AcidCannotHaul>
+	<XMT_AcidUnavailable>pit is reserved, forbidden, or unreachable</XMT_AcidUnavailable>
+	<XMT_AcidNoMaterial>no available, reachable material allowed by this pit's filter</XMT_AcidNoMaterial>
+	<XMT_AcidProcessing>Accept material</XMT_AcidProcessing>
+	<XMT_AcidProcessingDesc>Allow hauling jobs to insert material accepted by this pit's input filter. An inserted object finishes digesting even when acceptance is disabled.</XMT_AcidProcessingDesc>
+	<XMT_AcidSplash>Acid splash</XMT_AcidSplash>
+	<XMT_AcidSplashDesc>Spray a cone of acid {0} tiles toward the selected cell. Each pawn caught takes {1} acid damage, including allies unless acid-immune. Empty affected cells receive acid blood. Blocking edifices stop the spray. Consumes {2} of the maximum acid reserve.</XMT_AcidSplashDesc>
+	<XMT_AcidNotReady>Insufficient acid or the pit is recovering from its last splash.</XMT_AcidNotReady>
+	<XMT_AcidHarvestOrder>Extract acid from pit</XMT_AcidHarvestOrder>
+	<XMT_AcidHarvestNotFull>the acid reserve must be full</XMT_AcidHarvestNotFull>
+	<XMT_AcidCannotExtract>pawn cannot extract here, or the pit is unavailable</XMT_AcidCannotExtract>
+	<XMT_AcidAllowExtraction>Allow acid extraction</XMT_AcidAllowExtraction>
+	<XMT_AcidAllowExtractionDesc>Allow doctors to extract {0} acid from this pit when it is full and not processing material. Extraction drains its entire acid reserve.</XMT_AcidAllowExtractionDesc>
+	<XMT_AcidHealing>Healing with jelly. Acid production is paused until fully healed.</XMT_AcidHealing>
+	<XMT_SteamProduction>Produces {0} steam per hour.</XMT_SteamProduction>
+	<XMT_SteamDemand>Steam demand: {0} per hour.</XMT_SteamDemand>
+	<XMT_SteamBoilerInspect>Steam production: {0}</XMT_SteamBoilerInspect>
+	<XMT_SteamBoiler>Divert heat to steam</XMT_SteamBoiler>
+	<XMT_SteamBoilerDesc>Divert useful heater output into steam. Conversion is inefficient; diverted energy does not also heat the room.</XMT_SteamBoilerDesc>
+	<XMT_HumanWorkRole>Human workers — {0}: {1}</XMT_HumanWorkRole>
+	<XMT_WorkLabel_Childcare>Brood care</XMT_WorkLabel_Childcare>
+	<XMT_WorkDescription_Childcare>Positions ovomorphs and applies ovomorphing to suitable hosts.</XMT_WorkDescription_Childcare>
+	<XMT_WorkLabel_Doctor>Nourish</XMT_WorkLabel_Doctor>
+	<XMT_WorkDescription_Doctor>Feeds hive dependents and supplies eligible mechanoids with metabolic energy.</XMT_WorkDescription_Doctor>
+	<XMT_WorkLabel_Warden>Containment</XMT_WorkLabel_Warden>
+	<XMT_WorkDescription_Warden>Feeds or cocoons prisoners and supplies eligible mechanoids with metabolic energy.</XMT_WorkDescription_Warden>
+	<XMT_WorkLabel_Handling>Acquisition</XMT_WorkLabel_Handling>
+	<XMT_WorkDescription_Handling>Befriends or abducts marked targets.</XMT_WorkDescription_Handling>
+	<XMT_WorkLabel_Cooking>Jelly</XMT_WorkLabel_Cooking>
+	<XMT_WorkDescription_Cooking>Converts allowed material into jelly. Individual makers have configurable input filters; empty terrain remains eligible.</XMT_WorkDescription_Cooking>
+	<XMT_WorkDescription_Hunting>Hunts prey and responds to marked enemies.</XMT_WorkDescription_Hunting>
+	<XMT_WorkDescription_Construction>Hive construction consumes food to secrete resin instead of using raw materials. Also tends overheated nest structures.</XMT_WorkDescription_Construction>
+	<XMT_WorkLabel_Growing>Mutation</XMT_WorkLabel_Growing>
+	<XMT_WorkDescription_Growing>Performs unlocked mutation and host-transformation tasks. Sacrifice and merge commands always require explicit player orders.</XMT_WorkDescription_Growing>
+	<XMT_WorkLabel_PlantCutting>Pruning</XMT_WorkLabel_PlantCutting>
+	<XMT_WorkDescription_PlantCutting>Prunes harvestable hive structures.</XMT_WorkDescription_PlantCutting>
+	<XMT_WorkLabel_Art>Hive art</XMT_WorkLabel_Art>
+	<XMT_WorkDescription_Art>Creates corpse sculptures and resin art.</XMT_WorkDescription_Art>
+	<XMT_WorkLabel_Crafting>Assimilation</XMT_WorkLabel_Crafting>
+	<XMT_WorkDescription_Crafting>Lets cryptimorph mechanitors fill accessible mechanoid material reserves.</XMT_WorkDescription_Crafting>
+	<XMT_WorkDescription_Hauling>Moves ovomorphs into storage, feeds ovothrone queens, and supplies acid pits with selected inorganic material.</XMT_WorkDescription_Hauling>
+	<XMT_ResinTab>Resin</XMT_ResinTab>
+	<XMT_CopyResinInputs>Copy resin filter</XMT_CopyResinInputs>
+	<XMT_PasteResinInputs>Paste resin filter</XMT_PasteResinInputs>
+	<XMT_JellyFilterCopied>Jelly production filter copied.</XMT_JellyFilterCopied>
+	<XMT_JellyFilterPasted>Jelly production filter pasted. Only valid materials were applied.</XMT_JellyFilterPasted>
+	<XMT_ResinFilterCopied>Resin conversion filter copied.</XMT_ResinFilterCopied>
+	<XMT_ResinFilterPasted>Resin conversion filter pasted. Only valid materials were applied.</XMT_ResinFilterPasted>
+</LanguageData>

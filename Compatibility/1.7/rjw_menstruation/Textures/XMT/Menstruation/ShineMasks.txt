@@ -1,0 +1,58 @@
+Cryptimorph UI shine masks
+
+Runtime textures:
+  Cryptimorph/<relative path>.png        Existing tinted anatomy art
+  Masks/Cryptimorph/<relative path>.png  Optional white/transparent highlight
+Every runtime cryptimorph PNG has a same-size starter mask. Shared milk graphics,
+additive fluid overlays (including their empty placeholder), and source ~ templates
+are excluded. Empty masks are allowed.
+
+Starter construction selects the highest HSV value (max RGB) among nontransparent
+pixels in each texture. Each 8-connected plateau is eroded by approximately 5% of
+its shorter span at each edge, producing about 10% total linear shrink. The radius
+rounds to whole pixels; tiny plateaus can remain unchanged and thin areas may
+disappear. Transparent pixels do not establish the maximum. Black has no shine.
+The result is white RGB with the retained source alpha; no base pixels are edited.
+
+Breasts.ora, Genitals.ora, Womb_and_Fetus.ora and Egg_and_Ovary.ora have been
+regenerated with a hidden top-level group named:
+  Cryptimorph shine masks - export individually
+It mirrors the art group hierarchy, with matching layer names, sizes and positions.
+Use these groups to edit individual masks. White restores shine; transparent or
+black removes it; gray/partial alpha gives weaker shine. The exporter normalizes
+gray intensity into the alpha channel and writes white RGB.
+
+Existing KRAs were NOT overwritten. Transfer the named mask group from the matching
+new ORA into your edited KRA, retaining its names and hierarchy. Without that group,
+existing KRAs can still export their art and preserve the current mask PNGs on disk.
+Fetus.kra is unchanged and remains a manual six-stage workflow; its corresponding
+cryptimorph masks are editable in Womb_and_Fetus.ora.
+
+The Export_*.py scripts include associated masks for selected cryptimorph textures.
+Their include/exclude patterns still match the ART destination, so the breast
+nipple/areola-only preset exports those same nipple/areola masks automatically.
+Set EXPORT_SHINE_MASKS = False to export art without replacing masks.
+Masks are read from their own layer/group projection: global ColorHue/treatment
+layers are not baked into masks. Attach mask-specific filters to a mask layer, or
+replace that layer with a same-named group containing the mask and its treatment.
+The open document's pixels, selection and visibility remain untouched.
+
+The runtime keeps the original Menstruation draw, then draws the matching highlight
+over it with a neutral tint. It preserves UI positions, scaling, UVs, rotation and
+GUI color. Only cryptimorph-namespaced textures can use these masks. Ordinary pawns
+and missing/differently-sized masks use the existing draw without a highlight pass.
+This is a fixed painted shine effect; it does not respond to world lights.
+
+Defs/CryptimorphTextures.xml (relative to this compatibility mod):
+  shineMaskPrefix = XMT/Menstruation/Masks/Cryptimorph/
+  shineOpacity = 0.65  (0 disables highlights; values are clamped to 0..1)
+
+Tools/GenerateShineMasks.py creates missing masks from current runtime art.
+It preserves existing masks; --overwrite discards their manual edits.
+Tools/BuildRegionDocuments.py --overwrite recreates the ORAs and their mask groups;
+it never rewrites KRAs. Tools/BuildKritaExporters.py regenerates export scripts.
+
+Validation: all 464 masks checked for matching dimensions and alpha bounds;
+generation checked for maximum selection and 10% erosion. Installed-binary audit
+confirms all 13 draw calls across five upstream UI methods have compatible wrappers
+and Harmony patches apply. Live RimWorld/Krita visual verification remains.

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!-- Modding: an advancement grants structureUnlocks, each referring to one HiveStructureUnlockDef.
+		ApplyHediff uses targetRules + appliedHediff + designation; SelfTransform uses building;
+		Merge uses sourceBuildings + minSourceBodySize + building; Build uses normal construction.
+		Each non-Build command requires a unique JobDef with HiveStructureJobExtension.unlock back to it.
+		actorRules, workerClass, workTicks/workEffect, memories, icons, confirmations and presentation
+		switches are shared across architect commands, building gizmos, float menus and mature-morph AI.
+		designation refers to a normal DesignationDef, including its authored on-target icon.
+		Only explicit host designations may run automatically; sacrifice/merge commands stay manual.
+		Additional work types can use WorkGiver_HiveStructure on their own WorkGiverDef.
+		Merge source defs receive CompStructureCreationCommands automatically. Pruning is independently
+		opt-in through CompProperties_HivePrunable; it does not require a particular building class. -->
+	<Xenomorphtype.HiveStructureUnlockDef>
+		<defName>XMT_CreateLarder</defName>
+		<label>create larder</label>
+		<description>Designate a downed organic host for transformation into a meatball larder.</description>
+		<mode>ApplyHediff</mode>
+		<iconPath>UI/Designators/Larder</iconPath>
+		<designation>XMT_Larder</designation>
+		<appliedHediff>XMT_Lardering</appliedHediff>
+		<job>XMT_ApplyLardering</job>
+		<workType>Growing</workType>
+		<automatic>true</automatic>
+		<allowFeral>true</allowFeral>
+		<priority>50</priority>
+		<workTicks>350</workTicks>
+		<workEffect>Surgery</workEffect>
+		<targetRules>
+			<requireDowned>true</requireDowned>
+			<excludeHiveFriendly>true</excludeHiveFriendly>
+			<excludeCryptimorph>true</excludeCryptimorph>
+			<excludeInorganic>true</excludeInorganic>
+			<excludeTransforming>true</excludeTransforming>
+			<excludedHediffs>
+				<li>XMT_Embryo</li>
+				<li>XMT_LarvalEmbrace</li>
+			</excludedHediffs>
+		</targetRules>
+		<actorMemory>OvomorphedVictim</actorMemory>
+		<targetMemory>Ovomorphed</targetMemory>
+		<nestJoy>0.12</nestJoy>
+	</Xenomorphtype.HiveStructureUnlockDef>
+
+	<Xenomorphtype.HiveStructureUnlockDef>
+		<defName>XMT_CreateJellyWell</defName>
+		<label>create jelly well</label>
+		<description>Merge a cryptimorph with a sufficiently grown larder to form a resinous jelly fountain.</description>
+		<mode>Merge</mode>
+		<building>XMT_JellyWell</building>
+		<sourceBuildings>
+			<thingDefs>
+				<li>XMT_MeatballLarder</li>
+			</thingDefs>
+		</sourceBuildings>
+		<minSourceBodySize>4</minSourceBodySize>
+		<actorRules>
+			<requireAdult>true</requireAdult>
+			<requireCryptimorph>true</requireCryptimorph>
+			<excludeQueens>true</excludeQueens>
+		</actorRules>
+		<job>XMT_MergeIntoJellyWell</job>
+		<workTicks>1000</workTicks>
+		<workEffect>Surgery</workEffect>
+		<iconPath>UI/Abilities/JellyWell</iconPath>
+		<confirmationKey>XMT_JellyWellFirstWarning</confirmationKey>
+		<contributorConfirmationKey>XMT_StructureSacrificeConfirm</contributorConfirmationKey>
+	</Xenomorphtype.HiveStructureUnlockDef>
+
+	<Xenomorphtype.HiveStructureUnlockDef>
+		<defName>XMT_CreateAcidPit</defName>
+		<label>create acid pit</label>
+		<description>Transform a cryptimorph into a sentient acid pit on heavy resin. The pit digests inorganic waste and splashes nearby hostiles.</description>
+		<mode>SelfTransform</mode>
+		<building>XMT_AcidPit</building>
+		<job>XMT_CreateAcidPitJob</job>
+		<actorRules>
+			<requireAdult>true</requireAdult>
+			<requireCryptimorph>true</requireCryptimorph>
+			<excludeQueens>true</excludeQueens>
+		</actorRules>
+		<workTicks>1000</workTicks>
+		<workEffect>Surgery</workEffect>
+		<iconPath>Things/Building/AcidPit/AcidPit_south</iconPath>
+		<confirmationKey>XMT_StructureSacrificeWarning</confirmationKey>
+		<contributorConfirmationKey>XMT_StructureSacrificeConfirm</contributorConfirmationKey>
+	</Xenomorphtype.HiveStructureUnlockDef>
+
+	<Xenomorphtype.HiveStructureUnlockDef>
+		<defName>XMT_CreatePlumbedGeyser</defName>
+		<label>create plumbed geyser</label>
+		<description>Transform a cryptimorph over a steam geyser to capture geothermal steam for the hive.</description>
+		<mode>SelfTransform</mode>
+		<building>XMT_PlumbedGeyser</building>
+		<job>XMT_CreatePlumbedGeyserJob</job>
+		<actorRules>
+			<requireAdult>true</requireAdult>
+			<requireCryptimorph>true</requireCryptimorph>
+			<excludeQueens>true</excludeQueens>
+		</actorRules>
+		<workTicks>1000</workTicks>
+		<workEffect>Surgery</workEffect>
+		<iconPath>Things/Building/PlumbedGeyser/PlumbedGeyser</iconPath>
+		<confirmationKey>XMT_StructureSacrificeWarning</confirmationKey>
+		<contributorConfirmationKey>XMT_StructureSacrificeConfirm</contributorConfirmationKey>
+	</Xenomorphtype.HiveStructureUnlockDef>
+
+	<Xenomorphtype.HiveStructureUnlockDef>
+		<defName>XMT_BuildSteamPipe</defName>
+		<label>steam tube</label>
+		<description>Secrete a steam-carrying resin tube. Construction consumes food.</description>
+		<mode>Build</mode>
+		<building>XMT_SteamPipe</building>
+		<floatMenu>false</floatMenu>
+		<iconPath>Things/Building/Linked/VentTube_MenuIcon</iconPath>
+	</Xenomorphtype.HiveStructureUnlockDef>
+
+	<Xenomorphtype.HiveStructureUnlockDef>
+		<defName>XMT_BuildSteamVent</defName>
+		<label>steam vent</label>
+		<description>Secrete a steam vent that heats its room toward 30°C. Construction consumes food.</description>
+		<mode>Build</mode>
+		<building>XMT_SteamVent</building>
+		<floatMenu>false</floatMenu>
+		<iconPath>Things/Building/SteamTubeOutput</iconPath>
+	</Xenomorphtype.HiveStructureUnlockDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_AcidPits</defName>
+		<tutorialConcept>XMT_AcidPitHelp</tutorialConcept>
+		<label>acid pits</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Hive daughters can become acid pits, dissolving inorganic waste into resin and defending the hive.</description>
+		<prerequisites>
+			<li>Evo_LarderSerum</li>
+		</prerequisites>
+		<structureUnlocks>
+			<li>XMT_CreateAcidPit</li>
+		</structureUnlocks>
+	</Xenomorphtype.RoyalEvolutionDef>
+
+	<Xenomorphtype.RoyalEvolutionDef>
+		<defName>Evo_PlumbedGeysers</defName>
+		<tutorialConcept>XMT_PlumbedGeyserHelp</tutorialConcept>
+		<label>geothermal plumbing</label>
+		<evoPointCost>2</evoPointCost>
+		<description>Hive daughters can capture geyser steam. Unlocks steam tubes and steam vents.</description>
+		<prerequisites>
+			<li>Evo_LarderSerum</li>
+		</prerequisites>
+		<structureUnlocks>
+			<li>XMT_CreatePlumbedGeyser</li>
+			<li>XMT_BuildSteamPipe</li>
+			<li>XMT_BuildSteamVent</li>
+		</structureUnlocks>
+	</Xenomorphtype.RoyalEvolutionDef>
+</Defs>

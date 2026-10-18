@@ -9,7 +9,9 @@
 			<li>
 				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
 			</li>
-			<li Class="Xenomorphtype.CompPetrolsumpProperties">
+			<li Class="Xenomorphtype.CompProperties_Breathing"/>
+            <li Class="Xenomorphtype.CompPetrolsumpProperties">
+                <feedingResources><li><resourceDef>XMT_OrganicFeeding</resourceDef><growthPerUnit>0.013333333</growthPerUnit></li><li><resourceDef>XMT_HeatFeeding</resourceDef><growthPerUnit>1</growthPerUnit></li></feedingResources>
 				<sporeKindDef>XMT_Petrolspore</sporeKindDef>
 			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
@@ -82,34 +84,9 @@
 				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
 			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
-				<jellyIngredientFilter>
-					<categories>
-						<li>Leathers</li>
-						<li>Foods</li>
-						<li>Corpses</li>
-						<li>PlantMatter</li>
-						<li>Fabric</li>
-						<li>Wools</li>
-						<li MayRequire="DankPyon.Medieval.Overhaul">ResourcesRaw</li>
-						<li MayRequire="DankPyon.Medieval.Overhaul">FoodRaw</li>
-						<li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_RawWood</li>
-					</categories>
-					<thingDefs>
-						<li>WoodLog</li>
-						<li>Starbeast_Resin</li>
-						<li>Cloth</li>
-						<li>DevilstrandCloth</li>
-					</thingDefs>
-					<disallowedCategories>
-						<li>CorpsesMechanoid</li>
-					</disallowedCategories>
-					<disallowedThingDefs>
-						<li>Chemfuel</li>
-					</disallowedThingDefs>
-				</jellyIngredientFilter>
+				<resources><li><resourceDef>XMT_ChemfuelConversion</resourceDef></li></resources>
 				<processingWork>50</processingWork>
 				<conversionRate>0.45</conversionRate>
-				<jellyProduct>Chemfuel</jellyProduct>
 			</li>
 			<li Class="PipeSystem.CompProperties_Resource" MayRequire="VanillaExpanded.VChemfuelE">
 				<pipeNet>VCHE_ChemfuelNet</pipeNet>
@@ -194,7 +171,15 @@
 			<li>
 				<compClass>Xenomorphtype.CompHiveGeneHolder</compClass>
 			</li>
-			<li Class="Xenomorphtype.CompSlumbererProperties">
+			            <li Class="Xenomorphtype.CompProperties_Breathing"/>
+            <li Class="Xenomorphtype.CompProperties_PawnPreservation">
+                <healWithBuilding>true</healWithBuilding>
+                <recovery>
+                    <li><pawnKind>XMT_Slumberbeast</pawnKind><buildingDef>XMT_SlumberingBeast</buildingDef></li>
+                </recovery>
+            </li>
+            <li Class="Xenomorphtype.CompSlumbererProperties">
+                <feedingResources><li><resourceDef>XMT_OrganicFeeding</resourceDef><growthPerUnit>0.013333333</growthPerUnit></li></feedingResources>
 				<slumbererKindDef>XMT_Slumberbeast</slumbererKindDef>
 			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">

@@ -1,4 +1,4 @@
-﻿
+
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -23,6 +23,8 @@ namespace Xenomorphtype
                 Log.Message("[Alien|Rimworld] finished harmony patches");
                 UpdateXenomorphCorpses();
                 UpdateCocoonDefs();
+                // Inspector tabs and architect commands resolve textures on the main thread.
+                LongEventHandler.ExecuteWhenFinished(HiveStructureUtility.Initialize);
             }, "XMT_LoadPatching", doAsynchronously: true, null);
         }
 

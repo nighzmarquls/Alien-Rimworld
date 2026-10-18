@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,38 +11,17 @@ using Verse.Noise;
 
 namespace Xenomorphtype
 {
-    public class Petrolsump : XMTBase_Building
+    public class Petrolsump : XMTAnimatedBuilding
     {
-        CompPetrolsump petrolSump;
+        CompPetrolsump petrolSump => GetComp<CompPetrolsump>();
 
         public float bodySize => petrolSump.TotalBodySize();
    
-        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
-        {
-            Graphic.drawSize = petrolSump.DisplaySize;
-            base.DrawAt(drawLoc, flip);
-            Graphic.drawSize = def.graphic.drawSize;
-        }
 
-        public override void SpawnSetup(Map map, bool respawningAfterLoad)
-        {
-            base.SpawnSetup(map, respawningAfterLoad);
-            if (petrolSump == null)
-            {
-                petrolSump = this.GetComp<CompPetrolsump>();
-            }
-      
-        }
-
-        public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
-        {
-
-            base.DeSpawn(mode);
-        }
         
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            if (petrolSump != null && Spawned)
+            if (!SuppressTransformationEffects && petrolSump != null && Spawned)
             {
                 int stackTotal = HitPoints;
                 petrolSump.DropFuel(stackTotal);

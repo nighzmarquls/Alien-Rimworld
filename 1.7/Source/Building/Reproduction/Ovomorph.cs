@@ -1,4 +1,4 @@
-﻿//using HarmonyLib;
+//using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -347,11 +347,11 @@ namespace Xenomorphtype
 
         public override string GetInspectString()
         {
-            string description = base.GetInspectString(); ;
-            string text = description;
+            string text = base.GetInspectString();
 
             if (XMTUtility.PlayerXenosOnMap(MapHeld) || DebugSettings.ShowDevGizmos)
             {
+                if (!text.NullOrEmpty() && !text.EndsWith("\n")) text += "\n";
                 if (gestateProgress < 1)
                 {
 
@@ -441,6 +441,7 @@ namespace Xenomorphtype
                         }
 
                         Ovomorph egg = GenSpawn.Spawn(def, cell, Map, WipeMode.VanishOrMoveAside) as Ovomorph;
+                        egg.InheritOrigins(this);
                         egg.gestateProgress = 1;
 
                         if (instigator == null)

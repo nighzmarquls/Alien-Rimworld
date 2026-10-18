@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<Xenomorphtype.HiveWorkPresentationDef MayRequire="Ludeon.RimWorld.Biotech">
+		<defName>XMT_WorkBrood</defName>
+		<workType>Childcare</workType>
+		<labelKey>XMT_WorkLabel_Childcare</labelKey>
+		<descriptionKey>XMT_WorkDescription_Childcare</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkNourish</defName>
+		<workType>Doctor</workType>
+		<labelKey>XMT_WorkLabel_Doctor</labelKey>
+		<descriptionKey>XMT_WorkDescription_Doctor</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkContainment</defName>
+		<workType>Warden</workType>
+		<labelKey>XMT_WorkLabel_Warden</labelKey>
+		<descriptionKey>XMT_WorkDescription_Warden</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkAcquisition</defName>
+		<workType>Handling</workType>
+		<labelKey>XMT_WorkLabel_Handling</labelKey>
+		<descriptionKey>XMT_WorkDescription_Handling</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkJelly</defName>
+		<workType>Cooking</workType>
+		<labelKey>XMT_WorkLabel_Cooking</labelKey>
+		<descriptionKey>XMT_WorkDescription_Cooking</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkHunt</defName>
+		<workType>Hunting</workType>
+		<descriptionKey>XMT_WorkDescription_Hunting</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkConstruction</defName>
+		<workType>Construction</workType>
+		<descriptionKey>XMT_WorkDescription_Construction</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkMutation</defName>
+		<workType>Growing</workType>
+		<labelKey>XMT_WorkLabel_Growing</labelKey>
+		<descriptionKey>XMT_WorkDescription_Growing</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkPruning</defName>
+		<workType>PlantCutting</workType>
+		<labelKey>XMT_WorkLabel_PlantCutting</labelKey>
+		<descriptionKey>XMT_WorkDescription_PlantCutting</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkArt</defName>
+		<workType>Art</workType>
+		<labelKey>XMT_WorkLabel_Art</labelKey>
+		<descriptionKey>XMT_WorkDescription_Art</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkAssimilation</defName>
+		<workType>Crafting</workType>
+		<labelKey>XMT_WorkLabel_Crafting</labelKey>
+		<descriptionKey>XMT_WorkDescription_Crafting</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+
+	<Xenomorphtype.HiveWorkPresentationDef>
+		<defName>XMT_WorkHauling</defName>
+		<workType>Hauling</workType>
+		<descriptionKey>XMT_WorkDescription_Hauling</descriptionKey>
+	</Xenomorphtype.HiveWorkPresentationDef>
+</Defs>

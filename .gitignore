@@ -9,6 +9,9 @@ About/Preview.kra-autosave.kra
 /Compatibility/CombatExtended/Source/XMT_CE/obj/*
 /Compatibility/CombatExtended/Source/XMT_CE/obj/Debug/*
 *.cache
+# Version-specific build intermediates and standalone regression harness output.
+# Includes test executables, copied dependencies, and generated fixture/config files.
+/*/Source/obj/
 /Compatibility/CombatExtended/Source/XMT_CE/obj
 /Compatibility/CombatExtended/Source/XMT_CE/obj/Debug
 Compatibility/CombatExtended/Source/XMT_CE/obj/Debug/XMT_CE.csproj.AssemblyReference.cache
@@ -34,3 +37,17 @@ Compatibility/CombatExtended/Source/XMT_CE/obj/Debug/XMT_CE.csproj.AssemblyRefer
 /Compatibility/1.7/CombatExtended/Source/XMT_CE/obj
 /Compatibility/1.7/FacialAnimation/Source/XMT_FA/obj
 /Compatibility/1.7/MeleeAnimation/Source/XMT_AM/obj
+
+/Compatibility/1.7/rjw/Source/XMT_RJW/obj/
+/Compatibility/1.7/rjw_menstruation/Source/XMT_Menstruation/obj/
+/Compatibility/1.7/rjw/Source/LegacyUnity/**/obj/
+/Compatibility/1.7/rjw_menstruation/Source/obj
+*.ora~
+/Compatibility/1.7/rjw_menstruation/Textures/XMT/Menstruation/__pycache__
+/Compatibility/1.7/CombatExtended/Source/XMT_CE/obj
+*.zip
+*.fingerprint
+*.roles
+*.stamps
+/Compatibility/1.7/MeleeAnimation/Source/XMT_AM/obj
+/Compatibility/1.7/VTE/Source/XMT_VTE/obj

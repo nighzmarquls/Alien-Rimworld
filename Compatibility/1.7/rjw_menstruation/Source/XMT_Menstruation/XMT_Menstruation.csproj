@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <AssemblyName>XMT_Menstruation</AssemblyName>
+    <OutputPath>../../Assemblies/</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../../../1.7/Source/XMT.csproj" Private="false" />
+    <ProjectReference Include="../../../rjw/Source/XMT_RJW/XMT_RJW.csproj" Private="false" />
+    <Reference Include="Assembly-CSharp" HintPath="../../../../../../../Assembly-CSharp.dll" Private="false" />
+    <Reference Include="UnityStubs" HintPath="../../../../../../../UnityStubs.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="../../../../../../../../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll" Private="false" />
+  </ItemGroup>
+</Project>

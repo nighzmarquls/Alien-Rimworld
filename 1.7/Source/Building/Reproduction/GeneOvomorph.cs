@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -203,6 +203,7 @@ namespace Xenomorphtype
                         GeneOvomorph egg = GenSpawn.Spawn(def, cell, Map, WipeMode.VanishOrMoveAside) as GeneOvomorph;
 
 
+                        egg.InheritOrigins(this);
                         egg.RecieveGenesFrom(pawn);
                         remainingBody -= 1;
                     }

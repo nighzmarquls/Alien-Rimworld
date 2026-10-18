@@ -79,6 +79,11 @@ namespace Xenomorphtype
             {
                 return;
             }
+            // Living pools use their acid reserve as blood; an empty pool cannot retaliate from wounds.
+            if (parent.TryGetComp<CompAcidPit>() != null && GetBloodFullness() <= 0f)
+            {
+                return;
+            }
 
             if (totalDamageDealt <= 2)
             {

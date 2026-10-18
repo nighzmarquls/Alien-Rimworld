@@ -1,135 +1,78 @@
-﻿using RimWorld;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace Xenomorphtype
 {
-    internal class CompAwakenedSlumberer : ThingComp
+    public class CompBuildingOrganism : ThingComp
     {
-        CompAwakenedSlumbererProperties Props => props as CompAwakenedSlumbererProperties;
-        int nextPlantingTick = Find.TickManager.TicksGame;
-        float bodySize = 0f;
-
+        private CompProperties_BuildingOrganism Props => (CompProperties_BuildingOrganism)props;
+        private int nextPlantingTick;
+        private float bodySize;
         public float BodySize => bodySize;
-        
-        Pawn Parent => parent as Pawn;
+        private Pawn Pawn => parent as Pawn;
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref nextPlantingTick, "nextPlantingTick", Find.TickManager.TicksGame);
-            Scribe_Values.Look(ref bodySize, "bodySize", Find.TickManager.TicksGame);
+            Scribe_Values.Look(ref nextPlantingTick, "nextPlantingTick");
+            Scribe_Values.Look(ref bodySize, "bodySize", 0f);
         }
+        public void ResetPlantingCooldown() =>
+            nextPlantingTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.plantingIntervalHour * 2500);
 
-        public void InitializeSleeper(float initbodySize)
+        public void InitializeSleeper(float size) => InitializeFromBuilding(size);
+        public void InitializeFromBuilding(float size)
         {
-            bodySize = initbodySize;
-            if (ExternalDefOf.SM_BodySizeOffset != null)
-            {
-                ExternalDefOf.SM_BodySizeOffset.Worker.ClearCacheForThing(parent);
-            }
+            bodySize = Mathf.Max(0.01f, size);
+            ResetPlantingCooldown();
+            ExternalDefOf.SM_BodySizeOffset?.Worker.ClearCacheForThing(parent);
+            ExternalDefOf.SM_BodySizeMultiplier?.Worker.ClearCacheForThing(parent);
+            Pawn?.Drawer?.renderer?.SetAllGraphicsDirty();
         }
-
         public override float GetStatOffset(StatDef stat)
         {
-            if (stat == ExternalDefOf.SM_BodySizeOffset)
-            {
-                if (bodySize > 0f)
-                {
-                    return (bodySize - Parent.RaceProps.baseBodySize);
-                }
-            }
+            if (stat == ExternalDefOf.SM_BodySizeOffset && bodySize > 0f && Pawn != null)
+                return bodySize - Pawn.RaceProps.baseBodySize;
             return base.GetStatOffset(stat);
         }
-
         public override void PostPostMake()
         {
             base.PostPostMake();
-            nextPlantingTick = Find.TickManager.TicksGame + Mathf.CeilToInt(Props.plantingIntervalHour * 2500);
+            ResetPlantingCooldown();
         }
         public override void CompTick()
         {
-            base.CompTick();
-            if (!parent.Spawned)
-            {
-                return;
-            }
-            if (Parent != null)
-            {
-                if (Parent.Awake() && !Parent.Downed )
-                {
-                    int currentTick = Find.TickManager.TicksGame;
-                    if (Find.TickManager.TicksGame > nextPlantingTick)
-                    {
-                        nextPlantingTick = currentTick + Mathf.CeilToInt(Props.plantingIntervalHour * 2500);
-                        if (currentTick > Parent.LastAttackTargetTick + 2500)
-                        {
-                            IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(Parent.Position, Props.plantingRadius, true);
-
-                            foreach (IntVec3 cell in cells)
-                            {
-                                if (cell.GetFertility(parent.Map) >= Props.minimumFertility)
-                                {
-                                    if (XMTUtility.TransformPawnIntoThing(Parent, Props.plantingResult, out Thing result))
-                                    {
-                                        return;
-                                    }
-
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    int currentTick = Find.TickManager.TicksGame;
-                    if (Find.TickManager.TicksGame > nextPlantingTick)
-                    {
-                        nextPlantingTick = currentTick + Mathf.CeilToInt(Props.plantingIntervalHour * 2500);
-                        
-                        IEnumerable<IntVec3> cells = GenRadial.RadialCellsAround(Parent.Position, Props.plantingRadius, true);
-
-                        foreach (IntVec3 cell in cells)
-                        {
-                            if (cell.GetFertility(parent.Map) >= Props.minimumFertility)
-                            {
-                                if (XMTUtility.TransformPawnIntoThing(Parent, Props.plantingResult, out Thing FertileResult))
-                                {
-                          
-                                    return;
-                                }
-
-                            }
-                        }
-                        
-                        if(XMTUtility.TransformPawnIntoThing(Parent, Props.plantingResult, out Thing result))
-                        {
-                            return;
-                        }
-                    }
-                }
-            }
+            Pawn pawn = Pawn;
+            if (pawn == null || !pawn.Spawned || pawn.Dead || Props.plantingResult == null) return;
+            int now = Find.TickManager.TicksGame;
+            if (now < nextPlantingTick) return;
+            ResetPlantingCooldown();
+            if (pawn.Awake() && !pawn.Downed && now <= pawn.LastAttackTargetTick + Props.combatDelayTicks) return;
+            bool suitable = false;
+            foreach (IntVec3 cell in GenRadial.RadialCellsAround(pawn.Position, Props.plantingRadius, true))
+                if (cell.InBounds(pawn.Map) && cell.GetFertility(pawn.Map) >= Props.minimumFertility) { suitable = true; break; }
+            if (suitable || (Props.plantWhenIncapacitated && (!pawn.Awake() || pawn.Downed)))
+                XMTUtility.TransformPawnIntoThing(pawn, Props.plantingResult, out _);
         }
     }
-
-    public class CompAwakenedSlumbererProperties : CompProperties
+    public class CompProperties_BuildingOrganism : CompProperties
     {
-        public float plantingIntervalHour = 1;
-        public float plantingRadius = 3;
+        public float plantingIntervalHour = 1f;
+        public float plantingRadius = 3f;
         public float minimumFertility = 0.1f;
+        public int combatDelayTicks = 2500;
+        public bool plantWhenIncapacitated = true;
         public ThingDef plantingResult;
-        public CompAwakenedSlumbererProperties()
-        {
-            this.compClass = typeof(CompAwakenedSlumberer);
-        }
-        public CompAwakenedSlumbererProperties(Type compClass) : base(compClass)
-        {
-            this.compClass = compClass;
-        }
+        public CompProperties_BuildingOrganism() { compClass = typeof(CompBuildingOrganism); }
+        public CompProperties_BuildingOrganism(Type type) { compClass = type; }
+    }
+    // Compatibility names for existing defs and patches.
+    public class CompAwakenedSlumberer : CompBuildingOrganism { }
+    public class CompAwakenedSlumbererProperties : CompProperties_BuildingOrganism
+    {
+        public CompAwakenedSlumbererProperties() : base(typeof(CompAwakenedSlumberer)) { }
+        public CompAwakenedSlumbererProperties(Type type) : base(type) { }
     }
 }

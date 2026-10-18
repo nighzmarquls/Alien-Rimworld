@@ -87,35 +87,13 @@
 				</ImpossibleHediffs>
 			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
-				<jellyIngredientFilter>
-					<categories>
-						<li>Leathers</li>
-						<li>Foods</li>
-						<li>Corpses</li>
-						<li>PlantMatter</li>
-						<li MayRequire="DankPyon.Medieval.Overhaul">ResourcesRaw</li>
-						<li MayRequire="DankPyon.Medieval.Overhaul">FoodRaw</li>
-						<li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_RawWood</li>
-					</categories>
-					<thingDefs>
-						<li>WoodLog</li>
-						<li>MedicineHerbal</li>
-						<li>Starbeast_Resin</li>
-						<li>Cloth</li>
-						<li>DevilstrandCloth</li>
-					</thingDefs>
-					<disallowedCategories>
-						<li>CorpsesMechanoid</li>
-						<li MayRequire="Ludeon.RimWorld.Odyssey">CorpsesDrone</li>
-					</disallowedCategories>
-					<disallowedThingDefs>
-						<li>Starbeast_Jelly</li>
-						<li>Starbeast_RoyalJelly</li>
-					</disallowedThingDefs>
-				</jellyIngredientFilter>
+				<resources Inherit="False">
+                    <li><resourceDef>XMT_OrganicJelly</resourceDef></li>
+                    <li MayRequire="Ludeon.RimWorld.Biotech"><resourceDef>XMT_GeneChemfuel</resourceDef></li>
+                    <li MayRequire="Ludeon.RimWorld.Biotech"><resourceDef>XMT_GeneWool</resourceDef></li>
+                </resources>
 				<processingWork>50</processingWork>
 				<conversionRate>0.5</conversionRate>
-				<jellyProduct>Starbeast_Jelly</jellyProduct>
 			</li>
 			<li Class="Xenomorphtype.CompCrawlerProperties">
 			</li>
@@ -1058,6 +1036,7 @@
 				  <li>XMT_QueenChrysalis</li>
 				  <!-- Pipes -->
 				  <li>XMT_JellyPipe</li>
+                  <li>XMT_SteamPipe</li><li>XMT_SteamVent</li>
 				  <li>XMT_JellyStorage</li>
 				  <li>XMT_JellyDrain</li>
 				  <li>XMT_JellyPool</li>
@@ -1501,17 +1480,13 @@
 			<li Class="Xenomorphtype.CompClimberProperties">
 			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
-				<jellyIngredientFilter>
-					<thingDefs>
-						<li>Starbeast_Jelly</li>
-					</thingDefs>
-					<disallowedThingDefs>
-						<li>Starbeast_RoyalJelly</li>
-					</disallowedThingDefs>
-				</jellyIngredientFilter>
+				<resources Inherit="False">
+                    <li><resourceDef>XMT_RoyalJelly</resourceDef></li>
+                    <li MayRequire="Ludeon.RimWorld.Biotech"><resourceDef>XMT_RoyalJellyFromChemfuel</resourceDef></li>
+                    <li MayRequire="Ludeon.RimWorld.Biotech"><resourceDef>XMT_RoyalJellyFromWool</resourceDef></li>
+                </resources>
 				<processingWork>200</processingWork>
 				<conversionRate>0.5</conversionRate>
-				<jellyProduct>Starbeast_RoyalJelly</jellyProduct>
 			</li>
 			<li Class="Xenomorphtype.CompQueenProperties">
 				<subjugationBaseRange>10</subjugationBaseRange>

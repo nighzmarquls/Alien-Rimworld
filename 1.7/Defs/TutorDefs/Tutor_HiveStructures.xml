@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<ConceptDef>
+		<defName>XMT_MeatballLarderHelp</defName>
+		<label>growing and tending meatball larders</label>
+		<helpText>Meat Larder Serum lets hive workers turn downed organic hosts into living food stores. Use Create larder in the Hive architect category to designate a suitable host, or select a worker and right-click the host. Enable Growing, called Mutation in a cryptimorph faction, so workers can perform the transformation.\n\nLarders consume nearby organic material to heal and grow. Enable Plant cutting, called Pruning in a cryptimorph faction, to harvest meat from sufficiently grown, healthy larders. Keep food available so they can recover after pruning.\n\nWarm larders produce steam. Connected steam can protect cold larders from the health cost of heating their room. Once Jelly Wells is unlocked, a sufficiently grown larder can also be merged with a hive daughter to form a jelly well.</helpText>
+		<priority>65</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+
+	<ConceptDef>
+		<defName>XMT_JellyWellHelp</defName>
+		<label>creating and supplying jelly wells</label>
+		<helpText>Jelly wells turn nearby organic material into resinous jelly. Use Create jelly well in the Hive architect category, select a sufficiently grown larder, then choose an eligible adult cryptimorph. You can also start the merge from the larder's command. Confirming the merge sacrifices the daughter's independent pawn form and preserves her inside the well.\n\nKeep convertible material near the well and use its Jelly tab to choose which items it may consume. Filters can be copied between jelly makers; incompatible items are ignored. Empty terrain remains eligible for conversion.\n\nConnect resinous jelly pipes to distribute the output through the hive. A damaged well uses available resources to heal, so keep it supplied.</helpText>
+		<priority>65</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+
+	<ConceptDef>
+		<defName>XMT_AcidPitHelp</defName>
+		<label>recycling and defending with acid pits</label>
+		<helpText>Use Create acid pit in the Hive architect category to place a pit on heavy resin flooring, then choose an eligible adult cryptimorph and confirm the sacrifice. Her independent pawn form is preserved inside the pit. Pits cannot be uninstalled.\n\nSupply resinous jelly by hauling or through jelly pipes. The pit spends jelly to replenish acid. When damaged, it uses jelly to heal instead and resumes acid production only at full health. It cannot be repaired by workers.\n\nChoose accepted inorganic materials in the pit's filter. Haulers and nest tenders can deliver them, or select a hauler and right-click the pit for a direct recycling order. An inserted object occupies the pit until enough acid has been generated to dissolve it; large objects may require several refuelings. Resin is released when processing finishes.\n\nThe pit automatically sprays nearby hostiles. While a queen is present, its Acid splash command also lets you aim at a cell. Blocking edifices stop the cone, but exposed allies can be hit. Each splash consumes part of the acid reserve.</helpText>
+		<priority>65</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+
+	<ConceptDef>
+		<defName>XMT_PlumbedGeyserHelp</defName>
+		<label>distributing steam through the hive</label>
+		<helpText>Use Create plumbed geyser in the Hive architect category and place it over a steam geyser. Choose an eligible adult cryptimorph and confirm the sacrifice. Her independent pawn form is preserved inside the structure. The completed geyser spreads resin flooring beneath and around itself and continuously produces steam.\n\nBuild steam tubes to connect the geyser to steam vents and larders. Hive construction consumes food to secrete resin. Steam vents consume steam whenever their surroundings are below their target temperature, including outdoors. Demand rises with the temperature deficit and has a minimum operating cost. Read the selected structure's info for its hourly production or demand.\n\nWarm larders can contribute steam; cold larders use it to prevent the health cost of heating their room. Insulation and enclosed rooms help conserve steam. Destroying steam storage releases scalding steam that can burn nearby pawns and heat enclosed rooms.</helpText>
+		<priority>65</priority>
+		<needsOpportunity>true</needsOpportunity>
+	</ConceptDef>
+</Defs>

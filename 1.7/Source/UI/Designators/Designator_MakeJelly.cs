@@ -1,4 +1,4 @@
-﻿
+
 using RimWorld;
 using System.Collections.Generic;
 using System.Globalization;
@@ -85,7 +85,7 @@ namespace Xenomorphtype
 
 
            
-            if (!XenoformingUtility.CellIsFertile(c, base.Map))
+            if (!JellyMakingProperties.CanConvertTerrain(c, base.Map))
             {
                 if (!CanDesignateThingInCell(c, base.Map))
                 {
@@ -100,7 +100,7 @@ namespace Xenomorphtype
         {
             foreach(Thing thing in c.GetThingList(map))
             {
-                if(JellyMakingProperties.jellyIngredientFilter.Allows(thing))
+                if(JellyMakingProperties.CanConvert(thing))
                 {
                     return true;
                 }

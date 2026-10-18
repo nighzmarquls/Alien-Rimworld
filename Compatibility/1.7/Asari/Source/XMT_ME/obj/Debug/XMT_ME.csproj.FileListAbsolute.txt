@@ -17,4 +17,3 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compa
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Debug\XMT_ME.sourcelink.json
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Debug\refint\XMT_ME.dll
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Debug\ref\XMT_ME.dll
-C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\Asari\Source\XMT_ME\obj\Debug\XMT_ME.csproj.Up2Date
