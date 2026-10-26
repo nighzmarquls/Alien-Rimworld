@@ -1,4 +1,5 @@
 using RimWorld;
+using HarmonyLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -15,6 +16,16 @@ namespace Xenomorphtype
 
     public static class HorrorPregnancyUtility
     {
+        private static readonly System.Reflection.FieldInfo notificationCountdown =
+            AccessTools.Field(typeof(HediffComp_MessageAfterTicks), "ticksUntilMessage");
+
+        public static void TransferNotificationState(Hediff source, Hediff replacement)
+        {
+            var previous = source?.TryGetComp<HediffComp_MessageAfterTicks>();
+            var next = replacement?.TryGetComp<HediffComp_MessageAfterTicks>();
+            if (previous != null && next != null)
+                notificationCountdown.SetValue(next, notificationCountdown.GetValue(previous));
+        }
         public static bool Enabled => XMTSettings.HorrorPregnancy;
         public static HorrorPregnancyDef Tuning => DefDatabase<HorrorPregnancyDef>.GetNamed("XMT_HorrorPregnancy");
 
@@ -27,26 +38,46 @@ namespace Xenomorphtype
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static bool UseVanillaGeneInspection(Pawn pawn) => true;
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static float AdditionalEssence(Pawn recipient) => 0f;
+        public static float AdditionalEssence(Pawn recipient) => CryptimorphicInfluence.Contamination(recipient);
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ApplyReproductiveMutation(Pawn recipient, Pawn partner) { }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static bool TryAdvanceNativePregnancy(Hediff pregnancy, float progress) => false;
+
+        public static float AdvancedProgress(float current, float additional) =>
+            current >= 1f ? current : Mathf.Min(1f, current + Mathf.Max(0f, additional));
+
+        public static void AdvancePregnancies(Pawn pawn, float progress)
+        {
+            if (pawn?.health == null || pawn.Dead || !(progress > 0f) || float.IsNaN(progress)) return;
+            // Each hediff owns one gestation, irrespective of its fetus/litter count or womb references.
+            foreach (Hediff pregnancy in pawn.health.hediffSet.hediffs.ToList())
+            {
+                if (TryAdvanceNativePregnancy(pregnancy, progress)) continue;
+                if (pregnancy is Hediff_Pregnant || pregnancy.TryGetComp<HediffComp_HorrorPregnant>() != null)
+                    pregnancy.Severity = AdvancedProgress(pregnancy.Severity, progress);
+            }
+        }
+
         public static float EssenceLoad(Pawn recipient, Pawn donor = null, float extra = 0f) =>
             (recipient == null ? 0f : BioUtility.GetXenomorphInfluence(recipient)) +
-            (donor == null || donor == recipient ? 0f : BioUtility.GetXenomorphInfluence(donor)) +
             AdditionalEssence(recipient) + Mathf.Max(0f, extra);
 
         public static string Reveal(Pawn patient)
         {
-            bool found = false;
-            foreach (IHorrorPregnancy pregnancy in patient.health.hediffSet.hediffs.OfType<HediffWithComps>()
-                .SelectMany(h => h.comps ?? Enumerable.Empty<HediffComp>()).OfType<IHorrorPregnancy>())
+            var findings = new HashSet<string>();
+            foreach (Hediff tissue in patient.health.hediffSet.hediffs)
             {
-                if (!pregnancy.IsHorror || pregnancy.Discovered) continue;
+                IHorrorPregnancy pregnancy = MutationTissueAssessment.HorrorPregnancy(tissue);
+                if (pregnancy == null || pregnancy.Discovered) continue;
                 pregnancy.Discovered = true;
-                found = true;
+                tissue.SetVisible();
+                var metadata = tissue.def.GetModExtension<MutationTissueExtension>();
+                string key = metadata?.inspectionFindingKey ?? TissueAssessmentDef.Current.defaultInspectionFindingKey;
+                if (!key.NullOrEmpty()) findings.Add(key.Translate(patient.Named("PAWN"), tissue.LabelCap.Named("MUTATION")).ToString());
             }
-            return found ? "XMT_HorrorPregnancyFinding".Translate(patient.Named("PAWN")).ToString() : string.Empty;
+            return string.Join("\n\n", findings);
         }
 
         public static HediffDef PregnancyFor(ThingDef race) =>
@@ -87,6 +118,7 @@ namespace Xenomorphtype
             recipient.health.AddHediff(replacement, source?.Part);
             if (source != null)
             {
+                TransferNotificationState(source, replacement);
                 replacement.Severity = Mathf.Clamp01(source.GestationProgress);
                 recipient.health.RemoveHediff(source);
             }
@@ -111,12 +143,5 @@ namespace Xenomorphtype
         }
     }
 
-    public class Hediff_HorrorPregnancy : HediffWithParents
-    {
-        public override IEnumerable<Gizmo> GetGizmos()
-        {
-            if (!HorrorPregnancyUtility.UseVanillaGeneInspection(pawn)) yield break;
-            foreach (Gizmo gizmo in base.GetGizmos()) yield return gizmo;
-        }
-    }
+
 }

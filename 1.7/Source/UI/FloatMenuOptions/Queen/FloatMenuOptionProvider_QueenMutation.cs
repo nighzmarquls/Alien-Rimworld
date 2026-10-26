@@ -21,7 +21,7 @@ namespace Xenomorphtype
                 return null;
             }
 
-            if (target == pawn || target.Dead || target.health == null || XMTUtility.IsXenomorph(target) || !BioUtility.HasMutations(target, false))
+            if (target == pawn || target.Dead || target.health == null || !CryptimorphicInfluence.CanMutate(target) || !BioUtility.HasMutations(target, false))
             {
                 return null;
             }

@@ -33,6 +33,8 @@
     </followUpMissions>
     <workerSettings>
       <pawnKind>XMT_FeralStarbeastKind</pawnKind>
+      <weightEvidence>XMT_Nemesis_HarvestersRepelled</weightEvidence>
+      <weightEvidenceBonus>8</weightEvidenceBonus>
       <localSearchRadius>9999</localSearchRadius>
       <maximumRoutePoints>12</maximumRoutePoints>
       <useThreatPointsForPopulation>true</useThreatPointsForPopulation>

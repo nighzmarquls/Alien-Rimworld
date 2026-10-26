@@ -5,7 +5,7 @@
 
 	<HediffDef>
 		<defName>XMT_RoyalJellyHigh</defName>
-		<hediffClass>Hediff_High</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_TissueHigh</hediffClass>
 		<label>royal high</label>
 		<description>the body is being boosted by trace presence of a powerful mutagenic biopolymer.</description>
 		<scenarioCanAdd>false</scenarioCanAdd>
@@ -75,6 +75,11 @@
 				<showHoursToRecover>true</showHoursToRecover>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
 	</HediffDef>
 	
 	<HediffDef>
@@ -121,7 +126,7 @@
 	
 	<HediffDef>
 		<defName>XMT_RawJellyHigh</defName>
-		<hediffClass>Hediff_High</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_TissueHigh</hediffClass>
 		<label>jelly high</label>
 		<description>the body is being boosted by trace presence of a mutagenic biopolymer.</description>
 		<scenarioCanAdd>false</scenarioCanAdd>
@@ -177,6 +182,11 @@
 				<showHoursToRecover>true</showHoursToRecover>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
 	</HediffDef>
 	
 	<ChemicalDef>
@@ -201,7 +211,7 @@
 		<defName>XMT_EssenceAddiction</defName>
 		<label>immunological failure</label>
 		<description>This subject's immune system has completely been suplanted by a mutagenic biopolymer which they must ingest to avoid lethal organ failure.</description>
-		<hediffClass>Hediff_Addiction</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_TissueAddiction</hediffClass>
 		<chemicalNeed>XMT_Chemical_Essence</chemicalNeed>
 		<everCurableByItem>false</everCurableByItem>
 		<stages>
@@ -247,6 +257,11 @@
 				<probability>0.01</probability>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
 	</HediffDef>
 	
 	<HediffDef>

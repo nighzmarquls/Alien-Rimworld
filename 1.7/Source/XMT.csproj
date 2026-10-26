@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -81,6 +81,9 @@
     <Compile Include="Nemesis\Missions\NemesisMissionDef.cs" />
     <Compile Include="Nemesis\Missions\NemesisMissionWorkers.cs" />
     <Compile Include="Nemesis\Missions\NemesisMissionUtility.cs" />
+    <Compile Include="Nemesis\Missions\NemesisHarvestUtility.cs" />
+    <Compile Include="Nemesis\Missions\NemesisHarvestIndex.cs" />
+    <Compile Include="Nemesis\Missions\Lords\LordJob_NemesisHarvest.cs" />
     <Compile Include="Nemesis\Missions\XMTPowerSabotageUtility.cs" />
     <Compile Include="Nemesis\Core\GameComponent_Nemesis.Missions.cs" />
     <Compile Include="Nemesis\Missions\Lords\LordJob_Nemesis.cs" />
@@ -97,6 +100,7 @@
     <Compile Include="Nemesis\Diagnostics\DebugActions_NemesisMission.cs" />
     <Compile Include="Nemesis\Diagnostics\NemesisMissionScenarioHarness.cs" />
     <Compile Include="Utilities\QueenProgressionUtility.cs" />
+    <Compile Include="Utilities\TraversalRetryBudget.cs" />
     <Compile Include="Utilities\XMTContainmentUtility.cs" />
     <Compile Include="Utilities\XMTPrisonEscapeUtility.cs" />
     <Compile Include="Utilities\XMTContainedPawnTransferUtility.cs" />
@@ -316,7 +320,27 @@
     <Compile Include="Utilities\XMT_IFFUtility.cs" />
     <Compile Include="Utilities\XMTZoneUtility.cs" />
     <Compile Include="BioHorror\BioHorrorDefs.cs" />
+    <Compile Include="ModExtensions\MutationTissueExtension.cs" />
+    <Compile Include="Utilities\MutationTissueAssessment.cs" />
+    <Compile Include="Utilities\MutationDamageUtility.cs" />
+    <Compile Include="Comps\HediffComps\Utility\HediffComp_MedicalReveal.cs" />
+    <Compile Include="BioHorror\TissueAssessmentDef.cs" />
+    <Compile Include="Utilities\TissueKnowledge.cs" />
+    <Compile Include="Hediffs\Hediff_Tissue.cs" />
+    <Compile Include="BioHorror\MutationRegistration.cs" />
+    <Compile Include="BioHorror\CryptimorphicInfluenceDef.cs" />
+    <Compile Include="Comps\HediffComps\Horror\HediffComp_CompleteAnatomy.cs" />
+    <Compile Include="Hediffs\Hediff_CryptimorphicExposure.cs" />
+    <Compile Include="ModExtensions\MutationSurgeryExtension.cs" />
+    <Compile Include="Utilities\CryptimorphicInfluence.cs" />
+    <Compile Include="Hediffs\Hediff_MutationInjury.cs" />
+    <Compile Include="UI\TissueSummaryBuilder.cs" />
+    <Compile Include="UI\TissueAssessmentRules.cs" />
+    <Compile Include="BioHorror\Recipes\MutationSurgery.cs" />
+    <Compile Include="BioHorror\Recipes\Recipe_DismantleMutation.cs" />
+    <Compile Include="UI\Tabs\ITab_CryptimorphicAssessment.cs" />
     <Compile Include="BioHorror\HorrorPregnancyDef.cs" />
+    <Compile Include="Hediffs\Hediff_HorrorPregnancy.cs" />
     <Compile Include="BioHorror\HorrorPregnancyUtility.cs" />
     <Compile Include="BioHorror\Abilities\CompAbilityEffect_CryptimorphReimplantXenogerm.cs" />
     <Compile Include="BioHorror\Recipes\Recipe_ExtractResin.cs" />
@@ -420,6 +444,7 @@
     <Compile Include="DefOfs\XenoPreceptDefOf.cs" />
     <Compile Include="DefOfs\XenoStoryDefOf.cs" />
     <Compile Include="Comps\GameComps\GameComponent_Xenomorph.cs" />
+    <Compile Include="Comps\WorldComps\WorldComponent_Xenoforming.cs" />
     <Compile Include="Comps\GameComps\GameComponent_CorpseArtProgress.cs" />
     <Compile Include="Harmony\XMTBedPatches.cs" />
     <Compile Include="Harmony\XMTEnderPatches.cs" />
@@ -430,6 +455,7 @@
     <Compile Include="Harmony\XMTLordDutyPatches.cs" />
     <Compile Include="Harmony\Aggression\XMTManhunterPatches.cs" />
     <Compile Include="Harmony\XMTMapPatches.cs" />
+    <Compile Include="Harmony\XMTWorldPatches.cs" />
     <Compile Include="Harmony\XMTOffsetPatches.cs" />
     <Compile Include="Harmony\XMTResearchPatches.cs" />
     <Compile Include="Harmony\XMTReservationPatches.cs" />
@@ -468,6 +494,7 @@
     <Compile Include="ModExtensions\AnimalMutateForms.cs" />
     <Compile Include="ModExtensions\XMT_HorrorPawnExtension.cs" />
     <Compile Include="Progression\Quests\QuestNode_RequiresXenoforming.cs" />
+    <Compile Include="Progression\Quests\QuestNode_GetXenoformingSiteTile.cs" />
     <Compile Include="Progression\QueenAssimilationDef.cs" />
     <Compile Include="Progression\QueenIngestibleResourceDef.cs" />
     <Compile Include="Progression\RoyalEvolutionDef.cs" />

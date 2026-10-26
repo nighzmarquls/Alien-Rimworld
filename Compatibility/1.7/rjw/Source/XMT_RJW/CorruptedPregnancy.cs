@@ -18,7 +18,16 @@ namespace XMT_RJW
         private List<Pawn> converted = new List<Pawn>();
         private List<ThingDef> originalRaces = new List<ThingDef>();
         public bool IsHorror => corrupted;
-        public bool Discovered { get => discovered; set => discovered = value; }
+        public bool Discovered
+        {
+            get => discovered;
+            set
+            {
+                discovered = value;
+                if (value && RJWApiShim.IsNative(parent))
+                    HarmonyLib.AccessTools.Field(parent.GetType(), "is_discovered")?.SetValue(parent, true);
+            }
+        }
         public ThingDef OriginalRace(Pawn baby)
         {
             int index = converted.IndexOf(baby);
@@ -45,8 +54,7 @@ namespace XMT_RJW
             for (int i = 0; i < babies.Count; i++)
             {
                 if (babies[i] is not Pawn original || original.Spawned || original.Destroyed || converted.Contains(original)) continue;
-                HorrorChild choice = HorrorPregnancyUtility.Tuning.Select(
-                    HorrorPregnancyUtility.PregnancyFor(original.def), essenceLoad);
+                HorrorChild choice = SelectChild(original, essenceLoad);
                 if (choice == null) continue;
                 Pawn donor = original.relations?.DirectRelations.FirstOrDefault(r =>
                     r.def == PawnRelationDefOf.Parent && r.otherPawn != Pawn)?.otherPawn ??
@@ -67,6 +75,32 @@ namespace XMT_RJW
                 original.Destroy(DestroyMode.Vanish);
             }
             return corrupted;
+        }
+
+        private HorrorChild SelectChild(Pawn original, float essence)
+        {
+            if (Pawn.GetMorphComp() == null && CryptimorphicInfluence.UseChildTransformation(Pawn, parent))
+            {
+                float maternal = BioUtility.GetXenomorphInfluence(Pawn);
+                var forms = original.kindDef?.GetModExtension<AnimalMutateForms>()?.resultCandidates ??
+                    original.def.GetModExtension<AnimalMutateForms>()?.resultCandidates ?? DefDatabase<XMT_TransformationSet>.GetNamed("XMT_DefaultTransformationSet").transformations;
+                if (forms != null)
+                    foreach (var candidate in forms)
+                    {
+                        if (candidate.probability <= 0 || (candidate.essenceMinimum > 0 && maternal < candidate.essenceMinimum) ||
+                            (candidate.essenceMaximum >= 0 && maternal > candidate.essenceMaximum) || !Rand.Chance(candidate.probability)) continue;
+                        if (candidate.pawnTransformationTarget != null)
+                            return new HorrorChild { childKind = candidate.pawnTransformationTarget, gestationFactor = 1f };
+                        // Building forms need a pawn pod until delivery. Reuse the authored pod that yields that building.
+                        if (candidate.thingTransformationTarget != null)
+                            foreach (var kind in DefDatabase<PawnKindDef>.AllDefsListForReading)
+                                if (kind.race.comps?.OfType<CompHatchingPodProperties>().Any(c =>
+                                    c.possibleProducts.Any(p => p.thingDef == candidate.thingTransformationTarget && p.pawnDef == null)) == true)
+                                    return new HorrorChild { childKind = kind, gestationFactor = 1f };
+                    }
+                // Missing/failed authored candidates retain a safe template fallback, never delete an unborn child.
+            }
+            return HorrorPregnancyUtility.Tuning.Select(HorrorPregnancyUtility.PregnancyFor(original.def), essence, Pawn);
         }
 
         public override void CompPostTickInterval(ref float severityAdjustment, int delta)

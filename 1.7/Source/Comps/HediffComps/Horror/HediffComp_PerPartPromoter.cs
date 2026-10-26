@@ -1,5 +1,6 @@
-﻿
+
 using System.Collections.Generic;
+using UnityEngine;
 using System.Linq;
 using Verse;
 
@@ -20,10 +21,15 @@ namespace Xenomorphtype
         HediffCompProperties_PerPartPromoter Props => props as HediffCompProperties_PerPartPromoter;
 
         bool stabilized = false;
+        float promotedAtSeverity = -1f;
 
         public override void CompExposeData()
         {
             Scribe_Values.Look(ref stabilized, "stabilized", false);
+            Scribe_Values.Look(ref promotedAtSeverity, "promotedAtSeverity", -1f);
+            // Older saves did not record the severity of the last successful promotion.
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && stabilized && promotedAtSeverity < 0f)
+                promotedAtSeverity = parent.Severity;
         }
 
         public override void CompPostPostAdd(DamageInfo? dinfo)
@@ -37,7 +43,7 @@ namespace Xenomorphtype
 
         public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
-            if(stabilized)
+            if (!ReadyForPromotion(parent.Severity, Props.promotionSeverity, stabilized, promotedAtSeverity))
             {
                 return;
             }
@@ -86,6 +92,7 @@ namespace Xenomorphtype
                 }
                 
                 stabilized = promoted;
+                if (promoted) promotedAtSeverity = parent.Severity;
             }
 
 
@@ -93,102 +100,42 @@ namespace Xenomorphtype
 
         private bool PromoteIntoHediff(HediffDef hediffDef, BodyPartDef promotePart = null, bool useParentPart = true, float severityIncrease = 0f, bool removePromoter = true, bool onlySolid = false)
         {
-            if (XMTSettings.LogBiohorror)
-            {
-                Log.Message("[XMT][Biohorror] " + parent + " promoting hediff " + hediffDef);
-            }
-            bool partAdded = false;
-            if (useParentPart)
-            {
-                if (XMTSettings.LogBiohorror)
-                {
-                    Log.Message("[XMT][Biohorror] " + parent + " promoting to part " + parent.Part.customLabel);
-                }
-                Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, parent.Part);
-                if(promoted.Part != parent.Part)
-                {
-                    promoted = parent.pawn.health.AddHediff(hediffDef, parent.Part);
-                }
-
-                if (promoted != null)
-                {
-                    promoted.Severity += severityIncrease;
-                    partAdded = true;
-                }
-            }
+            if (hediffDef == null) return false;
+            BodyPartRecord part;
+            if (useParentPart) part = parent.Part;
             else if (promotePart != null)
+                part = Pawn.health.hediffSet.GetNotMissingParts().FirstOrDefault(p => p.def == promotePart);
+            else
             {
-                BodyPartRecord part = parent.pawn.health.hediffSet.GetBodyPartRecord(promotePart);
-                if (part == null)
-                {
-                    return false;
-                }
-
-                Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, part);
-                if (promoted.Part != part)
-                {
-                    promoted = parent.pawn.health.AddHediff(hediffDef, part);
-                }
-
-                if (promoted != null)
-                {
-                    promoted.Severity += severityIncrease;
-                    partAdded = true;
-                }
+                var candidates = Pawn.health.hediffSet.GetNotMissingParts()
+                    .Where(p => onlySolid ? p.def.IsSolidInDefinition_Debug : p.IsCorePart).ToList();
+                if (candidates.Count == 0) return false;
+                part = onlySolid ? candidates.RandomElement() : candidates[0];
+            }
+            if (part == null) return false;
+            // Match the exact anatomical site; a completed change is not a successful promotion.
+            Hediff existing = Pawn.health.hediffSet.hediffs.FirstOrDefault(h => h.def == hediffDef && h.Part == part);
+            if (existing != null)
+            {
+                float severity = NextSeverity(hediffDef, existing.Severity, severityIncrease);
+                if (severity <= existing.Severity) return false;
+                existing.Severity = severity;
             }
             else
             {
-                BodyPartRecord part = null;
-                List<BodyPartRecord> bodyparts = parent.pawn.health.hediffSet.GetNotMissingParts().ToList();
-                if (onlySolid)
-                {
-                    bodyparts.Shuffle();
-                    foreach (BodyPartRecord bodypart in bodyparts)
-                    {
-                        if (bodypart.def.IsSolidInDefinition_Debug)
-                        {
-                            part = bodypart;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (BodyPartRecord bodypart in bodyparts)
-                    {
-                        if (bodypart.IsCorePart)
-                        {
-                            part = bodypart;
-                            break;
-                        }
-                    }
-                }
-                if (part == null)
-                {
-                    return false;
-                }
-
-                Hediff promoted = parent.pawn.health.GetOrAddHediff(hediffDef, part);
-                if (promoted.Part != part)
-                {
-                    promoted = parent.pawn.health.AddHediff(hediffDef, part);
-                }
-
-                if (promoted != null)
-                {
-                    promoted.Severity += severityIncrease;
-                    partAdded = true;
-                }
+                Hediff added = Pawn.health.AddHediff(hediffDef, part);
+                if (added == null || !Pawn.health.hediffSet.hediffs.Contains(added)) return false;
+                added.Severity = Mathf.Min(hediffDef.maxSeverity, added.Severity + severityIncrease);
             }
-
-            if (removePromoter && partAdded)
-            {
-                parent.pawn.health.RemoveHediff(parent);
-            }
-
-            return partAdded;
-            
+            if (removePromoter) Pawn.health.RemoveHediff(parent);
+            return true;
         }
+        public static float NextSeverity(HediffDef def, float severity, float increase) =>
+            Mathf.Min(def.maxSeverity, severity + (increase > 0f ? increase : def.initialSeverity));
+
+        public static bool ReadyForPromotion(float severity, float threshold, bool stabilized, float previousSeverity) =>
+            severity >= threshold && (!stabilized || severity > previousSeverity + 0.00001f);
+
     }
     public class HediffCompProperties_PerPartPromoter : HediffCompProperties
     {

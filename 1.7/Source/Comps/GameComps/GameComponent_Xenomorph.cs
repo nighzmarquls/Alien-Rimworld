@@ -65,15 +65,23 @@ namespace Xenomorphtype
     {
         public Pawn Queen = null;
 
-        List<PlanetTile> CandidateTiles = new List<PlanetTile>();
+        // Compatibility entry points only. The world owns all new spread/conquest state.
+        private WorldComponent_Xenoforming WorldState => Find.World.GetComponent<WorldComponent_Xenoforming>();
+        internal XenoformingSpreadState biomeSpread { get => WorldState.biomeSpread; set => WorldState.biomeSpread = value; }
+        internal bool conquestStarted { get => WorldState.conquestStarted; set => WorldState.conquestStarted = value; }
+        internal bool conquestCompleted { get => WorldState.conquestCompleted; set => WorldState.conquestCompleted = value; }
+        internal bool victoryShown { get => WorldState.victoryShown; set => WorldState.victoryShown = value; }
+        internal List<Settlement> conquestSettlements { get => WorldState.conquestSettlements; set => WorldState.conquestSettlements = value; }
+        internal List<PlanetTile> conquestHillTiles { get => WorldState.conquestHillTiles; set => WorldState.conquestHillTiles = value; }
+        private XenoformingSpreadState legacyBiomeSpread;
+        private bool legacyConquestStarted, legacyConquestCompleted, legacyVictoryShown;
+        private List<Settlement> legacyConquestSettlements;
+        private List<PlanetTile> legacyConquestHillTiles;
+
         private List<PlanetTile> strangeHillBiomeSeeds = new List<PlanetTile>();
         private List<PlanetTile> initialScatterBiomeSeeds = new List<PlanetTile>();
         private List<PlanetTile> destroyedSettlementBiomeSeeds = new List<PlanetTile>();
-        private bool biomeSeedFrontierInitialized;
         private bool initialBiomeScatterCompleted;
-        private const int InitialBiomeSeedCount = 3;
-        private const int InitialBiomeSeedMinDistance = 4;
-        private const int InitialBiomeSeedMaxDistance = 12;
 
         bool PlayerEmbryoInWorld = false;
         bool PlayerXenomorphInWorld = false;
@@ -172,8 +180,8 @@ namespace Xenomorphtype
 
         //countdown
         private const float ScreenFadeSeconds = 6f;
-        private static float timeLeft = -1f;
-        public static bool CountdownActivated => timeLeft > 0f;
+        private float timeLeft { get => WorldState.timeLeft; set => WorldState.timeLeft = value; }
+        public static bool CountdownActivated => Find.World?.GetComponent<WorldComponent_Xenoforming>()?.timeLeft > 0f;
 
         public GameComponent_Xenomorph(Game game)
         {
@@ -186,6 +194,7 @@ namespace Xenomorphtype
 
         private void BeginCountDown()
         {
+            if (victoryShown || CountdownActivated) return;
             timeLeft = ScreenFadeSeconds;
 
             SoundDefOf.PlanetkillerImpact.PlayOneShotOnCamera();
@@ -196,11 +205,12 @@ namespace Xenomorphtype
 
         private void EndGame()
         {
-            if(Queen == null)
+            if(Queen == null || victoryShown || !conquestCompleted)
             {
                 return;
             }
 
+            victoryShown = true;
             StringBuilder stringBuilder = new StringBuilder();
             List<Pawn> list = (from p in PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive.Where(pawn => pawn.Faction == Faction.OfPlayer)
                                where p.GetMorphComp() != null
@@ -217,9 +227,9 @@ namespace Xenomorphtype
             GameVictoryUtility.ShowCredits(GameVictoryUtility.MakeEndCredits("XMT_GameOverXenoformedIntro".Translate(), "XMT_GameOverXenoformedEnding".Translate(), stringBuilder.ToString(), "XMT_GameOverChildren", list), SongDefOf.EndCreditsSong, exitToMainMenu: false, 2.5f);
         }
 
-        public override void GameComponentUpdate()
+        internal void UpdateWorldXenoforming()
         {
-            base.GameComponentUpdate();
+            XenoformingUtility.ConquestUpdate(this);
             if (CountdownActivated)
             {
                 timeLeft -= Time.deltaTime;
@@ -283,253 +293,30 @@ namespace Xenomorphtype
             }
         }
 
-        private void GetCandidateNeighbors(PlanetTile origin)
-        {
-            if (!XenoformingUtility.IsSurfaceBiomeTile(origin))
-            {
-                return;
-            }
-            List<PlanetTile> outNeighbor = new List<PlanetTile>();
-            Find.WorldGrid.Surface.GetTileNeighbors(origin, outNeighbor);
-
-            foreach (PlanetTile tile in outNeighbor)
-            {
-                if (tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight)
-                {
-                    continue;
-                }
-                CandidateTiles.AddUnique(tile);
-            }
-        }
-
         internal void RegisterDestroyedSettlementBiomeSeed(PlanetTile tile)
         {
-            if (XenoformingUtility.IsSurfaceBiomeTile(tile))
-            {
-                destroyedSettlementBiomeSeeds.AddUnique(tile);
-            }
-        }
-
-        private void PrepareBiomeSeeds()
-        {
-            CandidateTiles ??= new List<PlanetTile>();
-            if (!biomeSeedFrontierInitialized)
-            {
-                // Older saves contain an unlabelled, colony-centered candidate queue.
-                // Preserve converted biomes and rebuild only their spreading frontier.
-                CandidateTiles.Clear();
-                for (int i = 0; i < Find.WorldGrid.Surface.TilesCount; i++)
-                {
-                    PlanetTile tile = Find.WorldGrid.Surface.PlanetTileForID(i);
-                    if (tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight)
-                    {
-                        GetCandidateNeighbors(tile);
-                    }
-                }
-                biomeSeedFrontierInitialized = true;
-            }
-
-            foreach (Site site in Find.WorldObjects.Sites)
-            {
-                if (XenoformingUtility.IsStrangeHillSite(site) && XenoformingUtility.IsSurfaceBiomeTile(site.Tile))
-                {
-                    strangeHillBiomeSeeds.AddUnique(site.Tile);
-                }
-            }
-
-            if (XenoformingUtility.ShouldSeedBiomeFromPlayerHome())
-            {
-                if (CandidateTiles.Count == 0)
-                {
-                    foreach (Map map in Find.Maps.Where(map => map.IsPlayerHome))
-                    {
-                        GetCandidateNeighbors(map.Tile);
-                    }
-                }
-            }
-            else if (!initialBiomeScatterCompleted)
-            {
-                TrySeedInitialBiomeScatter();
-            }
-
-            foreach (List<PlanetTile> seeds in new[] { strangeHillBiomeSeeds, initialScatterBiomeSeeds, destroyedSettlementBiomeSeeds })
-            {
-                for (int i = seeds.Count - 1; i >= 0; i--)
-                {
-                    PlanetTile tile = seeds[i];
-                    if (!XenoformingUtility.IsSurfaceBiomeTile(tile))
-                    {
-                        seeds.RemoveAt(i);
-                    }
-                    else if (tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight)
-                    {
-                        GetCandidateNeighbors(tile);
-                        seeds.RemoveAt(i);
-                    }
-                    else
-                    {
-                        CandidateTiles.AddUnique(tile);
-                    }
-                }
-            }
-            CandidateTiles.RemoveAll(tile => !XenoformingUtility.IsSurfaceBiomeTile(tile)
-                || tile.Tile.PrimaryBiome == XenoMapDefOf.XMT_DessicatedBlight);
-        }
-
-        private void TrySeedInitialBiomeScatter()
-        {
-            // A multi-source breadth-first search measures distance from the nearest home.
-            HashSet<PlanetTile> visited = new HashSet<PlanetTile>(Find.Maps
-                .Where(map => map.IsPlayerHome && XenoformingUtility.IsSurfaceBiomeTile(map.Tile))
-                .Select(map => map.Tile));
-            List<PlanetTile> frontier = visited.ToList();
-            List<PlanetTile> choices = new List<PlanetTile>();
-            HashSet<PlanetTile> occupied = new HashSet<PlanetTile>(Find.WorldObjects.MapParents.Select(parent => parent.Tile));
-            List<PlanetTile> neighbors = new List<PlanetTile>();
-            for (int distance = 1; distance <= InitialBiomeSeedMaxDistance && frontier.Count > 0; distance++)
-            {
-                List<PlanetTile> next = new List<PlanetTile>();
-                foreach (PlanetTile origin in frontier)
-                {
-                    neighbors.Clear();
-                    Find.WorldGrid.Surface.GetTileNeighbors(origin, neighbors);
-                    foreach (PlanetTile tile in neighbors)
-                    {
-                        if (!visited.Add(tile))
-                        {
-                            continue;
-                        }
-                        next.Add(tile);
-                        if (distance >= InitialBiomeSeedMinDistance && !occupied.Contains(tile)
-                            && tile.Tile.PrimaryBiome != XenoMapDefOf.XMT_DessicatedBlight
-                            && XenoformingUtility.CanXenoformBiome(tile))
-                        {
-                            choices.Add(tile);
-                        }
-                    }
-                }
-                frontier = next;
-            }
-
-            choices.Shuffle();
-            HashSet<PlanetTile> excluded = new HashSet<PlanetTile>();
-            foreach (PlanetTile tile in choices)
-            {
-                if (excluded.Contains(tile))
-                {
-                    continue;
-                }
-                initialScatterBiomeSeeds.Add(tile);
-                // Leave at least two intervening tiles between initial seeds.
-                neighbors.Clear();
-                Find.WorldGrid.Surface.GetTileNeighbors(tile, neighbors);
-                List<PlanetTile> nearSeed = neighbors.ToList();
-                excluded.Add(tile);
-                excluded.UnionWith(nearSeed);
-                foreach (PlanetTile neighbor in nearSeed)
-                {
-                    neighbors.Clear();
-                    Find.WorldGrid.Surface.GetTileNeighbors(neighbor, neighbors);
-                    excluded.UnionWith(neighbors);
-                }
-                if (initialScatterBiomeSeeds.Count >= InitialBiomeSeedCount)
-                {
-                    break;
-                }
-            }
-            initialBiomeScatterCompleted = initialScatterBiomeSeeds.Count > 0;
+            XenoformingUtility.AddBiomeSeed(biomeSpread, tile);
         }
 
         public void BiomeXenoformingImpact()
         {
-            if (_xenoforming >= 10)
-            {
-                if (XMTSettings.LogWorld)
-                {
-                    Log.Message("[XMT][World] Xenoforming Biomes");
-                }
+            biomeSpread.cycleRequested = true;
+        }
 
-                PrepareBiomeSeeds();
-
-                int candidatesPicked = 0;
-                int maxCandidatesForXenoforming = Mathf.FloorToInt( (Xenoforming * Xenoforming) * XMTSettings.BiomeSpreadFactor);
-                List<PlanetTile> targetTiles = new List<PlanetTile>();
-                List<PlanetTile> safeCandidateList = new List<PlanetTile>();
-
-                CandidateTiles.CopyToList(safeCandidateList);
-                safeCandidateList.Shuffle();
-                HashSet<PlanetTile> hillSeeds = new HashSet<PlanetTile>(strangeHillBiomeSeeds);
-                HashSet<PlanetTile> scatterSeeds = new HashSet<PlanetTile>(initialScatterBiomeSeeds);
-                HashSet<PlanetTile> settlementSeeds = new HashSet<PlanetTile>(destroyedSettlementBiomeSeeds);
-                safeCandidateList = safeCandidateList.OrderBy(tile => hillSeeds.Contains(tile) ? 0
-                    : scatterSeeds.Contains(tile) ? 1 : settlementSeeds.Contains(tile) ? 2 : 3).ToList();
-
-                bool shouldSpawnQueenNest = _xenoforming >= 25 && (!XMTUtility.QueenIsPlayer());
-                bool noQueenIncident = true;
-
-                if (shouldSpawnQueenNest)
-                {
-                    foreach(Quest quest in Find.QuestManager.ActiveQuestsListForReading)
-                    {
-                        if(quest.root.defName == "XMT_OpportunitySite_QueenNest")
-                        {
-                            noQueenIncident = false;
-                            break;
-                        }
-                    }
-                }
-
-                foreach (PlanetTile candidate in safeCandidateList)
-                {
-                    if (candidatesPicked >= maxCandidatesForXenoforming)
-                    {
-                        break;
-                    }
-                    if (XenoformingUtility.CanXenoformBiome(candidate, hillSeeds.Contains(candidate)))
-                    {
-                        GetCandidateNeighbors(candidate);
-                        targetTiles.Add(candidate);
-                        candidatesPicked += 1;
-                    }
-                }
-
-                foreach(PlanetTile target in targetTiles)
-                {
-                    Current.Game.GetComponent<GameComponent_Nemesis>().SampleBiome(target);
-                    target.Tile.PrimaryBiome = XenoMapDefOf.XMT_DessicatedBlight;
-
-                    if(shouldSpawnQueenNest && noQueenIncident)
-                    {
-                        Map map = Find.AnyPlayerHomeMap;
-                        if (map != null)
-                        {
-                            IncidentParms parms = new IncidentParms
-                            {
-                                target = Find.World,
-                                forced = true,
-                                points = StorytellerUtility.DefaultThreatPointsNow(map) * 4
-                            };
-                            FiringIncident queenIncident =  new FiringIncident(XenoMapDefOf.XMT_GiveQuest_queenNest, null, parms);
-
-                            Find.Storyteller.TryFire(queenIncident);
-                            noQueenIncident = false;
-                        }
-                    }
-                    CandidateTiles.Remove(target);
-                    strangeHillBiomeSeeds.Remove(target);
-                    initialScatterBiomeSeeds.Remove(target);
-                    destroyedSettlementBiomeSeeds.Remove(target);
-                }
-
-                if (targetTiles.Count > 0)
-                {
-                    List<WorldDrawLayer> drawLayers = Find.WorldGrid.Surface.WorldDrawLayers;
-                    foreach (WorldDrawLayer layer in drawLayers)
-                    {
-                        layer.SetDirty();
-                    }
-                }
-            }
+        internal void FinishConquestPreparation()
+        {
+            _reprisalFactions?.Clear();
+            _totalReprisalRaidPoints = 0f;
+            _pendingDistressSignals?.Clear();
+            _nextDistressSignalLetterTick = -1;
+            BeginCountDown();
+        }
+        internal void InitializeScenarioXenoforming(float value)
+        {
+            // Biome generation needs the value now; world-dependent reactions run at game start.
+            _xenoforming = Mathf.Max(0f, value);
+            _lastxenoforming = _xenoforming;
+            _xenoformingStartTick = _xenoforming > 0f ? 0 : -1;
         }
 
         public void EvaluateXenoforming()
@@ -579,20 +366,22 @@ namespace Xenomorphtype
 
             if(Queen.Faction == Faction.OfPlayerSilentFail)
             {
-                if(_lastxenoforming >= 100)
+                if(_lastxenoforming >= 100 && !victoryShown)
                 {
-                    BeginCountDown();
+                    XenoformingUtility.BeginConquest(this);
                 }
             }
         }
 
         public override void LoadedGame()
         {
+            timeLeft = -1f;
             worldQueenPurgePending = !worldQueenPurgeCompleted;
             nextProgressionGuidanceTick = Find.TickManager.TicksGame + 1;
         }
         public override void StartedNewGame()
         {
+            timeLeft = -1f;
             Log.Message("Clearing Caches");
             XMTHiveUtility.ClearAllNestSites();
             TraversalTopologyMapComponent.ClearAllMapCaches();
@@ -611,15 +400,25 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref _xenoformingStartTick, "xenoformingStartTick", -1);
             Scribe_Values.Look(ref nextXenoformingTick, "nextXenoformingTick", 0);
             Scribe_Values.Look(ref MutationProliferation, "MutationProliferation", 0);
+            if (Scribe.mode != LoadSaveMode.Saving)
+            {
+                Scribe_Deep.Look(ref legacyBiomeSpread, "biomeSpread");
+                Scribe_Values.Look(ref legacyConquestStarted, "conquestStarted", false);
+                Scribe_Values.Look(ref legacyConquestCompleted, "conquestCompleted", false);
+                Scribe_Values.Look(ref legacyVictoryShown, "xenoformingVictoryShown", false);
+                Scribe_Collections.Look(ref legacyConquestSettlements, "conquestSettlements", LookMode.Reference);
+                Scribe_Collections.Look(ref legacyConquestHillTiles, "conquestHillTiles");
+            }
             Scribe_Values.Look(ref PlayerEmbryoInWorld, "PlayerEmbryoInWorld", false);
             Scribe_Values.Look(ref PlayerXenomorphInWorld, "PlayerXenomorphInWorld", false);
             Scribe_Values.Look(ref PlayerOvomorphInWorld, "PlayerOvomorphInWorld", false);
-            Scribe_Collections.Look(ref CandidateTiles, "CandidateTiles");
-            Scribe_Collections.Look(ref strangeHillBiomeSeeds, "strangeHillBiomeSeeds");
-            Scribe_Collections.Look(ref initialScatterBiomeSeeds, "initialScatterBiomeSeeds");
-            Scribe_Collections.Look(ref destroyedSettlementBiomeSeeds, "destroyedSettlementBiomeSeeds");
-            Scribe_Values.Look(ref biomeSeedFrontierInitialized, "biomeSeedFrontierInitialized", false);
-            Scribe_Values.Look(ref initialBiomeScatterCompleted, "initialBiomeScatterCompleted", false);
+            if (Scribe.mode != LoadSaveMode.Saving)
+            {
+                Scribe_Collections.Look(ref strangeHillBiomeSeeds, "strangeHillBiomeSeeds");
+                Scribe_Collections.Look(ref initialScatterBiomeSeeds, "initialScatterBiomeSeeds");
+                Scribe_Collections.Look(ref destroyedSettlementBiomeSeeds, "destroyedSettlementBiomeSeeds");
+                Scribe_Values.Look(ref initialBiomeScatterCompleted, "initialBiomeScatterCompleted", false);
+            }
             Scribe_Collections.Look(ref deadMorphs, "deadMorphs");
             Scribe_Collections.Look(ref xenoformingPawnAccounting, "xenoformingPawnAccounting", LookMode.Value, LookMode.Value);
             Scribe_Collections.Look(ref ideologyResinBuildThingIds, "ideologyResinBuildThingIds");
@@ -670,6 +469,43 @@ namespace Xenomorphtype
             }
 
             
+        }
+
+        internal void MigrateWorldState(WorldComponent_Xenoforming target)
+        {
+            if (!target.migratedGameState)
+            {
+                if (legacyBiomeSpread != null)
+                {
+                    target.biomeSpread = legacyBiomeSpread;
+                    // Recount incrementally and classify old dustplain tiles into the new climate variants.
+                    target.biomeSpread.initialized = false;
+                    target.biomeSpread.scanCursor = 0;
+                    target.biomeSpread.convertedTiles = 0;
+                    target.biomeSpread.eligibleLandTiles = 0;
+                    target.biomeSpread.cycleRequested = true;
+                }
+                target.conquestStarted |= legacyConquestStarted;
+                target.conquestCompleted |= legacyConquestCompleted;
+                target.victoryShown |= legacyVictoryShown;
+                if (legacyConquestSettlements != null) target.conquestSettlements = legacyConquestSettlements;
+                if (legacyConquestHillTiles != null) target.conquestHillTiles = legacyConquestHillTiles;
+                foreach (PlanetTile tile in destroyedSettlementBiomeSeeds ?? new List<PlanetTile>())
+                    XenoformingUtility.AddBiomeSeed(target.biomeSpread, tile);
+                foreach (PlanetTile tile in initialScatterBiomeSeeds ?? new List<PlanetTile>())
+                    XenoformingUtility.AddBiomeSeed(target.biomeSpread, tile);
+                foreach (PlanetTile tile in strangeHillBiomeSeeds ?? new List<PlanetTile>()) target.biomeSpread.hillSeeds.AddUnique(tile);
+                target.biomeSpread.initialScatterCompleted |= initialBiomeScatterCompleted;
+                target.migratedGameState = true;
+            }
+            legacyBiomeSpread = null;
+            legacyConquestSettlements = null;
+            legacyConquestHillTiles = null;
+            legacyConquestStarted = legacyConquestCompleted = legacyVictoryShown = false;
+            initialBiomeScatterCompleted = false;
+            destroyedSettlementBiomeSeeds?.Clear();
+            initialScatterBiomeSeeds?.Clear();
+            strangeHillBiomeSeeds?.Clear();
         }
 
         private void ProcessStartupQueenPurge()
@@ -790,6 +626,7 @@ namespace Xenomorphtype
 
         public void CacheReprisal(Faction faction, float points)
         {
+            if (conquestStarted || faction == null || faction.defeated) return;
             if (XMTSettings.LogWorld)
             {
                 Log.Message("[XMT][World] Caching Reprisal for " + faction + " with " + points + " points");
@@ -808,7 +645,7 @@ namespace Xenomorphtype
 
         internal void CacheDistressSignal(Settlement settlement, int questId, string signalTag, int settlementDestroyedTick)
         {
-            if (settlement == null || settlement.Destroyed)
+            if (conquestStarted || settlement == null || settlement.Destroyed)
             {
                 return;
             }
@@ -858,6 +695,7 @@ namespace Xenomorphtype
 
         private void LaunchCachedDistressSignals()
         {
+            if (conquestStarted) return;
             if (_pendingDistressSignals.NullOrEmpty())
             {
                 _nextDistressSignalLetterTick = -1;
@@ -914,6 +752,7 @@ namespace Xenomorphtype
 
         public void LaunchCachedReprisal()
         {
+            if (conquestStarted) return;
             if (XMTSettings.LogWorld)
             {
                 Log.Message("[XMT][World] Checking for Reprisal");

@@ -407,6 +407,14 @@ namespace Xenomorphtype
 
             return 1;
         }
+        public override void PostPreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
+        {
+            base.PostPreApplyDamage(ref dinfo, out absorbed);
+            // Capture aggression before a lethal hit removes the pawn from its lord.
+            if (Parent.GetLord()?.LordJob is LordJob_NemesisHarvest harvest)
+                harvest.Notify_MissionDamage(Parent, dinfo);
+        }
+
         public override void PostPostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
             base.PostPostApplyDamage(dinfo, totalDamageDealt);

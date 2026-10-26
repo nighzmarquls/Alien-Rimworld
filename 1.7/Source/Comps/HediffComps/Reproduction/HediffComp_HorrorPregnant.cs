@@ -9,6 +9,7 @@ namespace Xenomorphtype
         public PawnKindDef childKind;
         public float gestationFactor;
         public float probability;
+        public bool requiresDevelopedMother;
         public float essenceMinimum;
         public float essenceMaximum = float.MaxValue;
     }
@@ -30,7 +31,7 @@ namespace Xenomorphtype
         public void Initialize(Pawn donor, GeneSet inherited, float essence, int count)
         {
             if (remaining >= 0) return;
-            HorrorChild selected = HorrorPregnancyUtility.Tuning.Select(parent.def, essence);
+            HorrorChild selected = HorrorPregnancyUtility.Tuning.Select(parent.def, essence, Pawn);
             if (selected == null) return;
             childKind = selected.childKind;
             gestationFactor = selected.gestationFactor;
@@ -51,6 +52,7 @@ namespace Xenomorphtype
                 source == null ? HorrorPregnancyUtility.LitterSize(Pawn.def) : 1);
             if (source != null && Initialized)
             {
+                HorrorPregnancyUtility.TransferNotificationState(source, parent);
                 parent.Severity = source.GestationProgress;
                 Pawn.health.RemoveHediff(source);
             }

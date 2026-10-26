@@ -12,6 +12,19 @@ namespace Xenomorphtype
     {
         public const float MinBloodFullnessForWoundSplash = 0.15f;
 
+        internal static bool TryRemovedTissueAcidSpill(Pawn patient, Pawn surgeon, float severity)
+        {
+            if (patient?.MapHeld == null) return false;
+            float strength = Mathf.Clamp(severity, 0.1f, 1f);
+            // Mutated humans need not own CompAcidBlood. Use actual acid filth rather
+            // than the ordinary human blood selected by the generic blood-splash path.
+            FilthMaker.TryMakeFilth(patient.PositionHeld, patient.MapHeld, InternalDefOf.Starbeast_Filth_AcidBlood);
+            if (surgeon?.Spawned == true && surgeon.Map == patient.MapHeld)
+                TrySplashAcidThing(patient, strength, surgeon, damage: 6f, boundedDamage: true);
+            XMTUtility.WitnessAcid(patient.PositionHeld, patient.MapHeld, 0.1f, knowledgeProfile: KnowledgeDefOf.XMT_Profile_Acid);
+            return true;
+        }
+
         protected static ThingDef GetBloodDef(Pawn bleeder)
         {
             return  InternalDefOf.Starbeast_Filth_AcidBlood;

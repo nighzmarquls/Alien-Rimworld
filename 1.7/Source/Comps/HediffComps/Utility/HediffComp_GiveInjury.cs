@@ -1,4 +1,4 @@
-﻿
+
 
 using RimWorld;
 using UnityEngine;
@@ -15,21 +15,16 @@ namespace Xenomorphtype
         {
            if(Pawn.IsHashIntervalTick(injuryInterval))
            {
-                if(Pawn.Downed && !Props.injureIfDowned)
+                if (!MutationDamageUtility.AllowsActivityInjury(Pawn.Downed, Pawn.GetPosture() != PawnPosture.Standing,
+                    Pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving),
+                    Pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation), Props))
                 {
                     return;
                 }
-                if(!Pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving) && !Props.injureWithoutMoving)
+                float damage = MutationDamageUtility.InjuryDamage(parent);
+                if (damage > 0f && Rand.Chance(Props.chancebySeverity.Evaluate(parent.Severity)))
                 {
-                    return;
-                }
-                if (!Pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && !Props.injureWithoutManipulation)
-                {
-                    return;
-                }
-                if (Rand.Chance(Props.chancebySeverity.Evaluate(parent.Severity)))
-                {
-                    Pawn.TakeDamage(new DamageInfo(Props.damageDef, Props.maxDamage, 1000, hitPart: parent.Part));
+                    Pawn.TakeDamage(new DamageInfo(Props.damageDef, damage, 1000, hitPart: parent.Part));
                 }
            }
         }
@@ -40,6 +35,8 @@ namespace Xenomorphtype
         public float maxDamage = 3f;
         public float hourIntervalToInflict = 1;
         public bool injureIfDowned = false;
+        public bool injureWhileResting = false;
+        public bool latticeProtection;
         public bool injureWithoutMoving = false;
         public bool injureWithoutManipulation = false;
         public DamageDef damageDef;

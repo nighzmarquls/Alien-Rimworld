@@ -16,10 +16,4 @@
       </li>
     </value>
   </Operation>
-  <Operation Class="PatchOperationAdd">
-    <xpath>Defs/Xenomorphtype.XMT_InfluenceHealthSet[defName="XMT_InfluencesSet"]/influences</xpath>
-    <value>
-      <li><hediff>XMT_ReproductiveTissue</hediff><influence>0.25</influence></li>
-    </value>
-  </Operation>
 </Patch>

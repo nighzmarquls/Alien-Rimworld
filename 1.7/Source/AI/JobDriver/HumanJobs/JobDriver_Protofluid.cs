@@ -68,9 +68,10 @@ namespace Xenomorphtype
 
             if (targetPawn != null)
             {
+                HediffDef[] protectedConditions = BioUtility.ProtofluidHealingExclusions();
                 for (int i = 0; i < 10; i++)
                 {
-                    TaggedString taggedString = HealthUtility.FixWorstHealthCondition(targetPawn);
+                    TaggedString taggedString = HealthUtility.FixWorstHealthCondition(targetPawn, protectedConditions);
                     if (taggedString != null && PawnUtility.ShouldSendNotificationAbout(targetPawn))
                     {
                         Messages.Message(taggedString, targetPawn, MessageTypeDefOf.PositiveEvent);

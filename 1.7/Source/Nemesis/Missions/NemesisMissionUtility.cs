@@ -146,6 +146,8 @@ namespace Xenomorphtype
             reason = null;
             if (request?.mission == null || map == null) { reason = "target map or mission is missing"; return NemesisMissionLaunchResult.Failed; }
             GameComponent_Nemesis component = Current.Game.GetComponent<GameComponent_Nemesis>();
+            if (!request.mission.MapRequirementsMet(map))
+            { reason = "mission map layer or player faction is not eligible"; return NemesisMissionLaunchResult.Failed; }
             if (component == null) { reason = "Nemesis state is unavailable"; return NemesisMissionLaunchResult.Failed; }
             if (request.active != component.Awakened)
             {

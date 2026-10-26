@@ -87,6 +87,8 @@
       <localSearchRadius>9999</localSearchRadius>
       <maximumRoutePoints>12</maximumRoutePoints>
       <pawnKind>XMT_Larva</pawnKind>
+      <weightEvidence>XMT_Nemesis_HarvestersRepelled</weightEvidence>
+      <weightEvidenceBonus>8</weightEvidenceBonus>
       <useThreatPointsForPopulation>true</useThreatPointsForPopulation>
       <raidPointBudgetFactor>0.5</raidPointBudgetFactor>
     </workerSettings>
@@ -113,6 +115,8 @@
       <localSearchRadius>9999</localSearchRadius>
       <maximumRoutePoints>12</maximumRoutePoints>
       <pawnKind>XMT_Subverter</pawnKind>
+      <weightEvidence>XMT_Nemesis_HarvestersRepelled</weightEvidence>
+      <weightEvidenceBonus>8</weightEvidenceBonus>
       <mechanoidBandwidthPopulationFactor>1</mechanoidBandwidthPopulationFactor>
     </workerSettings>
   </Xenomorphtype.NemesisMissionDef>
@@ -134,6 +138,8 @@
     <workerSettings>
       <localSearchRadius>9999</localSearchRadius>
       <maximumRoutePoints>8</maximumRoutePoints>
+      <weightEvidence>XMT_Nemesis_HarvestersRepelled</weightEvidence>
+      <weightEvidenceBonus>8</weightEvidenceBonus>
     </workerSettings>
   </Xenomorphtype.NemesisMissionDef>
 
@@ -153,6 +159,8 @@
       <localSearchRadius>9999</localSearchRadius>
       <maximumRoutePoints>12</maximumRoutePoints>
       <pawnKind>XMT_FeralStarbeastKind</pawnKind>
+      <weightEvidence>XMT_Nemesis_HarvestersRepelled</weightEvidence>
+      <weightEvidenceBonus>8</weightEvidenceBonus>
       <useThreatPointsForPopulation>true</useThreatPointsForPopulation>
       <raidPointBudgetFactor>1</raidPointBudgetFactor>
     </workerSettings>

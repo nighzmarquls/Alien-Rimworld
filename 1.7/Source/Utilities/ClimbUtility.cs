@@ -1,4 +1,4 @@
-﻿
+
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -58,10 +58,67 @@ namespace Xenomorphtype
 
         public const int PreferredClimbDistrictThreshold = 3;
         private const int MaxFallbackRecoveryAttempts = 3;
+        private const int TraversalStallTicks = 1500;
         private static readonly Dictionary<string, int> fallbackRecoveryAttempts = new Dictionary<string, int>();
+        private static readonly ConditionalWeakTable<Pawn, TraversalRetryBudget<(int map, IntVec3 origin, IntVec3 goal, int target, int cargo, PathEndMode mode, int topology)>> failedTraversals =
+            new ConditionalWeakTable<Pawn, TraversalRetryBudget<(int, IntVec3, IntVec3, int, int, PathEndMode, int)>>();
+
+        private static (int, IntVec3, IntVec3, int, int, PathEndMode, int) AttemptKey(Pawn pawn, LocalTargetInfo goal, PathEndMode mode)
+            => (pawn.Map.uniqueID, pawn.Position, goal.Cell, goal.Thing?.thingIDNumber ?? -1,
+                pawn.carryTracker?.CarriedThing?.thingIDNumber ?? -1, mode, InfiltrationUtility.PublishedTopologyVersion(pawn.Map));
+
+        internal static bool TraversalBlocked(Pawn pawn, LocalTargetInfo goal, PathEndMode mode)
+        {
+            if (pawn?.Map == null || !goal.IsValid || pawn.CurJob?.playerForced == true ||
+                !failedTraversals.TryGetValue(pawn, out var budget) ||
+                !budget.IsBlocked(AttemptKey(pawn, goal, mode), Find.TickManager.TicksGame))
+                return false;
+            // A real network/access change can make the failed objective executable.
+            // Duplicate notifications leave the published version and budget intact.
+            InfiltrationUtility.VerifyPendingChanges(pawn.Map);
+            return budget.IsBlocked(AttemptKey(pawn, goal, mode), Find.TickManager.TicksGame);
+        }
+
+        internal static void NotifyTraversalProgress(Pawn pawn)
+        {
+            if (pawn != null)
+                failedTraversals.Remove(pawn);
+        }
+
+        internal static void NotifyOwnedTraversalPathFailure(Pawn pawn, LocalTargetInfo target, PathEndMode mode)
+        {
+            Job job = pawn?.jobs?.curJob;
+            if (pawn?.Map != null && target.IsValid && job != null &&
+                pawn.GetClimberComp()?.HasActiveClimbToilFor(job) == true)
+                RecordTraversalFailure(pawn, target, mode);
+        }
+
+        private static void RecordTraversalFailure(Pawn pawn, LocalTargetInfo target, PathEndMode mode)
+        {
+            if (pawn?.Map == null)
+                return;
+            ClimbParameters parameters = pawn.GetClimberComp()?.climbParameters ?? default;
+            LocalTargetInfo goal = parameters.FinalGoalTarget.IsValid ? parameters.FinalGoalTarget : target;
+            if (!goal.IsValid)
+                return;
+            if (parameters.FinalGoalTarget.IsValid)
+                mode = parameters.FinalPathEndMode;
+            var budget = failedTraversals.GetValue(pawn, _ => new TraversalRetryBudget<(int, IntVec3, IntVec3, int, int, PathEndMode, int)>());
+            bool blocked = budget.RecordFailure(AttemptKey(pawn, goal, mode), Find.TickManager.TicksGame);
+            if (XMTSettings.LogClimbing)
+                Log.Message("[XMT][Climbing] Failed traversal pawn=" + pawn + " job=" + pawn.CurJob +
+                    " origin=" + pawn.Position + " goal=" + goal + " mode=" + mode + " retryBlocked=" + blocked +
+                    "; " + TopologyCacheReport(pawn.Map));
+        }
         private sealed class ClimbToilRegistration
         {
             public Action WrappedInitAction;
+            public Job OwnerJob;
+            public JobDriver OwnerDriver;
+            public LocalTargetInfo Target;
+            public PathEndMode Mode;
+            public IntVec3 LastPosition;
+            public int LastProgressTick;
         }
 
         private static readonly ConditionalWeakTable<Toil, ClimbToilRegistration> climbSupportedToils =
@@ -237,6 +294,7 @@ namespace Xenomorphtype
 
             public IntVec3 FinalGoalCell;
             public LocalTargetInfo FinalGoalTarget;
+            public PathEndMode FinalPathEndMode;
             public bool NoWallToClimb ;
             public bool Tunneling;
 
@@ -297,14 +355,14 @@ namespace Xenomorphtype
                 TraverseParms.For(pawn, pawn.NormalMaxDanger(), TraverseMode.ByPawn, canBashDoors: false, alwaysUseAvoidGrid: false, canBashFences: false));
         }
 
-        private static bool ValidateClimbRoute(Pawn pawn, CompClimber climber, PathEndMode finalPathEndMode)
+        private static bool ValidateClimbRoute(Pawn pawn, ClimbParameters parameters, PathEndMode finalPathEndMode)
         {
-            if (pawn?.Map == null || climber == null)
+            if (pawn?.Map == null)
             {
                 return false;
             }
 
-            List<TraversalLeg> legs = climber.climbParameters.TraversalLegs;
+            List<TraversalLeg> legs = parameters.TraversalLegs;
             if (legs == null || legs.Count == 0)
             {
                 return false;
@@ -339,36 +397,36 @@ namespace Xenomorphtype
                 approachFrom = end;
             }
 
-            bool finalReachable = CanReachFrom(pawn, approachFrom, climber.climbParameters.FinalGoalTarget, finalPathEndMode);
+            bool finalReachable = CanReachFrom(pawn, approachFrom, parameters.FinalGoalTarget, finalPathEndMode);
             if (!finalReachable && XMTSettings.LogClimbing)
             {
                 Log.Message("[XMT][Climbing] " + pawn + " rejected climb route because final landing " + approachFrom +
-                    " cannot reach " + climber.climbParameters.FinalGoalTarget + " with " + finalPathEndMode);
+                    " cannot reach " + parameters.FinalGoalTarget + " with " + finalPathEndMode);
             }
             return finalReachable;
         }
 
-        private static void LogClimbRoute(Pawn pawn, CompClimber climber, PathEndMode finalPathEndMode)
+        private static void LogClimbRoute(Pawn pawn, ClimbParameters parameters, PathEndMode finalPathEndMode)
         {
-            if (!XMTSettings.LogClimbing || pawn?.Map == null || climber == null)
+            if (!XMTSettings.LogClimbing || pawn?.Map == null)
             {
                 return;
             }
 
-            List<TraversalLeg> legs = climber.climbParameters.TraversalLegs;
+            List<TraversalLeg> legs = parameters.TraversalLegs;
             if (legs == null)
             {
                 Log.Message("[XMT][Climbing] " + pawn + " generated an invalid traversal route list.");
                 return;
             }
 
-            Log.Message("[XMT][Climbing] " + pawn + " generated " + legs.Count + " traversal step(s) from " + pawn.Position + " to " + climber.climbParameters.FinalGoalTarget + " with final mode " + finalPathEndMode + " for " + pawn.jobs?.curJob);
+            Log.Message("[XMT][Climbing] " + pawn + " generated " + legs.Count + " traversal step(s) from " + pawn.Position + " to " + parameters.FinalGoalTarget + " with final mode " + finalPathEndMode + " for " + pawn.jobs?.curJob);
             for (int i = 0; i < legs.Count; i++)
             {
                 TraversalLeg leg = legs[i];
                 IntVec3 approachFrom = i == 0 ? pawn.Position : legs[i - 1].end;
                 LocalTargetInfo downstreamTarget = i == legs.Count - 1
-                    ? climber.climbParameters.FinalGoalTarget
+                    ? parameters.FinalGoalTarget
                     : new LocalTargetInfo(legs[i + 1].start);
                 PathEndMode downstreamMode = i == legs.Count - 1 ? finalPathEndMode : PathEndMode.OnCell;
                 bool approachReachable = CanReachFrom(pawn, approachFrom, leg.start, PathEndMode.OnCell);
@@ -543,6 +601,8 @@ namespace Xenomorphtype
 
         public static bool CanReachByWalkingOrClimb(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
         {
+            if (TraversalBlocked(pawn, dest, peMode))
+                return false;
             if (pawn == null || !pawn.Spawned || pawn.Map == null || !dest.IsValid || !dest.Cell.InBounds(pawn.Map))
             {
                 return false;
@@ -592,6 +652,8 @@ namespace Xenomorphtype
 
         public static bool CanReachByWalkingOrExecutableClimb(Pawn pawn, LocalTargetInfo dest, PathEndMode peMode, Danger maxDanger, bool canBashDoors = false, bool canBashFences = false, TraverseMode mode = TraverseMode.ByPawn)
         {
+            if (TraversalBlocked(pawn, dest, peMode))
+                return false;
             if (pawn == null || !pawn.Spawned || pawn.Map == null || !dest.IsValid || !dest.Cell.InBounds(pawn.Map))
             {
                 return false;
@@ -608,9 +670,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            bool canExecute = GetClimbParameters(pawn, dest, peMode, ref climber);
-            climber.ClearClimberData();
-            return canExecute;
+            return TryPlanClimb(pawn, dest, peMode, out _);
         }
 
         protected static bool ShouldClimbTo(Pawn actor, IntVec3 cell)
@@ -660,6 +720,7 @@ namespace Xenomorphtype
                     Log.Message("[XMT][Climbing] " + actor + " rejected stale infiltration step " + leg + " from actual position " + position + ".");
                 }
                 actor.pather.StopDead();
+                RecordTraversalFailure(actor, cell, climber.climbParameters.FinalPathEndMode);
                 climber.ClearClimberData();
                 actor.GetMorphComp()?.NotifyPathFailure(cell, actor.jobs?.curJob);
                 actor.jobs.EndCurrentJob(JobCondition.Incompletable);
@@ -875,11 +936,61 @@ namespace Xenomorphtype
         {
             Job job = actor?.jobs?.curJob;
             JobDriver driver = actor?.jobs?.curDriver;
-            return toil != null && actor != null && climber != null && job != null && driver != null &&
-                climber.HasActiveClimbToilFor(job, toil);
+            if (toil == null || actor == null || climber == null || job == null || driver == null ||
+                !climbSupportedToils.TryGetValue(toil, out ClimbToilRegistration registration))
+                return false;
+            // Detached/save-loaded jobs restore ownership through their existing path.
+            // Bind regenerated runtime diagnostics only after that ownership is proven.
+            if (climber.HasActiveClimbToilFor(job, toil) && registration.OwnerJob == null)
+                RegisterMovementOwner(registration, actor, climber.climbParameters.FinalGoalTarget,
+                    climber.climbParameters.FinalPathEndMode);
+            if (registration.OwnerJob != job || registration.OwnerDriver != driver)
+                return false;
+
+            int tick = Find.TickManager.TicksGame;
+            if (!actor.Spawned || climber.climbing || actor.stances.FullBodyBusy || actor.Position != registration.LastPosition)
+            {
+                registration.LastPosition = actor.Position;
+                registration.LastProgressTick = tick;
+            }
+            if (!climber.HasActiveClimbToilFor(job, toil))
+            {
+                // A manual Never toil cannot silently abandon its completion handler.
+                if (GetClimbParameters(actor, registration.Target, registration.Mode, ref climber))
+                {
+                    climber.MarkClimbToilActive(job, toil);
+                    InitClimbAction(actor, ref climber, toil);
+                }
+                else
+                {
+                    climber.MarkClimbToilActive(job, toil);
+                    TryStartFallbackPathOrEndJob(actor, registration.Target, registration.Mode);
+                }
+                registration.LastProgressTick = tick;
+                return actor.jobs?.curJob == job && actor.jobs?.curDriver == driver;
+            }
+            if (actor.Spawned && tick - registration.LastProgressTick > TraversalStallTicks)
+            {
+                RecordTraversalFailure(actor, registration.Target, registration.Mode);
+                actor.pather.StopDead();
+                climber.ClearClimberData();
+                actor.jobs.EndCurrentJob(JobCondition.Incompletable);
+                return false;
+            }
+            return true;
         }
 
-        private static void ClaimClimbToil(Toil toil, Pawn actor, CompClimber climber)
+        private static void RegisterMovementOwner(ClimbToilRegistration registration, Pawn actor, LocalTargetInfo target, PathEndMode mode)
+        {
+            registration.OwnerJob = actor.jobs.curJob;
+            registration.OwnerDriver = actor.jobs.curDriver;
+            registration.Target = target;
+            registration.Mode = mode;
+            registration.LastPosition = actor.Position;
+            registration.LastProgressTick = Find.TickManager.TicksGame;
+        }
+
+        private static void ClaimClimbToil(Toil toil, Pawn actor, CompClimber climber, LocalTargetInfo target, PathEndMode mode)
         {
             if (toil == null || actor?.jobs?.curJob == null || climber == null)
             {
@@ -887,7 +998,17 @@ namespace Xenomorphtype
             }
 
             toil.defaultCompleteMode = ToilCompleteMode.Never;
+            if (!climber.climbParameters.ClimbCellsRegistered)
+            {
+                // Walking fallback is also restored after save/load; retain its target
+                // even though there are no special-traversal legs to serialize.
+                climber.climbParameters.FinalGoalTarget = target;
+                climber.climbParameters.FinalGoalCell = target.Cell;
+                climber.climbParameters.FinalPathEndMode = mode;
+            }
             climber.MarkClimbToilActive(actor.jobs.curJob, toil);
+            if (climbSupportedToils.TryGetValue(toil, out ClimbToilRegistration registration))
+                RegisterMovementOwner(registration, actor, target, mode);
         }
 
         private static void ReturnToVanillaToil(Toil toil, Action vanillaInitAction, ToilCompleteMode vanillaCompleteMode,
@@ -977,7 +1098,7 @@ namespace Xenomorphtype
                 return false;
             }
 
-            if (OriginalCanReach(actor, target, peMode, actor.NormalMaxDanger()))
+            if (!TraversalBlocked(actor, target, peMode) && OriginalCanReach(actor, target, peMode, actor.NormalMaxDanger()))
             {
                 string key = FallbackRecoveryKey(actor, target, peMode);
                 fallbackRecoveryAttempts.TryGetValue(key, out int attempts);
@@ -991,6 +1112,7 @@ namespace Xenomorphtype
                         Log.Message("[XMT][Climbing] " + actor + " ending climb fallback as incompletable after repeated idle recovery attempts to " + target + " with " + peMode + " for " + actor.jobs?.curJob);
                     }
                     actor.pather.StopDead();
+                    RecordTraversalFailure(actor, target, peMode);
                     actor.GetMorphComp()?.NotifyPathFailure(target, actor.jobs?.curJob);
                     actor.GetClimberComp()?.ClearClimberData();
                     ClearFallbackRecovery(actor);
@@ -1012,6 +1134,7 @@ namespace Xenomorphtype
                 Log.Message("[XMT][Climbing] " + actor + " ending climb fallback as incompletable; cannot reach " + target + " with " + peMode + " for " + actor.jobs?.curJob);
             }
             actor.pather.StopDead();
+            RecordTraversalFailure(actor, target, peMode);
             actor.GetMorphComp()?.NotifyPathFailure(target, actor.jobs?.curJob);
             actor.GetClimberComp()?.ClearClimberData();
             ClearFallbackRecovery(actor);
@@ -1078,11 +1201,11 @@ namespace Xenomorphtype
                         return;
                     }
 
-                    ClaimClimbToil(toil, actor, climber);
+                    ClaimClimbToil(toil, actor, climber, target, peMode);
                     TryStartFallbackPathOrEndJob(actor, target, peMode);
                     return;
                 }
-                ClaimClimbToil(toil, actor, climber);
+                ClaimClimbToil(toil, actor, climber, target, peMode);
                 InitClimbAction(actor, ref climber, toil);
             };
             FinishClimbSupportRegistration(toil);
@@ -1144,11 +1267,11 @@ namespace Xenomorphtype
                         ReturnToVanillaToil(toil, vanillaInitAction, vanillaCompleteMode, actor, climber);
                         return;
                     }
-                    ClaimClimbToil(toil, actor, climber);
+                    ClaimClimbToil(toil, actor, climber, target, peMode);
                     TryStartFallbackPathOrEndJob(actor, target, peMode);
                     return;
                 }
-                ClaimClimbToil(toil, actor, climber);
+                ClaimClimbToil(toil, actor, climber, target, peMode);
                 InitClimbAction(actor, ref climber, toil);
             };
             FinishClimbSupportRegistration(toil);
@@ -1220,11 +1343,11 @@ namespace Xenomorphtype
                         ReturnToVanillaToil(toil, vanillaInitAction, vanillaCompleteMode, actor, climber);
                         return;
                     }
-                    ClaimClimbToil(toil, actor, climber);
+                    ClaimClimbToil(toil, actor, climber, new LocalTargetInfo(cell), peMode);
                     TryStartFallbackPathOrEndJob(actor, cell, peMode);
                     return;
                 }
-                ClaimClimbToil(toil, actor, climber);
+                ClaimClimbToil(toil, actor, climber, new LocalTargetInfo(cell), peMode);
                 InitClimbAction(actor, ref climber, toil);
             };
             FinishClimbSupportRegistration(toil);
@@ -1292,11 +1415,11 @@ namespace Xenomorphtype
                         ReturnToVanillaToil(toil, vanillaInitAction, vanillaCompleteMode, actor, climber);
                         return;
                     }
-                    ClaimClimbToil(toil, actor, climber);
+                    ClaimClimbToil(toil, actor, climber, new LocalTargetInfo(exactCell), PathEndMode.OnCell);
                     TryStartFallbackPathOrEndJob(actor, exactCell, PathEndMode.OnCell);
                     return;
                 }
-                ClaimClimbToil(toil, actor, climber);
+                ClaimClimbToil(toil, actor, climber, new LocalTargetInfo(exactCell), PathEndMode.OnCell);
                 InitClimbAction(actor, ref climber, toil);
             };
             FinishClimbSupportRegistration(toil);
@@ -1368,11 +1491,11 @@ namespace Xenomorphtype
                         ReturnToVanillaToil(toil, vanillaInitAction, vanillaCompleteMode, actor, climber);
                         return;
                     }
-                    ClaimClimbToil(toil, actor, climber);
+                    ClaimClimbToil(toil, actor, climber, dest, peMode);
                     TryStartFallbackPathOrEndJob(actor, dest, peMode);
                     return;
                 }
-                ClaimClimbToil(toil, actor, climber);
+                ClaimClimbToil(toil, actor, climber, dest, peMode);
                 InitClimbAction(actor, ref climber, toil);
             };
             FinishClimbSupportRegistration(toil);
@@ -1441,12 +1564,12 @@ namespace Xenomorphtype
                         ReturnToVanillaToil(toil, vanillaInitAction, vanillaCompleteMode, actor, climber);
                         return;
                     }
-                    ClaimClimbToil(toil, actor, climber);
+                    ClaimClimbToil(toil, actor, climber, target, peMode);
                     TryStartFallbackPathOrEndJob(actor, target, peMode);
                     return;
                 }
 
-                ClaimClimbToil(toil, actor, climber);
+                ClaimClimbToil(toil, actor, climber, target, peMode);
                 InitClimbAction(actor, ref climber, toil);
             };
             FinishClimbSupportRegistration(toil);
@@ -1658,12 +1781,12 @@ namespace Xenomorphtype
             return legs.Count > 0;
         }
 
-        private static void AssignTraversalLegs(CompClimber climber, List<TraversalLeg> legs)
+        private static void AssignTraversalLegs(ref ClimbParameters parameters, List<TraversalLeg> legs)
         {
-            climber.climbParameters.TraversalLegs = legs ?? new List<TraversalLeg>();
-            climber.climbParameters.NoWallToClimb = climber.climbParameters.TraversalLegs.Count == 0;
-            climber.climbParameters.ClimbStarts = climber.climbParameters.TraversalLegs.Select(leg => leg.start).ToList();
-            climber.climbParameters.ClimbEnds = climber.climbParameters.TraversalLegs.Select(leg => leg.end).ToList();
+            parameters.TraversalLegs = legs ?? new List<TraversalLeg>();
+            parameters.NoWallToClimb = parameters.TraversalLegs.Count == 0;
+            parameters.ClimbStarts = parameters.TraversalLegs.Select(leg => leg.start).ToList();
+            parameters.ClimbEnds = parameters.TraversalLegs.Select(leg => leg.end).ToList();
         }
         protected static bool GetClimbParameters(Pawn pawn, IntVec3 FinalGoalCell, PathEndMode finalPathEndMode, ref CompClimber climber)
         {
@@ -1672,17 +1795,32 @@ namespace Xenomorphtype
 
         protected static bool GetClimbParameters(Pawn pawn, LocalTargetInfo finalGoal, PathEndMode finalPathEndMode, ref CompClimber climber)
         {
+            if (!TryPlanClimb(pawn, finalGoal, finalPathEndMode, out ClimbParameters parameters))
+            {
+                climber.ClearClimberData();
+                return false;
+            }
+
+            // Commit only for an executing movement toil. Queries never touch its owner.
+            climber.ClearClimberData();
+            climber.climbParameters = parameters;
+            climber.MarkClimbToilActive(pawn.jobs?.curJob);
+            return true;
+        }
+
+        internal static bool TryPlanClimb(Pawn pawn, LocalTargetInfo finalGoal, PathEndMode finalPathEndMode, out ClimbParameters parameters)
+        {
             if (XMTSettings.LogClimbing)
             {
                 Log.Message("[XMT][Climbing] " + pawn + " gathering climb parameters");
             }
-            climber.ClearClimberData();
-            climber.MarkClimbToilActive(pawn.jobs?.curJob);
+            parameters = new ClimbParameters { NoWallToClimb = true };
 
-            climber.climbParameters.FinalGoalTarget = finalGoal;
-            climber.climbParameters.FinalGoalCell = finalGoal.Cell;
+            parameters.FinalGoalTarget = finalGoal;
+            parameters.FinalGoalCell = finalGoal.Cell;
+            parameters.FinalPathEndMode = finalPathEndMode;
 
-            if (!finalGoal.IsValid || !finalGoal.Cell.IsValid)
+            if (!finalGoal.IsValid || !finalGoal.Cell.IsValid || TraversalBlocked(pawn, finalGoal, finalPathEndMode))
             {
                 if (XMTSettings.LogClimbing)
                 {
@@ -1702,7 +1840,7 @@ namespace Xenomorphtype
 
             if(XMTUtility.IsSpace(pawn.Map))
             {
-                climber.climbParameters.Tunneling = true;
+                parameters.Tunneling = true;
             }
 
             // Prefer an available infiltration network over damaging a wall. This is
@@ -1710,10 +1848,10 @@ namespace Xenomorphtype
             if (InfiltrationUtility.TryBuildInfiltrationRoute(pawn, finalGoal, finalPathEndMode,
                 pawn.NormalMaxDanger(), out List<TraversalLeg> pureInfiltrationLegs))
             {
-                AssignTraversalLegs(climber, pureInfiltrationLegs);
-                if (climber.climbParameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, climber, finalPathEndMode))
+                AssignTraversalLegs(ref parameters, pureInfiltrationLegs);
+                if (parameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, parameters, finalPathEndMode))
                 {
-                    LogClimbRoute(pawn, climber, finalPathEndMode);
+                    LogClimbRoute(pawn, parameters, finalPathEndMode);
                     return true;
                 }
             }
@@ -1721,11 +1859,11 @@ namespace Xenomorphtype
             if (TryBuildDirectWallRoute(pawn, finalGoal, finalPathEndMode, pawn.NormalMaxDanger(),
                 out List<TraversalLeg> wallLegs, out ClimbDecision decision))
             {
-                AssignTraversalLegs(climber, wallLegs);
+                AssignTraversalLegs(ref parameters, wallLegs);
 
-                if (climber.climbParameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, climber, finalPathEndMode))
+                if (parameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, parameters, finalPathEndMode))
                 {
-                    LogClimbRoute(pawn, climber, finalPathEndMode);
+                    LogClimbRoute(pawn, parameters, finalPathEndMode);
                     return true;
                 }
             }
@@ -1734,10 +1872,10 @@ namespace Xenomorphtype
             if (!normallyReachable && TraversalRouteUtility.TryBuildRoute(pawn, finalGoal, finalPathEndMode, pawn.NormalMaxDanger(),
                 allowWallClimb: true, out List<TraversalLeg> combinedLegs))
             {
-                AssignTraversalLegs(climber, combinedLegs);
-                if (climber.climbParameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, climber, finalPathEndMode))
+                AssignTraversalLegs(ref parameters, combinedLegs);
+                if (parameters.ClimbCellsRegistered && ValidateClimbRoute(pawn, parameters, finalPathEndMode))
                 {
-                    LogClimbRoute(pawn, climber, finalPathEndMode);
+                    LogClimbRoute(pawn, parameters, finalPathEndMode);
                     return true;
                 }
             }
@@ -1746,7 +1884,7 @@ namespace Xenomorphtype
             {
                 Log.Message("[XMT][Climbing] Traversal cells failed to register for " + pawn + "; climbDecision=" + decision + "; normallyReachable=" + normallyReachable);
             }
-            climber.ClearClimberData();
+            parameters = default;
             return false;
         }
     }

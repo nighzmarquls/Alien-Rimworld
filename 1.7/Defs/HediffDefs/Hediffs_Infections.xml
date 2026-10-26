@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
   <HediffDef Name="XenomorphtypeBase" Abstract="True">
@@ -16,9 +16,10 @@
       </points>
     </removeOnRedressChanceByDaysCurve>
   </HediffDef>
-  
+
   <HediffDef ParentName="InfectionBase">
     <defName>XMT_Flu</defName>
+    <hediffClass>Xenomorphtype.Hediff_Tissue</hediffClass>
     <label>flu</label>
     <description>An infectious disease possibly the influenza virus.</description>
     <makesSickThought>true</makesSickThought>
@@ -105,7 +106,21 @@
         </capMods>
       </li>
     </stages>
-  </HediffDef>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Mutator</workerClass>
+						<labelKey>XMT_AssessmentMutators</labelKey>
+						<groupKey>mutagenicActivity</groupKey>
+						<priority>0</priority>
+						<activeMutator>true</activeMutator>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+	</HediffDef>
 
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Embryo</defName>
@@ -167,11 +182,19 @@
 			<knowledgeProfile>XMT_Profile_Larva</knowledgeProfile>
 			<knowledgeMagnitude>0.25</knowledgeMagnitude>
 			<cryptobioResearch>10</cryptobioResearch>
-			<surgicalDetectionDesc>{PAWN_nameDef} has a foreign body present in the torso.</surgicalDetectionDesc> 
+			<surgicalDetectionDesc>{PAWN_nameDef} has a foreign body present in the torso.</surgicalDetectionDesc>
 		</li>
     </comps>
-  </HediffDef>
-  
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<revealedHealthLabelKey>XMT_ParasiticEmbryoLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_ParasiticEmbryoDescription</revealedHealthDescriptionKey>
+				<revealedSummaryLabelKey>XMT_ParasiticEmbryoLabel</revealedSummaryLabelKey>
+			</li>
+		</modExtensions>
+	</HediffDef>
+
   <RecipeDef ParentName="SurgeryFlesh">
     <defName>XMT_RemoveEmbryo</defName>
     <label>excise embryo</label>
@@ -205,7 +228,7 @@
       </disallowedThingDefs>
     </fixedIngredientFilter>
   </RecipeDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Lardering</defName>
     <label>swelling</label>
@@ -283,8 +306,13 @@
 			<severityPerDayTended>-0.3</severityPerDayTended>
 		</li>
     </comps>
-  </HediffDef>
-  
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
+	</HediffDef>
+
    <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Ovomorphing</defName>
     <label>metamorphosis</label>
@@ -357,6 +385,11 @@
 			<severityPerDayTended>-0.3</severityPerDayTended>
 		</li>
     </comps>
-  </HediffDef>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
+	</HediffDef>
 
 </Defs>

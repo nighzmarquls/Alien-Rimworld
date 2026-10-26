@@ -142,6 +142,8 @@ namespace Xenomorphtype
 
         internal void UpdateGeneticAcquisition(float xenoforming)
         {
+            if (Current.Game?.World?.factionManager == null) return;
+
             if (geneticAcquisitionSuppression > 0 || !ModsConfig.BiotechActive || xenoforming <= 0f) return;
             EnsureDefaultStrain();
             AcquireProjectedGenes();

@@ -28,19 +28,12 @@
       <li>
         <pregnancy>XMT_HorrorPregnant</pregnancy>
         <babies>
-          <li>
-            <childKind>XMT_Humanoid_Pod</childKind>
-            <gestationFactor>0.5</gestationFactor>
-            <probability>1.0</probability>
-            <essenceMinimum>0.0</essenceMinimum>
-            <essenceMaximum>0.5</essenceMaximum>
-          </li>
-          <li>
-            <childKind>XMT_Starbeast_Pod</childKind>
-            <gestationFactor>0.1</gestationFactor>
-            <probability>1.0</probability>
-            <essenceMinimum>0.0</essenceMinimum>
-          </li>
+          <li><childKind>XMT_Starbeast_Pod</childKind><gestationFactor>0.1</gestationFactor><probability>1</probability><essenceMinimum>0</essenceMinimum><requiresDevelopedMother>true</requiresDevelopedMother></li>
+          <!-- Above-one low-probability opportunities precede the guaranteed lower-form fallback. -->
+          <li><childKind>XMT_Starbeast_Pod</childKind><gestationFactor>0.1</gestationFactor><probability>0.1</probability><essenceMinimum>1.0001</essenceMinimum></li>
+          <li><childKind>XMT_Advanced_Humanoid_Pod</childKind><gestationFactor>0.5</gestationFactor><probability>1</probability><essenceMinimum>1.5</essenceMinimum></li>
+          <li><childKind>XMT_Advanced_Humanoid_Pod</childKind><gestationFactor>0.5</gestationFactor><probability>0.1</probability><essenceMinimum>1.0001</essenceMinimum><essenceMaximum>1.5</essenceMaximum></li>
+          <li><childKind>XMT_Humanoid_Pod</childKind><gestationFactor>0.5</gestationFactor><probability>1</probability><essenceMinimum>0</essenceMinimum></li>
         </babies>
       </li>
       <li>

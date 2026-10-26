@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UnityEngine.IMGUIModule")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0d1417f0735c4ab2ee3f5541cd376560d77272f5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37cb248f085a17a693a75e8a62799cd38126ea00")]
 [assembly: System.Reflection.AssemblyProductAttribute("UnityEngine.IMGUIModule")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UnityEngine.IMGUIModule")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.0.0.0")]

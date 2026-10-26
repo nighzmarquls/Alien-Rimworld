@@ -46,9 +46,11 @@ namespace Xenomorphtype
 
             }
 
-            Log.Message(Pawn + " cannot find a new form!");
+            // An eligible destination can lose its random roll; retain progress without log spam.
 
         }
+
+        public override bool CompShouldRemove => !CryptimorphicInfluence.HasDestination(Pawn);
 
         public override float SeverityChangePerDay()
         {

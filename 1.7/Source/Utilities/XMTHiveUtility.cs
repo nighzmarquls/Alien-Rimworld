@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -1789,7 +1789,7 @@ namespace Xenomorphtype
 
             foreach (HiveRoomRecord room in restRooms)
             {
-                if (RoomHasPendingHiveRestBuild(room.room))
+                if (!pawn.DevelopmentalStage.Adult() || RoomHasPendingHiveRestBuild(room.room))
                 {
                     continue;
                 }
@@ -2422,7 +2422,7 @@ namespace Xenomorphtype
 
         private static Job GetHiveRestNestBuildJob(Pawn pawn, List<HiveRoomRecord> restRooms)
         {
-            if (pawn == null || pawn.Map == null || !pawn.ageTracker.Adult)
+            if (pawn == null || pawn.Map == null || !pawn.DevelopmentalStage.Adult())
             {
                 return null;
             }
@@ -2477,7 +2477,8 @@ namespace Xenomorphtype
             int bestScore = int.MinValue;
             foreach (HiveRoomRecord room in restRooms)
             {
-                if (room == null || !room.anchorCell.IsValid || !room.anchorCell.InBounds(pawn.Map))
+                if (room == null || !room.anchorCell.IsValid || !room.anchorCell.InBounds(pawn.Map) ||
+                    pawn.CanReachImmediate(room.anchorCell, PathEndMode.OnCell) || pawn.GetRoom() == room.room)
                 {
                     continue;
                 }
@@ -2502,7 +2503,7 @@ namespace Xenomorphtype
 
         private static Job TryGetActiveHiveRestExpansionJob(Pawn pawn, NestSite localNest)
         {
-            if (pawn == null || pawn.Map == null || localNest == null || localNest.map != pawn.Map || !pawn.ageTracker.Adult)
+            if (pawn == null || pawn.Map == null || localNest == null || localNest.map != pawn.Map || !pawn.DevelopmentalStage.Adult())
             {
                 return null;
             }
@@ -2886,7 +2887,7 @@ namespace Xenomorphtype
 
         public static Job GetNestBuildJob(Pawn builder)
         {
-            if (builder == null || builder.Map == null)
+            if (builder == null || builder.Map == null || !builder.DevelopmentalStage.Adult())
             {
                 return null;
             }

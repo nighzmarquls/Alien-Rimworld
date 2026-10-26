@@ -15,13 +15,14 @@ namespace Xenomorphtype
 
     public abstract class NemesisMissionWorker
     {
-        public virtual float Weight(NemesisMissionDef def, GameComponent_Nemesis component, Map map) => 1f;
+        public virtual float Weight(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
+            => 1f + def.workerSettings.weightEvidenceBonus * Mathf.Clamp01(component.MapEvidenceValue(def.workerSettings.weightEvidence, map));
 
         public virtual int PartySize(NemesisMissionDef def, GameComponent_Nemesis component, Map map, bool active)
             => Mathf.FloorToInt(Mathf.Lerp(def.populationRange.min, def.populationRange.max, def.Pressure(component, active)));
 
         public virtual bool CanTarget(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
-            => map != null && map.IsPlayerHome;
+            => def.MapRequirementsMet(map);
 
         public virtual bool TimingValid(NemesisMissionDef def, GameComponent_Nemesis component, Map map,
             NemesisMissionTimingPhase phase, out string reason)

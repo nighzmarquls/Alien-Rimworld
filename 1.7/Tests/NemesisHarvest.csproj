@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>../Source/obj/NemesisHarvest/obj/</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <OutputPath>../Source/obj/NemesisHarvest/bin/</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="NemesisHarvest.cs" />
+    <Compile Include="../Source/Nemesis/Missions/NemesisHarvestIndex.cs" Link="NemesisHarvestIndex.cs" />
+    <Compile Include="../Source/Progression/ResourceTerrainDef.cs" Link="ResourceTerrainDef.cs" />
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

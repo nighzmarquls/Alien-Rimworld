@@ -172,8 +172,8 @@
 			 <ArmorRating_Sharp>0.75</ArmorRating_Sharp>
 			 <ArmorRating_Blunt>0.80</ArmorRating_Blunt>
 			 <ArmorRating_Heat>0.2</ArmorRating_Heat>
-		     <MarketValue>58330</MarketValue>
-			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">100</RoyalFavorValue>
+		     <MarketValue>8330</MarketValue>
+			 <RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">14</RoyalFavorValue>
 			 <MoveSpeed>9.2</MoveSpeed>
 			 <CrawlSpeed>18.4</CrawlSpeed>
 			 <ComfyTemperatureMin>-270</ComfyTemperatureMin>
@@ -1626,8 +1626,8 @@
 			</li>-->
 		</comps>
 		<statBases>
-			<MarketValue>291650</MarketValue>
-			<RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">500</RoyalFavorValue>
+			<MarketValue>41650</MarketValue>
+			<RoyalFavorValue MayRequire="Ludeon.RimWorld.Royalty">71</RoyalFavorValue>
 			<MeleeDodgeChance>1.25</MeleeDodgeChance>
 			<MoveSpeed>7.0</MoveSpeed>
 			<CrawlSpeed>8</CrawlSpeed>

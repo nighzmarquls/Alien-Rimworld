@@ -20,7 +20,7 @@ namespace Xenomorphtype
                 {
                     BioUtility.InsertGenesetToPawn(geneSet, ref ingester, forbidUnknown: false);
                     BioUtility.TryMutatingPawn(ref ingester);
-                    Find.ResearchManager.AddProgress(XenoGeneDefOf.XMT_Starbeast_Genetics, 100, ingester);
+                    ResearchUtility.ProgressGeneticsTech(100, ingester);
                 }
             }
 
@@ -40,12 +40,13 @@ namespace Xenomorphtype
         }
         public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
         {
+            Map researchMap = MapHeld;
             base.PostApplyDamage(dinfo, totalDamageDealt);
             if (HitPoints <= 0)
             {
                 Map mapHeld = base.MapHeld;
 
-                Find.ResearchManager.AddProgress(XenoGeneDefOf.XMT_Starbeast_Genetics, 50, null);
+                ResearchUtility.ProgressGeneticsTech(50, null, researchMap);
 
                 BioUtility.SpawnJellyHorror(this.PositionHeld, mapHeld, Potency);
             }

@@ -59,8 +59,29 @@
 			</capMods>
 		  </li>
 		</stages>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Mutator</workerClass>
+						<labelKey>XMT_AssessmentMutators</labelKey>
+						<groupKey>mutagenicActivity</groupKey>
+						<priority>0</priority>
+						<activeMutator>true</activeMutator>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-  
+
 	<HediffDef>
 		<defName>XMT_HorrorPregnant</defName>
 		<hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -137,6 +158,27 @@
 			</capMods>
 		  </li>
 		</stages>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Mutator</workerClass>
+						<labelKey>XMT_AssessmentMutators</labelKey>
+						<groupKey>mutagenicActivity</groupKey>
+						<priority>0</priority>
+						<activeMutator>true</activeMutator>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
 
 	<HediffDef ParentName="InfectionBase">
@@ -149,8 +191,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_UrsineHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -161,8 +215,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_ReptileHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -173,8 +239,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_FelineHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -185,8 +263,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_CanineHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -197,8 +287,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_AvianHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -209,8 +311,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_BoomaHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -221,8 +335,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_RodentHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -233,8 +359,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_EquineHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -245,8 +383,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_BovineHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -257,8 +407,20 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="InfectionBase">
 		<defName>XMT_InsectHorrorPregnant</defName>
         <hediffClass>Xenomorphtype.Hediff_HorrorPregnancy</hediffClass>
@@ -269,5 +431,17 @@
 			<li Class= "Xenomorphtype.HediffCompProperties_Comp_HorrorPregnant">
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>false</useDefaultRecognition>
+				<showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+				<revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+				<revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+				<revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+				<revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+				<inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
 </Defs>

@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <BiomeDef>
-    <defName>XMT_DessicatedBlight</defName>
+  <BiomeDef Name="XMT_StrippedBiomeBase" Abstract="True">
     <label>barren dustplain</label>
     <description>An extremely hot, dry area, devoid of almost all life. Searing heat and a near total lack of arable land make it very difficult to survive here.</description>
     <workerClass>Xenomorphtype.BiomeWorker_DessicatedBlight</workerClass>
@@ -21,17 +20,12 @@
     <forageability>0</forageability>
     <wildPlantsCareAboutLocalFertility>false</wildPlantsCareAboutLocalFertility>
     <wildPlantRegrowDays>100</wildPlantRegrowDays>
-    <maxFishPopulation>60</maxFishPopulation>
+    <maxFishPopulation>0</maxFishPopulation>
     <fishTypes MayRequire="Ludeon.RimWorld.Odyssey">
       <freshwater_Common></freshwater_Common>
       <freshwater_Uncommon></freshwater_Uncommon>
-      <saltwater_Common>
-        <Fish_Bluefish MayRequire="Ludeon.RimWorld.Odyssey">1</Fish_Bluefish>
-      </saltwater_Common>
-      <saltwater_Uncommon>
-        <Fish_Tuna MayRequire="Ludeon.RimWorld.Odyssey">1</Fish_Tuna>
-      </saltwater_Uncommon>
-      <rareCatchesSetMaker MayRequire="Ludeon.RimWorld.Odyssey">RareFishingCatches_Hot</rareCatchesSetMaker>
+      <saltwater_Common />
+      <saltwater_Uncommon />
     </fishTypes>
     <diseaseMtbDays>90</diseaseMtbDays>
     <isExtremeBiome>true</isExtremeBiome>
@@ -114,6 +108,58 @@
     </coastalWildAnimals>
     <allowedPackAnimals>
     </allowedPackAnimals>
+  </BiomeDef>
+
+  <BiomeDef ParentName="XMT_StrippedBiomeBase">
+    <defName>XMT_DessicatedBlight</defName>
+  </BiomeDef>
+
+  <BiomeDef ParentName="XMT_StrippedBiomeBase">
+    <defName>XMT_BarrenDustbowl</defName>
+    <label>barren dustbowl</label>
+    <description>A stripped temperate landscape. Every trace of fertile ground has been consumed, leaving gritty dust around lifeless ponds and streams. Only scattered cryptimorphic scavengers persist.</description>
+    <settleWarning>The ground is infertile and the waters support no fish.</settleWarning>
+    <terrainPatchMakers Inherit="False">
+      <li>
+        <perlinFrequency>0.015</perlinFrequency>
+        <isPond>true</isPond>
+        <thresholds>
+          <li><terrain>BarrenDust</terrain><min>0.73</min><max>0.93</max></li>
+          <li><terrain>WaterShallow</terrain><min>0.93</min><max>999</max></li>
+        </thresholds>
+      </li>
+    </terrainPatchMakers>
+    <baseWeatherCommonalities Inherit="False">
+      <Clear>18</Clear><Fog>1</Fog><Rain>2</Rain>
+      <DryThunderstorm>1</DryThunderstorm><RainyThunderstorm>1</RainyThunderstorm><FoggyRain>1</FoggyRain>
+      <SnowGentle>4</SnowGentle><SnowHard>4</SnowHard>
+      <GrayPall MayRequire="Ludeon.RimWorld.Anomaly">1</GrayPall>
+      <Overcast MayRequire="Ludeon.RimWorld.Odyssey">2</Overcast>
+    </baseWeatherCommonalities>
+  </BiomeDef>
+
+  <BiomeDef ParentName="XMT_StrippedBiomeBase">
+    <defName>XMT_ChilledWaste</defName>
+    <label>chilled waste</label>
+    <description>A cold, stripped expanse where tundra and boreal soils have been reduced to barren dust. Snow settles over sterile ground, and its frozen or thawed waters support no fish.</description>
+    <settleWarning>Harsh winters compound the lack of fertile ground and fish.</settleWarning>
+    <terrainPatchMakers Inherit="False">
+      <li>
+        <perlinFrequency>0.015</perlinFrequency>
+        <isPond>true</isPond>
+        <thresholds>
+          <li><terrain>BarrenDust</terrain><min>0</min><max>0.76</max></li>
+          <li><terrain>WaterShallow</terrain><min>0.76</min><max>999</max></li>
+        </thresholds>
+      </li>
+    </terrainPatchMakers>
+    <baseWeatherCommonalities Inherit="False">
+      <Clear>18</Clear><Fog>2</Fog><Rain>1</Rain>
+      <SnowGentle>6</SnowGentle><SnowHard>6</SnowHard>
+      <GrayPall MayRequire="Ludeon.RimWorld.Anomaly">1</GrayPall>
+      <Overcast MayRequire="Ludeon.RimWorld.Odyssey">2</Overcast>
+      <Blizzard MayRequire="Ludeon.RimWorld.Odyssey">1</Blizzard>
+    </baseWeatherCommonalities>
   </BiomeDef>
 
 </Defs>

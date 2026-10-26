@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -33,29 +33,39 @@ namespace Xenomorphtype
                     Log.Message("[XMT][Biohorror] " + parent + " is trying to mutate " + Pawn);
                 }
                
-                mutateTick = currentTick + Mathf.CeilToInt(Props.mutateHourInterval * 2500);
+                mutateTick = currentTick + Mathf.Max(1, Mathf.CeilToInt(Props.mutateHourInterval * 2500 / CryptimorphicInfluence.ExposureScale(Pawn.BodySize)));
 
                 float chance = Props.useSeverityAsProbability ? parent.Severity : Props.probability;
                 if (Rand.Chance(chance))
                 {
-                    if(Props.onlyOneMutation)
+                    // No mutation/target eligibility work until both the timer and cheap roll pass.
+                    if (!CryptimorphicInfluence.CanMutate(Pawn)) return;
+                    // Protofluid's risks are independent of whether the selected tissue is new or developing.
+                    if (Props.toxicShockSeverity > 0f && Rand.Chance(Props.toxicShockChance))
                     {
-                        if (Props.customMutationSet != null)
+                        float resistance = Mathf.Clamp01(Pawn.GetStatValue(StatDefOf.ToxicResistance));
+                        if (resistance < 1f)
+                            Pawn.health.GetOrAddHediff(HediffDefOf.ToxicBuildup).Severity += Props.toxicShockSeverity * (1f - resistance);
+                        if (Pawn.Dead) return;
+                    }
+                    bool completedExisting = false;
+                    if (Props.onlyOneMutation && Props.customMutationSet != null && Rand.Chance(Props.completionPreference))
+                    {
+                        var developing = Pawn.health.hediffSet.hediffs.Where(h => h.Severity < h.def.maxSeverity &&
+                            Props.customMutationSet.mutations.Any(m => m.horror == h.def)).ToList();
+                        if (developing.Count > 0)
                         {
-                            foreach (MutationHealth mutation in Props.customMutationSet.mutations)
-                            {
-                                if (parent.pawn.health.hediffSet.GetFirstHediffOfDef(mutation.horror) is Hediff mutationHediff )
-                                {
-                                    if (mutationHediff.Severity < mutationHediff.def.maxSeverity)
-                                    {
-                                        mutationHediff.Severity += mutation.horror.initialSeverity;
-                                        return;
-                                    }
-                                }
-                            }
+                            Hediff mutation = developing.RandomElement();
+                            mutation.Severity = Mathf.Min(mutation.def.maxSeverity, mutation.Severity + mutation.def.initialSeverity);
+                            completedExisting = true;
                         }
                     }
-                    BioUtility.TryMutatingPawn(ref parent.pawn, Props.customMutationSet);
+                    if (!completedExisting) BioUtility.TryMutatingPawn(ref parent.pawn, Props.customMutationSet);
+                    else if (Props.pregnancyProgressPerPulse > 0f)
+                        HorrorPregnancyUtility.TryApply(Pawn, existingOnly: true);
+                    // Corruption uses pre-acceleration gestation. Failed/newly exhausted tissue
+                    // selection must not prevent an otherwise successful mutagenic pulse.
+                    HorrorPregnancyUtility.AdvancePregnancies(Pawn, Props.pregnancyProgressPerPulse);
                 }
 
                 
@@ -71,6 +81,10 @@ namespace Xenomorphtype
 
     public class HediffCompProperties_Mutator : HediffCompProperties
     {
+        public float completionPreference = 1f;
+        public float pregnancyProgressPerPulse;
+        public float toxicShockChance;
+        public float toxicShockSeverity;
         public bool  onlyOneMutation = false;
         public float mutateHourInterval = 1;
         public float probability = 0.1f;

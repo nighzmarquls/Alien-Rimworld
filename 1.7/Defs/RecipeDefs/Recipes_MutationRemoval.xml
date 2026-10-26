@@ -1,0 +1,1464 @@
+<Defs>
+  <RecipeDef Name="XMT_RemoveMutationBase" ParentName="SurgeryFlesh" Abstract="True">
+    <workerClass>Xenomorphtype.Recipe_RemoveMutation</workerClass>
+    <workAmount>2000</workAmount>
+    <surgerySuccessChanceFactor>1.2</surgerySuccessChanceFactor>
+    <isViolation>true</isViolation>
+    <developmentalStageFilter>Child, Adult</developmentalStageFilter>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_ImprovedStomach</defName>
+    <label>excise carbo-silicate stomach</label>
+    <description>Surgically remove the localized carbo-silicate stomach.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_ImprovedStomach</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_ImprovedStomach</harvestedPart>
+        <amputate>true</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_ImprovedStomach</defName>
+    <label>carbo-silicate stomach</label>
+    <description>A complete cryptimorphic carbo-silicate stomach, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_ImprovedStomach</defName>
+    <label>implant carbo-silicate stomach</label>
+    <description>Transplant a complete carbo-silicate stomach.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutatedOrgan</workerClass>
+    <addsHediff>XMT_ImprovedStomach</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Stomach</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_ImprovedStomach</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_ImprovedStomach</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_ImprovedStomach</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down carbo-silicate stomach</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_ImprovedStomach</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_ImprovedStomach</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_SpikeTongue</defName>
+    <label>excise spiked tongue</label>
+    <description>Surgically remove the localized spiked tongue.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_SpikeTongue</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_SpikeTongue</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_SpikeTongue</defName>
+    <label>spiked tongue</label>
+    <description>A complete cryptimorphic spiked tongue, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_SpikeTongue</defName>
+    <label>implant spiked tongue</label>
+    <description>Transplant a complete spiked tongue.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_SpikeTongue</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Tongue</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_SpikeTongue</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_SpikeTongue</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_SpikeTongue</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down spiked tongue</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_SpikeTongue</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_SpikeTongue</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_SecondJaw</defName>
+    <label>excise pharyngeal jaw</label>
+    <description>Surgically remove the localized pharyngeal jaw.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_SecondJaw</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_SecondJaw</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_SecondJaw</defName>
+    <label>pharyngeal jaw</label>
+    <description>A complete cryptimorphic pharyngeal jaw, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_SecondJaw</defName>
+    <label>implant pharyngeal jaw</label>
+    <description>Transplant a complete pharyngeal jaw.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_SecondJaw</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Jaw</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_SecondJaw</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_SecondJaw</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_SecondJaw</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down pharyngeal jaw</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_SecondJaw</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_SecondJaw</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_HostileGland</defName>
+    <label>excise threat gland</label>
+    <description>Surgically remove the localized threat gland.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_HostileGland</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_RawPheromone</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_HostileGland</defName>
+    <label>threat gland</label>
+    <description>A complete cryptimorphic threat gland, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_HostileGland</defName>
+    <label>implant threat gland</label>
+    <description>Transplant a complete threat gland.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_HostileGland</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_HostileGland</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_HostileGland</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_HostileGland</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down threat gland</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_HostileGland</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_HostileGland</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_FriendlyGland</defName>
+    <label>excise friendly gland</label>
+    <description>Surgically remove the localized friendly gland.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_FriendlyGland</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_RawPheromone</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_FriendlyGland</defName>
+    <label>friendly gland</label>
+    <description>A complete cryptimorphic friendly gland, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_FriendlyGland</defName>
+    <label>implant friendly gland</label>
+    <description>Transplant a complete friendly gland.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_FriendlyGland</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_FriendlyGland</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_FriendlyGland</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_FriendlyGland</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down friendly gland</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_FriendlyGland</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_FriendlyGland</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_LoverGland</defName>
+    <label>excise lover gland</label>
+    <description>Surgically remove the localized lover gland.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_LoverGland</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_RawPheromone</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_LoverGland</defName>
+    <label>lover gland</label>
+    <description>A complete cryptimorphic lover gland, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_LoverGland</defName>
+    <label>implant lover gland</label>
+    <description>Transplant a complete lover gland.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_LoverGland</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Torso</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_LoverGland</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_LoverGland</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_LoverGland</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down lover gland</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_LoverGland</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_LoverGland</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_BladedTail</defName>
+    <label>excise bladed tail</label>
+    <description>Surgically remove the localized bladed tail.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_BladedTail</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_BladedTail</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_BladedTail</defName>
+    <label>bladed tail</label>
+    <description>A complete cryptimorphic bladed tail, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_BladedTail</defName>
+    <label>implant bladed tail</label>
+    <description>Transplant a complete bladed tail.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_BladedTail</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Pelvis</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_BladedTail</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_BladedTail</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_BladedTail</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down bladed tail</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_BladedTail</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_BladedTail</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_BreathingTubes</defName>
+    <label>excise respiratory tubes</label>
+    <description>Surgically remove the localized respiratory tubes.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_BreathingTubes</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_BreathingTubes</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_BreathingTubes</defName>
+    <label>respiratory tubes</label>
+    <description>A complete cryptimorphic respiratory tubes, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_BreathingTubes</defName>
+    <label>implant respiratory tubes</label>
+    <description>Transplant a complete respiratory tubes.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_BreathingTubes</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Spine</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_BreathingTubes</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_BreathingTubes</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_BreathingTubes</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down respiratory tubes</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_BreathingTubes</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_BreathingTubes</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_BreathingWafers</defName>
+    <label>excise respiratory wafers</label>
+    <description>Surgically remove the localized respiratory wafers.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_BreathingWafers</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_BreathingWafers</harvestedPart>
+        <amputate>true</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_BreathingWafers</defName>
+    <label>respiratory wafers</label>
+    <description>A complete cryptimorphic respiratory wafers, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_BreathingWafers</defName>
+    <label>implant respiratory wafers</label>
+    <description>Transplant a complete respiratory wafers.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutatedOrgan</workerClass>
+    <addsHediff>XMT_BreathingWafers</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Lung</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_BreathingWafers</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_BreathingWafers</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_BreathingWafers</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down respiratory wafers</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_BreathingWafers</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_BreathingWafers</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_WarpedNeck</defName>
+    <label>excise warped larynx</label>
+    <description>Surgically remove the localized warped larynx.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_WarpedNeck</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_WarpedNeck</harvestedPart>
+        <amputate>false</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_WarpedNeck</defName>
+    <label>warped larynx</label>
+    <description>A complete cryptimorphic warped larynx, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_WarpedNeck</defName>
+    <label>implant warped larynx</label>
+    <description>Transplant a complete warped larynx.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_WarpedNeck</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Neck</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_WarpedNeck</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_WarpedNeck</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_WarpedNeck</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down warped larynx</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_WarpedNeck</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_WarpedNeck</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_InternalNose</defName>
+    <label>excise internalized</label>
+    <description>Surgically remove the localized internalized.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_InternalNose</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_InternalNose</harvestedPart>
+        <amputate>true</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_InternalNose</defName>
+    <label>internalized</label>
+    <description>A complete cryptimorphic internalized, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_InternalNose</defName>
+    <label>implant internalized</label>
+    <description>Transplant a complete internalized.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutatedOrgan</workerClass>
+    <addsHediff>XMT_InternalNose</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Nose</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_InternalNose</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_InternalNose</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_InternalNose</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down internalized</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_InternalNose</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_InternalNose</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_InternalEar</defName>
+    <label>excise internalized</label>
+    <description>Surgically remove the localized internalized.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_InternalEar</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_InternalEar</harvestedPart>
+        <amputate>true</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_InternalEar</defName>
+    <label>internalized</label>
+    <description>A complete cryptimorphic internalized, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_InternalEar</defName>
+    <label>implant internalized</label>
+    <description>Transplant a complete internalized.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutatedOrgan</workerClass>
+    <addsHediff>XMT_InternalEar</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Ear</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_InternalEar</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_InternalEar</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_InternalEar</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down internalized</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_InternalEar</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_InternalEar</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_InternalEye</defName>
+    <label>excise internalized</label>
+    <description>Surgically remove the localized internalized.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_InternalEye</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_InternalEye</harvestedPart>
+        <amputate>true</amputate>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_InternalEye</defName>
+    <label>internalized</label>
+    <description>A complete cryptimorphic internalized, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_InternalEye</defName>
+    <label>implant internalized</label>
+    <description>Transplant a complete internalized.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutatedOrgan</workerClass>
+    <addsHediff>XMT_InternalEye</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Eye</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_InternalEye</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_InternalEye</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_InternalEye</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down internalized</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_InternalEye</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_InternalEye</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_AcidbloodMarrow</defName>
+    <label>excise chlorofluoridic marrow</label>
+    <description>Surgically remove the localized chlorofluoridic marrow.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_AcidbloodMarrow</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <harvestedPart>XMT_Harvested_AcidbloodMarrow</harvestedPart>
+        <amputate>false</amputate>
+        <releasesAcid>true</releasesAcid>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <ThingDef ParentName="BodyPartNaturalBase">
+    <defName>XMT_Harvested_AcidbloodMarrow</defName>
+    <label>chlorofluoridic marrow</label>
+    <description>A complete cryptimorphic chlorofluoridic marrow, preserved for transplantation. It can also be broken down into carbo-silicate flesh.</description>
+    <statBases>
+      <MarketValue>120</MarketValue>
+      <Mass>0.5</Mass>
+    </statBases>
+  </ThingDef>
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>XMT_Install_AcidbloodMarrow</defName>
+    <label>implant chlorofluoridic marrow</label>
+    <description>Transplant a complete chlorofluoridic marrow.</description>
+    <jobString>Transplanting altered anatomy.</jobString>
+    <workerClass>Xenomorphtype.Recipe_InstallMutation</workerClass>
+    <addsHediff>XMT_AcidbloodMarrow</addsHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+    <appliedOnFixedBodyParts>
+      <li>Clavicle</li>
+      <li>Sternum</li>
+      <li>Humerus</li>
+      <li>Radius</li>
+      <li>Pelvis</li>
+      <li>Femur</li>
+      <li>Tibia</li>
+      <li>Skull</li>
+      <li>Spine</li>
+    </appliedOnFixedBodyParts>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_AcidbloodMarrow</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>2</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_AcidbloodMarrow</li>
+      </thingDefs>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef>
+    <defName>XMT_Dismantle_AcidbloodMarrow</defName>
+    <workerClass>Xenomorphtype.Recipe_DismantleMutation</workerClass>
+    <label>break down chlorofluoridic marrow</label>
+    <description>Break down the harvested tissue into carbo-silicate flesh.</description>
+    <jobString>Breaking down altered tissue.</jobString>
+    <workAmount>300</workAmount>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>XMT_Harvested_AcidbloodMarrow</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>XMT_Harvested_AcidbloodMarrow</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <products>
+      <Starbeast_Flesh_Meat>5</Starbeast_Flesh_Meat>
+    </products>
+    <recipeUsers>
+      <li>TableButcher</li>
+    </recipeUsers>
+    <workSkill>Cooking</workSkill>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_MildEssence</defName>
+    <label>excise foreign tissue</label>
+    <description>Surgically remove the localized foreign tissue.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_MildEssence</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_DebuffEssence</defName>
+    <label>excise malformed tissue</label>
+    <description>Surgically remove the localized malformed tissue.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_DebuffEssence</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_SilicateEssence</defName>
+    <label>excise silicate tissue</label>
+    <description>Surgically remove the localized silicate tissue.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_SilicateEssence</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_BoostingEssence</defName>
+    <label>excise integrated tissue</label>
+    <description>Surgically remove the localized integrated tissue.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_BoostingEssence</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_SoftBone</defName>
+    <label>excise osteomalacia</label>
+    <description>Surgically remove the localized osteomalacia.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_SoftBone</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension" />
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_Narcoleptic</defName>
+    <label>excise narcoleptic synapses</label>
+    <description>Surgically remove the localized narcoleptic synapses.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_Narcoleptic</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <neurological>true</neurological>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_Predatory</defName>
+    <label>excise predatory synapses</label>
+    <description>Surgically remove the localized predatory synapses.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_Predatory</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <neurological>true</neurological>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_Unasthetic</defName>
+    <label>excise stunted aesthetics</label>
+    <description>Surgically remove the localized stunted aesthetics.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_Unasthetic</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <neurological>true</neurological>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_Docile</defName>
+    <label>excise docile synapses</label>
+    <description>Surgically remove the localized docile synapses.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_Docile</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <neurological>true</neurological>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_Enthralled</defName>
+    <label>excise hearing voices</label>
+    <description>Surgically remove the localized hearing voices.</description>
+    <jobString>Excising altered tissue.</jobString>
+    <removesHediff>XMT_Enthralled</removesHediff>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationSurgeryExtension">
+        <neurological>true</neurological>
+      </li>
+    </modExtensions>
+  </RecipeDef>
+  <RecipeDef ParentName="SurgeryFlesh">
+    <defName>XMT_ClearCryptimorphicExposure</defName>
+    <label>purge cryptimorphic contamination</label>
+    <description>Remove and neutralize the foreign cryptimorphic material identified during examination. This does not reverse established mutations.</description>
+    <workerClass>Xenomorphtype.Recipe_ClearCryptimorphicExposure</workerClass>
+    <jobString>Purging foreign biological material.</jobString>
+    <targetsBodyPart>false</targetsBodyPart>
+    <workAmount>2000</workAmount>
+    <surgerySuccessChanceFactor>1.2</surgerySuccessChanceFactor>
+    <ingredients>
+      <li>
+        <filter>
+          <categories>
+            <li>Medicine</li>
+          </categories>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <categories>
+        <li>Medicine</li>
+      </categories>
+    </fixedIngredientFilter>
+  </RecipeDef>
+  <RecipeDef ParentName="XMT_RemoveMutationBase">
+    <defName>XMT_Remove_AcidFat</defName>
+    <label>excise foreign adipose tissue</label>
+    <description>Excise the altered adipose tissue throughout the body, leaving several small surgical wounds. Its volatile contents must be handled by a surgeon with practical acid knowledge or acid chemistry research; otherwise acid spills during removal.</description>
+    <jobString>Excising foreign adipose tissue.</jobString>
+    <removesHediff>XMT_AcidFat</removesHediff>
+    <modExtensions><li Class="Xenomorphtype.MutationSurgeryExtension"><scatteredCuts>3</scatteredCuts><releasesAcid>true</releasesAcid></li></modExtensions>
+  </RecipeDef>
+</Defs>

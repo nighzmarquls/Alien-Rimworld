@@ -331,7 +331,7 @@ namespace Xenomorphtype
                         float awareness = TotalHorrorAwareness();
                         if (IsObsessed() || awareness > 0)
                         {
-                            ResearchUtility.ProgressCryptobioTech(10 + Mathf.FloorToInt(awareness * 500), Parent);
+                            ResearchUtility.SeedCryptobioTech(10 + Mathf.FloorToInt(awareness * 500), Parent);
                         }
                     }
                 }

@@ -104,7 +104,7 @@ namespace Xenomorphtype
                 if(selectedEvolution.evoPointCost > 0 && !comp.ChosenEvolutions.Contains(selectedEvolution))
                 {
                     Rect priceRect = new Rect(0f, num, infoRect.width, 0f);
-                    TaggedString advancementCost = "Advancement Cost: " + selectedEvolution.evoPointCost;
+                    TaggedString advancementCost = "XMT_EvolutionCost".Translate(selectedEvolution.evoPointCost);
 
                     if (comp.AvailableEvoPoints < selectedEvolution.evoPointCost)
                     {
@@ -587,7 +587,7 @@ namespace Xenomorphtype
 
         private void DrawBottomText(float curX, ref float curY, float width)
         {
-            string bottomText = "Advancements " + comp.TotalSpentEvoPoints + " of " + comp.TotalEvoPoints;
+            string bottomText = "XMT_EvolutionPoints".Translate(comp.TotalSpentEvoPoints, comp.TotalEvoPoints);
 
             Widgets.Label(curX, ref curY, width, bottomText);
         }

@@ -84,6 +84,32 @@
 					<li>XMT_Unasthetic</li>
 					<li>XMT_Docile</li>
 					<li>XMT_Enthralled</li>
+					<!-- Remaining mutation, essence and contamination immunities. -->
+					<li>XMT_BecomingAdultHorror</li>
+					<li>XMT_BecomingMutant</li>
+					<li>XMT_CanineHorrorPregnant</li>
+					<li>XMT_CryptimorphicExposure</li>
+					<li>XMT_CryptizipHigh</li>
+					<li>XMT_Embryo</li>
+					<li>XMT_EquineHorrorPregnant</li>
+					<li>XMT_FelineHorrorPregnant</li>
+					<li>XMT_FriendlyGland</li>
+					<li>XMT_HorrorPregnant</li>
+					<li>XMT_Lardering</li>
+					<li>XMT_Narcoleptic</li>
+					<li>XMT_Ovomorphing</li>
+					<li>XMT_Protofluid</li>
+					<li>XMT_ReptileHorrorPregnant</li>
+					<li>XMT_RodentHorrorPregnant</li>
+					<li>XMT_RoyalJellyHigh</li>
+					<li>XMT_SubverterAttachment</li>
+					<li>XMT_TorporComa</li>
+					<li>XMT_ThrumboHorrorPregnant</li>
+					<li>XMT_UrsineHorrorPregnant</li>
+					<li>XMT_AvianHorrorPregnant</li>
+					<li>XMT_BoomaHorrorPregnant</li>
+					<li>XMT_BovineHorrorPregnant</li>
+					<li>XMT_InsectHorrorPregnant</li>
 				</ImpossibleHediffs>
 			</li>
 			<li Class="Xenomorphtype.CompJellyMakerProperties">
@@ -1475,6 +1501,31 @@
 					<li>XMT_Unasthetic</li>
 					<li>XMT_Docile</li>
 					<li>XMT_Enthralled</li>
+					<!-- Remaining mutation, essence and contamination immunities. -->
+					<li>XMT_BecomingAdultHorror</li>
+					<li>XMT_BecomingMutant</li>
+					<li>XMT_CanineHorrorPregnant</li>
+					<li>XMT_CryptimorphicExposure</li>
+					<li>XMT_CryptizipHigh</li>
+					<li>XMT_Embryo</li>
+					<li>XMT_EquineHorrorPregnant</li>
+					<li>XMT_FelineHorrorPregnant</li>
+					<li>XMT_FriendlyGland</li>
+					<li>XMT_HorrorPregnant</li>
+					<li>XMT_Lardering</li>
+					<li>XMT_Narcoleptic</li>
+					<li>XMT_Ovomorphing</li>
+					<li>XMT_Protofluid</li>
+					<li>XMT_ReptileHorrorPregnant</li>
+					<li>XMT_RodentHorrorPregnant</li>
+					<li>XMT_SubverterAttachment</li>
+					<li>XMT_TorporComa</li>
+					<li>XMT_ThrumboHorrorPregnant</li>
+					<li>XMT_UrsineHorrorPregnant</li>
+					<li>XMT_AvianHorrorPregnant</li>
+					<li>XMT_BoomaHorrorPregnant</li>
+					<li>XMT_BovineHorrorPregnant</li>
+					<li>XMT_InsectHorrorPregnant</li>
 				</ImpossibleHediffs>
 			</li>
 			<li Class="Xenomorphtype.CompClimberProperties">
@@ -2900,7 +2951,7 @@
 						<thingTransformationTarget>XMT_Starbeast_AlienRace</thingTransformationTarget>
 						<pawnTransformationTarget>XMT_StarbeastKind</pawnTransformationTarget>
 						<probability>1</probability>
-						<essenceMinimum>1</essenceMinimum>
+						<essenceMinimum>2.75</essenceMinimum>
 						<essenceMaximum>-1</essenceMaximum>
 					</li>
 				</resultCandidates>

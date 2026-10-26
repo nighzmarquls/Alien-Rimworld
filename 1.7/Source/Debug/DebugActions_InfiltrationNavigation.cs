@@ -430,7 +430,8 @@ namespace Xenomorphtype
                 {
                     bool heuristic = InfiltrationUtility.CanReachByInfiltration(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger());
                     bool exact = InfiltrationUtility.TryBuildInfiltrationRoute(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger(), out List<TraversalLeg> legs);
-                    bool valid = heuristic == exact && (!exact || legs.Count > 0 && legs.All(leg => leg.IsInfiltration));
+                    bool valid = heuristic == exact && (!exact || legs.Count > 0 && legs.All(leg => leg.IsInfiltration)) &&
+                        DebugActions_TraversalValidation.VerifyProbeIsolation(pawn, destination, PathEndMode.OnCell);
                     string report = (valid ? "passed" : "FAILED") + ": " + pawn.LabelShort + " -> " + destination +
                         ": heuristic=" + heuristic + ", exact=" + exact +
                         ", legs=" + (exact ? string.Join("; ", legs) : "none");
@@ -455,7 +456,7 @@ namespace Xenomorphtype
                 {
                     bool heuristic = ClimbUtility.CanReachBySpecialTraversal(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger());
                     bool exact = ClimbUtility.TryBuildTraversalRoute(pawn, destination, PathEndMode.OnCell, pawn.NormalMaxDanger(), out List<TraversalLeg> legs);
-                    bool valid = heuristic == exact && (!exact || legs.Count > 0);
+                    bool valid = DebugActions_TraversalValidation.VerifyProbeIsolation(pawn, destination, PathEndMode.OnCell) && heuristic == exact && (!exact || legs.Count > 0);
                     string report = (valid ? "passed" : "FAILED") + ": " + pawn.LabelShort + " -> " + destination + ": combined heuristic=" + heuristic +
                         ", exact=" + exact + ", legs=" + (exact ? string.Join("; ", legs) : "none");
                     Log.Message("[Alien | Rimworld] " + report);

@@ -105,6 +105,7 @@ namespace Xenomorphtype
             ClimbParameters parameters = climbParameters;
             Scribe_Values.Look(ref parameters.FinalGoalCell, "xmtClimbFinalGoalCell", IntVec3.Invalid);
             Scribe_TargetInfo.Look(ref parameters.FinalGoalTarget, "xmtClimbFinalGoalTarget");
+            Scribe_Values.Look(ref parameters.FinalPathEndMode, "xmtClimbFinalPathEndMode", PathEndMode.OnCell);
             Scribe_Values.Look(ref parameters.NoWallToClimb, "xmtClimbNoWall", true);
             Scribe_Values.Look(ref parameters.Tunneling, "xmtClimbTunneling", false);
             Scribe_Collections.Look(ref parameters.TraversalLegs, "xmtTraversalLegs", LookMode.Deep);

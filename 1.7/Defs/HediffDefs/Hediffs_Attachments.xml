@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_LarvalEmbrace</defName>
@@ -127,7 +127,7 @@
       </li>
     </renderNodeProperties>
   </HediffDef>
-  
+
   <RecipeDef ParentName="SurgeryFlesh">
     <defName>XMT_Remove_LarvalEmbrace</defName>
     <label>remove parasite</label>
@@ -160,7 +160,7 @@
       </disallowedThingDefs>
     </fixedIngredientFilter>
   </RecipeDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_SmotheringEmbrace</defName>
     <label>engulfed</label>
@@ -289,7 +289,7 @@
       </li>
     </renderNodeProperties>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_TickInfestation</defName>
     <label>flesh tick</label>
@@ -337,8 +337,22 @@
       <canMerge>false</canMerge>
       <destroyedLabel>Devoured</destroyedLabel>
     </injuryProps>
-  </HediffDef>
-  
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Mutator</workerClass>
+						<labelKey>XMT_AssessmentMutators</labelKey>
+						<groupKey>mutagenicActivity</groupKey>
+						<priority>0</priority>
+						<activeMutator>true</activeMutator>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+	</HediffDef>
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_UmbiInfestation</defName>
     <label>parasitic fetus</label>
@@ -384,13 +398,27 @@
       <canMerge>false</canMerge>
       <destroyedLabel>Drained</destroyedLabel>
     </injuryProps>
-  </HediffDef>
-  
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Mutator</workerClass>
+						<labelKey>XMT_AssessmentMutators</labelKey>
+						<groupKey>mutagenicActivity</groupKey>
+						<priority>0</priority>
+						<activeMutator>true</activeMutator>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+	</HediffDef>
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Constricting</defName>
     <label>constricted</label>
     <description>A snake like organism is constricting, slowly crushing the part.</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Xenomorphtype.Hediff_Tissue</hediffClass>
     <makesSickThought>false</makesSickThought>
     <makesAlert>true</makesAlert>
     <minSeverity>0</minSeverity>
@@ -421,13 +449,27 @@
 		</li>
 		<li Class="HediffCompProperties_DisappearsOnDeath" />
     </comps>
-  </HediffDef>
-  
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Corrosive</workerClass>
+						<labelKey>XMT_TissueSurfaceCorrosion</labelKey>
+						<hazard>true</hazard>
+						<groupKey>surfaceCorrosion</groupKey>
+						<priority>30</priority>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+	</HediffDef>
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Assasination</defName>
     <label>grappled</label>
     <description>A small slick creature is biting and tearing at the body part.</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Xenomorphtype.Hediff_Tissue</hediffClass>
     <makesSickThought>false</makesSickThought>
     <makesAlert>true</makesAlert>
     <minSeverity>0</minSeverity>
@@ -459,7 +501,21 @@
 		</li>
 		<li Class="HediffCompProperties_DisappearsOnDeath" />
     </comps>
-  </HediffDef>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Corrosive</workerClass>
+						<labelKey>XMT_TissueSurfaceCorrosion</labelKey>
+						<hazard>true</hazard>
+						<groupKey>surfaceCorrosion</groupKey>
+						<priority>30</priority>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+	</HediffDef>
 
 <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_SubverterAttachment</defName>
@@ -506,7 +562,12 @@
         </drawData>
       </li>
     </renderNodeProperties>
-  </HediffDef>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
+	</HediffDef>
 
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_InorganicSubverted</defName>

@@ -12,12 +12,14 @@ namespace Xenomorphtype
         private bool _settlementAttacked = false;
         private bool _distressQuestSent = false;
         private bool _removeWhenMapClears = false;
+        private bool _replaceWithHill;
         private int _distressQuestId = -1;
         private string _distressSignalTag;
 
         public bool SettlementAttacked => _settlementAttacked;
         public bool DistressQuestSent => _distressQuestSent;
         public bool RemoveWhenMapClears => _removeWhenMapClears;
+        public bool ReplaceWithHill => _replaceWithHill;
         public int DistressQuestId => _distressQuestId;
         public string DistressSignalTag => _distressSignalTag;
 
@@ -36,7 +38,8 @@ namespace Xenomorphtype
         {
             base.CompTickInterval(delta);
 
-            if(parent.Faction == Faction.OfPlayer)
+            if(parent.Faction == Faction.OfPlayer || _replaceWithHill
+                || !XenoformingUtility.IsSurfaceBiomeTile(parent.Tile))
             {
                 return;
             }
@@ -45,6 +48,8 @@ namespace Xenomorphtype
             {
                 return;
             }
+
+            if (Current.Game.GetComponent<GameComponent_Xenomorph>().conquestStarted) return;
 
             int tick = Find.TickManager.TicksGame;
 
@@ -126,12 +131,18 @@ namespace Xenomorphtype
             _removeWhenMapClears = true;
         }
 
+        public void Notify_ReplaceWithHill()
+        {
+            _replaceWithHill = true;
+        }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
             Scribe_Values.Look(ref _settlementAttacked, "settlementAttacked", false);
             Scribe_Values.Look(ref _distressQuestSent, "distressQuestSent", false);
             Scribe_Values.Look(ref _removeWhenMapClears, "removeWhenMapClears", false);
+            Scribe_Values.Look(ref _replaceWithHill, "replaceWithHill", false);
             Scribe_Values.Look(ref _distressQuestId, "distressQuestId", -1);
             Scribe_Values.Look(ref _distressSignalTag, "distressSignalTag");
             Scribe_Values.Look(ref AttackTolerance, "attackTolerance", 0);

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!-- General settings only. useDefaultRecognition on a hediff reuses the researchUnlocks
+	     and queenUnlocks below. Set it false to use only that hediff's individual recognition lists.
+	     Each hediff owns its MutationTissueExtension, diagnoses,
+	     grouping, priority, wording and recognition unlocks. With showInTissueBeforeInspection
+	     disabled, inspection OR a listed recognition unlock is required. Empty recognition
+	     lists therefore keep a condition strictly inspection-only. -->
+	<Xenomorphtype.TissueAssessmentDef>
+		<defName>XMT_TissueAssessment</defName>
+		<tabLabelKey>XMT_AssessmentTab</tabLabelKey>
+		<saturationKey>XMT_AssessmentSaturation</saturationKey>
+		<countKey>XMT_AssessmentConditionCount</countKey>
+		<moreKey>XMT_AssessmentMoreConditions</moreKey>
+		<compactNameLimit>3</compactNameLimit>
+		<requireVisible>true</requireVisible>
+		<includeInfluenceSources>true</includeInfluenceSources>
+		<allowGodMode>true</allowGodMode>
+		<excludeMatureMorphs>true</excludeMatureMorphs>
+		<researchUnlocks>
+			<li>XMT_Starbeast_Genetics</li>
+		</researchUnlocks>
+		<queenUnlocks>
+			<li>Evo_MutantExpression</li>
+		</queenUnlocks>
+		<noMutatorsKey>XMT_AssessmentNoMutators</noMutatorsKey>
+		<noHazardsKey>XMT_AssessmentNoInjury</noHazardsKey>
+		<otherTissueKey>XMT_AssessmentOtherTissue</otherTissueKey>
+		<noMutatorsPriority>0</noMutatorsPriority>
+		<noHazardsPriority>60</noHazardsPriority>
+		<otherTissuePriority>100</otherTissuePriority>
+		<defaultInspectionFindingKey>XMT_MedicalExaminationMutationFinding</defaultInspectionFindingKey>
+	</Xenomorphtype.TissueAssessmentDef>
+</Defs>

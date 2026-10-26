@@ -8,8 +8,20 @@ namespace Xenomorphtype
 
         public new HediffCompProperties_SurgeryInspectableEmbryo Props => (HediffCompProperties_SurgeryInspectableEmbryo)props;
 
+        public bool Identified => identified;
+
+        public override void CompExposeData()
+        {
+            base.CompExposeData();
+            Scribe_Values.Look(ref identified, "identified", false);
+        }
+
+        private bool identified;
+
         public override SurgicalInspectionOutcome DoSurgicalInspection(Pawn surgeon)
         {
+            if (Identified) return SurgicalInspectionOutcome.Nothing;
+            identified = true;
             KnowledgeUtility.ApplyExposure(surgeon, Props.knowledgeProfile, Props.knowledgeMagnitude, KnowledgeAcquisition.ControlledExperience, Pawn);
             XMTMedicalExaminationUtility.NotifyConditionDiscovered(surgeon, Props.cryptobioResearch);
             return SurgicalInspectionOutcome.Detected;

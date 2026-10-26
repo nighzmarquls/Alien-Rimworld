@@ -19,8 +19,8 @@ namespace Xenomorphtype
 
         public override void PreConfigure()
         {
-            base.PostWorldGenerate();
-            XenoformingUtility.SetXenoforming(levelRange.RandomInRange * 100);
+            base.PreConfigure();
+            Current.Game.GetComponent<GameComponent_Xenomorph>().InitializeScenarioXenoforming(levelRange.RandomInRange * 100);
         }
 
         public override void ExposeData()

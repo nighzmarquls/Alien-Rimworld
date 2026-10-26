@@ -75,6 +75,7 @@
 				<li>Foods</li>
 				<li>Corpses</li>
 				<li>PlantMatter</li>
+				<li>Plants</li>
 				<li MayRequire="DankPyon.Medieval.Overhaul">ResourcesRaw</li>
 				<li MayRequire="DankPyon.Medieval.Overhaul">FoodRaw</li>
 				<li MayRequire="DankPyon.Medieval.Overhaul">DankPyon_RawWood</li>

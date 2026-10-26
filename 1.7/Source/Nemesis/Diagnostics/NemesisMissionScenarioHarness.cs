@@ -47,6 +47,7 @@ namespace Xenomorphtype
                 Check("moved contact investigates both locations", NemesisMissionUtility.ChangedContacts(new[] { old }, new[] { fresh }, map.uniqueID).Count == 2);
                 RunSwarmProgressionContracts(component, map);
                 RunFollowUpContracts();
+                RunHarvestContracts(map);
                 Log.Message("[XMT][Mission scenario] PASS all mission data contracts.");
             }
             catch (Exception exception) { Log.Error("[XMT][Mission scenario] FAIL mission data contracts: " + exception); }
@@ -67,6 +68,43 @@ namespace Xenomorphtype
                 !LordJob_NemesisSwarmAssault.MeetsAttachmentThreshold(2, 3));
             Check("more than two-thirds swarm resolution succeeds",
                 LordJob_NemesisSwarmAssault.MeetsAttachmentThreshold(3, 4));
+        }
+
+        private static void RunHarvestContracts(Map map)
+        {
+            NemesisMissionDef harvest = DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_BiomassHarvest");
+            Check("harvest data is valid", !harvest.ConfigErrors().Any());
+            Check("harvest weight rises with adjacency", NemesisMissionWorker_Harvest.AdjacencyMultiplier(harvest.workerSettings, 3)
+                > NemesisMissionWorker_Harvest.AdjacencyMultiplier(harvest.workerSettings, 1));
+            Check("harvest adjacency weight is capped", NemesisMissionWorker_Harvest.AdjacencyMultiplier(harvest.workerSettings, 100)
+                == harvest.workerSettings.maximumAdjacencyMultiplier);
+            Check("loaded maps cannot be converted by world spread", XenoformingUtility.HasLoadedMap(map.Tile));
+            NemesisEvidenceDef resistance = DefDatabase<NemesisEvidenceDef>.GetNamed("XMT_Nemesis_HarvestersRepelled");
+            Check("resistance evidence fades over following nights", resistance.halfLifeDays > 0f && resistance.halfLifeDays <= 5f);
+            Check("destructive assault favors local resistance",
+                DefDatabase<NemesisMissionDef>.GetNamed("XMT_NemesisMission_Assault").workerSettings.weightEvidence == resistance);
+            foreach (BiomeDef biome in DefDatabase<XenoformedBiomeCollectionDef>.AllDefsListForReading.SelectMany(collection => collection.biomes))
+                Check("listed xenoformed biome has no fish: " + biome.defName, biome.maxFishPopulation == 0f);
+            QueenIngestibleResourceDef organic = DefDatabase<QueenIngestibleResourceDef>.GetNamed("XMT_OrganicJelly");
+            List<ResourceConversionEntry> entries = new List<ResourceConversionEntry> { new ResourceConversionEntry { resourceDef = organic } };
+            foreach (string defName in new[] { "Plant_Grass", "Plant_TreeOak", "Plant_Tinctoria" })
+                foreach (float growth in new[] { 0.2f, 1f })
+                {
+                    Plant plant = (Plant)ThingMaker.MakeThing(ThingDef.Named(defName));
+                    try
+                    {
+                        plant.Growth = growth;
+                        float nutrition = plant.GetStatValue(StatDefOf.Nutrition);
+                        float expected = nutrition * organic.nutritionToMass * (organic.applyJellySettings
+                            ? XMTSettings.JellyNutritionEfficiency / 0.5f : 1f);
+                        float actual = ResourceHelperUtility.Allocate(plant, entries, null).Sum(allocation => allocation.mass);
+                        Check("plant conversion uses native nutrition once: " + defName + " growth=" + growth,
+                            Mathf.Abs(actual - expected) < 0.0001f);
+                        Check("resource-approved plants can be cleared even without nutrition: " + defName,
+                            ResourceHelperUtility.CanConvertPlant(plant, entries, null));
+                    }
+                    finally { plant.Destroy(); }
+                }
         }
 
         private static void RunSwarmProgressionContracts(GameComponent_Nemesis component, Map map)

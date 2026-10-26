@@ -53,7 +53,7 @@ namespace Xenomorphtype
     {
         public bool Dirty = true;
         public int Revision;
-        public readonly List<InfiltrationNetworkComponent> Components = new List<InfiltrationNetworkComponent>();
+        public List<InfiltrationNetworkComponent> Components = new List<InfiltrationNetworkComponent>();
     }
 
     internal sealed class InfiltrationTopologyCache
@@ -61,10 +61,14 @@ namespace Xenomorphtype
         public readonly Dictionary<InfiltrationNetworkDef, GeometricCategoryCache> Categories = new Dictionary<InfiltrationNetworkDef, GeometricCategoryCache>();
         public bool ComponentsDirty = true;
         public bool PortsDirty = true;
+        public int PendingGeneration;
+        public bool BuildingPorts;
+        public bool RegionBindingsDirty = true;
+        public readonly HashSet<InfiltrationNetworkComponent> AccessDirty = new HashSet<InfiltrationNetworkComponent>();
         public int ComponentsRevision;
         public int PortsRevision;
         public int RegionRevision;
-        public readonly List<InfiltrationNetworkComponent> Components = new List<InfiltrationNetworkComponent>();
+        public List<InfiltrationNetworkComponent> Components = new List<InfiltrationNetworkComponent>();
         public readonly Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>> PortsByComponent = new Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>>();
         public readonly Dictionary<Region, List<InfiltrationPort>> PortsByRegion = new Dictionary<Region, List<InfiltrationPort>>();
         public readonly Dictionary<int, Building> EndpointsById = new Dictionary<int, Building>();
@@ -72,6 +76,9 @@ namespace Xenomorphtype
 
         public void Clear()
         {
+            PendingGeneration++;
+            RegionBindingsDirty = true;
+            AccessDirty.Clear();
             Categories.Clear();
             Components.Clear();
             PortsByComponent.Clear();
@@ -85,29 +92,26 @@ namespace Xenomorphtype
             RegionRevision++;
         }
 
+        // Notifications request verification. Published topology/revisions survive until
+        // its traversal members, connectivity or usable access cells actually differ.
         public void InvalidateComponents()
         {
             ComponentsDirty = true;
-            InvalidatePorts();
+            PendingGeneration++;
         }
 
         public void InvalidatePorts()
         {
             PortsDirty = true;
-            ReachablePortByRegion.Clear();
-            RegionRevision++;
+            PendingGeneration++;
         }
 
         public void InvalidateRegions()
         {
-            PortsDirty = true;
-            PortsByComponent.Clear();
-            PortsByRegion.Clear();
-            ReachablePortByRegion.Clear();
-            RegionRevision++;
+            RegionBindingsDirty = true;
+            InvalidatePorts();
         }
     }
-
     public static class InfiltrationUtility
     {
         private const string GeometricProviderKey = "geometric";
@@ -140,6 +144,19 @@ namespace Xenomorphtype
             return TraversalTopologyMapComponent.For(map)?.InfiltrationCache;
         }
 
+        internal static int PublishedTopologyVersion(Map map)
+        {
+            InfiltrationTopologyCache cache = GetCache(map);
+            return cache == null ? 0 : unchecked(cache.ComponentsRevision * 397 ^ cache.PortsRevision);
+        }
+
+        internal static void VerifyPendingChanges(Map map)
+        {
+            InfiltrationTopologyCache cache = GetCache(map);
+            if (cache != null && (cache.ComponentsDirty || cache.PortsDirty))
+                EnsurePorts(map);
+        }
+
         public static bool IsCellTrapped(IntVec3 cell, Map map, TraverseMode traverseMode = TraverseMode.PassDoors, Danger maxDanger = Danger.None)
         {
             if (!cell.IsValid || map == null || !cell.InBounds(map))
@@ -158,6 +175,7 @@ namespace Xenomorphtype
             if (building?.Map != null)
             {
                 MarkDirty(building.Map, building.def);
+                NotifyAccessCellsChanged(building, building.Map);
                 if (building.AllComps?.Any(comp => comp is CompResource) == true)
                 {
                     GetCache(building.Map)?.InvalidateComponents();
@@ -180,11 +198,29 @@ namespace Xenomorphtype
             if (building != null && previousMap != null)
             {
                 MarkDirty(previousMap, building.def);
+                NotifyAccessCellsChanged(building, previousMap);
                 if (building.AllComps?.Any(comp => comp is CompResource) == true)
                 {
                     GetCache(previousMap)?.InvalidateComponents();
                 }
             }
+        }
+
+        private static void NotifyAccessCellsChanged(Building changed, Map map)
+        {
+            InfiltrationTopologyCache cache = GetCache(map);
+            if (cache == null)
+                return;
+            bool affected = false;
+            foreach (InfiltrationNetworkComponent component in cache.Components)
+                if (component.Endpoints.Any(endpoint => endpoint != null &&
+                    changed.OccupiedRect().Any(cell => endpoint.OccupiedRect().ExpandedBy(1).Contains(cell))))
+                {
+                    cache.AccessDirty.Add(component);
+                    affected = true;
+                }
+            if (affected)
+                cache.InvalidatePorts();
         }
 
         private static void MarkDirty(Map map, ThingDef thingDef)
@@ -263,6 +299,18 @@ namespace Xenomorphtype
 
         private static void RebuildGeometricCategory(Map map, InfiltrationNetworkDef networkDef, GeometricCategoryCache categoryCache)
         {
+            GeometricCategoryCache pending = new GeometricCategoryCache();
+            BuildGeometricCategory(map, networkDef, pending);
+            categoryCache.Dirty = false;
+            if (categoryCache.Components.Count == pending.Components.Count &&
+                categoryCache.Components.All(existing => pending.Components.Any(candidate => SameNetwork(existing, candidate))))
+                return;
+            categoryCache.Components = pending.Components;
+            categoryCache.Revision++;
+        }
+
+        private static void BuildGeometricCategory(Map map, InfiltrationNetworkDef networkDef, GeometricCategoryCache categoryCache)
+        {
             categoryCache.Components.Clear();
             categoryCache.Dirty = false;
             categoryCache.Revision++;
@@ -274,8 +322,7 @@ namespace Xenomorphtype
                 memberDefs.UnionWith(networkDef.connectorDefs.Where(def => def != null));
             }
 
-            List<Building> members = map.listerThings.AllThings
-                .OfType<Building>()
+            List<Building> members = memberDefs.SelectMany(def => map.listerThings.ThingsOfDef(def)).OfType<Building>()
                 .Where(building => building.Spawned && memberDefs.Contains(building.def))
                 .OrderBy(building => building.thingIDNumber)
                 .ToList();
@@ -365,31 +412,70 @@ namespace Xenomorphtype
             }
         }
 
+        internal static bool SameNetwork(InfiltrationNetworkComponent left, InfiltrationNetworkComponent right)
+        {
+            return left.ProviderKey == right.ProviderKey && left.CategoryKey == right.CategoryKey &&
+                left.GeometricDef == right.GeometricDef && left.Members.Count == right.Members.Count &&
+                left.Endpoints.Count == right.Endpoints.Count &&
+                new HashSet<Building>(left.Members).SetEquals(right.Members) &&
+                new HashSet<Building>(left.Endpoints).SetEquals(right.Endpoints);
+        }
+
+        internal static int ReuseEquivalentComponents(IReadOnlyList<InfiltrationNetworkComponent> previous, List<InfiltrationNetworkComponent> candidates)
+        {
+            // Index by a stable endpoint, rather than comparing every network pair.
+            var indexed = previous.Where(component => component.Endpoints.Count > 0)
+                .GroupBy(component => (component.ProviderKey, component.CategoryKey, component.Endpoints.Min(endpoint => endpoint.thingIDNumber)))
+                .ToDictionary(group => group.Key, group => group.ToList());
+            HashSet<InfiltrationNetworkComponent> retained = new HashSet<InfiltrationNetworkComponent>();
+            for (int i = 0; i < candidates.Count; i++)
+            {
+                InfiltrationNetworkComponent candidate = candidates[i];
+                if (candidate.Endpoints.Count == 0 || !indexed.TryGetValue(
+                    (candidate.ProviderKey, candidate.CategoryKey, candidate.Endpoints.Min(endpoint => endpoint.thingIDNumber)), out var matches))
+                    continue;
+                InfiltrationNetworkComponent existing = matches.FirstOrDefault(component =>
+                    !retained.Contains(component) && SameNetwork(component, candidate));
+                if (existing == null)
+                    continue;
+                existing.ProviderIdentity = candidate.ProviderIdentity;
+                candidates[i] = existing;
+                retained.Add(existing);
+            }
+            return retained.Count;
+        }
+
         private static void EnsureComponents(Map map)
         {
             InfiltrationTopologyCache cache = GetCache(map);
-            if (cache == null || (!cache.ComponentsDirty && CacheGeometricNetworks))
-            {
+            if (cache == null || !cache.ComponentsDirty)
                 return;
-            }
 
             EnsureDefRegistry();
-            cache.Components.Clear();
-            cache.EndpointsById.Clear();
+            int generation = cache.PendingGeneration;
+            List<InfiltrationNetworkComponent> candidates = new List<InfiltrationNetworkComponent>();
             foreach (InfiltrationNetworkDef networkDef in geometricDefs)
-            {
-                cache.Components.AddRange(GetGeometricCategory(map, networkDef).Components.Where(component => component.Endpoints.Count > 0));
-            }
-            AddPipeNetComponents(map, cache.Components);
-            foreach (Building endpoint in cache.Components.SelectMany(component => component.Endpoints).Where(endpoint => endpoint != null))
-            {
-                cache.EndpointsById[endpoint.thingIDNumber] = endpoint;
-            }
+                candidates.AddRange(GetGeometricCategory(map, networkDef).Components.Where(component => component.Endpoints.Count > 0));
+            AddPipeNetComponents(map, candidates);
+
+            // Equivalent PipeNet replacements must not replace component identities held
+            // by an in-progress route search. Preserve unrelated networks as well.
+            int retained = ReuseEquivalentComponents(cache.Components, candidates);
+            if (generation != cache.PendingGeneration)
+                return;
+
             cache.ComponentsDirty = false;
+            if (retained == cache.Components.Count && retained == candidates.Count)
+                return;
+
+            // Publish a new list; callers may still be enumerating the old snapshot.
+            cache.Components = candidates;
+            cache.EndpointsById.Clear();
+            foreach (Building endpoint in candidates.SelectMany(component => component.Endpoints))
+                cache.EndpointsById[endpoint.thingIDNumber] = endpoint;
             cache.ComponentsRevision++;
             cache.InvalidatePorts();
         }
-
         internal static IReadOnlyList<InfiltrationNetworkComponent> GetAllComponents(Map map)
         {
             EnsureComponents(map);
@@ -451,7 +537,7 @@ namespace Xenomorphtype
                 }
                 foreach (IntVec3 cell in endpoint.OccupiedRect().AdjacentCellsCardinal)
                 {
-                    if (!cell.GetThingList(map).OfType<Building>().Any(members.Contains))
+                    if (cell.InBounds(map) && !cell.GetThingList(map).OfType<Building>().Any(members.Contains))
                     {
                         candidates.Add(cell);
                     }
@@ -474,48 +560,101 @@ namespace Xenomorphtype
             }
         }
 
-        private static void EnsurePorts(Map map)
+        internal static bool SamePorts(IReadOnlyList<InfiltrationPort> left, IReadOnlyList<InfiltrationPort> right, bool includeRegions)
         {
-            EnsureComponents(map);
-            InfiltrationTopologyCache cache = GetCache(map);
-            if (cache == null || !cache.PortsDirty)
-            {
-                return;
-            }
-
-            cache.PortsByComponent.Clear();
-            cache.PortsByRegion.Clear();
-            cache.ReachablePortByRegion.Clear();
-            foreach (InfiltrationNetworkComponent component in cache.Components)
-            {
-                List<InfiltrationPort> ports = BuildPorts(component, map).ToList();
-                cache.PortsByComponent[component] = ports;
-                foreach (InfiltrationPort port in ports)
-                {
-                    if (!cache.PortsByRegion.TryGetValue(port.Region, out List<InfiltrationPort> regionPorts))
-                    {
-                        regionPorts = new List<InfiltrationPort>();
-                        cache.PortsByRegion.Add(port.Region, regionPorts);
-                    }
-                    regionPorts.Add(port);
-                }
-            }
-            cache.PortsDirty = false;
-            cache.PortsRevision++;
+            if (left.Count != right.Count)
+                return false;
+            for (int i = 0; i < left.Count; i++)
+                if (left[i].Endpoint != right[i].Endpoint || left[i].AccessCell != right[i].AccessCell ||
+                    includeRegions && left[i].Region != right[i].Region)
+                    return false;
+            return true;
         }
 
+        private static bool EnsurePorts(Map map)
+        {
+            InfiltrationTopologyCache cache = GetCache(map);
+            if (cache == null || cache.BuildingPorts)
+                return false;
+
+            // GetRegion can synchronously emit RegionsRoomsChanged. Settle that before
+            // taking a generation or enumerating any published port collections.
+            map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+            EnsureComponents(map);
+            if (cache.ComponentsDirty || map.regionDirtyer.AnyDirty)
+                return false;
+            if (!cache.PortsDirty)
+                return true;
+
+            int generation = cache.PendingGeneration;
+            bool topologyChanged = cache.PortsByComponent.Count != cache.Components.Count;
+            bool bindingsChanged = false;
+            Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>> pending = new Dictionary<InfiltrationNetworkComponent, List<InfiltrationPort>>();
+            cache.BuildingPorts = true;
+            try
+            {
+                foreach (InfiltrationNetworkComponent component in cache.Components)
+                {
+                    List<InfiltrationPort> ports = !cache.RegionBindingsDirty && !cache.AccessDirty.Contains(component) &&
+                        cache.PortsByComponent.TryGetValue(component, out List<InfiltrationPort> unchanged)
+                        ? unchanged : BuildPorts(component, map).ToList();
+                    if (cache.PortsByComponent.TryGetValue(component, out List<InfiltrationPort> previous))
+                    {
+                        topologyChanged |= !SamePorts(previous, ports, includeRegions: false);
+                        if (SamePorts(previous, ports, includeRegions: true))
+                            ports = previous;
+                        else
+                            bindingsChanged = true;
+                    }
+                    else
+                        topologyChanged = true;
+                    pending.Add(component, ports);
+                }
+                if (generation != cache.PendingGeneration || map.regionDirtyer.AnyDirty)
+                    return false;
+
+                if (topologyChanged || bindingsChanged)
+                {
+                    cache.PortsByComponent.Clear();
+                    cache.PortsByRegion.Clear();
+                    cache.ReachablePortByRegion.Clear();
+                    foreach (var pair in pending)
+                    {
+                        cache.PortsByComponent.Add(pair.Key, pair.Value);
+                        foreach (InfiltrationPort port in pair.Value)
+                        {
+                            if (!cache.PortsByRegion.TryGetValue(port.Region, out List<InfiltrationPort> regionPorts))
+                                cache.PortsByRegion.Add(port.Region, regionPorts = new List<InfiltrationPort>());
+                            regionPorts.Add(port);
+                        }
+                    }
+                    if (topologyChanged)
+                        cache.PortsRevision++;
+                    if (bindingsChanged || topologyChanged)
+                        cache.RegionRevision++;
+                }
+                // Region links/door state can change without replacing Region objects.
+                cache.ReachablePortByRegion.Clear();
+                cache.RegionBindingsDirty = false;
+                cache.AccessDirty.Clear();
+                cache.PortsDirty = false;
+                return true;
+            }
+            finally
+            {
+                cache.BuildingPorts = false;
+            }
+        }
         internal static IReadOnlyList<InfiltrationPort> GetPorts(Map map, InfiltrationNetworkComponent component)
         {
-            EnsurePorts(map);
-            return GetCache(map)?.PortsByComponent.TryGetValue(component, out List<InfiltrationPort> ports) == true
+            return EnsurePorts(map) && GetCache(map)?.PortsByComponent.TryGetValue(component, out List<InfiltrationPort> ports) == true
                 ? ports
                 : (IReadOnlyList<InfiltrationPort>)Array.Empty<InfiltrationPort>();
         }
 
         internal static IReadOnlyList<InfiltrationPort> GetPorts(Map map, Region region)
         {
-            EnsurePorts(map);
-            return region != null && GetCache(map)?.PortsByRegion.TryGetValue(region, out List<InfiltrationPort> ports) == true
+            return EnsurePorts(map) && region != null && GetCache(map)?.PortsByRegion.TryGetValue(region, out List<InfiltrationPort> ports) == true
                 ? ports
                 : (IReadOnlyList<InfiltrationPort>)Array.Empty<InfiltrationPort>();
         }
@@ -526,7 +665,8 @@ namespace Xenomorphtype
             {
                 return false;
             }
-            EnsurePorts(map);
+            if (!EnsurePorts(map))
+                return false;
             InfiltrationTopologyCache cache = GetCache(map);
             if (cache == null || cache.PortsByRegion.Count == 0)
             {
@@ -596,7 +736,8 @@ namespace Xenomorphtype
                 return false;
             }
 
-            EnsurePorts(map);
+            if (!EnsurePorts(map))
+                return false;
             InfiltrationTopologyCache cache = GetCache(map);
             Building entry = cache?.EndpointsById.TryGetValue(leg.entryThingId, out Building cachedEntry) == true ? cachedEntry : null;
             Building exit = cache?.EndpointsById.TryGetValue(leg.exitThingId, out Building cachedExit) == true ? cachedExit : null;
@@ -627,7 +768,8 @@ namespace Xenomorphtype
                 return "no map";
             }
             List<string> lines = new List<string>();
-            EnsurePorts(map);
+            if (!EnsurePorts(map))
+                return "topology verification pending";
             InfiltrationTopologyCache cache = GetCache(map);
             lines.Add("aggregate: componentsRevision=" + (cache?.ComponentsRevision ?? 0) +
                 ", portsRevision=" + (cache?.PortsRevision ?? 0) + ", regionRevision=" + (cache?.RegionRevision ?? 0) +

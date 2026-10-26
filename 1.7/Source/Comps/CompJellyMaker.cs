@@ -33,7 +33,9 @@ namespace Xenomorphtype
         public List<ResourceConversionEntry> Resources => Props.resources;
         private PipeSystem.CompResource Network => parent.GetComp<PipeSystem.CompResource>();
 
-        public bool CanMakeIntoJelly(Thing thing) => Inputs.Allows(thing) && Evaluate(thing, 1f).Count > 0;
+        public bool CanMakeIntoJelly(Thing thing) => thing is Plant plant
+            ? ResourceHelperUtility.CanConvertPlant(plant, Resources, parent)
+            : Inputs.Allows(thing) && Evaluate(thing, 1f).Count > 0;
         public bool CanMakeIntoJelly(ThingDef def) => Inputs.GetStoreSettings().filter.Allows(def) && CanPotentiallyConvert(def);
         public bool CanConvertCell(IntVec3 cell)
             => parent.Map != null && cell.InBounds(parent.Map) && (FindIngredient(cell, parent.Map) != null
@@ -109,6 +111,16 @@ namespace Xenomorphtype
             Map map = ingredient.Map;
             IntVec3 cell = ingredient.Position;
             ResourceHelperUtility.ConversionPlan plan = ResourceHelperUtility.PlanConversion(ingredient, Resources, parent, efficiency);
+            if (ingredient is Plant plant && plan.Allocations.Count == 0)
+            {
+                // Resource filters still govern eligibility. A zero-nutrition plant obstructs
+                // the terrain beneath it, but clearing it must not invent a jelly yield.
+                FeralJobUtility.ClearFeralJobReservationsForTarget(map, plant);
+                plant.Kill();
+                LastConversionSucceeded = !plant.Spawned;
+                RemoveDesignation(cell, map);
+                return 0;
+            }
             if (!plan.TryConsume()) return 0;
             List<ThingDefCountClass> products = FinalCounts(plan.Allocations, 1f, true);
             LastConversionSucceeded = true;

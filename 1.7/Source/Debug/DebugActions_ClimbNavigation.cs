@@ -208,7 +208,9 @@ namespace Xenomorphtype
                 Find.Targeter.BeginTargeting(destinationTargeting, delegate (LocalTargetInfo destination)
                 {
                     PathEndMode peMode = destination.HasThing ? PathEndMode.ClosestTouch : PathEndMode.OnCell;
-                    string report = pawn.LabelShort + " -> " + destination + ": " + ClimbUtility.GetClimbDecisionReport(pawn, destination, peMode);
+                    bool preserved = DebugActions_TraversalValidation.VerifyProbeIsolation(pawn, destination, peMode);
+                    string report = pawn.LabelShort + " -> " + destination + ": " + ClimbUtility.GetClimbDecisionReport(pawn, destination, peMode) +
+                        "; probePreservedState=" + preserved;
                     Log.Message("[Alien | Rimworld] " + report);
                     Messages.Message(report, MessageTypeDefOf.TaskCompletion, false);
                 });

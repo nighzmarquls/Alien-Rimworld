@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Xenomorphtype.XenoformedBiomeCollectionDef>
+    <defName>XMT_XenoformedBiomes</defName>
+    <biomes>
+      <li>XMT_DessicatedBlight</li>
+      <li>XMT_BarrenDustbowl</li>
+      <li>XMT_ChilledWaste</li>
+    </biomes>
+  </Xenomorphtype.XenoformedBiomeCollectionDef>
+
+  <Xenomorphtype.NemesisEvidenceDef>
+    <defName>XMT_Nemesis_HarvestersRepelled</defName>
+    <halfLifeDays>3</halfLifeDays>
+  </Xenomorphtype.NemesisEvidenceDef>
+
+  <Xenomorphtype.NemesisMissionDef>
+    <defName>XMT_NemesisMission_BiomassHarvest</defName>
+    <label>biomass harvesting</label>
+    <workerClass>Xenomorphtype.NemesisMissionWorker_Harvest</workerClass>
+    <lordJobClass>Xenomorphtype.LordJob_NemesisHarvest</lordJobClass>
+    <acceptableLayers><li>Surface</li></acceptableLayers>
+    <allowDormant>true</allowDormant>
+    <allowAwakened>true</allowAwakened>
+    <populationRange>2~20</populationRange>
+    <xenoformingForMaximumPressure>100</xenoformingForMaximumPressure>
+    <maximumDurationTicks>30000</maximumDurationTicks>
+    <baseWeight>6</baseWeight>
+    <workerSettings>
+      <pawnKind>XMT_FeralStarbeastKind</pawnKind>
+      <useThreatPointsForPopulation>true</useThreatPointsForPopulation>
+      <raidPointBudgetFactor>1</raidPointBudgetFactor>
+      <localSearchRadius>28</localSearchRadius>
+      <adjacentBiomeWeight>0.5</adjacentBiomeWeight>
+      <maximumAdjacencyMultiplier>4</maximumAdjacencyMultiplier>
+      <harvestCellsPerTick>256</harvestCellsPerTick>
+      <collectionDurationTicks>1200</collectionDurationTicks>
+    </workerSettings>
+  </Xenomorphtype.NemesisMissionDef>
+
+  <JobDef>
+    <defName>XMT_NemesisCollectJelly</defName>
+    <driverClass>Xenomorphtype.JobDriver_NemesisCollectJelly</driverClass>
+    <reportString>collecting TargetA.</reportString>
+    <checkOverrideOnDamage>Never</checkOverrideOnDamage>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+    <neverFleeFromEnemies>true</neverFleeFromEnemies>
+    <suspendable>false</suspendable>
+  </JobDef>
+</Defs>

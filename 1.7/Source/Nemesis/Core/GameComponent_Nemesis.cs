@@ -118,6 +118,13 @@ namespace Xenomorphtype
             xenotypeKnowledge = normalized;
         }
 
+        public override void StartedNewGame()
+        {
+            base.StartedNewGame();
+            float xenoforming = Current.Game?.GetComponent<GameComponent_Xenomorph>()?.Xenoforming ?? 0f;
+            NotifyXenoformingChanged(0f, xenoforming);
+        }
+
         public override void LoadedGame()
         {
             base.LoadedGame();
@@ -130,6 +137,8 @@ namespace Xenomorphtype
 
         public void NotifyXenoformingChanged(float previous, float current)
         {
+            if (Current.Game?.World?.factionManager == null) return;
+
             if (previous > 0f && current <= 0f) ResetGeneticCycle();
             UpdateGeneticAcquisition(current);
             if (!awakened && previous < Settings.activationXenoforming && current >= Settings.activationXenoforming)

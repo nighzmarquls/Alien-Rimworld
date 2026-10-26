@@ -92,6 +92,12 @@ namespace Xenomorphtype
                         
                     for (int num = hediffs.Count - 1; num >= 0; num--)
                     {
+                        // Also enforce the def's immunities on conditions already present in a save.
+                        if (hediffs[num] is Hediff_Addiction || Props.ImpossibleHediffs?.Contains(hediffs[num].def) == true)
+                        {
+                            RemoveImperfection(hediffs[num]);
+                            continue;
+                        }
                         if (hediffs[num].Bleeding)
                         {
                             hediffs[num].Tended(TendingQualityRange.RandomInRange, TendingQualityRange.TrueMax, 1);

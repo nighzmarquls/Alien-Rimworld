@@ -43,33 +43,30 @@ namespace Xenomorphtype {
 
         private bool TryResolveCorrosiveDamagePart(Pawn pawn, ref BodyPartRecord targetPart)
         {
-            if (pawn == null || targetPart == null)
+            return DamageTargets(pawn, targetPart).TryRandomElement(out targetPart);
+        }
+
+        public static IEnumerable<BodyPartRecord> DamageTargets(Pawn pawn, BodyPartRecord originalPart)
+        {
+            if (pawn == null || originalPart == null)
             {
-                return false;
+                yield break;
             }
 
-            if (pawn.health.hediffSet.PartIsMissing(targetPart))
+            if (pawn.health.hediffSet.PartIsMissing(originalPart))
             {
-                return false;
+                yield break;
             }
 
-            if (targetPart.coverageAbs > 0f && targetPart.depth == BodyPartDepth.Outside)
+            if (originalPart.coverageAbs > 0f && originalPart.depth == BodyPartDepth.Outside)
             {
-                return true;
+                if (!originalPart.IsCorePart) yield return originalPart;
+                yield break;
             }
 
-            BodyPartRecord originalPart = targetPart;
-            List<BodyPartRecord> childParts = originalPart.GetPartAndAllChildParts()
-                .Where(part => part != originalPart && part.coverageAbs > 0f && part.depth == BodyPartDepth.Outside && !pawn.health.hediffSet.PartIsMissing(part))
-                .ToList();
-
-            if (!childParts.Any())
-            {
-                return false;
-            }
-
-            targetPart = childParts.RandomElement();
-            return true;
+            foreach (BodyPartRecord part in originalPart.GetPartAndAllChildParts())
+                if (part != originalPart && !part.IsCorePart && part.coverageAbs > 0f && part.depth == BodyPartDepth.Outside &&
+                    !pawn.health.hediffSet.PartIsMissing(part)) yield return part;
         }
     }
 

@@ -14,6 +14,55 @@ namespace Xenomorphtype
 {
     internal class XMTHealthPatches
     {
+        [HarmonyPatch(typeof(HediffComp_SeverityPerDay), nameof(HediffComp_SeverityPerDay.CompExposeData))]
+        public static class Patch_ProtofluidSavedDecay
+        {
+            public static void Postfix(HediffComp_SeverityPerDay __instance, ref float ___severityPerDay)
+            {
+                // Vanilla saves the calculated rate, so pre-update exposures otherwise retain -1/day.
+                if (Scribe.mode == LoadSaveMode.PostLoadInit &&
+                    __instance.parent.def.hediffClass != null &&
+                    typeof(Hediff_Protofluid).IsAssignableFrom(__instance.parent.def.hediffClass))
+                    ___severityPerDay = ((HediffCompProperties_SeverityPerDay)__instance.props).severityPerDay;
+            }
+        }
+
+        [HarmonyPatch]
+        public static class Patch_MutationInjuryHealingEligibility
+        {
+            public static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(HediffUtility), nameof(HediffUtility.CanHealNaturally));
+                yield return AccessTools.Method(typeof(HediffUtility), nameof(HediffUtility.CanHealFromTending));
+            }
+
+            public static bool Prefix(Hediff_Injury __0, ref bool __result)
+            {
+                if (!Hediff_MutationInjury.IsMutationInjury(__0)) return true;
+                __result = false;
+                return false;
+            }
+        }
+
+        // Saved injuries retain their serialized class. Protect them until naturally replaced,
+        // without rebuilding hediffs and losing their saved promotion/comp state.
+        [HarmonyPatch(typeof(Hediff_Injury), nameof(Hediff_Injury.Heal))]
+        public static class Patch_LegacyMutationInjuryHealing
+        {
+            public static bool Prefix(Hediff_Injury __instance) => !Hediff_MutationInjury.IsMutationInjury(__instance);
+        }
+
+        [HarmonyPatch(typeof(Hediff_Injury), nameof(Hediff_Injury.TryMergeWith))]
+        public static class Patch_LegacyMutationInjuryMerge
+        {
+            public static bool Prefix(Hediff_Injury __instance, Hediff __0, ref bool __result)
+            {
+                if (!Hediff_MutationInjury.IsMutationInjury(__instance)) return true;
+                __result = Hediff_MutationInjury.MergeMutation(__instance, __0);
+                return false;
+            }
+        }
+
         [HarmonyPatch]
         public static class Patch_Toils_Tend_FinalizeTend
         {

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_Protofluid</defName>
@@ -6,9 +6,9 @@
 		<description>A discoloration spreads out from an injection site.</description>
 		<everCurableByItem>false</everCurableByItem>
 		<makesSickThought>true</makesSickThought>
-		<hediffClass>Hediff_Injury</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_Protofluid</hediffClass>
 		<makesAlert>true</makesAlert>
-		<minSeverity>0.01</minSeverity>
+		<minSeverity>0</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<initialSeverity>1</initialSeverity>
 		<stages>
@@ -45,13 +45,19 @@
 		</stages>
 		<comps>
 		    <li Class="HediffCompProperties_SeverityPerDay">
-				<severityPerDay>-1</severityPerDay>
+				<!-- A full exposure metabolizes over three in-game days. -->
+                <severityPerDay>-0.33333334</severityPerDay>
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_Mutator">
 				<onlyOneMutation>true</onlyOneMutation>
+                <completionPreference>0.75</completionPreference>
+                <pregnancyProgressPerPulse>0.02</pregnancyProgressPerPulse>
 				<probability>0.75</probability>
-				<mutateHourInterval>0.1</mutateHourInterval>
+				<mutateHourInterval>0.08</mutateHourInterval>
 				<customMutationSet>XMT_ProtofluidMutationSet</customMutationSet>
+                <!-- First-pass exposure shock: normal mutation completion remains preferred. -->
+                <toxicShockChance>0.05</toxicShockChance>
+                <toxicShockSeverity>0.05</toxicShockSeverity>
 			</li>
 		</comps>
 		<injuryProps>
@@ -60,6 +66,34 @@
 		  <canMerge>true</canMerge>
 		  <destroyedLabel>Dissolved</destroyedLabel>
 		</injuryProps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<summaryLabelKey>XMT_TissueLabel_Exposure</summaryLabelKey>
+				<revealedSummaryLabelKey>XMT_TissueLabel_Exposure</revealedSummaryLabelKey>
+				<revealedHealthLabelKey>XMT_TissueLabel_Exposure</revealedHealthLabelKey>
+				<descriptionKey>XMT_TissueDescription_Exposure</descriptionKey>
+				<revealedDescriptionKey>XMT_TissueDescription_Exposure</revealedDescriptionKey>
+				<revealedHealthDescriptionKey>XMT_TissueDescription_Exposure</revealedHealthDescriptionKey>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Mutator</workerClass>
+						<labelKey>XMT_AssessmentMutators</labelKey>
+						<groupKey>mutagenicActivity</groupKey>
+						<priority>0</priority>
+						<activeMutator>true</activeMutator>
+					</li>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_ToxicStress</workerClass>
+						<labelKey>XMT_TissueMutagenicToxicity</labelKey>
+						<hazard>true</hazard>
+						<groupKey>mutagenicToxicStress</groupKey>
+						<priority>50</priority>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
 
 	<HediffDef ParentName="XenomorphtypeBase">
@@ -71,7 +105,7 @@
 		<makesAlert>false</makesAlert>
 		<minSeverity>0.000</minSeverity>
 		<maxSeverity>1</maxSeverity>
-		<hediffClass>Hediff_Injury</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_MutationInjury</hediffClass>
 		<displayWound>true</displayWound>
 		<initialSeverity>0.1</initialSeverity>
 		<stages>
@@ -79,14 +113,14 @@
 				<label>benign</label>
 				<becomeVisible>false</becomeVisible>
 				<partEfficiencyOffset>-0.05</partEfficiencyOffset>
-				<hungerRateFactorOffset>1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>benign</label>
 				<becomeVisible>false</becomeVisible>
 				<minSeverity>0.1</minSeverity>
 				<partEfficiencyOffset>-0.05</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 		</stages>
 		<comps>
@@ -209,8 +243,20 @@
 		  <destroyedLabel>Dissolved</destroyedLabel>
 		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent>
 		</injuryProps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<summaryLabelKey>XMT_TissueLabel_Infiltration</summaryLabelKey>
+				<revealedSummaryLabelKey>XMT_TissueLabel_Infiltration</revealedSummaryLabelKey>
+				<revealedHealthLabelKey>XMT_TissueLabel_Infiltration</revealedHealthLabelKey>
+				<descriptionKey>XMT_TissueDescription_Infiltration</descriptionKey>
+				<revealedDescriptionKey>XMT_TissueDescription_Infiltration</revealedDescriptionKey>
+				<revealedHealthDescriptionKey>XMT_TissueDescription_Infiltration</revealedHealthDescriptionKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_DebuffEssence</defName>
 		<label>foreign tissue</label>
@@ -221,42 +267,42 @@
 		<minSeverity>0.000</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<initialSeverity>0.1</initialSeverity>
-		<hediffClass>Hediff_Injury</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_MutationInjury</hediffClass>
 		<displayWound>true</displayWound>
 		<stages>
 			<li>
 				<label>benign</label>
 				<becomeVisible>false</becomeVisible>
 				<partEfficiencyOffset>-0.05</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>detrimental</label>
 				<becomeVisible>false</becomeVisible>
 				<minSeverity>0.2</minSeverity>
 				<partEfficiencyOffset>-0.15</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>malformed</label>
 				<becomeVisible>true</becomeVisible>
 				<minSeverity>0.3</minSeverity>
 				<partEfficiencyOffset>-0.2</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.2</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.02</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>crippling</label>
 				<becomeVisible>true</becomeVisible>
 				<minSeverity>0.5</minSeverity>
 				<partEfficiencyOffset>-0.4</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.3</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.03</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>crippling</label>
 				<becomeVisible>true</becomeVisible>
 				<minSeverity>0.75</minSeverity>
 				<partEfficiencyOffset>-0.8</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.5</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.05</hungerRateFactorOffset>
 			</li>
 		</stages>
 		<comps>
@@ -385,8 +431,20 @@
 		  <destroyedLabel>Dissolved</destroyedLabel>
 		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent>
 		</injuryProps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<summaryLabelKey>XMT_TissueLabel_Malformed</summaryLabelKey>
+				<revealedSummaryLabelKey>XMT_TissueLabel_Malformed</revealedSummaryLabelKey>
+				<revealedHealthLabelKey>XMT_TissueLabel_Malformed</revealedHealthLabelKey>
+				<descriptionKey>XMT_TissueDescription_Malformed</descriptionKey>
+				<revealedDescriptionKey>XMT_TissueDescription_Malformed</revealedDescriptionKey>
+				<revealedHealthDescriptionKey>XMT_TissueDescription_Malformed</revealedHealthDescriptionKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_SilicateEssence</defName>
 		<label>silicate tissue</label>
@@ -397,35 +455,35 @@
 		<minSeverity>0.000</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<initialSeverity>0.1</initialSeverity>
-		<hediffClass>Hediff_Injury</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_MutationInjury</hediffClass>
 		<displayWound>true</displayWound>
 		<stages>
 			<li>
 				<label>sparse</label>
 				<becomeVisible>false</becomeVisible>
 				<partEfficiencyOffset>-0.1</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>detrimental</label>
 				<becomeVisible>false</becomeVisible>
 				<minSeverity>0.2</minSeverity>
 				<partEfficiencyOffset>-0.15</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>malformed</label>
 				<becomeVisible>true</becomeVisible>
 				<minSeverity>0.3</minSeverity>
 				<partEfficiencyOffset>0.05</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 			<li>
 				<label>integrated</label>
 				<becomeVisible>true</becomeVisible>
 				<minSeverity>0.75</minSeverity>
 				<partEfficiencyOffset>0.15</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 		</stages>
 		<comps>
@@ -437,6 +495,7 @@
 			</li>
 			<li Class="Xenomorphtype.HediffCompProperties_GiveInjury">
 				<damageDef>Cut</damageDef>
+				<latticeProtection>true</latticeProtection>
 				<chancebySeverity>
 					<points>
 					  <li>(0.0, 0.01)</li>
@@ -560,10 +619,42 @@
 		  <bleedRate>0.0</bleedRate>
 		  <canMerge>true</canMerge>
 		  <destroyedLabel>Shreded</destroyedLabel>
-		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent> 
+		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent>
 		</injuryProps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<summaryLabelKey>XMT_TissueLabel_Crystalline</summaryLabelKey>
+				<revealedSummaryLabelKey>XMT_TissueLabel_Crystalline</revealedSummaryLabelKey>
+				<revealedHealthLabelKey>XMT_TissueLabel_Crystalline</revealedHealthLabelKey>
+				<descriptionKey>XMT_TissueDescription_Crystalline</descriptionKey>
+				<revealedDescriptionKey>XMT_TissueDescription_Crystalline</revealedDescriptionKey>
+				<revealedHealthDescriptionKey>XMT_TissueDescription_Crystalline</revealedHealthDescriptionKey>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Mechanical</workerClass>
+						<damageTypes>
+							<li>Cut</li>
+						</damageTypes>
+						<labelKey>XMT_TissueLacerationDiagnosis</labelKey>
+						<activityAdviceKey>XMT_TissueBedRest</activityAdviceKey>
+						<restingAdviceKey>XMT_TissueInjuryAtRest</restingAdviceKey>
+						<hazard>true</hazard>
+						<groupKey>mechanicalLacerations</groupKey>
+						<priority>10</priority>
+					</li>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_LatticeProtection</workerClass>
+						<labelKey>XMT_AssessmentLatticeProtection</labelKey>
+						<groupKey>latticeProtection</groupKey>
+						<priority>70</priority>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
-	
+
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_BoostingEssence</defName>
 		<label>foreign tissue</label>
@@ -574,7 +665,7 @@
 		<minSeverity>0.001</minSeverity>
 		<maxSeverity>1</maxSeverity>
 		<initialSeverity>0.1</initialSeverity>
-		<hediffClass>Hediff_Injury</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_MutationInjury</hediffClass>
 		<displayWound>true</displayWound>
 		<stages>
 			<li>
@@ -588,7 +679,7 @@
 				<becomeVisible>false</becomeVisible>
 				<minSeverity>0.5</minSeverity>
 				<partEfficiencyOffset>0.15</partEfficiencyOffset>
-				<hungerRateFactorOffset>0.1</hungerRateFactorOffset>
+				<hungerRateFactorOffset>0.01</hungerRateFactorOffset>
 			</li>
 		</stages>
 		<comps>
@@ -688,8 +779,20 @@
 		  <bleedRate>0.0</bleedRate>
 		  <canMerge>true</canMerge>
 		  <destroyedLabel>Dissolved</destroyedLabel>
-		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent> 
+		  <averagePainPerSeverityPermanent>0.0</averagePainPerSeverityPermanent>
 		</injuryProps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<summaryLabelKey>XMT_TissueLabel_Hypermetabolic</summaryLabelKey>
+				<revealedSummaryLabelKey>XMT_TissueLabel_Hypermetabolic</revealedSummaryLabelKey>
+				<revealedHealthLabelKey>XMT_TissueLabel_Hypermetabolic</revealedHealthLabelKey>
+				<descriptionKey>XMT_TissueDescription_Hypermetabolic</descriptionKey>
+				<revealedDescriptionKey>XMT_TissueDescription_Hypermetabolic</revealedDescriptionKey>
+				<revealedHealthDescriptionKey>XMT_TissueDescription_Hypermetabolic</revealedHealthDescriptionKey>
+			</li>
+		</modExtensions>
+
 	</HediffDef>
 
 	<HediffDef ParentName="XenomorphtypeBase">
@@ -701,7 +804,7 @@
 		<makesAlert>true</makesAlert>
 		<minSeverity>0.0</minSeverity>
 		<maxSeverity>1.0</maxSeverity>
-		<hediffClass>HediffWithComps</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_Tissue</hediffClass>
 		<stages>
 			<li>
 			</li>
@@ -723,8 +826,13 @@
 				<SeverityPerDay>1</SeverityPerDay>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
 	</HediffDef>
-	
+
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_BecomingAdultHorror</defName>
 		<label>maturation</label>

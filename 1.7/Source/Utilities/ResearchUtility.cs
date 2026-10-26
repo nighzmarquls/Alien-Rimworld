@@ -16,13 +16,72 @@ namespace Xenomorphtype
             return XMTUtility.PlayerXenosOnMap(Find.CurrentMap);
         }
 
+        internal static bool IsHumanResearchContributor(Pawn pawn)
+        {
+            return pawn != null && !pawn.Dead && !pawn.Destroyed && pawn.RaceProps.Humanlike &&
+                pawn.GetMorphComp() == null && pawn.Faction != null && pawn.Faction.IsPlayer;
+        }
+
+        private static bool CanAutomaticallyResearch(ResearchProjectDef project, Thing actor, Map map)
+        {
+            if (project == null || Find.ResearchManager == null || map == null) return false;
+            if (actor is Pawn pawn && pawn.Dead) return false;
+            if (actor?.Faction != null && !actor.Faction.IsPlayer) return false;
+
+            if (project.tab == XenoSocialDefOf.XMT_StarbeastResearchTab)
+            {
+                return XMTUtility.PlayerFactionIsCryptimorph() && actor?.Faction?.IsPlayer == true;
+            }
+
+            if (project.tab != XenoGeneDefOf.XMT_HumanResearchTab) return false;
+            if (actor is Pawn contributor)
+            {
+                if (contributor.Faction?.IsPlayer != true) return false;
+                if (contributor.MapHeld == map && IsHumanResearchContributor(contributor)) return true;
+            }
+
+            // Use the faction's native spawned-pawn index, only for sources that cannot
+            // themselves establish human presence (for example a destroyed genepack).
+            Faction player = Faction.OfPlayerSilentFail;
+            if (player == null) return false;
+            foreach (Pawn candidate in map.mapPawns.SpawnedPawnsInFaction(player))
+            {
+                if (IsHumanResearchContributor(candidate)) return true;
+            }
+            return false;
+        }
+
+        internal static void ApplyWitnessExposure(Pawn witness, KnowledgeCategoryDef subject,
+            KnowledgeProfileDef profile, float strength, Thing source, int progress, bool acid = false)
+        {
+            bool knewSubject = KnowledgeUtility.GetEffectiveKnowledge(witness, subject) > 0f;
+            KnowledgeUtility.ApplyExposure(witness, profile, strength, source: source);
+            if (knewSubject || !IsHumanResearchContributor(witness) ||
+                KnowledgeUtility.GetEffectiveKnowledge(witness, subject) <= 0f) return;
+            if (acid) ProgressAcidTech(progress, witness);
+            else ProgressCryptobioTech(progress, witness);
+        }
+
+        internal static void SeedCryptobioTech(int progress, Pawn actor)
+        {
+            if (Find.ResearchManager == null || HumanProjectsVisible() || !IsHumanResearchContributor(actor)) return;
+            ProgressTechProjectOrPrerequisites(progress, actor, XenoGeneDefOf.XMT_Jelly_Extraction);
+        }
+
+        internal static void ProgressGeneticsTech(int progress, Thing actor, Map map = null)
+        {
+            ProgressTechProjectOrPrerequisites(progress, actor, XenoGeneDefOf.XMT_Starbeast_Genetics, map);
+        }
+
         static bool FinishedResearching(ResearchProjectDef project, ResearchManager researchManager)
         {
             return researchManager.GetProgress(project) >= project.Cost;
         }
 
-        static bool ProgressTechProjectOrPrerequisites(int progress, Thing actor, ResearchProjectDef project)
+        static bool ProgressTechProjectOrPrerequisites(int progress, Thing actor, ResearchProjectDef project, Map map = null)
         {
+            map ??= actor?.MapHeld;
+            if (progress <= 0 || !CanAutomaticallyResearch(project, actor, map)) return false;
             ResearchManager researchManager = Find.ResearchManager;
             if (FinishedResearching(project, researchManager))
             {
@@ -32,7 +91,7 @@ namespace Xenomorphtype
             ResearchProjectDef targetProjectDef = project;
             bool stillSearching = true;
 
-            while (targetProjectDef.prerequisites.Count > 0 && stillSearching)
+            while (targetProjectDef.prerequisites != null && targetProjectDef.prerequisites.Count > 0 && stillSearching)
             {
                 ResearchProjectDef lastProjectFound = targetProjectDef;
                 foreach (ResearchProjectDef prerequisite in targetProjectDef.prerequisites)
@@ -50,25 +109,12 @@ namespace Xenomorphtype
                 }
             }
 
+            if (targetProjectDef != project && !CanAutomaticallyResearch(targetProjectDef, actor, map)) return false;
             Pawn pawn = actor as Pawn;
             float researchedProgress = researchManager.GetProgress(targetProjectDef);
-
-            if (progress + researchedProgress <= project.Cost)
-            {
-                researchManager.AddProgress(targetProjectDef, progress, pawn);
-            }
-            else
-            {
-                researchManager.AddProgress(targetProjectDef, targetProjectDef.Cost - researchedProgress, null);
-            }
-
-            //Log.Message(progress + " being added to " + targetProjectDef + " by " + actor);
-            researchedProgress = researchManager.GetProgress(targetProjectDef);
-            //Log.Message( targetProjectDef + " has progress of " + researchedProgress);
-            if (researchedProgress < 0)
-            {
-                researchManager.AddProgress(targetProjectDef ,(-researchedProgress) + targetProjectDef.Cost);
-            }
+            float remaining = targetProjectDef.Cost - researchedProgress;
+            if (remaining <= 0f) return false;
+            researchManager.AddProgress(targetProjectDef, System.Math.Min(progress, remaining), progress <= remaining ? pawn : null);
 
             return true;
         }
@@ -77,13 +123,13 @@ namespace Xenomorphtype
             ProgressTechProjectOrPrerequisites(progress, actor, XenoSocialDefOf.XMT_Starbeast_Sculpture);
         }
 
-        internal static void ProgressEvolutionTech(int progress, Thing actor)
+        internal static void ProgressEvolutionTech(int progress, Thing actor, Map map = null)
         {
-            if(ProgressTechProjectOrPrerequisites(progress, actor, XenoSocialDefOf.XMT_Starbeast_JellyTransport))
+            if(ProgressTechProjectOrPrerequisites(progress, actor, XenoSocialDefOf.XMT_Starbeast_JellyTransport, map))
             {
                 return;
             }
-            if (ProgressTechProjectOrPrerequisites(progress, actor, XenoSocialDefOf.XMT_Starbeast_Eggs))
+            if (ProgressTechProjectOrPrerequisites(progress, actor, XenoSocialDefOf.XMT_Starbeast_Eggs, map))
             {
                 return;
             }

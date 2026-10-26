@@ -503,14 +503,14 @@ namespace Xenomorphtype
             Find.WindowStack.Add(new FloatMenu(setOptions));
         }
 
-        public void StartMutationOrder(Pawn target, QueenMutationOperation operation, XMT_MutationsHealthSet sourceSet, HediffDef mutationDef)
+        public void StartMutationOrder(Pawn target, QueenMutationOperation operation, XMT_MutationsHealthSet sourceSet, HediffDef mutationDef, BodyPartRecord bodyPart = null)
         {
             if (target == null || mutationDef == null)
             {
                 return;
             }
 
-            RegisterMutationOrder(target, operation, sourceSet, mutationDef);
+            RegisterMutationOrder(target, operation, sourceSet, mutationDef, bodyPart);
             FeralJobUtility.ClearFeralJobReservationsForTarget(Parent.Map, target);
             Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_MutateTarget, target);
             job.count = 1;
@@ -549,14 +549,14 @@ namespace Xenomorphtype
                 return false;
             }
 
-            report = BioUtility.CanRemoveMutation(target, order.mutationDef);
+            report = BioUtility.CanRemoveMutation(target, order.mutationDef, order.bodyPart);
             if (!report.Accepted)
             {
                 Messages.Message(report.Reason, MessageTypeDefOf.RejectInput, false);
                 return false;
             }
 
-            return BioUtility.TryRemoveMutation(target, order.mutationDef, out Hediff RemovedMutation);
+            return BioUtility.TryRemoveMutation(target, order.mutationDef, out Hediff RemovedMutation, specificPart: order.bodyPart);
         }
 
         public bool CanRemoveMutationFromOptions(Pawn target, HediffDef mutationDef)
@@ -830,9 +830,9 @@ namespace Xenomorphtype
                         foundMutationHediffs.Add(hediff);
 
                         MutationHealth selectedMutation = mutation;
-                        FloatMenuOption menuOption = new FloatMenuOption(BioUtility.LabelForMutation(selectedMutation), delegate
+                        FloatMenuOption menuOption = new FloatMenuOption(BioUtility.LabelForMutation(selectedMutation) + (hediff.Part == null ? "" : " — " + hediff.Part.LabelCap), delegate
                         {
-                            StartMutationOrder(target, QueenMutationOperation.Remove, selectedSet, selectedMutation.horror);
+                            StartMutationOrder(target, QueenMutationOperation.Remove, selectedSet, selectedMutation.horror, hediff.Part);
                         });
 
                         AcceptanceReport report = BioUtility.CanRemoveMutation(target, selectedMutation.horror);
@@ -852,7 +852,7 @@ namespace Xenomorphtype
             }
         }
 
-        private void RegisterMutationOrder(Pawn target, QueenMutationOperation operation, XMT_MutationsHealthSet sourceSet, HediffDef mutationDef)
+        private void RegisterMutationOrder(Pawn target, QueenMutationOperation operation, XMT_MutationsHealthSet sourceSet, HediffDef mutationDef, BodyPartRecord bodyPart)
         {
             ClearStaleMutationOrders();
             mutationOrders.RemoveAll(order => order?.target == target);
@@ -861,7 +861,8 @@ namespace Xenomorphtype
                 target = target,
                 operation = operation,
                 sourceSet = sourceSet,
-                mutationDef = mutationDef
+                mutationDef = mutationDef,
+                bodyPart = bodyPart
             });
         }
 
@@ -927,6 +928,7 @@ namespace Xenomorphtype
         public QueenMutationOperation operation;
         public HediffDef mutationDef;
         public XMT_MutationsHealthSet sourceSet;
+        public BodyPartRecord bodyPart;
 
         public void ExposeData()
         {
@@ -934,6 +936,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref operation, "operation", QueenMutationOperation.Add);
             Scribe_Defs.Look(ref mutationDef, "mutationDef");
             Scribe_Defs.Look(ref sourceSet, "sourceSet");
+            Scribe_BodyParts.Look(ref bodyPart, "bodyPart", null);
         }
     }
 

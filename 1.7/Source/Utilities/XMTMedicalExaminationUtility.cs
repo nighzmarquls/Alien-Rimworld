@@ -33,7 +33,10 @@ namespace Xenomorphtype
                 .ToHashSet();
 
             return patient.health.hediffSet.hediffs
-                .Where(hediff => hediff != null && !hediff.Visible && mutationDefs.Contains(hediff.def))
+                .Where(hediff => hediff != null && MutationTissueAssessment.HorrorPregnancy(hediff) == null &&
+                    hediff.TryGetComp<HediffComp_SurgeryInspectableEmbryo>() == null &&
+                    ((!hediff.Visible && mutationDefs.Contains(hediff.def)) ||
+                     (hediff.TryGetComp<HediffComp_MedicalReveal>()?.revealed == false && !MutationTissueAssessment.Recognized(hediff))))
                 .ToList();
         }
 
@@ -47,20 +50,28 @@ namespace Xenomorphtype
             StringBuilder findings = new StringBuilder();
             foreach (Hediff hediff in candidates.Distinct())
             {
-                if (hediff == null || hediff.Visible || !patient.health.hediffSet.hediffs.Contains(hediff))
+                var discovery = hediff?.TryGetComp<HediffComp_MedicalReveal>();
+                if (hediff == null || (hediff.Visible && discovery?.revealed != false) || !patient.health.hediffSet.hediffs.Contains(hediff))
                 {
                     continue;
                 }
 
                 hediff.SetVisible();
+                if (discovery != null) discovery.revealed = true;
+                var metadata = hediff.def.GetModExtension<MutationTissueExtension>();
                 NotifyConditionDiscovered(surgeon, MutationResearchProgress);
-                AppendFinding(findings, "XMT_MedicalExaminationMutationFinding".Translate(
+                string findingKey = metadata?.inspectionFindingKey ?? TissueAssessmentDef.Current.defaultInspectionFindingKey;
+                AppendFinding(findings, findingKey.Translate(
                     patient.Named("PAWN"), hediff.LabelCap.Named("MUTATION")));
             }
             return findings.ToString();
         }
 
         internal static string ExamineWithoutAnomaly(Pawn patient, Pawn surgeon)
+            => RevealNewConditions(patient, surgeon, HiddenMutations(patient));
+
+        // Return findings only. The native or fallback recipe owns the single examination letter.
+        internal static string RevealNewConditions(Pawn patient, Pawn surgeon, IEnumerable<Hediff> hiddenMutations)
         {
             if (patient?.health?.hediffSet?.hediffs == null)
             {
@@ -71,7 +82,7 @@ namespace Xenomorphtype
             List<Hediff> hediffs = patient.health.hediffSet.hediffs.ToList();
             foreach (Hediff hediff in hediffs)
             {
-                if (hediff == null || hediff.Visible ||
+                if (hediff == null ||
                     hediff.TryGetComp<HediffComp_SurgeryInspectableEmbryo>() is not HediffComp_SurgeryInspectableEmbryo embryo)
                 {
                     continue;
@@ -86,8 +97,10 @@ namespace Xenomorphtype
                 }
             }
 
-            AppendFinding(findings, RevealMutations(patient, surgeon, HiddenMutations(patient)));
-            AppendFinding(findings, HorrorPregnancyUtility.Reveal(patient));
+            AppendFinding(findings, RevealMutations(patient, surgeon, hiddenMutations));
+            string pregnancyFinding = HorrorPregnancyUtility.Reveal(patient);
+            AppendFinding(findings, pregnancyFinding);
+            AppendFinding(findings, CryptimorphicInfluence.Examine(patient));
             return findings.ToString();
         }
 

@@ -25,6 +25,9 @@ namespace XMT_RJW
                 def.comps ??= new List<HediffCompProperties>();
                 if (!def.comps.Any(c => c is HediffCompProperties_CorruptedPregnancy))
                     def.comps.Add(new HediffCompProperties_CorruptedPregnancy());
+                def.modExtensions ??= new List<DefModExtension>();
+                if (!def.modExtensions.OfType<MutationTissueExtension>().Any())
+                    def.modExtensions.Add(RJWReproductionDef.Current.corruptedPregnancyPresentation);
             }
             new Harmony("XMT.RJW.Reproduction").PatchAll(typeof(RJWReproduction).Assembly);
         }
@@ -32,6 +35,16 @@ namespace XMT_RJW
         public static IEnumerable<Hediff> NativePregnancies(Pawn pawn) =>
             pawn?.health?.hediffSet?.hediffs.Where(h => h.TryGetComp<HediffComp_CorruptedPregnancy>() != null)
                 ?? Enumerable.Empty<Hediff>();
+
+        [HarmonyPatch(typeof(HorrorPregnancyUtility), nameof(HorrorPregnancyUtility.TryAdvanceNativePregnancy))]
+        private static class MutatorPregnancyProgress
+        {
+            private static bool Prefix(Hediff pregnancy, float progress, ref bool __result)
+            {
+                __result = RJWApiShim.AdvanceProgress(pregnancy, progress, Find.TickManager.TicksGame);
+                return false;
+            }
+        }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public static void TransferWomb(Hediff source, Hediff replacement) { }
@@ -91,15 +104,13 @@ namespace XMT_RJW
             }
         }
 
-        [HarmonyPatch(typeof(HorrorPregnancyUtility), nameof(HorrorPregnancyUtility.AdditionalEssence))]
-        private static class FluidEssence
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        public static bool HasRetainedFluidAdapter(Pawn pawn) => false;
+
+        [HarmonyPatch(typeof(CryptimorphicInfluence), nameof(CryptimorphicInfluence.UsesRetainedFluids))]
+        private static class ExplicitDeposits
         {
-            private static bool Prefix(Pawn recipient, ref float __result)
-            {
-                __result = recipient?.health?.hediffSet?.hediffs.OfType<Hediff_FluidEssence>()
-                    .Where(h => !h.ShouldRemove).Sum(h => h.Severity) ?? 0f;
-                return false;
-            }
+            private static bool Prefix(ref bool __result) { __result = true; return false; }
         }
 
         [HarmonyPatch(typeof(HorrorPregnancyUtility), nameof(HorrorPregnancyUtility.ApplyReproductiveMutation))]
@@ -175,14 +186,13 @@ namespace XMT_RJW
                 Def fluid = RJWApiShim.Read(part, "Fluid") as Def;
                 CorruptingFluid contribution = RJWReproductionDef.Current.fluids.FirstOrDefault(f => f.fluid == fluid?.defName);
                 if (contribution == null || contribution.essence <= 0f) return;
-                // 1.6 transfer passes the actual destination part. Do not infer exposure from donor race.
-                Hediff_FluidEssence exposure = receiver.health.hediffSet.hediffs.OfType<Hediff_FluidEssence>().FirstOrDefault();
-                float previous = exposure == null || exposure.ShouldRemove ? 0f : exposure.Severity;
-                if (exposure == null)
-                    exposure = (Hediff_FluidEssence)receiver.health.AddHediff(DefDatabase<HediffDef>.GetNamed("XMT_CorruptingFluidExposure"));
-                exposure.Severity = Mathf.Min(RJWReproductionDef.Current.maxFluidEssence,
-                    previous + contribution.essence);
-                exposure.expiresAt = Find.TickManager.TicksGame + Mathf.RoundToInt(RJWReproductionDef.Current.fluidRetentionDays * GenDate.TicksPerDay);
+                if (HasRetainedFluidAdapter(receiver)) return;
+                // RJW without retained-fluid simulation uses the core strongest persistent exposure.
+                float strength = __state / CryptimorphicInfluenceDef.Current.normalDepositMl *
+                    contribution.essence * CryptimorphicInfluence.DonorPotency(giver);
+                if (strength <= 0f) return;
+                var exposure = CryptimorphicInfluence.Exposure(receiver, true);
+                exposure.persistentInfluence = Mathf.Max(exposure.persistentInfluence, strength);
                 HorrorPregnancyUtility.TryApply(receiver, giver);
             }
         }

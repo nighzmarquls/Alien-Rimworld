@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
 	<HediffDef>
@@ -8,7 +8,7 @@
 		<description>this should never display.</description>
 		<isBad>false</isBad>
 	</HediffDef>
-  
+
   <HediffDef>
     <hediffClass>HediffWithComps</hediffClass>
     <defName>StarbeastStealthHostile</defName>
@@ -34,7 +34,7 @@
 	  </li>
     </comps>
   </HediffDef>
-  
+
   <HediffDef>
 	<hediffClass>HediffWithComps</hediffClass>
     <defName>StarbeastStealthFriendly</defName>
@@ -60,7 +60,7 @@
 	  </li>
     </comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_HybridOrganism</defName>
     <label>perfect</label>
@@ -115,7 +115,7 @@
 		</li>
     </comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>StarbeastOrganism</defName>
     <label>perfect</label>
@@ -176,7 +176,7 @@
 		</li>
     </comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>StarbeastCocoon</defName>
     <label>cocooned</label>
@@ -215,7 +215,7 @@
 		</li>
     </comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>StarbeastGrab</defName>
     <label>restrained</label>
@@ -244,7 +244,7 @@
 		<li Class="HediffCompProperties_DisappearsOnDeath" />
     </comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Ambushed</defName>
     <label>ambushed</label>
@@ -273,12 +273,12 @@
 		<li Class="HediffCompProperties_DisappearsOnDeath" />
     </comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>AcidCorrosion</defName>
     <label>corrosion</label>
     <description>tissue is being burned away by a highly corrosive agent.</description>
-    <hediffClass>HediffWithComps</hediffClass>
+    <hediffClass>Xenomorphtype.Hediff_Tissue</hediffClass>
     <makesSickThought>false</makesSickThought>
     <makesAlert>true</makesAlert>
 	<tendable>false</tendable>
@@ -309,7 +309,21 @@
 			</hediffs>
 	  </li>
     </comps>
-  </HediffDef>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Corrosive</workerClass>
+						<labelKey>XMT_TissueSurfaceCorrosion</labelKey>
+						<hazard>true</hazard>
+						<groupKey>surfaceCorrosion</groupKey>
+						<priority>30</priority>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+	</HediffDef>
 
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>Undeveloped</defName>
@@ -340,7 +354,7 @@
 		<partEfficiencyOffset>-0.9</partEfficiencyOffset>
 		<lifeThreatening>true</lifeThreatening>
 
-      </li> 
+      </li>
       <li>
 	    <becomeVisible>false</becomeVisible>
         <minSeverity>0.33</minSeverity>
@@ -363,7 +377,7 @@
       </li>
     </stages>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>Overdeveloped</defName>
     <label>overdeveloped</label>
@@ -385,7 +399,7 @@
       <li>
         <label>extreme</label>
 		<partEfficiencyOffset>1</partEfficiencyOffset>
-      </li> 
+      </li>
       <li>
         <minSeverity>0.33</minSeverity>
         <label>extreme</label>
@@ -404,7 +418,7 @@
       </li>
     </stages>
   </HediffDef>
-  
+
   <HediffDef>
     <defName>XMT_GeneIntegration</defName>
     <label>gene adaptation</label>
@@ -431,7 +445,7 @@
       </li>
     </comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>Maturation</defName>
     <label>chrysalis</label>
@@ -467,7 +481,7 @@
       </li>
     </stages>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
     <defName>XMT_Helpless</defName>
     <label>helpless</label>
@@ -517,7 +531,7 @@
 		</li>
 	</comps>
   </HediffDef>
-  
+
   <HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_TornEggSack</defName>
 		<label>torn ovipositor</label>

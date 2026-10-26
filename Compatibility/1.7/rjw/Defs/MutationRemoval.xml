@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs><RecipeDef ParentName="XMT_RemoveMutationBase"><defName>XMT_Remove_ReproductiveTissue</defName><label>excise alien reproductive tissue</label><description>Excise the developing localized reproductive tissue.</description><jobString>Excising altered tissue.</jobString><removesHediff>XMT_ReproductiveTissue</removesHediff><modExtensions><li Class="Xenomorphtype.MutationSurgeryExtension"/></modExtensions></RecipeDef></Defs>

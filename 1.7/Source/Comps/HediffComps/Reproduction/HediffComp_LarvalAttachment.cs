@@ -531,7 +531,7 @@ namespace Xenomorphtype
                 return;
             }
             MarkSpent();
-            ResearchUtility.ProgressEvolutionTech(250, Pawn);
+            ResearchUtility.ProgressEvolutionTech(250, attachedPawn, Pawn.MapHeld);
             if (Pawn.MapHeld != null)
             {
                 foreach (Pawn pawn in Pawn.MapHeld.mapPawns.AllHumanlikeSpawned)

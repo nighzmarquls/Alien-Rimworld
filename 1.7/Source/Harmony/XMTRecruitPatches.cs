@@ -41,7 +41,7 @@ namespace Xenomorphtype
                     float awareness = KnowledgeUtility.GetTotalEffectiveKnowledge(pawn);
                     if (KnowledgeUtility.IsObsessed(pawn) || awareness > 0)
                     {
-                        ResearchUtility.ProgressCryptobioTech(10 + Mathf.FloorToInt(awareness*500), pawn);
+                        ResearchUtility.SeedCryptobioTech(10 + Mathf.FloorToInt(awareness*500), pawn);
                     }
                 }
             }

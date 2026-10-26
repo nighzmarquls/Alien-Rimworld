@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +34,8 @@ namespace Xenomorphtype
     {
         public HediffDef   hediff;
         public float    influence;
+        public SimpleCurve severityCurve;
+        public float Contribution(float severity) => influence * (severityCurve?.Evaluate(severity) ?? severity);
     }
 
     public class GooHorror
@@ -58,6 +60,8 @@ namespace Xenomorphtype
     }
     public class XMT_MutationsHealthSet : Def
     {
+        public bool randomizeOrder;
+        public bool checkExistingPregnancy = true;
         public List<MutationHealth> mutations;
         public string uiLabel;
         public int displayOrder = 0;

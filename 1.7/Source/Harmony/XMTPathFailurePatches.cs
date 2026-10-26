@@ -11,6 +11,8 @@ namespace Xenomorphtype
         private static void Prefix(Pawn ___pawn, LocalTargetInfo ___destination, PathEndMode ___peMode, bool ___curPathJobIsStale)
         {
             Job job = ___pawn?.jobs?.curJob;
+            if (!___curPathJobIsStale)
+                ClimbUtility.NotifyOwnedTraversalPathFailure(___pawn, ___destination, ___peMode);
             if (___pawn == null || ___pawn.Dead || ___pawn.Map == null || ___curPathJobIsStale || job == null ||
                 !___destination.IsValid || !XMTUtility.IsXenomorph(___pawn) ||
                 job.def == XenoWorkDefOf.XMT_HiveBuilding ||

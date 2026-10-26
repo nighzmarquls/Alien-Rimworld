@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using Verse;
 using XMT_RJW;
+using Xenomorphtype;
 
 namespace XMT_Menstruation
 {
@@ -39,6 +40,11 @@ namespace XMT_Menstruation
 
         public static void TransferWomb(Hediff source, Hediff replacement)
         {
+            var exposure = CryptimorphicInfluence.Exposure(source?.pawn);
+            if (exposure != null)
+                foreach (var deposit in exposure.deposits)
+                    if (deposit.key.StartsWith(source.GetUniqueLoadID() + ":"))
+                        deposit.key = replacement.GetUniqueLoadID() + deposit.key.Substring(source.GetUniqueLoadID().Length);
             if (source is not HediffWithComps oldPart || replacement is not HediffWithComps newPart) return;
             foreach (HediffComp womb in oldPart.comps.Where(c => WombType.IsInstanceOfType(c)).ToList())
             {

@@ -10,21 +10,47 @@
     <fluidRetentionDays>1</fluidRetentionDays>
     <maxFluidEssence>4</maxFluidEssence>
     <fluids>
-      <li><fluid>XMT_Cum</fluid><essence>1</essence></li>
+      <li>
+        <fluid>XMT_Cum</fluid>
+        <essence>0.1</essence>
+      </li>
     </fluids>
+    <corruptedPregnancyPresentation>
+      <useDefaultRecognition>false</useDefaultRecognition>
+      <showInTissueBeforeInspection>false</showInTissueBeforeInspection>
+      <revealedSummaryLabelKey>XMT_UnconventionalPregnancyLabel</revealedSummaryLabelKey>
+      <revealedDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedDescriptionKey>
+      <revealedHealthLabelKey>XMT_UnconventionalPregnancyLabel</revealedHealthLabelKey>
+      <revealedHealthDescriptionKey>XMT_UnconventionalPregnancyDescription</revealedHealthDescriptionKey>
+      <inspectionFindingKey>XMT_UnconventionalPregnancyFinding</inspectionFindingKey>
+    </corruptedPregnancyPresentation>
   </XMT_RJW.RJWReproductionDef>
   <HediffDef>
     <defName>XMT_ReproductiveTissue</defName>
+    <modExtensions>
+      <li Class="Xenomorphtype.MutationTissueExtension">
+        <useDefaultRecognition>true</useDefaultRecognition>
+        <summaryLabelKey>XMT_TissueLabel_Reproductive</summaryLabelKey>
+        <descriptionKey>XMT_TissueDescription_Reproductive</descriptionKey>
+      </li>
+    </modExtensions>
     <hediffClass>HediffWithComps</hediffClass>
     <label>reproductive tissue</label>
     <description>Alien tissue is developing a functional reproductive system. When mature, it reshapes existing female reproductive anatomy or grows it alongside other anatomy.</description>
     <isBad>false</isBad>
     <initialSeverity>0.1</initialSeverity>
     <maxSeverity>1</maxSeverity>
-    <comps><li Class="XMT_RJW.HediffCompProperties_ReproductiveTissue" /></comps>
+    <comps>
+      <li Class="XMT_RJW.HediffCompProperties_ReproductiveTissue" />
+    </comps>
     <stages>
-      <li><label>developing</label></li>
-      <li><minSeverity>1</minSeverity><label>mature</label></li>
+      <li>
+        <label>developing</label>
+      </li>
+      <li>
+        <minSeverity>1</minSeverity>
+        <label>mature</label>
+      </li>
     </stages>
   </HediffDef>
   <HediffDef>

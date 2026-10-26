@@ -274,6 +274,7 @@ namespace Xenomorphtype
             {
                 return;
             }
+            ClimbUtility.NotifyTraversalProgress(pawn);
             if (pawn?.drafter != null)
             {
                 pawn.drafter.Drafted = pawnWasDrafted;

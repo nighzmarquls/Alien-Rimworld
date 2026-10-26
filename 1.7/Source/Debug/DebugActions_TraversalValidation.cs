@@ -2,6 +2,7 @@ using LudeonTK;
 using RimWorld;
 using System.Collections.Generic;
 using Verse;
+using Verse.AI;
 
 namespace Xenomorphtype
 {
@@ -56,6 +57,27 @@ namespace Xenomorphtype
             Messages.Message("Traversal cache report written to the log.", MessageTypeDefOf.TaskCompletion, false);
         }
 
+        internal static bool VerifyProbeIsolation(Pawn pawn, LocalTargetInfo destination, PathEndMode mode)
+        {
+            CompClimber climber = pawn?.GetClimberComp();
+            if (pawn?.Spawned != true || climber == null)
+                return false;
+            var job = pawn.CurJob;
+            var driver = pawn.jobs.curDriver;
+            var before = climber.climbParameters;
+            bool owned = climber.HasActiveClimbToilFor(job);
+            bool started = climber.startedClimb;
+            bool finished = climber.finishedClimb;
+            var flyer = climber.pawnClimber;
+            ClimbUtility.TryPlanClimb(pawn, destination, mode, out _);
+            bool passed = pawn.CurJob == job && pawn.jobs.curDriver == driver &&
+                climber.HasActiveClimbToilFor(job) == owned && climber.climbParameters.Equals(before) &&
+                climber.startedClimb == started && climber.finishedClimb == finished && climber.pawnClimber == flyer;
+            Log.Message("[Alien | Rimworld] Probe isolation " + (passed ? "passed" : "FAILED") +
+                ": activeTraversal=" + owned + ", job=" + job + ", destination=" + destination);
+            return passed;
+        }
+
         private static void ClearClimbCache()
         {
             TraversalTopologyMapComponent.For(Find.CurrentMap)?.ClimbCache.Clear();
@@ -101,11 +123,17 @@ namespace Xenomorphtype
                 ReportResult("Infiltration invalidation isolation", false, "no current-map topology component");
                 return;
             }
+            InfiltrationUtility.CacheReport(Find.CurrentMap);
             int climbBefore = component.ClimbCache.RoofRevision;
             int infiltrationRegionBefore = component.InfiltrationCache.RegionRevision;
+            int componentsBefore = component.InfiltrationCache.ComponentsRevision;
+            int portsBefore = component.InfiltrationCache.PortsRevision;
             InfiltrationUtility.NotifyPipeTopologyChanged(Find.CurrentMap);
+            InfiltrationUtility.CacheReport(Find.CurrentMap);
             bool passed = component.ClimbCache.RoofRevision == climbBefore &&
-                component.InfiltrationCache.RegionRevision > infiltrationRegionBefore;
+                component.InfiltrationCache.RegionRevision == infiltrationRegionBefore &&
+                component.InfiltrationCache.ComponentsRevision == componentsBefore &&
+                component.InfiltrationCache.PortsRevision == portsBefore;
             ReportResult("Infiltration invalidation isolation", passed,
                 "climb=" + climbBefore + ", infiltration region " + infiltrationRegionBefore + " -> " + component.InfiltrationCache.RegionRevision);
         }
@@ -118,13 +146,17 @@ namespace Xenomorphtype
                 ReportResult("Region invalidation", false, "no current-map topology component");
                 return;
             }
+            InfiltrationUtility.CacheReport(Find.CurrentMap);
             int climbBefore = component.ClimbCache.RegionRevision;
             int infiltrationBefore = component.InfiltrationCache.RegionRevision;
             int componentsBefore = component.InfiltrationCache.ComponentsRevision;
+            int portsBefore = component.InfiltrationCache.PortsRevision;
             ClimbUtility.NotifyRegionsRoomsChanged(Find.CurrentMap);
             InfiltrationUtility.NotifyRegionsRoomsChanged(Find.CurrentMap);
+            InfiltrationUtility.CacheReport(Find.CurrentMap);
             bool passed = component.ClimbCache.RegionRevision == climbBefore + 1 &&
-                component.InfiltrationCache.RegionRevision == infiltrationBefore + 1 &&
+                component.InfiltrationCache.RegionRevision == infiltrationBefore &&
+                component.InfiltrationCache.PortsRevision == portsBefore &&
                 component.InfiltrationCache.ComponentsRevision == componentsBefore;
             ReportResult("Region invalidation", passed,
                 "climb " + climbBefore + " -> " + component.ClimbCache.RegionRevision +

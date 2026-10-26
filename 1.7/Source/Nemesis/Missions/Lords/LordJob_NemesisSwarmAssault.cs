@@ -9,8 +9,10 @@ namespace Xenomorphtype
 {
     public sealed class LordJob_NemesisSwarmAssault : LordJob_NemesisMission
     {
-        public override bool Successful => MeetsAttachmentThreshold(missionSuccessCount, initialMemberCount);
-        protected override bool EnforceMaximumDuration => false;
+        private bool targetsExhausted;
+        private readonly List<Thing> targets = new List<Thing>();
+        private int nextTargetRefresh;
+        public override bool Successful => targetsExhausted || MeetsAttachmentThreshold(missionSuccessCount, initialMemberCount);
 
         internal static bool MeetsAttachmentThreshold(int successes, int initialMembers)
             => initialMembers > 0 && successes * 3 > initialMembers * 2;
@@ -18,13 +20,22 @@ namespace Xenomorphtype
         public override void Notify_ParasiteAttached(Pawn attacker, Pawn target)
         {
             IncrementMissionSuccess(1, "parasite attached");
+            CheckObjectiveExhaustion();
             base.Notify_ParasiteAttached(attacker, target);
         }
 
         public override void Notify_TurretSubverted(Pawn attacker, Building_TurretGun turret)
         {
             IncrementMissionSuccess(1, "turret subverted");
+            CheckObjectiveExhaustion();
             base.Notify_TurretSubverted(attacker, turret);
+        }
+
+        private void CheckObjectiveExhaustion()
+        {
+            // The last attachment may resolve the last member before the next lord tick.
+            if (mission?.Worker is NemesisMissionWorker_SwarmAssault worker && lord?.Map != null
+                && !worker.EligibleTargets(null, lord.Map).Any()) targetsExhausted = true;
         }
 
         public override bool AllowThreatResponse(Pawn pawn, Thing aggressor) => false;
@@ -41,6 +52,22 @@ namespace Xenomorphtype
             {
                 pawn.mindState.mentalStateHandler.Reset();
             }
+            if (withdrawing || tick < nextTargetRefresh) return;
+            nextTargetRefresh = tick + 120;
+            targets.Clear();
+            if (mission.Worker is NemesisMissionWorker_SwarmAssault worker)
+                targets.AddRange(worker.EligibleTargets(null, lord.Map));
+            if (targets.Count == 0)
+            {
+                targetsExhausted = true;
+                Withdraw("no eligible parasite targets remain");
+            }
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref targetsExhausted, "targetsExhausted");
         }
 
         protected override Job GetOperationalJob(Pawn pawn)
@@ -50,17 +77,20 @@ namespace Xenomorphtype
             {
                 return Wait();
             }
+            NemesisMissionMember member = Member(pawn);
+            if (Find.TickManager.TicksGame < member.nextCaptureTick) return Wait();
+            member.nextCaptureTick = Find.TickManager.TicksGame + 120;
 
             Dictionary<Thing, int> claimCounts = lord.ownedPawns
                 .Where(other => other != pawn && (other.CurJobDef == XenoWorkDefOf.XMT_ImplantHunt
                     || other.CurJobDef == XenoWorkDefOf.XMT_SubvertTurret))
                 .Select(other => other.CurJob?.targetA.Thing).Where(claimed => claimed != null)
                 .GroupBy(claimed => claimed).ToDictionary(group => group.Key, group => group.Count());
-            Thing target = worker.EligibleTargets(pawn, pawn.Map)
-                .Where(candidate => ClimbUtility.CanReachByWalkingOrClimb(pawn, candidate, PathEndMode.Touch, Danger.Deadly))
+            Thing target = targets.Where(candidate => worker.IsEligibleTarget(pawn, candidate, pawn.Map))
                 .OrderBy(candidate => claimCounts.TryGetValue(candidate, out int count) ? count : 0)
                 .ThenByDescending(candidate => candidate is Pawn targetPawn && (targetPawn.Downed || !targetPawn.Awake()))
-                .ThenBy(candidate => pawn.Position.DistanceToSquared(candidate.Position)).FirstOrDefault();
+                .ThenBy(candidate => pawn.Position.DistanceToSquared(candidate.Position))
+                .FirstOrDefault(candidate => ClimbUtility.CanReachByWalkingOrClimb(pawn, candidate, PathEndMode.Touch, Danger.Deadly));
             if (target != null)
             {
                 JobDef jobDef = target is Building_TurretGun ? XenoWorkDefOf.XMT_SubvertTurret : XenoWorkDefOf.XMT_ImplantHunt;
@@ -69,25 +99,7 @@ namespace Xenomorphtype
                 return implant;
             }
 
-            Thing combatTarget = pawn.Map.mapPawns.AllPawnsSpawned.Where(candidate => candidate != pawn
-                    && candidate.GetLord() != lord && !candidate.Dead && !candidate.Downed
-                    && !XMTUtility.IsXenomorphFriendly(candidate) && !XMTUtility.IsXenomorph(candidate)
-                    && ClimbUtility.CanReachByWalkingOrClimb(pawn, candidate, PathEndMode.Touch, Danger.Deadly))
-                .OrderBy(candidate => pawn.Position.DistanceToSquared(candidate.Position)).FirstOrDefault();
-            combatTarget ??= pawn.Map.listerBuildings.allBuildingsColonist.Where(building => building.Spawned && !building.Destroyed
-                    && ClimbUtility.CanReachByWalkingOrClimb(pawn, building, PathEndMode.Touch, Danger.Deadly))
-                .OrderBy(building => pawn.Position.DistanceToSquared(building.Position)).FirstOrDefault();
-            if (combatTarget == null)
-            {
-                return Wait();
-            }
-
-            Job attack = JobMaker.MakeJob(JobDefOf.AttackMelee, combatTarget);
-            attack.canBashDoors = true;
-            attack.killIncappedTarget = false;
-            attack.locomotionUrgency = LocomotionUrgency.Sprint;
-            attack.expiryInterval = 600;
-            return attack;
+            return Wait();
         }
     }
 }

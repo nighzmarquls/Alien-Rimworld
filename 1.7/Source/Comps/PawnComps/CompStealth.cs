@@ -96,6 +96,7 @@ namespace Xenomorphtype
             }
 
             if ((Parent.Faction == null || !Parent.Faction.IsPlayer)
+                && Parent.GetComp<CompFacehuggerHostHunter>() == null
                 && (!(Parent.GetLord()?.LordJob is LordJob_Nemesis nemesisLord) || nemesisLord.AllowRevealAttack(Parent, Discoverer)))
             {
                 if (Discoverer != null)

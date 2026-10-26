@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <XMT_ExciseForeignTissue>Excise</XMT_ExciseForeignTissue>
+  <XMT_NoTransformationDestination>No further bodily transformation is possible in this condition.</XMT_NoTransformationDestination>
+  <XMT_ExposureFinding>Foreign cryptimorphic material was found within {PAWN_nameDef}.</XMT_ExposureFinding>
+  <XMT_AssessmentTab>Tissue</XMT_AssessmentTab>
+  <XMT_AssessmentSaturation>Cryptimorphic tissue saturation: {0}</XMT_AssessmentSaturation>
+  <XMT_AssessmentActive>Actively reshaping surrounding tissues.</XMT_AssessmentActive>
+  <XMT_AssessmentStable>No ongoing mutagenic activity detected.</XMT_AssessmentStable>
+  <XMT_AssessmentPassive>No direct tissue injury identified.</XMT_AssessmentPassive>
+  <XMT_AssessmentDamage>May injure surrounding tissue ({0}).</XMT_AssessmentDamage>
+  <XMT_AssessmentAcid>Produces corrosive blood; insufficiently protected tissues may suffer acid injury or toxic accumulation.</XMT_AssessmentAcid>
+  <XMT_AssessmentLatticeProtection>An internal lattice protects the surrounding flesh.</XMT_AssessmentLatticeProtection>
+  <XMT_AssessmentToxicStress>Ongoing changes may overwhelm the body's tolerance and cause toxic shock.</XMT_AssessmentToxicStress>
+  <XMT_AssessmentExposure>Foreign biological material remains within the body. It may alter developing life.</XMT_AssessmentExposure>
+  <XMT_AssessmentMutators>Ongoing tissue changes: {0}.</XMT_AssessmentMutators>
+  <XMT_AssessmentNoMutators>No active mutagenic agents detected.</XMT_AssessmentNoMutators>
+  <XMT_AssessmentInjurySummary>Risk of {0} injury: {1}.</XMT_AssessmentInjurySummary>
+  <XMT_AssessmentAcidSummary>Corrosive blood may harm unprotected tissue: {0}.</XMT_AssessmentAcidSummary>
+  <XMT_AssessmentShockSummary>Risk of toxic shock: {0}.</XMT_AssessmentShockSummary>
+  <XMT_AssessmentNoInjury>No ongoing sources of tissue injury identified.</XMT_AssessmentNoInjury>
+  <XMT_AssessmentOtherTissue>Other altered tissue: {0}.</XMT_AssessmentOtherTissue>
+  <XMT_AssessmentConditionCount>{0} ({1} sites)</XMT_AssessmentConditionCount>
+  <XMT_AssessmentMoreConditions>{0}, and {1} other forms</XMT_AssessmentMoreConditions>
+  <XMT_TissueLabel_Exposure>Mutagenic discoloration</XMT_TissueLabel_Exposure>
+  <XMT_TissueLabel_Reproductive>Foreign reproductive tissue</XMT_TissueLabel_Reproductive>
+  <XMT_TissueDescription_Reproductive>Foreign tissue shows reproductive differentiation.</XMT_TissueDescription_Reproductive>
+  <XMT_TissueDescription_Exposure>A spreading discoloration accompanies active disruption of the surrounding cells.</XMT_TissueDescription_Exposure>
+  <XMT_TissueLabel_Infiltration>Diffuse tissue infiltration</XMT_TissueLabel_Infiltration>
+  <XMT_TissueDescription_Infiltration>Foreign cells have infiltrated otherwise recognizable tissue.</XMT_TissueDescription_Infiltration>
+  <XMT_TissueLabel_Malformed>Malformed foreign tissue</XMT_TissueLabel_Malformed>
+  <XMT_TissueDescription_Malformed>Disorganized foreign growth distorts the surrounding tissue and impairs its function.</XMT_TissueDescription_Malformed>
+  <XMT_TissueLabel_Crystalline>Crystalline tissue deposits</XMT_TissueLabel_Crystalline>
+  <XMT_TissueDescription_Crystalline>Crystalline inclusions lace the tissue. Sharp intrusions can lacerate adjacent flesh.</XMT_TissueDescription_Crystalline>
+  <XMT_TissueLabel_Hypermetabolic>Hypermetabolic tissue</XMT_TissueLabel_Hypermetabolic>
+  <XMT_TissueDescription_Hypermetabolic>Altered tissue exhibits increased metabolic activity and changes in local function.</XMT_TissueDescription_Hypermetabolic>
+  <XMT_TissueLacerationDiagnosis>Mechanical laceration risk from intrusive tissue: {0}.</XMT_TissueLacerationDiagnosis>
+  <XMT_TissueStrainDiagnosis>Deep tissue strain and contusion risk from altered tissue mechanics: {0}.</XMT_TissueStrainDiagnosis>
+  <XMT_TissueInjuryDiagnosis>Local tissue injury risk ({1}): {0}.</XMT_TissueInjuryDiagnosis>
+  <XMT_TissueBedRest>Bed rest is recommended to limit further tissue injury.</XMT_TissueBedRest>
+  <XMT_TissueInjuryAtRest>Injury may continue at rest; immobilization alone will not prevent it.</XMT_TissueInjuryAtRest>
+  <XMT_TissueInternalCorrosion>Internal chemical injury risk: corrosive secretions exceed the surrounding tissues' protection. Damage may continue at rest. Sources: {0}.</XMT_TissueInternalCorrosion>
+  <XMT_TissueInternalToxicity>Toxic accumulation risk: altered blood chemistry is insufficiently buffered by the surrounding tissue. Rest alone does not prevent exposure. Sources: {0}.</XMT_TissueInternalToxicity>
+  <XMT_TissueSurfaceCorrosion>Progressive chemical erosion of exposed tissue; damage may continue at rest. Sources: {0}.</XMT_TissueSurfaceCorrosion>
+  <XMT_TissueMutagenicToxicity>Systemic toxic stress from active cellular disruption. Toxic accumulation may continue at rest. Sources: {0}.</XMT_TissueMutagenicToxicity>
+  <XMT_UnconventionalPregnancyLabel>Foreign embryo</XMT_UnconventionalPregnancyLabel>
+  <XMT_UnconventionalPregnancyDescription>Examination reveals an organism that is not a conventional fetus. Its anatomy and surrounding tissue show cryptimorphic characteristics.</XMT_UnconventionalPregnancyDescription>
+  <XMT_UnconventionalPregnancyFinding>Examination of {PAWN_nameDef} reveals that the pregnancy does not contain a conventional fetus. The organism displays cryptimorphic characteristics.</XMT_UnconventionalPregnancyFinding>
+  <XMT_UnconventionalPregnancyLetterLabel>{PAWN_labelShort}: foreign embryo</XMT_UnconventionalPregnancyLetterLabel>
+  <XMT_TissueInspectionLabel>{PAWN_labelShort}: examination findings</XMT_TissueInspectionLabel>
+  <XMT_TissueInspectionText>Medical examination of {PAWN_nameDef} has identified the following:
+
+{FINDINGS}</XMT_TissueInspectionText>
+  <XMT_ParasiticEmbryoLabel>Parasitic embryo</XMT_ParasiticEmbryoLabel>
+  <XMT_ParasiticEmbryoDescription>A parasitic organism is developing within the host.</XMT_ParasiticEmbryoDescription>
+</LanguageData>

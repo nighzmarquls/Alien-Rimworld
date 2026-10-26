@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <XMT_HarvestCompleteLabel>Landscape consumed</XMT_HarvestCompleteLabel>
+  <XMT_HarvestCompleteText>The cryptimorph harvesters have exhausted the convertible biomass and fertile ground on {0}. Its waters are now devoid of fish, and the region has become {1}.</XMT_HarvestCompleteText>
+</LanguageData>

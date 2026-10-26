@@ -1,4 +1,4 @@
-﻿
+
 
 using RimWorld;
 using System.Collections.Generic;
@@ -132,7 +132,8 @@ namespace Xenomorphtype
                 float SilicateValue = Pawn.CarboSilicate();
                 float SkeletonizationValue = Pawn.MesoSkeletonization();
 
-                float AdjustedValue = AcidBloodValue - (SkeletonizationValue + (SilicateValue/2));
+                float AdjustedValue = MutationDamageUtility.UnprotectedAcidLoad(AcidBloodValue, SkeletonizationValue, SilicateValue);
+                if (MutationDamageUtility.AcidHazard(AdjustedValue, GetBloodFullness(), Influence, Props) == AcidTissueHazard.None) return;
 
                 if (AdjustedValue < Props.burnSeverityThreshold)
                 {

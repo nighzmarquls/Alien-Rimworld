@@ -99,6 +99,28 @@ namespace XMT_RJW
             }
         }
 
+        public static bool AdvanceProgress(Hediff pregnancy, float progress, int currentTick)
+        {
+            if (!IsNative(pregnancy)) return false;
+            // 1.6 RJW (including Menstruation's multiple pregnancy) rebuilds severity
+            // from these dates every tick. Shift both dates to preserve total duration.
+            FieldInfo startField = AccessTools.Field(pregnancy.GetType(), "p_start_tick");
+            FieldInfo endField = AccessTools.Field(pregnancy.GetType(), "p_end_tick");
+            if (startField == null || endField == null) return true;
+            float start = (float)startField.GetValue(pregnancy);
+            float end = (float)endField.GetValue(pregnancy);
+            float duration = end - start;
+            if (!(duration > 0f) || !(progress > 0f)) return true;
+            float current = (1f + currentTick - start) / duration;
+            if (current < 0f || current >= 1f) return true;
+            float next = Xenomorphtype.HorrorPregnancyUtility.AdvancedProgress(current, progress);
+            float shift = (next - current) * duration;
+            startField.SetValue(pregnancy, start - shift);
+            endField.SetValue(pregnancy, end - shift);
+            pregnancy.Severity = next;
+            return true;
+        }
+
         public static void ReplaceSiblingReferences(Hediff pregnancy, Pawn oldBaby, Pawn baby)
         {
             foreach (object holder in new object[] { pregnancy }.Concat(

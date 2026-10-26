@@ -885,7 +885,8 @@ namespace Xenomorphtype
                                 bonus = thisAwareness;
                             }
                             
-                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Acid, strength, source: positionHeld.GetFirstPawn(mapHeld));
+                            ResearchUtility.ApplyWitnessExposure(witness, KnowledgeDefOf.XMT_Knowledge_Acid,
+                                knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Acid, strength, positionHeld.GetFirstPawn(mapHeld), 10, acid: true);
                         }
                     }
                 }
@@ -915,8 +916,8 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Acid, strength, source: positionHeld.GetFirstPawn(mapHeld));
-                            ResearchUtility.ProgressAcidTech(10, witness);
+                            ResearchUtility.ApplyWitnessExposure(witness, KnowledgeDefOf.XMT_Knowledge_Acid,
+                                knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Acid, strength, positionHeld.GetFirstPawn(mapHeld), 10, acid: true);
                         }
                     }
                 }
@@ -942,8 +943,8 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Adult, strength, source: horror);
-                            ResearchUtility.ProgressCryptobioTech(10, witness);
+                            ResearchUtility.ApplyWitnessExposure(witness, KnowledgeDefOf.XMT_Knowledge_Adult,
+                                knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Adult, strength, horror, 10);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -975,8 +976,8 @@ namespace Xenomorphtype
                         CompPawnInfo info = witness.Info();
                         if (info != null)
                         {
-                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Ovomorph, strength, source: horror);
-                            ResearchUtility.ProgressCryptobioTech(10, witness);
+                            ResearchUtility.ApplyWitnessExposure(witness, KnowledgeDefOf.XMT_Knowledge_Ovomorph,
+                                knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Ovomorph, strength, horror, 10);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1018,10 +1019,10 @@ namespace Xenomorphtype
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
                         CompPawnInfo info = witness.Info();
-                        ResearchUtility.ProgressCryptobioTech(10, witness);
                         if (info != null)
                         {
-                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Larva, strength, source: horror);
+                            ResearchUtility.ApplyWitnessExposure(witness, KnowledgeDefOf.XMT_Knowledge_Larva,
+                                knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Larva, strength, horror, 10);
                             if (horror != null && allowTraumaResponse)
                             {
                                 TraumaResponse(horror, info);
@@ -1061,7 +1062,6 @@ namespace Xenomorphtype
                     if (witness?.health?.capacities.GetLevel(PawnCapacityDefOf.Sight) > 0)
                     {
                         CompPawnInfo info = witness.Info();
-                        ResearchUtility.ProgressCryptobioTech(1, witness);
                         if (info != null)
                         {
                             float thisAwareness = KnowledgeUtility.GetEffectiveKnowledge(witness, KnowledgeDefOf.XMT_Knowledge_Larva);
@@ -1069,7 +1069,8 @@ namespace Xenomorphtype
                             {
                                 bonus = thisAwareness;
                             }
-                            KnowledgeUtility.ApplyExposure(witness, knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Larva, strength, source: horror);
+                            ResearchUtility.ApplyWitnessExposure(witness, KnowledgeDefOf.XMT_Knowledge_Larva,
+                                knowledgeProfile ?? KnowledgeDefOf.XMT_Profile_Larva, strength, horror, 1);
                             if (horror != null)
                             {
                                 TraumaResponse(horror, info);
@@ -1212,6 +1213,13 @@ namespace Xenomorphtype
                             continue;
                         }
 
+                        if (hediff is Hediff_CryptimorphicExposure exposure && exposure.persistentInfluence > 0f)
+                        {
+                            var successorExposure = CryptimorphicInfluence.Exposure(NewPawn, true);
+                            successorExposure.persistentInfluence = exposure.persistentInfluence;
+                            successorExposure.discovered = exposure.discovered;
+                            continue;
+                        }
                         BodyPartRecord sourcePart = hediff.Part;
                         if (sourcePart == null)
                         {
@@ -1242,6 +1250,7 @@ namespace Xenomorphtype
 
                             Hediff newHediff = HediffMaker.MakeHediff(hediff.def, NewPawn, newPart);
                             NewPawn.health.AddHediff(newHediff, newHediff.Part);
+                            newHediff.Severity = hediff.Severity;
                             
                             continue;
                         }
@@ -2033,6 +2042,8 @@ namespace Xenomorphtype
 
                 foreach (IntVec3 cell in cells)
                 {
+                    if (!cell.InBounds(aggressorInfo.parent.MapHeld))
+                        continue;
                     Pawn witness = cell.GetFirstPawn(aggressorInfo.parent.MapHeld);
 
                     if(witness == null)

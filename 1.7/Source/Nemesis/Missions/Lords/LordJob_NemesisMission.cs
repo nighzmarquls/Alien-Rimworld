@@ -221,7 +221,7 @@ namespace Xenomorphtype
             Current.Game?.GetComponent<GameComponent_Nemesis>()?.NotifyMissionEnded(mission, lord?.Map, Successful);
         }
 
-        public void Withdraw(string reason)
+        public virtual void Withdraw(string reason)
         {
             if (withdrawing) return;
             withdrawing = true;
@@ -238,6 +238,7 @@ namespace Xenomorphtype
             if (mission == null) { Withdraw("missing mission definition"); return; }
             int tick = Find.TickManager.TicksGame;
             if (tick % 30 != 0) return;
+            if (!mission.MapRequirementsMet(lord.Map)) Withdraw("mission map layer or player faction is no longer eligible");
             InitializeRouteSectors();
             RefreshMemberResolution();
             CheckForCompletion();
@@ -272,17 +273,19 @@ namespace Xenomorphtype
             {
                 if (withdrawing && IsActionable(pawn))
                 {
-                    return NemesisMissionUtility.ExitJob(pawn) ?? Wait();
+                    return GetWithdrawalJob(pawn);
                 }
                 return Wait();
             }
 
             Job job = pawn.carryTracker?.CarriedThing is Pawn carried
                 ? NemesisMissionUtility.ExtractionJob(pawn, carried) ?? Wait()
-                : withdrawing ? NemesisMissionUtility.ExitJob(pawn) ?? Wait() : GetOperationalJob(pawn);
+                : withdrawing ? GetWithdrawalJob(pawn) : GetOperationalJob(pawn);
             LogDecision(pawn, job);
             return job;
         }
+
+        protected virtual Job GetWithdrawalJob(Pawn pawn) => NemesisMissionUtility.ExitJob(pawn) ?? Wait();
 
         protected Job FindHostJob(Pawn pawn, bool opportunistic, bool requirePlayer,
             float searchRadius = -1f, bool requireLineOfSight = true, bool recoverUnreachable = false)

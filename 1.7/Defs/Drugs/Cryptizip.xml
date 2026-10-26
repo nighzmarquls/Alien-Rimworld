@@ -69,7 +69,7 @@
 
 	<HediffDef>
 		<defName>XMT_CryptizipHigh</defName>
-		<hediffClass>Hediff_High</hediffClass>
+		<hediffClass>Xenomorphtype.Hediff_TissueHigh</hediffClass>
 		<label>cryptizip high</label>
 		<description>the body is being boosted by the performance enhancing drug Cryptizip.</description>
 		<scenarioCanAdd>false</scenarioCanAdd>
@@ -182,6 +182,11 @@
 				<showHoursToRecover>true</showHoursToRecover>
 			</li>
 		</comps>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+			</li>
+		</modExtensions>
 	</HediffDef>
 
 	<HediffDef>

@@ -28,16 +28,15 @@ namespace Xenomorphtype
             static void Postfix(Pawn __instance, Pawn surgeon, ref string desc,
                 ref SurgicalInspectionOutcome __result, List<Hediff> __state)
             {
-                string findings = XMTMedicalExaminationUtility.RevealMutations(__instance, surgeon, __state);
-                string pregnancyFindings = HorrorPregnancyUtility.Reveal(__instance);
-                if (!pregnancyFindings.NullOrEmpty())
-                    findings = findings.NullOrEmpty() ? pregnancyFindings : findings + "\n\n" + pregnancyFindings;
+                string findings = XMTMedicalExaminationUtility.RevealNewConditions(__instance, surgeon, __state);
                 if (findings.NullOrEmpty())
                 {
                     return;
                 }
 
-                desc = desc.NullOrEmpty() ? findings : desc + "\n\n" + findings;
+                // The native recipe appends desc directly to its header; native findings
+                // include their own leading paragraph break, so ours must do the same.
+                desc = (desc ?? string.Empty) + "\n\n" + findings;
                 __result = SurgicalInspectionOutcome.Detected;
             }
         }

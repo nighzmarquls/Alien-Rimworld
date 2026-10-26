@@ -58,7 +58,7 @@ namespace Xenomorphtype
 
         private float MissionCandidateWeight(NemesisMissionDef def, Map map, bool active)
         {
-            if (def == null || map == null || !def.StrategicRequirementsMet(this, active)) return 0f;
+            if (def == null || !def.MapRequirementsMet(map) || !def.StrategicRequirementsMet(this, active)) return 0f;
             NemesisMissionWorker worker = def.Worker;
             if (!worker.CanTarget(def, this, map) || worker.PartySize(def, this, map, active) < def.populationRange.min) return 0f;
             return Mathf.Max(0f, def.baseWeight * def.StanceWeight(this, active) * worker.Weight(def, this, map));

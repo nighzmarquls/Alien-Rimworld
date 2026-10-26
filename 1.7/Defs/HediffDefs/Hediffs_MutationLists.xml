@@ -1,15 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 	<Xenomorphtype.XMT_InfluenceHealthSet>
 		<defName>XMT_InfluencesSet</defName>
 		<influences>
 			<li>
 				<hediff>XMT_Protofluid</hediff>
-				<influence>2</influence>
+				<influence>3</influence>
 			</li>
 			<li>
 				<hediff>XMT_BecomingMutant</hediff>
-				<influence>2</influence>
+				<influence>0.5</influence>
 			</li>
 			<li>
 				<hediff>XMT_Lardering</hediff>
@@ -220,8 +220,8 @@
 				<uiLabel>Mutant transformation</uiLabel>
 				<displayOrder>80</displayOrder>
 				<randomBodypart>false</randomBodypart>
-				<probability>0.5</probability>
-				<essenceMinimum>8</essenceMinimum>
+				<probability>0.1</probability>
+				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 		</mutations>
@@ -261,6 +261,7 @@
 			</li>
 			<li>
 				<horror>XMT_LoverGland</horror>
+                <unique>true</unique>
 				<uiLabel>Lover pheromone gland</uiLabel>
 				<displayOrder>30</displayOrder>
 				<randomBodypart>false</randomBodypart>
@@ -270,6 +271,7 @@
 			</li>
 			<li>
 				<horror>XMT_FriendlyGland</horror>
+                <unique>true</unique>
 				<uiLabel>Friendly pheromone gland</uiLabel>
 				<displayOrder>40</displayOrder>
 				<randomBodypart>false</randomBodypart>
@@ -398,6 +400,7 @@
 			</li>
 			<li>
 				<horror>XMT_FriendlyGland</horror>
+                <unique>true</unique>
 				<uiLabel>Friendly pheromone gland</uiLabel>
 				<displayOrder>40</displayOrder>
 				<randomBodypart>false</randomBodypart>
@@ -460,6 +463,7 @@
 			</li>
 			<li>
 				<horror>XMT_FriendlyGland</horror>
+                <unique>true</unique>
 				<uiLabel>Friendly pheromone gland</uiLabel>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Torso</specificBodyPart>
@@ -470,6 +474,7 @@
 			
 			<li>
 				<horror>XMT_ImprovedStomach</horror>
+                <unique>true</unique>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Stomach</specificBodyPart>
 				<probability>0.75</probability>
@@ -478,6 +483,7 @@
 			</li>
 			<li>
 				<horror>XMT_SpikeTongue</horror>
+                <unique>true</unique>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Tongue</specificBodyPart>
 				<probability>0.75</probability>
@@ -486,6 +492,7 @@
 			</li>
 			<li>
 				<horror>XMT_SecondJaw</horror>
+                <unique>true</unique>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Jaw</specificBodyPart>
 				<probability>0.75</probability>
@@ -494,6 +501,7 @@
 			</li>
 			<li>
 				<horror>XMT_BladedTail</horror>
+                <unique>true</unique>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Pelvis</specificBodyPart>
 				<probability>0.75</probability>
@@ -502,6 +510,7 @@
 			</li>
 			<li>
 				<horror>XMT_BreathingTubes</horror>
+                <unique>true</unique>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Spine</specificBodyPart>
 				<probability>0.75</probability>
@@ -510,6 +519,7 @@
 			</li>
 			<li>
 				<horror>XMT_BreathingWafers</horror>
+                <unique>true</unique>
 				<displayOrder>30</displayOrder>
 				<variedBodyPart>
 					<li>Lung</li>
@@ -520,6 +530,7 @@
 			</li>
 			<li>
 				<horror>XMT_WarpedNeck</horror>
+                <unique>true</unique>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Neck</specificBodyPart>
 				<randomBodypart>false</randomBodypart>
@@ -529,6 +540,7 @@
 			</li>
 			<li>
 				<horror>XMT_InternalNose</horror>
+                <unique>true</unique>
 				<uiLabel>Internalize nose</uiLabel>
 				<displayOrder>30</displayOrder>
 				<specificBodyPart>Nose</specificBodyPart>
@@ -539,6 +551,7 @@
 			</li>
 			<li>
 				<horror>XMT_InternalEar</horror>
+                <unique>true</unique>
 				<uiLabel>Internalize ear</uiLabel>
 				<displayOrder>30</displayOrder>
 				<variedBodyPart>
@@ -551,6 +564,7 @@
 			</li>
 			<li>
 				<horror>XMT_InternalEye</horror>
+                <unique>true</unique>
 				<uiLabel>Internalize eye</uiLabel>
 				<displayOrder>30</displayOrder>
 				<variedBodyPart>
@@ -628,7 +642,7 @@
 				<uiLabel>Mutant transformation</uiLabel>
 				<displayOrder>50</displayOrder>
 				<randomBodypart>false</randomBodypart>
-				<probability>1</probability>
+				<probability>0.1</probability>
 				<essenceMinimum>1</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 				<unique>true</unique>
@@ -640,6 +654,7 @@
 		<defName>XMT_ProtofluidMutationSet</defName>
 		<uiLabel>Protofluid exposure</uiLabel>
 		<displayOrder>40</displayOrder>
+        <randomizeOrder>true</randomizeOrder>
 		<mutations>
 			<li>
 				<horror>XMT_DebuffEssence</horror>
@@ -651,21 +666,21 @@
 			<li>
 				<horror>XMT_SilicateEssence</horror>
 				<randomBodypart>true</randomBodypart>
-				<probability>0.5</probability>
+				<probability>0.65</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_MildEssence</horror>
 				<randomBodypart>true</randomBodypart>
-				<probability>0.5</probability>
+				<probability>0.25</probability>
 				<essenceMinimum>0</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
 			<li>
 				<horror>XMT_BoostingEssence</horror>
 				<randomBodypart>true</randomBodypart>
-				<probability>0.25</probability>
+				<probability>0.15</probability>
 				<essenceMinimum>0.5</essenceMinimum>
 				<essenceMaximum>-1</essenceMaximum>
 			</li>
@@ -728,4 +743,20 @@
 		</transformations>
 	</Xenomorphtype.XMT_TransformationSet>
 
+  <!-- Rare escalation only: this table must not seed tissue or independently corrupt pregnancy. -->
+  <Xenomorphtype.XMT_MutationsHealthSet>
+    <defName>XMT_CellularDivisionMutationSet</defName>
+    <uiLabel>Cellular transformation</uiLabel>
+    <checkExistingPregnancy>false</checkExistingPregnancy>
+    <mutations>
+      <li>
+        <horror>XMT_BecomingMutant</horror>
+        <randomBodypart>false</randomBodypart>
+        <unique>true</unique>
+        <probability>0.1</probability>
+        <essenceMinimum>1</essenceMinimum>
+        <essenceMaximum>-1</essenceMaximum>
+      </li>
+    </mutations>
+  </Xenomorphtype.XMT_MutationsHealthSet>
 </Defs>

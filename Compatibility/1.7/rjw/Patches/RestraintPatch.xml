@@ -7,6 +7,8 @@
 				<li>RJW_Restraints</li>
 				<li>BoundHands</li>
 				<li>BoundLegs</li>
+				<li>XMT_ReproductiveTissue</li>
+				<li>XMT_CorruptingFluidExposure</li>
 		</value>
 	</Operation>
 
@@ -18,6 +20,8 @@
 				<li>RJW_Restraints</li>
 				<li>BoundHands</li>
 				<li>BoundLegs</li>
+				<li>XMT_ReproductiveTissue</li>
+				<li>XMT_CorruptingFluidExposure</li>
 		</value>
 	</Operation>
 

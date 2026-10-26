@@ -108,6 +108,8 @@
 	
 	<XMT_EvolutionLabel>Choose Traits</XMT_EvolutionLabel>
 	<XMT_EvolutionDescription>express different morphological traits.</XMT_EvolutionDescription>
+	<XMT_EvolutionCost>Advancement Cost: {0}</XMT_EvolutionCost>
+	<XMT_EvolutionPoints>Advancements {0} of {1}</XMT_EvolutionPoints>
 	<XMT_EvolutionRequires>requires: </XMT_EvolutionRequires>
 	<XMT_EvolutionReplaces>replaces: {0}</XMT_EvolutionReplaces>
 	<XMT_EvolutionPrerequisiteFor>is prerequisite for </XMT_EvolutionPrerequisiteFor>
@@ -532,7 +534,7 @@
 	<XMT_TransferContainedPawnDesc>Transfer {PAWN_labelShort} to a biocontainment tube, containment harness, available prisoner bed, or Anomaly holding platform. A non-prisoner transferred from a stasis biocontainer or Anomaly holding platform to a prisoner bed will be arrested.</XMT_TransferContainedPawnDesc>
 	<XMT_NoContainmentWorker>No available colonist can perform this containment job.</XMT_NoContainmentWorker>
 	<XMT_MedicalExaminationLetterLabel>Medical examination complete</XMT_MedicalExaminationLetterLabel>
-	<XMT_MedicalExaminationNothing>{DOCTOR_nameDef} completed a medical examination of {PATIENT_nameDef}, but found no hidden cryptimorphic abnormalities.</XMT_MedicalExaminationNothing>
+	<XMT_MedicalExaminationNothing>{DOCTOR_nameDef} completed a medical examination of {PATIENT_nameDef}. No further abnormalities were found.</XMT_MedicalExaminationNothing>
 	<XMT_MedicalExaminationDetected>{DOCTOR_nameDef} completed a medical examination of {PATIENT_nameDef} and identified the following:\n\n{FINDINGS}</XMT_MedicalExaminationDetected>
 	<XMT_MedicalExaminationMutationFinding>{PAWN_nameDef} has an anomalous mutation: {MUTATION}.</XMT_MedicalExaminationMutationFinding>
 	<XMT_ContainmentQuality>Containment</XMT_ContainmentQuality>

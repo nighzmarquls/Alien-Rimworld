@@ -41,6 +41,11 @@ namespace Xenomorphtype
                     }
                 }
 
+                // These removals handle their exact tissue's acid after success, including
+                // containment by a knowledgeable surgeon; do not spill/abort them at bill start.
+                if (___recipe.Worker is Recipe_RemoveMutation &&
+                    ___recipe.GetModExtension<MutationSurgeryExtension>()?.releasesAcid == true) return;
+
                 if (acidBlood == null)
                 {
                     return;

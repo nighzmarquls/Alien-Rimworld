@@ -259,14 +259,14 @@ namespace Xenomorphtype
 
         internal static Toil GotoCellIfValid(Func<IntVec3> cellGetter)
         {
-            Toil toil = new Toil();
+            IntVec3 destination = IntVec3.Invalid;
+            Toil toil = ToilMaker.MakeToil("RecoveryPassage");
             toil.initAction = delegate
             {
                 Pawn actor = toil.actor;
-                IntVec3 destination = cellGetter();
+                destination = cellGetter();
                 if (!IsUsableDestination(actor, destination) ||
-                    actor.Position == destination ||
-                    !actor.CanReach(destination, PathEndMode.OnCell, Danger.Deadly))
+                    actor.Position == destination)
                 {
                     actor.jobs.curDriver.ReadyForNextToil();
                     return;
@@ -277,12 +277,23 @@ namespace Xenomorphtype
             toil.tickAction = delegate
             {
                 Pawn actor = toil.actor;
-                if (!actor.pather.Moving)
+                // A climbing-owned toil completes through its wrapper, which can
+                // suspend the pawn without running this vanilla init action.
+                if (actor.GetClimberComp() != null)
+                    return;
+                if (destination.IsValid && actor.CanReachImmediate(destination, PathEndMode.OnCell))
                 {
                     actor.jobs.curDriver.ReadyForNextToil();
                 }
+                else if (!actor.pather.Moving)
+                    actor.jobs.curDriver.EndJobWith(JobCondition.Incompletable);
             };
             toil.defaultCompleteMode = ToilCompleteMode.Never;
+            ClimbUtility.AddClimbSupport(toil, actor =>
+            {
+                IntVec3 cell = cellGetter();
+                return new LocalTargetInfo(IsUsableDestination(actor, cell) ? cell : actor.Position);
+            }, PathEndMode.OnCell);
             return toil;
         }
 

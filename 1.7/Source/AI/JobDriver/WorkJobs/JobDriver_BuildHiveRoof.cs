@@ -17,7 +17,7 @@ namespace Xenomorphtype
 
         internal void NotifyCleanup(JobCondition condition)
         {
-            if (condition == JobCondition.Incompletable && !workStarted && !roofCompleted)
+            if ((condition == JobCondition.Incompletable || condition == JobCondition.ErroredPather || condition == JobCondition.Errored) && !workStarted && !roofCompleted)
             {
                 XMTNestBuildingUtility.NotifyHiveBuildJobFailed(pawn, RoofCell, null, NestBuildStage.RoofEnclosedRoom);
             }

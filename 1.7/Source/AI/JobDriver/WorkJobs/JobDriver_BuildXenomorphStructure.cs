@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +46,7 @@ namespace Xenomorphtype {
 
         internal void NotifyCleanup(JobCondition condition)
         {
-            if (condition == JobCondition.Incompletable && !workStarted && !constructionCompleted)
+            if ((condition == JobCondition.Incompletable || condition == JobCondition.ErroredPather || condition == JobCondition.Errored) && !workStarted && !constructionCompleted)
             {
                 XMTNestBuildingUtility.NotifyHiveBuildJobFailed(pawn, BuildCell, BuildingDef, NestBuildStage.ClaimFloor);
             }

@@ -1,4 +1,4 @@
-﻿using AlienRace;
+using AlienRace;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -11,81 +11,37 @@ namespace Xenomorphtype
 {
     public class BioUtility
     {
-        private static float maxEssence = 4;
         private const float MetabolicLossSeverity = 0.45f;
 
         private const float MinMetabolicLossSeverity = 0.45f;
         private static readonly HashSet<string> loggedExtraHostGeneSets = new HashSet<string>();
 
-        private static bool CheckTransformation(TransformationHorror candidate, float Essence, ref PawnKindDef pawnForm, ref ThingDef thingForm)
+        public static HediffDef[] ProtofluidHealingExclusions()
         {
-            if (candidate.essenceMinimum > 0)
-            {
-                if (Essence < candidate.essenceMinimum)
-                {
-                    return false;
-                }
-            }
-
-            if (candidate.essenceMaximum >= 0)
-            {
-                if (Essence > candidate.essenceMaximum)
-                {
-                    return false;
-                }
-            }
-            if (Rand.Chance(candidate.probability))
-            {
-                pawnForm = candidate.pawnTransformationTarget;
-                thingForm = candidate.thingTransformationTarget;
-                return true;
-            }
-
-            return false;
+            // Use vanilla's exclusion path rather than healing then restoring mutated injuries.
+            return DefDatabase<XMT_MutationsHealthSet>.AllDefsListForReading
+                .SelectMany(s => AllMutationsForSet(s)).Select(m => m.horror)
+                .Concat(DefDatabase<XMT_InfluenceHealthSet>.AllDefsListForReading
+                    .SelectMany(s => s.influences ?? Enumerable.Empty<InfluenceHealth>()).Select(i => i.hediff))
+                .Concat(DefDatabase<HediffDef>.AllDefsListForReading.Where(d =>
+                    d.comps?.Any(c => c is HediffCompProperties_PerPartPromoter) == true ||
+                    (d.hediffClass != null && typeof(Hediff_MutationInjury).IsAssignableFrom(d.hediffClass)) ||
+                    d.hediffClass == typeof(Hediff_CryptimorphicExposure)))
+                .Where(d => d != null).Distinct().ToArray();
         }
+
         public static bool TryGetMutationForm(Pawn target, out ThingDef thingForm, out PawnKindDef pawnForm)
         {
             thingForm = null;
             pawnForm = null;
 
-            if(target != null)
+            if (target == null) return false;
+            foreach (var candidate in CryptimorphicInfluence.EligibleForms(target, GetXenomorphInfluence(target)))
             {
-                float essence = GetXenomorphInfluence(target);
-
-                if (XMTSettings.LogBiohorror)
-                {
-                    Log.Message("[XMT][Biohorror] " + target + " has essence of " + essence);
-                }
-
-                if (target.def != null)
-                {
-                    if(target.def.modExtensions != null)
-                    {
-                        foreach (DefModExtension modExt in target.def.modExtensions)
-                        {
-                            AnimalMutateForms animalMutateForms = modExt as AnimalMutateForms;
-                            if (animalMutateForms != null)
-                            {
-                               
-                                foreach(TransformationHorror candidate in animalMutateForms.resultCandidates)
-                                {
-                                    if(CheckTransformation(candidate,essence,ref pawnForm,ref thingForm))
-                                    {
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                
-                foreach (TransformationHorror horror in XenoGeneDefOf.XMT_DefaultTransformationSet.transformations)
-                {
-                    if (CheckTransformation(horror, essence, ref pawnForm, ref thingForm))
-                    {
-                        return true;
-                    }
-                }
+                if (!Rand.Chance(candidate.probability)) continue;
+                thingForm = candidate.thingTransformationTarget;
+                pawnForm = candidate.pawnTransformationTarget;
+                return true;
             }
             return false;
         }
@@ -148,11 +104,14 @@ namespace Xenomorphtype
            
             float essence = GetXenomorphInfluence(pawn)+bonusEssence;
 
-            // Optional pregnancy types need not set vanilla's pregnant flag.
-            HorrorPregnancyUtility.TryApply(pawn, extraEssence: bonusEssence, existingOnly: true);
-
             XMT_MutationsHealthSet mutations = customSet != null ? customSet : XenoGeneDefOf.XMT_MutationsSet;
-            foreach (MutationHealth health in mutations.mutations)
+            // Optional pregnancy types need not set vanilla's pregnant flag. A narrowly
+            // scoped mutation table can opt out of this independent conversion effect.
+            if (mutations.checkExistingPregnancy) HorrorPregnancyUtility.TryApply(pawn, existingOnly: true);
+            // Initial protofluid changes must not always be captured by the first XML entry.
+            var choices = mutations.mutations.ToList();
+            if (mutations.randomizeOrder) choices.Shuffle();
+            foreach (MutationHealth health in choices)
             {
                 if (XMTSettings.LogBiohorror)
                 {
@@ -292,7 +251,7 @@ namespace Xenomorphtype
                 return "XMT_MutationInvalid_NoHealth".Translate(target.LabelShort);
             }
             
-            if(target.IsHorror())
+            if(target.IsHorror() && !CryptimorphicInfluence.IsHybrid(target))
             {
                 return "XMT_MutationInvalid_Xenomorph".Translate(target.LabelShort);
             }
@@ -323,6 +282,10 @@ namespace Xenomorphtype
                 return "XMT_MutationInvalid_EssenceHigh".Translate(essence.ToString("0.##"), mutation.essenceMaximum.ToString("0.##"));
             }
 
+            if (mutation.horror.comps?.Any(c => c is HediffCompProperties_Transformation) == true &&
+                !CryptimorphicInfluence.HasDestination(target, bonusEssence, starting: mutation.horror.defName == "XMT_BecomingMutant"))
+                return "XMT_NoTransformationDestination".Translate();
+
             BodyPartRecord specificPart = SpecificMutationPart(target, mutation);
             if (mutation.specificBodyPart != null && specificPart == null)
             {
@@ -345,7 +308,7 @@ namespace Xenomorphtype
             return true;
         }
 
-        public static AcceptanceReport CanRemoveMutation(Pawn target, HediffDef mutationDef)
+        public static AcceptanceReport CanRemoveMutation(Pawn target, HediffDef mutationDef, BodyPartRecord specificPart = null)
         {
             if (target == null)
             {
@@ -367,7 +330,7 @@ namespace Xenomorphtype
                 return "XMT_MutationInvalid_NoMutation".Translate();
             }
 
-            if (!target.health.hediffSet.hediffs.Any(hediff => hediff.def == mutationDef))
+            if (!target.health.hediffSet.hediffs.Any(hediff => hediff.def == mutationDef && (specificPart == null || hediff.Part == specificPart)))
             {
                 return "XMT_MutationInvalid_NotPresent".Translate(mutationDef.LabelCap);
             }
@@ -399,7 +362,7 @@ namespace Xenomorphtype
             Hediff existing = ExistingMutationHediff(target, mutation.horror, specificPart);
             bool intensified = false;
 
-            if (existing != null && (existing.Severity < 1 || mutation.unique))
+            if (existing != null && (existing.Severity < mutation.horror.maxSeverity || mutation.unique))
             {
                 intensified = true;
                 existing.Severity = Mathf.Min(existing.Severity + mutation.horror.initialSeverity, mutation.horror.maxSeverity);
@@ -427,16 +390,16 @@ namespace Xenomorphtype
             return changedHediff != null;
         }
 
-        public static bool TryRemoveMutation(Pawn target, HediffDef mutationDef, out Hediff changedHediff, bool feedback = true)
+        public static bool TryRemoveMutation(Pawn target, HediffDef mutationDef, out Hediff changedHediff, bool feedback = true, BodyPartRecord specificPart = null)
         {
             changedHediff = null;
-            AcceptanceReport report = CanRemoveMutation(target, mutationDef);
+            AcceptanceReport report = CanRemoveMutation(target, mutationDef, specificPart);
             if (!report.Accepted)
             {
                 return false;
             }
 
-            Hediff hediff = target.health.hediffSet.hediffs.FirstOrDefault(candidate => candidate.def == mutationDef);
+            Hediff hediff = target.health.hediffSet.hediffs.FirstOrDefault(candidate => candidate.def == mutationDef && (specificPart == null || candidate.Part == specificPart));
             if (hediff == null)
             {
                 return false;
@@ -488,7 +451,7 @@ namespace Xenomorphtype
                                 {
                                     if(hediff.Part == bodypart)
                                     {
-                                        if(hediff.Severity < 1)
+                                        if(hediff.Severity < hediff.def.maxSeverity)
                                         {
                                             break;
                                         }
@@ -519,7 +482,7 @@ namespace Xenomorphtype
                 return null;
             }
 
-            foreach (Hediff hediff in target.health.hediffSet.hediffs)
+            foreach (Hediff hediff in target.health.hediffSet.hediffs.OrderBy(h => h.Severity >= h.def.maxSeverity))
             {
                 if (hediff.def != mutationDef)
                 {
@@ -539,7 +502,7 @@ namespace Xenomorphtype
 
         private static void RevealMutation(Hediff hediff)
         {
-            hediff?.SetVisible();
+            if (DebugSettings.godMode || TissueKnowledge.Unlocked) hediff?.SetVisible();
         }
 
         private static void ThrowMutationMote(Pawn target, string text)
@@ -990,49 +953,19 @@ namespace Xenomorphtype
         }
         public static float GetXenomorphInfluence(Pawn pawn)
         {
-            float essence = 0;
-
-            CompPerfectOrganism compPerfectOrganism = pawn.GetComp<CompPerfectOrganism>();
-            if (compPerfectOrganism != null)
-            {
-                return maxEssence;
-            }
-
-            if(pawn.genes != null)
-            {
-                foreach(Gene gene in pawn.genes.GenesListForReading)
-                {
-                    if (gene.def.geneClass == typeof(XenomorphGene))
-                    {
-                        essence += 0.1f;
-                    }
-                    if (essence >= maxEssence)
-                    {
-                        return maxEssence;
-                    }
-                }
-            }
-
-            if(pawn.health != null)
-            {
-                foreach(Hediff hediff in pawn.health.hediffSet.hediffs)
-                {
-                    for (int i = 0; i < XenoGeneDefOf.XMT_InfluencesSet.influences.Count; i++)
-                    {
-                        if(hediff.def == XenoGeneDefOf.XMT_InfluencesSet.influences[i].hediff)
-                        {
-                            essence += XenoGeneDefOf.XMT_InfluencesSet.influences[i].influence;
-                        }
-                        if(essence >= maxEssence)
-                        {
-                            return maxEssence;
-                        }
-                    }
-                }
-            }
-
-            return essence;
+            if (pawn == null) return 0f;
+            if (pawn.GetMorphComp() != null) return CryptimorphicInfluenceDef.Current.matureMorphInfluence;
+            float essence = pawn.GetComp<CompPerfectOrganism>() != null ? CryptimorphicInfluenceDef.Current.perfectOrganismOffset : 0f;
+            if (pawn.genes != null)
+                foreach (Gene gene in pawn.genes.GenesListForReading)
+                    if (gene.def.geneClass == typeof(XenomorphGene)) essence += 0.1f;
+            if (pawn.health != null)
+                foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+                    foreach (InfluenceHealth influence in XenoGeneDefOf.XMT_InfluencesSet.influences)
+                        if (hediff.def == influence.hediff) essence += influence.Contribution(hediff.Severity);
+            return Mathf.Max(0f, essence);
         }
+
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         public static bool CanGiveHorrorBirth(Pawn pawn) => pawn?.gender == Gender.Female;
 
@@ -1054,11 +987,12 @@ namespace Xenomorphtype
             if (callback.partnerId == other.thingIDNumber && callback.tick >= 0 && tick - callback.tick < 60) return;
             callback.partnerId = other.thingIDNumber;
             callback.tick = tick;
-            if (XMTUtility.IsXenomorph(first) && XMTUtility.IsXenomorph(second)) return;
+            if (first.GetMorphComp() != null && second.GetMorphComp() != null) return;
             foreach (Pawn recipient in new[] { first, second })
             {
                 Pawn partner = recipient == first ? second : first;
-                if (XMTUtility.IsXenomorph(recipient)) continue;
+                if (recipient.GetMorphComp() != null) continue;
+                if (!CryptimorphicInfluence.UsesRetainedFluids(recipient)) CryptimorphicInfluence.Expose(recipient, partner);
                 if (XMTUtility.IsXenomorph(partner))
                 {
                     recipient.Info()?.ApplyLoverPheromone(partner);

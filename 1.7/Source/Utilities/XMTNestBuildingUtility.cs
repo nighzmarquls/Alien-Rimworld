@@ -113,7 +113,7 @@ namespace Xenomorphtype
                 if (record.map == builder.Map &&
                     record.pawnId == builder.thingIDNumber &&
                     record.cell == cell &&
-                    record.stage == stage &&
+                    (record.stage == NestBuildStage.RoofEnclosedRoom) == (stage == NestBuildStage.RoofEnclosedRoom) &&
                     record.buildDef == buildDef)
                 {
                     return true;
@@ -136,7 +136,7 @@ namespace Xenomorphtype
                 existing.map == builder.Map &&
                 existing.pawnId == builder.thingIDNumber &&
                 existing.cell == cell &&
-                existing.stage == stage &&
+                (existing.stage == NestBuildStage.RoofEnclosedRoom) == (stage == NestBuildStage.RoofEnclosedRoom) &&
                 existing.buildDef == buildDef);
 
             if (record == null)
@@ -169,7 +169,7 @@ namespace Xenomorphtype
                 record.map == builder.Map &&
                 record.pawnId == builder.thingIDNumber &&
                 record.cell == cell &&
-                record.stage == stage &&
+                (record.stage == NestBuildStage.RoofEnclosedRoom) == (stage == NestBuildStage.RoofEnclosedRoom) &&
                 record.buildDef == buildDef);
         }
 
@@ -297,7 +297,7 @@ namespace Xenomorphtype
 
         internal static Job TryGetNestBuildJob(Pawn builder, IntVec3 nestSeed, int sightLimit = DefaultSightLimit)
         {
-            if (builder == null || builder.Map == null || !builder.Spawned || builder.Dead)
+            if (builder == null || builder.Map == null || !builder.Spawned || builder.Dead || !builder.DevelopmentalStage.Adult())
             {
                 return null;
             }
@@ -335,7 +335,7 @@ namespace Xenomorphtype
 
         internal static Job TryGetNestBuildJobFromExpansionSeed(Pawn builder, IntVec3 nestSeed, int sightLimit = DefaultSightLimit)
         {
-            if (builder == null || builder.Map == null || !builder.Spawned || builder.Dead || !nestSeed.InBounds(builder.Map))
+            if (builder == null || builder.Map == null || !builder.Spawned || builder.Dead || !builder.DevelopmentalStage.Adult() || !nestSeed.InBounds(builder.Map))
             {
                 return null;
             }
@@ -373,7 +373,7 @@ namespace Xenomorphtype
 
         internal static Job TryGetHiveRoomExpansionBuildJob(Pawn builder, Room room, IntVec3 anchorCell)
         {
-            if (builder == null || builder.Map == null || !builder.Spawned || builder.Dead || room == null || room.Map != builder.Map)
+            if (builder == null || builder.Map == null || !builder.Spawned || builder.Dead || !builder.DevelopmentalStage.Adult() || room == null || room.Map != builder.Map)
             {
                 return null;
             }

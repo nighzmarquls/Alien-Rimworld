@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -39,6 +40,10 @@ namespace Xenomorphtype
         public PawnKindDef pawnKind;
         public bool useThreatPointsForPopulation;
         public float mechanoidBandwidthPopulationFactor;
+        public float adjacentBiomeWeight = 0.5f;
+        public float maximumAdjacencyMultiplier = 4f;
+        public int harvestCellsPerTick = 256;
+        public int collectionDurationTicks = 1200;
     }
 
     public class NemesisMissionDef : Def
@@ -51,6 +56,8 @@ namespace Xenomorphtype
         private NemesisGeneEvaluationWorker geneEvaluator;
         public NemesisGeneEvaluationWorker GeneEvaluator => geneEvaluator ??= (NemesisGeneEvaluationWorker)Activator.CreateInstance(geneEvaluationWorkerClass);
         public Type lordJobClass;
+        // Null means the default surface layer; an explicit empty list permits no layers.
+        public List<PlanetLayerDef> acceptableLayers;
         public bool allowDormant = true;
         public bool allowAwakened = true;
         public NemesisStanceDef requiredStance;
@@ -69,6 +76,11 @@ namespace Xenomorphtype
 
         private NemesisMissionWorker worker;
         public NemesisMissionWorker Worker => worker ??= (NemesisMissionWorker)Activator.CreateInstance(workerClass);
+
+        public bool MapRequirementsMet(Map map)
+            => map != null && map.IsPlayerHome && map.Tile.Valid && !XMTUtility.PlayerFactionIsCryptimorph()
+                && (acceptableLayers == null ? map.Tile.Layer == Find.WorldGrid.Surface
+                    : acceptableLayers.Contains(map.Tile.LayerDef));
 
         public float StanceWeight(GameComponent_Nemesis component, bool active) => !active ? 1f
             : stanceWeights.FirstOrDefault(entry => entry.stance == component.CurrentStance)?.weight ?? 1f;
@@ -137,6 +149,8 @@ namespace Xenomorphtype
         public override IEnumerable<string> ConfigErrors()
         {
             foreach (string error in base.ConfigErrors()) yield return error;
+            if (acceptableLayers != null && (acceptableLayers.Count == 0 || acceptableLayers.Any(layer => layer == null)))
+                yield return defName + ": acceptableLayers must contain at least one valid layer.";
             if (geneEvaluationWorkerClass == null || geneEvaluationWorkerClass.IsAbstract
                 || !typeof(NemesisGeneEvaluationWorker).IsAssignableFrom(geneEvaluationWorkerClass)
                 || geneEvaluationWorkerClass.GetConstructor(Type.EmptyTypes) == null)

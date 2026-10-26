@@ -3,6 +3,7 @@ using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
@@ -27,6 +28,7 @@ namespace Xenomorphtype
             CompJellyMaker maker = pawn.GetComp<CompJellyMaker>();
             Thing ingredient = job.GetTarget(TargetIndex.A).Thing;
             if (ingredient != null) return !ingredient.Spawned || ingredient.Map != pawn.Map || maker?.CanMakeIntoJelly(ingredient) != true;
+            if (pawn.GetLord()?.LordJob is LordJob_NemesisHarvest && !CompJellyMaker.TerrainCellEmpty(target, pawn.Map)) return true;
             return maker?.CanConvertCell(target) != true;
         }
         protected override IEnumerable<Toil> MakeNewToils()
@@ -42,6 +44,7 @@ namespace Xenomorphtype
                 CompJellyMaker maker = pawn.GetComp<CompJellyMaker>();
                 Thing ingredient = job.GetTarget(TargetIndex.A).Thing;
                 work = Mathf.Max(1f, (ingredient != null ? maker.JellyFromThing(ingredient) : maker.JellyFromCell(target)) * maker.WorkPerJelly);
+                if (ingredient is Plant) work = Mathf.Max(maker.WorkPerJelly, work);
             };
             toil.tickAction = () =>
             {

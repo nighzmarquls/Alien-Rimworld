@@ -404,8 +404,10 @@ namespace Xenomorphtype
                 return (resource.allowDirectAndDerivedValue ? direct + derived : Mathf.Max(direct, derived)) * quantity;
             }
             float fraction = EligibleFraction(thing.def, thing.Stuff, resource);
-            float growth = thing is Plant plant ? plant.Growth : 1f;
-            float converted = EquivalentMass(thing.GetStatValue(StatDefOf.Mass), thing.GetStatValue(StatDefOf.Nutrition), resource) * fraction * quantity * growth;
+            // Native Nutrition already applies PlantGrowthNutritionFactor. Plant biomass uses
+            // that live nutrition once, rather than a default mass or a second growth factor.
+            float converted = EquivalentMass(thing is Plant ? 0f : thing.GetStatValue(StatDefOf.Mass),
+                thing.GetStatValue(StatDefOf.Nutrition), resource) * fraction * quantity;
             return converted * MassFactor(resource);
         }
 
@@ -474,6 +476,11 @@ namespace Xenomorphtype
             active = active.Where(e => Possible(def, null, false, e.resourceDef, new HashSet<ThingDef>(), 0, out _)).ToList();
             return active.Count > 0 && Fraction(def, null, false, active.Select(e => e.resourceDef).ToList(), new HashSet<ThingDef>(), 0, out _) > 0f;
         }
+
+        public static bool CanConvertPlant(Plant plant, List<ResourceConversionEntry> entries, Thing consumer)
+            => plant != null && !plant.Destroyed && CanConvertDefinition(plant.def, entries, consumer)
+                && Active(entries, consumer).Any(entry => LiveFilterAllows(plant, entry.resourceDef)
+                    && Possible(plant.def, null, false, entry.resourceDef, new HashSet<ThingDef>(), 0, out _));
         public static List<Allocation> Allocate(Thing input, List<ResourceConversionEntry> entries, Thing consumer, float quantity = -1f)
         {
             var active = Active(entries, consumer);
@@ -487,13 +494,12 @@ namespace Xenomorphtype
             if (input is Corpse body) CorpseValues(body, out mass, out nutrition);
             else
             {
-                mass = input.GetStatValue(StatDefOf.Mass);
+                mass = input is Plant ? 0f : input.GetStatValue(StatDefOf.Mass);
                 nutrition = input.GetStatValue(StatDefOf.Nutrition);
                 fraction = Fraction(input.def, input.Stuff, false, active.Select(e => e.resourceDef).ToList(), new HashSet<ThingDef>(), 0, out _);
             }
             float amount = quantity < 0f ? input.stackCount : Mathf.Min(input.stackCount, quantity);
             float budget = active.Max(e => EquivalentMass(mass, nutrition, e.resourceDef)) * fraction * amount;
-            if (input is Plant plant) budget *= plant.Growth;
             return Divide(budget, active, input.PositionHeld, input.MapHeld, true);
         }
         public static List<Allocation> AllocateDefinition(ThingDef input, int count, List<ResourceConversionEntry> entries, Thing consumer)
@@ -501,7 +507,8 @@ namespace Xenomorphtype
             var active = Active(entries, consumer).Where(e => Possible(input, null, false, e.resourceDef, new HashSet<ThingDef>(), 0, out _)).ToList();
             if (active.Count == 0 || count <= 0) return new List<Allocation>();
             float fraction = Fraction(input, null, false, active.Select(e => e.resourceDef).ToList(), new HashSet<ThingDef>(), 0, out _);
-            float budget = active.Max(e => EquivalentMass(input.GetStatValueAbstract(StatDefOf.Mass), input.GetStatValueAbstract(StatDefOf.Nutrition), e.resourceDef)) * fraction * count;
+            float budget = active.Max(e => EquivalentMass(input.category == ThingCategory.Plant ? 0f : input.GetStatValueAbstract(StatDefOf.Mass),
+                input.GetStatValueAbstract(StatDefOf.Nutrition), e.resourceDef)) * fraction * count;
             return Divide(budget, active, IntVec3.Invalid, null, true);
         }
         private static List<Allocation> Divide(float budget, List<ResourceConversionEntry> active, IntVec3 cell, Map map, bool material)

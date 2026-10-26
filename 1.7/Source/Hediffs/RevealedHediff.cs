@@ -4,7 +4,7 @@ using Verse;
 
 namespace Xenomorphtype
 {
-    public class RevealedHediff : HediffWithComps
+    public class RevealedHediff : Hediff_Tissue
     {
         public override bool Visible {
             get

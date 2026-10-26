@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <Xenomorphtype.CryptimorphicInfluenceDef>
+    <defName>XMT_CryptimorphicInfluence</defName>
+    <perfectOrganismOffset>1</perfectOrganismOffset>
+    <matureMorphInfluence>4</matureMorphInfluence>
+    <maternalLifecycleThreshold>2.2</maternalLifecycleThreshold>
+    <normalDepositMl>20</normalDepositMl>
+    <normalDepositInfluence>0.1</normalDepositInfluence>
+  </Xenomorphtype.CryptimorphicInfluenceDef>
+  <HediffDef>
+    <defName>XMT_CryptimorphicExposure</defName>
+    <label>cryptimorphic exposure</label>
+    <description>Traces of foreign biological material remain within the body. Their nature can be established through medical examination.</description>
+    <hediffClass>Xenomorphtype.Hediff_CryptimorphicExposure</hediffClass>
+    <initialSeverity>1</initialSeverity>
+    <isBad>true</isBad>
+    <everCurableByItem>false</everCurableByItem>
+		<modExtensions>
+			<li Class="Xenomorphtype.MutationTissueExtension">
+				<useDefaultRecognition>true</useDefaultRecognition>
+				<diagnoses>
+					<li>
+						<workerClass>Xenomorphtype.TissueSummary_Exposure</workerClass>
+						<labelKey>XMT_AssessmentExposure</labelKey>
+						<groupKey>retainedExposure</groupKey>
+						<priority>80</priority>
+					</li>
+				</diagnoses>
+			</li>
+		</modExtensions>
+	</HediffDef>
+</Defs>

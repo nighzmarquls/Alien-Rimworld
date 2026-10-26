@@ -24,6 +24,8 @@ namespace Xenomorphtype
             Toil toil = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch)
                 .FailOnDespawnedOrNull(TargetIndex.A)
                 .FailOn(() => Prey == null || pawn == null || pawn.Dead)
+                .FailOn(() => NemesisMissionUtility.IsSwarmMember(pawn)
+                    && pawn.GetComp<CompHostHunter>()?.IsValidMissionTarget(Prey) != true)
                 .FailOn(() => Find.TickManager.TicksGame > startTick + 5000 && (float)(job.GetTarget(TargetIndex.A).Cell - pawn.Position).LengthHorizontalSquared > 4f);
             yield return toil;
             yield return AttemptAttachment();

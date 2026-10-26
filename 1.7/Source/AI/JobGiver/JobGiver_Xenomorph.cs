@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Unity.Jobs;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 using static UnityEngine.GraphicsBuffer;
 
 namespace Xenomorphtype
@@ -104,7 +105,7 @@ namespace Xenomorphtype
                 Log.Message("[XMT][JobGiver] " + pawn + " is getting Feral Job");
             }
 
-            if(!pawn.ageTracker.Adult)
+            if(!pawn.DevelopmentalStage.Adult())
             {
                 if (XMTSettings.LogJobGiver)
                 {
@@ -127,6 +128,8 @@ namespace Xenomorphtype
                 {
                     return juvenileRestJob;
                 }
+                // Food/rest selection must not fall through into adult feral work.
+                return XMTHiveUtility.GetHiveWanderJob(pawn);
             }
             IEnumerable<Pawn> colonyPawns = pawn.Map.PlayerPawnsForStoryteller.Where(x => XMTUtility.TriggersOvomorph(x));
             IEnumerable<Pawn> hostPawns = pawn.Map.mapPawns.AllPawnsSpawned.Where(x => XMTUtility.TriggersOvomorph(x));
@@ -544,6 +547,9 @@ namespace Xenomorphtype
             {
                 return null;
             }
+
+            // Mission duties own harvesting, hunting, collection and withdrawal decisions.
+            if (pawn.GetLord()?.LordJob is LordJob_NemesisMission) return null;
 
             if(!XMTUtility.IsXenomorph(pawn))
             {

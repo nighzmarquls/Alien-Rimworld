@@ -13,8 +13,8 @@ namespace XMT_RJW
         public override void CompPostTickInterval(ref float severityAdjustment, int delta)
         {
             if (matured) return;
-            severityAdjustment += RJWReproductionDef.Current.maturationPerDay * delta / GenDate.TicksPerDay;
-            if (parent.Severity < 1f) return;
+            if (parent.Severity < RJWReproductionDef.Current.promotionSeverity) return;
+            if (HorrorPregnancyUtility.ShouldDeferMotherTransformation(Pawn)) return;
             BodyPartRecord site = parent.Part ?? RJWApiShim.Genitals(Pawn);
             if (site == null || Pawn.health.hediffSet.PartIsMissing(site)) return;
             HediffDef target = RJWReproductionDef.Current.femalePart;
