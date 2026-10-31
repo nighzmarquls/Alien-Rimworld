@@ -7,13 +7,14 @@ using Verse.AI.Group;
 
 namespace Xenomorphtype
 {
-    internal class LordJob_QueenAid : LordJob_Nemesis
+    internal class LordJob_QueenAid : LordJob_XMT
     {
         private const int AssaultTicks = 18000;
         private const int ClearThreatTicksBeforeLeaving = 2500;
         private const int QueenCareWaitRefreshInterval = 120;
 
         private Pawn queen;
+        public override XMT_ResponseDef Response => queen == null ? null : Current.Game.GetComponent<GameComponent_XMTWorldState>().QueenDefense(queen).definition;
         private QueenAidThreatProfile threatProfile;
         private IntVec3 defendPoint;
         private int noThreatsSinceTick = -1;
@@ -594,7 +595,7 @@ namespace Xenomorphtype
         }
     }
 
-    internal class QueenAidThreatProfile : IExposable
+    public class QueenAidThreatProfile : IExposable
     {
         private const float AnimalThreatRadius = 60f;
 

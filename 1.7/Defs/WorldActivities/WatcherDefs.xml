@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Shared world-state scheduling. A watcher owns policy decisions, while response defs select workers and tuning.
+	intervalTicks is the polling cadence (60 ticks = one second); the minimum supported value is 250.
+	To add a new policy, copy one def, give it your mod's unique defName, and supply a C# XMT_WatcherWorker subclass.
+	Adding a second def for an existing worker schedules another instance; do not duplicate a watcher just to tune a response.
+	-->
+
+	<Xenomorphtype.XMT_WatcherDef>
+		<defName>XMT_Watcher_Nemesis</defName>
+		<workerClass>Xenomorphtype.XMT_Watcher_Nemesis</workerClass>
+		<intervalTicks>250</intervalTicks>
+	</Xenomorphtype.XMT_WatcherDef>
+
+	<Xenomorphtype.XMT_WatcherDef>
+		<defName>XMT_Watcher_Companion</defName>
+		<workerClass>Xenomorphtype.XMT_Watcher_Companions</workerClass>
+		<intervalTicks>250</intervalTicks>
+	</Xenomorphtype.XMT_WatcherDef>
+
+	<Xenomorphtype.XMT_WatcherDef>
+		<defName>XMT_Watcher_PlayerAction</defName>
+		<workerClass>Xenomorphtype.XMT_Watcher_PlayerAction</workerClass>
+		<intervalTicks>250</intervalTicks>
+	</Xenomorphtype.XMT_WatcherDef>
+
+	<Xenomorphtype.XMT_WatcherDef>
+		<defName>XMT_Watcher_Reprisal</defName>
+		<workerClass>Xenomorphtype.XMT_Watcher_Reprisal</workerClass>
+		<intervalTicks>250</intervalTicks>
+	</Xenomorphtype.XMT_WatcherDef>
+</Defs>

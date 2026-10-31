@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup><BaseIntermediateOutputPath>../Source/obj/WorldActivitiesState/obj/</BaseIntermediateOutputPath></PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType>
+    <OutputPath>../Source/obj/WorldActivitiesState/bin/</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems><ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="WorldActivities.State.cs" />
+    <Reference Include="XMT"><HintPath>../Assemblies/XMT.dll</HintPath></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>../../../../Assembly-CSharp.dll</HintPath></Reference>
+    <Reference Include="UnityStubs"><HintPath>../../../../UnityStubs.dll</HintPath></Reference>
+    <Reference Include="Waylith"><HintPath>../../../../Waylith.dll</HintPath></Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool"><HintPath>../../../../Microsoft.Extensions.ObjectPool.dll</HintPath></Reference>
+    <Reference Include="AlienRace"><HintPath>../../../../../../workshop/content/294100/2640710953/1.7/Assemblies/AlienRace.dll</HintPath></Reference>
+    <Reference Include="0Harmony"><HintPath>../../../../../../workshop/content/294100/2009463077/1.7/Assemblies/0Harmony.dll</HintPath></Reference>
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

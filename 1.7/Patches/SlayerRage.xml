@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/ThinkTreeDef[defName="MentalStateCritical"]/thinkRoot/subNodes</xpath>
+		<value>
+			<li Class="ThinkNode_ConditionalMentalState">
+				<state>XMT_SlayerRage</state>
+				<subNodes>
+					<li Class="Xenomorphtype.JobGiver_XMTSlayer" />
+					<li Class="JobGiver_WanderAnywhere">
+						<maxDanger>Deadly</maxDanger>
+					</li>
+				</subNodes>
+			</li>
+		</value>
+	</Operation>
+</Patch>

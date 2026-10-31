@@ -23,6 +23,8 @@ namespace Xenomorphtype
             {
                 if (__result && recipient != null && ___pawn != null)
                 {
+                    XMT_SlayerUtility.TryRage(___pawn, recipient);
+                    XMT_SlayerUtility.TryRage(recipient, ___pawn);
                     KnowledgeUtility.TryShareKnowledge(___pawn, recipient);
                 }
                 bool recipientXenomorph = XMTUtility.IsXenomorph(recipient);

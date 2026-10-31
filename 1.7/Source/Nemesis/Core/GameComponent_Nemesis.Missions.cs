@@ -8,6 +8,7 @@ namespace Xenomorphtype
     public sealed partial class GameComponent_Nemesis
     {
         private int nextMissionTick = -1;
+        private int nextGeneticAcquisitionTick = -1;
         private NemesisMissionRequest pendingMission;
         private string pendingMissionReason;
 
@@ -29,6 +30,7 @@ namespace Xenomorphtype
         private void ExposeMissions()
         {
             Scribe_Values.Look(ref nextMissionTick, "nextMissionTick", -1);
+            Scribe_Values.Look(ref nextGeneticAcquisitionTick, "XMT_nextGeneticAcquisitionTick", -1);
             Scribe_Deep.Look(ref pendingMission, "pendingMission");
             if (Scribe.mode == LoadSaveMode.PostLoadInit && pendingMission?.mission == null) pendingMission = null;
         }
@@ -36,10 +38,14 @@ namespace Xenomorphtype
         public override void GameComponentTick()
         {
             base.GameComponentTick();
-            int tick = Find.TickManager.TicksGame;
-            if (tick % 250 != 0) return;
+        }
+
+        internal void TickFromWorldCoordinator(int tick)
+        {
             TickGenetics();
-            if (tick % 60000 == 0) UpdateGeneticAcquisition(XenoformingUtility.GetXenoforming());
+            if (nextGeneticAcquisitionTick < 0) nextGeneticAcquisitionTick = ((tick + 59999) / 60000) * 60000;
+            if (tick >= nextGeneticAcquisitionTick)
+            { nextGeneticAcquisitionTick = tick + 60000; UpdateGeneticAcquisition(XenoformingUtility.GetXenoforming()); }
             if (pendingMission != null) { RecheckPendingMission(); return; }
             if (AnyMissionLive()) return;
             if (nextMissionTick < 0) nextMissionTick = tick + MissionInterval;

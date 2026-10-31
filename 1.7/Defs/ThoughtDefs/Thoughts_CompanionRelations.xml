@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Memories caused by loss of a companion relationship, referenced from PawnRelationDefs/CompanionRelationDefs.xml.
+	These defs describe mood effects, not the recovery policy. durationDays is in game days; stage baseMoodEffect is additive.
+	To add a custom loss reaction, copy a memory under a unique defName and reference it from the corresponding
+	PawnRelationDef diedThought, lostThought or killedThought field (and female variants where appropriate).
+	-->
+
+	<ThoughtDef>
+		<defName>XMT_ChargeDied</defName>
+		<thoughtClass>Thought_Memory</thoughtClass>
+		<durationDays>30</durationDays>
+		<stackLimit>1</stackLimit>
+		<stages>
+			<li>
+				<label>my charge died</label>
+				<description>I failed the person I was made to protect.</description>
+				<baseMoodEffect>-30</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+	<ThoughtDef>
+		<defName>XMT_ChargeLost</defName>
+		<thoughtClass>Thought_Memory</thoughtClass>
+		<durationDays>30</durationDays>
+		<stackLimit>1</stackLimit>
+		<stages>
+			<li>
+				<label>my charge is lost</label>
+				<description>My charge is gone. I must find them.</description>
+				<baseMoodEffect>-20</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+	<ThoughtDef>
+		<defName>XMT_KilledCharge</defName>
+		<thoughtClass>Thought_Memory</thoughtClass>
+		<durationDays>30</durationDays>
+		<stackLimit>1</stackLimit>
+		<stages>
+			<li>
+				<label>killed my charge</label>
+				<description>I destroyed the person I was supposed to protect.</description>
+				<baseMoodEffect>-40</baseMoodEffect>
+			</li>
+		</stages>
+	</ThoughtDef>
+</Defs>

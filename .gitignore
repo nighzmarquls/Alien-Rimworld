@@ -51,3 +51,6 @@ Compatibility/CombatExtended/Source/XMT_CE/obj/Debug/XMT_CE.csproj.AssemblyRefer
 *.stamps
 /Compatibility/1.7/MeleeAnimation/Source/XMT_AM/obj
 /Compatibility/1.7/VTE/Source/XMT_VTE/obj
+/1.7/Source/obj
+/1.7/Source/obj
+/1.7/Source/obj/Debug/refint

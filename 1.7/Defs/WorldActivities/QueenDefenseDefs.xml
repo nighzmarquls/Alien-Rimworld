@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Queen-defense response policies. Player and NPC queens use separate watcher ownership but share these limits.
+	costPerPawn spends xenoforming; minimumXenoforming gates activation. Tick fields use 60,000 ticks per game day.
+	To change one side, patch its concrete def or give it another abstract parent with different wave/cost limits.
+	The current queen-defense selector uses the two concrete defNames below; adding another def alone does not select it.
+	Custom behavior can use a responseWorkerClass derived from XMT_QueenDefenseWorker.
+	-->
+
+	<!-- Shared defaults; abstract defs are templates and do not create additional responses. -->
+
+	<Xenomorphtype.XMT_QueenDefenseDef Name="XMT_QueenDefenseBase" Abstract="True">
+		<responseWorkerClass>Xenomorphtype.XMT_QueenDefenseWorker</responseWorkerClass>
+		<minimumXenoforming>10</minimumXenoforming>
+		<costPerPawn>0.35</costPerPawn>
+		<cooldownTicks>60000</cooldownTicks>
+		<waveIntervalTicks>1200</waveIntervalTicks>
+		<maximumWaves>5</maximumWaves>
+		<maximumActivePawns>40</maximumActivePawns>
+		<maximumPawnsPerWave>8</maximumPawnsPerWave>
+		<threatPawnFactor>0.75</threatPawnFactor>
+	</Xenomorphtype.XMT_QueenDefenseDef>
+
+	<!-- Player queen actions are advanced by the player-action watcher. -->
+
+	<Xenomorphtype.XMT_QueenDefenseDef ParentName="XMT_QueenDefenseBase">
+		<defName>XMT_QueenDefense_Default</defName>
+		<watcher>XMT_Watcher_PlayerAction</watcher>
+	</Xenomorphtype.XMT_QueenDefenseDef>
+
+	<!-- NPC hive defense is advanced by the nemesis watcher. -->
+
+	<Xenomorphtype.XMT_QueenDefenseDef ParentName="XMT_QueenDefenseBase">
+		<defName>XMT_QueenDefense_NPC</defName>
+		<watcher>XMT_Watcher_Nemesis</watcher>
+	</Xenomorphtype.XMT_QueenDefenseDef>
+</Defs>

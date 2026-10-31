@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Execution jobs selected by the companion recovery lord: release, breach, and extraction.
+	These defs do not schedule events. Reuse them through a compatible recovery response, or supply a matching driverClass
+	and job-giver implementation when adding a new job. reportString uses vanilla TargetA/TargetB placeholders.
+	-->
+
+	<!-- Release an owner from custody or containment once the rescuer reaches them. -->
+
+	<JobDef>
+		<defName>XMT_FreeCompanion</defName>
+		<driverClass>Xenomorphtype.JobDriver_XMTFreeCompanion</driverClass>
+		<reportString>releasing TargetB.</reportString>
+	</JobDef>
+
+	<!-- Break a selected barrier on the route to the owner; completed physical breaches reveal the operation. -->
+
+	<JobDef>
+		<defName>XMT_RecoveryBreach</defName>
+		<driverClass>Xenomorphtype.JobDriver_XMTRecoveryBreach</driverClass>
+		<reportString>breaking through TargetA.</reportString>
+	</JobDef>
+
+	<!-- Carry an incapacitated owner or their corpse toward extraction. -->
+
+	<JobDef>
+		<defName>XMT_ExtractCompanion</defName>
+		<driverClass>Xenomorphtype.JobDriver_XMTExtractCompanion</driverClass>
+		<reportString>carrying TargetA to safety.</reportString>
+	</JobDef>
+</Defs>

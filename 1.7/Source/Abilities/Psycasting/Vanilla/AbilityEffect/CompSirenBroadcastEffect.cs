@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
@@ -15,14 +15,6 @@ namespace Xenomorphtype
 {
     internal class CompSirenBroadcastEffect : CompAbilityEffect
     {
-        private List<Faction> affectedFactions;
-
-        private static List<IntVec3> cachedRadiusCells = new List<IntVec3>();
-
-        private static IntVec3? cachedRadiusCellsTarget = null;
-
-        private static Map cachedRadiusCellsMap = null;
-
         Pawn caster => parent.pawn;
         public new CompProperties_SirenBroadcast Props => (CompProperties_SirenBroadcast)props;
 
@@ -64,15 +56,6 @@ namespace Xenomorphtype
         }
         public override void Apply(LocalTargetInfo target, LocalTargetInfo dest)
         {
-            if (affectedFactions == null)
-            {
-                affectedFactions = new List<Faction>();
-            }
-            else
-            {
-                affectedFactions.Clear();
-            }
-
             if (!XMTUtility.IsXenomorph(caster))
             {
                 CompPawnInfo info = caster.Info();
@@ -92,76 +75,9 @@ namespace Xenomorphtype
                 ApplyToPawn(pawn);
             }
 
-            foreach (Map map in Find.Maps)
-            {
-                if (map == parent.pawn.Map || Find.WorldGrid.TraversalDistanceBetween(map.Tile, parent.pawn.Map.Tile, passImpassable: true, Props.worldRangeTiles + 1) > Props.worldRangeTiles)
-                {
-                    continue;
-                }
-
-                foreach (Pawn pawn in map.mapPawns.AllPawns)
-                {
-                    if (pawn.Faction != null)
-                    {
-                        affectedFactions.AddDistinct(pawn.HomeFaction);
-                    }
-                }
-            }
-
-            foreach (Caravan caravan in Find.WorldObjects.Caravans)
-            {
-                if (Find.WorldGrid.TraversalDistanceBetween(caravan.Tile, parent.pawn.Map.Tile, passImpassable: true, Props.worldRangeTiles + 1) > Props.worldRangeTiles)
-                {
-                    continue;
-                }
-
-                foreach (Pawn pawn in caravan.pawns)
-                {
-                    if (pawn.Faction != null)
-                    {
-                        affectedFactions.AddDistinct(pawn.HomeFaction);
-                    }
-                }
-            }
-
-            foreach (Settlement settlement in Find.WorldObjects.Settlements)
-            {
-                if (Find.WorldGrid.TraversalDistanceBetween(settlement.Tile, parent.pawn.Map.Tile, passImpassable: true, Props.worldRangeTiles + 1) > Props.worldRangeTiles)
-                {
-                    continue;
-                }
-
-                affectedFactions.AddDistinct(settlement.Faction);
-            }
-
-
-
-            if (parent.pawn.Faction == Faction.OfPlayer)
-            {
-                foreach (Faction faction in affectedFactions)
-                {
-                    if(Faction.OfPlayer == faction)
-                    {
-                        continue;
-                    }
-                   
-                    if (IsFriendlyIdeo(faction))
-                    {
-                        int goodwillChange = Props.goodwillImpactForFriendly;
-                        Faction.OfPlayer.TryAffectGoodwillWith(faction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, HistoryEventDefOf.RitualDone);
-                    }
-                    else
-                    {
-                        int goodwillChange = Props.goodwillImpactForHostile;
-                        Faction.OfPlayer.TryAffectGoodwillWith(faction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, HistoryEventDefOf.UsedHarmfulAbility);
-                    }
-
-                    BroadcastReprisal(faction,parent.pawn.Map);
-                }
-            }
-
+            Current.Game.GetComponent<GameComponent_XMTWorldState>().RecordSiren(caster, Props.friendlyPrecepts, Props.hostilePrecepts,
+                Props.goodwillImpactForFriendly, Props.goodwillImpactForHostile);
             base.Apply(target, dest);
-            affectedFactions.Clear();
         }
 
         private bool CanApplyEffects(Pawn p)
@@ -184,77 +100,6 @@ namespace Xenomorphtype
             return false;
         }
 
-        private bool IsFriendlyIdeo(Faction faction)
-        {
-            int score = 0;
-
-            if (ModsConfig.IdeologyActive)
-            {
-                if (faction.ideos != null)
-                {
-                    if (faction.ideos.PrimaryIdeo is Ideo factionIdeo)
-                    {
-                        foreach (Precept precept in factionIdeo.PreceptsListForReading)
-                        {
-                            foreach (PreceptDef friendPrecept in Props.friendlyPrecepts)
-                            {
-                                if (precept.def == friendPrecept)
-                                {
-                                    score += 1;
-                                    break;
-                                }
-                            }
-                            foreach (PreceptDef hostilePrecept in Props.hostilePrecepts)
-                            {
-                                if (precept.def == hostilePrecept)
-                                {
-                                    score -= 1;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return score > 0;
-        }
-        private void BroadcastReprisal(Faction faction, Map map)
-        {
-            if (!parent.pawn.Faction.HostileTo(faction))
-            {
-                TraderKindDef localTk = faction.def.caravanTraderKinds.RandomElement();
-                IncidentParms parms = new IncidentParms
-                {
-                    target = map,
-                    faction = faction,
-                    traderKind = localTk,
-                    forced = true
-                };
-                float TicksToArrive = Rand.Range(30000, 60000);
-                Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
-                if (XMTSettings.LogWorld)
-                {
-                    Log.Message("[XMT][World] " + faction + " is sending a trade caravan to investigate the Siren Broadcast. Arriving in " + TicksToArrive/2400 + " hours");
-                }
-            }
-            else
-            {
-                IncidentParms parms = new IncidentParms
-                {
-                    target = map,
-                    faction = faction,
-                    forced = true,
-                    points = StorytellerUtility.DefaultThreatPointsNow(map)*4
-                };
-                float TicksToArrive = Rand.Range(30000, 60000);
-                Find.Storyteller.incidentQueue.Add(IncidentDefOf.RaidEnemy, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
-                if (XMTSettings.LogWorld)
-                {
-                    Log.Message("[XMT][World] " + faction + " is sending a raid of points: " + parms.points + " to investigate the Siren Broadcast. Arriving in " + TicksToArrive / 2400 + " hours");
-                }
-            }
-
-        }
     }
     public class CompProperties_SirenBroadcast : CompProperties_AbilityEffect
     {
@@ -266,7 +111,7 @@ namespace Xenomorphtype
 
         public List<PreceptDef> hostilePrecepts = null;
 
-        public int worldRangeTiles;
+
         public JobDef mesmerizedJobDef;
 
         public CompProperties_SirenBroadcast()

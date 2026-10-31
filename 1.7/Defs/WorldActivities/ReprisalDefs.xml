@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Coordinated non-cryptimorph retaliation. The reprisal watcher spends accumulated pressure using one weighted response.
+	minimumThreatFactor and maximumThreatFactor multiply the target map's storyteller threat points;
+	successiveWaveFactor scales later waves. breachingXenoforming is the world xenoforming threshold for breach tactics.
+	preparationTicks is the delay before queued raids (60,000 ticks per game day).
+	To add a response, copy this def under a unique defName, retain the reprisal watcher, and set selectionWeight
+	(default 1). A custom responseWorkerClass must derive from XMT_ReprisalWorker.
+	-->
+
+	<Xenomorphtype.XMT_ReprisalDef>
+		<defName>XMT_Reprisal_Default</defName>
+		<watcher>XMT_Watcher_Reprisal</watcher>
+		<responseWorkerClass>Xenomorphtype.XMT_ReprisalWorker</responseWorkerClass>
+		<minimumThreatFactor>1</minimumThreatFactor>
+		<maximumThreatFactor>4</maximumThreatFactor>
+		<successiveWaveFactor>0.75</successiveWaveFactor>
+		<breachingXenoforming>50</breachingXenoforming>
+		<preparationTicks>30000~60000</preparationTicks>
+	</Xenomorphtype.XMT_ReprisalDef>
+</Defs>

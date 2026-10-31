@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<HediffDef ParentName="XMT_PawnSetupBase">
+		<defName>XMT_SetupDutchWarriorsMindset</defName>
+		<label>warrior mindset assignment</label>
+		<description>Assigns the integrated Yautja warrior mindset to Dutch, then removes itself.</description>
+		<comps>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignTraits">
+				<traits>
+					<li>
+						<trait>ABYautjaWarriorsMindset</trait>
+					</li>
+				</traits>
+			</li>
+		</comps>
+	</HediffDef>
+</Defs>

@@ -49,6 +49,7 @@ namespace Xenomorphtype
         private IntVec3 entryCell = IntVec3.Invalid;
 
         public NemesisMissionDef Mission => mission;
+        public override XMT_ResponseDef Response => mission;
         public IReadOnlyList<IntVec3> Route => route;
         public abstract bool Successful { get; }
         public int Extracted => extracted;

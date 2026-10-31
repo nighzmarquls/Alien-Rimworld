@@ -152,7 +152,6 @@
 		</verbProperties>
 		<comps>
 		  <li Class="Xenomorphtype.CompProperties_SirenBroadcast">
-			<worldRangeTiles>6</worldRangeTiles>
 			<screenShakeIntensity>2</screenShakeIntensity>
 			<mesmerizedJobDef>GotoMindControlled</mesmerizedJobDef>
 			<friendlyPrecepts>

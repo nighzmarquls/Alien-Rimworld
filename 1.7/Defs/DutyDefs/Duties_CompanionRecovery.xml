@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Lord duty used by companion recovery operations. The think node delegates job selection to the active recovery lord.
+	A new response using the existing recovery lord should reuse this duty. A new duty requires a compatible ThinkNode_JobGiver;
+	copying this def alone does not add another mission. See JobDefs/Jobs_CompanionRecovery.xml for its execution jobs.
+	-->
+
+	<DutyDef>
+		<defName>XMT_RecoveryDuty</defName>
+		<thinkNode Class="Xenomorphtype.JobGiver_XMTRecovery" />
+	</DutyDef>
+</Defs>

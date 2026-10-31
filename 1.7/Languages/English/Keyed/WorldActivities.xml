@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <XMT_CompanionArrivedLabel>A companion arrives</XMT_CompanionArrivedLabel>
+  <XMT_CompanionArrived>{COMPANION_nameDef} has finally caught up with {OWNER_nameDef} and joined your colony.</XMT_CompanionArrived>
+  <XMT_CompanionVisitorLabel>A traveler arrives</XMT_CompanionVisitorLabel>
+  <XMT_CompanionVisitor>{COMPANION_nameDef}, a traveler claiming to represent {FACTION_name}, has arrived.</XMT_CompanionVisitor>
+  <XMT_CompanionAssaultLabel>Companion recovery</XMT_CompanionAssaultLabel>
+  <XMT_CompanionAssault>{COMPANION_nameDef} has arrived to recover {OWNER_nameDef}. The rescuer intends to leave with their charge, alive or dead.</XMT_CompanionAssault>
+  <XMT_JailbreakLabel>Jailbreak!</XMT_JailbreakLabel>
+  <XMT_CompanionBreachLabel>Rescuer breaches defenses</XMT_CompanionBreachLabel>
+  <XMT_CompanionBreach>{COMPANION_nameDef} has broken through your defenses and revealed hostile intentions.</XMT_CompanionBreach>
+  <XMT_Jailbreak>{COMPANION_nameDef} is freeing {OWNER_nameDef}! They are trying to leave together. Intervene if you intend to keep the captive.</XMT_Jailbreak>
+  <XMT_CompanionDemandLabel>A familiar pursuer</XMT_CompanionDemandLabel>
+  <XMT_CompanionDemand>{COMPANION_nameDef} has intercepted your caravan and demands that you hand over {OWNER_nameDef}. Refusal may lead to a recovery attempt after dark.</XMT_CompanionDemand>
+  <XMT_CompanionSurrender>Hand them over</XMT_CompanionSurrender>
+  <XMT_CompanionRefuse>Refuse</XMT_CompanionRefuse>
+  <XMT_SirenConvergenceLabel>The world answers</XMT_SirenConvergenceLabel>
+  <XMT_SirenConvergence>Your call has drawn interest from {0} factions. Travelers will take time to reach you from their settlements. Hostile factions may add their strength to future reprisals.</XMT_SirenConvergence>
+  <XMT_SirenNoResponders>Your call echoes across the world, but no accessible settlement can answer.</XMT_SirenNoResponders>
+</LanguageData>

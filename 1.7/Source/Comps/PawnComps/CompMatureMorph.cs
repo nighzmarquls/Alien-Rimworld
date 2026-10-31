@@ -426,7 +426,7 @@ namespace Xenomorphtype
 
             Pawn aggressor = dinfo.Instigator as Pawn;
 
-            if (Parent.GetLord()?.LordJob is LordJob_Nemesis nemesisLord
+            if (Parent.GetLord()?.LordJob is LordJob_XMT nemesisLord
                 && !nemesisLord.Notify_MissionDamage(Parent, dinfo)) return;
 
             if (Parent.Downed || Parent.Dead)
@@ -550,6 +550,13 @@ namespace Xenomorphtype
 
                 if (Parent.needs.joy.tolerances.BoredOf(InternalDefOf.NestTending))
                 {
+                    // Throttle negative stocked-input checks as well as successful tending passes.
+                    canTendLairTick = Find.TickManager.TicksGame + IntervalCheck;
+                    if (!HiveNeedsTending && Parent.Faction.IsPlayer)
+                    {
+                        Pawn pawn = Parent;
+                        HiveNeedsTending = XMTUtility.HasPlayerStoredInput(ref pawn, ref JellyMaker);
+                    }
                     if (HiveNeedsTending)
                     {
                         int hiveCount = XMTHiveUtility.TotalHivePopulation(parent.Map);
@@ -2472,33 +2479,55 @@ namespace Xenomorphtype
                 return false;
             }
 
-            HibernationCocoon cocoon = ThingMaker.MakeThing(cocoonDef) as HibernationCocoon;
-            if(cocoon == null)
+            HibernationCocoon cocoon = null;
+            bool wasSelected = Find.Selector.IsSelected(Parent);
+            try
             {
-                Log.Warning(Parent + " could not form cocoon");
-                return false;
-            }
-            cocoon.SetFaction(Parent.Faction);
+                cocoon = ThingMaker.MakeThing(cocoonDef) as HibernationCocoon;
+                if (cocoon == null)
+                {
+                    Log.Warning(Parent + " could not form cocoon");
+                    return false;
+                }
+                cocoon.SetFaction(Parent.Faction);
 
-            cocoon = GenSpawn.Spawn(cocoon, cell, map, WipeMode.VanishOrMoveAside) as HibernationCocoon;
-            if (cocoon == null)
-            {
-                return false;
-            }
+                // Retain the original instance even if spawning fails or throws partway through setup.
+                GenSpawn.Spawn(cocoon, cell, map, WipeMode.VanishOrMoveAside);
+                if (!cocoon.Spawned || cocoon.Destroyed)
+                {
+                    return false;
+                }
 
-            cocoon.Rotation = Rot4.Random;
-            if (cocoon.TryAssignOccupant(Parent))
-            {
-                Find.Selector.Select(Parent, playSound: false, forceDesignatorDeselect: false);
+                cocoon.Rotation = Rot4.Random;
+                cocoon.TryAssignOccupant(Parent);
+                if (!cocoon.GetDirectlyHeldThings().Contains(Parent))
+                {
+                    return false;
+                }
+
+                if (wasSelected)
+                {
+                    Find.Selector.Select(Parent, playSound: false, forceDesignatorDeselect: false);
+                }
                 return true;
             }
-
-            if (cocoon.Spawned && !cocoon.Destroyed)
+            catch (Exception exception)
             {
-                cocoon.Destroy();
+                Log.Error("[XMT] Failed forming hibernation cocoon for " + Parent + ": " + exception);
+                return cocoon != null && !cocoon.Destroyed && cocoon.GetDirectlyHeldThings().Contains(Parent);
             }
+            finally
+            {
+                if (!Parent.Spawned && !Parent.Destroyed && Parent.holdingOwner == null)
+                {
+                    Current.Game.GetComponent<GameComponent_SelfOccupantRecovery>().Recover(Parent, map, cell);
+                }
 
-            return false;
+                if (cocoon != null && cocoon.Spawned && !cocoon.Destroyed && cocoon.GetDirectlyHeldThings().Count == 0)
+                {
+                    cocoon.Destroy();
+                }
+            }
         }
 
         public void ClearAllTickLimits()

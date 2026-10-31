@@ -19,6 +19,7 @@ namespace Xenomorphtype
         private int geneticCycle;
         private int nextGeneticTrialId;
         private bool geneticMigrationComplete;
+        private bool sharedRetentionMigrated;
         private int geneticAcquisitionSuppression;
         private sealed class GeneticScenarioScope : IDisposable
         {
@@ -40,17 +41,23 @@ namespace Xenomorphtype
             Scribe_Collections.Look(ref geneFitness, "nemesisGeneFitness", LookMode.Deep);
             Scribe_Collections.Look(ref geneticTrials, "nemesisGeneticTrials", LookMode.Deep);
             Scribe_Collections.Look(ref recoveringMorphs, "nemesisRecoveringMorphs", LookMode.Deep);
-            Scribe_Collections.Look(ref geneticallyRetainedPawns, "nemesisGeneticallyRetainedPawns", LookMode.Reference);
+            if (Scribe.mode != LoadSaveMode.Saving) Scribe_Collections.Look(ref geneticallyRetainedPawns, "nemesisGeneticallyRetainedPawns", LookMode.Reference);
             Scribe_Values.Look(ref geneticCycle, "geneticCycle");
             Scribe_Values.Look(ref nextGeneticTrialId, "nextGeneticTrialId");
             Scribe_Values.Look(ref geneticMigrationComplete, "geneticMigrationComplete");
+            Scribe_Values.Look(ref sharedRetentionMigrated, "XMT_sharedRetentionMigrated");
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 strains ??= new List<NemesisStrain>(); factionSamples ??= new List<NemesisFactionSample>();
                 geneFitness ??= new List<NemesisGeneFitness>(); geneticTrials ??= new List<NemesisGeneticTrial>();
                 recoveringMorphs ??= new List<NemesisRecoveryRecord>();
                 geneticallyRetainedPawns ??= new List<Pawn>();
-                geneticallyRetainedPawns.RemoveAll(pawn => pawn == null);
+                foreach (Pawn pawn in geneticallyRetainedPawns.Where(p => p != null))
+                    Current.Game.GetComponent<GameComponent_XMTWorldState>().Track(pawn, "nemesis-genetics", adoptRetention: true);
+                geneticallyRetainedPawns.Clear();
+                foreach (NemesisRecoveryRecord record in recoveringMorphs.Where(r => r?.pawn != null))
+                    Current.Game.GetComponent<GameComponent_XMTWorldState>().Track(record.pawn, "nemesis-recovery", adoptRetention: !sharedRetentionMigrated);
+                sharedRetentionMigrated = true;
                 strains.RemoveAll(value => value == null); geneFitness.RemoveAll(value => value?.gene == null);
                 geneticTrials.RemoveAll(value => value?.mission == null);
                 recoveringMorphs.RemoveAll(value => value?.pawn == null);
@@ -221,9 +228,9 @@ namespace Xenomorphtype
         {
             if (geneticAcquisitionSuppression > 0) return;
             geneticCycle++; strains.Clear(); factionSamples.Clear(); geneFitness.Clear();
-            foreach (Pawn pawn in geneticallyRetainedPawns)
-                if (!IsRecovering(pawn)) Find.WorldPawns.ForcefullyKeptPawns.Remove(pawn);
-            geneticallyRetainedPawns.RemoveAll(pawn => !IsRecovering(pawn));
+            GameComponent_XMTWorldState state = Current.Game.GetComponent<GameComponent_XMTWorldState>();
+            foreach (XMT_TrackedPawn record in state.Pawns.Where(r => r.reasons.Contains("nemesis-genetics")).ToList())
+                state.Release(record.pawn, "nemesis-genetics");
             // In-flight trials finish bookkeeping but cannot repopulate the new cycle.
             foreach (NemesisGeneticTrial trial in geneticTrials) trial.finalized = true;
         }

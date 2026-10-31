@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Executable companion responses referenced by CompanionDefs.xml. delayDays uses inclusive game-day ranges.
+	To vary a reunion delay, copy a response under a unique defName and point a companion's friendlyResponse or recoveryResponse at it.
+	Its responseWorkerClass must derive from XMT_CompanionResponseWorker. Companion-specific delay fields override delayDays.
+	-->
+
+	<!-- A free player owner receives their companion through the friendly reunion worker. -->
+
+	<Xenomorphtype.XMT_ResponseDef>
+		<defName>XMT_Response_FriendlyReunion</defName>
+		<watcher>XMT_Watcher_Companion</watcher>
+		<responseWorkerClass>Xenomorphtype.XMT_Response_FriendlyReunion</responseWorkerClass>
+		<delayDays>1~120</delayDays>
+	</Xenomorphtype.XMT_ResponseDef>
+
+	<!--
+	Captivity, slavery, containment or a recoverable corpse selects the recovery worker; routing depends on current
+	custody.
+	-->
+
+	<Xenomorphtype.XMT_ResponseDef>
+		<defName>XMT_Response_CompanionRecovery</defName>
+		<watcher>XMT_Watcher_Companion</watcher>
+		<responseWorkerClass>Xenomorphtype.XMT_Response_Recovery</responseWorkerClass>
+		<delayDays>1~3</delayDays>
+	</Xenomorphtype.XMT_ResponseDef>
+</Defs>

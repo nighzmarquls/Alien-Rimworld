@@ -40,6 +40,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="WorldActivities\XMTWorldDefs.cs" />
+    <Compile Include="WorldActivities\GameComponent_XMTWorldState.cs" />
+    <Compile Include="WorldActivities\XMTCompanionSources.cs" />
+    <Compile Include="WorldActivities\XMTPawnSetup.cs" />
+    <Compile Include="WorldActivities\XMTRecoveryOperation.cs" />
+    <Compile Include="WorldActivities\XMTCompanionEvents.cs" />
+    <Compile Include="WorldActivities\XMTWorldResponses.cs" />
+    <Compile Include="WorldActivities\XMTSlayer.cs" />
+    <Compile Include="WorldActivities\DebugActions_XMTWorldActivities.cs" />
+    <Compile Include="WorldActivities\GameComponent_XMTWorldState.Diagnostics.cs" />
+    <Compile Include="Comps\GameComps\GameComponent_SelfOccupantRecovery.cs" />
     <Compile Include="Knowledge\KnowledgeSystem.cs" />
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2009463077\1.7\Assemblies\0Harmony.dll</HintPath>
@@ -56,6 +67,9 @@
     <Reference Include="MVCF">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\MVCF.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="PerfectOrganism">
+      <HintPath>..\..\..\..\..\..\workshop\content\294100\3828626571\1.7\Assemblies\PerfectOrganism.dll</HintPath>
     </Reference>
     <Reference Include="PipeSystem">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\PipeSystem.dll</HintPath>

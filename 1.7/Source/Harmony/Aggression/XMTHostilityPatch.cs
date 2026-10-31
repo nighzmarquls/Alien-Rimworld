@@ -99,6 +99,9 @@ namespace Xenomorphtype
             [HarmonyPrefix]
             public static bool Prefix(Thing a, Thing b, ref bool __result)
             {
+                if (a is Pawn first && XMT_SlayerUtility.Eligible(first, b)
+                    || b is Pawn second && XMT_SlayerUtility.Eligible(second, a))
+                { __result = true; return false; }
 
                 if (XMTUtility.IsXenomorph(a))
                 {

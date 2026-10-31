@@ -13,7 +13,7 @@ namespace Xenomorphtype
         FollowUp
     }
 
-    public abstract class NemesisMissionWorker
+    public abstract class NemesisMissionWorker : XMT_ResponseWorker
     {
         public virtual float Weight(NemesisMissionDef def, GameComponent_Nemesis component, Map map)
             => 1f + def.workerSettings.weightEvidenceBonus * Mathf.Clamp01(component.MapEvidenceValue(def.workerSettings.weightEvidence, map));

@@ -1,35 +1,85 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
-  <HediffDef>
-    <hediffClass>HediffWithComps</hediffClass>
-    <defName>XMT_ConvertHumanToSynthetic</defName>
-    <label>Convert To Synthetic</label>
-    <description>DEV:converts the applied pawn into an awakened android on application.</description>
-    <isBad>false</isBad>
-	<stages>
-	  <li>
-	    <label>hidden</label>
-	    <becomeVisible>false</becomeVisible>
-      </li>
-    </stages>
-    <comps>
-      <li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
-		<genes>
-			<li>VREA_MemoryProcessing</li>
-			<li>VREA_Power</li>
-			<li>VREA_SyntheticBody</li>
-			<li>VREA_NeutroCirculation</li>
-			<li>VREA_SyntheticImmunity</li>
-			<li>VREA_ComponentFreezing</li>
-			<li>VREA_ComponentOverheating</li>
-			<li>VREA_ColdTolerant</li>
-			<li>VREA_HeatTolerant</li>
-			<li>VREA_PsychicallyDeaf</li>
-		</genes>
-		<xenotype>synthetic</xenotype>
-      </li>
-    </comps>
-  </HediffDef>
-  
+	<HediffDef>
+		<hediffClass>HediffWithComps</hediffClass>
+		<defName>XMT_ConvertHumanToSynthetic</defName>
+		<label>Convert To Synthetic</label>
+		<description>DEV:converts the applied pawn into an awakened android on application.</description>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<label>hidden</label>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
+				<genes>
+					<li>VREA_MemoryProcessing</li>
+					<li>VREA_Power</li>
+					<li>VREA_SyntheticBody</li>
+					<li>VREA_NeutroCirculation</li>
+					<li>VREA_SyntheticImmunity</li>
+					<li>VREA_ComponentFreezing</li>
+					<li>VREA_ComponentOverheating</li>
+					<li>VREA_ColdTolerant</li>
+					<li>VREA_HeatTolerant</li>
+					<li>VREA_PsychicallyDeaf</li>
+				</genes>
+				<xenotype>synthetic</xenotype>
+			</li>
+		</comps>
+	</HediffDef>
+	<HediffDef>
+		<defName>XMT_ConvertHumanToBasicSynthetic</defName>
+		<label>basic synthetic assignment</label>
+		<description>Assigns a basic, unawakened android configuration with aging memory hardware, then removes itself.</description>
+		<hediffClass>HediffWithComps</hediffClass>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+		<comps>
+			<li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
+				<xenotype>synthetic</xenotype>
+				<genes>
+					<li>VREA_MemoryProcessing</li>
+					<li>VREA_Power</li>
+					<li>VREA_SyntheticBody</li>
+					<li>VREA_NeutroCirculation</li>
+					<li>VREA_SyntheticImmunity</li>
+					<li>VREA_ComponentFreezing</li>
+					<li>VREA_ComponentOverheating</li>
+					<li>VREA_ColdTolerant</li>
+					<li>VREA_HeatTolerant</li>
+					<li>VREA_PsychicallyDeaf</li>
+					<li>VREA_JoyDisabled</li>
+					<li>VREA_BeautyDisabled</li>
+					<li>VREA_ComfortDisabled</li>
+					<li>VREA_OutdoorsDisabled</li>
+					<li>VREA_DrugDesireDisabled</li>
+					<li>VREA_RoomSizeDisabled</li>
+					<li>VREA_PainDisabled</li>
+					<li>VREA_NoSkillGain</li>
+					<li>VREA_Uninspired</li>
+					<li>VREA_MentalBreaksDisabled</li>
+					<li>VREA_PsychologyDisabled</li>
+				</genes>
+			</li>
+		</comps>
+	</HediffDef>
+	<HediffDef ParentName="XMT_PawnSetupBase">
+		<defName>XMT_SetupAndyHardware</defName>
+		<label>memory hardware assignment</label>
+		<description>Assigns the caretaker's unreliable memory hardware, then removes itself.</description>
+		<comps>
+			<li Class="Xenomorphtype.XMT_CompProperties_AddGenes">
+				<genes>
+					<li>VREA_SlowRAM</li>
+				</genes>
+			</li>
+		</comps>
+	</HediffDef>
 </Defs>

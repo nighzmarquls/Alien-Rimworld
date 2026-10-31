@@ -171,7 +171,6 @@
         <sound>Psycast_Neuroquake_Effect</sound>
       </li>
 	  <li Class="Xenomorphtype.AbilityExtension_SirenBroadcast">
-		<worldRangeTiles>6</worldRangeTiles>
 		<mesmerizedJobDef>GotoMindControlled</mesmerizedJobDef>
 		<friendlyPrecepts>
 			<li MayRequire="Ludeon.RimWorld.Ideology">XMT_Parasite_Reincarnation</li>

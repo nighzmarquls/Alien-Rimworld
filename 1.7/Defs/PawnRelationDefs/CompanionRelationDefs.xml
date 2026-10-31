@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Social-tab relationships assigned by companion profiles. These defs do not create or schedule companions.
+	To add a relationship, copy a concrete def with a unique defName and reference it through ownerToCompanion or
+	companionToOwner in an XMT_CompanionDef. Use XMT_PawnRelationWorker for explicitly assigned relations.
+	Adoptive relations mirror vanilla family mood/opinion effects without marking the pawns as blood relatives.
+	ThoughtDefs/Thoughts_CompanionRelations.xml contains the charge-loss memories used below.
+	-->
+
+	<PawnRelationDef Name="XMT_SocialFamilyBase" Abstract="True">
+		<workerClass>Xenomorphtype.XMT_PawnRelationWorker</workerClass>
+		<implied>false</implied>
+		<generationChanceFactor>0</generationChanceFactor>
+		<familyByBloodRelation>false</familyByBloodRelation>
+		<romanceChanceFactor>0</romanceChanceFactor>
+		<soldThoughts>
+			<li>SoldMyLovedOne</li>
+		</soldThoughts>
+	</PawnRelationDef>
+
+	<PawnRelationDef ParentName="XMT_SocialFamilyBase">
+		<defName>XMT_AdoptiveParent</defName>
+		<label>adoptive father</label>
+		<labelFemale>adoptive mother</labelFemale>
+		<importance>195</importance>
+		<opinionOffset>30</opinionOffset>
+		<diedThought>MyFatherDied</diedThought>
+		<diedThoughtFemale>MyMotherDied</diedThoughtFemale>
+		<lostThought>MyFatherLost</lostThought>
+		<lostThoughtFemale>MyMotherLost</lostThoughtFemale>
+		<killedThought>KilledMyFather</killedThought>
+		<killedThoughtFemale>KilledMyMother</killedThoughtFemale>
+	</PawnRelationDef>
+
+	<PawnRelationDef ParentName="XMT_SocialFamilyBase">
+		<defName>XMT_AdoptiveChild</defName>
+		<label>adoptive son</label>
+		<labelFemale>adoptive daughter</labelFemale>
+		<importance>190</importance>
+		<opinionOffset>30</opinionOffset>
+		<diedThought>MySonDied</diedThought>
+		<diedThoughtFemale>MyDaughterDied</diedThoughtFemale>
+		<lostThought>MySonLost</lostThought>
+		<lostThoughtFemale>MyDaughterLost</lostThoughtFemale>
+		<killedThought>KilledMySon</killedThought>
+		<killedThoughtFemale>KilledMyDaughter</killedThoughtFemale>
+	</PawnRelationDef>
+
+	<PawnRelationDef ParentName="XMT_SocialFamilyBase">
+		<defName>XMT_AdoptiveSibling</defName>
+		<label>adoptive brother</label>
+		<labelFemale>adoptive sister</labelFemale>
+		<importance>185</importance>
+		<opinionOffset>20</opinionOffset>
+		<reflexive>true</reflexive>
+		<diedThought>MyBrotherDied</diedThought>
+		<diedThoughtFemale>MySisterDied</diedThoughtFemale>
+		<lostThought>MyBrotherLost</lostThought>
+		<lostThoughtFemale>MySisterLost</lostThoughtFemale>
+		<killedThought>KilledMyBrother</killedThought>
+		<killedThoughtFemale>KilledMySister</killedThoughtFemale>
+	</PawnRelationDef>
+
+	<!-- The owner sees their bodyguard here. This relation deliberately defines no loss mood thoughts. -->
+
+	<PawnRelationDef>
+		<defName>XMT_Bodyguard</defName>
+		<label>bodyguard</label>
+		<importance>180</importance>
+		<workerClass>Xenomorphtype.XMT_PawnRelationWorker</workerClass>
+		<implied>false</implied>
+		<generationChanceFactor>0</generationChanceFactor>
+		<romanceChanceFactor>0</romanceChanceFactor>
+	</PawnRelationDef>
+
+	<!-- The bodyguard sees their charge here; losing that charge has strong emotional effects. -->
+
+	<PawnRelationDef>
+		<defName>XMT_Charge</defName>
+		<label>charge</label>
+		<importance>200</importance>
+		<workerClass>Xenomorphtype.XMT_PawnRelationWorker</workerClass>
+		<implied>false</implied>
+		<generationChanceFactor>0</generationChanceFactor>
+		<romanceChanceFactor>0</romanceChanceFactor>
+		<opinionOffset>30</opinionOffset>
+		<diedThought>XMT_ChargeDied</diedThought>
+		<lostThought>XMT_ChargeLost</lostThought>
+		<killedThought>XMT_KilledCharge</killedThought>
+	</PawnRelationDef>
+</Defs>

@@ -1,4 +1,5 @@
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -127,7 +128,7 @@ namespace Xenomorphtype
 
         protected virtual bool CanOccupy(Pawn pawn)
         {
-            return pawn != null && !pawn.Dead && XMTUtility.IsXenomorph(pawn);
+            return pawn != null && !pawn.Destroyed && !pawn.Dead && XMTUtility.IsXenomorph(pawn);
         }
 
         protected virtual Pawn GenerateFallbackOccupant()
@@ -216,42 +217,62 @@ namespace Xenomorphtype
         private bool TryContainPendingOccupant()
         {
             Pawn pawn = pendingOccupant;
-            if (!CanOccupy(pawn) || (ContainedThing != null && ContainedThing != pawn))
+            if (!Spawned || Destroyed || !CanOccupy(pawn) || (ContainedThing != null && ContainedThing != pawn))
             {
                 return false;
             }
 
-            Map previousMap = pawn.Map;
-            IntVec3 previousPosition = pawn.Position;
-            bool wasSpawned = pawn.Spawned;
-
-            if (wasSpawned && !pawn.DeSpawnOrDeselect())
-            {
-                return false;
-            }
-
-            if (TryAcceptThing(pawn, allowSpecialEffects: false) && ContainedThing == pawn)
-            {
-                Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
-                return true;
-            }
-
-            if (!pawn.Spawned && GetDirectlyHeldThings().TryAddOrTransfer(pawn, canMergeWithExistingStacks: false))
+            if (GetDirectlyHeldThings().Contains(pawn))
             {
                 pendingOccupant = null;
-                hasExplicitOccupantAssignment = true;
-                Notify_OccupantRegistered(pawn);
-                HiveColonistBarUtility.NotifyContentsChanged();
-                Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
                 return true;
             }
 
-            if (wasSpawned && !pawn.Spawned && previousMap != null)
+            Map previousMap = pawn.MapHeld ?? Map;
+            IntVec3 previousPosition = pawn.MapHeld != null ? pawn.PositionHeld : Position;
+            bool wasSelected = Find.Selector.IsSelected(pawn);
+            try
             {
-                IntVec3 respawnCell = previousPosition.IsValid && previousPosition.InBounds(previousMap) && previousPosition.Standable(previousMap)
-                    ? previousPosition
-                    : CellFinder.RandomClosewalkCellNear(previousMap.Center, previousMap, 2);
-                GenSpawn.Spawn(pawn, respawnCell, previousMap, WipeMode.VanishOrMoveAside);
+                if (pawn.Spawned)
+                {
+                    // This method returns the previous selection state, not despawn success.
+                    pawn.DeSpawnOrDeselect();
+                }
+
+                if (!pawn.Spawned)
+                {
+                    TryAcceptThing(pawn, allowSpecialEffects: false);
+                    if (!GetDirectlyHeldThings().Contains(pawn) &&
+                        GetDirectlyHeldThings().TryAddOrTransfer(pawn, canMergeWithExistingStacks: false))
+                    {
+                        Notify_OccupantRegistered(pawn);
+                        HiveColonistBarUtility.NotifyContentsChanged();
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Error("[XMT] Failed assigning " + pawn + " to " + this + ": " + exception);
+            }
+            finally
+            {
+                // A callback may throw after insertion. Actual ownership decides whether recovery is needed.
+                pendingOccupant = null;
+                if (!pawn.Spawned && !pawn.Destroyed && pawn.holdingOwner == null)
+                {
+                    Current.Game.GetComponent<GameComponent_SelfOccupantRecovery>().Recover(pawn, previousMap, previousPosition);
+                }
+            }
+
+            if (GetDirectlyHeldThings().Contains(pawn))
+            {
+                hasExplicitOccupantAssignment = true;
+                fallbackAttemptTick = -1;
+                if (wasSelected)
+                {
+                    Find.Selector.Select(this, playSound: false, forceDesignatorDeselect: false);
+                }
+                return true;
             }
 
             return false;

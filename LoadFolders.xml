@@ -30,6 +30,7 @@
 	<v1.7>
 		<li>Common</li>
 		<li>1.7</li>
+		<li IfModActive="biotechrace.yautja.alleyballey">Compatibility/1.7/Yautja</li>
 		<li IfModNotActive="Ludeon.RimWorld.Anomaly">Compatibility/1.7/NoAnomaly</li>
 		<li IfModActive="Ludeon.RimWorld.Odyssey">Compatibility/1.7/Odyssey</li>
 		<li IfModActive="vanillaexpanded.gravship2">Compatibility/1.7/GravshipExpanded</li>

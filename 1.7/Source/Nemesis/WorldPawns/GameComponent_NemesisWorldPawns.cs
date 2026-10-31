@@ -30,6 +30,7 @@ namespace Xenomorphtype
     {
         private const int AbductionProcessingTicks = 600000;
         private List<NemesisRetainedPawn> retainedPawns = new List<NemesisRetainedPawn>();
+        private bool sharedRetentionMigrated;
         public IReadOnlyList<NemesisRetainedPawn> RetainedPawns => retainedPawns;
         public GameComponent_NemesisWorldPawns(Game game) { }
 
@@ -37,17 +38,21 @@ namespace Xenomorphtype
         {
             base.ExposeData();
             Scribe_Collections.Look(ref retainedPawns, "nemesisRetainedPawns", LookMode.Deep);
+            Scribe_Values.Look(ref sharedRetentionMigrated, "XMT_sharedRetentionMigrated");
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 retainedPawns ??= new List<NemesisRetainedPawn>();
                 retainedPawns.RemoveAll(record => record?.pawn == null);
+                foreach (NemesisRetainedPawn record in retainedPawns) Current.Game.GetComponent<GameComponent_XMTWorldState>()
+                    .Track(record.pawn, "nemesis-host", adoptRetention: !sharedRetentionMigrated);
+                sharedRetentionMigrated = true;
             }
         }
 
         public override void GameComponentTick()
         {
             base.GameComponentTick();
-            if (Find.TickManager.TicksGame % 250 == 0) ProcessRetainedPawns();
+
         }
 
         public bool RetainExtractedHost(Pawn carrier, Pawn victim)
@@ -63,7 +68,7 @@ namespace Xenomorphtype
             int tick = Find.TickManager.TicksGame;
             retainedPawns.Add(new NemesisRetainedPawn { pawn = victim, purpose = NemesisRetainedPawnPurpose.AbductedHost, retainedTick = tick,
                 processTick = tick + AbductionProcessingTicks, processingComplete = alreadyImplanted });
-            Find.WorldPawns.ForcefullyKeptPawns.Add(victim);
+            Current.Game.GetComponent<GameComponent_XMTWorldState>().Track(victim, "nemesis-host", carrier.Faction);
             NemesisEvidenceReporter.ReportAbduction(victim, carrier);
             if (player)
             {
@@ -87,11 +92,11 @@ namespace Xenomorphtype
                 if (pawn == null || pawn.Destroyed || pawn.Dead || pawn.Spawned || CaravanUtility.IsCaravanMember(pawn)
                     || !Find.WorldPawns.Contains(pawn))
                 {
-                    if (pawn != null) Find.WorldPawns.ForcefullyKeptPawns.Remove(pawn);
+                    if (pawn != null) Current.Game.GetComponent<GameComponent_XMTWorldState>().Release(pawn, "nemesis-host");
                     retainedPawns.Remove(record);
                     continue;
                 }
-                Find.WorldPawns.ForcefullyKeptPawns.Add(pawn);
+                Current.Game.GetComponent<GameComponent_XMTWorldState>().Track(pawn, "nemesis-host");
                 if (record.purpose == NemesisRetainedPawnPurpose.AbductedHost && !record.processingComplete && tick >= record.processTick)
                 {
                     record.processingComplete = true;
@@ -126,7 +131,7 @@ namespace Xenomorphtype
                     pawn.jobs.Notify_TuckedIntoBed(cocoon);
                     if (!pawn.Spawned || pawn.Position != cell || cell.GetEdifice(map) != cocoon)
                         throw new InvalidOperationException("Captive placement did not establish the expected cocoon.");
-                    Find.WorldPawns.ForcefullyKeptPawns.Remove(pawn);
+                    Current.Game.GetComponent<GameComponent_XMTWorldState>().Release(pawn, "nemesis-host");
                     retainedPawns.Remove(record);
                     placed++;
                 }

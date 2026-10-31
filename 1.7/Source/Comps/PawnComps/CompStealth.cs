@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +97,7 @@ namespace Xenomorphtype
 
             if ((Parent.Faction == null || !Parent.Faction.IsPlayer)
                 && Parent.GetComp<CompFacehuggerHostHunter>() == null
-                && (!(Parent.GetLord()?.LordJob is LordJob_Nemesis nemesisLord) || nemesisLord.AllowRevealAttack(Parent, Discoverer)))
+                && (!(Parent.GetLord()?.LordJob is LordJob_XMT nemesisLord) || nemesisLord.AllowRevealAttack(Parent, Discoverer)))
             {
                 if (Discoverer != null)
                 {
@@ -184,13 +184,13 @@ namespace Xenomorphtype
         public override void Notify_BecameVisible()
         {
             base.Notify_BecameVisible();
-            (Parent.GetLord()?.LordJob as LordJob_Nemesis)?.Notify_Revealed(Parent);
+            (Parent.GetLord()?.LordJob as LordJob_XMT)?.Notify_Revealed(Parent);
         }
 
         public override void Notify_ForcedVisible()
         {
             base.Notify_ForcedVisible();
-            (Parent.GetLord()?.LordJob as LordJob_Nemesis)?.Notify_Revealed(Parent);
+            (Parent.GetLord()?.LordJob as LordJob_XMT)?.Notify_Revealed(Parent);
         }
 
         protected void TryVisible(bool instant = false)

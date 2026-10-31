@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
   <TraitDef>
     <defName>XMT_Survivor</defName>
     <commonality>0.1</commonality>
@@ -11,6 +10,18 @@
       </li>
     </degreeDatas>
   </TraitDef>
-
-
+  <TraitDef>
+    <defName>XMT_Slayer</defName>
+    <commonality>0</commonality>
+    <allowOnHostileSpawn>true</allowOnHostileSpawn>
+    <degreeDatas>
+      <li>
+        <label>slayer</label>
+        <description>{PAWN_nameDef} cannot be drawn into cryptimorph obsession or traumatized by their horrors. Encounters with cryptimorphs, or their obsessed hive friends, can provoke a berserker rage. Destroying cryptimorphs brings intense satisfaction.</description>
+      </li>
+    </degreeDatas>
+    <conflictingTraits>
+      <li>Wimp</li>
+    </conflictingTraits>
+  </TraitDef>
 </Defs>

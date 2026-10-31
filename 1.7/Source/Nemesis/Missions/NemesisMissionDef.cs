@@ -46,8 +46,14 @@ namespace Xenomorphtype
         public int collectionDurationTicks = 1200;
     }
 
-    public class NemesisMissionDef : Def
+    public class NemesisMissionDef : XMT_ResponseDef
     {
+        public override void ResolveReferences()
+        {
+            base.ResolveReferences();
+            watcher ??= DefDatabase<XMT_WatcherDef>.GetNamed("XMT_Watcher_Nemesis");
+            responseWorkerClass = workerClass;
+        }
         public Type workerClass;
         public Type geneEvaluationWorkerClass = typeof(NemesisGeneEvaluationWorker);
         public bool specialGeneConsideration;

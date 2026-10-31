@@ -620,6 +620,35 @@ namespace Xenomorphtype
             RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 99999);
             return found;
         }
+        // Intent check only: use native per-def indexes, leaving reachability to job selection.
+        public static bool HasPlayerStoredInput(ref Pawn pawn, ref CompJellyMaker jellyMaker)
+        {
+            if (pawn == null || !pawn.Spawned || pawn.Faction?.IsPlayer != true ||
+                pawn.workSettings == null || pawn.WorkTypeIsDisabled(XenoWorkDefOf.Cooking) ||
+                !pawn.workSettings.WorkIsActive(XenoWorkDefOf.Cooking))
+                return false;
+
+            if (jellyMaker == null) jellyMaker = pawn.GetComp<CompJellyMaker>();
+            if (jellyMaker == null) return false;
+
+            Map map = pawn.Map;
+            foreach (ThingDef def in jellyMaker.Inputs.GetStoreSettings().filter.AllowedThingDefs)
+            {
+                if (def.category != ThingCategory.Item) continue;
+                foreach (Thing item in map.listerThings.ThingsOfDef(def))
+                {
+                    SlotGroup storage = map.haulDestinationManager.SlotGroupAt(item.Position);
+                    if (storage == null ||
+                        !(storage.parent is Zone_Stockpile || storage.parent is Thing building && building.Faction == pawn.Faction) ||
+                        !storage.Settings.AllowedToAccept(item))
+                        continue;
+                    if (FeralJobUtility.IsThingAvailableForJobBy(pawn, item) && jellyMaker.CanMakeIntoJelly(item))
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker, bool requireLightLevel = false)
         {
             if (jellyMaker == null) return null;
@@ -1957,6 +1986,7 @@ namespace Xenomorphtype
 
         internal static void TraumaResponse(Thing horror, CompPawnInfo witnessInfo)
         {
+            if (witnessInfo?.parent is Pawn slayer && XMT_SlayerUtility.TryRage(slayer, horror)) return;
             if (witnessInfo.parent is Pawn witness)
             {
                 if(!witness.Awake() || witness.Downed)
@@ -2034,6 +2064,11 @@ namespace Xenomorphtype
                 return;
             }
 
+            if (aggressorInfo.parent is Pawn actor)
+            {
+                XMT_SlayerUtility.TryRage(actor, victim);
+                if (victim is Pawn target) XMT_SlayerUtility.TryRage(target, actor);
+            }
             if (!aggressorInfo.IsXenomorphFriendly())
             {
                 IntVec3 eventPosition = (victim != null) ? victim.PositionHeld : aggressorInfo.parent.PositionHeld;
@@ -2069,9 +2104,15 @@ namespace Xenomorphtype
                         continue;
                     }
 
+                    if (XMT_SlayerUtility.IsSlayer(witness))
+                    {
+                        XMT_SlayerUtility.TryRage(witness, victim);
+                        XMT_SlayerUtility.TryRage(witness, aggressorInfo.parent);
+                    }
+
                     if (IsXenomorph(witness))
                     {
-                        if (Verse.AI.Group.LordUtility.GetLord(witness)?.LordJob is LordJob_Nemesis nemesisLord
+                        if (Verse.AI.Group.LordUtility.GetLord(witness)?.LordJob is LordJob_XMT nemesisLord
                             && !nemesisLord.AllowThreatResponse(witness, aggressorInfo.parent)) continue;
                         if (witness.def == InternalDefOf.XMT_Larva)
                         {

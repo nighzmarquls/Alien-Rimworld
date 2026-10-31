@@ -140,6 +140,7 @@ namespace Xenomorphtype
 
         private static string WorldPawnCleanupProtection(Pawn pawn, GameComponent_NemesisWorldPawns retained)
         {
+            if (Current.Game?.GetComponent<GameComponent_XMTWorldState>()?.Protects(pawn) == true) return "tracked world pawn";
             if (Current.Game?.GetComponent<GameComponent_Nemesis>()?.ProtectGeneticPawn(pawn) == true) return "Nemesis recovery/trial";
             if (pawn.Spawned) return "spawned";
             if (pawn.Faction == Faction.OfPlayerSilentFail || pawn.HostFaction == Faction.OfPlayerSilentFail)
@@ -155,30 +156,7 @@ namespace Xenomorphtype
         }
 
         private static string WorldPawnInvalidity(Pawn pawn, PawnKindDef pawnKind)
-        {
-            try
-            {
-                List<string> reasons = new List<string>();
-                if (pawn.Destroyed) reasons.Add("destroyed");
-                if (pawn.Downed) reasons.Add("downed");
-                if (pawn.def == null) reasons.Add("missing race");
-                if (pawnKind.race != null && pawn.def != pawnKind.race) reasons.Add("kind/race mismatch");
-                if (pawn.health == null) reasons.Add("missing health tracker");
-                if (pawn.ageTracker == null) reasons.Add("missing age tracker");
-                if (pawn.mindState == null) reasons.Add("missing mind state");
-                if (pawn.relations == null) reasons.Add("missing relations tracker");
-                if (pawn.health != null && !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Moving))
-                    reasons.Add("incapable of moving");
-                if (pawn.relations?.DirectRelations?.Any(relation => relation == null
-                    || relation.def == null || relation.otherPawn == null) == true)
-                    reasons.Add("malformed direct relation");
-                return reasons.Count > 0 ? string.Join(", ", reasons) : null;
-            }
-            catch (Exception exception)
-            {
-                return "validation threw " + exception.GetType().Name + ": " + exception.Message;
-            }
-        }
+            => XMT_PawnStateUtility.StructuralInvalidity(pawn, pawnKind);
 
         public static bool ShouldSeedBiomeFromPlayerHome()
         {

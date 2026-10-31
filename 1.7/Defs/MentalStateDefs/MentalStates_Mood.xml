@@ -1,24 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
   <MentalBreakDef>
     <defName>XMT_MurderousRage</defName>
     <label>murder enemy</label>
     <baseCommonality>1</baseCommonality>
     <intensity>Minor</intensity>
     <workerClass>Xenomorphtype.MentalBreakWorker_Morph</workerClass>
-	<mentalState>XMT_MurderousRage</mentalState>
+    <mentalState>XMT_MurderousRage</mentalState>
   </MentalBreakDef>
-  
   <MentalBreakDef>
     <defName>XMT_MurderXenomorph</defName>
     <label>horrorified</label>
     <baseCommonality>2</baseCommonality>
     <intensity>Major</intensity>
     <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
-	<mentalState>XMT_MurderXenomorph</mentalState>
+    <mentalState>XMT_MurderXenomorph</mentalState>
   </MentalBreakDef>
-  
   <MentalStateDef ParentName="BaseMentalState">
     <defName>XMT_MurderXenomorph</defName>
     <stateClass>Xenomorphtype.MentalState_XMT_MurderousRage</stateClass>
@@ -45,7 +42,6 @@
     <baseInspectLine>Mental state: Murderous rage</baseInspectLine>
     <allowBeatfire>true</allowBeatfire>
   </MentalStateDef>
-  
   <MentalStateDef ParentName="BaseMentalState">
     <defName>XMT_MurderousRage</defName>
     <stateClass>Xenomorphtype.MentalState_XMT_MurderousRage</stateClass>
@@ -72,7 +68,6 @@
     <baseInspectLine>Mental state: Murderous rage</baseInspectLine>
     <allowBeatfire>true</allowBeatfire>
   </MentalStateDef>
-
   <MentalStateDef ParentName="BaseMentalState">
     <defName>XMT_InorganicSubvertedBerserk</defName>
     <stateClass>Xenomorphtype.MentalState_XMT_InorganicSubvertedBerserk</stateClass>
@@ -97,16 +92,14 @@
     <baseInspectLine>Mental state: Subverted berserk</baseInspectLine>
     <allowBeatfire>true</allowBeatfire>
   </MentalStateDef>
-
   <MentalBreakDef>
     <defName>XMT_GiveUpExit</defName>
     <label>horrorified</label>
     <baseCommonality>2</baseCommonality>
     <intensity>Major</intensity>
     <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
-	<mentalState>XMT_GiveUpExit</mentalState>
+    <mentalState>XMT_GiveUpExit</mentalState>
   </MentalBreakDef>
-  
   <MentalStateDef ParentName="BaseMentalState">
     <defName>XMT_GiveUpExit</defName>
     <label>fleeing in horror</label>
@@ -126,16 +119,14 @@
     <allowBeatfire>true</allowBeatfire>
     <escapingPrisonersIgnore>true</escapingPrisonersIgnore>
   </MentalStateDef>
-
   <MentalBreakDef>
     <defName>XMT_DestroyOvomorph</defName>
     <label>destroy eggs</label>
     <baseCommonality>2</baseCommonality>
     <intensity>Major</intensity>
     <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
-	<mentalState>XMT_DestroyOvomorph</mentalState>
+    <mentalState>XMT_DestroyOvomorph</mentalState>
   </MentalBreakDef>
-  
   <MentalStateDef ParentName="Tantrum">
     <defName>XMT_DestroyOvomorph</defName>
     <stateClass>Xenomorphtype.MentalState_XMT_DestroyOvomorph</stateClass>
@@ -145,16 +136,14 @@
     <recoveryMtbDays>0.166</recoveryMtbDays>
     <beginLetter>{0} is having a tantrum.\n\n[PAWN_pronoun] is going to destroy {1}.</beginLetter>
   </MentalStateDef>
-
   <MentalBreakDef>
     <defName>XMT_SadisticRage</defName>
     <label>sadistic rage</label>
     <baseCommonality>2</baseCommonality>
     <intensity>Major</intensity>
     <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
-	<mentalState>XMT_SadisticRage</mentalState>
+    <mentalState>XMT_SadisticRage</mentalState>
   </MentalBreakDef>
-  
   <MentalStateDef ParentName="Tantrum">
     <defName>XMT_SadisticRage</defName>
     <stateClass>MentalState_SadisticRageTantrum</stateClass>
@@ -166,13 +155,20 @@
     <beginLetter>{0} has flown into a sadistic rage.\n\n[PAWN_pronoun] is going to vent [PAWN_possessive] anger on the prisoners.</beginLetter>
     <baseInspectLine>Mental state: Sadistic rage</baseInspectLine>
   </MentalStateDef>
-
   <MentalBreakDef>
     <defName>XMT_Wander_OwnRoom</defName>
     <mentalState>Wander_OwnRoom</mentalState>
     <baseCommonality>2</baseCommonality>
-	<workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
     <intensity>Minor</intensity>
   </MentalBreakDef>
-
+  <MentalStateDef ParentName="Berserk">
+    <defName>XMT_SlayerRage</defName>
+    <stateClass>Xenomorphtype.MentalState_XMTSlayer</stateClass>
+    <label>slayer rage</label>
+    <beginLetter>{0} has flown into a slayer rage.\n\n[PAWN_pronoun] will hunt cryptimorphs and their obsessed followers until the rage subsides.</beginLetter>
+    <recoveryMessage>{0}'s slayer rage has come to an end.</recoveryMessage>
+    <baseInspectLine>Mental state: Slayer rage</baseInspectLine>
+    <inCaravanCanDo>false</inCaravanCanDo>
+  </MentalStateDef>
 </Defs>

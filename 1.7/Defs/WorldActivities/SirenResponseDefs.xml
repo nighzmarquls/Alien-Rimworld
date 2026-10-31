@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Siren-call off-map responses. The worker considers accessible settlements globally, weights interest by distance,
+	and selects at most maximumSettlements distinct factions. Friendly arrivals go through the player-action watcher;
+	hostile interest contributes to reprisal. Travel time scales with caravanTicksPerTile, then preparationTicks is added.
+	All tick fields use 60,000 ticks per game day. distanceFalloff is measured in world tiles.
+	To add a variation, copy this def with a unique defName and adjust its fields. selectionWeight (default 1) weights
+	the initial response choice; responseWorkerClass may name an XMT_SirenResponseWorker subclass for custom behavior.
+	-->
+
+	<Xenomorphtype.XMT_SirenResponseDef>
+		<defName>XMT_Response_SirenConvergence</defName>
+		<watcher>XMT_Watcher_PlayerAction</watcher>
+		<maximumSettlements>4</maximumSettlements>
+		<distanceFalloff>30</distanceFalloff>
+		<caravanTicksPerTile>1800</caravanTicksPerTile>
+		<preparationTicks>15000~30000</preparationTicks>
+		<hostilePointsFactor>1</hostilePointsFactor>
+		<retryTicks>2500</retryTicks>
+		<maximumWaitTicks>120000</maximumWaitTicks>
+	</Xenomorphtype.XMT_SirenResponseDef>
+</Defs>

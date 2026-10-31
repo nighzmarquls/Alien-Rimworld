@@ -1,6 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
 	<!-- Human Adult-->
 	<BackstoryDef>
 		<defName>XMT_AdultModder00</defName>
@@ -21,7 +20,6 @@
 			<li>Outlander</li>
 		</spawnCategories>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_AdultSalvageSurvivor01</defName>
 		<title>salvage survivor</title>
@@ -43,7 +41,6 @@
 			<XMT_Survivor />
 		</forcedTraits>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_AdultSalvageSurvivor02</defName>
 		<title>mechanic survivor</title>
@@ -64,7 +61,6 @@
 			<XMT_Survivor />
 		</forcedTraits>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_AdultMissionAdjunct03</defName>
 		<title>archeological survivor</title>
@@ -86,32 +82,29 @@
 			<XMT_Survivor />
 		</forcedTraits>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_AdultMercenary04</defName>
 		<title>glitterworld mercenary</title>
 		<titleShort>major</titleShort>
 		<description>Though glitterworlds are peaceful places, they often remain prepared for war. [PAWN_nameDef]'s original unit rarely saw any real action.\n\nSo [PAWN_pronoun] pursued [PAWN_possessive] work as an offworld mercenary, [PAWN_possessive] career has been a storied and extensive one since leaving the relative peace of [PAWN_possessive] homeworld.</description>
 		<slot>Adulthood</slot>
-		<workDisables>
-		</workDisables>
+		<workDisables></workDisables>
 		<requiredWorkTags>
-		  <li>Violent</li>
+			<li>Violent</li>
 		</requiredWorkTags>
 		<skillGains>
-		  <Melee>6</Melee>
-		  <Shooting>6</Shooting>
-		  <Medicine>4</Medicine>
+			<Melee>6</Melee>
+			<Shooting>6</Shooting>
+			<Medicine>4</Medicine>
 		</skillGains>
 		<spawnCategories>
-		  <li>Offworld</li>
-		  <li>Pirate</li>
-		  <li>Researcher</li>
+			<li>Offworld</li>
+			<li>Pirate</li>
+			<li>Researcher</li>
 		</spawnCategories>
 		<bodyTypeMale>Hulk</bodyTypeMale>
 		<bodyTypeFemale>Hulk</bodyTypeFemale>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_PhantasmagoricalArtist04</defName>
 		<title>phantasmagorical artist</title>
@@ -132,5 +125,79 @@
 			<li>Cult</li>
 		</spawnCategories>
 	</BackstoryDef>
-
+	<BackstoryDef>
+		<defName>XMT_AdultCryptimorphHunter06</defName>
+		<title>crypto-maniac</title>
+		<titleShort>hunter</titleShort>
+		<slot>Adulthood</slot>
+		<description>[PAWN_nameDef] has watched colonies fall to cryptimorph infestations. [PAWN_pronoun] has dedicated [PAWN_possessive] life to hunting the organisms that consumed them, favoring fire over the risk of leaving even one parasite alive.</description>
+		<skillGains>
+			<Shooting>7</Shooting>
+			<Melee>4</Melee>
+			<Medicine>2</Medicine>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>Pirate</li>
+		</spawnCategories>
+		<forcedTraits>
+			<XMT_Slayer />
+		</forcedTraits>
+	</BackstoryDef>
+	<BackstoryDef>
+		<defName>XMT_AdultBiotechMagnate07</defName>
+		<title>biotech magnate</title>
+		<titleShort>magnate</titleShort>
+		<slot>Adulthood</slot>
+		<description>[PAWN_nameDef] commands a biotechnology enterprise despite [PAWN_possessive] youth. To [PAWN_objective], artificial minds, reconstructed bodies and dangerous organisms are opportunities to be owned, studied and perfected.</description>
+		<skillGains>
+			<Intellectual>7</Intellectual>
+			<Social>5</Social>
+			<Medicine>3</Medicine>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
+	<BackstoryDef>
+		<defName>XMT_AdultBodyguard08</defName>
+		<title>executive bodyguard</title>
+		<titleShort>bodyguard</titleShort>
+		<slot>Adulthood</slot>
+		<description>Discretion, etiquette and overwhelming force were the tools of [PAWN_nameDef]'s profession. [PAWN_pronoun] managed an employer's affairs and removed threats with the same calm efficiency.</description>
+		<skillGains>
+			<Melee>9</Melee>
+			<Shooting>5</Shooting>
+			<Social>5</Social>
+			<Intellectual>3</Intellectual>
+		</skillGains>
+		<requiredWorkTags>
+			<li>Violent</li>
+		</requiredWorkTags>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
+	</BackstoryDef>
+	<BackstoryDef>
+		<defName>XMT_AdultCaretaker09</defName>
+		<title>colony caretaker</title>
+		<titleShort>caretaker</titleShort>
+		<slot>Adulthood</slot>
+		<description>[PAWN_nameDef] looked after a vulnerable family member on an unforgiving industrial colony. Routine labor and patient care gave [PAWN_objective] a place in a family even when others treated [PAWN_objective] as expendable.</description>
+		<skillGains>
+			<Construction>5</Construction>
+			<Plants>3</Plants>
+			<Medicine>4</Medicine>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+		</spawnCategories>
+	</BackstoryDef>
 </Defs>

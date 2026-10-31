@@ -1,4 +1,4 @@
-﻿using RimWorld;
+using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,28 +19,11 @@ namespace Xenomorphtype
 
         public List<PreceptDef> hostilePrecepts = null;
 
-        public int worldRangeTiles;
+
         public JobDef mesmerizedJobDef;
-
-        private List<Faction> affectedFactions;
-
-        private static List<IntVec3> cachedRadiusCells = new List<IntVec3>();
-
-        private static IntVec3? cachedRadiusCellsTarget = null;
-
-        private static Map cachedRadiusCellsMap = null;
 
         public override void Cast(GlobalTargetInfo[] targets, Ability ability)
         {
-            if (affectedFactions == null)
-            {
-                affectedFactions = new List<Faction>();
-            }
-            else
-            {
-                affectedFactions.Clear();
-            }
-
             if (!XMTUtility.IsXenomorph(ability.pawn))
             {
                 CompPawnInfo info = ability.pawn.Info();
@@ -60,75 +43,8 @@ namespace Xenomorphtype
                 ApplyToPawn(pawn, ability);
             }
 
-            foreach (Map map in Find.Maps)
-            {
-                if (map == ability.pawn.Map || Find.WorldGrid.TraversalDistanceBetween(map.Tile, ability.pawn.Map.Tile, passImpassable: true, worldRangeTiles + 1) > worldRangeTiles)
-                {
-                    continue;
-                }
-
-                foreach (Pawn pawn in map.mapPawns.AllPawns)
-                {
-                    if (pawn.Faction != null)
-                    {
-                        affectedFactions.AddDistinct(pawn.HomeFaction);
-                    }
-                }
-            }
-
-            foreach (Caravan caravan in Find.WorldObjects.Caravans)
-            {
-                if (Find.WorldGrid.TraversalDistanceBetween(caravan.Tile, ability.pawn.Map.Tile, passImpassable: true, worldRangeTiles + 1) > worldRangeTiles)
-                {
-                    continue;
-                }
-
-                foreach (Pawn pawn in caravan.pawns)
-                {
-                    if (pawn.Faction != null)
-                    {
-                        affectedFactions.AddDistinct(pawn.HomeFaction);
-                    }
-                }
-            }
-
-            foreach (Settlement settlement in Find.WorldObjects.Settlements)
-            {
-                if (Find.WorldGrid.TraversalDistanceBetween(settlement.Tile, ability.pawn.Map.Tile, passImpassable: true, worldRangeTiles + 1) > worldRangeTiles)
-                {
-                    continue;
-                }
-
-                affectedFactions.AddDistinct(settlement.Faction);
-            }
-
-
-
-            if (ability.pawn.Faction == Faction.OfPlayer)
-            {
-                foreach (Faction faction in affectedFactions)
-                {
-                    if (Faction.OfPlayer == faction)
-                    {
-                        continue;
-                    }
-
-                    if (IsFriendlyIdeo(faction))
-                    {
-                        int goodwillChange = goodwillImpactForFriendly;
-                        Faction.OfPlayer.TryAffectGoodwillWith(faction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, HistoryEventDefOf.RitualDone);
-                    }
-                    else
-                    {
-                        int goodwillChange = goodwillImpactForHostile;
-                        Faction.OfPlayer.TryAffectGoodwillWith(faction, goodwillChange, canSendMessage: true, canSendHostilityLetter: true, HistoryEventDefOf.UsedHarmfulAbility);
-                    }
-
-                    BroadcastReprisal(faction, ability.pawn.Map, ability);
-                }
-            }
-
-            affectedFactions.Clear();
+            Current.Game.GetComponent<GameComponent_XMTWorldState>().RecordSiren(ability.pawn, friendlyPrecepts, hostilePrecepts,
+                goodwillImpactForFriendly, goodwillImpactForHostile);
         }
 
         private void ApplyToPawn(Pawn pawn, Ability ability)
@@ -189,78 +105,5 @@ namespace Xenomorphtype
             return false;
         }
 
-        private bool IsFriendlyIdeo(Faction faction)
-        {
-            int score = 0;
-
-            if (ModsConfig.IdeologyActive)
-            {
-                if (faction.ideos != null)
-                {
-                    if (faction.ideos.PrimaryIdeo is Ideo factionIdeo)
-                    {
-                        foreach (Precept precept in factionIdeo.PreceptsListForReading)
-                        {
-                            foreach (PreceptDef friendPrecept in friendlyPrecepts)
-                            {
-                                if (precept.def == friendPrecept)
-                                {
-                                    score += 1;
-                                    break;
-                                }
-                            }
-                            foreach (PreceptDef hostilePrecept in hostilePrecepts)
-                            {
-                                if (precept.def == hostilePrecept)
-                                {
-                                    score -= 1;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return score > 0;
-        }
-        private void BroadcastReprisal(Faction faction, Map map, Ability ability)
-        {
-            if (!ability.pawn.Faction.HostileTo(faction))
-            {
-                TraderKindDef localTk = faction.def.caravanTraderKinds.RandomElement();
-                IncidentParms parms = new IncidentParms
-                {
-                    target = map,
-                    faction = faction,
-                    traderKind = localTk,
-                    forced = true
-                };
-                float TicksToArrive = Rand.Range(30000, 60000);
-                Find.Storyteller.incidentQueue.Add(IncidentDefOf.TraderCaravanArrival, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
-                if (XMTSettings.LogWorld)
-                {
-                    Log.Message("[XMT][World] " + faction + " is sending a trade caravan to investigate the Siren Broadcast. Arriving in " + TicksToArrive / 2400 + " hours");
-                }
-            }
-            else
-            {
-                IncidentParms parms = new IncidentParms
-                {
-                    target = map,
-                    faction = faction,
-                    forced = true,
-                    points = StorytellerUtility.DefaultThreatPointsNow(map) * 4
-                };
-                float TicksToArrive = Rand.Range(30000, 60000);
-                Find.Storyteller.incidentQueue.Add(IncidentDefOf.RaidEnemy, Find.TickManager.TicksGame + Mathf.FloorToInt(TicksToArrive), parms, 120000);
-                if (XMTSettings.LogWorld)
-                {
-                    Log.Message("[XMT][World] " + faction + " is sending a raid of points: " + parms.points + " to investigate the Siren Broadcast. Arriving in " + TicksToArrive / 2400 + " hours");
-                }
-            }
-
-        }
     }
-
-
 }

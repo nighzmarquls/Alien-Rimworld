@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Backstory-to-companion associations, kept alongside the general childhood/adulthood backstories.
+	These defs reference existing backstories; their titles, descriptions and numbered identities remain in the normal story files.
+	To add a companion to a backstory, copy one association with a unique defName, set backstory to its BackstoryDef,
+	and companion to an XMT_CompanionDef from WorldActivities/CompanionDefs.xml (or your own mod).
+	For the same companion role, explicit bio setup wins over adulthood, then childhood. Different roles can coexist.
+	Human_Bios.xml demonstrates the Rain and Kavalier bio setups that override generic background companions.
+
+	Example association for the commented profile in CompanionDefs.xml (replace the example backstory with a real def):
+	<Xenomorphtype.XMT_BackstoryCompanionDef>
+		<defName>XMT_ExampleBackstoryCompanion</defName>
+		<backstory>XMT_ExampleBackstory</backstory>
+		<companion>XMT_ExampleCompanion</companion>
+	</Xenomorphtype.XMT_BackstoryCompanionDef>
+	-->
+
+	<Xenomorphtype.XMT_BackstoryCompanionDef>
+		<defName>XMT_BackstoryCompanion_SyntheticProdigy</defName>
+		<backstory>XMT_ChildSyntheticProdigy07</backstory>
+		<companion>XMT_Companion_SyntheticCaretaker</companion>
+	</Xenomorphtype.XMT_BackstoryCompanionDef>
+
+	<Xenomorphtype.XMT_BackstoryCompanionDef>
+		<defName>XMT_BackstoryCompanion_Botanist</defName>
+		<backstory>XMT_ChildBotanist01</backstory>
+		<companion>XMT_Companion_SyntheticSibling</companion>
+	</Xenomorphtype.XMT_BackstoryCompanionDef>
+
+	<Xenomorphtype.XMT_BackstoryCompanionDef>
+		<defName>XMT_BackstoryCompanion_SalvageSurvivor</defName>
+		<backstory>XMT_AdultSalvageSurvivor01</backstory>
+		<companion>XMT_Companion_SyntheticSibling</companion>
+	</Xenomorphtype.XMT_BackstoryCompanionDef>
+
+	<Xenomorphtype.XMT_BackstoryCompanionDef>
+		<defName>XMT_BackstoryCompanion_TamedNymph</defName>
+		<backstory>StarbeastChildTame04</backstory>
+		<companion>XMT_Companion_AdoptiveMentor</companion>
+	</Xenomorphtype.XMT_BackstoryCompanionDef>
+</Defs>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+	<!--
+	Companion profiles describe who appears, how they relate to an owner, and which reunion/recovery policies they use.
+	Association is separate: see BackstoryDefs/BackstoryCompanionDefs.xml and HediffDefs/Hediffs_Part_Cosmetic.xml.
+	Use unique defNames. role is the per-owner identity slot: bio setup overrides adulthood, then childhood for the same role.
+	Ranges use min~max. Delay ranges are game days; ages are years. retryCap = -1 means unlimited recovery attempts.
+	ownerToCompanion is the relation shown on the owner's social tab; companionToOwner is its counterpart.
+	Relation mood effects come from PawnRelationDefs/CompanionRelationDefs.xml, not from the reunion timing settings.
+
+	Example: copy XMT_Companion_AdoptiveMentor with your own defName and bind it to a backstory association.
+	Its Generic source creates a pawnKind. The Andy and Atom profiles instead demonstrate an exact HAR PawnBioDef source:
+	use Class="Xenomorphtype.XMT_CompanionSource_Bio", pawnKind, and bio. Matching world pawns are reused before creating one.
+	Optional-mod references need MayRequire on the referencing element. Inherit="False" clears an inherited setup list.
+	The corpse outcome worker is currently an extension stub; recovery does not resurrect the owner automatically.
+
+	Minimal generic profile example (commented out; choose your own unique defName):
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_CompanionBase">
+		<defName>XMT_ExampleCompanion</defName>
+		<role>mentor</role>
+		<source Class="Xenomorphtype.XMT_CompanionSource_Generic">
+			<pawnKind>Colonist</pawnKind>
+		</source>
+		<ownerToCompanion>XMT_AdoptiveParent</ownerToCompanion>
+		<companionToOwner>XMT_AdoptiveChild</companionToOwner>
+	</Xenomorphtype.XMT_CompanionDef>
+	-->
+
+	<!-- Common scheduling and worker defaults. Copy a concrete profile rather than making this template spawnable. -->
+
+	<Xenomorphtype.XMT_CompanionDef Name="XMT_CompanionBase" Abstract="True">
+		<watcher>XMT_Watcher_Companion</watcher>
+		<friendlyResponse>XMT_Response_FriendlyReunion</friendlyResponse>
+		<recoveryResponse>XMT_Response_CompanionRecovery</recoveryResponse>
+
+		<friendlyArrivalDelayDays>1~120</friendlyArrivalDelayDays>
+		<recoveryDelayDays>1~3</recoveryDelayDays>
+		<retryAfterWithdrawalDays>1~3</retryAfterWithdrawalDays>
+		<retryCap>-1</retryCap>
+
+		<withdrawalWorkerClass>Xenomorphtype.XMT_CompanionWithdrawal_Injury</withdrawalWorkerClass>
+		<corpseOutcomeWorkerClass>Xenomorphtype.XMT_CorpseOutcomeWorker</corpseOutcomeWorkerClass>
+
+		<biologicalAge>25~45</biologicalAge>
+	</Xenomorphtype.XMT_CompanionDef>
+
+	<!--
+	Generic caretaker: a human fallback, converted to a basic synthetic only when VRE Androids is loaded. Never
+	voluntarily withdraws.
+	-->
+
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_CompanionBase" Name="XMT_AndroidCompanionBase" Abstract="True">
+		<role>caretaker</role>
+
+		<withdrawalWorkerClass>Xenomorphtype.XMT_CompanionWithdrawal_Never</withdrawalWorkerClass>
+
+		<biologicalAge>40~50</biologicalAge>
+
+		<ownerToCompanion>XMT_AdoptiveParent</ownerToCompanion>
+		<companionToOwner>XMT_AdoptiveChild</companionToOwner>
+
+		<setupHediffs>
+			<li MayRequire="vanillaracesexpanded.android">XMT_ConvertHumanToBasicSynthetic</li>
+		</setupHediffs>
+	</Xenomorphtype.XMT_CompanionDef>
+
+	<!-- Reusable caretaker for the synthetic-prodigy backstory, unless an exact bio setup overrides this role. -->
+
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_AndroidCompanionBase">
+		<defName>XMT_Companion_SyntheticCaretaker</defName>
+
+		<source Class="Xenomorphtype.XMT_CompanionSource_Generic">
+			<pawnKind>Colonist</pawnKind>
+		</source>
+	</Xenomorphtype.XMT_CompanionDef>
+
+	<!-- Minimal generic human example: a colonist pawnkind, adoptive family relations, and an older biological age. -->
+
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_CompanionBase">
+		<defName>XMT_Companion_AdoptiveMentor</defName>
+		<role>mentor</role>
+
+		<source Class="Xenomorphtype.XMT_CompanionSource_Generic">
+			<pawnKind>Colonist</pawnKind>
+		</source>
+
+		<ownerToCompanion>XMT_AdoptiveParent</ownerToCompanion>
+		<companionToOwner>XMT_AdoptiveChild</companionToOwner>
+
+		<biologicalAge>35~65</biologicalAge>
+	</Xenomorphtype.XMT_CompanionDef>
+
+	<!-- Sibling variant shares android setup/loyalty but changes both social relations and apparent age. -->
+
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_AndroidCompanionBase" Name="XMT_AndroidSiblingBase" Abstract="True">
+		<role>sibling</role>
+
+		<ownerToCompanion>XMT_AdoptiveSibling</ownerToCompanion>
+		<companionToOwner>XMT_AdoptiveSibling</companionToOwner>
+
+		<biologicalAge>25~35</biologicalAge>
+	</Xenomorphtype.XMT_CompanionDef>
+
+	<!-- Reusable sibling for generic versions of the botanist and salvage-survivor backstories. -->
+
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_AndroidSiblingBase">
+		<defName>XMT_Companion_SyntheticSibling</defName>
+
+		<source Class="Xenomorphtype.XMT_CompanionSource_Generic">
+			<pawnKind>Colonist</pawnKind>
+		</source>
+	</Xenomorphtype.XMT_CompanionDef>
+
+	<!--
+	Rain bio override: retrieve/create the exact Andy bio. His bio supplies hardware setup, so the generic setup
+	list is cleared.
+	-->
+
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_AndroidSiblingBase">
+		<defName>XMT_Companion_Andy</defName>
+
+		<source Class="Xenomorphtype.XMT_CompanionSource_Bio">
+			<pawnKind>Colonist</pawnKind>
+			<bio>XMT_Andy09</bio>
+		</source>
+
+		<setupHediffs Inherit="False" />
+	</Xenomorphtype.XMT_CompanionDef>
+
+	<!--
+	Kavalier bio override: exact bodyguard bio. Apparent age is inherited; chronological age is owner age minus six
+	years. Hostile drop pods are permitted only when no non-hostile cover faction exists; the support worker
+	selects mercenaries.
+	-->
+
+	<Xenomorphtype.XMT_CompanionDef ParentName="XMT_AndroidCompanionBase">
+		<defName>XMT_Companion_Atom</defName>
+
+		<source Class="Xenomorphtype.XMT_CompanionSource_Bio">
+			<pawnKind>Colonist</pawnKind>
+			<bio>XMT_Atom08</bio>
+		</source>
+
+		<ownerToCompanion>XMT_Bodyguard</ownerToCompanion>
+		<companionToOwner>XMT_Charge</companionToOwner>
+		<yearsAfterOwnerBirth>6</yearsAfterOwnerBirth>
+
+		<allowDropPods>true</allowDropPods>
+		<supportWorkerClass>Xenomorphtype.XMT_CompanionSupport_Mercenaries</supportWorkerClass>
+		<supportPointsFactor>1</supportPointsFactor>
+
+		<setupHediffs Inherit="False" />
+	</Xenomorphtype.XMT_CompanionDef>
+</Defs>

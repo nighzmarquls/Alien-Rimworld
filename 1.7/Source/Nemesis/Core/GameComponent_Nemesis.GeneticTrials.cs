@@ -29,9 +29,7 @@ namespace Xenomorphtype
                 + " strain=" + trial.strainId + " members=" + trial.members.Count);
         }
 
-        private static bool StructurallyValid(Pawn pawn) => pawn != null && !pawn.Destroyed && pawn.health != null
-            && pawn.ageTracker != null && pawn.mindState != null && pawn.relations != null
-            && pawn.relations.DirectRelations.All(relation => relation != null && relation.def != null && relation.otherPawn != null);
+        private static bool StructurallyValid(Pawn pawn) => XMT_PawnStateUtility.StructurallyValid(pawn);
         internal static bool EligibleGeneticMember(Pawn pawn) => StructurallyValid(pawn) && pawn.ageTracker.Adult && XMTUtility.IsXenomorph(pawn)
             && !XMTUtility.IsQueen(pawn) && pawn.GetComp<CompLarvalGenes>() == null && pawn.GetComp<CompSubverterGenes>() == null;
 
@@ -84,17 +82,13 @@ namespace Xenomorphtype
             if (missionMember && HasCapability("XMT_NemesisCapability_InjuryRecovery") && !IsRecovering(pawn))
             {
                 recoveringMorphs.Add(new NemesisRecoveryRecord { pawn = pawn, readyTick = Find.TickManager.TicksGame + 60000 });
-                Find.WorldPawns.ForcefullyKeptPawns.Add(pawn);
+                Current.Game.GetComponent<GameComponent_XMTWorldState>().Track(pawn, "nemesis-recovery");
                 TendUtility.DoTend(null, pawn, null);
             }
         }
 
         internal bool IsRecovering(Pawn pawn) => recoveringMorphs.Any(value => value.pawn == pawn);
-        private void KeepGeneticPawn(Pawn pawn)
-        {
-            if (!Find.WorldPawns.ForcefullyKeptPawns.Contains(pawn) && !geneticallyRetainedPawns.Contains(pawn)) geneticallyRetainedPawns.Add(pawn);
-            Find.WorldPawns.ForcefullyKeptPawns.Add(pawn);
-        }
+        private void KeepGeneticPawn(Pawn pawn) => Current.Game.GetComponent<GameComponent_XMTWorldState>().Track(pawn, "nemesis-genetics");
         internal bool TrialsForSacrifice(Pawn pawn) => pawn != null && geneticTrials.LastOrDefault(trial =>
             trial.members.Any(member => member.pawnId == pawn.ThingID))?.mission.expectedSacrifice == true;
         internal bool PendingGeneticPrelude => geneticTrials.Any(trial => trial.followUpPending && !trial.followUpReported && !trial.finalized);
@@ -120,22 +114,17 @@ namespace Xenomorphtype
         {
             InitializeGeneticMigration();
             int tick = Find.TickManager.TicksGame;
-            foreach (Pawn pawn in geneticallyRetainedPawns.ToList())
-            {
-                if (!StructurallyValid(pawn) || pawn.Dead)
-                {
-                    if (pawn != null) Find.WorldPawns.ForcefullyKeptPawns.Remove(pawn);
-                    geneticallyRetainedPawns.Remove(pawn);
-                }
-                else if (pawn.Spawned) geneticallyRetainedPawns.Remove(pawn);
-            }
+            GameComponent_XMTWorldState state = Current.Game.GetComponent<GameComponent_XMTWorldState>();
+            foreach (XMT_TrackedPawn record in state.Pawns.Where(r => r.reasons.Contains("nemesis-genetics")).ToList())
+                if (!StructurallyValid(record.pawn) || record.pawn.Dead || record.pawn.Spawned)
+                    state.Release(record.pawn, "nemesis-genetics");
             foreach (NemesisRecoveryRecord record in recoveringMorphs.ToList())
             {
                 Pawn pawn = record.pawn;
                 if (!StructurallyValid(pawn) || pawn.Dead || pawn.Spawned || !Find.WorldPawns.Contains(pawn)
                     || CaravanUtility.IsCaravanMember(pawn))
                 {
-                    recoveringMorphs.Remove(record); continue;
+                    state.Release(pawn, "nemesis-recovery"); recoveringMorphs.Remove(record); continue;
                 }
                 if (tick < record.readyTick) continue;
                 foreach (Hediff_Injury injury in pawn.health.hediffSet.hediffs.OfType<Hediff_Injury>().ToList())
@@ -143,7 +132,7 @@ namespace Xenomorphtype
                 if (HasCapability("XMT_NemesisCapability_LimbRecovery"))
                     foreach (Hediff_MissingPart part in pawn.health.hediffSet.GetMissingPartsCommonAncestors().ToList())
                         pawn.health.RestorePart(part.Part);
-                recoveringMorphs.Remove(record);
+                state.Release(pawn, "nemesis-recovery"); recoveringMorphs.Remove(record);
                 NemesisLog.Detail("Genetics", "Recovered=" + pawn.ThingID);
             }
             foreach (NemesisGeneticTrial trial in geneticTrials.Where(value => !value.finalized).ToList())

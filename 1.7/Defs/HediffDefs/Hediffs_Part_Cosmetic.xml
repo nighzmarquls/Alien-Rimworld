@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_GridScar</defName>
@@ -11,7 +11,6 @@
 		<tendable>false</tendable>
 		<isInfection>false</isInfection>
 	</HediffDef>
-	
 	<HediffDef ParentName="XenomorphtypeBase">
 		<defName>XMT_Stripes</defName>
 		<label>stripes</label>
@@ -23,7 +22,6 @@
 		<tendable>false</tendable>
 		<isInfection>false</isInfection>
 	</HediffDef>
-	
 	<HediffDef>
 		<hediffClass>HediffWithComps</hediffClass>
 		<defName>XMT_PaleSkullface</defName>
@@ -31,28 +29,27 @@
 		<description>DEV:converts the applied pawn  application.</description>
 		<isBad>false</isBad>
 		<stages>
-		  <li>
-			<label>hidden</label>
-			<becomeVisible>false</becomeVisible>
-		  </li>
+			<li>
+				<label>hidden</label>
+				<becomeVisible>false</becomeVisible>
+			</li>
 		</stages>
 		<comps>
-		  <li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
-			<genes>
-				<li>XMT_VisibleSkull</li>
-				<li>Skin_LightGray</li>
-				<li>FireTerror</li>
-				<li>XMT_Metabolism</li>
-				<li>XMT_KillThirst</li>
-				<li>Body_Standard</li>
-				<li>Aggression_HyperAggressive</li>
-				<li>Pain_Reduced</li>
-			</genes>
-			<xenotype>baseliner</xenotype>
-		  </li>
+			<li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
+				<genes>
+					<li>XMT_VisibleSkull</li>
+					<li>Skin_LightGray</li>
+					<li>FireTerror</li>
+					<li>XMT_Metabolism</li>
+					<li>XMT_KillThirst</li>
+					<li>Body_Standard</li>
+					<li>Aggression_HyperAggressive</li>
+					<li>Pain_Reduced</li>
+				</genes>
+				<xenotype>baseliner</xenotype>
+			</li>
 		</comps>
 	</HediffDef>
-	
 	<HediffDef>
 		<hediffClass>HediffWithComps</hediffClass>
 		<defName>XMT_forcewearMaid</defName>
@@ -60,10 +57,10 @@
 		<description>DEV:forces the applied pawn to wear a maid outfit if things are available.</description>
 		<isBad>false</isBad>
 		<stages>
-		  <li>
-			<label>hidden</label>
-			<becomeVisible>false</becomeVisible>
-		  </li>
+			<li>
+				<label>hidden</label>
+				<becomeVisible>false</becomeVisible>
+			</li>
 		</stages>
 		<comps>
 			<li Class="Xenomorphtype.HediffCompProperties_ForceWearApparel">
@@ -86,7 +83,6 @@
 			</li>
 		</comps>
 	</HediffDef>
-			  
 	<HediffDef>
 		<hediffClass>HediffWithComps</hediffClass>
 		<defName>XMT_maidgenes</defName>
@@ -94,27 +90,149 @@
 		<description>DEV:converts the applied pawn to a maid xenotype on application.</description>
 		<isBad>false</isBad>
 		<stages>
-		  <li>
-			<label>hidden</label>
-			<becomeVisible>false</becomeVisible>
-		  </li>
+			<li>
+				<label>hidden</label>
+				<becomeVisible>false</becomeVisible>
+			</li>
 		</stages>
 		<comps>
-		  <li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
-			<genes>
-				<li>FireTerror</li>
-				<li>XMT_Metabolism</li>
-				<li>Body_Standard</li>
-				<li>AptitudeTerrible_Plants</li>
-				<li>AptitudeTerrible_Mining</li>
-				<li>AptitudeRemarkable_Cooking</li>
-				<li>KindInstinct</li>
-				<li>Libido_High</li>
-				<li>PsychicBonding</li>
-				<li>Beauty_Beautiful</li>
-			</genes>
-			<xenotype>maid</xenotype>
-		  </li>
+			<li Class="Xenomorphtype.HediffCompProperties_ReplaceGenes">
+				<genes>
+					<li>FireTerror</li>
+					<li>XMT_Metabolism</li>
+					<li>Body_Standard</li>
+					<li>AptitudeTerrible_Plants</li>
+					<li>AptitudeTerrible_Mining</li>
+					<li>AptitudeRemarkable_Cooking</li>
+					<li>KindInstinct</li>
+					<li>Libido_High</li>
+					<li>PsychicBonding</li>
+					<li>Beauty_Beautiful</li>
+				</genes>
+				<xenotype>maid</xenotype>
+			</li>
+		</comps>
+	</HediffDef>
+	<HediffDef Name="XMT_PawnSetupBase" Abstract="True">
+		<hediffClass>HediffWithComps</hediffClass>
+		<isBad>false</isBad>
+		<stages>
+			<li>
+				<becomeVisible>false</becomeVisible>
+			</li>
+		</stages>
+	</HediffDef>
+	<HediffDef ParentName="XMT_PawnSetupBase">
+		<defName>XMT_SetupConnor</defName>
+		<label>hunter equipment assignment</label>
+		<description>Assigns the hunter's incendiary equipment and convictions, then removes itself.</description>
+		<comps>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignTraits">
+				<traits>
+					<li>
+						<trait>XMT_Slayer</trait>
+					</li>
+				</traits>
+			</li>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignLoadout">
+				<weapons>
+					<li MayRequire="Ludeon.RimWorld.Anomaly">Gun_Incinerator</li>
+					<li MayRequire="VanillaExpanded.VWE">VWE_Gun_Flamethrower</li>
+					<li>Weapon_GrenadeMolotov</li>
+				</weapons>
+				<inventory>
+					<Weapon_GrenadeMolotov>1</Weapon_GrenadeMolotov>
+				</inventory>
+			</li>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignIdeology" MayRequire="Ludeon.RimWorld.Ideology">
+				<precepts>
+					<li>XMT_Biomorph_Abhorrent</li>
+					<li>XMT_Parasite_Abhorrent</li>
+				</precepts>
+			</li>
+		</comps>
+	</HediffDef>
+	<HediffDef ParentName="XMT_PawnSetupBase">
+		<defName>XMT_SetupKavalier</defName>
+		<label>prodigy assignment</label>
+		<description>Assigns the prodigy's age, personality and named bodyguard, then removes itself.</description>
+		<comps>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignAge">
+				<biologicalAge>16~18</biologicalAge>
+			</li>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignTraits">
+				<traits>
+					<li>
+						<trait>TooSmart</trait>
+					</li>
+					<li>
+						<trait>Psychopath</trait>
+					</li>
+					<li>
+						<trait>Transhumanist</trait>
+					</li>
+				</traits>
+			</li>
+			<li Class="Xenomorphtype.XMT_CompProperties_RegisterCompanion">
+				<companion>XMT_Companion_Atom</companion>
+			</li>
+		</comps>
+	</HediffDef>
+	<HediffDef ParentName="XMT_PawnSetupBase">
+		<defName>XMT_SetupRainCompanion</defName>
+		<label>sibling assignment</label>
+		<description>Associates this survivor with Andy, then removes itself.</description>
+		<comps>
+			<li Class="Xenomorphtype.XMT_CompProperties_RegisterCompanion">
+				<companion>XMT_Companion_Andy</companion>
+			</li>
+		</comps>
+	</HediffDef>
+	<HediffDef ParentName="XMT_PawnSetupBase">
+		<defName>XMT_SetupAtom</defName>
+		<label>bodyguard assignment</label>
+		<description>Assigns the bodyguard's combat resilience and formal clothing, then removes itself.</description>
+		<comps>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignAge">
+				<biologicalAge>40~50</biologicalAge>
+				<matchChronologicalAge>false</matchChronologicalAge>
+			</li>
+			<li Class="Xenomorphtype.XMT_CompProperties_AssignTraits">
+				<traits>
+					<li>
+						<trait>Tough</trait>
+					</li>
+				</traits>
+			</li>
+			<li Class="Xenomorphtype.XMT_CompProperties_AddGenes" MayRequire="vanillaracesexpanded.android">
+				<genes>
+					<li>VREA_HighPowerMode</li>
+					<li>VREA_EmotionSimulators</li>
+				</genes>
+			</li>
+			<li Class="Xenomorphtype.HediffCompProperties_ForceWearApparel">
+				<replaceConflicts>true</replaceConflicts>
+				<slots>
+					<li>
+						<alternatives>
+							<li MayRequire="VanillaExpanded.VAPPE">VAE_Apparel_ShirtandTie</li>
+							<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_ShirtRuffle</li>
+							<li>Apparel_CollarShirt</li>
+						</alternatives>
+					</li>
+					<li>
+						<alternatives>
+							<li MayRequire="VanillaExpanded.VAPPE">VAE_Apparel_SuitJacket</li>
+							<li MayRequire="Ludeon.RimWorld.Royalty">Apparel_VestRoyal</li>
+						</alternatives>
+					</li>
+					<li>
+						<alternatives>
+							<li>Apparel_Pants</li>
+						</alternatives>
+					</li>
+				</slots>
+			</li>
 		</comps>
 	</HediffDef>
 </Defs>

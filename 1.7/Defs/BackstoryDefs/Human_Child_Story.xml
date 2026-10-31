@@ -1,6 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 <Defs>
-
 	<!-- Human Child-->
 	<BackstoryDef>
 		<defName>ChildSurvivor00</defName>
@@ -26,7 +25,6 @@
 			<Nimble />
 		</forcedTraits>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_ChildBotanist01</defName>
 		<title>Mining Colony Botanist</title>
@@ -43,7 +41,6 @@
 			<li>ImperialCommon</li>
 		</spawnCategories>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_ChildCorpo02</defName>
 		<title>orphaned dependant</title>
@@ -60,7 +57,6 @@
 			<li>ImperialCommon</li>
 		</spawnCategories>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_ChildCorpo03</defName>
 		<title>corporate training</title>
@@ -77,28 +73,26 @@
 			<li>ImperialCommon</li>
 		</spawnCategories>
 	</BackstoryDef>
-	
 	<BackstoryDef>
-		<defName>XMT_ChildCadet04</defName>  
-		<slot>Childhood</slot>  
-		<title>officer cadet</title>  
-		<titleShort>cadet</titleShort>  
-		<description>From a young age, [PAWN_nameDef] trained to be a special operative. [PAWN_pronoun] enrolled in a Defense College when [PAWN_pronoun] was a boy and became proficient with a range of weapons and survival techniques.</description>  
+		<defName>XMT_ChildCadet04</defName>
+		<slot>Childhood</slot>
+		<title>officer cadet</title>
+		<titleShort>cadet</titleShort>
+		<description>From a young age, [PAWN_nameDef] trained to be a special operative. [PAWN_pronoun] enrolled in a Defense College when [PAWN_pronoun] was a boy and became proficient with a range of weapons and survival techniques.</description>
 		<skillGains>
-		  <Plants>1</Plants>    
-		  <Shooting>3</Shooting>    
-		  <Melee>3</Melee>    
-		  <Social>1</Social>    
-		  <Medicine>1</Medicine>
-		</skillGains>  
-		<workDisables>Artistic</workDisables>  
-		<requiredWorkTags>None</requiredWorkTags>  
+			<Plants>1</Plants>
+			<Shooting>3</Shooting>
+			<Melee>3</Melee>
+			<Social>1</Social>
+			<Medicine>1</Medicine>
+		</skillGains>
+		<workDisables>Artistic</workDisables>
+		<requiredWorkTags>None</requiredWorkTags>
 		<spawnCategories>
 			<li>Offworld</li>
 			<li>ImperialCommon</li>
 		</spawnCategories>
 	</BackstoryDef>
-	
 	<BackstoryDef>
 		<defName>XMT_ChildTerrors05</defName>
 		<title>Terrified Child</title>
@@ -121,5 +115,38 @@
 			<XMT_Survivor />
 			<Wimp />
 		</forcedTraits>
+	</BackstoryDef>
+	<BackstoryDef>
+		<defName>XMT_ChildSacrifice06</defName>
+		<title>sacrifice</title>
+		<titleShort>sacrifice</titleShort>
+		<slot>Childhood</slot>
+		<description>[PAWN_nameDef] was raised as an offering to a parasitic organism. [PAWN_possessive] keepers intended [PAWN_objective] to birth a monster and die. [PAWN_pronoun] escaped before they could complete the sacrifice.</description>
+		<skillGains>
+			<Melee>3</Melee>
+			<Medicine>2</Medicine>
+			<Social>-3</Social>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>Outlander</li>
+			<li>Cult</li>
+		</spawnCategories>
+	</BackstoryDef>
+	<BackstoryDef>
+		<defName>XMT_ChildSyntheticProdigy07</defName>
+		<title>synthetic prodigy</title>
+		<titleShort>prodigy</titleShort>
+		<slot>Childhood</slot>
+		<description>Surrounded by wealth and advanced machinery, [PAWN_nameDef] learned to design thinking servants while other children learned to read. One of [PAWN_possessive] earliest creations became a constant caretaker, assistant and protector.</description>
+		<skillGains>
+			<Intellectual>7</Intellectual>
+			<Crafting>4</Crafting>
+			<Social>2</Social>
+		</skillGains>
+		<spawnCategories>
+			<li>Offworld</li>
+			<li>ImperialCommon</li>
+		</spawnCategories>
 	</BackstoryDef>
 </Defs>

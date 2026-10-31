@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+	<Operation Class="PatchOperationAdd">
+		<xpath>Defs/AlienRace.PawnBioDef[defName="XMT_PredatorGuy03"]/forcedHediffs</xpath>
+		<value>
+			<li>XMT_SetupDutchWarriorsMindset</li>
+		</value>
+	</Operation>
+</Patch>
