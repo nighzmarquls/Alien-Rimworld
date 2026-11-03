@@ -495,7 +495,11 @@ namespace Xenomorphtype
         }
 
         public bool ShouldTendNest()
+            => ShouldTendNest(out _);
+
+        public bool ShouldTendNest(out bool deliberateJellyOnly)
         {
+            deliberateJellyOnly = false;
             if (Parent == null || Parent.Dead || !Parent.Spawned || Parent.MapHeld == null)
             {
                 return false;
@@ -508,6 +512,8 @@ namespace Xenomorphtype
 
             if (Find.TickManager.TicksGame < canTendLairTick)
             {
+                if (XMTSettings.LogJobGiver && Parent.IsHashIntervalTick(JellyWorkUtility.FailedSearchRetryTicks))
+                    JellyWorkUtility.Trace(Parent, "nest-tending cooldown: " + (canTendLairTick - Find.TickManager.TicksGame) + " ticks remaining.");
                 return false;
             }
 
@@ -550,12 +556,13 @@ namespace Xenomorphtype
 
                 if (Parent.needs.joy.tolerances.BoredOf(InternalDefOf.NestTending))
                 {
-                    // Throttle negative stocked-input checks as well as successful tending passes.
-                    canTendLairTick = Find.TickManager.TicksGame + IntervalCheck;
+                    // Negative intent checks retry sooner than a successful tending pass.
+                    canTendLairTick = Find.TickManager.TicksGame + JellyWorkUtility.FailedSearchRetryTicks;
                     if (!HiveNeedsTending && Parent.Faction.IsPlayer)
                     {
-                        Pawn pawn = Parent;
-                        HiveNeedsTending = XMTUtility.HasPlayerStoredInput(ref pawn, ref JellyMaker);
+                        if (JellyMaker == null) JellyMaker = Parent.GetComp<CompJellyMaker>();
+                        HiveNeedsTending = JellyWorkUtility.HasDeliberateWork(Parent, JellyMaker);
+                        deliberateJellyOnly = HiveNeedsTending;
                     }
                     if (HiveNeedsTending)
                     {
@@ -576,6 +583,8 @@ namespace Xenomorphtype
                     }
                     else
                     {
+                        JellyWorkUtility.Trace(Parent, "nest tending blocked by boredom; no hive need or deliberate jelly work. Retry in "
+                            + JellyWorkUtility.FailedSearchRetryTicks + " ticks.");
                         return false;
                     }
                 }
@@ -1677,11 +1686,17 @@ namespace Xenomorphtype
             return XMTZoneUtility.TryMakeOvomorphStorageJob(Parent, out job);
         }
 
-        protected bool GetJellyJob(out Job job, bool requireLightLevel = false)
+        protected bool GetJellyJob(out Job job, bool requireLightLevel = false, bool deliberateOnly = false)
         {
             job = null;
             if (Parent.Faction == null)
             {
+                return false;
+            }
+
+            if (Parent.Faction.IsPlayer && !JellyWorkUtility.CookingEnabled(Parent))
+            {
+                JellyWorkUtility.Trace(Parent, "selection blocked: Cooking disabled or unassigned.");
                 return false;
             }
 
@@ -1692,7 +1707,7 @@ namespace Xenomorphtype
 
             if(JellyMaker != null)
             {
-                return JellyMaker.GetJellyMakingJob(out job, requireLightLevel);
+                return JellyMaker.GetJellyMakingJob(out job, requireLightLevel, deliberateOnly);
             }
 
             return false;
@@ -2311,9 +2326,18 @@ namespace Xenomorphtype
 
             return false;
         }
-        public Job GetTendNestJob()
+        public void NotifyNestWorkSearchFailed()
+        {
+            canTendLairTick = Find.TickManager.TicksGame + JellyWorkUtility.FailedSearchRetryTicks;
+            JellyWorkUtility.Trace(Parent, "nest work selection found no job; retry in " + JellyWorkUtility.FailedSearchRetryTicks + " ticks.");
+        }
+
+        public Job GetTendNestJob(bool deliberateJellyOnly = false)
         {
             Job job;
+            // This pass was admitted solely for deliberate jelly work, not general recreation.
+            if (deliberateJellyOnly)
+                return GetJellyJob(out job, deliberateOnly: true) ? job : null;
             if (Parent.workSettings.EverWork)
             {
                 checkedNestWorkTypes.Clear();

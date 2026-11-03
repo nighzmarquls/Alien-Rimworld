@@ -5,3 +5,4 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\S
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\XMT.dll
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\refint\XMT.dll
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\ref\XMT.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\1.7\Source\obj\Debug\XMT.csproj.Up2Date

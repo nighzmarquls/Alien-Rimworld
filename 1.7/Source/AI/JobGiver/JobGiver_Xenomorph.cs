@@ -825,14 +825,14 @@ namespace Xenomorphtype
                     }
                 }
 
-                if (compMatureMorph.ShouldTendNest())
+                if (compMatureMorph.ShouldTendNest(out bool deliberateJellyOnly))
                 {
                     if (XMTSettings.LogJobGiver)
                     {
                         Log.Message("[XMT][JobGiver] " + pawn + " thinks the nest needs tending.");
                     }
 
-                    Job TendNestJob = compMatureMorph.GetTendNestJob();
+                    Job TendNestJob = compMatureMorph.GetTendNestJob(deliberateJellyOnly);
 
                     if (TendNestJob != null)
                     {
@@ -843,6 +843,7 @@ namespace Xenomorphtype
 
                         return TendNestJob;
                     }
+                    compMatureMorph.NotifyNestWorkSearchFailed();
                 }
 
                 if (compMatureMorph.ShouldAbductHost())

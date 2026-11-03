@@ -42,30 +42,36 @@ namespace Xenomorphtype
                 || TerrainCellEmpty(cell, parent.Map) && ResourceHelperUtility.AllocateTerrain(Resources, parent, cell, parent.Map, out _).Count > 0);
         public static bool TerrainCellEmpty(IntVec3 cell, Map map) => map != null && cell.InBounds(map)
             && !cell.GetThingList(map).Any(t => t.def.category == ThingCategory.Item || t is Plant || t is Pawn);
-        private Thing FindIngredient(IntVec3 cell, Map map)
+        internal Thing FindIngredient(IntVec3 cell, Map map)
             => cell.GetThingList(map).FirstOrDefault(t => t != parent && t.Spawned && !t.Destroyed && t.def.category == ThingCategory.Item && CanMakeIntoJelly(t));
 
-        public bool GetJellyMakingJob(out Job job, bool requireLightLevel = false)
+        public bool GetJellyMakingJob(out Job job, bool requireLightLevel = false, bool deliberateOnly = false)
         {
             job = null;
             Region region = parent.GetRegion();
             if (region == null || !(parent is Pawn pawn)) return false;
-            if (XMTUtility.QueenIsPlayer() && GetJellyProduct() == InternalDefOf.Starbeast_Jelly)
-                foreach (Designation designation in region.Map.designationManager.SpawnedDesignationsOfDef(XenoWorkDefOf.XMT_MakeJelly))
+            if (JellyWorkUtility.TryFindDesignatedCell(pawn, this, requireLightLevel, out IntVec3 cell))
+            {
+                job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, cell);
+                if (FeralJobUtility.ReservePlaceForJob(pawn, job, cell))
                 {
-                    IntVec3 cell = designation.target.Cell;
-                    if (CanConvertCell(cell) && (!requireLightLevel || IsProperLightLevelForFeralJelly(cell, region.Map))
-                        && FeralJobUtility.IsPlaceAvailableForJobBy(pawn, cell))
-                    {
-                        job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, cell);
-                        FeralJobUtility.ReservePlaceForJob(pawn, job, cell);
-                        return true;
-                    }
+                    Thing designatedIngredient = FindIngredient(cell, pawn.Map);
+                    if (designatedIngredient != null) FeralJobUtility.ReserveThingForJob(pawn, job, designatedIngredient);
+                    JellyWorkUtility.Trace(pawn, "selected designated cell " + cell + ".");
+                    return true;
                 }
-            Thing ingredient = XMTUtility.SearchRegionsForJellyMakable(region, pawn, this, requireLightLevel);
-            if (ingredient == null) return false;
+                job = null;
+            }
+            Thing ingredient = XMTUtility.SearchRegionsForJellyMakable(region, pawn, this, requireLightLevel, deliberateOnly);
+            if (ingredient == null)
+            {
+                JellyWorkUtility.Trace(pawn, "no reachable available jelly ingredient matched filters"
+                    + (deliberateOnly ? " and player storage rules." : "."));
+                return false;
+            }
             job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ProduceJelly, ingredient);
             FeralJobUtility.ReserveThingForJob(pawn, job, ingredient);
+            JellyWorkUtility.Trace(pawn, "selected ingredient " + ingredient + ".");
             return true;
         }
         internal static bool IsProperLightLevelForFeralJelly(IntVec3 cell, Map map)

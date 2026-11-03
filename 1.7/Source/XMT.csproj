@@ -660,6 +660,7 @@
     <Compile Include="UI\PlaceWorker\PlaceWorker_HiveStructureUnlock.cs" />
     <Compile Include="Harmony\HiveArchitectCommandsPatch.cs" />
     <Compile Include="Utilities\HiveInputSettings.cs" />
+    <Compile Include="Utilities\JellyWorkUtility.cs" />
     <Compile Include="UI\HiveInputClipboard.cs" />
     <Compile Include="Progression\HiveStructureCreationWorker.cs" />
     <Compile Include="Utilities\AcidDisposalUtility.cs" />

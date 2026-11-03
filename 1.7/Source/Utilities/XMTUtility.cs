@@ -631,28 +631,14 @@ namespace Xenomorphtype
             if (jellyMaker == null) jellyMaker = pawn.GetComp<CompJellyMaker>();
             if (jellyMaker == null) return false;
 
-            Map map = pawn.Map;
-            foreach (ThingDef def in jellyMaker.Inputs.GetStoreSettings().filter.AllowedThingDefs)
-            {
-                if (def.category != ThingCategory.Item) continue;
-                foreach (Thing item in map.listerThings.ThingsOfDef(def))
-                {
-                    SlotGroup storage = map.haulDestinationManager.SlotGroupAt(item.Position);
-                    if (storage == null ||
-                        !(storage.parent is Zone_Stockpile || storage.parent is Thing building && building.Faction == pawn.Faction) ||
-                        !storage.Settings.AllowedToAccept(item))
-                        continue;
-                    if (FeralJobUtility.IsThingAvailableForJobBy(pawn, item) && jellyMaker.CanMakeIntoJelly(item))
-                        return true;
-                }
-            }
-            return false;
+            return JellyWorkUtility.HasStoredInput(pawn, jellyMaker);
         }
 
-        public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker, bool requireLightLevel = false)
+        public static Thing SearchRegionsForJellyMakable(Region region, Pawn pawn, CompJellyMaker jellyMaker, bool requireLightLevel = false, bool deliberateOnly = false)
         {
             if (jellyMaker == null) return null;
-            return SearchRegionsForHaulable(region, pawn, thing => jellyMaker.CanMakeIntoJelly(thing)
+            return SearchRegionsForHaulable(region, pawn, thing => (!deliberateOnly || JellyWorkUtility.IsStoredInput(pawn, thing))
+                && jellyMaker.CanMakeIntoJelly(thing)
                 && (!requireLightLevel || CompJellyMaker.IsProperLightLevelForFeralJelly(thing.PositionHeld, thing.MapHeld)));
         }
         public static Thing SearchRegionsForHaulable(Region region, Pawn pawn, System.Predicate<Thing> validator, Danger danger = Danger.Deadly)
