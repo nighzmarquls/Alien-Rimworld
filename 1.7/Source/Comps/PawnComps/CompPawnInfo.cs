@@ -109,6 +109,7 @@ namespace Xenomorphtype
         float obsession = 0;
         List<PawnKnowledgeRecord> knowledgeRecords = new List<PawnKnowledgeRecord>();
         float cryptimorphTrauma;
+        internal int NextTraumaCowerTick;
         bool knowledgeMigrated;
         Thing containmentTransferTarget;
         float Obsession => ParentPawn == null ? obsession : KnowledgeUtility.GetAssessment(ParentPawn).obsessionPressure;
@@ -362,6 +363,7 @@ namespace Xenomorphtype
             Scribe_Values.Look(ref obsession, "HorrorObsession", 0);
             Scribe_Collections.Look(ref knowledgeRecords, "CryptimorphKnowledge", LookMode.Deep);
             Scribe_Values.Look(ref cryptimorphTrauma, "CryptimorphTrauma", 0f);
+            Scribe_Values.Look(ref NextTraumaCowerTick, "xmtNextTraumaCowerTick", 0);
             Scribe_Values.Look(ref knowledgeMigrated, "KnowledgeMigrated", false);
             Scribe_References.Look(ref containmentTransferTarget, "xmtContainmentTransferTarget");
 

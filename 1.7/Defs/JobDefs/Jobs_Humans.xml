@@ -2,6 +2,16 @@
 <Defs>
 
 	<JobDef>
+		<defName>XMT_TraumaCower</defName>
+		<driverClass>Xenomorphtype.JobDriver_TraumaCower</driverClass>
+		<playerInterruptible>false</playerInterruptible>
+		<casualInterruptible>false</casualInterruptible>
+		<suspendable>false</suspendable>
+		<neverFleeFromEnemies>true</neverFleeFromEnemies>
+		<checkOverrideOnDamage>Never</checkOverrideOnDamage>
+	</JobDef>
+
+	<JobDef>
 		<defName>XMT_Protofluid</defName>
 		<driverClass>Xenomorphtype.JobDriver_Protofluid</driverClass>
 		<reportString>injecting TargetA.</reportString>

@@ -12,6 +12,33 @@ namespace Xenomorphtype
         private static readonly MethodInfo ResetForcedTargetMethod = AccessTools.Method(typeof(Building_TurretGun), "ResetForcedTarget");
         private static readonly MethodInfo ResetCurrentTargetMethod = AccessTools.Method(typeof(Building_TurretGun), "ResetCurrentTarget");
 
+        public static List<Pawn> GetAutomaticTurretCandidates(Map map)
+        {
+            List<Pawn> candidates = XMTHiveUtility.GetHiveMembersOnMap(map);
+            if (map == null)
+            {
+                return candidates;
+            }
+
+            // Parasites have no CompMatureMorph and therefore do not register as HiveMates.
+            // Use their native def indexes without adding them to nest work/population bookkeeping.
+            AddParasites(InternalDefOf.XMT_Larva);
+            AddParasites(XenoPawnKindDefOf.XMT_Subverter.race);
+            return candidates;
+
+            void AddParasites(ThingDef def)
+            {
+                List<Thing> parasites = map.listerThings.ThingsOfDef(def);
+                for (int i = 0; i < parasites.Count; i++)
+                {
+                    if (parasites[i] is Pawn pawn)
+                    {
+                        candidates.Add(pawn);
+                    }
+                }
+            }
+        }
+
         public static bool IsCryptimorphSubvertedTurret(Thing turret)
         {
             return turret?.MapHeld?.GetComponent<HiveMapComponent>()?.IsCryptimorphSubvertedTurret(turret) == true;
@@ -86,7 +113,8 @@ namespace Xenomorphtype
             float bestDistanceSquared = float.MaxValue;
             foreach (Pawn candidate in turret.MapHeld.mapPawns.AllPawnsSpawned)
             {
-                if (!IsCryptimorphSubvertedTarget(candidate))
+                if (!IsCryptimorphSubvertedTarget(candidate)
+                    || !IsAutomaticTurretAggressionAppropriate(turret, candidate))
                 {
                     continue;
                 }
@@ -127,6 +155,12 @@ namespace Xenomorphtype
                 return true;
             }
 
+            if (turret.TryGetComp<CompMannable>() == null && target.IsPsychologicallyInvisible()
+                && target.BodySize <= FreshCryptimorphBodySize())
+            {
+                return false;
+            }
+
             if (XMTUtility.ArraySuppressesAutomatedThreat(turret, target))
             {
                 return false;
@@ -160,6 +194,22 @@ namespace Xenomorphtype
             }
 
             return turret.Faction != target.Faction;
+        }
+
+        private static float FreshCryptimorphBodySize()
+        {
+            // Match Pawn.BodySize for a healthy cryptimorph at biological age three.
+            // Read the resolved race/stage defs so balance patches remain authoritative.
+            RaceProperties race = InternalDefOf.XMT_Starbeast_AlienRace.race;
+            for (int i = race.lifeStageAges.Count - 1; i >= 0; i--)
+            {
+                LifeStageAge stage = race.lifeStageAges[i];
+                if (stage.minAge <= 3f)
+                {
+                    return race.baseBodySize * stage.def.bodySizeFactor;
+                }
+            }
+            return 0f;
         }
     }
 }

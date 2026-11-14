@@ -5,6 +5,7 @@
 		<defName>Starbeast_Filth_AcidBlood</defName>
 		<thingClass>Xenomorphtype.AcidBurnFilth</thingClass>
 		<label>acidic fluid</label>
+		<pathfinderDangerous>true</pathfinderDangerous>
 		<statBases>
 			<Beauty>-30</Beauty>
 			<Cleanliness>-10</Cleanliness>

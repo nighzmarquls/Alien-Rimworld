@@ -5,6 +5,12 @@
 		<label>subverter</label>
 		<description>A skittering mechanoid with gleaming green vials, a long flexible tube and eight slender digit like legs.</description>
 		<comps>
+			<li Class="Xenomorphtype.CompStealthProperties">
+				<adultRevealKnowledgeProfile>XMT_Profile_Adult</adultRevealKnowledgeProfile>
+				<larvaRevealKnowledgeProfile>XMT_Profile_Larva</larvaRevealKnowledgeProfile>
+				<hideBrightness>0.2</hideBrightness>
+				<minVisibleBrightness>0.0</minVisibleBrightness>
+			</li>
 			<li Class="Xenomorphtype.CompAcidBloodProperties">
 				<appliedHediff>AcidCorrosion</appliedHediff>
 			</li>

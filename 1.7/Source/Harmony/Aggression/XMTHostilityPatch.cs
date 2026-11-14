@@ -176,7 +176,8 @@ namespace Xenomorphtype
                     return false;
                 }
                
-                if (XMTHiveUtility.TotalHivePopulation(__instance.Map) > 0)
+                List<Pawn> candidates = XMT_IFFUtility.GetAutomaticTurretCandidates(__instance.Map);
+                if (candidates.Count > 0)
                 {
                     if (___mannableComp != null)
                     {
@@ -213,10 +214,8 @@ namespace Xenomorphtype
                     {
                         losValidator = (IntVec3 vec3) => !vec3.AnyGas(__instance.Map, GasType.BlindSmoke);
                     }
-                    List<Pawn> viableTargets = new List<Pawn>();
-
                     float bestDistanceSquared = float.MaxValue;
-                    foreach (Pawn morph in XMTHiveUtility.GetHiveMembersOnMap(__instance.Map))
+                    foreach (Pawn morph in candidates)
                     {
                         if (!XMT_IFFUtility.IsAutomaticTurretAggressionAppropriate(__instance, morph))
                         {
@@ -270,6 +269,22 @@ namespace Xenomorphtype
                 {
                     __result = LocalTargetInfo.Invalid;
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(Building_TurretGun), "IsValidTarget")]
+        public static class Patch_Building_TurretGun_IsValidTarget
+        {
+            [HarmonyPrefix]
+            public static bool Prefix(Thing t, Building_TurretGun __instance, ref bool __result)
+            {
+                if (__instance.TryGetComp<CompMannable>() == null && t is Pawn pawn
+                    && !XMT_IFFUtility.IsAutomaticTurretAggressionAppropriate(__instance, pawn))
+                {
+                    __result = false;
+                    return false;
+                }
+                return true;
             }
         }
 

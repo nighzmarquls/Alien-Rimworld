@@ -31,12 +31,13 @@ namespace Xenomorphtype
                 return null;
             }
             return GenRadial.RadialDistinctThingsAround(Parent.Position, Parent.Map, Props.leapRange, true)
-                .OfType<Pawn>().FirstOrDefault(target => !AttachmentUtility.ParticipantIsBusy(target) && XMTUtility.TriggersOvomorph(target));
+                .OfType<Pawn>().FirstOrDefault(target => !AttachmentUtility.ParticipantIsBusy(target) && XMTUtility.IsAcceptableHost(target));
         }
 
         protected override bool CanAttemptAttachment(Pawn target)
         {
-            return Larva != null && !Larva.latched && !Larva.spent && base.CanAttemptAttachment(target);
+            return Larva != null && !Larva.latched && !Larva.spent && base.CanAttemptAttachment(target)
+                && (Parent.CurJob?.playerForced == true ? XMTUtility.IsHost(target) : XMTUtility.IsAcceptableHost(target));
         }
 
         public override List<BodyPartRecord> GetTargetBodyParts(Pawn target)
@@ -236,6 +237,7 @@ namespace Xenomorphtype
                 Find.Targeter.BeginTargeting(ImplantParameters, delegate (LocalTargetInfo target)
                 {
                     Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_ImplantHunt, target);
+                    job.playerForced = true;
                     Parent.Reserve(target, job);
                     Parent.jobs.StartJob(job, JobCondition.InterruptForced);
 

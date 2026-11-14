@@ -1970,12 +1970,21 @@ namespace Xenomorphtype
             }
         }
 
-        internal static void TraumaResponse(Thing horror, CompPawnInfo witnessInfo)
+        internal static bool IsTraumaCoward(Pawn pawn)
+        {
+            return pawn != null && (pawn.story?.traits?.HasTrait(TraitDefOf.Wimp) == true
+                || pawn.WorkTagIsDisabled(WorkTags.Violent));
+        }
+
+        internal static void TraumaResponse(Thing horror, CompPawnInfo witnessInfo, bool fromInterruption = false)
         {
             if (witnessInfo?.parent is Pawn slayer && XMT_SlayerUtility.TryRage(slayer, horror)) return;
-            if (witnessInfo.parent is Pawn witness)
+            if (witnessInfo?.parent is Pawn witness)
             {
-                if(!witness.Awake() || witness.Downed)
+                if (!witness.Spawned || witness.Dead || !witness.Awake() || witness.Downed
+                    || witness.InMentalState || witness.jobs == null || horror == null
+                    || horror.Destroyed || horror.MapHeld != witness.Map
+                    || witness.CurJobDef == XenoWorkDefOf.XMT_TraumaCower)
                 {
                     return;
                 }
@@ -1990,49 +1999,56 @@ namespace Xenomorphtype
                     return;
                 }
 
+                if (fromInterruption && awareness <= 0f)
+                {
+                    return;
+                }
+
                 bool violent = Rand.Chance(witness.RaceProps.manhunterOnDamageChance);
 
                 float moodChance = (witness.needs.mood != null)? witness.needs.mood.CurLevelPercentage : 0.5f;
-                bool traumaBreak = Rand.Chance((awareness / 4) - moodChance);
+                float traumaChance = fromInterruption
+                    ? UnityEngine.Mathf.Clamp01(awareness * 0.25f * KnowledgeUtility.GetAssessment(witness).traumaTriggerFactor)
+                    : (awareness / 4) - moodChance;
+                bool traumaBreak = Rand.Chance(traumaChance);
 
-                if(witness.story != null)
+                bool coward = IsTraumaCoward(witness);
+                if (coward)
                 {
-                    if(witness.story.traits.HasTrait(TraitDefOf.Wimp) || witness.story.DisabledWorkTagsBackstoryTraitsAndGenes.HasFlag(WorkTags.Violent))
-                    {
-                        violent = false;
-                    }
+                    violent = false;
                 }
 
-                if (witness.Drafted && witnessInfo.parent.Faction == horror.Faction)
+                if (violent && horror is Pawn cryptimorph && IsXenomorph(cryptimorph) &&
+                    KnowledgeUtility.GetAcidRiskKnowledge(witness) > 0f &&
+                    witness.equipment?.Primary?.def.IsRangedWeapon != true)
                 {
-                    if (traumaBreak)
+                    violent = false;
+                }
+
+                if (!traumaBreak) return;
+
+                if (violent)
+                {
+                    Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, horror);
+                    witness.jobs.StartJob(job, JobCondition.InterruptForced);
+                }
+                else if (witness.RaceProps.Humanlike && !coward)
+                {
+                    int tick = Find.TickManager.TicksGame;
+                    if (tick < witnessInfo.NextTraumaCowerTick) return;
+
+                    Job job = JobMaker.MakeJob(XenoWorkDefOf.XMT_TraumaCower);
+                    witness.jobs.StartJob(job, JobCondition.InterruptForced);
+                    if (witness.CurJob == job)
                     {
-                        if (violent)
-                        {
-                            Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, horror);
-                            witness.jobs.StartJob(job, JobCondition.InterruptForced);
-                        }
-                        else
-                        {
-                            witness.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Wander_OwnRoom, "", forced: true, forceWake: true, false);
-                        }
+                        witnessInfo.NextTraumaCowerTick = tick + JobDriver_TraumaCower.RecoveryTicks;
                     }
-                    
                 }
                 else
                 {
-                    if (traumaBreak)
-                    {
-                        if (violent)
-                        {
-                            Job job = JobMaker.MakeJob(JobDefOf.AttackStatic, horror);
-                            witness.jobs.StartJob(job, JobCondition.InterruptForced);
-                        }
-                        else
-                        {
-                            witness.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, "", forced: true, forceWake: true, false);
-                        }
-                    }
+                    MentalStateDef response = witness.Drafted && witness.Faction == horror.Faction
+                        ? MentalStateDefOf.Wander_OwnRoom : MentalStateDefOf.PanicFlee;
+                    witness.mindState.mentalStateHandler.TryStartMentalState(response, "", forced: true, forceWake: true, false);
                 }
                 
             }

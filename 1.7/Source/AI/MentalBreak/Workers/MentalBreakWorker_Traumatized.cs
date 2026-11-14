@@ -4,6 +4,14 @@ using Verse.AI;
 
 namespace Xenomorphtype
 {
+    public class MentalBreakWorker_TraumatizedCoward : MentalBreakWorker_Traumatized
+    {
+        public override bool BreakCanOccur(Pawn pawn)
+        {
+            return XMTUtility.IsTraumaCoward(pawn) && base.BreakCanOccur(pawn);
+        }
+    }
+
     public class MentalBreakWorker_Traumatized : MentalBreakWorker
     {
         public override bool BreakCanOccur(Pawn pawn)

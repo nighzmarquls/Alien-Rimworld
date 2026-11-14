@@ -11,10 +11,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../../../../1.7/Source/XMT.csproj" Private="false" />
-    <ProjectReference Include="../../../LegacyUnity/Source/UnityEngine.CoreModule/UnityEngine.CoreModule.csproj" ReferenceOutputAssembly="false" Private="false" />
-    <ProjectReference Include="../../../LegacyUnity/Source/UnityEngine.TextRenderingModule/UnityEngine.TextRenderingModule.csproj" ReferenceOutputAssembly="false" Private="false" />
-    <ProjectReference Include="../../../LegacyUnity/Source/UnityEngine.IMGUIModule/UnityEngine.IMGUIModule.csproj" ReferenceOutputAssembly="false" Private="false" />
-    <ProjectReference Include="../../../LegacyUnity/Source/UnityEngine.InputLegacyModule/UnityEngine.InputLegacyModule.csproj" ReferenceOutputAssembly="false" Private="false" />
     <Reference Include="Assembly-CSharp" HintPath="../../../../../../../Assembly-CSharp.dll" Private="false" />
     <Reference Include="UnityStubs" HintPath="../../../../../../../UnityStubs.dll" Private="false" />
     <Reference Include="PipeSystem" HintPath="../../../../../../../../../workshop/content/294100/2023507013/1.7/Assemblies/PipeSystem.dll" Private="false" />

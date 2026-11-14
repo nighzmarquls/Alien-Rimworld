@@ -68,9 +68,6 @@
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\MVCF.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="PerfectOrganism">
-      <HintPath>..\..\..\..\..\..\workshop\content\294100\3828626571\1.7\Assemblies\PerfectOrganism.dll</HintPath>
-    </Reference>
     <Reference Include="PipeSystem">
       <HintPath>..\..\..\..\..\..\workshop\content\294100\2023507013\1.7\Assemblies\PipeSystem.dll</HintPath>
       <Private>False</Private>
@@ -163,6 +160,7 @@
     <Compile Include="Abilities\Verbs\Verb_CastAbilityPounce.cs" />
     <Compile Include="AI\JobDriver\HorrorJobs\JobDriver_SampleForClone.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_AdvancedTame.cs" />
+    <Compile Include="AI\JobDriver\HumanJobs\JobDriver_TraumaCower.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_AdvancedTameWithFood.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractResin.cs" />
     <Compile Include="AI\JobDriver\HumanJobs\JobDriver_ExtractJelly.cs" />
@@ -303,6 +301,7 @@
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphClimbTo.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphHibernate.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphHunt.cs" />
+    <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphMarkFriend.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphOvomorph.cs" />
     <Compile Include="UI\FloatMenuOptions\Cryptimorph\FloatMenuOptionProvider_CryptimorphTrophallaxis.cs" />
     <Compile Include="UI\FloatMenuOptions\FloatMenuOptionProvider_ElectroMetabolicCharge.cs" />

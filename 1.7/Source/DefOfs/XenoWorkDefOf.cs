@@ -38,6 +38,7 @@ namespace Xenomorphtype
         public static JobDef XMT_Ritual_PrepareJelly;
 
         public static JobDef XMT_SampleForClone;
+        public static JobDef XMT_TraumaCower;
 
         //Mischief
         public static JobDef XMT_Mature;

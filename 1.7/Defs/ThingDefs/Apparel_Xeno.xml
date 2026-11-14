@@ -30,6 +30,7 @@
 			<EquipDelay>1.5</EquipDelay>
 		</statBases>
 		<apparel>
+			<developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
 			<countsAsClothingForNudity>false</countsAsClothingForNudity>
 			<bodyPartGroups>
 				<li>Neck</li>

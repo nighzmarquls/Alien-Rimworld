@@ -10,3 +10,4 @@ C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compa
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\FacialAnimation\Source\XMT_FA\obj\Debug\XMT_FA.GeneratedMSBuildEditorConfig.editorconfig
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\FacialAnimation\Source\XMT_FA\obj\Debug\refint\XMT_FA.dll
 C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\FacialAnimation\Source\XMT_FA\obj\Debug\ref\XMT_FA.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Alien-Rimworld\Compatibility\1.7\FacialAnimation\Source\XMT_FA\obj\Debug\XMT_FA.csproj.Up2Date

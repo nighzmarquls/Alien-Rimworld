@@ -265,6 +265,21 @@
 	</HediffDef>
 	
 	<HediffDef>
+		<defName>XMT_MetabolicRenewal</defName>
+		<hediffClass>HediffWithComps</hediffClass>
+		<label>metabolic renewal</label>
+		<description>Royal jelly is restoring the organism's metabolic activity.</description>
+		<isBad>false</isBad>
+		<scenarioCanAdd>false</scenarioCanAdd>
+		<initialSeverity>1</initialSeverity>
+		<comps>
+			<li Class="HediffCompProperties_Disappears">
+				<disappearsAfterTicks>600~600</disappearsAfterTicks>
+			</li>
+		</comps>
+	</HediffDef>
+	
+	<HediffDef>
 		<defName>XMT_Slowdown</defName>
 		<hediffClass>HediffWithComps</hediffClass>
 		<label>metabolic slowdown</label>
@@ -322,6 +337,7 @@
 			<li Class="HediffCompProperties_RemoveIfOtherHediff">
 				<hediffs>
 					<li>XMT_RoyalJellyHigh</li>
+					<li>XMT_MetabolicRenewal</li>
 					<li>Maturation</li>
 				</hediffs>
 			</li>

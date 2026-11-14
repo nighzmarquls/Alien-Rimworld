@@ -97,7 +97,7 @@
     <label>horrorified</label>
     <baseCommonality>2</baseCommonality>
     <intensity>Major</intensity>
-    <workerClass>Xenomorphtype.MentalBreakWorker_Traumatized</workerClass>
+    <workerClass>Xenomorphtype.MentalBreakWorker_TraumatizedCoward</workerClass>
     <mentalState>XMT_GiveUpExit</mentalState>
   </MentalBreakDef>
   <MentalStateDef ParentName="BaseMentalState">

@@ -179,6 +179,10 @@
 					<severity>1.00</severity>
 					<doToGeneratedPawnIfAddicted>true</doToGeneratedPawnIfAddicted>
 				</li>
+				<li Class="IngestionOutcomeDoer_GiveHediff">
+					<hediffDef>XMT_MetabolicRenewal</hediffDef>
+					<severity>1.00</severity>
+				</li>
 				<li Class="IngestionOutcomeDoer_OffsetPsyfocus">
 					<offset>0.25</offset>
 				</li>

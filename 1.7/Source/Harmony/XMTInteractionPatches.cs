@@ -21,12 +21,14 @@ namespace Xenomorphtype
             [HarmonyPostfix]
             public static void Postfix(Pawn recipient, Pawn ___pawn, bool __result)
             {
-                if (__result && recipient != null && ___pawn != null)
+                if (!__result || recipient == null || ___pawn == null)
                 {
-                    XMT_SlayerUtility.TryRage(___pawn, recipient);
-                    XMT_SlayerUtility.TryRage(recipient, ___pawn);
-                    KnowledgeUtility.TryShareKnowledge(___pawn, recipient);
+                    return;
                 }
+
+                XMT_SlayerUtility.TryRage(___pawn, recipient);
+                XMT_SlayerUtility.TryRage(recipient, ___pawn);
+                KnowledgeUtility.TryShareKnowledge(___pawn, recipient);
                 bool recipientXenomorph = XMTUtility.IsXenomorph(recipient);
                 bool initiatorXenomorph = XMTUtility.IsXenomorph(___pawn);
                 if ((!recipientXenomorph && !initiatorXenomorph) || (recipientXenomorph && initiatorXenomorph))
@@ -34,31 +36,20 @@ namespace Xenomorphtype
                     return;
                 }
 
-                if (recipientXenomorph)
+                Pawn cryptimorph = recipientXenomorph ? recipient : ___pawn;
+                Pawn other = recipientXenomorph ? ___pawn : recipient;
+                CompPawnInfo info = other.Info();
+                if (info == null)
                 {
-                    CompPawnInfo info = ___pawn.Info();
-                    if (info != null)
-                    {
-                        float value = info.XenomorphPheromoneValue();
-                        if(value <= -0.5f)
-                        {
-                            recipient.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
-                        }
-                    }
-                }
-                else
-                {
-                    CompPawnInfo info = recipient.Info();
-                    if (info != null)
-                    {
-                        float value = info.XenomorphPheromoneValue();
-                        if (value <= -0.5f)
-                        {
-                            ___pawn.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
-                        }
-                    }
+                    return;
                 }
 
+                if (info.XenomorphPheromoneValue() <= -0.5f)
+                {
+                    cryptimorph.mindState.mentalStateHandler.TryStartMentalState(XenoMentalStateDefOf.XMT_MurderousRage, "", forced: true, forceWake: true, false);
+                }
+
+                XMTUtility.TraumaResponse(cryptimorph, info, fromInterruption: true);
             }
         }
         [HarmonyPatch(typeof(InteractionWorker_RomanceAttempt), nameof(InteractionWorker_RomanceAttempt.SuccessChance))]
